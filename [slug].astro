@@ -1,0 +1,143 @@
+---
+import Base from "../../layouts/Base.astro";
+import PricingCard from "../../components/PricingCard.astro";
+import TrustStrip from "../../components/TrustStrip.astro";
+import CompareTable from "../../components/CompareTable.astro";
+import Faq from "../../components/Faq.astro";
+import { airlines } from "../../data/airlines.js";
+
+export function getStaticPaths() {
+  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+
+const { a } = Astro.props;
+const per1000 = Math.round(a.pricePerMile * 10);
+const related = a.related
+  .map((slug) => airlines.find((x) => x.slug === slug))
+  .filter(Boolean);
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: `${a.airline} ${a.program} miles`,
+  description: a.metaDescription,
+  brand: { "@type": "Brand", name: a.airline },
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "USD",
+    price: per1000,
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: per1000,
+      priceCurrency: "USD",
+      referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
+    },
+    availability: a.inStock ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability",
+  },
+};
+---
+<Base title={a.metaTitle} description={a.metaDescription} slug={`buy/${a.slug}`} jsonld={jsonld}>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <span class="kicker">{a.alliance}</span>
+          <h1>{a.heroHeadline}</h1>
+          <p class="sub">{a.heroSub}</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#buy">Buy {a.program}</a>
+            <a class="btn btn-secondary" href="#how">How it works</a>
+          </div>
+          <div class="spec">
+            <span><b>{a.delivery.replace("Within ", "")}</b> delivery</span><span>·</span>
+            <span><b>{a.pricePerMile}¢</b> / mile</span><span>·</span>
+            <span><b>Guaranteed</b></span>
+          </div>
+        </div>
+        <div id="buy">
+          <PricingCard a={a} cta={`Buy ${a.program}`} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEST WAYS TO USE -->
+  {a.sweetSpots && a.sweetSpots.length > 0 && (
+    <section class="section" id="uses">
+      <div class="container">
+        <div class="section-head">
+          <h2>Best ways to use {a.program}</h2>
+          <p>Where these miles stretch furthest — the redemptions worth buying for.</p>
+        </div>
+        <div class="uses">
+          {a.sweetSpots.map((s) => (
+            <div class="use">
+              <h4>{s.title}</h4>
+              <p>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-head">
+        <h2>How it works</h2>
+        <p>From order to miles in your account — usually within a day.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">01</div><h4>Select &amp; enter</h4><p>Choose your amount and enter your {a.program} account number.</p></div>
+        <div class="step"><div class="n">02</div><h4>Pay securely</h4><p>Complete payment through our protected checkout.</p></div>
+        <div class="step"><div class="n">03</div><h4>Miles land</h4><p>{a.program} miles post to your account, {a.delivery.toLowerCase()}.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARE -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head">
+        <h2>Buy {a.program} here vs. from {a.airline}</h2>
+        <p>Airlines charge a steep premium for their own miles. Here's the difference.</p>
+      </div>
+      <CompareTable program={a.program} pricePerMile={a.pricePerMile} />
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Why trust us</span>
+        <h2>Every {a.program} order is protected</h2>
+      </div>
+      <TrustStrip />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="padding-top:0">
+    <div class="container" style="max-width:760px">
+      <div class="section-head"><h2>{a.program} — questions, answered</h2></div>
+      <Faq delivery={a.delivery} />
+    </div>
+  </section>
+
+  <!-- RELATED -->
+  {related.length > 0 && (
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head"><h2>Related programs</h2></div>
+        <div class="related">
+          {related.map((r) => (
+            <a href={`/buy/${r.slug}`}>{r.airline} {r.program} · {r.pricePerMile}¢</a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>

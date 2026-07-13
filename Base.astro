@@ -1,0 +1,80 @@
+---
+import "../styles/flightdeck.css";
+
+const {
+  title = "buyflightmiles — Buy airline miles, delivered fast",
+  description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, backed by our delivery guarantee.",
+  slug = "",
+  jsonld = null,
+} = Astro.props;
+
+const site = Astro.site ?? new URL("https://buyflightmiles.com");
+const canonical = new URL(slug, site).href;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+</head>
+<body>
+  <header class="site-header">
+    <div class="container bar">
+      <a href="/" class="brand">buy<span>flight</span>miles</a>
+      <nav class="nav">
+        <a class="link" href="/#programs">Programs</a>
+        <a class="link" href="/agents">For agents</a>
+        <a class="link" href="/#how">How it works</a>
+        <a class="link" href="/#faq">FAQ</a>
+        <a class="btn btn-primary" href="/#programs" style="padding:9px 18px">View pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="cols">
+        <div>
+          <div class="brand">buy<span style="color:#5B8AD6">flight</span>miles</div>
+          <p style="color:#9DAECA; font-size:13.5px; max-width:36ch; margin-top:12px; line-height:1.6;">
+            Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, every order backed by our guarantee.
+          </p>
+        </div>
+        <div>
+          <h5>Programs</h5>
+          <a href="/buy/delta-skymiles">Delta SkyMiles</a>
+          <a href="/buy/united-mileageplus">United MileagePlus</a>
+          <a href="/buy/american-aadvantage">American AAdvantage</a>
+          <a href="/buy/krisflyer">Singapore KrisFlyer</a>
+        </div>
+        <div>
+          <h5>Company</h5>
+          <a href="/agents">For agents &amp; brokers</a>
+          <a href="/#how">How it works</a>
+          <a href="/#faq">FAQ</a>
+          <a href="/#trust">Why trust us</a>
+        </div>
+      </div>
+      <div class="fine">© {new Date().getFullYear()} buyflightmiles · Not affiliated with any airline or loyalty program.</div>
+    </div>
+  </footer>
+</body>
+</html>
