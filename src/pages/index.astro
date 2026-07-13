@@ -3,9 +3,9 @@ import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import CompareTable from "../components/CompareTable.astro";
 import Faq from "../components/Faq.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Emblem from "../components/Emblem.astro";
 import { airlines } from "../data/airlines.js";
-
-const fmt = (n) => n.toLocaleString("en-US");
 
 const jsonld = {
   "@context": "https://schema.org",
@@ -22,29 +22,35 @@ const jsonld = {
 >
   <!-- HERO -->
   <section class="hero">
+    <span class="blob" style="width:400px;height:400px;background:rgba(37,64,255,.16);top:-150px;left:-150px"></span>
+    <span class="blob" style="width:340px;height:340px;background:rgba(255,92,58,.15);bottom:-160px;right:-110px"></span>
     <div class="container">
       <div class="hero-grid">
         <div>
-          <span class="kicker">Miles · delivered</span>
-          <h1>Fly business for the price of economy.</h1>
-          <p class="sub">Buy the miles you're short across every major program. Secure transfer, delivered within hours, backed by a guarantee.</p>
+          <span class="kicker">Miles, delivered within hours</span>
+          <h1>Business class is <span class="hl">closer</span> than you think.</h1>
+          <p class="sub">Buy the miles you're short across every major program — secure transfer, delivered fast, and backed by a delivery guarantee. The seat you actually want, finally within reach.</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#programs">View live pricing</a>
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
           <div class="spec">
-            <span><b>24h</b> delivery</span><span>·</span>
-            <span><b>99.9%</b> completion</span><span>·</span>
-            <span><b>4.8/5</b> Trustpilot</span>
+            <span><b>24h</b> delivery</span><span class="dot"></span>
+            <span><b>99.9%</b> completion</span><span class="dot"></span>
+            <span><b>4.8/5</b> rated</span>
           </div>
         </div>
-        <div>
-          <div class="tbox" style="padding:22px">
-            <p class="lab" style="margin-bottom:14px">Featured · lowest price</p>
-            <p class="pname" style="font-size:22px">Singapore KrisFlyer</p>
-            <div class="price" style="margin:10px 0 2px"><span class="num" style="font-size:38px">1.8¢</span><span class="unit">/ mile</span></div>
-            <p class="alt" style="margin-bottom:14px">≈ $18 per 1,000 miles</p>
-            <a class="btn btn-primary" href="/buy/krisflyer" style="width:100%">Buy KrisFlyer</a>
+        <div class="hero-art">
+          <div class="feature-card">
+            <div class="fc-top">
+              <span class="fc-badge">Featured · lowest price</span>
+              <span class="fc-badge">In stock</span>
+            </div>
+            <p class="fc-name">Singapore KrisFlyer</p>
+            <p class="fc-air">Star Alliance · Suites &amp; Business</p>
+            <div class="fc-price">1.8¢ <small>/ mile</small></div>
+            <p class="fc-alt">≈ $18 per 1,000 miles · delivered within 24h</p>
+            <a class="btn" href="/buy/krisflyer">Buy KrisFlyer</a>
           </div>
         </div>
       </div>
@@ -57,21 +63,20 @@ const jsonld = {
       <div class="section-head">
         <span class="kicker">Programs</span>
         <h2>Choose your program</h2>
-        <p>Live pricing across every program we cover. Each links to full details and delivery times.</p>
+        <p>Live, transparent pricing across every program we cover. Each links to full details and delivery times.</p>
       </div>
       <div class="grid">
         {airlines.map((a) => (
           <a class="gcard" href={`/buy/${a.slug}`}>
             <div class="top">
-              <div>
-                <div class="pname">{a.program}</div>
-                <div class="plabel">{a.airline}</div>
-              </div>
+              <Emblem code={a.code} color={a.color} size={46} />
               {a.inStock
                 ? <span class="badge badge-ok">In stock</span>
                 : <span class="badge badge-warn">Limited</span>}
             </div>
-            <div class="price">{a.pricePerMile}¢ <small>/ mile</small></div>
+            <div class="pname">{a.program}</div>
+            <div class="plabel">{a.airline}</div>
+            <div class="price" style="margin-top:14px">{a.pricePerMile}¢ <small>/ mile</small></div>
             <div class="meta"><span>{a.delivery.replace("Within ", "")}</span><span>{a.alliance}</span></div>
           </a>
         ))}
@@ -79,8 +84,33 @@ const jsonld = {
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section class="section tinted" id="how">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">How it works</span>
+        <h2>Three steps to your miles</h2>
+        <p>Simple, secure, and fast — most transfers complete within a day.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-art a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7 8h10M7 12h7M7 16h4"/></svg></span>
+          <div class="n">Step 01</div><h4>Select &amp; enter</h4><p>Pick the program, the amount, and your loyalty account number.</p>
+        </div>
+        <div class="step">
+          <span class="step-art b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M2 10h20M6 15h4"/></svg></span>
+          <div class="n">Step 02</div><h4>Confirm &amp; pay</h4><p>Complete your order through our secure, off-site payment flow.</p>
+        </div>
+        <div class="step">
+          <span class="step-art c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 15l16-4-1-4-5 1-6-6-2 1 3 6-5 1z"/></svg></span>
+          <div class="n">Step 03</div><h4>Miles land</h4><p>They post to your account, usually within 24 hours. You're ready to book.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- TRUST -->
-  <section class="section" id="trust" style="padding-top:0">
+  <section class="section" id="trust">
     <div class="container">
       <div class="section-head">
         <span class="kicker">Why trust us</span>
@@ -91,25 +121,23 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="section" id="how" style="padding-top:0">
+  <!-- TESTIMONIALS -->
+  <section class="section tinted">
     <div class="container">
-      <div class="section-head">
-        <h2>Three steps to your miles</h2>
-        <p>Simple, secure, and fast — most transfers complete within a day.</p>
+      <div class="section-head center">
+        <span class="kicker">In their words</span>
+        <h2>Travellers who booked the seat they wanted</h2>
+        <p>Real people, real redemptions — and miles that landed exactly when we said.</p>
       </div>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><h4>Select &amp; enter</h4><p>Pick the program, the amount, and your loyalty account number.</p></div>
-        <div class="step"><div class="n">02</div><h4>Pay securely</h4><p>Complete payment through our protected checkout.</p></div>
-        <div class="step"><div class="n">03</div><h4>Miles land</h4><p>They post to your account, usually within 24 hours.</p></div>
-      </div>
+      <Testimonials />
     </div>
   </section>
 
   <!-- COMPARE -->
-  <section class="section" style="padding-top:0">
+  <section class="section">
     <div class="container">
       <div class="section-head">
+        <span class="kicker">The math</span>
         <h2>Us vs. buying direct</h2>
         <p>Airlines sell their own miles at a steep markup. Here's the difference.</p>
       </div>
@@ -118,9 +146,10 @@ const jsonld = {
   </section>
 
   <!-- FAQ -->
-  <section class="section" id="faq" style="padding-top:0">
-    <div class="container" style="max-width:760px">
-      <div class="section-head">
+  <section class="section tinted" id="faq">
+    <div class="container" style="max-width:800px">
+      <div class="section-head center">
+        <span class="kicker">Good to know</span>
         <h2>Questions, answered</h2>
       </div>
       <Faq delivery="24 hours" />

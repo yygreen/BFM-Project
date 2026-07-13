@@ -1,13 +1,17 @@
 ---
+import Emblem from "./Emblem.astro";
 const { a, cta = "Buy miles" } = Astro.props;
 const per1000 = Math.round(a.pricePerMile * 10);
 const fmt = (n) => n.toLocaleString("en-US");
 ---
 <div class="pcard">
   <div class="top">
-    <div>
-      <p class="plabel">{a.airline}</p>
-      <p class="pname">{a.program}</p>
+    <div style="display:flex;align-items:center;gap:14px">
+      <Emblem code={a.code} color={a.color} size={48} />
+      <div>
+        <p class="plabel">{a.airline}</p>
+        <p class="pname">{a.program}</p>
+      </div>
     </div>
     {a.inStock
       ? <span class="badge badge-ok">In stock</span>

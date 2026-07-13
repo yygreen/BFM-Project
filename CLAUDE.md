@@ -34,17 +34,23 @@ src/
     buy/[slug].astro      ← airline page template (getStaticPaths over the data)
 ```
 
-## Design system: "Flightdeck" — follow strictly, do not regress
+## Design system: "Warm Deck"
 
-Register: modern **aviation / instrument-panel**. Light, navy + steel + a single azure accent (`#1F4FA3`). It must read as **precision, security, reliability** — NOT a fintech/banking app, NOT a travel/vacation blog. These rules are deliberate corrections; keep them:
+The site was deliberately moved **off** the earlier austere "Flightdeck" look (it read as too sterile/clinical) toward a **warmer, more human** register — closer to friendly consumer sites like themilesmarket.com — while staying credible and trustworthy for a high-value purchase. Keep it warm and approachable, but never cheap or hypey.
 
-- **Every number** (price, delivery window, stat) is set in **monospace**. The mono figures are the signature.
-- **Uppercase, letter-spaced labels appear in exactly one place: the `.spec-strip`.** Everywhere else, labels are quiet **sentence case**. Do **not** add "eyebrow"/kicker labels above headings. The `.kicker` token exists but is used at most once per page (e.g. the hero) — not as a hat on every section.
-- **Squared corners.** Radius is 2–3px (`--radius`, `--radius-card`). No pills, no rounded 8–12px cards. Precision comes from tight geometry + hairlines, not decoration.
+Register: **trustworthy but friendly**. Warm paper neutrals, navy + azure (`--acc #2159B8`) with a **warm gold accent** (`--gold #E1A340`). It should feel welcoming and reassuring — not a cold instrument panel, not a loud fintech app.
+
+- **Rounded, soft geometry.** Cards use `--radius-card` (18px); buttons and badges are **pills** (`--radius-pill`). Gentle depth via the `--shadow*` tokens, not hairlines-only.
+- **Warm palette.** Page background is warm off-white (`--page`), sections alternate white / `.tinted` (`--raised`) for rhythm. Use the gold accent sparingly for warmth (stars, one step icon, hero wash).
+- **Numbers** (prices, delivery windows) stay in **monospace** — it's a clean signature and keeps figures scannable. This is the one holdover from the old system worth keeping.
+- **`.kicker`** is now a small pill and may head sections (used more freely than before).
+- **Imagery / illustration is welcome** — the hero route illustration, icon bubbles (`.ic`), and avatars are part of the warmth. Keep them geometric and on-palette.
 - **Status color (green/amber/red) is reserved for real states only** — in stock / limited / error. Never decorative.
-- **Restraint = confidence.** No hype words in copy. State the outcome and the number. ("Delivered within 24 hours", not "Lightning-fast delivery!")
+- **Copy is warm but honest.** Friendly and human, but state real outcomes and numbers — no invented hype ("Delivered within 24 hours", not "Lightning-fast!").
 
 All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never hardcode hex values.**
+
+> Note: the file is still named `flightdeck.css` and some class names carry the old name — that's fine, only the visual direction changed.
 
 ## SEO conventions
 
@@ -70,7 +76,7 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 ## TODO before launch
 
 1. Replace `// PLACEHOLDER` pricing + delivery in `src/data/airlines.js`.
-2. Replace trust figures in `src/components/TrustStrip.astro` with verifiable numbers.
+2. Replace trust figures in `src/components/TrustStrip.astro` with verifiable numbers, and the **placeholder testimonials** in `src/components/Testimonials.astro` with real customer quotes/names (e.g. from Trustpilot).
 3. Fill the payment-methods answer in `src/components/Faq.astro` with actual methods.
 4. Wire the "Buy" buttons to the real order/quote flow, and set the **Web3Forms access key** in `src/pages/agents.astro` (register the key with the client's Gmail so partner applications email there).
 5. Expand the roster toward the full list (Southwest, Alaska, JetBlue, Hawaiian, Frontier, Turkish, Etihad, Emirates, Lufthansa, …).
