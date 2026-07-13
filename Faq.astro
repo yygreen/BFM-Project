@@ -1,0 +1,20 @@
+---
+const { delivery = "24 hours" } = Astro.props;
+const window = delivery.replace("Within ", "");
+---
+<details class="faq" open>
+  <summary>How fast are miles delivered?<span class="mk">+</span></summary>
+  <div class="ans">Most transfers land in your account within {window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.</div>
+</details>
+<details class="faq">
+  <summary>Is this legitimate?<span class="mk">+</span></summary>
+  <div class="ans">Yes. We've completed thousands of transfers and hold a strong Trustpilot rating. Every order is backed by our delivery guarantee — your miles land, or you're refunded in full.</div>
+</details>
+<details class="faq">
+  <summary>What payment methods do you accept?<span class="mk">+</span></summary>
+  <div class="ans">[Replace with your actual accepted methods. Keep this list accurate to what you truly process.]</div>
+</details>
+<details class="faq">
+  <summary>Will buying miles affect my account?<span class="mk">+</span></summary>
+  <div class="ans">We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it.</div>
+</details>

@@ -1,0 +1,18 @@
+---
+const { program = "miles", pricePerMile = 1.9 } = Astro.props;
+const per25k = Math.round(pricePerMile * 10 * 25); // $ for 25,000 miles
+---
+<div class="twrap">
+  <table class="cmp">
+    <thead>
+      <tr><th></th><th>buyflightmiles</th><th>Airline direct</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Price / mile</td><td>{pricePerMile}¢</td><td>~4.0¢+</td></tr>
+      <tr><td>25,000 miles</td><td>${per25k.toLocaleString("en-US")}</td><td>$1,000+</td></tr>
+      <tr><td>Delivery</td><td>Within 24 hrs</td><td>Instant, at 2× the cost</td></tr>
+      <tr><td>Purchase cap</td><td>Up to 500,000</td><td>Often capped low</td></tr>
+      <tr><td>Support</td><td>Human, 24/7</td><td>Call center</td></tr>
+    </tbody>
+  </table>
+</div>
