@@ -1,0 +1,39 @@
+---
+// PLACEHOLDER testimonials — replace with real, verifiable customer quotes
+// (e.g. pulled from Trustpilot) before launch. Names/initials must be real.
+const testimonials = [
+  {
+    quote: "I was short 40k miles for a Qsuite seat and had them in my account the same afternoon. Smooth, and exactly the rate quoted.",
+    name: "Daniel R.",
+    role: "Booked Qatar Qsuite to Doha",
+    av: "D", tone: "",
+  },
+  {
+    quote: "First time buying miles and I was nervous about scams. Clear pricing, real person to talk to, miles delivered when they said. No surprises.",
+    name: "Priya S.",
+    role: "Topped up KrisFlyer",
+    av: "P", tone: "g",
+  },
+  {
+    quote: "I run a small travel practice and use them for client top-ups. Dependable delivery is the whole thing for me — they haven't missed.",
+    name: "Marcus L.",
+    role: "Travel advisor",
+    av: "M", tone: "d",
+  },
+];
+---
+<div class="testi-grid">
+  {testimonials.map((t) => (
+    <figure class="testi">
+      <div class="stars">★★★★★</div>
+      <blockquote class="quote">“{t.quote}”</blockquote>
+      <figcaption class="who">
+        <div class={`avatar ${t.tone}`}>{t.av}</div>
+        <div>
+          <div class="name">{t.name}</div>
+          <div class="role">{t.role}</div>
+        </div>
+      </figcaption>
+    </figure>
+  ))}
+</div>
