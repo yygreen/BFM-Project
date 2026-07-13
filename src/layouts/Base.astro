@@ -28,13 +28,13 @@ const canonical = new URL(slug, site).href;
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
 </head>
 <body>
   <header class="site-header">
     <div class="container bar">
-      <a href="/" class="brand">buy<span>flight</span>miles</a>
+      <a href="/" class="brand">buy<span>flight</span><em>miles</em></a>
       <nav class="nav">
         <a class="link" href="/#programs">Programs</a>
         <a class="link" href="/agents">For agents</a>
@@ -53,7 +53,7 @@ const canonical = new URL(slug, site).href;
     <div class="container">
       <div class="cols">
         <div>
-          <div class="brand">buy<span>flight</span>miles</div>
+          <div class="brand">buy<span>flight</span><em>miles</em></div>
           <p style="color:#B7AA8E; font-size:13.5px; max-width:36ch; margin-top:12px; line-height:1.6;">
             Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, every order backed by our guarantee.
           </p>
