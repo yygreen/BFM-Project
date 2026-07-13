@@ -4,6 +4,7 @@ import TrustStrip from "../components/TrustStrip.astro";
 import CompareTable from "../components/CompareTable.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
+import Emblem from "../components/Emblem.astro";
 import { airlines } from "../data/airlines.js";
 
 const jsonld = {
@@ -21,7 +22,9 @@ const jsonld = {
 >
   <!-- HERO -->
   <section class="hero">
-    <div class="container">
+    <span class="blob" style="width:360px;height:360px;background:var(--acc-tint);top:-130px;left:-150px"></span>
+    <span class="blob" style="width:320px;height:320px;background:var(--gold-tint);bottom:-150px;right:-110px"></span>
+    <div class="container" style="position:relative;z-index:1">
       <div class="hero-grid">
         <div>
           <span class="kicker">Miles, delivered within hours</span>
@@ -38,27 +41,42 @@ const jsonld = {
           </div>
         </div>
         <div class="hero-art">
-          <span class="halo"></span>
-          <div class="art-card">
-            <svg viewBox="0 0 400 190" role="img" aria-label="Route illustration" style="display:block;width:100%;height:auto;margin-bottom:20px">
+          <span class="deco-dots"></span>
+          <div class="hero-scene">
+            <svg viewBox="0 0 480 360" role="img" aria-label="An airplane following a route across the sky">
               <defs>
-                <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#EAF1FB"/><stop offset="1" stop-color="#FBF0DC"/>
-                </linearGradient>
+                <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF1FB"/><stop offset="1" stop-color="#FBF3E4"/></linearGradient>
+                <linearGradient id="planeg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2159B8"/><stop offset="1" stop-color="#182A47"/></linearGradient>
               </defs>
-              <rect x="0" y="0" width="400" height="190" rx="14" fill="url(#sky)"/>
-              <path d="M40 150 Q200 20 360 96" fill="none" stroke="#C4D8F2" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
-              <circle cx="40" cy="150" r="7" fill="#fff" stroke="#2159B8" stroke-width="3"/>
-              <circle cx="360" cy="96" r="7" fill="#2159B8"/>
-              <g transform="translate(196,54) rotate(28)">
-                <path d="M0 -13 L4 -4 L20 6 L20 11 L3 7 L1 15 L7 19 L7 22 L-1 20 L-9 22 L-9 19 L-3 15 L-5 7 L-22 11 L-22 6 L-6 -4 Z" fill="#182A47"/>
+              <rect width="480" height="360" fill="url(#skyg)"/>
+              <circle cx="392" cy="84" r="42" fill="#F6D9A0" opacity="0.5"/>
+              <circle cx="392" cy="84" r="27" fill="#E1A340"/>
+              <g fill="#fff" opacity="0.92">
+                <ellipse cx="118" cy="98" rx="48" ry="20"/><ellipse cx="150" cy="86" rx="30" ry="18"/>
+                <ellipse cx="308" cy="156" rx="42" ry="16"/><ellipse cx="332" cy="150" rx="26" ry="13"/>
+              </g>
+              <path d="M68 302 Q232 62 432 210" fill="none" stroke="#2159B8" stroke-width="3" stroke-dasharray="1 12" stroke-linecap="round" opacity="0.7"/>
+              <circle cx="68" cy="302" r="11" fill="#fff" stroke="#2159B8" stroke-width="4"/>
+              <path d="M432 194 c-10 0-17 7-17 17 0 13 17 26 17 26 s17-13 17-26 c0-10-7-17-17-17z" fill="#182A47"/>
+              <circle cx="432" cy="211" r="6" fill="#fff"/>
+              <g transform="translate(236,118) rotate(24)">
+                <path d="M0 -19 L6 -5 L30 8 L30 15 L4 10 L1 24 L10 29 L10 33 L-2 30 L-14 33 L-14 29 L-6 24 L-9 10 L-34 15 L-34 8 L-6 -5 Z" fill="url(#planeg)"/>
+              </g>
+              <g fill="#182A47" opacity="0.12">
+                <rect x="38" y="318" width="10" height="26"/><rect x="52" y="308" width="12" height="36"/><rect x="68" y="322" width="9" height="22"/><rect x="82" y="314" width="10" height="30"/>
+                <rect x="402" y="300" width="12" height="44"/><rect x="418" y="312" width="10" height="32"/><rect x="432" y="306" width="11" height="38"/><rect x="447" y="318" width="9" height="26"/>
               </g>
             </svg>
-            <p class="plabel" style="color:var(--text-3);font-size:13px;margin:0 0 4px">Featured · lowest price</p>
-            <p class="pname" style="font-family:var(--display);font-weight:800;font-size:23px">Singapore KrisFlyer</p>
-            <div class="price" style="display:flex;align-items:baseline;gap:6px;margin:10px 0 2px"><span class="num" style="font-family:var(--mono);font-size:40px;font-weight:600;color:var(--acc);line-height:1">1.8¢</span><span class="unit" style="color:var(--text-3)">/ mile</span></div>
-            <p class="alt" style="color:var(--text-3);font-size:13px;margin-bottom:16px">≈ $18 per 1,000 miles</p>
-            <a class="btn btn-primary" href="/buy/krisflyer" style="width:100%">Buy KrisFlyer</a>
+          </div>
+          <div class="float-chip tr">
+            <span class="fi" style="background:var(--gold)">★</span>
+            <span>4.8 / 5<small>2,000+ reviews</small></span>
+          </div>
+          <div class="price-float">
+            <p class="plabel">Featured · lowest price</p>
+            <p class="pname">Singapore KrisFlyer</p>
+            <div class="pf-price">1.8¢ <small>/ mile</small></div>
+            <a class="btn btn-primary" href="/buy/krisflyer">Buy KrisFlyer</a>
           </div>
         </div>
       </div>
@@ -77,18 +95,50 @@ const jsonld = {
         {airlines.map((a) => (
           <a class="gcard" href={`/buy/${a.slug}`}>
             <div class="top">
-              <div>
-                <div class="pname">{a.program}</div>
-                <div class="plabel">{a.airline}</div>
-              </div>
+              <Emblem code={a.code} color={a.color} size={46} />
               {a.inStock
                 ? <span class="badge badge-ok">In stock</span>
                 : <span class="badge badge-warn">Limited</span>}
             </div>
-            <div class="price">{a.pricePerMile}¢ <small>/ mile</small></div>
+            <div class="pname">{a.program}</div>
+            <div class="plabel">{a.airline}</div>
+            <div class="price" style="margin-top:14px">{a.pricePerMile}¢ <small>/ mile</small></div>
             <div class="meta"><span>{a.delivery.replace("Within ", "")}</span><span>{a.alliance}</span></div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- COVERAGE BAND -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="mapband">
+        <svg viewBox="0 0 1000 300" role="img" aria-label="Global route network">
+          <defs>
+            <radialGradient id="mb" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="#22355A"/><stop offset="1" stop-color="#152540"/></radialGradient>
+          </defs>
+          <rect width="1000" height="300" fill="url(#mb)"/>
+          <g fill="#3A4E72" opacity="0.5">
+            {Array.from({ length: 130 }).map((_, i) => {
+              const x = (i * 53) % 1000; const y = ((i * 37) % 210) + 20;
+              return <circle cx={x} cy={y} r="1.6" />;
+            })}
+          </g>
+          <g fill="none" stroke="#4E77C8" stroke-width="1.6" stroke-dasharray="1 9" stroke-linecap="round" opacity="0.85">
+            <path d="M120 210 Q300 40 480 150"/>
+            <path d="M480 150 Q640 250 820 110"/>
+            <path d="M120 210 Q420 300 720 230"/>
+            <path d="M300 90 Q520 20 760 70"/>
+          </g>
+          <g fill="#EAF1FB">
+            <circle cx="120" cy="210" r="5"/><circle cx="480" cy="150" r="5"/><circle cx="820" cy="110" r="5"/><circle cx="720" cy="230" r="5"/><circle cx="300" cy="90" r="5"/><circle cx="760" cy="70" r="5"/>
+          </g>
+          <g transform="translate(560,118) rotate(30)"><path d="M0 -12 L4 -3 L19 5 L19 9 L3 6 L1 15 L6 19 L6 21 L-1 19 L-9 21 L-9 19 L-3 15 L-5 6 L-21 9 L-21 5 L-4 -3 Z" fill="#E1A340"/></g>
+        </svg>
+        <div class="emblem-row">
+          {airlines.map((a) => (<Emblem code={a.code} color={a.color} size={42} />))}
+        </div>
       </div>
     </div>
   </section>
@@ -102,16 +152,16 @@ const jsonld = {
       </div>
       <div class="steps">
         <div class="step">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span>
-          <div class="n">01</div><h4>Select &amp; enter</h4><p>Pick the program, the amount, and your loyalty account number.</p>
+          <span class="step-art a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 8h10M7 12h7M7 16h4"/></svg></span>
+          <div class="n">Step 01</div><h4>Select &amp; enter</h4><p>Pick the program, the amount, and your loyalty account number.</p>
         </div>
         <div class="step">
-          <span class="ic gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg></span>
-          <div class="n">02</div><h4>Confirm &amp; pay</h4><p>Complete your order through our secure, off-site payment flow.</p>
+          <span class="step-art b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg></span>
+          <div class="n">Step 02</div><h4>Confirm &amp; pay</h4><p>Complete your order through our secure, off-site payment flow.</p>
         </div>
         <div class="step">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-          <div class="n">03</div><h4>Miles land</h4><p>They post to your account, usually within 24 hours. You're ready to book.</p>
+          <span class="step-art c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 15l16-4-1-4-5 1-6-6-2 1 3 6-5 1z"/></svg></span>
+          <div class="n">Step 03</div><h4>Miles land</h4><p>They post to your account, usually within 24 hours. You're ready to book.</p>
         </div>
       </div>
     </div>
