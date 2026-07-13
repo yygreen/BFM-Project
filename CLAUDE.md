@@ -21,17 +21,18 @@ Node 18+ required for the project (Node 22 LTS recommended).
 
 ## Architecture — the core idea
 
-**One data file drives every page.** Add an object to `src/data/airlines.js` and a full page is generated at `/buy/[slug]/`. Growing the site is data entry, not page-building. Never hand-build individual airline pages.
+**One data file drives every page.** Add an entry to `src/data/airlines.json` and a full page is generated at `/buy/[slug]/`. Growing the site is data entry, not page-building. Never hand-build individual airline pages. The data is a **schema-validated content collection** (`src/content.config.ts`): a missing `pricePerMile`, a bad `slug`/`code`/`color`, an unknown `alliance`, or `max < min` fails `npm run build` with a clear error instead of shipping a broken page.
 
 ```
 src/
-  data/airlines.js         ← single source of truth (one object per program)
+  data/airlines.json       ← single source of truth (one entry per program)
+  content.config.ts        ← Zod schema that validates airlines.json at build time
   styles/flightdeck.css    ← the entire design system (tokens + components), imported in Base.astro
   layouts/Base.astro       ← HTML shell, SEO meta, JSON-LD, header/footer
-  components/              ← PricingCard, TrustStrip, CompareTable, Faq
+  components/              ← PricingCard, TrustStrip, CompareTable, Faq, Emblem, Testimonials
   pages/
     index.astro           ← homepage
-    buy/[slug].astro      ← airline page template (getStaticPaths over the data)
+    buy/[slug].astro      ← airline page template (getStaticPaths over getCollection("airlines"))
 ```
 
 ## Design system: "Warm Deck"
@@ -62,9 +63,10 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 
 ## Data conventions
 
+- Data lives in `src/data/airlines.json` (one entry per program, keyed by `id` = slug) and is validated by the Zod schema in `src/content.config.ts`. Templates read it via `getCollection("airlines")` and map `{ slug: e.id, ...e.data }`; entries are sorted by the `order` field.
 - `pricePerMile` is in **cents**. The `$ per 1,000` figure is **derived** (`× 10`) in templates — don't store both.
-- Five programs carry **real audited pricing**: KrisFlyer 1.8, Qatar 1.8, ANA 1.9 (72h), EVA 1.95 (48h), plus BA.
-- Entries marked `// PLACEHOLDER` (Delta, United, American, and BA's delivery) need **real values before launch**.
+- Real audited pricing: KrisFlyer 1.8, Qatar 1.8, ANA 1.9 (72h), EVA 1.95 (48h). These have `priceVerified: true` / `deliveryVerified: true`.
+- **`priceVerified` / `deliveryVerified` replace the old `// PLACEHOLDER` comments.** Anything `false` (Delta, United, American, BA) needs a **real, confirmed value before launch** — then flip the flag to `true`.
 
 ## Business constraints (important)
 
@@ -75,7 +77,7 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 
 ## TODO before launch
 
-1. Replace `// PLACEHOLDER` pricing + delivery in `src/data/airlines.js`.
+1. Set real pricing + delivery in `src/data/airlines.json` for the entries with `priceVerified`/`deliveryVerified` still `false` (Delta, United, American, BA), then flip those flags to `true`.
 2. Replace trust figures in `src/components/TrustStrip.astro` with verifiable numbers, and the **placeholder testimonials** in `src/components/Testimonials.astro` with real customer quotes/names (e.g. from Trustpilot).
 3. Fill the payment-methods answer in `src/components/Faq.astro` with actual methods.
 4. Wire the "Buy" buttons to the real order/quote flow, and set the **Web3Forms access key** in `src/pages/agents.astro` (register the key with the client's Gmail so partner applications email there).

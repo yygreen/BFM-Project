@@ -5,7 +5,11 @@ import CompareTable from "../components/CompareTable.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
-import { airlines } from "../data/airlines.js";
+import { getCollection } from "astro:content";
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.order - b.order);
 
 const jsonld = {
   "@context": "https://schema.org",
