@@ -68,5 +68,13 @@
     }
   },
   "reviews": [],
+  "trustpilot": {
+    "businessUnitId": "",
+    "templateId": "",
+    "domain": "",
+    "locale": "en-US",
+    "heightPx": 130,
+    "verified": false
+  },
   "testimonials": []
 }

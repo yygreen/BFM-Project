@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
+import Trustpilot from "../components/Trustpilot.astro";
 import CompareTable from "../components/CompareTable.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
@@ -24,8 +25,11 @@ const fastest = airlines
   .filter((a) => a.deliveryVerified)
   .map((a) => a.delivery.replace("Within ", ""))[0];
 
+const minOrder = Math.min(...airlines.map((a) => a.min));
 const heroStats = [
   fastest ? { n: fastest, l: "delivery" } : null,
+  { n: String(airlines.length), l: "programmes" },
+  { n: `${(minOrder / 1000).toFixed(0)}k`, l: "minimum" },
   live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
   site.trust.rating.verified && site.trust.rating.value
     ? { n: `${site.trust.rating.value}/${site.trust.rating.outOf}`, l: "rated" }
@@ -144,15 +148,22 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- TRUST -->
+  <!-- TRUST + THE MATH — one section: what backs the order, then the numbers -->
   <section class="section" id="trust">
     <div class="container">
       <div class="section-head">
         <span class="kicker">Why trust us</span>
         <h2>What backs every order</h2>
-        <p>Buying miles should feel as straightforward as any other purchase. Here's exactly how yours is handled.</p>
+        <p>Buying miles should feel as straightforward as any other purchase. Here's exactly how yours is handled, and what it costs.</p>
       </div>
+
       <TrustStrip />
+      <Trustpilot />
+
+      <div class="trust-split">
+        <h3>What you get, and how it compares</h3>
+      </div>
+      <CompareTable program="miles" pricePerMile={featured.pricePerMile} priceVerified={featured.priceVerified} delivery={featured.deliveryVerified ? featured.delivery : ""} directBuyCents={featured.directBuyCents} min={featured.min} max={featured.max} />
     </div>
   </section>
 
@@ -170,17 +181,6 @@ const jsonld = {
     </section>
   )}
 
-  <!-- COMPARE -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">The math</span>
-        <h2>Us vs. buying direct</h2>
-        <p>What you get here, and how it compares with buying miles from the airline.</p>
-      </div>
-      <CompareTable program="miles" pricePerMile={featured.pricePerMile} priceVerified={featured.priceVerified} delivery={featured.deliveryVerified ? featured.delivery : ""} directBuyCents={featured.directBuyCents} min={featured.min} max={featured.max} />
-    </div>
-  </section>
 
   <!-- FAQ -->
   <section class="section tinted" id="faq">

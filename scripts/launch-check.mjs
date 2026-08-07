@@ -121,6 +121,15 @@ if (!realReviews.length) {
   ]);
 } else done.push(["12", `${realReviews.length} review platform(s) cited: ${realReviews.map((r) => r.platform).join(", ")}`]);
 
+const tp = site.trustpilot || {};
+if (!tp.verified || !tp.businessUnitId || !tp.templateId) {
+  optional.push([
+    "12",
+    "No Trustpilot TrustBox — the widget and its script are omitted entirely",
+    "src/data/site.json → trustpilot.businessUnitId + templateId + domain (Trustpilot dashboard → Integrations → TrustBox), then verified: true",
+  ]);
+} else done.push(["12", "Trustpilot TrustBox live"]);
+
 if (!site.trust.foundedYear.verified || site.trust.foundedYear.value === null) {
   optional.push([
     "12",

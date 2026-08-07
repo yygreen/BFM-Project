@@ -1,0 +1,29 @@
+---
+// Trustpilot TrustBox.
+//
+// Renders nothing until a real business-unit ID and template ID exist. That
+// keeps a third-party script off every page while the account is unconfirmed,
+// and avoids shipping an empty widget frame — which reads worse than showing
+// no rating at all on a site whose whole pitch is "we don't invent numbers".
+//
+// IDs come from the Trustpilot business dashboard (Integrations → TrustBox).
+import { site, trustpilotReady } from "../lib/site";
+const t = site.trustpilot;
+---
+{trustpilotReady && (
+  <div class="tp-wrap">
+    <div
+      class="trustpilot-widget"
+      data-locale={t.locale}
+      data-template-id={t.templateId}
+      data-businessunit-id={t.businessUnitId}
+      data-style-height={`${t.heightPx}px`}
+      data-style-width="100%"
+    >
+      <a href={`https://www.trustpilot.com/review/${t.domain}`} target="_blank" rel="noopener noreferrer">
+        Read our reviews on Trustpilot
+      </a>
+    </div>
+    <script is:inline async src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"></script>
+  </div>
+)}

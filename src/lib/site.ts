@@ -101,6 +101,18 @@ const schema = z.object({
     })
   ),
 
+  // Trustpilot TrustBox. Loading their script pulls a third-party bundle onto
+  // every page, so it only ships once a real business-unit ID exists — an
+  // empty widget is worse than none, and the rating is unconfirmed anyway.
+  trustpilot: z.object({
+    businessUnitId: z.string(),
+    templateId: z.string(),
+    domain: z.string(),
+    locale: z.string().min(2),
+    heightPx: z.number().int().positive(),
+    verified: z.boolean(),
+  }),
+
   testimonials: z.array(
     z.object({
       quote: z.string().min(1),
@@ -136,6 +148,12 @@ export function yearsTrading(now = 2026): number | null {
   if (!f.verified || f.value === null) return null;
   return Math.max(0, now - f.value);
 }
+
+/** True once a real TrustBox is configured — otherwise we ship no widget. */
+export const trustpilotReady =
+  site.trustpilot.verified &&
+  site.trustpilot.businessUnitId !== "" &&
+  site.trustpilot.templateId !== "";
 
 /** Testimonials the client has confirmed are real. */
 export const realTestimonials = site.testimonials.filter((t) => t.verified);
