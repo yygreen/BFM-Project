@@ -55,7 +55,7 @@ const canonical = new URL(slug, site).href;
       <a href="/" class="brand" aria-label="buyflightmiles home"><Logo /></a>
       <nav class="nav">
         <details class="dd" id="nav-dd">
-          <summary class="link dd-t">Programs
+          <summary class="link dd-t"><a class="dd-link" href="/#programs">Programs</a>
             <svg class="dd-c" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
           </summary>
           <div class="dd-panel">
@@ -78,7 +78,7 @@ const canonical = new URL(slug, site).href;
 
         {latestPosts.length > 0 && (
           <details class="dd" id="nav-journal">
-            <summary class="link dd-t">Blog
+            <summary class="link dd-t"><a class="dd-link" href="/blog">Blog</a>
               <svg class="dd-c" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="dd-panel dd-journal">
@@ -153,13 +153,13 @@ const canonical = new URL(slug, site).href;
           </p>
         </div>
         <div>
-          <h5>Programs</h5>
+          <h5><a href="/#programs">Programs</a></h5>
           {programs.map((p) => (
             <a href={`/buy/${p.slug}`}>{p.airline} {p.program}</a>
           ))}
         </div>
         <div>
-          <h5>Blog</h5>
+          <h5><a href="/blog">Blog</a></h5>
           <a href="/blog">All news &amp; guides</a>
           {blogCategories.map((c) => (
             <a href={`/blog/category/${c.slug}`}>{c.name}</a>

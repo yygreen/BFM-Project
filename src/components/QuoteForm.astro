@@ -14,6 +14,16 @@ const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
 
+// Rates for the live estimate — the calculator shows a price, so the form
+// must keep showing it rather than making the buyer trust they carried the
+// right numbers across. Unverified programmes stay marked indicative.
+const rateData = airlines.map((a) => ({
+  slug: a.slug,
+  rate: a.pricePerMile,
+  verified: a.priceVerified,
+  delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
+}));
+
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
 // Message shown if someone submits before the form is wired up.
@@ -59,6 +69,15 @@ const notWiredMsg = orderEmail
       <input id="q-account" name="account" type="text" />
     </div>
   </div>
+  <div class="qf-est" id="q-est" hidden>
+    <script type="application/json" set:html={JSON.stringify(rateData)} class="qf-data"></script>
+    <div class="qf-est-main">
+      <span class="qf-est-k">Estimated total</span>
+      <b class="qf-est-v" id="q-est-v">—</b>
+    </div>
+    <span class="qf-est-n" id="q-est-n"></span>
+  </div>
+
   <div class="field" style="margin-bottom:4px">
     <label for="q-message">Anything else?</label>
     <textarea id="q-message" name="message" rows="3" placeholder="Routes, dates, cabin — or leave blank."></textarea>
@@ -77,6 +96,33 @@ const notWiredMsg = orderEmail
     const p = q.get("program"), m = q.get("miles");
     if (p) { const sel = form.querySelector("#q-program"); if ([...sel.options].some((o) => o.value === p)) sel.value = p; }
     if (m && /^\d+$/.test(m)) form.querySelector("#q-miles").value = m;
+
+    // live estimate mirrors the calculator so the price never disappears
+    (function () {
+      const box = document.getElementById("q-est");
+      if (!box) return;
+      const rates = JSON.parse(box.querySelector(".qf-data").textContent);
+      const byId = Object.fromEntries(rates.map((r) => [r.slug, r]));
+      const prog = form.querySelector("#q-program");
+      const miles = form.querySelector("#q-miles");
+
+      function draw() {
+        const r = byId[prog.value];
+        const m = parseInt(miles.value, 10);
+        if (!r || !Number.isFinite(m) || m <= 0) { box.hidden = true; return; }
+        const cost = (m * r.rate) / 100;
+        document.getElementById("q-est-v").textContent =
+          (r.verified ? "" : "~") + "$" + Math.round(cost).toLocaleString("en-US");
+        document.getElementById("q-est-n").textContent =
+          (r.verified ? "" : "Indicative — ") +
+          r.rate + "¢ per mile" + (r.delivery ? " · delivered " + r.delivery : "") +
+          ". We confirm your exact rate before you pay.";
+        box.hidden = false;
+      }
+      prog.addEventListener("change", draw);
+      miles.addEventListener("input", draw);
+      draw();
+    })();
 
     const msg = document.getElementById("q-msg");
     const btn = document.getElementById("q-submit");
