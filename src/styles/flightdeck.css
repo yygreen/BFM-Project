@@ -638,3 +638,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .csel-opt[aria-selected="true"]::after { content:"✓"; color:var(--cobalt); font-size:13px; font-weight:700; }
 .csel-price { margin-left:auto; font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); }
 .csel-opt[aria-selected="true"] .csel-price { margin-right:2px; }
+
+/* logo override inside a code badge */
+.csel-code img, .emblem img { width:100%; height:100%; object-fit:contain; border-radius:inherit; }
+.emblem img { background:#fff; }

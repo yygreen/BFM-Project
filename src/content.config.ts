@@ -38,6 +38,15 @@ const airlines = defineCollection({
       // brand colour for the emblem accent
       color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "color must be a 6-digit hex like #1B2A5B"),
 
+      // Optional path to a carrier logo under /public (e.g. "/logos/delta.svg").
+      // When absent, an abstract tail-fin badge in the brand colour is drawn
+      // instead. Left empty deliberately: the footer states we are NOT
+      // affiliated with any airline, and displaying carrier marks alongside a
+      // resale offer is the clearest possible signal of affiliation. Only add
+      // a file here once its use has actually been cleared.
+      logo: z.string().optional(),
+      logoAlt: z.string().optional(),
+
       // price per mile, in CENTS
       pricePerMile: z.number().positive().max(10),
       priceVerified: z.boolean().default(false),

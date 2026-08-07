@@ -129,7 +129,7 @@ const jsonld = {
         {airlines.map((a) => (
           <a class="gcard" href={`/buy/${a.slug}`}>
             <div class="top">
-              <Emblem code={a.code} color={a.color} size={46} />
+              <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={46} />
               {a.inStock
                 ? <span class="badge badge-ok">In stock</span>
                 : <span class="badge badge-warn">Limited</span>}

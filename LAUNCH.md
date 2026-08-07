@@ -94,6 +94,29 @@ before you pay"*, which is true regardless).
 
 ---
 
+## Carrier logos — a decision, not a task
+
+Every programme renders an abstract tail-fin badge in the carrier's brand
+colour. The slot for a real logo exists and is one field:
+
+```jsonc
+// airlines.json
+{ "logo": "/logos/delta.svg", "logoAlt": "Delta Air Lines" }
+```
+
+Drop the file under `public/logos/` and the badge is replaced everywhere it
+appears — programme grid, pricing card, and the quote widget's dropdown.
+
+**It is deliberately empty.** The footer states we are not affiliated with any
+airline, and most carriers' terms prohibit reselling their miles. Displaying
+their marks next to a resale offer is the clearest available signal of
+affiliation, and it is what draws a cease-and-desist. Nominative use ("we sell
+Delta miles" in text) is far more defensible than reproducing the logo.
+
+If the client wants logos, that's their call to make with their own legal
+advice — the mechanism is ready and takes a minute. Don't add files scraped
+from the carriers' own sites on the assumption it's fine.
+
 ## Non-blocking — the site is live and honest without these
 
 ### Airline direct-buy rate → `site.json` → `benchmark` (we can source this ourselves)
