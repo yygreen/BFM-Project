@@ -97,8 +97,33 @@ const jsonld = {
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">How it works</span>
+        <h2>Three steps to the seat</h2>
+        <p>No accounts to open, no software to learn. You keep control of the booking throughout.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-art a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7 8h10M7 12h7M7 16h4"/></svg></span>
+          <div class="n">Step 01</div><h4>Choose</h4><p>Pick your programme and how many miles you need. We quote you a firm price.</p>
+        </div>
+        <div class="step">
+          <span class="step-art b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M2 10h20M6 15h4"/></svg></span>
+          <div class="n">Step 02</div><h4>Pay</h4><p>Confirm the quote and pay off-site. Nothing is ever charged on this site.</p>
+        </div>
+        <div class="step">
+          <span class="step-art c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 15l16-4-1-4-5 1-6-6-2 1 3 6-5 1z"/></svg></span>
+          <div class="n">Step 03</div><h4>Fly</h4><p>Miles land in your own account{fastest ? `, usually within ${fastest.toLowerCase()}` : ""} — then book the seat you wanted.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PROGRAMS -->
-  <section class="section" id="programs">
+  <section class="section tinted" id="programs">
     <div class="container">
       <div class="section-head">
         <span class="kicker">Programs</span>
@@ -120,31 +145,6 @@ const jsonld = {
             <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
           </a>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="section tinted" id="how">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">How it works</span>
-        <h2>Three steps to your miles</h2>
-        <p>Simple, secure, and fast — most transfers complete within a day.</p>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <span class="step-art a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7 8h10M7 12h7M7 16h4"/></svg></span>
-          <div class="n">Step 01</div><h4>Select &amp; enter</h4><p>Pick the program, the amount, and your loyalty account number.</p>
-        </div>
-        <div class="step">
-          <span class="step-art b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M2 10h20M6 15h4"/></svg></span>
-          <div class="n">Step 02</div><h4>Confirm &amp; pay</h4><p>Complete your order through our secure, off-site payment flow.</p>
-        </div>
-        <div class="step">
-          <span class="step-art c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 15l16-4-1-4-5 1-6-6-2 1 3 6-5 1z"/></svg></span>
-          <div class="n">Step 03</div><h4>Miles land</h4><p>They post to your account, usually {fastest ? `within ${fastest.toLowerCase()}` : "within a day"}. You're ready to book.</p>
-        </div>
       </div>
     </div>
   </section>
