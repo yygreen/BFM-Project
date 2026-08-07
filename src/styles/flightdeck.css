@@ -67,8 +67,13 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .kicker { display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-weight:700; font-size:12.5px; letter-spacing:0.02em; text-transform:uppercase; color:var(--cobalt); background:var(--cobalt-tint); padding:6px 14px; border-radius:var(--radius-pill); }
 .section { padding:clamp(48px,7vw,90px) 0; }
 .section.tinted { background:var(--raised); }
-.section-head { max-width:60ch; margin-bottom:38px; }
-.section-head.center { margin-left:auto; margin-right:auto; text-align:center; }
+/* Heads sit above full-width card rows, so a 60ch cap left the copy floating
+   short against the grid. Full width instead — these paragraphs are one or two
+   sentences and now set on a single line. Centred heads keep a measure, since
+   centred text needs one to stay readable. */
+.section-head { max-width:none; margin-bottom:38px; }
+.section-head p { max-width:none; }
+.section-head.center { max-width:62ch; margin-left:auto; margin-right:auto; text-align:center; }
 /* the hero puts 18px between its kicker and h1; section heads had none */
 .section-head .kicker + h2 { margin-top:18px; }
 .section-head h2 { font-weight:800; font-size:clamp(28px,4vw,42px); line-height:1.04; }
@@ -155,7 +160,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard .meta { font-size:12.5px; color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
 
 /* ---- trust ---- */
-.trust-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+.trust-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(196px,1fr)); gap:14px; }
 .tbox { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px; box-shadow:var(--shadow-sm); }
 .tbox .lab { font-size:13px; font-weight:600; color:var(--text-3); margin:0 0 10px; }
 .stars { color:var(--coral); font-size:20px; letter-spacing:2px; }
