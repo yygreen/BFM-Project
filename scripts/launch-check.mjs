@@ -80,6 +80,28 @@ if (!site.delivery.verified) {
   ]);
 } else done.push(["4", "Delivery wording published"]);
 
+// ── Agenda 9 — partner qualification bar ─────────────────────────────
+if (!site.partner.verified || !site.partner.qualifyText) {
+  optional.push([
+    "9",
+    "No partner qualification threshold — /agents advertises better rates with no stated bar, which invites retail buyers to question their own price",
+    'src/data/site.json → partner.qualifyText (e.g. "from $25k/month or IATA"), then partner.verified: true',
+  ]);
+} else done.push(["9", `Partner bar stated: ${site.partner.qualifyText}`]);
+
+// ── Airline direct-buy benchmark (agency can source this, not the client) ──
+const noBenchmark = !site.benchmark.verified || site.benchmark.directBuyCents === null;
+const perProgram = airlines.filter((a) => a.directBuyCents != null).length;
+if (noBenchmark && perProgram === 0) {
+  optional.push([
+    "—",
+    "No sourced airline direct-buy rate — every 'you save' figure and the whole us-vs-direct table are suppressed",
+    "src/data/site.json → benchmark.directBuyCents + source, or per-program directBuyCents in airlines.json. WE can source this — it's public airline pricing, not a client input",
+  ]);
+} else {
+  done.push(["—", `Direct-buy benchmark sourced${perProgram ? ` (${perProgram} per-program override(s))` : ""}`]);
+}
+
 // ── Agenda 12 — real proof ───────────────────────────────────────────
 const real = site.testimonials.filter((t) => t.verified);
 if (!real.length) {

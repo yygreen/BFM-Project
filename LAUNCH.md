@@ -96,6 +96,40 @@ before you pay"*, which is true regardless).
 
 ## Non-blocking — the site is live and honest without these
 
+### Airline direct-buy rate → `site.json` → `benchmark` (we can source this ourselves)
+
+Every "you save" figure rests on what the airline charges for its own miles. That number was
+previously a hardcoded `4¢` appearing in both the calculator and the compare table — unsourced,
+and uniform across programs even though each airline prices differently.
+
+```jsonc
+"benchmark": { "directBuyCents": 3.5, "source": "Airline published pricing, Aug 2026", "verified": true }
+```
+
+Per-program overrides are more defensible and take precedence:
+
+```jsonc
+// airlines.json
+{ "directBuyCents": 2.75 }   // what THIS airline charges
+```
+
+Until one exists, the calculator's savings row and the entire us-vs-direct table are
+suppressed. **This is not a client input** — it's public airline pricing we can research.
+Sourcing it restores the single most persuasive number on the page.
+
+### Agenda 9 — Partner qualification bar → `site.json` → `partner`
+
+```jsonc
+"partner": { "qualifyText": "from $25k/month, or IATA-accredited", "verified": true }
+```
+
+`/agents` advertises "partner rates that scale with volume" in the main nav, where **retail
+buyers see it**. With no stated bar, that tells a direct visitor a cheaper price exists and
+they aren't getting it. A visible threshold makes the cheaper price legibly *not available to
+them*, which defends the retail price instead of undermining it. Needs the client's real
+volume tier (agenda item 9).
+
+
 ### Agenda 12 — Real proof → `site.json` → `trust`, `testimonials`
 
 ```jsonc

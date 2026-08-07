@@ -51,6 +51,21 @@ const schema = z.object({
 
   delivery: z.object({ howItWorks: z.string(), verified: z.boolean() }),
 
+  // The bar an agent must clear for partner pricing. Stating it protects the
+  // RETAIL price: without a threshold, "partner rates that scale with volume"
+  // just tells a direct visitor a cheaper price exists and they aren't getting
+  // it. With one, the cheaper price is visibly not available to them.
+  partner: z.object({ qualifyText: z.string(), verified: z.boolean() }),
+
+  // What airlines charge for their own miles — the basis of every "you save"
+  // figure. Suppressed until sourced: a savings claim is the most prominent
+  // number on the page and the easiest one to be caught out on.
+  benchmark: z.object({
+    directBuyCents: z.number().positive().max(20).nullable(),
+    source: z.string(),
+    verified: z.boolean(),
+  }),
+
   trust: z.object({
     rating: z.object({
       value: z.number().positive().max(5).nullable(),
@@ -97,6 +112,13 @@ export const realTestimonials = site.testimonials.filter((t) => t.verified);
 /** True once the quote form can actually deliver mail. */
 export const quoteFormReady = site.contact.verified && site.contact.web3formsKeyQuote !== "";
 export const agentFormReady = site.contact.verified && site.contact.web3formsKeyAgents !== "";
+
+/** The sourced airline direct-buy rate (cents/mile) for a program, or null. */
+export const directBuyRate = (programRate: number | null | undefined): number | null => {
+  if (typeof programRate === "number") return programRate;
+  const b = site.benchmark;
+  return b.verified && b.directBuyCents !== null ? b.directBuyCents : null;
+};
 
 /** Human-readable payment list, e.g. "USDT, bank wire or cash". */
 export function paymentSentence(): string {

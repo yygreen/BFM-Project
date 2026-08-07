@@ -125,7 +125,7 @@ const jsonld = {
       <div class="section-head center">
         <span class="kicker">Miles calculator</span>
         <h2>What are your miles worth?</h2>
-        <p>Pick a program and an amount to see the cost — and what you'd save against buying direct.</p>
+        <p>Pick a program and an amount to see what it costs{site.benchmark.verified ? " — and what you'd save against buying direct" : ", then get your exact rate confirmed on the quote"}.</p>
       </div>
       <Calculator quoteHref="#quote" />
     </div>
@@ -190,7 +190,7 @@ const jsonld = {
         <h2>Us vs. buying direct</h2>
         <p>Airlines sell their own miles at a steep markup. Here's the difference.</p>
       </div>
-      <CompareTable program="miles" pricePerMile={1.8} />
+      <CompareTable program="miles" pricePerMile={featured.pricePerMile} priceVerified={featured.priceVerified} delivery={featured.deliveryVerified ? featured.delivery : ""} directBuyCents={featured.directBuyCents} />
     </div>
   </section>
 

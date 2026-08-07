@@ -1,5 +1,13 @@
 ---
 import "../styles/flightdeck.css";
+import { getCollection } from "astro:content";
+
+// Nav + footer program lists are generated from the collection, so adding an
+// entry to airlines.json puts it in the navigation automatically — the roster
+// is heading toward ~40 programs and a hand-maintained list would go stale.
+const programs = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.order - b.order);
 
 const {
   title = "buyflightmiles — Buy airline miles, delivered fast",
@@ -36,7 +44,26 @@ const canonical = new URL(slug, site).href;
     <div class="container bar">
       <a href="/" class="brand">buy<span>flight</span><em>miles</em></a>
       <nav class="nav">
-        <a class="link" href="/#programs">Programs</a>
+        <details class="dd" id="nav-dd">
+          <summary class="link dd-t">Programs
+            <svg class="dd-c" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="dd-panel">
+            <div class="dd-grid">
+              {programs.map((p) => (
+                <a class="dd-item" href={`/buy/${p.slug}`}>
+                  <span class="dd-code" style={`--c:${p.color}`}>{p.code}</span>
+                  <span class="dd-txt">
+                    <span class="dd-air">{p.airline}</span>
+                    <span class="dd-prog">{p.program}</span>
+                  </span>
+                  <span class="dd-price">{p.priceVerified ? "" : "~"}{p.pricePerMile}¢</span>
+                </a>
+              ))}
+            </div>
+            <a class="dd-all" href="/#programs">Compare all {programs.length} programs →</a>
+          </div>
+        </details>
         <a class="link" href="/agents">For agents</a>
         <a class="link" href="/#how">How it works</a>
         <a class="link" href="/#faq">FAQ</a>
@@ -44,6 +71,24 @@ const canonical = new URL(slug, site).href;
       </nav>
     </div>
   </header>
+
+  <script is:inline>
+    // Programs dropdown: <details> already handles click + keyboard natively.
+    // This only adds close-on-outside-click and Escape.
+    (function () {
+      const dd = document.getElementById("nav-dd");
+      if (!dd) return;
+      document.addEventListener("click", (e) => {
+        if (dd.open && !dd.contains(e.target)) dd.open = false;
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && dd.open) {
+          dd.open = false;
+          dd.querySelector("summary").focus();
+        }
+      });
+    })();
+  </script>
 
   <main>
     <slot />
@@ -60,10 +105,9 @@ const canonical = new URL(slug, site).href;
         </div>
         <div>
           <h5>Programs</h5>
-          <a href="/buy/delta-skymiles">Delta SkyMiles</a>
-          <a href="/buy/united-mileageplus">United MileagePlus</a>
-          <a href="/buy/american-aadvantage">American AAdvantage</a>
-          <a href="/buy/krisflyer">Singapore KrisFlyer</a>
+          {programs.map((p) => (
+            <a href={`/buy/${p.slug}`}>{p.airline} {p.program}</a>
+          ))}
         </div>
         <div>
           <h5>Company</h5>

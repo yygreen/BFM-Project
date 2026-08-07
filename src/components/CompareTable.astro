@@ -1,18 +1,45 @@
 ---
-const { program = "miles", pricePerMile = 1.9 } = Astro.props;
-const per25k = Math.round(pricePerMile * 10 * 25); // $ for 25,000 miles
+// "Us vs. buying direct". Every figure in the right-hand column is a claim
+// about what the AIRLINE charges, so it renders only against a sourced rate
+// (airlines.json → directBuyCents, else site.json → benchmark). Without one
+// the comparison is suppressed entirely rather than shipping a guess.
+import { directBuyRate, site } from "../lib/site";
+
+const {
+  program = "miles",
+  pricePerMile = 1.9,
+  priceVerified = false,
+  delivery = "",
+  directBuyCents = null,
+} = Astro.props;
+
+const direct = directBuyRate(directBuyCents);
+const per25k = Math.round(pricePerMile * 10 * 25);
+const direct25k = direct ? Math.round(direct * 10 * 25) : null;
+const approx = priceVerified ? "" : "~";
 ---
-<div class="twrap">
-  <table class="cmp">
-    <thead>
-      <tr><th></th><th>buyflightmiles</th><th>Airline direct</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Price / mile</td><td>{pricePerMile}¢</td><td>~4.0¢+</td></tr>
-      <tr><td>25,000 miles</td><td>${per25k.toLocaleString("en-US")}</td><td>$1,000+</td></tr>
-      <tr><td>Delivery</td><td>Within 24 hrs</td><td>Instant, at 2× the cost</td></tr>
-      <tr><td>Purchase cap</td><td>Up to 500,000</td><td>Often capped low</td></tr>
-      <tr><td>Support</td><td>Human, 24/7</td><td>Call center</td></tr>
-    </tbody>
-  </table>
-</div>
+{direct ? (
+  <div class="twrap">
+    <table class="cmp">
+      <thead>
+        <tr><th></th><th>buyflightmiles</th><th>Airline direct</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Price / mile</td><td>{approx}{pricePerMile}¢</td><td>{direct}¢</td></tr>
+        <tr>
+          <td>25,000 miles</td>
+          <td>{approx}${per25k.toLocaleString("en-US")}</td>
+          <td>${direct25k.toLocaleString("en-US")}</td>
+        </tr>
+        {delivery && <tr><td>Delivery</td><td>{delivery.replace("Within ", "")}</td><td>Instant, at a premium</td></tr>}
+        <tr><td>Purchase cap</td><td>Up to 500,000</td><td>Often capped low</td></tr>
+      </tbody>
+    </table>
+    {site.benchmark.source && <p class="cmp-src">Airline pricing: {site.benchmark.source}</p>}
+  </div>
+) : (
+  <p class="cmp-empty">
+    Airlines sell their own {program} miles at a steep markup — we'll show you the exact
+    difference on your quote, alongside the rate you'd pay here.
+  </p>
+)}

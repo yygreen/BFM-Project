@@ -40,6 +40,12 @@ const airlines = defineCollection({
       pricePerMile: z.number().positive().max(10),
       priceVerified: z.boolean().default(false),
 
+      // What the AIRLINE charges to buy its own miles, in CENTS — the basis
+      // for every "you save" figure. Optional: falls back to site.json's
+      // benchmark. Each program prices differently, so a per-program number
+      // is always more defensible than the shared default.
+      directBuyCents: z.number().positive().max(20).nullable().default(null),
+
       min: z.number().int().positive(),
       max: z.number().int().positive(),
 

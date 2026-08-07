@@ -3,6 +3,7 @@
 // the quote path. Works standalone across all programs; for unverified
 // programs the rate is indicative until confirmed.
 import { getCollection } from "astro:content";
+import { directBuyRate, site } from "../lib/site";
 
 const { quoteHref = "#quote", defaultSlug = null } = Astro.props;
 
@@ -20,7 +21,12 @@ const calcData = airlines.map((a) => ({
   delivery: a.delivery.replace("Within ", ""),
   min: a.min,
   max: a.max,
+  // null when we haven't sourced what the airline charges — the savings
+  // row then hides rather than quoting an invented benchmark.
+  direct: directBuyRate(a.directBuyCents),
 }));
+
+const benchmarkSource = site.benchmark.source;
 
 const start = defaultSlug
   ? calcData.find((c) => c.slug === defaultSlug) ?? calcData[0]
@@ -53,7 +59,7 @@ const startMiles = 60000;
     <div class="calc-side">
       <div class="calc-stat"><span class="k">Rate</span><b id="calc-rate">—</b></div>
       <div class="calc-stat"><span class="k">Delivery</span><b id="calc-delivery">—</b></div>
-      <div class="calc-stat calc-save"><span class="k">You save vs ~4¢ direct</span><b id="calc-save">—</b></div>
+      <div class="calc-stat calc-save" id="calc-save-row" hidden><span class="k" id="calc-save-k">You save</span><b id="calc-save">—</b></div>
     </div>
   </div>
 
@@ -76,12 +82,21 @@ const startMiles = 60000;
       let m = parseInt(miles.value, 10);
       if (!Number.isFinite(m) || m < 0) m = 0;
       const cost = (m * c.rate) / 100;
-      const direct = (m * 4) / 100;
       $("calc-cost").textContent = m ? usd(cost) : "$0";
       $("calc-sub").textContent = "≈ $" + Math.round(c.rate * 10) + " per 1,000 miles";
       $("calc-rate").textContent = c.rate + "¢/mi";
       $("calc-delivery").textContent = c.delivery;
-      $("calc-save").textContent = m ? usd(Math.max(0, direct - cost)) : "$0";
+
+      // Savings only render against a sourced airline direct-buy rate.
+      const row = $("calc-save-row");
+      if (c.direct && c.direct > c.rate) {
+        const direct = (m * c.direct) / 100;
+        $("calc-save-k").textContent = "You save vs " + c.direct + "¢ direct";
+        $("calc-save").textContent = m ? usd(Math.max(0, direct - cost)) : "$0";
+        row.hidden = false;
+      } else {
+        row.hidden = true;
+      }
       $("calc-note").hidden = c.verified;
       const cta = $("calc-cta");
       cta.textContent = c.verified ? "Get my exact quote →" : "Request a live quote →";

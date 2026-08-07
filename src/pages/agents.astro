@@ -56,7 +56,7 @@ const jsonld = {
           <div class="tbox" style="padding:24px">
             <p class="lab" style="margin-bottom:14px">Partner snapshot</p>
             <ul class="checklist">
-              <li><Fragment set:html={check} /> Partner rates that scale with volume</li>
+              <li><Fragment set:html={check} /> Partner rates that scale with volume{site.partner.verified && site.partner.qualifyText ? ` — ${site.partner.qualifyText}` : ""}</li>
               <li><Fragment set:html={check} /> Miles across every major program</li>
               <li><Fragment set:html={check} /> Business &amp; first tickets, sourced to spec</li>
               <li><Fragment set:html={check} /> Delivered fast, backed by guarantee</li>
