@@ -607,3 +607,34 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .rev-num { font-family:var(--mono); font-weight:600; font-size:14px; color:var(--text-1); }
 .rev-num small { color:var(--text-3); font-weight:400; }
 .rev-plat { font-size:12.5px; color:var(--text-3); }
+
+/* ---- custom programme dropdown --------------------------------------- */
+/* a native <select> can't style its option list, so the select is kept
+   offscreen as the value holder and this listbox renders on top */
+.csel { position:relative; }
+.csel-btn { display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
+  background:var(--surface); border:1px solid var(--line-2); border-radius:12px;
+  padding:9px 12px; font-family:var(--sans); color:var(--text-1); }
+.csel-btn:hover { border-color:var(--cobalt-line); }
+.csel-btn:focus-visible, .csel-btn[aria-expanded="true"] { outline:none; border-color:var(--cobalt);
+  box-shadow:0 0 0 3px var(--cobalt-tint); }
+.csel-code { flex:0 0 auto; width:30px; height:30px; border-radius:8px; display:grid; place-items:center;
+  background:color-mix(in srgb, var(--c) 13%, #fff); color:var(--c);
+  font-family:var(--mono); font-size:11px; font-weight:600; }
+.csel-txt { display:flex; flex-direction:column; min-width:0; line-height:1.25; }
+.csel-air { font-size:14px; font-weight:600; color:var(--text-1); white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }
+.csel-prog { font-size:11.5px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.csel-chev { margin-left:auto; flex:0 0 auto; color:var(--text-3); transition:transform .18s ease; }
+.csel-btn[aria-expanded="true"] .csel-chev { transform:rotate(180deg); }
+
+.csel-list { position:absolute; z-index:70; top:calc(100% + 6px); left:0; right:0; margin:0; padding:6px;
+  list-style:none; background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; box-shadow:0 18px 44px rgba(16,20,50,.16); max-height:290px; overflow-y:auto; }
+.csel-list[hidden] { display:none; }
+.csel-opt { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; }
+.csel-opt.on { background:var(--cobalt-tint); }
+.csel-opt[aria-selected="true"] .csel-air { color:var(--cobalt); }
+.csel-opt[aria-selected="true"]::after { content:"✓"; color:var(--cobalt); font-size:13px; font-weight:700; }
+.csel-price { margin-left:auto; font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); }
+.csel-opt[aria-selected="true"] .csel-price { margin-right:2px; }

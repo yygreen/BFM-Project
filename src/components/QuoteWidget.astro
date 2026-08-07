@@ -20,6 +20,10 @@ const airlines = (await getCollection("airlines"))
 const data = airlines.map((a) => ({
   slug: a.slug,
   label: `${a.airline} — ${a.program}`,
+  airline: a.airline,
+  program: a.program,
+  code: a.code,
+  color: a.color,
   rate: a.pricePerMile,
   verified: a.priceVerified,
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
@@ -56,13 +60,39 @@ const notWired = orderEmail
   <!-- STEP 1 — price -->
   <div class="qw-step" data-step="1">
     <div class="qw-controls">
-      <div class="field">
-        <label for="qw-program">Programme</label>
-        <select id="qw-program">
+      <div class="field field-wide">
+        <label id="qw-program-label" for="qw-program-btn">Programme</label>
+        <!-- native select keeps the value and fires change; it is the source of
+             truth, the listbox below is only the presentation -->
+        <select id="qw-program" class="sr-only" tabindex="-1" aria-hidden="true">
           {data.map((d) => <option value={d.slug} selected={d.slug === start.slug}>{d.label}</option>)}
         </select>
+        <div class="csel" id="qw-csel">
+          <button type="button" class="csel-btn" id="qw-program-btn"
+            aria-haspopup="listbox" aria-expanded="false" aria-labelledby="qw-program-label qw-program-btn">
+            <span class="csel-code" id="qw-csel-code" style={`--c:${start.color}`}>{start.code}</span>
+            <span class="csel-txt">
+              <span class="csel-air" id="qw-csel-air">{start.airline}</span>
+              <span class="csel-prog" id="qw-csel-prog">{start.program}</span>
+            </span>
+            <svg class="csel-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <ul class="csel-list" id="qw-csel-list" role="listbox" aria-labelledby="qw-program-label" hidden>
+            {data.map((d) => (
+              <li class="csel-opt" role="option" id={`qw-opt-${d.slug}`} data-value={d.slug}
+                  aria-selected={d.slug === start.slug ? "true" : "false"}>
+                <span class="csel-code" style={`--c:${d.color}`}>{d.code}</span>
+                <span class="csel-txt">
+                  <span class="csel-air">{d.airline}</span>
+                  <span class="csel-prog">{d.program}</span>
+                </span>
+                <span class="csel-price">{d.verified ? "" : "~"}{d.rate}¢</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-      <div class="field">
+      <div class="field field-wide">
         <label for="qw-miles">How many miles?</label>
         <input id="qw-miles" type="number" inputmode="numeric" min="1000" step="1000" value="60000" />
       </div>
@@ -155,7 +185,8 @@ const notWired = orderEmail
       const approx = c.verified ? "" : "~";
 
       $("qw-cost").textContent = m ? approx + usd(cost) : "$0";
-      $("qw-per").textContent = "≈ " + approx + "$" + Math.round(c.rate * 10) + " per 1,000 miles";
+      // "≈" already signals approximation — don't also prefix "~"
+      $("qw-per").textContent = "≈ $" + Math.round(c.rate * 10) + " per 1,000 miles";
       $("qw-rate").textContent = approx + c.rate + "¢/mi";
       $("qw-delivery").textContent = c.delivery || "On quote";
       $("qw-note").hidden = c.verified;
@@ -178,6 +209,83 @@ const notWired = orderEmail
       $("qw-f-miles").value = m;
       $("qw-f-estimate").value = m ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
     }
+
+    // ---- custom programme dropdown ------------------------------------
+    // The native <select> above still holds the value and fires change; this
+    // only replaces its unstylable option list.
+    (function () {
+      const wrap = document.getElementById("qw-csel");
+      const btn = document.getElementById("qw-program-btn");
+      const list = document.getElementById("qw-csel-list");
+      if (!wrap || !btn || !list) return;
+      const opts = Array.from(list.querySelectorAll(".csel-opt"));
+      let active = Math.max(0, opts.findIndex((o) => o.dataset.value === prog.value));
+
+      function paint() {
+        const c = byId[prog.value];
+        document.getElementById("qw-csel-air").textContent = c.airline;
+        document.getElementById("qw-csel-prog").textContent = c.program;
+        const code = document.getElementById("qw-csel-code");
+        code.textContent = c.code;
+        code.style.setProperty("--c", c.color);
+        opts.forEach((o) => o.setAttribute("aria-selected", String(o.dataset.value === prog.value)));
+      }
+      function highlight(i) {
+        active = (i + opts.length) % opts.length;
+        opts.forEach((o, n) => o.classList.toggle("on", n === active));
+        btn.setAttribute("aria-activedescendant", opts[active].id);
+        opts[active].scrollIntoView({ block: "nearest" });
+      }
+      function open() {
+        list.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+        highlight(Math.max(0, opts.findIndex((o) => o.dataset.value === prog.value)));
+      }
+      function close() {
+        list.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+        btn.removeAttribute("aria-activedescendant");
+      }
+      const isOpen = () => !list.hidden;
+
+      function choose(i) {
+        prog.value = opts[i].dataset.value;
+        prog.dispatchEvent(new Event("change", { bubbles: true }));
+        paint();
+        close();
+        btn.focus({ preventScroll: true });
+      }
+
+      btn.addEventListener("click", () => (isOpen() ? close() : open()));
+      opts.forEach((o, i) => {
+        o.addEventListener("click", () => choose(i));
+        o.addEventListener("mousemove", () => highlight(i));
+      });
+      btn.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          if (!isOpen()) return open();
+          highlight(active + (e.key === "ArrowDown" ? 1 : -1));
+        } else if (e.key === "Home" && isOpen()) { e.preventDefault(); highlight(0); }
+        else if (e.key === "End" && isOpen()) { e.preventDefault(); highlight(opts.length - 1); }
+        else if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          isOpen() ? choose(active) : open();
+        } else if (e.key === "Escape" && isOpen()) { e.preventDefault(); close(); }
+        else if (e.key === "Tab" && isOpen()) close();
+        else if (/^[a-z0-9]$/i.test(e.key)) {
+          // type-ahead on the airline name, like a native select
+          const from = isOpen() ? active + 1 : 0;
+          const order = opts.map((_, n) => (from + n) % opts.length);
+          const hit = order.find((n) => opts[n].textContent.trim().toLowerCase().startsWith(e.key.toLowerCase()));
+          if (hit !== undefined) { if (!isOpen()) open(); highlight(hit); }
+        }
+      });
+      document.addEventListener("click", (e) => { if (isOpen() && !wrap.contains(e.target)) close(); });
+
+      paint();
+      prog.addEventListener("change", paint);
+    })();
 
     prog.addEventListener("change", render);
     miles1.addEventListener("input", render);
