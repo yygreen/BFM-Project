@@ -1,6 +1,9 @@
 ---
 import "../styles/flightdeck.css";
 import { getCollection } from "astro:content";
+import { getPosts, getCategoryCounts } from "../lib/blog";
+// aliased: `site` is already taken below by Astro.site (the deploy URL)
+import { site as siteData } from "../lib/site";
 
 // Nav + footer program lists are generated from the collection, so adding an
 // entry to airlines.json puts it in the navigation automatically — the roster
@@ -9,9 +12,13 @@ const programs = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
 
+// Journal nav: categories that have posts, plus the newest two.
+const blogCategories = await getCategoryCounts();
+const latestPosts = (await getPosts()).slice(0, 2);
+
 const {
   title = "buyflightmiles — Buy airline miles, delivered fast",
-  description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, backed by our delivery guarantee.",
+  description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, and your exact rate confirmed before you pay.",
   slug = "",
   jsonld = null,
 } = Astro.props;
@@ -65,27 +72,66 @@ const canonical = new URL(slug, site).href;
           </div>
         </details>
         <a class="link" href="/agents">For agents</a>
-        <a class="link" href="/blog">Journal</a>
+
+        {latestPosts.length > 0 && (
+          <details class="dd" id="nav-journal">
+            <summary class="link dd-t">Journal
+              <svg class="dd-c" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="dd-panel dd-journal">
+              {blogCategories.length > 0 && (
+                <div class="ddj-cats">
+                  {blogCategories.map((c) => (
+                    <a class="ddj-cat" href={`/blog/category/${c.slug}`}>
+                      <span>{c.name}</span><span class="n">{c.count}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+              <div class="ddj-latest">
+                <span class="ddj-lab">Latest</span>
+                {latestPosts.map((p) => (
+                  <a class="ddj-post" href={`/blog/${p.id}`}>{p.data.title}</a>
+                ))}
+              </div>
+              <a class="dd-all" href="/blog">All news &amp; guides →</a>
+            </div>
+          </details>
+        )}
+
         <a class="link" href="/#faq">FAQ</a>
-        <a class="btn btn-primary" href="/#programs" style="padding:9px 18px">View pricing</a>
+        <a class="btn btn-primary nav-cta" href="/#programs"
+          ><span class="cta-long">View pricing</span><span class="cta-short">Pricing</span></a
+        >
       </nav>
     </div>
   </header>
 
   <script is:inline>
-    // Programs dropdown: <details> already handles click + keyboard natively.
-    // This only adds close-on-outside-click and Escape.
+    // Nav dropdowns: <details> already handles click + keyboard natively.
+    // This adds close-on-outside-click, Escape, and closes any sibling so
+    // two panels can never be open at once.
     (function () {
-      const dd = document.getElementById("nav-dd");
-      if (!dd) return;
+      const dds = Array.from(document.querySelectorAll(".nav details.dd"));
+      if (!dds.length) return;
+      dds.forEach((dd) => {
+        dd.addEventListener("toggle", () => {
+          if (dd.open) dds.forEach((o) => o !== dd && (o.open = false));
+        });
+      });
       document.addEventListener("click", (e) => {
-        if (dd.open && !dd.contains(e.target)) dd.open = false;
+        dds.forEach((dd) => {
+          if (dd.open && !dd.contains(e.target)) dd.open = false;
+        });
       });
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && dd.open) {
-          dd.open = false;
-          dd.querySelector("summary").focus();
-        }
+        if (e.key !== "Escape") return;
+        dds.forEach((dd) => {
+          if (dd.open) {
+            dd.open = false;
+            dd.querySelector("summary").focus();
+          }
+        });
       });
     })();
   </script>
@@ -100,7 +146,7 @@ const canonical = new URL(slug, site).href;
         <div>
           <div class="brand">buy<span>flight</span><em>miles</em></div>
           <p style="color:#B7AA8E; font-size:13.5px; max-width:36ch; margin-top:12px; line-height:1.6;">
-            Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, every order backed by our guarantee.
+            Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, {siteData.guarantee.verified ? `every order backed by our ${siteData.guarantee.shortLabel}` : "and your exact rate confirmed before you pay"}.
           </p>
         </div>
         <div>
@@ -110,9 +156,15 @@ const canonical = new URL(slug, site).href;
           ))}
         </div>
         <div>
+          <h5>Journal</h5>
+          <a href="/blog">All news &amp; guides</a>
+          {blogCategories.map((c) => (
+            <a href={`/blog/category/${c.slug}`}>{c.name}</a>
+          ))}
+        </div>
+        <div>
           <h5>Company</h5>
           <a href="/agents">For agents &amp; brokers</a>
-          <a href="/blog">News &amp; guides</a>
           <a href="/#how">How it works</a>
           <a href="/#faq">FAQ</a>
           <a href="/#trust">Why trust us</a>

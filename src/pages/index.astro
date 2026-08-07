@@ -37,6 +37,15 @@ const heroSub = site.guarantee.verified
   ? `Buy the miles you're short across every major program — secure transfer, delivered fast, and backed by our ${site.guarantee.shortLabel}. The seat you actually want, finally within reach.`
   : "Buy the miles you're short across every major program — secure transfer, delivered fast, and your exact rate confirmed before you pay. The seat you actually want, finally within reach.";
 
+// Meta description mirrors the on-page rules: no guarantee claim until it's
+// confirmed, and the delivery window comes from real verified data.
+const metaDescription = [
+  "Buy airline miles at a fraction of the price.",
+  "Delta, United, American, Singapore and more — secure transfer,",
+  fastest ? `delivered within ${fastest.toLowerCase()},` : "delivered fast,",
+  site.guarantee.verified ? `${site.guarantee.shortLabel} on every order.` : "your exact rate confirmed before you pay.",
+].join(" ");
+
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -47,7 +56,7 @@ const jsonld = {
 ---
 <Base
   title="Buy Airline Miles | Fast, Secure Delivery | buyflightmiles"
-  description="Buy airline miles at a fraction of the price. Delta, United, American, Singapore and more — secure transfer, delivered within 24 hours, delivery guaranteed."
+  description={metaDescription}
   jsonld={jsonld}
 >
   <!-- HERO -->
@@ -150,7 +159,7 @@ const jsonld = {
         </div>
         <div class="step">
           <span class="step-art c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 15l16-4-1-4-5 1-6-6-2 1 3 6-5 1z"/></svg></span>
-          <div class="n">Step 03</div><h4>Miles land</h4><p>They post to your account, usually within 24 hours. You're ready to book.</p>
+          <div class="n">Step 03</div><h4>Miles land</h4><p>They post to your account, usually {fastest ? `within ${fastest.toLowerCase()}` : "within a day"}. You're ready to book.</p>
         </div>
       </div>
     </div>

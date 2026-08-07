@@ -1,0 +1,71 @@
+---
+// Blog sidebar: categories, recent posts, and a route back to the money
+// pages. The programme list is generated from the collection so it can't
+// drift, and prices carry the same "~" indicative marker as everywhere else.
+import { getCollection } from "astro:content";
+import { getPosts, getCategoryCounts, categorySlug, formatDate } from "../lib/blog";
+
+const { currentSlug = null, currentCategory = null } = Astro.props;
+
+const categories = await getCategoryCounts();
+const recent = (await getPosts()).filter((p) => p.id !== currentSlug).slice(0, 4);
+
+const programs = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.pricePerMile - b.pricePerMile)
+  .slice(0, 5);
+---
+<aside class="blog-side">
+  {categories.length > 0 && (
+    <div class="side-box">
+      <h4>Categories</h4>
+      <ul class="side-cats">
+        {categories.map((c) => (
+          <li>
+            <a href={`/blog/category/${c.slug}`} class={c.name === currentCategory ? "on" : ""}>
+              <span>{c.name}</span><span class="n">{c.count}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  {recent.length > 0 && (
+    <div class="side-box">
+      <h4>Recent</h4>
+      <ul class="side-recent">
+        {recent.map((p) => (
+          <li>
+            <a href={`/blog/${p.id}`}>
+              <span class="t">{p.data.title}</span>
+              <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <div class="side-box">
+    <h4>Lowest rates</h4>
+    <ul class="side-progs">
+      {programs.map((a) => (
+        <li>
+          <a href={`/buy/${a.slug}`}>
+            <span class="pc" style={`--c:${a.color}`}>{a.code}</span>
+            <span class="t">{a.airline}</span>
+            <span class="p">{a.priceVerified ? "" : "~"}{a.pricePerMile}¢</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a class="side-all" href="/#programs">All programmes →</a>
+  </div>
+
+  <div class="side-box side-cta">
+    <h4>Need a specific amount?</h4>
+    <p>We'll confirm your exact rate and delivery before you pay anything.</p>
+    <a class="btn btn-primary" href="/#quote">Request a quote</a>
+  </div>
+</aside>

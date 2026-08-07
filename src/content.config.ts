@@ -105,6 +105,15 @@ const blog = defineCollection({
     source: z.string().url().optional(),
     sourceLabel: z.string().optional(),
 
+    // Optional real hero image (path under /public). When absent the post
+    // renders a generated on-brand SVG keyed to its slug — see PostHero.astro
+    // — so the layout never depends on art that doesn't exist yet.
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+
+    // Pins a post to the top of /blog as the lead story.
+    featured: z.boolean().default(false),
+
     draft: z.boolean().default(false),
   }).refine((d) => !(["News", "Devaluations"].includes(d.category) && !d.source), {
     message: "News and Devaluations posts must cite a `source` URL — no unsourced claims",

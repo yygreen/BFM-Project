@@ -1,9 +1,13 @@
 ---
 import Base from "../../layouts/Base.astro";
+import PostHero from "../../components/PostHero.astro";
+import PostCard from "../../components/PostCard.astro";
+import BlogSidebar from "../../components/BlogSidebar.astro";
 import { getCollection, render } from "astro:content";
+import { getPosts, categorySlug, formatDate } from "../../lib/blog";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const posts = await getPosts();
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
   return posts.map((post) => ({ params: { slug: post.id }, props: { post, airlines, posts } }));
 }
@@ -24,12 +28,12 @@ const linked = d.programs.map((slug) => {
   return hit;
 });
 
-const more = posts
-  .filter((p) => p.id !== post.id)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
-
-const fmt = (x) => x.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+// Prefer posts in the same category, then fall back to recent.
+const others = posts.filter((p) => p.id !== post.id);
+const more = [
+  ...others.filter((p) => p.data.category === d.category),
+  ...others.filter((p) => p.data.category !== d.category),
+].slice(0, 2);
 
 const jsonld = {
   "@context": "https://schema.org",
@@ -38,6 +42,7 @@ const jsonld = {
   description: d.description,
   datePublished: d.date.toISOString(),
   ...(d.updated && { dateModified: d.updated.toISOString() }),
+  articleSection: d.category,
   author: { "@type": "Organization", name: "buyflightmiles" },
   publisher: { "@type": "Organization", name: "buyflightmiles" },
   mainEntityOfPage: `https://buyflightmiles.com/blog/${post.id}`,
@@ -45,67 +50,67 @@ const jsonld = {
 };
 ---
 <Base title={`${d.title} | buyflightmiles`} description={d.description} slug={`blog/${post.id}`} jsonld={jsonld}>
-  <article class="section">
-    <div class="container" style="max-width:720px">
+  <article class="section" style="padding-top:32px">
+    <div class="container">
       <a class="backlink" href="/blog">← All posts</a>
 
       <header class="posthead">
         <div class="pc-top">
-          <span class="badge badge-cat">{d.category}</span>
-          <time datetime={d.date.toISOString()}>{fmt(d.date)}</time>
-          {d.updated && <span class="upd">Updated {fmt(d.updated)}</span>}
+          <a class="badge badge-cat" href={`/blog/category/${categorySlug(d.category)}`}>{d.category}</a>
+          <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
+          {d.updated && <span class="upd">Updated {formatDate(d.updated)}</span>}
         </div>
         <h1>{d.title}</h1>
         <p class="post-sub">{d.description}</p>
       </header>
 
-      <div class="prose">
-        <Content />
+      <div class="posthero-wrap">
+        <PostHero slug={post.id} category={d.category} title={d.title} image={d.image} imageAlt={d.imageAlt} variant="wide" />
       </div>
 
-      {d.source && (
-        <p class="post-source">
-          Source: <a href={d.source} rel="nofollow noopener" target="_blank">{d.sourceLabel || d.source}</a>
-        </p>
-      )}
-
-      {linked.length > 0 && (
-        <section class="post-programs">
-          <h4>Programmes mentioned</h4>
-          <div class="related">
-            {linked.map((a) => (
-              <a href={`/buy/${a.slug}`}>
-                {a.airline} {a.program} · {a.priceVerified ? "" : "~"}{a.pricePerMile}¢
-              </a>
-            ))}
+      <div class="blog-layout">
+        <div class="blog-main">
+          <div class="prose">
+            <Content />
           </div>
-        </section>
-      )}
 
-      <section class="post-cta">
-        <h4>Need miles for a specific booking?</h4>
-        <p>Tell us the programme and the amount — we'll confirm your exact rate and delivery before you pay anything.</p>
-        <a class="btn btn-primary" href="/#quote">Request a quote</a>
-      </section>
+          {d.source && (
+            <p class="post-source">
+              Source: <a href={d.source} rel="nofollow noopener" target="_blank">{d.sourceLabel || d.source}</a>
+            </p>
+          )}
 
-      {more.length > 0 && (
-        <section class="post-more">
-          <h4>More reading</h4>
-          <div class="postlist">
-            {more.map((p) => (
-              <a class="postcard" href={`/blog/${p.id}`}>
-                <div class="pc-top">
-                  <span class="badge badge-cat">{p.data.category}</span>
-                  <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
-                </div>
-                <h3>{p.data.title}</h3>
-                <p>{p.data.description}</p>
-                <span class="pc-more">Read →</span>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
+          {linked.length > 0 && (
+            <section class="post-programs">
+              <h4>Programmes mentioned</h4>
+              <div class="related">
+                {linked.map((a) => (
+                  <a href={`/buy/${a.slug}`}>
+                    {a.airline} {a.program} · {a.priceVerified ? "" : "~"}{a.pricePerMile}¢
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section class="post-cta">
+            <h4>Need miles for a specific booking?</h4>
+            <p>Tell us the programme and the amount — we'll confirm your exact rate and delivery before you pay anything.</p>
+            <a class="btn btn-primary" href="/#quote">Request a quote</a>
+          </section>
+
+          {more.length > 0 && (
+            <section class="post-more">
+              <h4>More reading</h4>
+              <div class="postlist">
+                {more.map((p) => <PostCard post={p} />)}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <BlogSidebar currentSlug={post.id} currentCategory={d.category} />
+      </div>
     </div>
   </article>
 </Base>

@@ -1,14 +1,15 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { getCollection } from "astro:content";
+import PostCard from "../../components/PostCard.astro";
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import { getPosts, getCategoryCounts, categorySlug } from "../../lib/blog";
 
-// Drafts never ship. Newest first.
-const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const posts = await getPosts();
+const categories = await getCategoryCounts();
 
-const fmt = (d) =>
-  d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+// A post flagged `featured` leads; otherwise the newest does.
+const lead = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p.id !== lead?.id);
 
 const jsonld = {
   "@context": "https://schema.org",
@@ -25,28 +26,35 @@ const jsonld = {
   jsonld={jsonld}
 >
   <section class="section">
-    <div class="container" style="max-width:860px">
+    <div class="container">
       <div class="section-head">
         <span class="kicker">Journal</span>
         <h2>Miles news &amp; guides</h2>
         <p>Programme changes, devaluations and how-to guides — with the sources, so you can check them.</p>
       </div>
 
+      {categories.length > 0 && (
+        <nav class="cat-bar" aria-label="Post categories">
+          <span class="cat-chip on">All<span class="n">{posts.length}</span></span>
+          {categories.map((c) => (
+            <a class="cat-chip" href={`/blog/category/${c.slug}`}>{c.name}<span class="n">{c.count}</span></a>
+          ))}
+        </nav>
+      )}
+
       {posts.length === 0 ? (
         <p class="cmp-empty">No posts yet. Check back shortly.</p>
       ) : (
-        <div class="postlist">
-          {posts.map((p) => (
-            <a class="postcard" href={`/blog/${p.id}`}>
-              <div class="pc-top">
-                <span class="badge badge-cat">{p.data.category}</span>
-                <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+        <div class="blog-layout">
+          <div class="blog-main">
+            {lead && <PostCard post={lead} lead={true} />}
+            {rest.length > 0 && (
+              <div class="postlist">
+                {rest.map((p) => <PostCard post={p} />)}
               </div>
-              <h3>{p.data.title}</h3>
-              <p>{p.data.description}</p>
-              <span class="pc-more">Read →</span>
-            </a>
-          ))}
+            )}
+          </div>
+          <BlogSidebar />
         </div>
       )}
     </div>

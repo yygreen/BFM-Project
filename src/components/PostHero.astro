@@ -1,0 +1,96 @@
+---
+// Post hero artwork.
+//
+// If the post supplies `image`, that wins. Otherwise we generate an on-brand
+// SVG from the slug: a route-arc motif (two nodes, a dashed flight path) over
+// a tinted field, with the palette keyed to the category and the geometry
+// varied by a hash of the slug. Deterministic, so a given post always looks
+// the same — and no layout anywhere depends on art that doesn't exist yet.
+//
+// Design brief: geometric and on-palette. No stock photography.
+const { slug, category, title, image = null, imageAlt = null, variant = "wide" } = Astro.props;
+
+// tiny deterministic hash → stable per-post variation
+let h = 0;
+for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+const pick = (n: number, salt = 0) => Math.floor(((h >> salt) % 1000) / 1000 * n);
+
+const PALETTES: Record<string, [string, string, string]> = {
+  News: ["#2540FF", "#5A72FF", "#E7EAFF"],
+  Guide: ["#2540FF", "#7C5CFF", "#E7EAFF"],
+  "Sweet spots": ["#FF5C3A", "#FF8A5C", "#FFE7E0"],
+  Devaluations: ["#C77A12", "#E0A53A", "#FBEED6"],
+};
+const [c1, c2, tint] = PALETTES[category] ?? PALETTES.Guide;
+
+const uid = `ph-${slug.replace(/[^a-z0-9]/gi, "")}-${variant}`;
+const W = 1200;
+const H = variant === "wide" ? 480 : 620;
+
+// arc geometry — start/end nodes and curvature vary per post
+const y0 = 300 + pick(60, 3) - 30;
+const y1 = 180 + pick(80, 6);
+const lift = 150 + pick(90, 9);
+const cx = 600 + pick(120, 12) - 60;
+const cy = Math.min(y0, y1) - lift;
+const path = `M 140 ${y0} Q ${cx} ${cy} 1060 ${y1}`;
+
+// Put the plane ON the arc: midpoint of the quadratic at t=0.5 is
+// ¼P₀ + ½C + ¼P₂, and its tangent there simplifies to (P₂ − P₀).
+const mx = 0.25 * 140 + 0.5 * cx + 0.25 * 1060;
+const my = 0.25 * y0 + 0.5 * cy + 0.25 * y1;
+const angle = (Math.atan2(y1 - y0, 1060 - 140) * 180) / Math.PI;
+---
+{image ? (
+  <img class={`posthero-img ${variant}`} src={image} alt={imageAlt || title} loading="lazy" decoding="async" />
+) : (
+  <svg
+    class={`posthero ${variant}`}
+    viewBox={`0 0 ${W} ${H}`}
+    preserveAspectRatio="xMidYMid slice"
+    role="img"
+    aria-label={`Illustration for ${title}`}
+  >
+    <defs>
+      <linearGradient id={`${uid}-bg`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color={tint} />
+        <stop offset="100%" stop-color="#FFFFFF" />
+      </linearGradient>
+      <linearGradient id={`${uid}-arc`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color={c1} />
+        <stop offset="100%" stop-color={c2} />
+      </linearGradient>
+      <radialGradient id={`${uid}-blob`}>
+        <stop offset="0%" stop-color={c1} stop-opacity=".22" />
+        <stop offset="100%" stop-color={c1} stop-opacity="0" />
+      </radialGradient>
+    </defs>
+
+    <rect width={W} height={H} fill={`url(#${uid}-bg)`} />
+    <circle cx={190 + pick(160, 2)} cy={90 + pick(70, 4)} r="240" fill={`url(#${uid}-blob)`} />
+    <circle cx={980 - pick(150, 5)} cy={H - 60 - pick(60, 7)} r="210" fill={`url(#${uid}-blob)`} />
+
+    <!-- faint grid, keeps it feeling instrument-panel rather than decorative -->
+    <g stroke={c1} stroke-opacity=".07" stroke-width="1">
+      {Array.from({ length: 11 }, (_, i) => (
+        <line x1={i * 120} y1="0" x2={i * 120} y2={H} />
+      ))}
+      {Array.from({ length: 5 }, (_, i) => (
+        <line x1="0" y1={i * (H / 4)} x2={W} y2={i * (H / 4)} />
+      ))}
+    </g>
+
+    <path d={path} fill="none" stroke={`url(#${uid}-arc)`} stroke-width="3.5" stroke-dasharray="11 9" stroke-linecap="round" />
+
+    <circle cx="140" cy={y0} r="15" fill="#fff" stroke={c1} stroke-width="4" />
+    <circle cx="140" cy={y0} r="5" fill={c1} />
+    <circle cx="1060" cy={y1} r="21" fill={c1} />
+    <circle cx="1060" cy={y1} r="9" fill="#fff" />
+
+    <!-- paper-plane mark riding the arc, pointing along the route -->
+    <g transform={`translate(${mx} ${my}) rotate(${angle}) translate(-26 -19)`}>
+      <path d="M0 0 L52 19 L0 38 L12 19 Z" fill={c1} opacity=".92" />
+      <path d="M0 0 L52 19 L12 19 Z" fill={c2} opacity=".85" />
+    </g>
+  </svg>
+)}
