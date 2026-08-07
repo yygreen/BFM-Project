@@ -8,10 +8,34 @@ import Emblem from "../components/Emblem.astro";
 import Calculator from "../components/Calculator.astro";
 import QuoteForm from "../components/QuoteForm.astro";
 import { getCollection } from "astro:content";
+import { site, live, realTestimonials } from "../lib/site";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
+
+// Hero feature card = the cheapest program with a confirmed price, so a
+// pricing update in airlines.json moves the hero automatically.
+const featured =
+  airlines.filter((a) => a.priceVerified && a.inStock).sort((a, b) => a.pricePerMile - b.pricePerMile)[0] ?? airlines[0];
+
+// Hero stats: only figures we can stand behind. The delivery window is the
+// fastest CONFIRMED one; rating/completion appear once the client verifies them.
+const fastest = airlines
+  .filter((a) => a.deliveryVerified)
+  .map((a) => a.delivery.replace("Within ", ""))[0];
+
+const heroStats = [
+  fastest ? { n: fastest, l: "delivery" } : null,
+  live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
+  site.trust.rating.verified && site.trust.rating.value
+    ? { n: `${site.trust.rating.value}/${site.trust.rating.outOf}`, l: "rated" }
+    : null,
+].filter(Boolean);
+
+const heroSub = site.guarantee.verified
+  ? `Buy the miles you're short across every major program — secure transfer, delivered fast, and backed by our ${site.guarantee.shortLabel}. The seat you actually want, finally within reach.`
+  : "Buy the miles you're short across every major program — secure transfer, delivered fast, and your exact rate confirmed before you pay. The seat you actually want, finally within reach.";
 
 const jsonld = {
   "@context": "https://schema.org",
@@ -35,16 +59,21 @@ const jsonld = {
         <div>
           <span class="kicker">Miles, delivered within hours</span>
           <h1>Business class is <span class="hl">closer</span> than you think.</h1>
-          <p class="sub">Buy the miles you're short across every major program — secure transfer, delivered fast, and backed by a delivery guarantee. The seat you actually want, finally within reach.</p>
+          <p class="sub">{heroSub}</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#programs">View live pricing</a>
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
-          <div class="spec">
-            <span><b>24h</b> delivery</span><span class="dot"></span>
-            <span><b>99.9%</b> completion</span><span class="dot"></span>
-            <span><b>4.8/5</b> rated</span>
-          </div>
+          {heroStats.length > 0 && (
+            <div class="spec">
+              {heroStats.map((s, i) => (
+                <>
+                  {i > 0 && <span class="dot"></span>}
+                  <span><b>{s.n}</b> {s.l}</span>
+                </>
+              ))}
+            </div>
+          )}
         </div>
         <div class="hero-art">
           <div class="feature-card">
@@ -52,11 +81,11 @@ const jsonld = {
               <span class="fc-badge">Featured · lowest price</span>
               <span class="fc-badge">In stock</span>
             </div>
-            <p class="fc-name">Singapore KrisFlyer</p>
-            <p class="fc-air">Star Alliance · Suites &amp; Business</p>
-            <div class="fc-price">1.8¢ <small>/ mile</small></div>
-            <p class="fc-alt">≈ $18 per 1,000 miles · delivered within 24h</p>
-            <a class="btn" href="/buy/krisflyer">Buy KrisFlyer</a>
+            <p class="fc-name">{featured.airline} {featured.program}</p>
+            <p class="fc-air">{featured.alliance} · Premium cabins</p>
+            <div class="fc-price">{featured.pricePerMile}¢ <small>/ mile</small></div>
+            <p class="fc-alt">≈ ${Math.round(featured.pricePerMile * 10)} per 1,000 miles{featured.deliveryVerified ? ` · delivered ${featured.delivery.toLowerCase()}` : ""}</p>
+            <a class="btn" href={`/buy/${featured.slug}`}>Buy {featured.program}</a>
           </div>
         </div>
       </div>
@@ -139,17 +168,19 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section tinted">
-    <div class="container">
-      <div class="section-head center">
-        <span class="kicker">In their words</span>
-        <h2>Travellers who booked the seat they wanted</h2>
-        <p>Real people, real redemptions — and miles that landed exactly when we said.</p>
+  <!-- TESTIMONIALS — hidden until real, client-verified quotes exist -->
+  {realTestimonials.length > 0 && (
+    <section class="section tinted">
+      <div class="container">
+        <div class="section-head center">
+          <span class="kicker">In their words</span>
+          <h2>Travellers who booked the seat they wanted</h2>
+          <p>Real people, real redemptions — and miles that landed exactly when we said.</p>
+        </div>
+        <Testimonials />
       </div>
-      <Testimonials />
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- COMPARE -->
   <section class="section">

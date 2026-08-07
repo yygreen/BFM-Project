@@ -1,19 +1,64 @@
 ---
+// Answers that depend on client-confirmed facts (payment methods, the
+// guarantee, delivery mechanics) are pulled from src/data/site.json and
+// fall back to an honest holding answer until confirmed — never to an
+// invented claim. See LAUNCH.md.
+import { site, live, paymentSentence } from "../lib/site";
+
 const { delivery = "24 hours" } = Astro.props;
 const window = delivery.replace("Within ", "");
+
+// Payment answer — built from the confirmed list, plus the client's own
+// wording for the "do you take cards?" question.
+const pay = paymentSentence();
+const paymentAnswer = pay
+  ? [
+      `We accept ${pay}.`,
+      site.payments.usdtNetworks.length ? `USDT is accepted on ${site.payments.usdtNetworks.join(" and ")}.` : "",
+      site.payments.minOrderUsd ? `Minimum order is $${site.payments.minOrderUsd.toLocaleString("en-US")}.` : "",
+      site.payments.cardAnswer,
+    ].filter(Boolean).join(" ")
+  : "We'll confirm the accepted payment methods when we send your quote. Payment is always handled off this site.";
+
+// Legitimacy answer — only cites figures the client has verified.
+const proof = [
+  live(site.trust.transfersCompleted)
+    ? `We've completed ${Number(site.trust.transfersCompleted.value).toLocaleString("en-US")}+ transfers`
+    : "",
+  site.trust.rating.verified && site.trust.rating.value
+    ? `and hold a ${site.trust.rating.value}/${site.trust.rating.outOf} rating${site.trust.rating.source ? ` on ${site.trust.rating.source}` : ""}`
+    : "",
+].filter(Boolean).join(" ");
+
+const legitAnswer = [
+  "Yes.",
+  proof ? proof + "." : "",
+  site.guarantee.verified ? `Every order is backed by our ${site.guarantee.shortLabel} — ${site.guarantee.summary}` : "",
+  "You get a firm quote confirming your exact rate and delivery window before any payment is made.",
+].filter(Boolean).join(" ");
+
+const deliveryAnswer = site.delivery.verified && site.delivery.howItWorks
+  ? site.delivery.howItWorks
+  : `Most transfers land in your account within ${window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.`;
 ---
 <details class="faq" open>
   <summary>How fast are miles delivered?<span class="mk">+</span></summary>
-  <div class="ans">Most transfers land in your account within {window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.</div>
+  <div class="ans">{deliveryAnswer}</div>
 </details>
 <details class="faq">
   <summary>Is this legitimate?<span class="mk">+</span></summary>
-  <div class="ans">Yes. We've completed thousands of transfers and hold a strong Trustpilot rating. Every order is backed by our delivery guarantee — your miles land, or you're refunded in full.</div>
+  <div class="ans">{legitAnswer}</div>
 </details>
 <details class="faq">
   <summary>What payment methods do you accept?<span class="mk">+</span></summary>
-  <div class="ans">[Replace with your actual accepted methods. Keep this list accurate to what you truly process.]</div>
+  <div class="ans">{paymentAnswer}</div>
 </details>
+{site.guarantee.verified && site.guarantee.policy && (
+  <details class="faq">
+    <summary>What if my miles don't arrive?<span class="mk">+</span></summary>
+    <div class="ans">{site.guarantee.policy}</div>
+  </details>
+)}
 <details class="faq">
   <summary>Will buying miles affect my account?<span class="mk">+</span></summary>
   <div class="ans">We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it.</div>

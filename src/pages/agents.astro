@@ -2,6 +2,15 @@
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import { getCollection } from "astro:content";
+import { site, agentFormReady } from "../lib/site";
+
+// Partner-application form key + fallback inbox come from src/data/site.json:
+// set contact.web3formsKeyAgents + contact.agentEmail, flip contact.verified.
+const agentKey = agentFormReady ? site.contact.web3formsKeyAgents : "";
+const agentEmail = site.contact.agentEmail;
+const agentNotWired = agentEmail
+  ? `Applications aren't wired up yet — please email ${agentEmail} and we'll get you set up.`
+  : "Applications aren't wired up yet — please contact us directly and we'll get you set up.";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
@@ -146,7 +155,8 @@ const jsonld = {
         <p>Tell us about your business and we'll set you up with pricing and a direct contact.</p>
       </div>
       <form class="formcard" id="partner-form">
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+        <input type="hidden" name="access_key" value={agentKey} />
+        <input type="hidden" id="partner-fallback" value={agentNotWired} />
         <input type="hidden" name="subject" value="New partner application — buyflightmiles" />
         <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
         <div class="form-grid">
@@ -161,7 +171,9 @@ const jsonld = {
         <button type="submit" class="btn btn-primary" id="partner-submit" style="width:100%;margin-top:14px">Submit application</button>
         <p class="form-msg" id="partner-msg" hidden></p>
       </form>
-      <p style="color:var(--text-3);font-size:12px;font-family:var(--mono);text-align:center;margin-top:12px">TODO: set your Web3Forms access key (register it with the destination Gmail).</p>
+      {agentEmail && (
+        <p style="color:var(--text-3);font-size:12px;text-align:center;margin-top:12px">Prefer email? <a href={`mailto:${agentEmail}`} style="color:var(--acc)">{agentEmail}</a></p>
+      )}
     </div>
   </section>
 
@@ -172,6 +184,12 @@ const jsonld = {
     if (form) {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!form.querySelector('input[name="access_key"]').value) {
+          msg.textContent = document.getElementById("partner-fallback").value;
+          msg.className = "form-msg err";
+          msg.hidden = false;
+          return;
+        }
         const label = btn.textContent;
         btn.disabled = true;
         btn.textContent = "Sending…";

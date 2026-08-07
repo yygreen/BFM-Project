@@ -1,37 +1,78 @@
 ---
-// Placeholder trust figures — replace with real, verifiable numbers before launch.
+// Trust figures come from src/data/site.json. A stat renders ONLY when the
+// client has confirmed it (verified: true) — unverified numbers are dropped
+// rather than shipped, because inventing trust stats is the one thing this
+// site must never do. The structural tiles below are true by design (the
+// quote-before-you-pay flow, off-site payment) so the strip is never empty.
+import { site, live } from "../lib/site";
+
+const r = site.trust.rating;
+const ratingLive = r.verified && r.value !== null;
+
+// bottom spec strip — only the verified figures
+const specs = [
+  live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
+  live(site.trust.accountLocks) ? { n: `${site.trust.accountLocks.value}`, l: "account locks" } : null,
+  live(site.trust.supportHours) ? { n: `${site.trust.supportHours.value}`, l: "support" } : null,
+].filter(Boolean);
 ---
 <div class="trust-grid">
-  <div class="tbox">
-    <p class="lab">Rating</p>
-    <div class="stars">★★★★★</div>
-    <div class="cap"><b style="color:var(--text-1);font-family:var(--mono)">4.8/5</b> · 2,000+ Trustpilot reviews</div>
-  </div>
-  <div class="tbox">
-    <p class="lab">Delivered</p>
-    <div class="big">10,000+</div>
-    <div class="cap">transfers completed</div>
-  </div>
-  <div class="tbox">
-    <p class="lab">Guarantee</p>
-    <div class="chip-row">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
-      Delivery guarantee
+  {ratingLive && (
+    <div class="tbox">
+      <p class="lab">Rating</p>
+      <div class="stars">★★★★★</div>
+      <div class="cap">
+        <b style="color:var(--text-1);font-family:var(--mono)">{r.value}/{r.outOf}</b>
+        {r.reviewCount && r.source ? ` · ${r.reviewCount.toLocaleString("en-US")}+ ${r.source} reviews` : r.source ? ` · ${r.source}` : ""}
+      </div>
     </div>
-    <div class="cap">Miles land or you're refunded</div>
+  )}
+
+  {live(site.trust.transfersCompleted) && (
+    <div class="tbox">
+      <p class="lab">Delivered</p>
+      <div class="big">{Number(site.trust.transfersCompleted.value).toLocaleString("en-US")}+</div>
+      <div class="cap">transfers completed</div>
+    </div>
+  )}
+
+  {site.guarantee.verified && (
+    <div class="tbox">
+      <p class="lab">Guarantee</p>
+      <div class="chip-row">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        Delivery guarantee
+      </div>
+      <div class="cap">{site.guarantee.summary}</div>
+    </div>
+  )}
+
+  <!-- structural: true by design, no client confirmation needed -->
+  <div class="tbox">
+    <p class="lab">No surprises</p>
+    <div class="chip-row">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
+      Quoted before you pay
+    </div>
+    <div class="cap">We confirm your exact rate and delivery first</div>
   </div>
   <div class="tbox">
-    <p class="lab">Security</p>
+    <p class="lab">Payment</p>
     <div class="chip-row">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-      Bank-grade encryption
+      Handled off-site
     </div>
-    <div class="cap">Every order protected</div>
+    <div class="cap">Nothing sensitive is stored on this site</div>
   </div>
 </div>
-<div class="spec-strip" style="margin-top:18px">
-  <span><b>24h</b> delivery</span><span class="dot"></span>
-  <span><b>99.9%</b> completion</span><span class="dot"></span>
-  <span><b>0</b> account locks</span><span class="dot"></span>
-  <span><b>24/7</b> support</span>
-</div>
+
+{specs.length > 0 && (
+  <div class="spec-strip" style="margin-top:18px">
+    {specs.map((s, i) => (
+      <>
+        {i > 0 && <span class="dot"></span>}
+        <span><b>{s.n}</b> {s.l}</span>
+      </>
+    ))}
+  </div>
+)}

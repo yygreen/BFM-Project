@@ -2,15 +2,24 @@
 // Request-a-quote / order form. Decoupled from the static site (form →
 // email → manual fulfilment), matching the off-site checkout model.
 // Prefills program + miles from ?program=&miles= (e.g. from the calculator).
-// TODO before launch: set the Web3Forms access key (register it with the
-// order inbox the client gives us) — see CLAUDE.md launch list.
+// The Web3Forms key and the fallback inbox both come from src/data/site.json —
+// set contact.web3formsKeyQuote + contact.orderEmail and flip contact.verified
+// to switch the form live. See LAUNCH.md.
 import { getCollection } from "astro:content";
+import { site, quoteFormReady } from "../lib/site";
 
 const { heading = "Request a quote", sub = "Tell us the program and amount — we'll confirm your exact rate and delivery, usually within the hour." } = Astro.props;
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+// Message shown if someone submits before the form is wired up.
+const notWiredMsg = orderEmail
+  ? `Quote form isn't connected yet — please email ${orderEmail} to place your order.`
+  : "Quote form isn't connected yet — please contact us directly to place your order.";
 ---
 <div class="section-head center">
   <span class="kicker">Get a quote</span>
@@ -18,7 +27,8 @@ const airlines = (await getCollection("airlines"))
   <p>{sub}</p>
 </div>
 <form class="formcard quote-form" id="quote-form">
-  <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+  <input type="hidden" name="access_key" value={accessKey} />
+  <input type="hidden" id="q-fallback" value={notWiredMsg} />
   <input type="hidden" name="subject" value="New quote / order request — buyflightmiles" />
   <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
   <div class="form-grid">
@@ -74,8 +84,8 @@ const airlines = (await getCollection("airlines"))
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      if (key === "YOUR_WEB3FORMS_ACCESS_KEY") {
-        msg.textContent = "Quote form isn't connected yet — please email us to place your order.";
+      if (!key) {
+        msg.textContent = document.getElementById("q-fallback").value;
         msg.className = "form-msg err"; msg.hidden = false; return;
       }
       const label = btn.textContent; btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;

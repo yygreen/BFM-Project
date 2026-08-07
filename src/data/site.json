@@ -1,0 +1,41 @@
+{
+  "payments": {
+    "methods": ["USDT", "Bank wire", "Cash"],
+    "usdtNetworks": [],
+    "minOrderUsd": null,
+    "cardAnswer": "",
+    "verified": false
+  },
+
+  "contact": {
+    "orderEmail": "",
+    "agentEmail": "",
+    "web3formsKeyQuote": "",
+    "web3formsKeyAgents": "",
+    "whatsapp": "",
+    "telegram": "",
+    "verified": false
+  },
+
+  "guarantee": {
+    "shortLabel": "delivery guarantee",
+    "summary": "Miles land in your account, or you're refunded.",
+    "policy": "",
+    "verified": false
+  },
+
+  "delivery": {
+    "howItWorks": "",
+    "verified": false
+  },
+
+  "trust": {
+    "rating": { "value": null, "outOf": 5, "source": "", "reviewCount": null, "verified": false },
+    "transfersCompleted": { "value": null, "verified": false },
+    "completionRate": { "value": null, "verified": false },
+    "accountLocks": { "value": null, "verified": false },
+    "supportHours": { "value": "", "verified": false }
+  },
+
+  "testimonials": []
+}
