@@ -53,8 +53,8 @@
     },
     "completionRate": {
       "value": 99.9,
-      "verified": true,
-      "placeholder": true
+      "verified": false,
+      "placeholder": false
     },
     "accountLocks": {
       "value": null,
