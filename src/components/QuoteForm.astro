@@ -1,0 +1,105 @@
+---
+// Request-a-quote / order form. Decoupled from the static site (form →
+// email → manual fulfilment), matching the off-site checkout model.
+// Prefills program + miles from ?program=&miles= (e.g. from the calculator).
+// TODO before launch: set the Web3Forms access key (register it with the
+// order inbox the client gives us) — see CLAUDE.md launch list.
+import { getCollection } from "astro:content";
+
+const { heading = "Request a quote", sub = "Tell us the program and amount — we'll confirm your exact rate and delivery, usually within the hour." } = Astro.props;
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.order - b.order);
+---
+<div class="section-head center">
+  <span class="kicker">Get a quote</span>
+  <h2>{heading}</h2>
+  <p>{sub}</p>
+</div>
+<form class="formcard quote-form" id="quote-form">
+  <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+  <input type="hidden" name="subject" value="New quote / order request — buyflightmiles" />
+  <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+  <div class="form-grid">
+    <div class="field">
+      <label for="q-program">Program *</label>
+      <select id="q-program" name="program" required>
+        {airlines.map((a) => (<option value={a.slug}>{a.airline} — {a.program}</option>))}
+      </select>
+    </div>
+    <div class="field">
+      <label for="q-miles">Miles needed *</label>
+      <input id="q-miles" name="miles" type="number" inputmode="numeric" min="1000" step="1000" placeholder="e.g. 60000" required />
+    </div>
+    <div class="field">
+      <label for="q-name">Name *</label>
+      <input id="q-name" name="name" type="text" required />
+    </div>
+    <div class="field">
+      <label for="q-email">Email *</label>
+      <input id="q-email" name="email" type="email" required />
+    </div>
+    <div class="field">
+      <label for="q-contact">WhatsApp / Telegram (optional)</label>
+      <input id="q-contact" name="contact" type="text" placeholder="How you'd like us to reply" />
+    </div>
+    <div class="field">
+      <label for="q-account">Loyalty account # (optional)</label>
+      <input id="q-account" name="account" type="text" />
+    </div>
+  </div>
+  <div class="field" style="margin-bottom:4px">
+    <label for="q-message">Anything else?</label>
+    <textarea id="q-message" name="message" rows="3" placeholder="Routes, dates, cabin — or leave blank."></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary" id="q-submit" style="width:100%;margin-top:14px">Send my quote request</button>
+  <p class="form-msg" id="q-msg" hidden></p>
+  <p class="foot" style="text-align:center;margin-top:12px">Payment stays off-site · we reply by email or your chosen channel</p>
+</form>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById("quote-form");
+    if (!form) return;
+    // prefill from query string (?program=&miles=)
+    const q = new URLSearchParams(location.search);
+    const p = q.get("program"), m = q.get("miles");
+    if (p) { const sel = form.querySelector("#q-program"); if ([...sel.options].some((o) => o.value === p)) sel.value = p; }
+    if (m && /^\d+$/.test(m)) form.querySelector("#q-miles").value = m;
+
+    const msg = document.getElementById("q-msg");
+    const btn = document.getElementById("q-submit");
+    const key = form.querySelector('input[name="access_key"]').value;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (key === "YOUR_WEB3FORMS_ACCESS_KEY") {
+        msg.textContent = "Quote form isn't connected yet — please email us to place your order.";
+        msg.className = "form-msg err"; msg.hidden = false; return;
+      }
+      const label = btn.textContent; btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.reset();
+          msg.textContent = "Thanks — your request is in. We'll confirm your rate and delivery shortly.";
+          msg.className = "form-msg ok";
+        } else {
+          msg.textContent = json.message || "Something went wrong. Please email us instead.";
+          msg.className = "form-msg err";
+        }
+      } catch (err) {
+        msg.textContent = "Network error. Please try again, or email us directly.";
+        msg.className = "form-msg err";
+      } finally {
+        msg.hidden = false; btn.disabled = false; btn.textContent = label;
+      }
+    });
+  })();
+</script>

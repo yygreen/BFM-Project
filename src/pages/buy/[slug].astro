@@ -4,6 +4,8 @@ import PricingCard from "../../components/PricingCard.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
 import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
+import Calculator from "../../components/Calculator.astro";
+import QuoteForm from "../../components/QuoteForm.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -13,10 +15,13 @@ export async function getStaticPaths() {
 
 const { a, airlines } = Astro.props;
 const per1000 = Math.round(a.pricePerMile * 10);
+const verified = a.priceVerified;
 const related = a.related
   .map((slug) => airlines.find((x) => x.slug === slug))
   .filter(Boolean);
 
+// Only publish a firm price in structured data once it's confirmed —
+// unverified programs advertise availability + a quote path instead.
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -26,14 +31,16 @@ const jsonld = {
   offers: {
     "@type": "Offer",
     priceCurrency: "USD",
-    price: per1000,
-    priceSpecification: {
-      "@type": "UnitPriceSpecification",
-      price: per1000,
-      priceCurrency: "USD",
-      referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
-    },
     availability: a.inStock ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability",
+    ...(verified && {
+      price: per1000,
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: per1000,
+        priceCurrency: "USD",
+        referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
+      },
+    }),
   },
 };
 ---
@@ -47,12 +54,12 @@ const jsonld = {
           <h1>{a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="#buy">Buy {a.program}</a>
-            <a class="btn btn-secondary" href="#how">How it works</a>
+            <a class="btn btn-primary" href="#quote">{verified ? `Buy ${a.program}` : "Request a live quote"}</a>
+            <a class="btn btn-secondary" href="#worth">What's it cost?</a>
           </div>
           <div class="spec">
-            <span><b>{a.delivery.replace("Within ", "")}</b> delivery</span><span>·</span>
-            <span><b>{a.pricePerMile}¢</b> / mile</span><span>·</span>
+            <span><b>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast"}</b> delivery</span><span>·</span>
+            <span><b>{verified ? "" : "~"}{a.pricePerMile}¢</b> / mile</span><span>·</span>
             <span><b>Guaranteed</b></span>
           </div>
         </div>
@@ -60,6 +67,18 @@ const jsonld = {
           <PricingCard a={a} cta={`Buy ${a.program}`} />
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- WHAT IT COSTS (calculator) -->
+  <section class="section tinted" id="worth">
+    <div class="container" style="max-width:760px">
+      <div class="section-head center">
+        <span class="kicker">Miles calculator</span>
+        <h2>What will {a.program} miles cost?</h2>
+        <p>Move the amount to see the estimate{verified ? "" : " — we confirm your exact rate on the quote"}.</p>
+      </div>
+      <Calculator defaultSlug={a.slug} quoteHref="#quote" />
     </div>
   </section>
 
@@ -117,6 +136,13 @@ const jsonld = {
         <h2>Every {a.program} order is protected</h2>
       </div>
       <TrustStrip />
+    </div>
+  </section>
+
+  <!-- QUOTE / ORDER -->
+  <section class="section tinted" id="quote">
+    <div class="container" style="max-width:680px">
+      <QuoteForm heading={`Buy ${a.program} — request your quote`} />
     </div>
   </section>
 

@@ -3,6 +3,8 @@ import Emblem from "./Emblem.astro";
 const { a, cta = "Buy miles" } = Astro.props;
 const per1000 = Math.round(a.pricePerMile * 10);
 const fmt = (n) => n.toLocaleString("en-US");
+const verified = a.priceVerified;
+const ctaText = verified ? cta : "Request a live quote";
 ---
 <div class="pcard">
   <div class="top">
@@ -17,13 +19,16 @@ const fmt = (n) => n.toLocaleString("en-US");
       ? <span class="badge badge-ok">In stock</span>
       : <span class="badge badge-warn">Limited</span>}
   </div>
-  <div class="price"><span class="num">{a.pricePerMile}¢</span><span class="unit">/ mile</span></div>
-  <p class="alt">≈ ${per1000} per 1,000 miles</p>
+  <div class="price">
+    <span class="num">{verified ? "" : "~"}{a.pricePerMile}¢</span><span class="unit">/ mile</span>
+    {!verified && <span class="indic">indicative</span>}
+  </div>
+  <p class="alt">≈ ${per1000} per 1,000 miles{verified ? "" : " · confirmed on quote"}</p>
   <div class="rows">
-    <div class="r"><span>Delivery</span><b>{a.delivery.replace("Within ", "")}</b></div>
+    <div class="r"><span>Delivery</span><b>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "on quote"}</b></div>
     <div class="r"><span>Minimum</span><b>{fmt(a.min)}</b></div>
     <div class="r"><span>Maximum</span><b>{fmt(a.max)}</b></div>
   </div>
-  <a class="btn btn-primary" href="/#programs">{cta}</a>
+  <a class="btn btn-primary" href="#quote">{ctaText}</a>
   <p class="foot">Secure transfer · delivery guaranteed</p>
 </div>

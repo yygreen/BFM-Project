@@ -1,0 +1,105 @@
+---
+// "What are your miles worth" calculator — live estimate that routes into
+// the quote path. Works standalone across all programs; for unverified
+// programs the rate is indicative until confirmed.
+import { getCollection } from "astro:content";
+
+const { quoteHref = "#quote", defaultSlug = null } = Astro.props;
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.order - b.order);
+
+// data the client-side script reads
+const calcData = airlines.map((a) => ({
+  slug: a.slug,
+  program: a.program,
+  airline: a.airline,
+  rate: a.pricePerMile,
+  verified: a.priceVerified,
+  delivery: a.delivery.replace("Within ", ""),
+  min: a.min,
+  max: a.max,
+}));
+
+const start = defaultSlug
+  ? calcData.find((c) => c.slug === defaultSlug) ?? calcData[0]
+  : calcData.find((c) => c.verified) ?? calcData[0];
+const startMiles = 60000;
+---
+<div class="calc" data-quote={quoteHref}>
+  <script type="application/json" set:html={JSON.stringify(calcData)} class="calc-data"></script>
+  <div class="calc-controls">
+    <div class="field">
+      <label for="calc-program">Program</label>
+      <select id="calc-program">
+        {calcData.map((c) => (
+          <option value={c.slug} selected={c.slug === start.slug}>{c.airline} — {c.program}</option>
+        ))}
+      </select>
+    </div>
+    <div class="field">
+      <label for="calc-miles">How many miles?</label>
+      <input id="calc-miles" type="number" inputmode="numeric" min="1000" step="1000" value={startMiles} />
+    </div>
+  </div>
+
+  <div class="calc-out">
+    <div class="calc-main">
+      <span class="calc-lab">Estimated cost</span>
+      <div class="calc-cost" id="calc-cost">—</div>
+      <span class="calc-sub" id="calc-sub"></span>
+    </div>
+    <div class="calc-side">
+      <div class="calc-stat"><span class="k">Rate</span><b id="calc-rate">—</b></div>
+      <div class="calc-stat"><span class="k">Delivery</span><b id="calc-delivery">—</b></div>
+      <div class="calc-stat calc-save"><span class="k">You save vs ~4¢ direct</span><b id="calc-save">—</b></div>
+    </div>
+  </div>
+
+  <p class="calc-note" id="calc-note" hidden>Indicative rate — request a quote and we'll confirm your exact price.</p>
+  <a class="btn btn-primary calc-cta" id="calc-cta" href={quoteHref}>Get my exact quote →</a>
+</div>
+
+<script is:inline>
+  (function () {
+    const root = document.querySelector(".calc");
+    if (!root) return;
+    const data = JSON.parse(root.querySelector(".calc-data").textContent);
+    const byId = Object.fromEntries(data.map((d) => [d.slug, d]));
+    const $ = (id) => document.getElementById(id);
+    const prog = $("calc-program"), miles = $("calc-miles");
+    const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+
+    function render() {
+      const c = byId[prog.value];
+      let m = parseInt(miles.value, 10);
+      if (!Number.isFinite(m) || m < 0) m = 0;
+      const cost = (m * c.rate) / 100;
+      const direct = (m * 4) / 100;
+      $("calc-cost").textContent = m ? usd(cost) : "$0";
+      $("calc-sub").textContent = "≈ $" + Math.round(c.rate * 10) + " per 1,000 miles";
+      $("calc-rate").textContent = c.rate + "¢/mi";
+      $("calc-delivery").textContent = c.delivery;
+      $("calc-save").textContent = m ? usd(Math.max(0, direct - cost)) : "$0";
+      $("calc-note").hidden = c.verified;
+      const cta = $("calc-cta");
+      cta.textContent = c.verified ? "Get my exact quote →" : "Request a live quote →";
+      const base = root.getAttribute("data-quote") || "#quote";
+      // hash target on the same page: keep the anchor clean and sync fields on click.
+      // path target (cross-page): pass program + miles via query string.
+      cta.setAttribute("href", base.charAt(0) === "#"
+        ? base
+        : base + (base.indexOf("?") === -1 ? "?" : "&") + "program=" + encodeURIComponent(c.slug) + "&miles=" + (m || ""));
+    }
+    prog.addEventListener("change", render);
+    miles.addEventListener("input", render);
+    // if the quote form is on this page, prefill it when the CTA is clicked
+    $("calc-cta").addEventListener("click", function () {
+      const fp = document.getElementById("q-program"), fm = document.getElementById("q-miles");
+      if (fp && [...fp.options].some((o) => o.value === prog.value)) fp.value = prog.value;
+      if (fm && parseInt(miles.value, 10) > 0) fm.value = parseInt(miles.value, 10);
+    });
+    render();
+  })();
+</script>

@@ -5,6 +5,8 @@ import CompareTable from "../components/CompareTable.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
+import Calculator from "../components/Calculator.astro";
+import QuoteForm from "../components/QuoteForm.astro";
 import { getCollection } from "astro:content";
 
 const airlines = (await getCollection("airlines"))
@@ -80,16 +82,28 @@ const jsonld = {
             </div>
             <div class="pname">{a.program}</div>
             <div class="plabel">{a.airline}</div>
-            <div class="price" style="margin-top:14px">{a.pricePerMile}¢ <small>/ mile</small></div>
-            <div class="meta"><span>{a.delivery.replace("Within ", "")}</span><span>{a.alliance}</span></div>
+            <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{a.pricePerMile}¢ <small>/ mile</small></div>
+            <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
           </a>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- MILES CALCULATOR -->
+  <section class="section tinted" id="worth">
+    <div class="container" style="max-width:760px">
+      <div class="section-head center">
+        <span class="kicker">Miles calculator</span>
+        <h2>What are your miles worth?</h2>
+        <p>Pick a program and an amount to see the cost — and what you'd save against buying direct.</p>
+      </div>
+      <Calculator quoteHref="#quote" />
+    </div>
+  </section>
+
   <!-- HOW IT WORKS -->
-  <section class="section tinted" id="how">
+  <section class="section" id="how">
     <div class="container">
       <div class="section-head">
         <span class="kicker">How it works</span>
@@ -149,8 +163,15 @@ const jsonld = {
     </div>
   </section>
 
+  <!-- QUOTE / ORDER -->
+  <section class="section tinted" id="quote">
+    <div class="container" style="max-width:680px">
+      <QuoteForm />
+    </div>
+  </section>
+
   <!-- FAQ -->
-  <section class="section tinted" id="faq">
+  <section class="section" id="faq">
     <div class="container" style="max-width:800px">
       <div class="section-head center">
         <span class="kicker">Good to know</span>
