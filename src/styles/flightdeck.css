@@ -594,3 +594,16 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 
 /* small helper line under a form field */
 .field-help { display:block; font-size:12px; line-height:1.5; color:var(--text-3); margin-top:6px; }
+
+.qw-controls .field-wide { grid-column:1 / -1; }
+
+/* review platforms — each one cited and linked, never a bare number */
+.revs { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+.rev { display:flex; align-items:center; gap:10px; background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--radius-pill); padding:10px 18px; }
+.rev:hover { border-color:var(--cobalt-line); }
+.rev-stars { color:#F5A623; font-size:14px; letter-spacing:1px; }
+.rev-dim { color:var(--line-2); }
+.rev-num { font-family:var(--mono); font-weight:600; font-size:14px; color:var(--text-1); }
+.rev-num small { color:var(--text-3); font-weight:400; }
+.rev-plat { font-size:12.5px; color:var(--text-3); }

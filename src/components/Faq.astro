@@ -1,15 +1,46 @@
 ---
-// Answers that depend on client-confirmed facts (payment methods, the
-// guarantee, delivery mechanics) are pulled from src/data/site.json and
-// fall back to an honest holding answer until confirmed — never to an
-// invented claim. See LAUNCH.md.
+// FAQ. Questions are worded to match how people actually search — Semrush
+// shows the demand is overwhelmingly in question form and per-airline
+// ("how much does it cost to buy American Airlines miles" ~260/mo, "how to
+// buy american airlines miles" ~480/mo), so programme pages ask the question
+// with the airline's name in it rather than a generic phrasing.
+//
+// Answers that depend on client-confirmed facts (payments, the guarantee,
+// delivery mechanics) come from src/data/site.json and fall back to an honest
+// holding answer — never to an invented claim. See LAUNCH.md.
+//
+// Emits FAQPage JSON-LD so the answers are eligible for rich results.
 import { site, live, paymentSentence } from "../lib/site";
 
-const { delivery = "24 hours" } = Astro.props;
-const window = delivery.replace("Within ", "");
+const {
+  delivery = "24 hours",
+  airline = null,        // e.g. "American Airlines" — switches to per-airline wording
+  program = null,        // e.g. "AAdvantage"
+  pricePerMile = null,
+  priceVerified = false,
+} = Astro.props;
 
-// Payment answer — built from the confirmed list, plus the client's own
-// wording for the "do you take cards?" question.
+const window = delivery.replace("Within ", "");
+const subject = airline ? `${airline} miles` : "airline miles";
+const approx = priceVerified ? "" : "about ";
+
+// ---- cost -------------------------------------------------------------
+const costAnswer = pricePerMile
+  ? `Buying ${subject} here costs ${approx}${pricePerMile}¢ per mile — ${approx}$${Math.round(pricePerMile * 10)} per 1,000 miles. ${priceVerified ? "That rate is confirmed" : "That rate is indicative and we confirm the exact figure"} on your quote, before any payment is made. Use the calculator on this page to price the amount you actually need.`
+  : "It depends on the programme — each has its own per-mile rate, shown on its page. Price the amount you need with the calculator and we'll confirm the exact figure on your quote, before any payment is made.";
+
+// ---- can you ----------------------------------------------------------
+const canAnswer = `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty programme.`;
+
+// ---- delivery ---------------------------------------------------------
+const deliveryAnswer = site.delivery.verified && site.delivery.howItWorks
+  ? site.delivery.howItWorks
+  : `Most transfers land in your account within ${window}. The exact window is shown on each programme's page, and you'll get confirmation the moment the transfer completes.`;
+
+// ---- worth it ---------------------------------------------------------
+const worthAnswer = `It depends on what you're booking. Buying miles makes sense when you're short of a specific redemption and the miles cost less than the cash fare — a premium-cabin seat is the usual case. It rarely makes sense to buy speculatively, without a booking in mind. Confirm the award seat is available first, then buy the shortfall.`;
+
+// ---- payments ---------------------------------------------------------
 const pay = paymentSentence();
 const paymentAnswer = pay
   ? [
@@ -20,7 +51,7 @@ const paymentAnswer = pay
     ].filter(Boolean).join(" ")
   : "We'll confirm the accepted payment methods when we send your quote. Payment is always handled off this site.";
 
-// Legitimacy answer — only cites figures the client has verified.
+// ---- legitimacy -------------------------------------------------------
 const proof = [
   live(site.trust.transfersCompleted)
     ? `We've completed ${Number(site.trust.transfersCompleted.value).toLocaleString("en-US")}+ transfers`
@@ -34,32 +65,37 @@ const legitAnswer = [
   "Yes.",
   proof ? proof + "." : "",
   site.guarantee.verified ? `Every order is backed by our ${site.guarantee.shortLabel} — ${site.guarantee.summary}` : "",
-  "You get a firm quote confirming your exact rate and delivery window before any payment is made.",
+  "You get a firm quote confirming your exact rate and delivery window before any payment is made, and the miles go into an account you already control.",
 ].filter(Boolean).join(" ");
 
-const deliveryAnswer = site.delivery.verified && site.delivery.howItWorks
-  ? site.delivery.howItWorks
-  : `Most transfers land in your account within ${window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.`;
+// ---- assembled --------------------------------------------------------
+const faqs = [
+  { q: airline ? `How much does it cost to buy ${airline} miles?` : "How much does it cost to buy airline miles?", a: costAnswer, open: true },
+  { q: airline ? `Can you buy ${airline} miles?` : "Can you buy airline miles?", a: canAnswer },
+  { q: airline ? `How fast are ${program || airline} miles delivered?` : "How fast are miles delivered?", a: deliveryAnswer },
+  { q: "Is buying airline miles worth it?", a: worthAnswer },
+  { q: "What payment methods do you accept?", a: paymentAnswer },
+  ...(site.guarantee.verified && site.guarantee.policy
+    ? [{ q: "What if my miles don't arrive?", a: site.guarantee.policy }]
+    : []),
+  { q: "Is this legitimate?", a: legitAnswer },
+  { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific programme, reach out before ordering and we'll walk you through it." },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<details class="faq" open>
-  <summary>How fast are miles delivered?<span class="mk">+</span></summary>
-  <div class="ans">{deliveryAnswer}</div>
-</details>
-<details class="faq">
-  <summary>Is this legitimate?<span class="mk">+</span></summary>
-  <div class="ans">{legitAnswer}</div>
-</details>
-<details class="faq">
-  <summary>What payment methods do you accept?<span class="mk">+</span></summary>
-  <div class="ans">{paymentAnswer}</div>
-</details>
-{site.guarantee.verified && site.guarantee.policy && (
-  <details class="faq">
-    <summary>What if my miles don't arrive?<span class="mk">+</span></summary>
-    <div class="ans">{site.guarantee.policy}</div>
+{faqs.map((f) => (
+  <details class="faq" open={f.open}>
+    <summary>{f.q}<span class="mk">+</span></summary>
+    <div class="ans">{f.a}</div>
   </details>
-)}
-<details class="faq">
-  <summary>Will buying miles affect my account?<span class="mk">+</span></summary>
-  <div class="ans">We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it.</div>
-</details>
+))}
+<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />

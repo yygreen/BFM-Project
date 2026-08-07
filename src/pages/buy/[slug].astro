@@ -149,8 +149,8 @@ const jsonld = {
   <!-- FAQ -->
   <section class="section" style="padding-top:0">
     <div class="container" style="max-width:760px">
-      <div class="section-head"><h2>{a.program} — questions, answered</h2></div>
-      <Faq delivery={a.delivery} />
+      <div class="section-head"><h2>Buying {a.airline} miles — your questions</h2></div>
+      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} />
     </div>
   </section>
 

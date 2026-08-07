@@ -117,22 +117,15 @@ const notWired = orderEmail
           <label for="qw-email">Email *</label>
           <input id="qw-email" name="email" type="email" required />
         </div>
-        <div class="field">
+        <div class="field field-wide">
           <label for="qw-contact">WhatsApp / Telegram</label>
-          <input id="qw-contact" name="contact" type="text" placeholder="Optional" />
-        </div>
-        <div class="field">
-          <label for="qw-account">Loyalty account #</label>
-          <input id="qw-account" name="account" type="text" placeholder="Optional" aria-describedby="qw-account-help" />
-          <span class="field-help" id="qw-account-help">
-            Don't have one yet? It's free to open directly with the airline — send it over once you do, or ask and we'll point you to the right page.
-          </span>
+          <input id="qw-contact" name="contact" type="text" placeholder="Optional — how you'd like us to reply" />
         </div>
       </div>
 
       <button type="submit" class="btn btn-primary qw-cta" id="qw-submit">Request my quote</button>
       <p class="form-msg" id="qw-msg" hidden></p>
-      <p class="qw-foot">Payment stays off-site · we reply by email or your chosen channel</p>
+      <p class="qw-foot">Payment stays off-site. We only ask for your loyalty account number once you've approved the quote.</p>
     </form>
   </div>
 </div>

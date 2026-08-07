@@ -33,7 +33,6 @@
     "qualifyText": "",
     "verified": false
   },
-
   "benchmark": {
     "directBuyCents": null,
     "source": "",
@@ -62,7 +61,12 @@
     "supportHours": {
       "value": "",
       "verified": false
+    },
+    "foundedYear": {
+      "value": null,
+      "verified": false
     }
   },
+  "reviews": [],
   "testimonials": []
 }

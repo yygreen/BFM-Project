@@ -29,7 +29,9 @@ const airlines = defineCollection({
 
       program: z.string().min(1),
       airline: z.string().min(1),
-      alliance: z.enum(["Star Alliance", "Oneworld", "SkyTeam"]),
+      // several US carriers (Southwest, JetBlue, Hawaiian, Frontier) belong to
+      // no alliance at all — "Independent" is a real value, not a fallback
+      alliance: z.enum(["Star Alliance", "Oneworld", "SkyTeam", "Independent"]),
 
       // 2-char IATA code, uppercase (e.g. "SQ")
       code: z.string().regex(/^[A-Z0-9]{2}$/, "code must be a 2-character uppercase IATA code"),

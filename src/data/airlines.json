@@ -302,5 +302,192 @@
         "desc": "Use Infinity MileageLands miles on alliance partners too."
       }
     ]
+  },
+  {
+    "id": "southwest-rapid-rewards",
+    "order": 9,
+    "program": "Rapid Rewards",
+    "airline": "Southwest Airlines",
+    "alliance": "Independent",
+    "code": "WN",
+    "color": "#304CB2",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Top up Southwest Rapid Rewards.",
+    "heroSub": "Short of points for the flight you want? Buy the gap and book straight through Southwest, with every seat bookable and no blackout dates.",
+    "metaTitle": "Buy Southwest Points | Rapid Rewards | buyflightmiles",
+    "metaDescription": "Buy Southwest Rapid Rewards points to top up your balance. Secure transfer into your own account, with your exact rate confirmed before you pay.",
+    "related": [
+      "jetblue-trueblue",
+      "alaska-mileage-plan",
+      "delta-skymiles"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Every seat is bookable",
+        "desc": "Rapid Rewards has no blackout dates — if a fare is for sale, points can book it, so a top-up always has somewhere to go."
+      },
+      {
+        "title": "Refundable bookings",
+        "desc": "Points bookings can be cancelled back to your account, which makes buying for a specific trip far less risky than most programmes."
+      },
+      {
+        "title": "Companion Pass holders",
+        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only — which doubles what a top-up is worth."
+      }
+    ]
+  },
+  {
+    "id": "alaska-mileage-plan",
+    "order": 10,
+    "program": "Mileage Plan",
+    "airline": "Alaska Airlines",
+    "alliance": "Oneworld",
+    "code": "AS",
+    "color": "#01426A",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Alaska Mileage Plan miles.",
+    "heroSub": "One of the most useful currencies in the air — Mileage Plan books Oneworld partners in premium cabins, and a small top-up often unlocks a far bigger seat.",
+    "metaTitle": "Buy Alaska Airlines Miles | Mileage Plan | buyflightmiles",
+    "metaDescription": "Buy Alaska Airlines Mileage Plan miles for Oneworld partner redemptions in business and first. Secure transfer, exact rate confirmed before you pay.",
+    "related": [
+      "american-aadvantage",
+      "qatar-avios",
+      "ba-avios"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Oneworld partner awards",
+        "desc": "Mileage Plan books a wide set of Oneworld carriers, so miles bought here reach cabins Alaska doesn't fly itself."
+      },
+      {
+        "title": "Long-haul premium cabins",
+        "desc": "The programme is best known for business and first-class partner redemptions rather than domestic economy — that's where a top-up earns its keep."
+      },
+      {
+        "title": "Stopovers on award tickets",
+        "desc": "Mileage Plan has historically allowed a stopover on one-way awards, which turns a single redemption into two destinations."
+      }
+    ]
+  },
+  {
+    "id": "jetblue-trueblue",
+    "order": 11,
+    "program": "TrueBlue",
+    "airline": "JetBlue",
+    "alliance": "Independent",
+    "code": "B6",
+    "color": "#003876",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy JetBlue TrueBlue points.",
+    "heroSub": "Top up for Mint transcontinental seats or a family booking — points post to your own account and book directly with JetBlue.",
+    "metaTitle": "Buy JetBlue Points | TrueBlue | buyflightmiles",
+    "metaDescription": "Buy JetBlue TrueBlue points to complete a booking, including Mint. Secure transfer into your own account, exact rate confirmed before you pay.",
+    "related": [
+      "southwest-rapid-rewards",
+      "delta-skymiles",
+      "american-aadvantage"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Mint transcontinental",
+        "desc": "JetBlue's premium transcon product is the headline use for TrueBlue points, and usually the reason people are short in the first place."
+      },
+      {
+        "title": "No blackout dates",
+        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points — a top-up is never stranded."
+      },
+      {
+        "title": "Points pooling",
+        "desc": "Balances can be shared within a family pool, so topping up one account can complete a booking for the whole group."
+      }
+    ]
+  },
+  {
+    "id": "hawaiian-miles",
+    "order": 12,
+    "program": "HawaiianMiles",
+    "airline": "Hawaiian Airlines",
+    "alliance": "Independent",
+    "code": "HA",
+    "color": "#4C1D80",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy HawaiianMiles.",
+    "heroSub": "Top up for island flights or a mainland run to Honolulu. Miles land in the account you already hold, and you book direct.",
+    "metaTitle": "Buy Hawaiian Airlines Miles | HawaiianMiles | buyflightmiles",
+    "metaDescription": "Buy Hawaiian Airlines HawaiianMiles to top up your balance for island and mainland routes. Secure transfer, exact rate confirmed before you pay.",
+    "related": [
+      "alaska-mileage-plan",
+      "delta-skymiles",
+      "united-mileageplus"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Neighbour-island hops",
+        "desc": "Short inter-island flights are among the cheapest redemptions in the programme, so a modest top-up goes a long way."
+      },
+      {
+        "title": "Mainland to Honolulu",
+        "desc": "West-coast departures are the routes most people are buying miles to complete, in economy or the premium cabin."
+      }
+    ]
+  },
+  {
+    "id": "frontier-miles",
+    "order": 13,
+    "program": "Frontier Miles",
+    "airline": "Frontier Airlines",
+    "alliance": "Independent",
+    "code": "F9",
+    "color": "#046A38",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Frontier Miles.",
+    "heroSub": "Complete a domestic booking without paying the walk-up fare. Miles transfer into your own account and book directly with Frontier.",
+    "metaTitle": "Buy Frontier Miles | buyflightmiles",
+    "metaDescription": "Buy Frontier Miles to top up your balance for domestic routes. Secure transfer into the account you already hold, exact rate confirmed before you pay.",
+    "related": [
+      "southwest-rapid-rewards",
+      "jetblue-trueblue",
+      "united-mileageplus"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Domestic short-haul",
+        "desc": "Frontier's network is built around point-to-point domestic routes, where award pricing is at its lowest."
+      },
+      {
+        "title": "Last-minute gaps",
+        "desc": "When a cash fare has spiked close to departure, completing the booking with miles is usually the cheaper route."
+      }
+    ]
   }
 ]

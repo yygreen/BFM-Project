@@ -78,7 +78,28 @@ const schema = z.object({
     completionRate: stat,
     accountLocks: stat,
     supportHours: stat,
+    // "trading since 2016" is the cheapest credible trust signal there is,
+    // and unlike a rating it can't be disputed once it's true
+    foundedYear: z.object({
+      value: z.number().int().min(1970).max(2100).nullable(),
+      verified: z.boolean(),
+    }),
   }),
+
+  // One entry per review platform, each with its own link. Deliberately a
+  // list rather than a single rating: the Google profile and Trustpilot
+  // disagree sharply, and publishing one number without naming its source
+  // is the kind of claim a sceptical buyer checks and catches.
+  reviews: z.array(
+    z.object({
+      platform: z.string().min(1),
+      rating: z.number().positive().max(5),
+      outOf: z.number().positive().default(5),
+      count: z.number().int().nonnegative().nullable(),
+      url: z.string().url().or(z.literal("")),
+      verified: z.boolean(),
+    })
+  ),
 
   testimonials: z.array(
     z.object({
@@ -105,6 +126,16 @@ export const site = parsed.data;
 /** A stat is publishable only when it's flagged verified AND actually has a value. */
 export const live = (s: { value: unknown; verified: boolean }) =>
   s.verified && s.value !== null && s.value !== "";
+
+/** Review platforms the client has confirmed, each safe to cite with a source. */
+export const realReviews = site.reviews.filter((r) => r.verified);
+
+/** Years trading, or null until the founding year is confirmed. */
+export function yearsTrading(now = 2026): number | null {
+  const f = site.trust.foundedYear;
+  if (!f.verified || f.value === null) return null;
+  return Math.max(0, now - f.value);
+}
 
 /** Testimonials the client has confirmed are real. */
 export const realTestimonials = site.testimonials.filter((t) => t.verified);
