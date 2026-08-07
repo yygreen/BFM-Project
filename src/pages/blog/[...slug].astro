@@ -4,7 +4,7 @@ import PostHero from "../../components/PostHero.astro";
 import PostCard from "../../components/PostCard.astro";
 import BlogSidebar from "../../components/BlogSidebar.astro";
 import { getCollection, render } from "astro:content";
-import { getPosts, categorySlug, formatDate } from "../../lib/blog";
+import { getPosts, categorySlug, formatDate, readingTime } from "../../lib/blog";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -13,8 +13,20 @@ export async function getStaticPaths() {
 }
 
 const { post, airlines, posts } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const d = post.data;
+
+const mins = readingTime(post.body);
+
+// Table of contents from the post's own h2s. Only worth rendering when the
+// piece is actually long enough to need one.
+const toc = headings.filter((h) => h.depth === 2);
+const showToc = toc.length >= 3;
+
+// Chronological neighbours (posts[] is newest-first).
+const idx = posts.findIndex((p) => p.id === post.id);
+const newer = idx > 0 ? posts[idx - 1] : null;
+const older = idx < posts.length - 1 ? posts[idx + 1] : null;
 
 // `programs` are validated as strings by the schema; check they actually
 // resolve here so a typo'd slug surfaces at build time rather than as a 404.
@@ -59,6 +71,7 @@ const jsonld = {
           <a class="badge badge-cat" href={`/blog/category/${categorySlug(d.category)}`}>{d.category}</a>
           <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
           {d.updated && <span class="upd">Updated {formatDate(d.updated)}</span>}
+          <span class="upd">{mins} min read</span>
         </div>
         <h1>{d.title}</h1>
         <p class="post-sub">{d.description}</p>
@@ -70,6 +83,17 @@ const jsonld = {
 
       <div class="blog-layout">
         <div class="blog-main">
+          {showToc && (
+            <nav class="toc" aria-label="On this page">
+              <h4>On this page</h4>
+              <ol>
+                {toc.map((h) => (
+                  <li><a href={`#${h.slug}`}>{h.text}</a></li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
           <div class="prose">
             <Content />
           </div>
@@ -98,6 +122,23 @@ const jsonld = {
             <p>Tell us the programme and the amount — we'll confirm your exact rate and delivery before you pay anything.</p>
             <a class="btn btn-primary" href="/#quote">Request a quote</a>
           </section>
+
+          {(newer || older) && (
+            <nav class="post-nav" aria-label="More posts">
+              {older ? (
+                <a class="pn prev" href={`/blog/${older.id}`}>
+                  <span class="pn-lab">← Previous</span>
+                  <span class="pn-t">{older.data.title}</span>
+                </a>
+              ) : <span />}
+              {newer && (
+                <a class="pn next" href={`/blog/${newer.id}`}>
+                  <span class="pn-lab">Next →</span>
+                  <span class="pn-t">{newer.data.title}</span>
+                </a>
+              )}
+            </nav>
+          )}
 
           {more.length > 0 && (
             <section class="post-more">

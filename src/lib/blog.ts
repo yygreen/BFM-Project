@@ -39,3 +39,24 @@ export async function getCategoryCounts() {
 
 export const formatDate = (d: Date) =>
   d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+
+/**
+ * Reading time in whole minutes, from the raw Markdown body. Strips frontmatter
+ * leftovers, HTML comments, code fences and link syntax first so markup doesn't
+ * inflate the count. Floor of 1.
+ */
+export function readingTime(body = ""): number {
+  const text = body
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/[#>*_`~|-]/g, " ");
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 220));
+}
+
+/** Posts that reference a given programme slug, newest first. */
+export async function getPostsForProgram(slug: string) {
+  const posts = await getPosts();
+  return posts.filter((p) => p.data.programs.includes(slug));
+}

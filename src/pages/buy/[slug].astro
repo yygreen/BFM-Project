@@ -6,14 +6,26 @@ import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
 import Calculator from "../../components/Calculator.astro";
 import QuoteForm from "../../components/QuoteForm.astro";
+import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
+import { getPosts } from "../../lib/blog";
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
-  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a, airlines } }));
+  const posts = await getPosts();
+  return airlines.map((a) => ({
+    params: { slug: a.slug },
+    props: {
+      a,
+      airlines,
+      // journal posts that reference this programme — bidirectional linking,
+      // so the blog feeds the money pages rather than sitting beside them
+      posts: posts.filter((p) => p.data.programs.includes(a.slug)).slice(0, 2),
+    },
+  }));
 }
 
-const { a, airlines } = Astro.props;
+const { a, airlines, posts } = Astro.props;
 const per1000 = Math.round(a.pricePerMile * 10);
 const verified = a.priceVerified;
 const related = a.related
@@ -153,6 +165,21 @@ const jsonld = {
       <Faq delivery={a.delivery} />
     </div>
   </section>
+
+  <!-- FROM THE JOURNAL -->
+  {posts.length > 0 && (
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Journal</span>
+          <h2>Latest on {a.program}</h2>
+        </div>
+        <div class="postlist postlist-2">
+          {posts.map((p) => <PostCard post={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- RELATED -->
   {related.length > 0 && (

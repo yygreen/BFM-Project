@@ -47,16 +47,58 @@ const jsonld = {
       ) : (
         <div class="blog-layout">
           <div class="blog-main">
-            {lead && <PostCard post={lead} lead={true} />}
-            {rest.length > 0 && (
-              <div class="postlist">
-                {rest.map((p) => <PostCard post={p} />)}
-              </div>
-            )}
+            <div class="blog-search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="post-search" type="search" placeholder="Search posts…" aria-label="Search posts" autocomplete="off" />
+            </div>
+            <p class="search-none" id="search-none" hidden>No posts match that search.</p>
+
+            <div id="post-results">
+              {lead && (
+                <div class="post-slot" data-title={lead.data.title.toLowerCase()} data-desc={lead.data.description.toLowerCase()} data-cat={lead.data.category.toLowerCase()}>
+                  <PostCard post={lead} lead={true} />
+                </div>
+              )}
+              {rest.length > 0 && (
+                <div class="postlist">
+                  {rest.map((p) => (
+                    <div class="post-slot" data-title={p.data.title.toLowerCase()} data-desc={p.data.description.toLowerCase()} data-cat={p.data.category.toLowerCase()}>
+                      <PostCard post={p} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <BlogSidebar />
         </div>
       )}
     </div>
   </section>
+
+  <script is:inline>
+    // Progressive filter over the already-rendered cards — no index to fetch,
+    // and the full list is in the HTML for crawlers whether or not JS runs.
+    (function () {
+      const input = document.getElementById("post-search");
+      if (!input) return;
+      const slots = Array.from(document.querySelectorAll(".post-slot"));
+      const none = document.getElementById("search-none");
+
+      input.addEventListener("input", function () {
+        const q = input.value.trim().toLowerCase();
+        let shown = 0;
+        slots.forEach((s) => {
+          const hit =
+            !q ||
+            s.dataset.title.includes(q) ||
+            s.dataset.desc.includes(q) ||
+            s.dataset.cat.includes(q);
+          s.hidden = !hit;
+          if (hit) shown++;
+        });
+        none.hidden = shown > 0;
+      });
+    })();
+  </script>
 </Base>

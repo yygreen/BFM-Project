@@ -24,22 +24,32 @@ const PALETTES: Record<string, [string, string, string]> = {
 const [c1, c2, tint] = PALETTES[category] ?? PALETTES.Guide;
 
 const uid = `ph-${slug.replace(/[^a-z0-9]/gi, "")}-${variant}`;
-const W = 1200;
-const H = variant === "wide" ? 480 : 620;
 
-// arc geometry — start/end nodes and curvature vary per post
-const y0 = 300 + pick(60, 3) - 30;
-const y1 = 180 + pick(80, 6);
-const lift = 150 + pick(90, 9);
-const cx = 600 + pick(120, 12) - 60;
+// The card slot is portrait-ish and the art is cropped with `slice`, so a
+// 1200-wide composition would show only a narrow strip. Match the viewBox
+// roughly to the slot and derive all geometry from it.
+const W = variant === "wide" ? 1200 : 640;
+const H = variant === "wide" ? 480 : 600;
+
+const x0 = W * 0.13;
+const x1 = W * 0.87;
+const scale = H / 480;
+
+// arc geometry — endpoints and curvature vary per post
+const y0 = (300 + pick(60, 3) - 30) * scale;
+const y1 = (180 + pick(80, 6)) * scale;
+const lift = (150 + pick(90, 9)) * scale;
+const cx = W * 0.5 + (pick(120, 12) - 60) * (W / 1200);
 const cy = Math.min(y0, y1) - lift;
-const path = `M 140 ${y0} Q ${cx} ${cy} 1060 ${y1}`;
+const path = `M ${x0} ${y0} Q ${cx} ${cy} ${x1} ${y1}`;
 
 // Put the plane ON the arc: midpoint of the quadratic at t=0.5 is
 // ¼P₀ + ½C + ¼P₂, and its tangent there simplifies to (P₂ − P₀).
-const mx = 0.25 * 140 + 0.5 * cx + 0.25 * 1060;
+const mx = 0.25 * x0 + 0.5 * cx + 0.25 * x1;
 const my = 0.25 * y0 + 0.5 * cy + 0.25 * y1;
-const angle = (Math.atan2(y1 - y0, 1060 - 140) * 180) / Math.PI;
+const angle = (Math.atan2(y1 - y0, x1 - x0) * 180) / Math.PI;
+const gx = W / 8;
+const gy = H / 4;
 ---
 {image ? (
   <img class={`posthero-img ${variant}`} src={image} alt={imageAlt || title} loading="lazy" decoding="async" />
@@ -67,25 +77,25 @@ const angle = (Math.atan2(y1 - y0, 1060 - 140) * 180) / Math.PI;
     </defs>
 
     <rect width={W} height={H} fill={`url(#${uid}-bg)`} />
-    <circle cx={190 + pick(160, 2)} cy={90 + pick(70, 4)} r="240" fill={`url(#${uid}-blob)`} />
-    <circle cx={980 - pick(150, 5)} cy={H - 60 - pick(60, 7)} r="210" fill={`url(#${uid}-blob)`} />
+    <circle cx={W * 0.16 + pick(160, 2) * (W / 1200)} cy={H * 0.19 + pick(70, 4) * scale} r={W * 0.2 + 60} fill={`url(#${uid}-blob)`} />
+    <circle cx={W * 0.82 - pick(150, 5) * (W / 1200)} cy={H - 60 * scale - pick(60, 7) * scale} r={W * 0.175 + 60} fill={`url(#${uid}-blob)`} />
 
     <!-- faint grid, keeps it feeling instrument-panel rather than decorative -->
     <g stroke={c1} stroke-opacity=".07" stroke-width="1">
-      {Array.from({ length: 11 }, (_, i) => (
-        <line x1={i * 120} y1="0" x2={i * 120} y2={H} />
+      {Array.from({ length: 9 }, (_, i) => (
+        <line x1={i * gx} y1="0" x2={i * gx} y2={H} />
       ))}
       {Array.from({ length: 5 }, (_, i) => (
-        <line x1="0" y1={i * (H / 4)} x2={W} y2={i * (H / 4)} />
+        <line x1="0" y1={i * gy} x2={W} y2={i * gy} />
       ))}
     </g>
 
     <path d={path} fill="none" stroke={`url(#${uid}-arc)`} stroke-width="3.5" stroke-dasharray="11 9" stroke-linecap="round" />
 
-    <circle cx="140" cy={y0} r="15" fill="#fff" stroke={c1} stroke-width="4" />
-    <circle cx="140" cy={y0} r="5" fill={c1} />
-    <circle cx="1060" cy={y1} r="21" fill={c1} />
-    <circle cx="1060" cy={y1} r="9" fill="#fff" />
+    <circle cx={x0} cy={y0} r="15" fill="#fff" stroke={c1} stroke-width="4" />
+    <circle cx={x0} cy={y0} r="5" fill={c1} />
+    <circle cx={x1} cy={y1} r="21" fill={c1} />
+    <circle cx={x1} cy={y1} r="9" fill="#fff" />
 
     <!-- paper-plane mark riding the arc, pointing along the route -->
     <g transform={`translate(${mx} ${my}) rotate(${angle}) translate(-26 -19)`}>

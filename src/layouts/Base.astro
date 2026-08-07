@@ -41,6 +41,8 @@ const canonical = new URL(slug, site).href;
   <meta property="og:url" content={canonical} />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <link rel="alternate" type="application/rss+xml" title="buyflightmiles — Miles news &amp; guides" href="/rss.xml" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -161,6 +163,7 @@ const canonical = new URL(slug, site).href;
           {blogCategories.map((c) => (
             <a href={`/blog/category/${c.slug}`}>{c.name}</a>
           ))}
+          <a href="/rss.xml">RSS feed</a>
         </div>
         <div>
           <h5>Company</h5>

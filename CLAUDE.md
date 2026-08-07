@@ -52,6 +52,16 @@ build-time contract as the airline data. Copy `_template-news-post.md` to start 
   link — that internal linking is most of the SEO value of posting.
 - `title` (≤75) and `description` (≤200) are used verbatim as SEO meta; write them for a
   search result. Posts emit Article JSON-LD and land in the sitemap automatically.
+- `image` (path under `/public`) overrides the generated hero art in `PostHero.astro`;
+  without it a deterministic on-brand SVG is drawn from the slug, so **no layout ever
+  depends on art that doesn't exist yet**.
+- `featured: true` pins a post to the top of `/blog`.
+
+Comes with: `/blog/category/{slug}` archives (generated only for categories that have
+posts), an RSS feed at `/rss.xml` with autodiscovery, client-side search over the rendered
+cards, per-post reading time, a table of contents on posts with 3+ `h2`s, prev/next
+navigation, and a "Latest on {program}" block on each `/buy/*` page driven by the post's
+`programs` list — the blog feeds the money pages in both directions.
 
 ## Design system: "Warm Deck"
 
