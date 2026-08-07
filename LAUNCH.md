@@ -21,6 +21,27 @@ placeholder number, it doesn't ship at all. So the site is honest and publishabl
 and each client answer switches on one more piece. Filling in a value is one edit; flipping
 the flag is what publishes it.
 
+## The `placeholder` escape hatch — staging only
+
+A few trust values in `site.json` currently carry **`"placeholder": true`** alongside
+`"verified": true`. That combination means: *this number renders, but nobody has confirmed
+it.* It exists so the trust section can be design-reviewed as a populated layout instead of
+a half-empty grid — you cannot judge spacing, tile count or the review badges against
+suppressed data.
+
+`npm run check:launch` treats **every placeholder as a BLOCKER**, so the site cannot be
+declared launch-ready while one is present. To clear one, either:
+
+- replace the value with the confirmed figure and **delete the `"placeholder": true` line**, or
+- set `"verified": false` to hide the claim again.
+
+Currently staged (all fictive until the client confirms): Trustpilot 4.8/5 (2,000 reviews),
+Google 2.6/5 (41 reviews), founded 2016, 10,000 transfers, 99.9% completion.
+
+> The Trustpilot **TrustBox embed** is a separate thing and is *not* staged — it needs a real
+> `businessUnitId`/`templateId` from the Trustpilot dashboard and loads their script, so it
+> ships nothing at all until then. What renders today is our own review badge.
+
 ---
 
 ## Blockers — needed before taking real orders

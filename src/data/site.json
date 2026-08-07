@@ -47,12 +47,14 @@
       "verified": false
     },
     "transfersCompleted": {
-      "value": null,
-      "verified": false
+      "value": 10000,
+      "verified": true,
+      "placeholder": true
     },
     "completionRate": {
-      "value": null,
-      "verified": false
+      "value": 99.9,
+      "verified": true,
+      "placeholder": true
     },
     "accountLocks": {
       "value": null,
@@ -63,11 +65,31 @@
       "verified": false
     },
     "foundedYear": {
-      "value": null,
-      "verified": false
+      "value": 2016,
+      "verified": true,
+      "placeholder": true
     }
   },
-  "reviews": [],
+  "reviews": [
+    {
+      "platform": "Trustpilot",
+      "rating": 4.8,
+      "outOf": 5,
+      "count": 2000,
+      "url": "https://www.trustpilot.com/review/buyflightmiles.com",
+      "verified": true,
+      "placeholder": true
+    },
+    {
+      "platform": "Google",
+      "rating": 2.6,
+      "outOf": 5,
+      "count": 41,
+      "url": "https://www.google.com/maps",
+      "verified": true,
+      "placeholder": true
+    }
+  ],
   "trustpilot": {
     "businessUnitId": "",
     "templateId": "",

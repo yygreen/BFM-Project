@@ -19,7 +19,15 @@ import raw from "../data/site.json";
 //  `npm run check:launch` prints exactly what's still outstanding.
 // ============================================================
 
-const stat = z.object({ value: z.union([z.number(), z.string()]).nullable(), verified: z.boolean() });
+// `placeholder: true` means "this renders, but it is NOT confirmed". It exists
+// so the client can design-review a populated trust section without the numbers
+// being mistaken for real ones — check:launch treats any placeholder as a
+// BLOCKER, so the site cannot be declared launch-ready while one is present.
+const stat = z.object({
+  value: z.union([z.number(), z.string()]).nullable(),
+  verified: z.boolean(),
+  placeholder: z.boolean().default(false),
+});
 
 const schema = z.object({
   payments: z.object({
@@ -83,6 +91,7 @@ const schema = z.object({
     foundedYear: z.object({
       value: z.number().int().min(1970).max(2100).nullable(),
       verified: z.boolean(),
+      placeholder: z.boolean().default(false),
     }),
   }),
 
@@ -98,6 +107,7 @@ const schema = z.object({
       count: z.number().int().nonnegative().nullable(),
       url: z.string().url().or(z.literal("")),
       verified: z.boolean(),
+      placeholder: z.boolean().default(false),
     })
   ),
 

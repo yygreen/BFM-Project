@@ -119,7 +119,7 @@ if (!realReviews.length) {
     "No verified review platforms — the site shows no rating anywhere",
     'src/data/site.json → reviews: [{ platform, rating, count, url, verified: true }] — one entry per platform, each with its link',
   ]);
-} else done.push(["12", `${realReviews.length} review platform(s) cited: ${realReviews.map((r) => r.platform).join(", ")}`]);
+} else done.push(["12", `${realReviews.length} review platform(s) cited: ${realReviews.map((r) => r.platform + (r.placeholder ? " (PLACEHOLDER)" : "")).join(", ")}`]);
 
 const tp = site.trustpilot || {};
 if (!tp.verified || !tp.businessUnitId || !tp.templateId) {
@@ -136,7 +136,7 @@ if (!site.trust.foundedYear.verified || site.trust.foundedYear.value === null) {
     "Founding year unconfirmed — the years-trading tile is suppressed",
     "src/data/site.json → trust.foundedYear — the cheapest credible trust signal, and undisputable once true",
   ]);
-} else done.push(["12", `Trading since ${site.trust.foundedYear.value}`]);
+} else done.push(["12", `Trading since ${site.trust.foundedYear.value}${site.trust.foundedYear.placeholder ? " (PLACEHOLDER)" : ""}`]);
 
 const stats = Object.entries(site.trust).filter(([k, s]) => k !== "foundedYear" && (!s.verified || s.value === null || s.value === ""));
 if (stats.length) {
@@ -144,6 +144,22 @@ if (stats.length) {
     "12",
     `${stats.length} trust stat(s) suppressed (not rendered): ${stats.map(([k]) => k).join(", ")}`,
     "src/data/site.json → trust.*.value + verified: true — real numbers only",
+  ]);
+}
+
+// ── Placeholder sweep — staged values that must never reach production ──
+const placeholders = [];
+for (const [k, v] of Object.entries(site.trust)) {
+  if (v && v.placeholder) placeholders.push(`trust.${k} = ${JSON.stringify(v.value)}`);
+}
+for (const r of site.reviews || []) {
+  if (r.placeholder) placeholders.push(`reviews → ${r.platform} ${r.rating}/${r.outOf}${r.count ? ` (${r.count} reviews)` : ""}`);
+}
+if (placeholders.length) {
+  blocking.push([
+    "12",
+    `${placeholders.length} PLACEHOLDER value(s) are RENDERING ON THE SITE — staged for design review, NOT confirmed:\n       ${placeholders.join("\n       ")}`,
+    'Replace with confirmed figures and delete `"placeholder": true`, or set verified:false to hide them again. The site cannot go live while any remain.',
   ]);
 }
 
