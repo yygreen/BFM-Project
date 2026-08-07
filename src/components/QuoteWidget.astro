@@ -1,0 +1,247 @@
+---
+// Two-step quote widget: price first, details second, no page scroll between
+// them. Replaces the old calculator-then-scroll-to-a-form-at-the-bottom flow,
+// where the estimate a visitor had just built sat one long scroll away from
+// the thing that captures it.
+//
+// Step 2 keeps the amount editable and the price live, so changing your mind
+// about how many miles you need never means going back a step.
+//
+// Payment still stays off this site — this is a quote request that emails us.
+import { getCollection } from "astro:content";
+import { site, quoteFormReady, directBuyRate } from "../lib/site";
+
+const { defaultSlug = null, heading = "What will your miles cost?", sub = "Any programme, any amount — priced instantly." } = Astro.props;
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.order - b.order);
+
+const data = airlines.map((a) => ({
+  slug: a.slug,
+  label: `${a.airline} — ${a.program}`,
+  rate: a.pricePerMile,
+  verified: a.priceVerified,
+  delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
+  min: a.min,
+  max: a.max,
+  direct: directBuyRate(a.directBuyCents),
+}));
+
+const start = defaultSlug
+  ? data.find((d) => d.slug === defaultSlug) ?? data[0]
+  : data.find((d) => d.verified) ?? data[0];
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+const notWired = orderEmail
+  ? `Quote requests aren't connected yet — please email ${orderEmail} and we'll price it for you.`
+  : "Quote requests aren't connected yet — please contact us directly and we'll price it for you.";
+---
+<div class="qw" data-key={accessKey ? "1" : ""}>
+  <script type="application/json" set:html={JSON.stringify(data)} class="qw-data"></script>
+  <input type="hidden" id="qw-fallback" value={notWired} />
+
+  <div class="qw-head">
+    <div>
+      <span class="qw-title">{heading}</span>
+      <span class="qw-sub">{sub}</span>
+    </div>
+    <ol class="qw-dots" aria-hidden="true">
+      <li class="on" data-dot="1"></li>
+      <li data-dot="2"></li>
+    </ol>
+  </div>
+
+  <!-- STEP 1 — price -->
+  <div class="qw-step" data-step="1">
+    <div class="qw-controls">
+      <div class="field">
+        <label for="qw-program">Programme</label>
+        <select id="qw-program">
+          {data.map((d) => <option value={d.slug} selected={d.slug === start.slug}>{d.label}</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for="qw-miles">How many miles?</label>
+        <input id="qw-miles" type="number" inputmode="numeric" min="1000" step="1000" value="60000" />
+      </div>
+    </div>
+
+    <div class="qw-out">
+      <div>
+        <span class="qw-k">Estimated cost</span>
+        <div class="qw-cost" id="qw-cost">—</div>
+        <span class="qw-per" id="qw-per"></span>
+      </div>
+      <div class="qw-side">
+        <div class="qw-row"><span>Rate</span><b id="qw-rate">—</b></div>
+        <div class="qw-row" id="qw-delivery-row"><span>Delivery</span><b id="qw-delivery">—</b></div>
+        <div class="qw-row qw-save" id="qw-save-row" hidden><span id="qw-save-k">You save</span><b id="qw-save">—</b></div>
+      </div>
+    </div>
+
+    <p class="qw-note" id="qw-note" hidden>Indicative rate — request a quote and we'll confirm your exact price.</p>
+    <button type="button" class="btn btn-primary qw-cta" id="qw-next">Continue →</button>
+  </div>
+
+  <!-- STEP 2 — details -->
+  <div class="qw-step" data-step="2" hidden>
+    <div class="qw-recap">
+      <button type="button" class="qw-back" id="qw-back">← Change programme</button>
+      <div class="qw-recap-row">
+        <span class="qw-recap-prog" id="qw-recap-prog"></span>
+        <label class="qw-recap-edit">
+          <span class="sr-only">Miles</span>
+          <input id="qw-miles-2" type="number" inputmode="numeric" min="1000" step="1000" />
+          <span>miles</span>
+        </label>
+        <b class="qw-recap-cost" id="qw-recap-cost"></b>
+      </div>
+    </div>
+
+    <form class="qw-form" id="qw-form">
+      <input type="hidden" name="access_key" value={accessKey} />
+      <input type="hidden" name="subject" value="New quote / order request — buyflightmiles" />
+      <input type="hidden" name="programme" id="qw-f-programme" />
+      <input type="hidden" name="miles" id="qw-f-miles" />
+      <input type="hidden" name="estimate" id="qw-f-estimate" />
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+      <div class="qw-controls">
+        <div class="field">
+          <label for="qw-name">Name *</label>
+          <input id="qw-name" name="name" type="text" required />
+        </div>
+        <div class="field">
+          <label for="qw-email">Email *</label>
+          <input id="qw-email" name="email" type="email" required />
+        </div>
+        <div class="field">
+          <label for="qw-contact">WhatsApp / Telegram</label>
+          <input id="qw-contact" name="contact" type="text" placeholder="Optional" />
+        </div>
+        <div class="field">
+          <label for="qw-account">Loyalty account #</label>
+          <input id="qw-account" name="account" type="text" placeholder="Optional" />
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary qw-cta" id="qw-submit">Request my quote</button>
+      <p class="form-msg" id="qw-msg" hidden></p>
+      <p class="qw-foot">Payment stays off-site · we reply by email or your chosen channel</p>
+    </form>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const root = document.querySelector(".qw");
+    if (!root) return;
+    const data = JSON.parse(root.querySelector(".qw-data").textContent);
+    const byId = Object.fromEntries(data.map((d) => [d.slug, d]));
+    const $ = (id) => document.getElementById(id);
+    const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+
+    const prog = $("qw-program");
+    const miles1 = $("qw-miles");
+    const miles2 = $("qw-miles-2");
+
+    function amount() {
+      const m = parseInt(miles1.value, 10);
+      return Number.isFinite(m) && m > 0 ? m : 0;
+    }
+
+    function render() {
+      const c = byId[prog.value];
+      const m = amount();
+      const cost = (m * c.rate) / 100;
+      const approx = c.verified ? "" : "~";
+
+      $("qw-cost").textContent = m ? approx + usd(cost) : "$0";
+      $("qw-per").textContent = "≈ " + approx + "$" + Math.round(c.rate * 10) + " per 1,000 miles";
+      $("qw-rate").textContent = approx + c.rate + "¢/mi";
+      $("qw-delivery").textContent = c.delivery || "On quote";
+      $("qw-note").hidden = c.verified;
+
+      // savings only against a sourced airline rate
+      const saveRow = $("qw-save-row");
+      if (c.direct && c.direct > c.rate && m) {
+        $("qw-save-k").textContent = "You save vs " + c.direct + "¢ direct";
+        $("qw-save").textContent = usd(Math.max(0, (m * c.direct) / 100 - cost));
+        saveRow.hidden = false;
+      } else {
+        saveRow.hidden = true;
+      }
+
+      // step 2 recap + hidden fields that actually get emailed
+      $("qw-recap-prog").textContent = c.label;
+      $("qw-recap-cost").textContent = m ? approx + usd(cost) : "—";
+      if (document.activeElement !== miles2) miles2.value = m || "";
+      $("qw-f-programme").value = c.label;
+      $("qw-f-miles").value = m;
+      $("qw-f-estimate").value = m ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
+    }
+
+    prog.addEventListener("change", render);
+    miles1.addEventListener("input", render);
+    // editing the amount on step 2 drives step 1's field, so there is one source of truth
+    miles2.addEventListener("input", () => { miles1.value = miles2.value; render(); });
+
+    function show(step) {
+      root.querySelectorAll(".qw-step").forEach((el) => {
+        el.hidden = el.dataset.step !== String(step);
+      });
+      root.querySelectorAll(".qw-dots li").forEach((el) => {
+        el.classList.toggle("on", Number(el.dataset.dot) <= step);
+      });
+    }
+
+    $("qw-next").addEventListener("click", () => {
+      if (!amount()) { miles1.focus(); return; }
+      show(2);
+      $("qw-name").focus({ preventScroll: true });
+    });
+    $("qw-back").addEventListener("click", () => {
+      show(1);
+      prog.focus({ preventScroll: true });
+    });
+
+    // submit
+    const form = $("qw-form");
+    const msg = $("qw-msg");
+    const btn = $("qw-submit");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!root.dataset.key) {
+        msg.textContent = $("qw-fallback").value;
+        msg.className = "form-msg err"; msg.hidden = false; return;
+      }
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.reset();
+          msg.textContent = "Thanks — your request is in. We'll confirm your exact rate and delivery shortly.";
+          msg.className = "form-msg ok";
+        } else {
+          msg.textContent = json.message || "Something went wrong. Please email us instead.";
+          msg.className = "form-msg err";
+        }
+      } catch (err) {
+        msg.textContent = "Network error. Please try again, or email us directly.";
+        msg.className = "form-msg err";
+      } finally {
+        msg.hidden = false; btn.disabled = false; btn.textContent = label;
+      }
+    });
+
+    render();
+  })();
+</script>

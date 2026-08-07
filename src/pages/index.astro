@@ -5,8 +5,7 @@ import CompareTable from "../components/CompareTable.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
-import Calculator from "../components/Calculator.astro";
-import QuoteForm from "../components/QuoteForm.astro";
+import QuoteWidget from "../components/QuoteWidget.astro";
 import { getCollection } from "astro:content";
 import { site, live, realTestimonials } from "../lib/site";
 
@@ -85,12 +84,8 @@ const jsonld = {
           )}
         </div>
         <div class="hero-art">
-          <div class="hero-calc">
-            <div class="hc-head">
-              <span class="hc-title">What will your miles cost?</span>
-              <span class="hc-sub">Any programme, any amount — priced instantly.</span>
-            </div>
-            <Calculator quoteHref="#quote" />
+          <div class="hero-calc" id="quote">
+            <QuoteWidget />
           </div>
         </div>
       </div>
@@ -187,15 +182,8 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- QUOTE / ORDER -->
-  <section class="section tinted" id="quote">
-    <div class="container" style="max-width:680px">
-      <QuoteForm />
-    </div>
-  </section>
-
   <!-- FAQ -->
-  <section class="section" id="faq">
+  <section class="section tinted" id="faq">
     <div class="container" style="max-width:800px">
       <div class="section-head center">
         <span class="kicker">Good to know</span>

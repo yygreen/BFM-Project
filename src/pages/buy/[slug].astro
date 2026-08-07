@@ -4,8 +4,7 @@ import PricingCard from "../../components/PricingCard.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
 import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
-import Calculator from "../../components/Calculator.astro";
-import QuoteForm from "../../components/QuoteForm.astro";
+import QuoteWidget from "../../components/QuoteWidget.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
@@ -67,7 +66,7 @@ const jsonld = {
           <p class="sub">{a.heroSub}</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#quote">{verified ? `Buy ${a.program}` : "Request a live quote"}</a>
-            <a class="btn btn-secondary" href="#worth">What's it cost?</a>
+            <a class="btn btn-secondary" href="#quote">What's it cost?</a>
           </div>
           <div class="spec">
             <span><b>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast"}</b> delivery</span><span>·</span>
@@ -79,18 +78,6 @@ const jsonld = {
           <PricingCard a={a} cta={`Buy ${a.program}`} />
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- WHAT IT COSTS (calculator) -->
-  <section class="section tinted" id="worth">
-    <div class="container" style="max-width:760px">
-      <div class="section-head center">
-        <span class="kicker">Miles calculator</span>
-        <h2>What will {a.program} miles cost?</h2>
-        <p>Move the amount to see the estimate{verified ? "" : " — we confirm your exact rate on the quote"}.</p>
-      </div>
-      <Calculator defaultSlug={a.slug} quoteHref="#quote" />
     </div>
   </section>
 
@@ -153,8 +140,8 @@ const jsonld = {
 
   <!-- QUOTE / ORDER -->
   <section class="section tinted" id="quote">
-    <div class="container" style="max-width:680px">
-      <QuoteForm heading={`Buy ${a.program} — request your quote`} />
+    <div class="container" style="max-width:760px">
+      <QuoteWidget defaultSlug={a.slug} heading={`What will ${a.program} miles cost?`} sub="Price it, then send the request — we confirm your exact rate before you pay." />
     </div>
   </section>
 
