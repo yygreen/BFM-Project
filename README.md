@@ -15,10 +15,11 @@ npm run preview    # preview the production build
 
 ```
 src/
-  data/airlines.js         ← the single source of truth. Add a program here → a page appears.
+  data/airlines.json       ← the single source of truth. Add a program here → a page appears.
+  content.config.ts        ← Zod schema; validates airlines.json at build time
   styles/flightdeck.css    ← the whole design system (tokens + components)
   layouts/Base.astro       ← HTML shell, SEO meta, JSON-LD, header/footer
-  components/               ← PricingCard, TrustStrip, CompareTable, Faq
+  components/               ← PricingCard, TrustStrip, CompareTable, Faq, Emblem, Testimonials
   pages/
     index.astro            ← homepage (hero, program grid, trust, compare, how-it-works, FAQ)
     buy/[slug].astro       ← the airline page template (generates all program pages)
@@ -26,26 +27,34 @@ src/
 
 ## Add or edit a program
 
-Open `src/data/airlines.js` and add an object (or edit an existing one):
+Open `src/data/airlines.json` and add an entry (or edit an existing one). The `id` is the URL slug:
 
-```js
+```json
 {
-  slug: "air-canada-aeroplan",
-  program: "Aeroplan",
-  airline: "Air Canada",
-  alliance: "Star Alliance",
-  pricePerMile: 1.7,          // cents
-  min: 25000, max: 500000,
-  delivery: "Within 48 hours",
-  inStock: true,
-  heroHeadline: "Buy Air Canada Aeroplan miles.",
-  heroSub: "…",
-  metaTitle: "…", metaDescription: "…",
-  related: ["united-mileageplus", "ana"]
+  "id": "air-canada-aeroplan",
+  "order": 9,
+  "program": "Aeroplan",
+  "airline": "Air Canada",
+  "alliance": "Star Alliance",
+  "code": "AC",
+  "color": "#D82A20",
+  "pricePerMile": 1.7,
+  "priceVerified": false,
+  "min": 25000,
+  "max": 500000,
+  "delivery": "Within 48 hours",
+  "deliveryVerified": false,
+  "inStock": true,
+  "heroHeadline": "Buy Air Canada Aeroplan miles.",
+  "heroSub": "…",
+  "metaTitle": "…",
+  "metaDescription": "…",
+  "related": ["united-mileageplus", "ana"],
+  "sweetSpots": []
 }
 ```
 
-Rebuild and the page exists at `/buy/air-canada-aeroplan/`.
+Rebuild and the page exists at `/buy/air-canada-aeroplan/`. The schema in `content.config.ts` validates every field, so a typo or a missing value fails the build with a clear error instead of shipping a broken page. Set `priceVerified` / `deliveryVerified` to `true` once the numbers are confirmed real.
 
 ## Deploy
 

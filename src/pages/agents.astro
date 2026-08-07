@@ -1,10 +1,13 @@
 ---
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
-import { airlines } from "../data/airlines.js";
+import { getCollection } from "astro:content";
 
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.order - b.order);
 const coverage = airlines.slice(0, 8);
-const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F4FA3" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>';
+const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>';
 
 const jsonld = {
   "@context": "https://schema.org",

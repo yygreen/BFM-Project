@@ -4,13 +4,14 @@ import PricingCard from "../../components/PricingCard.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
 import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
-import { airlines } from "../../data/airlines.js";
+import { getCollection } from "astro:content";
 
-export function getStaticPaths() {
-  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a, airlines } }));
 }
 
-const { a } = Astro.props;
+const { a, airlines } = Astro.props;
 const per1000 = Math.round(a.pricePerMile * 10);
 const related = a.related
   .map((slug) => airlines.find((x) => x.slug === slug))
