@@ -8,6 +8,7 @@ import QuoteWidget from "../../components/QuoteWidget.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
+import { site } from "../../lib/site";
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
@@ -71,7 +72,7 @@ const jsonld = {
           <div class="spec">
             <span><b>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast"}</b> delivery</span><span>·</span>
             <span><b>{verified ? "" : "~"}{a.pricePerMile}¢</b> / mile</span><span>·</span>
-            <span><b>Guaranteed</b></span>
+            <span><b>{site.guarantee.verified ? "Guaranteed" : "Quoted first"}</b></span>
           </div>
         </div>
         <div id="buy">

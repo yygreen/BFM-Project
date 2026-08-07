@@ -2,7 +2,7 @@
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import { getCollection } from "astro:content";
-import { site, agentFormReady } from "../lib/site";
+import { site, agentFormReady, paymentSentence } from "../lib/site";
 
 // Partner-application form key + fallback inbox come from src/data/site.json:
 // set contact.web3formsKeyAgents + contact.agentEmail, flip contact.verified.
@@ -16,6 +16,23 @@ const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
 const coverage = airlines.slice(0, 8);
+// Payment answer follows the same rule as the rest of the site: built from
+// confirmed methods, or an honest holding line — never a placeholder.
+const pay = paymentSentence();
+const partnerPayAnswer = pay
+  ? [
+      `We accept ${pay}.`,
+      site.payments.usdtNetworks.length ? `USDT is accepted on ${site.payments.usdtNetworks.join(" and ")}.` : "",
+      site.payments.minOrderUsd ? `Minimum order is $${site.payments.minOrderUsd.toLocaleString("en-US")}.` : "",
+      site.payments.cardAnswer,
+    ].filter(Boolean).join(" ")
+  : "We'll confirm accepted methods and any partner terms when we set up your account. Payment is always handled off this site.";
+
+// fastest confirmed delivery window, rather than a hardcoded claim
+const fastestWindow = airlines
+  .filter((a) => a.deliveryVerified)
+  .map((a) => a.delivery.replace("Within ", ""))[0];
+
 const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>';
 
 const jsonld = {
@@ -47,8 +64,8 @@ const jsonld = {
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
           <div class="spec">
-            <span><b>24h</b> delivery</span><span>·</span>
-            <span><b>Every</b> major program</span><span>·</span>
+            {fastestWindow && <><span><b>{fastestWindow}</b> delivery</span><span>·</span></>}
+            <span><b>{airlines.length}</b> programmes</span><span>·</span>
             <span><b>White-label</b></span>
           </div>
         </div>
@@ -59,7 +76,7 @@ const jsonld = {
               <li><Fragment set:html={check} /> Partner rates that scale with volume{site.partner.verified && site.partner.qualifyText ? ` — ${site.partner.qualifyText}` : ""}</li>
               <li><Fragment set:html={check} /> Miles across every major program</li>
               <li><Fragment set:html={check} /> Business &amp; first tickets, sourced to spec</li>
-              <li><Fragment set:html={check} /> Delivered fast, backed by guarantee</li>
+              <li><Fragment set:html={check} /> Delivered fast{site.guarantee.verified ? `, backed by our ${site.guarantee.shortLabel}` : ", with your rate confirmed up front"}</li>
               <li><Fragment set:html={check} /> White-label — the relationship stays yours</li>
             </ul>
           </div>
@@ -112,7 +129,7 @@ const jsonld = {
         <div class="step"><div class="n">01</div><h4>Apply</h4><p>Tell us about your business and typical volume.</p></div>
         <div class="step"><div class="n">02</div><h4>Get partner pricing</h4><p>We set you up with rates and a direct contact.</p></div>
         <div class="step"><div class="n">03</div><h4>Submit requests</h4><p>Send miles top-ups or specific ticket requests, any time.</p></div>
-        <div class="step"><div class="n">04</div><h4>We source &amp; deliver</h4><p>Miles land or tickets arrive — fast, and guaranteed.</p></div>
+        <div class="step"><div class="n">04</div><h4>We source &amp; deliver</h4><p>Miles land or tickets arrive, with the timeline agreed before you commit.</p></div>
       </div>
     </div>
   </section>
@@ -141,9 +158,9 @@ const jsonld = {
       <div class="section-head"><h2>Partner questions</h2></div>
       <details class="faq" open><summary>How does partner pricing work?<span class="mk">+</span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact — reach out and we'll quote based on what you typically move.</div></details>
       <details class="faq"><summary>Can you source a specific business-class seat?<span class="mk">+</span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it — you receive a confirmed ticket to pass to your client.</div></details>
-      <details class="faq"><summary>How fast is delivery?<span class="mk">+</span></summary><div class="ans">Most miles land within 24 hours. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
+      <details class="faq"><summary>How fast is delivery?<span class="mk">+</span></summary><div class="ans">{fastestWindow ? `Most miles land within ${fastestWindow.toLowerCase()}` : "Delivery windows vary by programme and are shown on each programme page"}. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
       <details class="faq"><summary>Is it white-label?<span class="mk">+</span></summary><div class="ans">Yes. We stay behind the scenes — your client deals only with you.</div></details>
-      <details class="faq"><summary>What payment methods and terms do you offer?<span class="mk">+</span></summary><div class="ans">[Replace with your actual accepted methods and any partner terms.]</div></details>
+      <details class="faq"><summary>What payment methods and terms do you offer?<span class="mk">+</span></summary><div class="ans">{partnerPayAnswer}</div></details>
     </div>
   </section>
 

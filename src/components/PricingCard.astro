@@ -1,5 +1,6 @@
 ---
 import Emblem from "./Emblem.astro";
+import { site } from "../lib/site";
 const { a, cta = "Buy miles" } = Astro.props;
 const per1000 = Math.round(a.pricePerMile * 10);
 const fmt = (n) => n.toLocaleString("en-US");
@@ -30,5 +31,5 @@ const ctaText = verified ? cta : "Request a live quote";
     <div class="r"><span>Maximum</span><b>{fmt(a.max)}</b></div>
   </div>
   <a class="btn btn-primary" href="#quote">{ctaText}</a>
-  <p class="foot">Secure transfer · delivery guaranteed</p>
+  <p class="foot">Secure transfer · {site.guarantee.verified ? site.guarantee.shortLabel : "rate confirmed before you pay"}</p>
 </div>
