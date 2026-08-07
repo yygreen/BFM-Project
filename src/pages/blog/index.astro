@@ -1,0 +1,54 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+// Drafts never ship. Newest first.
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const fmt = (d) =>
+  d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "buyflightmiles journal",
+  description: "Programme news, devaluations and guides for buying airline miles.",
+  url: "https://buyflightmiles.com/blog",
+};
+---
+<Base
+  title="Miles News & Guides | buyflightmiles"
+  description="Programme news, devaluations, sweet spots and practical guides for buying airline miles — written for people booking premium cabins."
+  slug="blog"
+  jsonld={jsonld}
+>
+  <section class="section">
+    <div class="container" style="max-width:860px">
+      <div class="section-head">
+        <span class="kicker">Journal</span>
+        <h2>Miles news &amp; guides</h2>
+        <p>Programme changes, devaluations and how-to guides — with the sources, so you can check them.</p>
+      </div>
+
+      {posts.length === 0 ? (
+        <p class="cmp-empty">No posts yet. Check back shortly.</p>
+      ) : (
+        <div class="postlist">
+          {posts.map((p) => (
+            <a class="postcard" href={`/blog/${p.id}`}>
+              <div class="pc-top">
+                <span class="badge badge-cat">{p.data.category}</span>
+                <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+              </div>
+              <h3>{p.data.title}</h3>
+              <p>{p.data.description}</p>
+              <span class="pc-more">Read →</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</Base>

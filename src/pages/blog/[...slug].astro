@@ -1,0 +1,111 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, airlines, posts } }));
+}
+
+const { post, airlines, posts } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+
+// `programs` are validated as strings by the schema; check they actually
+// resolve here so a typo'd slug surfaces at build time rather than as a 404.
+const linked = d.programs.map((slug) => {
+  const hit = airlines.find((a) => a.slug === slug);
+  if (!hit) {
+    throw new Error(
+      `blog/${post.id}.md: programs contains "${slug}", which is not a slug in airlines.json`
+    );
+  }
+  return hit;
+});
+
+const more = posts
+  .filter((p) => p.id !== post.id)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const fmt = (x) => x.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  ...(d.updated && { dateModified: d.updated.toISOString() }),
+  author: { "@type": "Organization", name: "buyflightmiles" },
+  publisher: { "@type": "Organization", name: "buyflightmiles" },
+  mainEntityOfPage: `https://buyflightmiles.com/blog/${post.id}`,
+  ...(d.source && { citation: d.source }),
+};
+---
+<Base title={`${d.title} | buyflightmiles`} description={d.description} slug={`blog/${post.id}`} jsonld={jsonld}>
+  <article class="section">
+    <div class="container" style="max-width:720px">
+      <a class="backlink" href="/blog">← All posts</a>
+
+      <header class="posthead">
+        <div class="pc-top">
+          <span class="badge badge-cat">{d.category}</span>
+          <time datetime={d.date.toISOString()}>{fmt(d.date)}</time>
+          {d.updated && <span class="upd">Updated {fmt(d.updated)}</span>}
+        </div>
+        <h1>{d.title}</h1>
+        <p class="post-sub">{d.description}</p>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {d.source && (
+        <p class="post-source">
+          Source: <a href={d.source} rel="nofollow noopener" target="_blank">{d.sourceLabel || d.source}</a>
+        </p>
+      )}
+
+      {linked.length > 0 && (
+        <section class="post-programs">
+          <h4>Programmes mentioned</h4>
+          <div class="related">
+            {linked.map((a) => (
+              <a href={`/buy/${a.slug}`}>
+                {a.airline} {a.program} · {a.priceVerified ? "" : "~"}{a.pricePerMile}¢
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="post-cta">
+        <h4>Need miles for a specific booking?</h4>
+        <p>Tell us the programme and the amount — we'll confirm your exact rate and delivery before you pay anything.</p>
+        <a class="btn btn-primary" href="/#quote">Request a quote</a>
+      </section>
+
+      {more.length > 0 && (
+        <section class="post-more">
+          <h4>More reading</h4>
+          <div class="postlist">
+            {more.map((p) => (
+              <a class="postcard" href={`/blog/${p.id}`}>
+                <div class="pc-top">
+                  <span class="badge badge-cat">{p.data.category}</span>
+                  <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+                </div>
+                <h3>{p.data.title}</h3>
+                <p>{p.data.description}</p>
+                <span class="pc-more">Read →</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </article>
+</Base>

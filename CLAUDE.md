@@ -30,10 +30,28 @@ src/
   styles/flightdeck.css    ← the entire design system (tokens + components), imported in Base.astro
   layouts/Base.astro       ← HTML shell, SEO meta, JSON-LD, header/footer
   components/              ← PricingCard, TrustStrip, CompareTable, Faq, Emblem, Testimonials
+  content/blog/*.md        ← one Markdown file per post (filename = URL slug)
   pages/
     index.astro           ← homepage
     buy/[slug].astro      ← airline page template (getStaticPaths over getCollection("airlines"))
+    blog/index.astro      ← post listing
+    blog/[...slug].astro  ← post template
 ```
+
+## Blog
+
+Posts are a second content collection (`src/content/blog/*.md`), validated by the same
+build-time contract as the airline data. Copy `_template-news-post.md` to start one.
+
+- **`draft: true` excludes a post from the build** — use it for anything not yet fact-checked.
+- **`category: "News"` or `"Devaluations"` requires a `source` URL.** The schema enforces it.
+  A devaluation claim that turns out to be wrong costs more trust than the post earns, and
+  this is a market where buyers are already scam-wary.
+- `programs: [...]` takes slugs from `airlines.json` and renders them as links back to the
+  money pages with live prices. A typo'd slug **fails the build** rather than shipping a dead
+  link — that internal linking is most of the SEO value of posting.
+- `title` (≤75) and `description` (≤200) are used verbatim as SEO meta; write them for a
+  search result. Posts emit Article JSON-LD and land in the sitemap automatically.
 
 ## Design system: "Warm Deck"
 

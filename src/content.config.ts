@@ -1,5 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import { file } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 
 // ============================================================
 //  Airline programs — schema-validated content collection.
@@ -69,4 +69,47 @@ const airlines = defineCollection({
     }),
 });
 
-export const collections = { airlines };
+// ============================================================
+//  Blog — program news, devaluations, sweet spots, guides.
+//
+//  One Markdown file per post in src/content/blog/. The filename
+//  is the URL slug (/blog/{filename}). Same build-time contract
+//  as the airline data: a missing title, an over-long meta
+//  description, an unparseable date or an unknown `programs`
+//  slug fails `npm run build` rather than shipping broken SEO.
+//
+//  draft: true keeps a post out of the build entirely — use it
+//  for anything not yet fact-checked. This is a market where
+//  buyers fear scams, so a post asserting a devaluation or a
+//  transfer bonus needs a real source before it ships.
+// ============================================================
+
+const blog = defineCollection({
+  loader: glob({ base: "src/content/blog", pattern: "**/*.md" }),
+  schema: z.object({
+    title: z.string().min(1).max(75),
+    description: z.string().min(1).max(200),
+
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+
+    // "News" carries a shelf life; guides are evergreen.
+    category: z.enum(["News", "Guide", "Sweet spots", "Devaluations"]),
+
+    // Program slugs this post relates to — renders as internal links
+    // back to the money pages. Existence is checked in the template.
+    programs: z.array(z.string()).max(6).default([]),
+
+    // Where a factual claim came from. Required for News/Devaluations,
+    // enforced by the refine below.
+    source: z.string().url().optional(),
+    sourceLabel: z.string().optional(),
+
+    draft: z.boolean().default(false),
+  }).refine((d) => !(["News", "Devaluations"].includes(d.category) && !d.source), {
+    message: "News and Devaluations posts must cite a `source` URL — no unsourced claims",
+    path: ["source"],
+  }),
+});
+
+export const collections = { airlines, blog };
