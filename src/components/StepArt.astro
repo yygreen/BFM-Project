@@ -1,0 +1,99 @@
+---
+// Custom illustration set for "Three steps to the seat".
+//
+// Replaces three generic stroke icons sitting in three differently-tinted
+// rounded squares — an icon in a box is the most generic thing a site can do,
+// and the three pastel fills (indigo / peach / mint) pulled a third colour into
+// a two-colour brand for no reason.
+//
+// The motif here is the route line: ONE arc that climbs left-to-right across
+// all three panels. Each SVG shares the same viewBox and enters/exits at the
+// height the neighbouring panel leaves off, so across the three-column grid the
+// three fragments read as a single continuous flight path with the journey
+// drawn on it. Nothing is boxed; the art sits straight on the page.
+//
+// Two colours only, both from the brand: cobalt carries the path and the
+// structure, coral marks the one live thing in each scene. Everything is
+// stroked geometry on token-driven CSS custom properties, so there are no
+// hardcoded hex values and a token change moves the artwork with the system.
+interface Props { step: "choose" | "pay" | "fly" }
+const { step } = Astro.props;
+---
+{step === "choose" && (
+  <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="Choosing a programme and an amount of miles">
+    <!-- the route begins: arc lifting away from the origin -->
+    <path class="il-trail" d="M0 96C46 96 84 90 116 78" />
+    <path class="il-line" d="M116 78C150 65 186 52 240 46" />
+
+    <!-- programme options, the chosen one filled -->
+    <rect class="il-opt" x="120" y="16" width="66" height="9" rx="4.5" />
+    <rect class="il-opt-on" x="120" y="32" width="86" height="11" rx="5.5" />
+    <rect class="il-opt" x="120" y="50" width="54" height="9" rx="4.5" />
+
+    <!-- origin waypoint -->
+    <circle class="il-ring" cx="26" cy="96" r="15" />
+    <circle class="il-dot" cx="26" cy="96" r="6.5" />
+  </svg>
+)}
+
+{step === "pay" && (
+  <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="The quote confirmed, then paid away from this site">
+    <path class="il-trail" d="M0 46C40 41 74 36 104 34" />
+    <path class="il-line" d="M104 34C150 31 196 30 240 22" />
+
+    <!-- the quote, held: a shield drawn as one continuous curve, not an icon in a box -->
+    <path class="il-shield" d="M120 58l24-9 24 9v18c0 15-10 25-24 30-14-5-24-15-24-30z" />
+    <path class="il-check" d="M134 79l8 8 15-16" />
+
+    <!-- payment leaves the page entirely -->
+    <path class="il-branch" d="M144 106c0 8 14 10 30 10h48" />
+    <circle class="il-open" cx="228" cy="116" r="6" />
+  </svg>
+)}
+
+{step === "fly" && (
+  <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="Miles landing in your own account, then the seat booked">
+    <path class="il-trail" d="M0 22C34 18 58 22 78 34" />
+    <path class="il-line" d="M78 34C118 58 150 46 196 16" />
+
+    <!-- miles settling into the account you already hold -->
+    <path class="il-drop" d="M78 52v26" />
+    <circle class="il-mile" cx="78" cy="86" r="7" />
+    <path class="il-cradle" d="M52 96c0 14 52 14 52 0" />
+
+    <!-- and away -->
+    <g class="il-plane" transform="translate(196 4)">
+      <path d="M0 16L34 0 22 34 17 21z" />
+    </g>
+  </svg>
+)}
+
+<style>
+  .illo { display:block; width:100%; height:auto; margin-bottom:20px; overflow:visible; }
+
+  /* the route itself — solid ahead of you, faded behind */
+  .il-line  { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
+  .il-trail { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 8; }
+
+  /* waypoints */
+  .il-ring { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
+  .il-dot  { fill:var(--coral); }
+
+  /* step 1 — the selector */
+  /* the chosen option is coral, the rest are inert — no tick needed, and it
+     avoids a second checkmark sitting next to step 2's */
+  .il-opt    { fill:var(--mist); }
+  .il-opt-on { fill:var(--coral); }
+
+  /* step 2 — the quote held, and the payment leaving */
+  .il-shield { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linejoin:round; }
+  .il-check  { fill:none; stroke:var(--coral); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+  .il-branch { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 8; }
+  .il-open   { fill:none; stroke:var(--coral); stroke-width:2.5; }
+
+  /* step 3 — miles landing, then the seat */
+  .il-drop   { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 8; }
+  .il-mile   { fill:var(--coral); }
+  .il-cradle { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
+  .il-plane  { fill:var(--cobalt); }
+</style>

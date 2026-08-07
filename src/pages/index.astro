@@ -7,6 +7,7 @@ import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
 import QuoteWidget from "../components/QuoteWidget.astro";
+import StepArt from "../components/StepArt.astro";
 import { getCollection } from "astro:content";
 import { site, live, realTestimonials } from "../lib/site";
 
@@ -104,15 +105,15 @@ const jsonld = {
       </div>
       <div class="steps">
         <div class="step">
-          <span class="step-art a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7 8h10M7 12h7M7 16h4"/></svg></span>
+          <StepArt step="choose" />
           <div class="n">Step 01</div><h4>Choose</h4><p>Pick your programme and how many miles you need. We quote you a firm price.</p>
         </div>
         <div class="step">
-          <span class="step-art b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M2 10h20M6 15h4"/></svg></span>
+          <StepArt step="pay" />
           <div class="n">Step 02</div><h4>Pay</h4><p>Confirm the quote and pay off-site. Nothing is ever charged on this site.</p>
         </div>
         <div class="step">
-          <span class="step-art c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 15l16-4-1-4-5 1-6-6-2 1 3 6-5 1z"/></svg></span>
+          <StepArt step="fly" />
           <div class="n">Step 03</div><h4>Fly</h4><p>Miles land in your own account{fastest ? `, usually within ${fastest.toLowerCase()}` : ""} — then book the seat you wanted.</p>
         </div>
       </div>
