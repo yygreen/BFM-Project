@@ -21,13 +21,13 @@ const blurb = CATEGORY_BLURB[name];
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  name: `${name} — buyflightmiles journal`,
+  name: `${name} — buyflightmiles blog`,
   description: blurb,
   url: `https://buyflightmiles.com/blog/category/${categorySlug(name)}`,
 };
 ---
 <Base
-  title={`${name} | Miles Journal | buyflightmiles`}
+  title={`${name} | Miles News & Guides | buyflightmiles`}
   description={blurb}
   slug={`blog/category/${categorySlug(name)}`}
   jsonld={jsonld}

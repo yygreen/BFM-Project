@@ -18,7 +18,7 @@ export async function getStaticPaths() {
     props: {
       a,
       airlines,
-      // journal posts that reference this programme — bidirectional linking,
+      // blog posts that reference this programme — bidirectional linking,
       // so the blog feeds the money pages rather than sitting beside them
       posts: posts.filter((p) => p.data.programs.includes(a.slug)).slice(0, 2),
     },
@@ -166,12 +166,12 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- FROM THE JOURNAL -->
+  <!-- FROM THE BLOG -->
   {posts.length > 0 && (
     <section class="section" style="padding-top:0">
       <div class="container">
         <div class="section-head">
-          <span class="kicker">Journal</span>
+          <span class="kicker">From the blog</span>
           <h2>Latest on {a.program}</h2>
         </div>
         <div class="postlist postlist-2">

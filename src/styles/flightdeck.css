@@ -470,7 +470,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   border-radius:12px; padding:18px 22px; margin-bottom:32px; }
 .toc h4 { font-family:var(--display); font-size:11.5px; text-transform:uppercase; letter-spacing:.07em;
   color:var(--text-3); margin:0 0 10px; }
-.toc ol { margin:0; padding-left:18px; }
+.toc ol { margin:0; padding:0; list-style:none; }
 .toc li { font-size:14.5px; margin:5px 0; }
 .toc a { color:var(--text-2); }
 .toc a:hover { color:var(--cobalt); }

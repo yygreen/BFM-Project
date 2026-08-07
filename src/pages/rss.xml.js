@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss";
 import { getPosts } from "../lib/blog";
 
-// Feed for the journal. Drafts are already excluded by getPosts().
+// Feed for the blog. Drafts are already excluded by getPosts().
 export async function GET(context) {
   const posts = await getPosts();
   return rss({
