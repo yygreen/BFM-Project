@@ -36,7 +36,12 @@ declared launch-ready while one is present. To clear one, either:
 - set `"verified": false` to hide the claim again.
 
 Currently staged (all fictive until the client confirms): Trustpilot 4.8/5 (2,000 reviews),
-Google 2.6/5 (41 reviews), founded 2016, 10,000 transfers, 99.9% completion.
+founded 2016, 10,000 transfers, 99.9% completion.
+
+The **Google** entry is kept in `reviews` at `verified: false`, so it renders nowhere. The
+2.6★ profile is a real observation worth not losing track of — publishing it next to a 4.8
+invites the buyer to ask which one is true — but the decision to cite it or not is the
+client's, and it stays suppressed until they make it.
 
 > The Trustpilot **TrustBox embed** is a separate thing and is *not* staged — it needs a real
 > `businessUnitId`/`templateId` from the Trustpilot dashboard and loads their script, so it

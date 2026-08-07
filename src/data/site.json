@@ -86,8 +86,8 @@
       "outOf": 5,
       "count": 41,
       "url": "https://www.google.com/maps",
-      "verified": true,
-      "placeholder": true
+      "verified": false,
+      "placeholder": false
     }
   ],
   "trustpilot": {
