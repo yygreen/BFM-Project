@@ -136,7 +136,7 @@ const jsonld = {
         <h2>Buy {a.program} here vs. from {a.airline}</h2>
         <p>Airlines charge a steep premium for their own miles. Here's the difference.</p>
       </div>
-      <CompareTable program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} delivery={a.deliveryVerified ? a.delivery : ""} directBuyCents={a.directBuyCents} />
+      <CompareTable program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} delivery={a.deliveryVerified ? a.delivery : ""} directBuyCents={a.directBuyCents} min={a.min} max={a.max} />
     </div>
   </section>
 

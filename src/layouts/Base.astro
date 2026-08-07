@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import { getPosts, getCategoryCounts } from "../lib/blog";
 // aliased: `site` is already taken below by Astro.site (the deploy URL)
 import { site as siteData } from "../lib/site";
+import Logo from "../components/Logo.astro";
 
 // Nav + footer program lists are generated from the collection, so adding an
 // entry to airlines.json puts it in the navigation automatically — the roster
@@ -51,7 +52,7 @@ const canonical = new URL(slug, site).href;
 <body>
   <header class="site-header">
     <div class="container bar">
-      <a href="/" class="brand">buy<span>flight</span><em>miles</em></a>
+      <a href="/" class="brand" aria-label="buyflightmiles home"><Logo /></a>
       <nav class="nav">
         <details class="dd" id="nav-dd">
           <summary class="link dd-t">Programs
@@ -146,7 +147,7 @@ const canonical = new URL(slug, site).href;
     <div class="container">
       <div class="cols">
         <div>
-          <div class="brand">buy<span>flight</span><em>miles</em></div>
+          <div class="brand"><Logo variant="light" size={28} /></div>
           <p style="color:#B7AA8E; font-size:13.5px; max-width:36ch; margin-top:12px; line-height:1.6;">
             Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, {siteData.guarantee.verified ? `every order backed by our ${siteData.guarantee.shortLabel}` : "and your exact rate confirmed before you pay"}.
           </p>

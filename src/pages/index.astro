@@ -85,16 +85,12 @@ const jsonld = {
           )}
         </div>
         <div class="hero-art">
-          <div class="feature-card">
-            <div class="fc-top">
-              <span class="fc-badge">Featured · lowest price</span>
-              <span class="fc-badge">In stock</span>
+          <div class="hero-calc">
+            <div class="hc-head">
+              <span class="hc-title">What will your miles cost?</span>
+              <span class="hc-sub">Any programme, any amount — priced instantly.</span>
             </div>
-            <p class="fc-name">{featured.airline} {featured.program}</p>
-            <p class="fc-air">{featured.alliance} · Premium cabins</p>
-            <div class="fc-price">{featured.pricePerMile}¢ <small>/ mile</small></div>
-            <p class="fc-alt">≈ ${Math.round(featured.pricePerMile * 10)} per 1,000 miles{featured.deliveryVerified ? ` · delivered ${featured.delivery.toLowerCase()}` : ""}</p>
-            <a class="btn" href={`/buy/${featured.slug}`}>Buy {featured.program}</a>
+            <Calculator quoteHref="#quote" />
           </div>
         </div>
       </div>
@@ -128,20 +124,8 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- MILES CALCULATOR -->
-  <section class="section tinted" id="worth">
-    <div class="container" style="max-width:760px">
-      <div class="section-head center">
-        <span class="kicker">Miles calculator</span>
-        <h2>What are your miles worth?</h2>
-        <p>Pick a program and an amount to see what it costs{site.benchmark.verified ? " — and what you'd save against buying direct" : ", then get your exact rate confirmed on the quote"}.</p>
-      </div>
-      <Calculator quoteHref="#quote" />
-    </div>
-  </section>
-
   <!-- HOW IT WORKS -->
-  <section class="section" id="how">
+  <section class="section tinted" id="how">
     <div class="container">
       <div class="section-head">
         <span class="kicker">How it works</span>
@@ -170,8 +154,8 @@ const jsonld = {
     <div class="container">
       <div class="section-head">
         <span class="kicker">Why trust us</span>
-        <h2>Built for buyers who've been burned</h2>
-        <p>Buying miles should feel as safe as any purchase. Here's what backs every order.</p>
+        <h2>What backs every order</h2>
+        <p>Buying miles should feel as straightforward as any other purchase. Here's exactly how yours is handled.</p>
       </div>
       <TrustStrip />
     </div>
@@ -197,9 +181,9 @@ const jsonld = {
       <div class="section-head">
         <span class="kicker">The math</span>
         <h2>Us vs. buying direct</h2>
-        <p>Airlines sell their own miles at a steep markup. Here's the difference.</p>
+        <p>What you get here, and how it compares with buying miles from the airline.</p>
       </div>
-      <CompareTable program="miles" pricePerMile={featured.pricePerMile} priceVerified={featured.priceVerified} delivery={featured.deliveryVerified ? featured.delivery : ""} directBuyCents={featured.directBuyCents} />
+      <CompareTable program="miles" pricePerMile={featured.pricePerMile} priceVerified={featured.priceVerified} delivery={featured.deliveryVerified ? featured.delivery : ""} directBuyCents={featured.directBuyCents} min={featured.min} max={featured.max} />
     </div>
   </section>
 
