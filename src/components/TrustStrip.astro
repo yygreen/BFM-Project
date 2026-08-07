@@ -20,6 +20,14 @@ const coverageCap = alliances.length
   : "Across every programme we cover";
 const years = yearsTrading();
 
+// How many tiles actually render: four structural ones, plus whichever
+// client-supplied tiles are verified. Pick the column count that divides it
+// evenly so the last row is never left with a single orphaned card — the tile
+// count moves as flags flip, so this can't be a fixed number in the CSS.
+const tileCount =
+  4 + [ratingLive, live(site.trust.transfersCompleted), site.guarantee.verified, years !== null].filter(Boolean).length;
+const cols = [4, 3].find((c) => tileCount % c === 0) ?? 3;
+
 // bottom spec strip — only the verified figures
 const specs = [
   live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
@@ -27,7 +35,7 @@ const specs = [
   live(site.trust.supportHours) ? { n: `${site.trust.supportHours.value}`, l: "support" } : null,
 ].filter(Boolean);
 ---
-<div class="trust-grid">
+<div class="trust-grid" style={`--tcols:${cols}`}>
   {ratingLive && (
     <div class="tbox">
       <p class="lab">Rating</p>
