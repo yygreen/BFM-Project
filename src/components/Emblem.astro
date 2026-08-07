@@ -12,8 +12,10 @@ const { code = "", color = "#2540FF", size = 46, logo = null, logoAlt = null } =
 const gid = `em-${code}-${size}`;
 ---
 {logo ? (
-  <span class="emblem" style={`width:${size}px;height:${size}px`}>
-    <img src={logo} alt={logoAlt || `${code} logo`} width={size} height={size} loading="lazy" decoding="async" />
+  /* carrier logos are wordmarks — wide, not square. Cap the height and let
+     the width follow the artwork rather than squashing it into a tile. */
+  <span class="emblem emblem-logo" style={`height:${Math.round(size * 0.52)}px`}>
+    <img src={logo} alt={logoAlt || `${code} logo`} loading="lazy" decoding="async" />
   </span>
 ) : (
   <span class="emblem" style={`width:${size}px;height:${size}px`} aria-hidden="true">

@@ -35,7 +35,9 @@
         "title": "No change or cancellation fees",
         "desc": "Flexibility that makes SkyMiles useful for last-minute and shifting plans."
       }
-    ]
+    ],
+    "logo": "/logos/delta-skymiles.svg",
+    "logoAlt": "Delta Air Lines logo"
   },
   {
     "id": "united-mileageplus",
@@ -73,7 +75,9 @@
         "title": "Excursionist Perk",
         "desc": "Add a free one-way inside a round-trip award for extra value."
       }
-    ]
+    ],
+    "logo": "/logos/united-mileageplus.svg",
+    "logoAlt": "United Airlines logo"
   },
   {
     "id": "american-aadvantage",
@@ -111,7 +115,9 @@
         "title": "Partner award value",
         "desc": "Web-only partner pricing can beat buying those miles elsewhere."
       }
-    ]
+    ],
+    "logo": "/logos/american-aadvantage.svg",
+    "logoAlt": "American Airlines logo"
   },
   {
     "id": "krisflyer",
@@ -149,7 +155,9 @@
         "title": "Star Alliance partners",
         "desc": "Extend your reach with partner redemptions across the alliance."
       }
-    ]
+    ],
+    "logo": "/logos/krisflyer.svg",
+    "logoAlt": "Singapore Airlines logo"
   },
   {
     "id": "qatar-avios",
@@ -187,7 +195,9 @@
         "title": "Off-peak savings",
         "desc": "Select dates price lower, stretching your Avios further."
       }
-    ]
+    ],
+    "logo": "/logos/qatar-avios.svg",
+    "logoAlt": "Qatar Airways logo"
   },
   {
     "id": "ana",
@@ -225,7 +235,9 @@
         "title": "Star Alliance partners",
         "desc": "Book premium cabins across the alliance with Mileage Club miles."
       }
-    ]
+    ],
+    "logo": "/logos/ana.svg",
+    "logoAlt": "ANA logo"
   },
   {
     "id": "ba-avios",
@@ -263,7 +275,9 @@
         "title": "Oneworld partners",
         "desc": "Qatar, Japan Airlines and Cathay open up with Avios."
       }
-    ]
+    ],
+    "logo": "/logos/ba-avios.svg",
+    "logoAlt": "British Airways logo"
   },
   {
     "id": "eva-air",
@@ -301,7 +315,9 @@
         "title": "Star Alliance partners",
         "desc": "Use Infinity MileageLands miles on alliance partners too."
       }
-    ]
+    ],
+    "logo": "/logos/eva-air.svg",
+    "logoAlt": "EVA Air logo"
   },
   {
     "id": "southwest-rapid-rewards",
@@ -340,7 +356,9 @@
         "title": "Companion Pass holders",
         "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only — which doubles what a top-up is worth."
       }
-    ]
+    ],
+    "logo": "/logos/southwest-rapid-rewards.svg",
+    "logoAlt": "Southwest Airlines logo"
   },
   {
     "id": "alaska-mileage-plan",
@@ -379,7 +397,9 @@
         "title": "Stopovers on award tickets",
         "desc": "Mileage Plan has historically allowed a stopover on one-way awards, which turns a single redemption into two destinations."
       }
-    ]
+    ],
+    "logo": "/logos/alaska-mileage-plan.svg",
+    "logoAlt": "Alaska Airlines logo"
   },
   {
     "id": "jetblue-trueblue",
@@ -418,7 +438,9 @@
         "title": "Points pooling",
         "desc": "Balances can be shared within a family pool, so topping up one account can complete a booking for the whole group."
       }
-    ]
+    ],
+    "logo": "/logos/jetblue-trueblue.svg",
+    "logoAlt": "JetBlue logo"
   },
   {
     "id": "hawaiian-miles",
@@ -453,7 +475,9 @@
         "title": "Mainland to Honolulu",
         "desc": "West-coast departures are the routes most people are buying miles to complete, in economy or the premium cabin."
       }
-    ]
+    ],
+    "logo": "/logos/hawaiian-miles.svg",
+    "logoAlt": "Hawaiian Airlines logo"
   },
   {
     "id": "frontier-miles",
@@ -488,6 +512,8 @@
         "title": "Last-minute gaps",
         "desc": "When a cash fare has spiked close to departure, completing the booking with miles is usually the cheaper route."
       }
-    ]
+    ],
+    "logo": "/logos/frontier-miles.svg",
+    "logoAlt": "Frontier Airlines logo"
   }
 ]

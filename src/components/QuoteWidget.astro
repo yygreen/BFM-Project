@@ -71,7 +71,7 @@ const notWired = orderEmail
         <div class="csel" id="qw-csel">
           <button type="button" class="csel-btn" id="qw-program-btn"
             aria-haspopup="listbox" aria-expanded="false" aria-labelledby="qw-program-label qw-program-btn">
-            <span class="csel-code" id="qw-csel-code" style={`--c:${start.color}`}>{start.logo ? <img src={start.logo} alt="" /> : start.code}</span>
+            <span class={`csel-code${start.logo ? " csel-code-logo" : ""}`} id="qw-csel-code" style={`--c:${start.color}`}>{start.logo ? <img src={start.logo} alt="" /> : start.code}</span>
             <span class="csel-txt">
               <span class="csel-air" id="qw-csel-air">{start.airline}</span>
               <span class="csel-prog" id="qw-csel-prog">{start.program}</span>
@@ -82,7 +82,7 @@ const notWired = orderEmail
             {data.map((d) => (
               <li class="csel-opt" role="option" id={`qw-opt-${d.slug}`} data-value={d.slug}
                   aria-selected={d.slug === start.slug ? "true" : "false"}>
-                <span class="csel-code" style={`--c:${d.color}`}>{d.logo ? <img src={d.logo} alt="" /> : d.code}</span>
+                <span class={`csel-code${d.logo ? " csel-code-logo" : ""}`} style={`--c:${d.color}`}>{d.logo ? <img src={d.logo} alt="" /> : d.code}</span>
                 <span class="csel-txt">
                   <span class="csel-air">{d.airline}</span>
                   <span class="csel-prog">{d.program}</span>
@@ -228,6 +228,7 @@ const notWired = orderEmail
         document.getElementById("qw-csel-prog").textContent = c.program;
         const code = document.getElementById("qw-csel-code");
         code.innerHTML = "";
+        code.classList.toggle("csel-code-logo", !!c.logo);
         if (c.logo) {
           const img = document.createElement("img");
           img.src = c.logo; img.alt = "";
