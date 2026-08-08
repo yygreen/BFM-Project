@@ -5,85 +5,86 @@
 // rounded squares — an icon in a box is the most generic thing a site can do,
 // and the three pastel fills pulled a third colour into a two-colour brand.
 //
-// The motif is the route line: ONE arc climbing left-to-right across all three
-// panels. Every SVG shares the same viewBox and enters at the height its
-// neighbour leaves off, so across the grid the fragments read as a single
-// continuous flight path.
+// The motif is ONE wave. Read left to right across the three columns it rises,
+// eases over, and climbs out into the plane — a single continuous motion, not
+// three separate diagrams that happen to share a colour. Three rules hold that
+// together:
 //
-// Two rules keep the set coherent:
+//   1. Every panel crosses its boundary on a HORIZONTAL tangent, at a height
+//      its neighbour repeats (72 → 40 → 58). Matching both the value and the
+//      slope is what makes the seam invisible; matching only the value leaves
+//      a visible corner.
+//   2. Each path overshoots its own viewBox (x from -10 to 250) so the stroke
+//      bridges the 24px grid gutter instead of stopping at the column edge.
+//      `overflow:visible` on .illo is what lets it. The overshoot is flat, so
+//      the two sides meet at the same height however wide the column gets.
+//   3. Each panel carries exactly ONE coral waypoint, at x=26 — the same
+//      position in every panel, sitting on the flat lead-in so it is genuinely
+//      ON the line rather than eyeballed next to it. Coral means "you are
+//      here" and nothing else; every supporting form is cobalt or mist, and
+//      each sits in the left third so it reads against its own step label
+//      rather than drifting over the next column's.
 //
-//   1. Each panel carries exactly ONE coral waypoint, at the same coordinate
-//      (26, entry height) in every panel — so the three dots march along the
-//      line in step with Step 01 / 02 / 03 beneath them. Coral means "you are
-//      here" and nothing else; every supporting form is cobalt or mist.
-//   2. The line is split at that waypoint into a faded trail behind and a solid
-//      path ahead, so the dot is an actual endpoint of both segments rather
-//      than a circle positioned near a curve by eye.
-//
-// The plane is likewise anchored: its trailing notch is the path's final point,
-// so it sits ON the line instead of floating past the end of it.
+// The plane is anchored the same way: its trailing notch is the path's final
+// point, so it terminates the line instead of floating past the end of it.
 interface Props { step: "choose" | "pay" | "fly" }
 const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="Choosing a programme and an amount of miles">
-    <path class="il-trail" d="M0 96h26" />
-    <path class="il-line" d="M26 96C90 96 150 70 240 46" />
+    <path class="il-line" d="M0 72H26C90 72 170 40 236 40H250" />
 
     <!-- programme options, the chosen one filled -->
-    <rect class="il-opt" x="120" y="16" width="66" height="9" rx="4.5" />
-    <rect class="il-opt-on" x="120" y="32" width="86" height="11" rx="5.5" />
-    <rect class="il-opt" x="120" y="50" width="54" height="9" rx="4.5" />
+    <rect class="il-opt" x="40" y="8" width="66" height="9" rx="4.5" />
+    <rect class="il-opt-on" x="40" y="24" width="86" height="11" rx="5.5" />
+    <rect class="il-opt" x="40" y="42" width="54" height="9" rx="4.5" />
 
-    <circle class="il-ring" cx="26" cy="96" r="15" />
-    <circle class="il-dot" cx="26" cy="96" r="6.5" />
+    <circle class="il-ring" cx="26" cy="72" r="15" />
+    <circle class="il-dot" cx="26" cy="72" r="6.5" />
   </svg>
 )}
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="The quote confirmed, then paid away from this site">
-    <path class="il-trail" d="M0 46h26" />
-    <path class="il-line" d="M26 46C100 42 170 34 240 22" />
+    <path class="il-line" d="M-10 40H26C100 40 170 58 236 58H250" />
 
     <!-- the quote, held: a shield drawn as one continuous curve, not an icon in a box -->
-    <path class="il-shield" d="M120 58l24-9 24 9v18c0 15-10 25-24 30-14-5-24-15-24-30z" />
-    <path class="il-check" d="M134 79l8 8 15-16" />
+    <path class="il-shield" d="M40 64l24-9 24 9v18c0 15-10 25-24 30-14-5-24-15-24-30z" />
+    <path class="il-check" d="M54 85l8 8 15-16" />
 
     <!-- payment leaves the page entirely -->
-    <path class="il-branch" d="M144 106c0 8 14 10 30 10h48" />
-    <circle class="il-open" cx="228" cy="116" r="6" />
+    <path class="il-branch" d="M70 112h58" />
+    <circle class="il-open" cx="134" cy="112" r="6" />
 
-    <circle class="il-ring" cx="26" cy="46" r="15" />
-    <circle class="il-dot" cx="26" cy="46" r="6.5" />
+    <circle class="il-ring" cx="26" cy="40" r="15" />
+    <circle class="il-dot" cx="26" cy="40" r="6.5" />
   </svg>
 )}
 
 {step === "fly" && (
   <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="Miles landing in your own account, then the seat booked">
-    <path class="il-trail" d="M0 22h26" />
-    <path class="il-line" d="M26 22C86 28 150 58 206 26" />
+    <path class="il-line" d="M-10 58H26C70 58 106 32 118 22" />
 
     <!-- miles settling into the account you already hold -->
-    <path class="il-drop" d="M78 36v30" />
-    <circle class="il-mile" cx="78" cy="74" r="7" />
-    <path class="il-cradle" d="M52 84c0 14 52 14 52 0" />
+    <path class="il-drop" d="M74 54v26" />
+    <circle class="il-mile" cx="74" cy="88" r="7" />
+    <path class="il-cradle" d="M50 98c0 14 48 14 48 0" />
 
-    <!-- and away — the notch at (17,21) lands on the path's last point (206,26) -->
-    <g class="il-plane" transform="translate(189 5)">
+    <!-- and away — the notch at (17,21) lands on the path's last point (118,22) -->
+    <g class="il-plane" transform="translate(101 1)">
       <path d="M0 16L34 0 22 34 17 21z" />
     </g>
 
-    <circle class="il-ring" cx="26" cy="22" r="15" />
-    <circle class="il-dot" cx="26" cy="22" r="6.5" />
+    <circle class="il-ring" cx="26" cy="58" r="15" />
+    <circle class="il-dot" cx="26" cy="58" r="6.5" />
   </svg>
 )}
 
 <style>
   .illo { display:block; width:100%; height:auto; margin-bottom:20px; overflow:visible; }
 
-  /* the route itself — solid ahead of you, faded behind */
-  .il-line  { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
-  .il-trail { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 8; }
+  /* the route — one unbroken stroke the whole way across */
+  .il-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
 
   /* the waypoint — the ONLY coral in the set, one per step */
   .il-ring { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
@@ -96,6 +97,7 @@ const { step } = Astro.props;
   /* step 2 — the quote held, and the payment leaving */
   .il-shield { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linejoin:round; }
   .il-check  { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+  /* dotted on purpose: these two leave the route rather than continue it */
   .il-branch { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 8; }
   .il-open   { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
 
