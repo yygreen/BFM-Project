@@ -1,88 +1,99 @@
 ---
 // Custom illustration set for "Three steps to the seat".
 //
-// Replaces three generic stroke icons sitting in three differently-tinted
-// rounded squares — an icon in a box is the most generic thing a site can do,
-// and the three pastel fills pulled a third colour into a two-colour brand.
+// The through-line is ONE wave crossing all three columns. Each panel shares
+// the same viewBox and enters at the height its neighbour left off, on a
+// horizontal tangent, so the seam between columns is invisible — matching the
+// height alone still leaves a visible corner where the slopes disagree. Each
+// path also overshoots its own box (x from -10 to 250) so the stroke bridges
+// the grid gutter instead of stopping at the column edge; `overflow:visible`
+// is what allows it, and the flat overshoot means the two sides meet at the
+// same height whatever the column width.
 //
-// The motif is ONE wave. Read left to right across the three columns it rises,
-// eases over, and climbs out into the plane — a single continuous motion, not
-// three separate diagrams that happen to share a colour. Three rules hold that
-// together:
+// Below the wave, every panel is built the same way:
 //
-//   1. Every panel crosses its boundary on a HORIZONTAL tangent, at a height
-//      its neighbour repeats (72 → 40 → 58). Matching both the value and the
-//      slope is what makes the seam invisible; matching only the value leaves
-//      a visible corner.
-//   2. Each path overshoots its own viewBox (x from -10 to 250) so the stroke
-//      bridges the 24px grid gutter instead of stopping at the column edge.
-//      `overflow:visible` on .illo is what lets it. The overshoot is flat, so
-//      the two sides meet at the same height however wide the column gets.
-//   3. Each panel carries exactly ONE coral waypoint, at x=26 — the same
-//      position in every panel, sitting on the flat lead-in so it is genuinely
-//      ON the line rather than eyeballed next to it. Coral means "you are
-//      here" and nothing else; every supporting form is cobalt or mist, and
-//      each sits in the left third so it reads against its own step label
-//      rather than drifting over the next column's.
+//   waypoint (coral, x=44)  →  dotted tether straight down  →  the motif
 //
-// The plane is anchored the same way: its trailing notch is the path's final
-// point, so it terminates the line instead of floating past the end of it.
+// and every motif spans the same band (x 14–210, y 60–102) so the three carry
+// equal weight and line up as a row. The tethers differ in length only because
+// the wave is at a different height in each panel — they hang like plumb lines.
+//
+// Each motif depicts its OWN step rather than gesturing at it: a programme
+// selector with a chosen row, money crossing off the site, an aircraft on a
+// route. An earlier pass used abstract bars, a shield and an arrowhead, which
+// read as a skeleton loader, "secure" and "growth" respectively — none of them
+// said choose / pay / fly.
+//
+// Two colours only, both from the brand: cobalt carries structure, coral marks
+// the one live thing per scene. Every value is a CSS custom property, so the
+// art moves with the tokens instead of being pinned to hex.
 interface Props { step: "choose" | "pay" | "fly" }
 const { step } = Astro.props;
 ---
 {step === "choose" && (
-  <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="Choosing a programme and an amount of miles">
-    <path class="il-line" d="M0 72H26C90 72 170 40 236 40H250" />
+  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a programme from the list">
+    <path class="il-line" d="M-10 30H44C110 30 180 12 236 12H250" />
+    <circle class="il-ring" cx="44" cy="30" r="10" />
+    <circle class="il-dot" cx="44" cy="30" r="4.5" />
+    <path class="il-tether" d="M44 42V58" />
 
-    <!-- programme options, the chosen one filled — tethered to the waypoint on
-         the same rule as step 2's shield -->
-    <path class="il-link" d="M32 54L38 35" />
-    <rect class="il-opt" x="40" y="8" width="66" height="9" rx="4.5" />
-    <rect class="il-opt-on" x="40" y="24" width="86" height="11" rx="5.5" />
-    <rect class="il-opt" x="40" y="42" width="54" height="9" rx="4.5" />
+    <!-- a programme list with one row chosen: carrier chip, name, rate, chevron -->
+    <rect class="il-chip" x="20" y="62" width="13" height="9" rx="3" />
+    <rect class="il-bar" x="41" y="65" width="72" height="4" rx="2" />
+    <rect class="il-bar-dim" x="121" y="65" width="26" height="4" rx="2" />
 
-    <circle class="il-ring" cx="26" cy="72" r="15" />
-    <circle class="il-dot" cx="26" cy="72" r="6.5" />
+    <rect class="il-chip-on" x="20" y="77" width="13" height="9" rx="3" />
+    <rect class="il-bar-on" x="41" y="80" width="86" height="4" rx="2" />
+    <rect class="il-rate" x="135" y="80" width="30" height="4" rx="2" />
+    <path class="il-chev" d="M174 78l7 6 7-6" />
+
+    <rect class="il-chip" x="20" y="92" width="13" height="9" rx="3" />
+    <rect class="il-bar" x="41" y="95" width="58" height="4" rx="2" />
+    <rect class="il-bar-dim" x="107" y="95" width="26" height="4" rx="2" />
   </svg>
 )}
 
 {step === "pay" && (
-  <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="The quote confirmed, then paid away from this site">
-    <path class="il-line" d="M-10 40H26C100 40 170 58 236 58H250" />
+  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
+    <path class="il-line" d="M-10 12H44C110 12 180 22 236 22H250" />
+    <circle class="il-ring" cx="44" cy="12" r="10" />
+    <circle class="il-dot" cx="44" cy="12" r="4.5" />
+    <path class="il-tether" d="M44 24V58" />
 
-    <!-- the quote, held — tethered back to THIS step's waypoint rather than
-         trailing off to a loose node the reader can't account for -->
-    <path class="il-link" d="M42 51L68 69" />
-    <path class="il-shield" d="M54 79l18-7 18 7v14c0 11-7.5 19-18 22.5-10.5-3.5-18-11.5-18-22.5z" />
-    <path class="il-check" d="M62 90l7 7 13-14" />
+    <!-- Money, and it leaves. A note rather than a coin: two concentric circles
+         read as a target or a record button, not as payment. The dashed edge is
+         this site; the arrow crosses it and keeps going, because nothing is
+         ever charged here. -->
+    <rect class="il-note" x="20" y="62" width="62" height="32" rx="6" />
+    <circle class="il-note-in" cx="51" cy="78" r="7.5" />
 
-    <circle class="il-ring" cx="26" cy="40" r="15" />
-    <circle class="il-dot" cx="26" cy="40" r="6.5" />
+    <path class="il-edge" d="M140 58v46" />
+
+    <path class="il-cross" d="M96 78h104" />
+    <path class="il-arrow" d="M198 72l11 6-11 6z" />
   </svg>
 )}
 
 {step === "fly" && (
-  <svg class="illo" viewBox="0 0 240 120" role="img" aria-label="Miles landing in your own account, then the seat booked">
-    <path class="il-line" d="M-10 58H26C70 58 106 32 118 22" />
+  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="The seat booked and the aircraft away">
+    <path class="il-line" d="M-10 22H44C120 22 190 6 236 6H250" />
+    <circle class="il-ring" cx="44" cy="22" r="10" />
+    <circle class="il-dot" cx="44" cy="22" r="4.5" />
+    <path class="il-tether" d="M44 34V58" />
 
-    <!-- The plane IS this step's motif, and the wave already carries the eye
-         from the coral waypoint straight into it — so no tether is needed here
-         and a second, smaller plane would only read as a stray arrowhead. The
-         notch at (17,21) lands on the path's last point (118,22). -->
-    <g class="il-plane" transform="translate(101 1)">
-      <path d="M0 16L34 0 22 34 17 21z" />
+    <!-- the route it flies, and an actual aircraft on it -->
+    <path class="il-route" d="M44 62C84 62 112 76 146 76" />
+    <g class="il-plane" transform="translate(178 76) rotate(40) scale(.82)">
+      <path d="M0 -22c2.2 0 4 3.4 4 7.6V-8l16 9.6v5.2L4 2v9.6l6 4.4v3.6L0 17.2l-10 2.4V16l6-4.4V2l-16 4.8V1.6l16-9.6v-6.4c0-4.2 1.8-7.6 4-7.6z" />
     </g>
-
-    <circle class="il-ring" cx="26" cy="58" r="15" />
-    <circle class="il-dot" cx="26" cy="58" r="6.5" />
   </svg>
 )}
 
 <style>
   .illo { display:block; width:100%; height:auto; margin-bottom:20px; overflow:visible; }
-  /* Below this the three columns are too narrow to draw the wave legibly, and
-     the steps run as a compact three-up text row instead. Scoped here rather
-     than in flightdeck.css because Astro's scoping makes the rule above and a
+  /* Below this the columns are too narrow to draw the wave legibly, and the
+     steps run as a compact three-up text row instead. Scoped here rather than
+     in flightdeck.css because Astro's scoping makes the rule above and a
      `.steps .illo` override equally specific — same-specificity ties go to
      whichever loads last, which is this file. */
   @media (max-width:820px){ .illo { display:none; } }
@@ -90,22 +101,28 @@ const { step } = Astro.props;
   /* the route — one unbroken stroke the whole way across */
   .il-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
 
-  /* the waypoint — the ONLY coral in the set, one per step */
-  .il-ring { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
-  .il-dot  { fill:var(--coral); }
+  /* the waypoint, and the tether down to this step's motif */
+  .il-ring   { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
+  .il-dot    { fill:var(--coral); }
+  .il-tether { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 6; }
 
-  /* step 1 — the selector */
-  .il-opt    { fill:var(--mist); }
-  .il-opt-on { fill:var(--cobalt); }
+  /* step 1 — the programme list */
+  .il-chip    { fill:var(--mist); }
+  .il-chip-on { fill:var(--cobalt); }
+  .il-bar     { fill:var(--mist); }
+  .il-bar-dim { fill:var(--line-2); }
+  .il-bar-on  { fill:var(--cobalt); }
+  .il-rate    { fill:var(--coral); }
+  .il-chev    { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
 
-  /* the tether from a motif back to its own waypoint — dotted so it reads as a
-     relationship, not as more of the route */
-  .il-link { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 8; }
+  /* step 2 — money crossing off the site */
+  .il-note     { fill:var(--cobalt-tint); stroke:var(--cobalt); stroke-width:2.5; }
+  .il-note-in  { fill:none; stroke:var(--cobalt); stroke-width:2.5; }
+  .il-cross    { fill:none; stroke:var(--coral); stroke-width:2.5; stroke-linecap:round; }
+  .il-arrow    { fill:var(--coral); }
+  .il-edge     { fill:none; stroke:var(--line-2); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 7; }
 
-  /* step 2 — the quote, held */
-  .il-shield { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linejoin:round; }
-  .il-check  { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
-
-  /* step 3 — the seat */
+  /* step 3 — the route and the aircraft */
+  .il-route  { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 7; }
   .il-plane  { fill:var(--cobalt); }
 </style>
