@@ -18,7 +18,7 @@ const blogCategories = await getCategoryCounts();
 const latestPosts = (await getPosts()).slice(0, 2);
 
 const {
-  title = "buyflightmiles — Buy airline miles, delivered fast",
+  title = "buyflightmiles: Buy airline miles, delivered fast",
   description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, and your exact rate confirmed before you pay.",
   slug = "",
   jsonld = null,
@@ -42,7 +42,7 @@ const canonical = new URL(slug, site).href;
   <meta property="og:url" content={canonical} />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="alternate" type="application/rss+xml" title="buyflightmiles — Miles news &amp; guides" href="/rss.xml" />
+  <link rel="alternate" type="application/rss+xml" title="buyflightmiles: Miles news &amp; guides" href="/rss.xml" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

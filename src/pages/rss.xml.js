@@ -5,7 +5,7 @@ import { getPosts } from "../lib/blog";
 export async function GET(context) {
   const posts = await getPosts();
   return rss({
-    title: "buyflightmiles — Miles news & guides",
+    title: "buyflightmiles: Miles news & guides",
     description:
       "Programme news, devaluations, sweet spots and practical guides for buying airline miles.",
     site: context.site ?? "https://buyflightmiles.com",
