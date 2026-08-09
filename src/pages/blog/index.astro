@@ -21,7 +21,7 @@ const jsonld = {
 ---
 <Base
   title="Miles News & Guides | buyflightmiles"
-  description="Programme news, devaluations, sweet spots and practical guides for buying airline miles — written for people booking premium cabins."
+  description="Programme news, devaluations, sweet spots and practical guides for buying airline miles, written for people booking premium cabins."
   slug="blog"
   jsonld={jsonld}
 >
@@ -30,7 +30,7 @@ const jsonld = {
       <div class="section-head">
         <span class="kicker">Blog</span>
         <h2>Miles news &amp; guides</h2>
-        <p>Programme changes, devaluations and how-to guides — with the sources, so you can check them.</p>
+        <p>Programme changes, devaluations and how-to guides, with the sources so you can check them.</p>
       </div>
 
       {categories.length > 0 && (
@@ -77,7 +77,7 @@ const jsonld = {
   </section>
 
   <script is:inline>
-    // Progressive filter over the already-rendered cards — no index to fetch,
+    // Progressive filter over the already-rendered cards: no index to fetch,
     // and the full list is in the HTML for crawlers whether or not JS runs.
     (function () {
       const input = document.getElementById("post-search");
