@@ -88,7 +88,7 @@ const jsonld = {
       <div class="container">
         <div class="section-head">
           <h2>Best ways to use {a.program}</h2>
-          <p>Where these miles stretch furthest — the redemptions worth buying for.</p>
+          <p>Where these miles stretch furthest, and when to keep your cash.</p>
         </div>
         <div class="uses">
           {a.sweetSpots.map((s) => (
@@ -103,32 +103,18 @@ const jsonld = {
             </div>
           ))}
         </div>
-      </div>
-    </section>
-  )}
-
-  <!-- WHEN IT'S WORTH IT — the honest three-band answer, per programme -->
-  {a.valueBands && (
-    <section class="section" style="padding-top:0">
-      <div class="container">
-        <div class="section-head">
-          <h2>When buying {a.program.split(" ")[0]} is worth it</h2>
-          <p>The honest version: sometimes these miles are a bargain, sometimes cash is the better buy.</p>
-        </div>
-        <div class="bands">
-          <div class="band">
-            <span class="band-lab on">Excellent value</span>
-            <ul>{a.valueBands.excellent.map((x) => <li>{x}</li>)}</ul>
+        {a.valueBands && (
+          <div class="band-strip">
+            <div class="band-row">
+              <span class="band-lab">Also good value</span>
+              <p>{a.valueBands.good.join(" · ")}</p>
+            </div>
+            <div class="band-row">
+              <span class="band-lab dim">Skip it, pay cash</span>
+              <p>{a.valueBands.skip.join(" · ")}</p>
+            </div>
           </div>
-          <div class="band">
-            <span class="band-lab">Good value</span>
-            <ul>{a.valueBands.good.map((x) => <li>{x}</li>)}</ul>
-          </div>
-          <div class="band">
-            <span class="band-lab dim">Skip it, pay cash</span>
-            <ul>{a.valueBands.skip.map((x) => <li>{x}</li>)}</ul>
-          </div>
-        </div>
+        )}
       </div>
     </section>
   )}
