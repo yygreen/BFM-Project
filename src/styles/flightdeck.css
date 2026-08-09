@@ -103,6 +103,16 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .hero .spec { margin-top:28px; font-size:14px; color:var(--text-3); display:flex; gap:10px 20px; flex-wrap:wrap; align-items:center; }
 .hero .spec b { color:var(--ink); font-weight:700; font-family:var(--mono); }
 .hero .spec .dot { width:5px; height:5px; border-radius:50%; background:var(--coral); }
+/* the rating closes the stat row — same row, same rhythm, but linked out to
+   the platform so the claim is checkable rather than just asserted */
+/* dot and badge wrap as one unit, so a narrow hero can't leave the separator
+   orphaned at the end of the line above */
+.hero .spec-revwrap { display:inline-flex; align-items:center; gap:20px; }
+.hero .spec-rev { display:inline-flex; align-items:center; gap:7px; }
+.hero .spec-rev:hover .spec-rev-plat { color:var(--text-2); }
+.spec-stars { color:#F5A623; font-size:13px; letter-spacing:1px; line-height:1; }
+.spec-stars-dim { color:var(--line-2); }
+.spec-rev-plat { color:var(--text-3); }
 .blob { position:absolute; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none; }
 
 /* hero feature card */

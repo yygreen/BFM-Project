@@ -8,7 +8,7 @@ import Emblem from "../components/Emblem.astro";
 import QuoteWidget from "../components/QuoteWidget.astro";
 import StepArt from "../components/StepArt.astro";
 import { getCollection } from "astro:content";
-import { site, live, realTestimonials } from "../lib/site";
+import { site, live, realTestimonials, realReviews } from "../lib/site";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
@@ -24,10 +24,15 @@ const heroStats = [
   fastest ? { n: fastest, l: "delivery" } : null,
   { n: String(airlines.length), l: "programmes" },
   live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
-  site.trust.rating.verified && site.trust.rating.value
-    ? { n: `${site.trust.rating.value}/${site.trust.rating.outOf}`, l: "rated" }
-    : null,
 ].filter(Boolean);
+
+// The rating closes the hero stat row — it's the strongest trust signal we
+// have and it was sitting below the fold. Driven by reviews[] (the same source
+// as the badge in the trust section) rather than the separate trust.rating
+// field, so a published rating can never disagree with itself across the page.
+const heroReview = realReviews[0] ?? null;
+const stars = heroReview ? Math.round(heroReview.rating) : 0;
+const starsOut = heroReview ? Math.round(heroReview.outOf) : 0;
 
 const heroSub = site.guarantee.verified
   ? `Buy the miles you're short across every major program — secure transfer, delivered fast, and backed by our ${site.guarantee.shortLabel}. The seat you actually want, finally within reach.`
@@ -77,6 +82,23 @@ const jsonld = {
                   <span><b>{s.n}</b> {s.l}</span>
                 </>
               ))}
+              {heroReview && (
+                <span class="spec-revwrap">
+                  <span class="dot"></span>
+                  <a
+                    class="spec-rev"
+                    href={heroReview.url || undefined}
+                    rel="nofollow noopener"
+                    target={heroReview.url ? "_blank" : undefined}
+                  >
+                    <span class="spec-stars">
+                      {"★".repeat(stars)}<span class="spec-stars-dim">{"★".repeat(Math.max(0, starsOut - stars))}</span>
+                    </span>
+                    <b>{heroReview.rating}</b>
+                    <span class="spec-rev-plat">on {heroReview.platform}</span>
+                  </a>
+                </span>
+              )}
             </div>
           )}
         </div>
