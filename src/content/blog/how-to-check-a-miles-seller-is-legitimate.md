@@ -1,6 +1,6 @@
 ---
 title: "How to check a miles seller is legitimate"
-description: "A practical checklist for vetting anyone selling airline miles — including the questions we'd want you to ask us before you send money."
+description: "A practical checklist for vetting anyone selling airline miles, including the questions we'd want you to ask us before you send money."
 date: 2026-08-06
 category: "Guide"
 programs: []
@@ -10,7 +10,7 @@ This market has a scam problem, and pretending otherwise helps nobody. If you're
 about sending money to a company you found through a search result, that instinct is
 correct and worth acting on.
 
-Below is the checklist we'd want a first-time buyer to run — including on us.
+Below is the checklist we'd want a first-time buyer to run, including on us.
 
 ## 1. Do they quote you before taking money?
 
@@ -21,14 +21,14 @@ warning there is. "Send the payment and we'll sort the details" is not a process
 ## 2. Do their delivery times differ by programme?
 
 Transfer mechanics vary between loyalty programmes, so realistic delivery windows vary too.
-A single blanket promise — everything in an hour, every airline — usually means the number
+A single blanket promise (everything in an hour, every airline) usually means the number
 was chosen for the marketing rather than the mechanics.
 
 ## 3. Will they tell you where the miles come from?
 
 You're entitled to ask. Miles that turn out to have been obtained fraudulently can result in
 the balance being clawed back and the award ticket voided *after* you've flown or checked
-in — the worst possible time to discover a problem. A seller who won't discuss sourcing at
+in, which is the worst possible time to discover a problem. A seller who won't discuss sourcing at
 all is asking you to carry that risk blind.
 
 ## 4. Is the price plausible?
@@ -52,7 +52,7 @@ for the same company, and the gap itself is informative.
 
 Before paying, establish two things: how you reach a human if something goes wrong, and
 what specifically happens if the miles don't arrive. "Guaranteed" on its own is a word.
-A guarantee is a stated outcome — what you get back, and when.
+A guarantee is a stated outcome: what you get back, and when.
 
 ## 7. Never let anyone book on your behalf using your login
 
@@ -62,7 +62,7 @@ profile, and it isn't necessary for a mile purchase.
 
 ---
 
-Run this list on us. If any answer is unsatisfying, that's a reasonable basis not to buy —
+Run this list on us. If any answer is unsatisfying, that's a reasonable basis not to buy,
 from us or from anyone. A seller who's uncomfortable being checked is telling you
 something useful.
 

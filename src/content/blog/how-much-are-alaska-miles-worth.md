@@ -1,6 +1,6 @@
 ---
 title: "How Much Are Alaska Miles Worth? A Trader's Honest Answer"
-description: "Alaska miles are worth 1.2–1.5¢ on average and far more on partner awards — or almost nothing, redeemed badly. How to value Mileage Plan miles like someone who prices them for a living."
+description: "Alaska miles are worth 1.2–1.5¢ on average and far more on partner awards, or almost nothing, redeemed badly. How to value Mileage Plan miles like someone who prices them for a living."
 date: 2026-08-09
 category: "Guide"
 programs: ["alaska-mileage-plan"]
@@ -16,8 +16,8 @@ bad redemption and a good one is about as wide as it gets in this market.
 
 ## The three numbers that matter
 
-When we value any currency — and we value them constantly, because our own
-rates have to track them — we look at three figures, not one:
+When we value any currency (and we value them constantly, because our own
+rates have to track them) we look at three figures, not one:
 
 - **Floor: what the airline would charge you for the same seat in cash.**
   Redeem Alaska miles against a cheap domestic economy fare and you'll clear
@@ -27,8 +27,8 @@ rates have to track them — we look at three figures, not one:
   ordinary people, that's the band Alaska miles land in. If someone quotes you
   a single "value" for the currency, this is the honest one.
 - **Ceiling: partner premium cabins, where Alaska has always punched above
-  its weight.** Mileage Plan's partner awards — long-haul business on its
-  oneworld and independent partners — are the reason this programme has a cult
+  its weight.** Mileage Plan's partner awards, long-haul business on its
+  oneworld and independent partners, are the reason this programme has a cult
   following. Booked well, the same mile that was worth a cent domestically
   clears 4¢ and up. That's not a rounding error; it's a 4x difference in what
   your balance buys.
@@ -37,14 +37,14 @@ rates have to track them — we look at three figures, not one:
 
 The ceiling is what makes the arithmetic of topping up interesting. If your
 target redemption returns 4¢ a mile, then acquiring the shortfall at anything
-under 2¢ is buying dollars for fifty cents — you'd take that trade all day.
+under 2¢ is buying dollars for fifty cents. You'd take that trade all day.
 If your target is a 1¢ economy redemption, buying miles at any price is the
 wrong move; pay cash for the ticket.
 
 That's the whole test, and it's indifferent to where the miles come from:
 **price of the miles versus value of the specific seat**. Alaska's own
 top-up pricing is built for people who don't run that comparison. Ours is
-built for people who do — the current per-mile rate is on the
+built for people who do. The current per-mile rate is on the
 [Alaska Airlines page](/buy/alaska-mileage-plan), and the quote shows the
 full cost against your target amount before anything is committed.
 
@@ -56,7 +56,7 @@ Years of watching balances get spent well and badly reduces to three habits:
    flight. Miles spent there are miles wasted.
 2. **Point the balance at partner business class.** It's where this currency's
    reputation was earned, and it's where your per-mile value multiplies.
-3. **Value your own balance at your own next redemption — not at a blogger's
+3. **Value your own balance at your own next redemption, not at a blogger's
    average.** A 60,000-mile balance aimed at a partner award is worth real
    money. The same balance drifting toward domestic economy is worth a third
    of that. Same miles, different owner behaviour.

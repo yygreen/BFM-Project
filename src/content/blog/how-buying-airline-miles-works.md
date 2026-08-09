@@ -1,6 +1,6 @@
 ---
 title: "How buying airline miles actually works"
-description: "What happens between placing an order and the miles landing in your account — the transfer itself, how long it takes, and what to confirm before you pay."
+description: "What happens between placing an order and the miles landing in your account: the transfer itself, how long it takes, and what to confirm before you pay."
 date: 2026-08-07
 category: "Guide"
 programs: ["krisflyer", "qatar-avios", "ana", "eva-air"]
@@ -8,7 +8,7 @@ programs: ["krisflyer", "qatar-avios", "ana", "eva-air"]
 
 Most people arrive at this needing a specific seat. You've found the business-class
 award you want, you're 40,000 miles short, and the airline wants a fare that costs more
-than the holiday. Buying the shortfall is often the cheapest route to that seat — but the
+than the holiday. Buying the shortfall is often the cheapest route to that seat, but the
 mechanics are rarely explained anywhere, so it feels opaque at exactly the moment you're
 being asked to send money.
 
@@ -17,7 +17,7 @@ Here's what actually happens.
 ## The miles go into your existing account
 
 You don't receive a code, a voucher, or a transferable balance. The miles are deposited
-into the loyalty account you already hold with the airline — the same account number you'd
+into the loyalty account you already hold with the airline, the same account number you'd
 use to book yourself. Once they land, they behave like any other miles in that account:
 you book through the airline's own site, and the reservation is yours.
 
@@ -28,7 +28,7 @@ We're not booking on your behalf and we don't hold your ticket.
 
 Each programme has its own transfer mechanics, so the realistic window differs. Some post
 within a day; others take longer. The window shown on each programme's page is the one we
-commit to for that programme — not a single number applied across the board, because that
+commit to for that programme, not a single number applied across the board, because that
 wouldn't be true.
 
 If a seller quotes you the same delivery time for every airline, that's worth a question.
@@ -44,18 +44,18 @@ pay anything, we confirm in writing:
 
 Nothing is charged from this website. Payment happens off-site, after you've seen and
 agreed the quote. If the number you're asked to pay differs from the number you were
-quoted, something has gone wrong — that shouldn't happen, and it's a fair reason to stop.
+quoted, something has gone wrong. That shouldn't happen, and it's a fair reason to stop.
 
 ## What to have ready
 
 Ordering goes faster if you have three things to hand:
 
-1. **The programme** — the airline whose miles you need, not the airline you're flying.
+1. **The programme.** The airline whose miles you need, not the airline you're flying.
    These differ more often than people expect: many Star Alliance flights can be booked
    with a partner's miles, sometimes far more cheaply.
-2. **The amount** — check your current balance and the award price, then order the gap.
+2. **The amount.** Check your current balance and the award price, then order the gap.
    There's rarely a reason to buy more than you need.
-3. **Your account number** — the loyalty number, exactly as it appears in your account.
+3. **Your account number.** The loyalty number, exactly as it appears in your account.
 
 ## A note on timing
 

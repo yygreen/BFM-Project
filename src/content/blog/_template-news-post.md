@@ -1,5 +1,5 @@
 ---
-title: "Headline — what changed, for which programme"
+title: "Headline: what changed, for which programme"
 description: "One or two sentences a searcher would read in Google. Max 200 characters. Say what changed and who it affects."
 date: 2026-01-01
 category: "News"
@@ -10,14 +10,14 @@ draft: true
 ---
 
 <!--
-  COPY THIS FILE to create a news post. Rename it — the filename becomes the URL
-  (/blog/your-file-name) — and delete `draft: true` when it's ready to publish.
+  COPY THIS FILE to create a news post. Rename it (the filename becomes the URL,
+  /blog/your-file-name) and delete `draft: true` when it's ready to publish.
 
   Rules the build enforces:
     • category "News" or "Devaluations" REQUIRES a `source` URL. This is deliberate:
       a devaluation claim that turns out to be wrong costs more trust than the post
       earns. Link the airline's own announcement wherever possible.
-    • `title` max 75 chars, `description` max 200 — both are used verbatim as the
+    • `title` max 75 chars, `description` max 200. Both are used verbatim as the
       page's SEO meta, so write them for a search result, not for the page.
     • `programs` must be real slugs from src/data/airlines.json. They render as
       links back to those pages, which is most of the SEO value of posting at all.
@@ -26,7 +26,7 @@ draft: true
   Delete this comment block before publishing.
 -->
 
-Lead with the change itself in the first sentence — what it is, which programme, and from
+Lead with the change itself in the first sentence: what it is, which programme, and from
 when. People arriving from search want the fact, not a preamble.
 
 ## What changed
