@@ -4,6 +4,8 @@ description: "Yes, AAdvantage miles can be transferred — but the fees make sma
 date: 2026-08-09
 category: "Guide"
 programs: ["american-aadvantage"]
+image: "/blog/how-to-transfer-american-airlines-miles.jpg"
+imageAlt: "Mile tokens arcing between two account cards, the leading token in coral"
 ---
 
 Yes, AAdvantage miles can be transferred to another person — American sells

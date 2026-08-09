@@ -4,6 +4,8 @@ description: "Alaska miles are worth 1.2–1.5¢ on average and far more on part
 date: 2026-08-09
 category: "Guide"
 programs: ["alaska-mileage-plan"]
+image: "/blog/how-much-are-alaska-miles-worth.jpg"
+imageAlt: "A balance scale weighing one mile token against three ascending coin stacks topped with a paper plane"
 ---
 
 Ask what an Alaska mile is worth and you'll get a blogger's answer: a single

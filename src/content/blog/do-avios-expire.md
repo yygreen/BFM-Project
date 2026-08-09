@@ -4,6 +4,8 @@ description: "Avios expire after 36 months without activity — but any earn or 
 date: 2026-08-09
 category: "Guide"
 programs: ["ba-avios", "qatar-avios"]
+image: "/blog/do-avios-expire.jpg"
+imageAlt: "An hourglass pouring coral mile tokens, one token lifted back out by an upward arrow"
 ---
 
 Yes — Avios expire after **36 months without activity**. Not 36 months after you
