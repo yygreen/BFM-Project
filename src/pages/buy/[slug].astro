@@ -1,6 +1,5 @@
 ---
 import Base from "../../layouts/Base.astro";
-import PricingCard from "../../components/PricingCard.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
 import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
@@ -75,8 +74,10 @@ const jsonld = {
             <span><b>{site.guarantee.verified ? "Guaranteed" : "Quoted first"}</b></span>
           </div>
         </div>
-        <div id="buy">
-          <PricingCard a={a} cta={`Buy ${a.program}`} />
+        <div class="hero-art">
+          <div class="hero-calc" id="quote">
+            <QuoteWidget defaultSlug={a.slug} heading={`What will ${a.program} miles cost?`} sub="Price it, then send the request. We confirm your exact rate before you pay." />
+          </div>
         </div>
       </div>
     </div>
@@ -186,13 +187,6 @@ const jsonld = {
         <h2>Every {a.program} order is protected</h2>
       </div>
       <TrustStrip />
-    </div>
-  </section>
-
-  <!-- QUOTE / ORDER -->
-  <section class="section tinted" id="quote">
-    <div class="container" style="max-width:760px">
-      <QuoteWidget defaultSlug={a.slug} heading={`What will ${a.program} miles cost?`} sub="Price it, then send the request — we confirm your exact rate before you pay." />
     </div>
   </section>
 
