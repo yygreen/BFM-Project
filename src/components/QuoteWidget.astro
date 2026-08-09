@@ -11,7 +11,15 @@
 import { getCollection } from "astro:content";
 import { site, quoteFormReady, directBuyRate } from "../lib/site";
 
-const { defaultSlug = null, heading = "What will your miles cost?", sub = "Any programme, any amount — priced instantly." } = Astro.props;
+const {
+  defaultSlug = null,
+  heading = "What will your miles cost?",
+  sub = "Any programme, any amount — priced instantly.",
+  // Product pages lock the widget to their own programme: the choice is
+  // already made by being on the page, and a selector there mostly invites
+  // leaving it. The homepage keeps the full selector.
+  locked = false,
+} = Astro.props;
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
@@ -50,7 +58,7 @@ const notWired = orderEmail
   : "Quote requests aren't connected yet — please contact us directly and we'll price it for you.";
 ---
 <div class="qw" data-key={accessKey ? "1" : ""}>
-  <script type="application/json" set:html={JSON.stringify(data)} class="qw-data"></script>
+  <script type="application/json" set:html={JSON.stringify(locked ? [start] : data)} class="qw-data"></script>
   <input type="hidden" id="qw-fallback" value={notWired} />
 
   <div class="qw-head">
@@ -68,12 +76,23 @@ const notWired = orderEmail
   <div class="qw-step" data-step="1">
     <div class="qw-controls">
       <div class="field field-wide">
-        <label id="qw-program-label" for="qw-program-btn">Programme</label>
+        <label id="qw-program-label" for={locked ? undefined : "qw-program-btn"}>Programme</label>
         <!-- native select keeps the value and fires change; it is the source of
              truth, the listbox below is only the presentation -->
         <select id="qw-program" class="sr-only" tabindex="-1" aria-hidden="true">
-          {data.map((d) => <option value={d.slug} selected={d.slug === start.slug}>{d.label}</option>)}
+          {(locked ? [start] : data).map((d) => <option value={d.slug} selected={d.slug === start.slug}>{d.label}</option>)}
         </select>
+        {locked && (
+          <div class="csel-btn csel-fixed" id="qw-program-fixed">
+            <span class={`csel-code${start.logo ? " csel-code-logo" : ""}`} style={`--c:${start.color}`}>{start.logo ? <img src={start.logo} alt="" /> : start.code}</span>
+            <span class="csel-txt">
+              <span class="csel-air">{start.airline}</span>
+              <span class="csel-prog">{start.program}</span>
+            </span>
+            <span class="csel-price">{start.verified ? "" : "~"}{start.rate}¢</span>
+          </div>
+        )}
+        {!locked && (
         <div class="csel" id="qw-csel">
           <button type="button" class="csel-btn" id="qw-program-btn"
             aria-haspopup="listbox" aria-expanded="false" aria-labelledby="qw-program-label qw-program-btn">
@@ -98,6 +117,7 @@ const notWired = orderEmail
             ))}
           </ul>
         </div>
+        )}
       </div>
       <div class="field field-wide">
         <label for="qw-miles">How many miles?</label>
@@ -127,7 +147,7 @@ const notWired = orderEmail
   <!-- STEP 2 — details -->
   <div class="qw-step" data-step="2" hidden>
     <div class="qw-recap">
-      <button type="button" class="qw-back" id="qw-back">← Change programme</button>
+      <button type="button" class="qw-back" id="qw-back">{locked ? "← Edit amount" : "← Change programme"}</button>
       <div class="qw-recap-row">
         <span class="qw-recap-prog" id="qw-recap-prog"></span>
         <label class="qw-recap-edit">

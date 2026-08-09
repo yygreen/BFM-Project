@@ -192,6 +192,11 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .step-art.b { background:var(--coral-tint); color:var(--coral); }
 .step-art.c { background:var(--ok-tint); color:#0A7D5A; }
 
+/* locked programme display — the csel shell without the affordances */
+.csel-fixed { cursor:default; }
+.csel-fixed:hover { border-color:var(--line-2); }
+.csel-fixed .csel-price { margin-left:auto; font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--text-2); }
+
 /* ---- product page: sweet-spot cost line, value bands, quirks + facts ---- */
 .use-cost { font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); margin-bottom:8px; }
 /* the sweet-spot cards ARE the excellent tier; this strip below them carries
