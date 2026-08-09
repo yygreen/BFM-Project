@@ -4,6 +4,7 @@ import TrustStrip from "../../components/TrustStrip.astro";
 import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
+import SavingsTool from "../../components/SavingsTool.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
@@ -162,6 +163,17 @@ const jsonld = {
     </div>
   </section>
 
+  <!-- RUN THE NUMBERS — the visitor's own fare vs our rate, verdict included -->
+  <section class="section" style="padding-top:0" id="worth">
+    <div class="container" style="max-width:860px">
+      <div class="section-head">
+        <h2>Does buying {a.program.split(" ")[0]} beat the cash fare?</h2>
+        <p>Paste the cash price from your flight search and we'll run the numbers. If cash wins, we'll say so.</p>
+      </div>
+      <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
+    </div>
+  </section>
+
   <!-- QUIRKS + FACTS — what makes this programme ITSELF, honest bits included -->
   {(a.quirks.length > 0 || a.mechanics.length > 0) && (
     <section class="section" style="padding-top:0">
@@ -211,6 +223,18 @@ const jsonld = {
     <div class="container" style="max-width:760px">
       <div class="section-head"><h2>Buying {a.airline} miles — your questions</h2></div>
       <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} extras={a.faqExtras} />
+    </div>
+  </section>
+
+  <!-- CLOSING CTA — the widget lives in the hero, so the page ends with a
+       clear road back to it -->
+  <section class="section tinted" style="padding:38px 0">
+    <div class="container ctaband">
+      <div>
+        <h3>Ready to price your {a.program} order?</h3>
+        <p>Quoted first, delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
+      </div>
+      <a class="btn btn-primary" href="#quote">{verified ? `Price ${a.program.split(" ")[0]} now` : "Request a live quote"}</a>
     </div>
   </section>
 

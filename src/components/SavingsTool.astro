@@ -1,0 +1,126 @@
+---
+// Miles-vs-cash comparison tool, embedded on each programme page.
+//
+// The argument for buying miles, made interactively and honestly. We hold no
+// verified cash-fare data (the old site's invented "$6,000 fare" examples were
+// removed on purpose), so the visitor supplies the cash price they actually
+// found, we supply the arithmetic at OUR live rate, and the verdict is allowed
+// to be "pay cash" when the miles lose. A tool that can say "don't buy from
+// us" is worth ten that can't.
+//
+// Presets come from the programme's sweetSpots (the ones carrying a miles
+// figure), so the tool opens on the redemption the page is about.
+interface Props {
+  program: string;
+  rate: number;          // cents per mile
+  verified: boolean;
+  presets?: { title: string; miles: number }[];
+}
+const { program, rate, verified, presets = [] } = Astro.props;
+const startMiles = presets[0]?.miles ?? 60000;
+const approx = verified ? "" : "~";
+---
+<div class="stool" data-rate={rate} data-approx={approx}>
+  <div class="stool-in">
+    {presets.length > 0 && (
+      <div class="stool-presets" role="group" aria-label="Example redemptions">
+        {presets.map((p, i) => (
+          <button type="button" class={`stool-chip${i === 0 ? " on" : ""}`} data-miles={p.miles}>
+            {p.title} · {p.miles.toLocaleString("en-US")}
+          </button>
+        ))}
+      </div>
+    )}
+    <div class="stool-fields">
+      <div class="field">
+        <label for="st-miles">Miles the award needs</label>
+        <input id="st-miles" type="number" inputmode="numeric" step="1000" min="1000" value={startMiles} />
+      </div>
+      <div class="field">
+        <label for="st-fare">Cash fare you found ($)</label>
+        <input id="st-fare" type="number" inputmode="numeric" step="50" min="1" placeholder="from your flight search" />
+      </div>
+    </div>
+  </div>
+
+  <div class="stool-out" id="st-out" data-state="empty">
+    <div class="stool-cols">
+      <div class="stool-col">
+        <span class="k">Cash fare</span>
+        <b id="st-cash">—</b>
+      </div>
+      <div class="stool-col vs" aria-hidden="true">vs</div>
+      <div class="stool-col">
+        <span class="k">{program} miles, bought at {approx}{rate}¢</span>
+        <b id="st-cost">—</b>
+      </div>
+    </div>
+    <div class="stool-verdict" id="st-verdict">
+      Enter the cash fare from your flight search and we'll run the numbers.
+    </div>
+    <a class="btn btn-primary stool-cta" id="st-cta" href="#quote" hidden>Get this quoted →</a>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const root = document.querySelector(".stool");
+    if (!root) return;
+    const rate = parseFloat(root.dataset.rate);
+    const approx = root.dataset.approx || "";
+    const $ = (id) => document.getElementById(id);
+    const miles = $("st-miles");
+    const fare = $("st-fare");
+    const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+
+    function render() {
+      const m = parseInt(miles.value, 10);
+      const f = parseFloat(fare.value);
+      const out = $("st-out");
+      const okM = Number.isFinite(m) && m > 0;
+      const okF = Number.isFinite(f) && f > 0;
+
+      $("st-cash").textContent = okF ? usd(f) : "—";
+      $("st-cost").textContent = okM ? approx + usd((m * rate) / 100) : "—";
+
+      if (!okM || !okF) {
+        out.dataset.state = "empty";
+        $("st-verdict").textContent = "Enter the cash fare from your flight search and we'll run the numbers.";
+        $("st-cta").hidden = true;
+        return;
+      }
+
+      const cost = (m * rate) / 100;
+      const saving = f - cost;
+      const seatValue = (f / m) * 100; // what this seat values one mile at, in cents
+
+      // The verdict is allowed to be "pay cash". That honesty is the point.
+      let msg;
+      if (seatValue >= rate * 1.8) {
+        out.dataset.state = "win";
+        msg = `Clear win for miles: this seat values a mile at ${seatValue.toFixed(1)}¢ against our ${approx}${rate}¢ rate. Buying the miles saves ${approx}${usd(saving)} (${Math.round((saving / f) * 100)}% off the cash fare).`;
+      } else if (seatValue >= rate * 1.1) {
+        out.dataset.state = "ok";
+        msg = `Miles come out ahead: ${approx}${usd(saving)} cheaper than the cash fare. Not a blowout, but a real saving.`;
+      } else {
+        out.dataset.state = "cash";
+        msg = `Honestly? Pay cash for this one. At ${usd(f)}, this seat values a mile at ${seatValue.toFixed(1)}¢, below our ${approx}${rate}¢ rate. Buying miles here would cost you money.`;
+      }
+      $("st-verdict").textContent = msg;
+      $("st-cta").hidden = out.dataset.state === "cash";
+    }
+
+    miles.addEventListener("input", render);
+    fare.addEventListener("input", render);
+    document.querySelectorAll(".stool-chip").forEach((c) => {
+      c.addEventListener("click", () => {
+        document.querySelectorAll(".stool-chip").forEach((x) => x.classList.remove("on"));
+        c.classList.add("on");
+        miles.value = c.dataset.miles;
+        render();
+        fare.focus();
+      });
+    });
+    render();
+  })();
+</script>

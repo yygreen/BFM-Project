@@ -225,6 +225,33 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .facts .row b { color:var(--text-1); font-weight:600; text-align:right; }
 .facts .cap { font-size:12px; color:var(--text-3); margin:10px 0 0; line-height:1.5; }
 
+/* ---- savings tool: the visitor's fare vs our rate ---- */
+.stool { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); overflow:hidden; }
+.stool-in { padding:24px 26px 20px; }
+.stool-presets { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+.stool-chip { font-family:var(--sans); font-size:12.5px; font-weight:600; color:var(--text-2); background:var(--raised); border:1px solid transparent; border-radius:var(--radius-pill); padding:7px 14px; cursor:pointer; }
+.stool-chip:hover { color:var(--cobalt); }
+.stool-chip.on { color:var(--cobalt); background:var(--cobalt-tint); border-color:var(--cobalt-line); }
+.stool-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:560px){ .stool-fields { grid-template-columns:1fr; } }
+.stool-fields label { display:block; font-size:13px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
+.stool-fields input { width:100%; padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--radius); font-family:var(--mono); font-size:15px; background:var(--surface); color:var(--text-1); }
+.stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
+.stool-out { background:var(--raised); padding:22px 26px; }
+.stool-cols { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+.stool-col .k { display:block; font-size:12.5px; color:var(--text-3); margin-bottom:3px; }
+.stool-col b { font-family:var(--mono); font-size:24px; font-weight:600; color:var(--text-1); font-variant-numeric:tabular-nums; }
+.stool-col.vs { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-3); text-transform:uppercase; }
+.stool-verdict { margin-top:14px; font-size:14.5px; line-height:1.6; color:var(--text-2); max-width:64ch; }
+.stool-out[data-state="win"] .stool-verdict b, .stool-out[data-state="win"] #st-cost { color:var(--cobalt); }
+.stool-out[data-state="win"] .stool-verdict, .stool-out[data-state="ok"] .stool-verdict { color:var(--text-1); font-weight:500; }
+.stool-cta { margin-top:16px; }
+
+/* closing CTA band on programme pages */
+.ctaband { display:flex; align-items:center; justify-content:space-between; gap:22px; flex-wrap:wrap; }
+.ctaband h3 { font-weight:800; font-size:clamp(19px,2.4vw,24px); letter-spacing:-.02em; }
+.ctaband p { margin:5px 0 0; color:var(--text-2); font-size:14.5px; }
+
 /* ---- compare table ---- */
 .twrap { overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); }
 table.cmp { width:100%; border-collapse:collapse; min-width:520px; background:var(--surface); }
