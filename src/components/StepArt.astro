@@ -80,6 +80,12 @@ const { step } = Astro.props;
 
 <style>
   .illo { display:block; width:100%; height:auto; margin-bottom:20px; overflow:visible; }
+  /* Below this the three columns are too narrow to draw the wave legibly, and
+     the steps run as a compact three-up text row instead. Scoped here rather
+     than in flightdeck.css because Astro's scoping makes the rule above and a
+     `.steps .illo` override equally specific — same-specificity ties go to
+     whichever loads last, which is this file. */
+  @media (max-width:820px){ .illo { display:none; } }
 
   /* the route — one unbroken stroke the whole way across */
   .il-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }

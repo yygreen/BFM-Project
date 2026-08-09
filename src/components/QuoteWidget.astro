@@ -37,6 +37,11 @@ const start = defaultSlug
   ? data.find((d) => d.slug === defaultSlug) ?? data[0]
   : data.find((d) => d.verified) ?? data[0];
 
+// A sensible opening amount that is actually orderable for the starting
+// programme — every programme carries its own min/max, so a fixed 60,000 would
+// sit below the minimum on some of them.
+const startAmount = Math.min(Math.max(60000, start.min), start.max);
+
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
 const notWired = orderEmail
@@ -95,7 +100,8 @@ const notWired = orderEmail
       </div>
       <div class="field field-wide">
         <label for="qw-miles">How many miles?</label>
-        <input id="qw-miles" type="number" inputmode="numeric" min="1000" step="1000" value="60000" />
+        <input id="qw-miles" type="number" inputmode="numeric" step="1000" value={startAmount} min={start.min} max={start.max} />
+        <span class="field-help" id="qw-range"></span>
       </div>
     </div>
 
@@ -179,13 +185,39 @@ const notWired = orderEmail
       return Number.isFinite(m) && m > 0 ? m : 0;
     }
 
+    const num = (n) => n.toLocaleString("en-US");
+
+    // Each programme sets its own order size. Carry those onto the input so the
+    // field validates against the programme actually selected, not a global
+    // floor — otherwise the widget happily prices 10,000 SkyMiles against a
+    // 25,000 minimum and quotes an order that would be turned away.
+    function applyBounds(c) {
+      miles1.min = c.min;
+      miles1.max = c.max;
+      miles1.placeholder = num(c.min);
+      miles2.min = c.min;
+      miles2.max = c.max;
+    }
+
     function render() {
       const c = byId[prog.value];
       const m = amount();
       const cost = (m * c.rate) / 100;
       const approx = c.verified ? "" : "~";
+      const outOfRange = m > 0 && (m < c.min || m > c.max);
+      const ok = m > 0 && !outOfRange;
 
-      $("qw-cost").textContent = m ? approx + usd(cost) : "$0";
+      const range = $("qw-range");
+      range.textContent = outOfRange
+        ? `${c.program} orders run ${num(c.min)}–${num(c.max)} miles.`
+        : `${num(c.min)} minimum, ${num(c.max)} maximum.`;
+      range.classList.toggle("warn", outOfRange);
+
+      // Never price an amount the programme won't accept, and don't let it
+      // reach step 2 — a quote we'd have to retract is worse than no quote.
+      $("qw-next").disabled = !ok;
+
+      $("qw-cost").textContent = outOfRange ? "—" : m ? approx + usd(cost) : "$0";
       // "≈" already signals approximation — don't also prefix "~"
       $("qw-per").textContent = "≈ $" + Math.round(c.rate * 10) + " per 1,000 miles";
       $("qw-rate").textContent = approx + c.rate + "¢/mi";
@@ -194,7 +226,7 @@ const notWired = orderEmail
 
       // savings only against a sourced airline rate
       const saveRow = $("qw-save-row");
-      if (c.direct && c.direct > c.rate && m) {
+      if (c.direct && c.direct > c.rate && ok) {
         $("qw-save-k").textContent = "You save vs " + c.direct + "¢ direct";
         $("qw-save").textContent = usd(Math.max(0, (m * c.direct) / 100 - cost));
         saveRow.hidden = false;
@@ -204,11 +236,11 @@ const notWired = orderEmail
 
       // step 2 recap + hidden fields that actually get emailed
       $("qw-recap-prog").textContent = c.label;
-      $("qw-recap-cost").textContent = m ? approx + usd(cost) : "—";
+      $("qw-recap-cost").textContent = ok ? approx + usd(cost) : "—";
       if (document.activeElement !== miles2) miles2.value = m || "";
       $("qw-f-programme").value = c.label;
-      $("qw-f-miles").value = m;
-      $("qw-f-estimate").value = m ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
+      $("qw-f-miles").value = ok ? m : "";
+      $("qw-f-estimate").value = ok ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
     }
 
     // ---- custom programme dropdown ------------------------------------
@@ -296,7 +328,18 @@ const notWired = orderEmail
       prog.addEventListener("change", paint);
     })();
 
-    prog.addEventListener("change", render);
+    // Switching programme clears the amount and asks for it again. Carrying the
+    // previous number over re-prices silently against a different rate and a
+    // different min/max, so the visitor can end up looking at a figure they
+    // never asked for — and one the new programme may not even accept.
+    prog.addEventListener("change", () => {
+      const c = byId[prog.value];
+      applyBounds(c);
+      miles1.value = "";
+      miles2.value = "";
+      render();
+      miles1.focus();
+    });
     miles1.addEventListener("input", render);
     // editing the amount on step 2 drives step 1's field, so there is one source of truth
     miles2.addEventListener("input", () => { miles1.value = miles2.value; render(); });
@@ -355,6 +398,7 @@ const notWired = orderEmail
       }
     });
 
+    applyBounds(byId[prog.value]);
     render();
   })();
 </script>

@@ -2,7 +2,6 @@
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import Trustpilot from "../components/Trustpilot.astro";
-import CompareTable from "../components/CompareTable.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
@@ -14,11 +13,6 @@ import { site, live, realTestimonials } from "../lib/site";
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
-
-// Hero feature card = the cheapest program with a confirmed price, so a
-// pricing update in airlines.json moves the hero automatically.
-const featured =
-  airlines.filter((a) => a.priceVerified && a.inStock).sort((a, b) => a.pricePerMile - b.pricePerMile)[0] ?? airlines[0];
 
 // Hero stats: only figures we can stand behind. The delivery window is the
 // fastest CONFIRMED one; rating/completion appear once the client verifies them.
@@ -153,16 +147,11 @@ const jsonld = {
       <div class="section-head">
         <span class="kicker">Why trust us</span>
         <h2>What backs every order</h2>
-        <p>Buying miles should feel as straightforward as any other purchase. Here's exactly how yours is handled, and what it costs.</p>
+        <p>Buying miles should feel as straightforward as any other purchase. Here's exactly how yours is handled.</p>
       </div>
 
       <TrustStrip />
       <Trustpilot />
-
-      <div class="trust-split">
-        <h3>What you get, and how it compares</h3>
-      </div>
-      <CompareTable program="miles" pricePerMile={featured.pricePerMile} priceVerified={featured.priceVerified} delivery={featured.deliveryVerified ? featured.delivery : ""} directBuyCents={featured.directBuyCents} min={featured.min} max={featured.max} />
     </div>
   </section>
 
