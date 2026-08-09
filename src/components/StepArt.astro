@@ -32,7 +32,7 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a programme from the list">
-    <path class="il-line" d="M-10 30H44C80 30 90 46 124 46S200 10 236 10H250" />
+    <path class="il-line" d="M-10 30H44C110 30 180 12 236 12H250" />
     <circle class="il-ring" cx="44" cy="30" r="10" />
     <circle class="il-dot" cx="44" cy="30" r="4.5" />
     <path class="il-tether" d="M44 42V58" />
@@ -55,10 +55,10 @@ const { step } = Astro.props;
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
-    <path class="il-line" d="M-10 10H44C84 10 96 44 132 44S196 12 236 12H250" />
-    <circle class="il-ring" cx="44" cy="10" r="10" />
-    <circle class="il-dot" cx="44" cy="10" r="4.5" />
-    <path class="il-tether" d="M44 22V58" />
+    <path class="il-line" d="M-10 12H44C110 12 180 22 236 22H250" />
+    <circle class="il-ring" cx="44" cy="12" r="10" />
+    <circle class="il-dot" cx="44" cy="12" r="4.5" />
+    <path class="il-tether" d="M44 24V58" />
 
     <!-- Money, and it leaves. A note rather than a coin: two concentric circles
          read as a target or a record button, not as payment. The dashed edge is
@@ -80,13 +80,13 @@ const { step } = Astro.props;
          column that doesn't exist — it ends in an arrowhead rotated onto the
          path's own end tangent, so the head continues the line instead of
          sitting at an angle to it. -->
-    <path class="il-line" d="M-10 12H44C72 12 82 44 116 44C152 44 170 16 192 10" />
-    <g class="il-tip" transform="translate(192 10) rotate(-15)">
+    <path class="il-line" d="M-10 22H44C110 22 156 22 196 10" />
+    <g class="il-tip" transform="translate(196 10) rotate(-17)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
-    <circle class="il-ring" cx="44" cy="12" r="10" />
-    <circle class="il-dot" cx="44" cy="12" r="4.5" />
-    <path class="il-tether" d="M44 24V58" />
+    <circle class="il-ring" cx="44" cy="22" r="10" />
+    <circle class="il-dot" cx="44" cy="22" r="4.5" />
+    <path class="il-tether" d="M44 34V58" />
 
     <!-- the aircraft sits directly under its own tether, close enough that the
          long dotted run between them is no longer needed -->
