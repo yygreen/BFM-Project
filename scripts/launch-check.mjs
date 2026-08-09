@@ -34,6 +34,18 @@ if (undelivered.length) {
   ]);
 } else done.push(["1", "All delivery windows verified"]);
 
+// Order limits are their own fact — priceVerified covers the per-mile rate,
+// not how small or large an order we'll take. Every programme currently
+// carries an identical 25,000/500,000, which is a default, not a policy.
+const unlimited = airlines.filter((a) => !a.limitsVerified);
+if (unlimited.length) {
+  blocking.push([
+    "1",
+    `Order min/max unconfirmed for ${unlimited.length} program(s) — the quote widget GUIDES with these figures ("orders usually start around…") instead of enforcing them, so nothing is turned away on an invented limit`,
+    "src/data/airlines.json → min, max, then limitsVerified: true. Note every program currently shares 25,000/500,000, which no one has confirmed",
+  ]);
+} else done.push(["1", "All order limits verified"]);
+
 // ── Agenda 2 — payment methods ───────────────────────────────────────
 if (!site.payments.verified) {
   blocking.push([

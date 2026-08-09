@@ -57,8 +57,13 @@ const airlines = defineCollection({
       // is always more defensible than the shared default.
       directBuyCents: z.number().positive().max(20).nullable().default(null),
 
+      // Order limits carry their own flag. They are a different fact from a
+      // different source than the per-mile price, so priceVerified must not
+      // stand in for them — while this is false the widget guides with the
+      // figure instead of asserting it as the programme's policy.
       min: z.number().int().positive(),
       max: z.number().int().positive(),
+      limitsVerified: z.boolean().default(false),
 
       delivery: z.string().min(1),
       deliveryVerified: z.boolean().default(false),

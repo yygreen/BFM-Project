@@ -53,6 +53,17 @@ client's, and it stays suppressed until they make it.
 
 ### Agenda 1 — Pricing, min/max, delivery → `src/data/airlines.json`
 
+> **The order limits are not confirmed for any programme.** All thirteen have
+> carried an identical `min: 25000` / `max: 500000` since the data file was
+> created — a uniform default, never a per-programme policy, and never checked
+> with the client. `priceVerified` covers the per-mile rate only. Until
+> `limitsVerified` is `true`, the quote widget *guides* with these numbers
+> ("orders usually start around 25,000 miles — ask and we'll quote a smaller
+> one") rather than refusing the order, so nobody is turned away on a figure we
+> invented. Ask the client for two things per programme: **the smallest order
+> they'll take**, and **the largest single transfer the programme itself
+> permits** — those are different limits from different sources.
+
 Currently unconfirmed: **Delta SkyMiles, United MileagePlus, American AAdvantage, BA Avios.**
 
 ```jsonc
@@ -62,7 +73,8 @@ Currently unconfirmed: **Delta SkyMiles, United MileagePlus, American AAdvantage
   "max": 500000,
   "delivery": "Within 48 hours", // keep the "Within …" prefix
   "priceVerified": true,         // ← flip once the number is confirmed
-  "deliveryVerified": true       // ← flip once the window is confirmed
+  "deliveryVerified": true,      // ← flip once the window is confirmed
+  "limitsVerified": true         // ← flip once min/max are confirmed
 }
 ```
 

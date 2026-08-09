@@ -11,11 +11,12 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": false,
     "inStock": true,
     "heroHeadline": "Buy Delta SkyMiles with precision.",
-    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within the day.",
+    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare \u2014 delivered to your account, securely, within the day.",
     "metaTitle": "Buy Delta SkyMiles | Fast, Secure Delivery | buyflightmiles",
     "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, backed by our delivery guarantee.",
     "related": [
@@ -51,6 +52,7 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": false,
     "inStock": true,
@@ -91,6 +93,7 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": false,
     "inStock": true,
@@ -131,13 +134,14 @@
     "priceVerified": true,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Singapore KrisFlyer miles.",
     "heroSub": "Fly Singapore Suites and Business on one of the world's best airlines. Buy the KrisFlyer miles you're short, delivered fast.",
     "metaTitle": "Buy Singapore KrisFlyer Miles | buyflightmiles",
-    "metaDescription": "Buy Singapore Airlines KrisFlyer miles from 1.8¢. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy Singapore Airlines KrisFlyer miles from 1.8\u00a2. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
     "related": [
       "ana",
       "eva-air"
@@ -171,13 +175,14 @@
     "priceVerified": true,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Qatar Airways Avios.",
-    "heroSub": "Book Qsuite — one of the best business classes in the sky — for less. Buy Qatar Avios and complete your redemption within the day.",
+    "heroSub": "Book Qsuite \u2014 one of the best business classes in the sky \u2014 for less. Buy Qatar Avios and complete your redemption within the day.",
     "metaTitle": "Buy Qatar Airways Avios | Qsuite Redemptions | buyflightmiles",
-    "metaDescription": "Buy Qatar Airways Avios from 1.8¢ and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
+    "metaDescription": "Buy Qatar Airways Avios from 1.8\u00a2 and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
     "related": [
       "ba-avios",
       "american-aadvantage"
@@ -185,7 +190,7 @@
     "sweetSpots": [
       {
         "title": "Qsuite business class",
-        "desc": "One of the best business classes flying — bookable with Qatar Avios."
+        "desc": "One of the best business classes flying \u2014 bookable with Qatar Avios."
       },
       {
         "title": "Short-haul & partner awards",
@@ -211,13 +216,14 @@
     "priceVerified": true,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 72 hours",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy ANA Mileage Club miles.",
     "heroSub": "ANA's award chart is one of the best-value routes to first and business class. Buy the miles you need, delivered securely.",
     "metaTitle": "Buy ANA Mileage Club Miles | buyflightmiles",
-    "metaDescription": "Buy ANA Mileage Club miles from 1.9¢. Secure transfer, delivered within 72 hours, backed by our delivery guarantee.",
+    "metaDescription": "Buy ANA Mileage Club miles from 1.9\u00a2. Secure transfer, delivered within 72 hours, backed by our delivery guarantee.",
     "related": [
       "krisflyer",
       "united-mileageplus"
@@ -251,6 +257,7 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": false,
     "inStock": true,
@@ -291,13 +298,14 @@
     "priceVerified": true,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 48 hours",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy EVA Air miles.",
     "heroSub": "EVA's Royal Laurel business class is a standout. Buy Infinity MileageLands miles and lock in your redemption for less.",
     "metaTitle": "Buy EVA Air Infinity MileageLands Miles | buyflightmiles",
-    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95¢. Secure transfer, delivered within 48 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95\u00a2. Secure transfer, delivered within 48 hours, your exact rate confirmed before you pay.",
     "related": [
       "krisflyer",
       "ana"
@@ -331,6 +339,7 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
@@ -346,7 +355,7 @@
     "sweetSpots": [
       {
         "title": "Every seat is bookable",
-        "desc": "Rapid Rewards has no blackout dates — if a fare is for sale, points can book it, so a top-up always has somewhere to go."
+        "desc": "Rapid Rewards has no blackout dates \u2014 if a fare is for sale, points can book it, so a top-up always has somewhere to go."
       },
       {
         "title": "Refundable bookings",
@@ -354,7 +363,7 @@
       },
       {
         "title": "Companion Pass holders",
-        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only — which doubles what a top-up is worth."
+        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only \u2014 which doubles what a top-up is worth."
       }
     ],
     "logo": "/logos/southwest-rapid-rewards.svg",
@@ -372,11 +381,12 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
     "heroHeadline": "Buy Alaska Mileage Plan miles.",
-    "heroSub": "One of the most useful currencies in the air — Mileage Plan books Oneworld partners in premium cabins, and a small top-up often unlocks a far bigger seat.",
+    "heroSub": "One of the most useful currencies in the air \u2014 Mileage Plan books Oneworld partners in premium cabins, and a small top-up often unlocks a far bigger seat.",
     "metaTitle": "Buy Alaska Airlines Miles | Mileage Plan | buyflightmiles",
     "metaDescription": "Buy Alaska Airlines Mileage Plan miles for Oneworld partner redemptions in business and first. Secure transfer, exact rate confirmed before you pay.",
     "related": [
@@ -391,7 +401,7 @@
       },
       {
         "title": "Long-haul premium cabins",
-        "desc": "The programme is best known for business and first-class partner redemptions rather than domestic economy — that's where a top-up earns its keep."
+        "desc": "The programme is best known for business and first-class partner redemptions rather than domestic economy \u2014 that's where a top-up earns its keep."
       },
       {
         "title": "Stopovers on award tickets",
@@ -413,11 +423,12 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
     "heroHeadline": "Buy JetBlue TrueBlue points.",
-    "heroSub": "Top up for Mint transcontinental seats or a family booking — points post to your own account and book directly with JetBlue.",
+    "heroSub": "Top up for Mint transcontinental seats or a family booking \u2014 points post to your own account and book directly with JetBlue.",
     "metaTitle": "Buy JetBlue Points | TrueBlue | buyflightmiles",
     "metaDescription": "Buy JetBlue TrueBlue points to complete a booking, including Mint. Secure transfer into your own account, exact rate confirmed before you pay.",
     "related": [
@@ -432,7 +443,7 @@
       },
       {
         "title": "No blackout dates",
-        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points — a top-up is never stranded."
+        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points \u2014 a top-up is never stranded."
       },
       {
         "title": "Points pooling",
@@ -454,6 +465,7 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
@@ -491,6 +503,7 @@
     "priceVerified": false,
     "min": 25000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,

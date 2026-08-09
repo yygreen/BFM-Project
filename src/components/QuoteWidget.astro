@@ -30,6 +30,7 @@ const data = airlines.map((a) => ({
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
   min: a.min,
   max: a.max,
+  limitsVerified: a.limitsVerified,
   direct: directBuyRate(a.directBuyCents),
 }));
 
@@ -211,25 +212,39 @@ const notWired = orderEmail
       const approx = c.verified ? "" : "~";
       const outOfRange = m > 0 && (m < c.min || m > c.max);
       const ok = m > 0 && !outOfRange;
+      // blocked only when the limit is a confirmed rule, not a placeholder
+      const blocked = outOfRange && c.limitsVerified;
+      const canGo = m > 0 && !blocked;
 
       // Below the minimum the fix is always the same — order the minimum — so
       // say the number and offer it as one click rather than leaving the buyer
       // to guess. Above the maximum the ceiling is the answer instead.
       const below = m > 0 && m < c.min;
       const target = below ? c.min : c.max;
-      const fixMsg = outOfRange
-        ? (below
-            ? `${c.program} has a ${num(c.min)} mile minimum.`
-            : `${c.program} caps a single order at ${num(c.max)} miles.`)
-        : "";
-      const fixLabel = outOfRange ? `Use ${num(target)}` : "";
+      // Until the client confirms the order limits, these figures GUIDE but do
+      // not assert. Stating "KrisFlyer has a 25,000 mile minimum" as policy —
+      // and refusing the order on it — would be publishing an unverified claim
+      // about the client's own business, and could turn away business they'd
+      // happily take. Once limitsVerified flips, it becomes a firm rule.
+      const fixMsg = !outOfRange
+        ? ""
+        : c.limitsVerified
+          ? (below
+              ? `${c.program} has a ${num(c.min)} mile minimum.`
+              : `${c.program} caps a single order at ${num(c.max)} miles.`)
+          : (below
+              ? `Orders usually start around ${num(c.min)} miles — ask and we'll quote a smaller one.`
+              : `Above about ${num(c.max)} miles we'll quote it as a custom order.`);
+      const fixLabel = outOfRange && c.limitsVerified ? `Use ${num(target)}` : "";
 
       const range = $("qw-range");
-      range.textContent = outOfRange ? fixMsg : `${num(c.min)} minimum, ${num(c.max)} maximum.`;
+      range.textContent = outOfRange ? fixMsg
+        : c.limitsVerified ? `${num(c.min)} minimum, ${num(c.max)} maximum.`
+        : `Most orders run ${num(c.min)}–${num(c.max)} miles.`;
       range.classList.toggle("warn", outOfRange);
 
       const fix1 = $("qw-minfix-1");
-      fix1.hidden = !outOfRange;
+      fix1.hidden = !(outOfRange && c.limitsVerified);
       fix1.textContent = fixLabel;
       fix1.dataset.target = target;
 
@@ -245,10 +260,10 @@ const notWired = orderEmail
       // Never price an amount the programme won't accept, and don't let it
       // reach step 2 or the inbox — a quote we'd have to retract is worse than
       // no quote.
-      $("qw-next").disabled = !ok;
-      $("qw-submit").disabled = !ok;
+      $("qw-next").disabled = !canGo;
+      $("qw-submit").disabled = !canGo;
 
-      $("qw-cost").textContent = outOfRange ? "—" : m ? approx + usd(cost) : "$0";
+      $("qw-cost").textContent = blocked ? "—" : m ? approx + usd(cost) : "$0";
       // "≈" already signals approximation — don't also prefix "~"
       $("qw-per").textContent = "≈ $" + Math.round(c.rate * 10) + " per 1,000 miles";
       $("qw-rate").textContent = approx + c.rate + "¢/mi";
@@ -257,7 +272,7 @@ const notWired = orderEmail
 
       // savings only against a sourced airline rate
       const saveRow = $("qw-save-row");
-      if (c.direct && c.direct > c.rate && ok) {
+      if (c.direct && c.direct > c.rate && canGo) {
         $("qw-save-k").textContent = "You save vs " + c.direct + "¢ direct";
         $("qw-save").textContent = usd(Math.max(0, (m * c.direct) / 100 - cost));
         saveRow.hidden = false;
@@ -267,11 +282,11 @@ const notWired = orderEmail
 
       // step 2 recap + hidden fields that actually get emailed
       $("qw-recap-prog").textContent = c.label;
-      $("qw-recap-cost").textContent = ok ? approx + usd(cost) : "—";
+      $("qw-recap-cost").textContent = canGo ? approx + usd(cost) : "—";
       if (document.activeElement !== miles2) miles2.value = m || "";
       $("qw-f-programme").value = c.label;
-      $("qw-f-miles").value = ok ? m : "";
-      $("qw-f-estimate").value = ok ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
+      $("qw-f-miles").value = canGo ? m : "";
+      $("qw-f-estimate").value = canGo ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
     }
 
     // ---- custom programme dropdown ------------------------------------
