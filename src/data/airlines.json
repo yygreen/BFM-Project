@@ -189,20 +189,82 @@
     ],
     "sweetSpots": [
       {
-        "title": "Qsuite business class",
-        "desc": "One of the best business classes flying \u2014 bookable with Qatar Avios."
+        "title": "Qsuite to Doha",
+        "miles": 70000,
+        "desc": "The business class other airlines get measured against: a door, a double bed if you want one, dine on demand. One-way from the US East Coast typically prices from around 70,000 Avios."
       },
       {
-        "title": "Short-haul & partner awards",
-        "desc": "Efficient pricing on Oneworld partners and regional routes."
+        "title": "Onward to the Maldives and Southeast Asia",
+        "desc": "Doha is a one-stop hub to the Indian Ocean and half of Asia, so a single award often covers the whole honeymoon leg. Availability is best booked early and midweek."
       },
       {
-        "title": "Off-peak savings",
-        "desc": "Select dates price lower, stretching your Avios further."
+        "title": "Oneworld partner awards",
+        "desc": "Avios also book American, British Airways, Cathay Pacific, Japan Airlines and the rest of Oneworld when Qatar's own cabins are sold out."
       }
     ],
     "logo": "/logos/qatar-avios.svg",
-    "logoAlt": "Qatar Airways logo"
+    "logoAlt": "Qatar Airways logo",
+    "valueBands": {
+      "excellent": [
+        "Qsuite long-haul business, especially US routes to Doha and onward connections",
+        "Premium cabins to the Maldives, Seychelles and Southeast Asia via Doha"
+      ],
+      "good": [
+        "Long-haul economy when cash fares run high",
+        "Short Oneworld partner hops at off-peak pricing"
+      ],
+      "skip": [
+        "Economy seats you could buy cheaply with cash",
+        "Any itinerary where the taxes and fees at checkout approach the cash fare"
+      ]
+    },
+    "quirks": [
+      {
+        "title": "QMiles don't exist any more",
+        "text": "Qatar retired QMiles in 2022 and moved Privilege Club onto Avios. Older guides still talk about QMiles; every balance was converted, and Avios is the only currency you'll deal with today."
+      },
+      {
+        "title": "Your Avios aren't locked to Qatar",
+        "text": "Link Privilege Club with British Airways, Iberia or Finnair and Avios move between them 1:1, instantly, in both directions. Worth comparing our BA rate before you buy: the cheaper of the two funds the same redemption."
+      },
+      {
+        "title": "The miles are only part of the price",
+        "text": "Award bookings add taxes, fees and carrier charges in cash at checkout. On most Qatar redemptions they're reasonable, but check the full total before you top up. We quote the miles; the airline bills the extras."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months of no activity; any earn or spend resets the balance"
+      },
+      {
+        "label": "Book with",
+        "text": "Qatar Airways + Oneworld (AA, BA, Cathay, JAL and more)"
+      },
+      {
+        "label": "Transfers in",
+        "text": "1:1 instant from linked BA, Iberia and Finnair accounts"
+      },
+      {
+        "label": "What we need",
+        "text": "Privilege Club number and account name. Never your password"
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Is Avios the same as QMiles?",
+        "a": "Yes. Qatar Airways retired QMiles in 2022 and converted every balance to Avios, the same currency British Airways, Iberia and Finnair use. Anything you read about QMiles applies to Avios now."
+      },
+      {
+        "q": "Can I move Qatar Avios to British Airways?",
+        "a": "Yes. Link your Privilege Club and BA Executive Club accounts and Avios transfer 1:1, instantly, in both directions. That also means it's worth comparing our Qatar and BA rates and buying whichever is cheaper."
+      },
+      {
+        "q": "Do Qatar Avios expire?",
+        "a": "After 36 months without any account activity. A single earn or spend of any size resets the clock on the entire balance."
+      }
+    ],
+    "factsChecked": "August 2026"
   },
   {
     "id": "ana",

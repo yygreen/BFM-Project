@@ -18,6 +18,7 @@ const {
   program = null,        // e.g. "AAdvantage"
   pricePerMile = null,
   priceVerified = false,
+  extras = [],          // per-programme Q&As from airlines.json (faqExtras)
 } = Astro.props;
 
 const window = delivery.replace("Within ", "");
@@ -73,6 +74,9 @@ const faqs = [
   { q: airline ? `How much does it cost to buy ${airline} miles?` : "How much does it cost to buy airline miles?", a: costAnswer, open: true },
   { q: airline ? `Can you buy ${airline} miles?` : "Can you buy airline miles?", a: canAnswer },
   { q: airline ? `How fast are ${program || airline} miles delivered?` : "How fast are miles delivered?", a: deliveryAnswer },
+  // programme-specific questions slot in here, near the top, and join the
+  // FAQPage JSON-LD with everything else
+  ...extras.map((e) => ({ q: e.q, a: e.a })),
   { q: "Is buying airline miles worth it?", a: worthAnswer },
   { q: "What payment methods do you accept?", a: paymentAnswer },
   ...(site.guarantee.verified && site.guarantee.policy

@@ -18,7 +18,25 @@ import { file, glob } from "astro/loaders";
 const sweetSpot = z.object({
   title: z.string().min(1),
   desc: z.string().min(1),
+  // typical miles for the redemption — when present the template computes the
+  // cost at OUR live rate, so the figure can never contradict the widget
+  miles: z.number().int().positive().optional(),
 });
+
+// ---- per-programme editorial blocks -------------------------------------
+// What keeps thirteen generated pages from being the same page thirteen
+// times: per-programme FACTS, not filler. Every block is optional and renders
+// only when filled — a half-empty section is worse than none — and any claim
+// about the programme itself is dated via factsChecked, because expiry rules
+// and fee behaviour go stale.
+const valueBands = z.object({
+  excellent: z.array(z.string().min(1)),
+  good: z.array(z.string().min(1)),
+  skip: z.array(z.string().min(1)),
+});
+const quirk = z.object({ title: z.string().min(1), text: z.string().min(1) });
+const fact = z.object({ label: z.string().min(1), text: z.string().min(1) });
+const faqExtra = z.object({ q: z.string().min(1), a: z.string().min(1) });
 
 const airlines = defineCollection({
   loader: file("src/data/airlines.json"),
@@ -78,6 +96,12 @@ const airlines = defineCollection({
       // slugs of related programs (validated for existence in [slug].astro)
       related: z.array(z.string()).max(4).default([]),
       sweetSpots: z.array(sweetSpot).default([]),
+      valueBands: valueBands.optional(),
+      quirks: z.array(quirk).default([]),
+      mechanics: z.array(fact).default([]),
+      faqExtras: z.array(faqExtra).default([]),
+      // when the programme-fact blocks above were last checked, e.g. "August 2026"
+      factsChecked: z.string().optional(),
     })
     .refine((d) => d.max >= d.min, {
       message: "max must be greater than or equal to min",

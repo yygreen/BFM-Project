@@ -192,6 +192,30 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .step-art.b { background:var(--coral-tint); color:var(--coral); }
 .step-art.c { background:var(--ok-tint); color:#0A7D5A; }
 
+/* ---- product page: sweet-spot cost line, value bands, quirks + facts ---- */
+.use-cost { font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); margin-bottom:8px; }
+.bands { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+@media (max-width:820px){ .bands { grid-template-columns:1fr; } }
+.band { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px 24px; box-shadow:var(--shadow-sm); }
+.band-lab { display:inline-block; font-family:var(--display); font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--text-2); background:var(--raised); padding:5px 12px; border-radius:var(--radius-pill); margin-bottom:12px; }
+.band-lab.on { color:var(--cobalt); background:var(--cobalt-tint); }
+.band-lab.dim { color:var(--text-3); }
+.band ul { margin:0; padding:0 0 0 18px; }
+.band li { color:var(--text-2); font-size:14.5px; margin:7px 0; }
+.quirkfacts { display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:start; }
+@media (max-width:860px){ .quirkfacts { grid-template-columns:1fr; } }
+.quirk { margin-bottom:22px; }
+.quirk:last-child { margin-bottom:0; }
+.quirk h4 { font-weight:800; font-size:17px; margin-bottom:6px; }
+.quirk p { color:var(--text-2); font-size:14.5px; line-height:1.65; max-width:58ch; }
+.facts { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px 24px; box-shadow:var(--shadow-sm); }
+.facts .lab { font-size:13px; font-weight:600; color:var(--text-3); margin:0 0 6px; }
+.facts .row { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid var(--line); font-size:14px; }
+.facts .row:last-of-type { border-bottom:0; }
+.facts .row span { color:var(--text-3); white-space:nowrap; }
+.facts .row b { color:var(--text-1); font-weight:600; text-align:right; }
+.facts .cap { font-size:12px; color:var(--text-3); margin:10px 0 0; line-height:1.5; }
+
 /* ---- compare table ---- */
 .twrap { overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); }
 table.cmp { width:100%; border-collapse:collapse; min-width:520px; background:var(--surface); }

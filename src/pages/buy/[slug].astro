@@ -94,9 +94,40 @@ const jsonld = {
           {a.sweetSpots.map((s) => (
             <div class="use">
               <h4>{s.title}</h4>
+              {s.miles && (
+                <div class="use-cost">
+                  from {s.miles.toLocaleString("en-US")} Avios · {verified ? "" : "~"}${Math.round((s.miles * a.pricePerMile) / 100).toLocaleString("en-US")} at our rate
+                </div>
+              )}
               <p>{s.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- WHEN IT'S WORTH IT — the honest three-band answer, per programme -->
+  {a.valueBands && (
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <h2>When buying {a.program.split(" ")[0]} is worth it</h2>
+          <p>The honest version: sometimes these miles are a bargain, sometimes cash is the better buy.</p>
+        </div>
+        <div class="bands">
+          <div class="band">
+            <span class="band-lab on">Excellent value</span>
+            <ul>{a.valueBands.excellent.map((x) => <li>{x}</li>)}</ul>
+          </div>
+          <div class="band">
+            <span class="band-lab">Good value</span>
+            <ul>{a.valueBands.good.map((x) => <li>{x}</li>)}</ul>
+          </div>
+          <div class="band">
+            <span class="band-lab dim">Skip it, pay cash</span>
+            <ul>{a.valueBands.skip.map((x) => <li>{x}</li>)}</ul>
+          </div>
         </div>
       </div>
     </section>
@@ -128,6 +159,39 @@ const jsonld = {
     </div>
   </section>
 
+  <!-- QUIRKS + FACTS — what makes this programme ITSELF, honest bits included -->
+  {(a.quirks.length > 0 || a.mechanics.length > 0) && (
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <h2>Worth knowing about {a.program}</h2>
+          <p>The details that change how you should buy and spend these miles.</p>
+        </div>
+        <div class="quirkfacts">
+          {a.quirks.length > 0 && (
+            <div class="quirks">
+              {a.quirks.map((q) => (
+                <div class="quirk">
+                  <h4>{q.title}</h4>
+                  <p>{q.text}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          {a.mechanics.length > 0 && (
+            <div class="facts">
+              <p class="lab">The facts</p>
+              {a.mechanics.map((f) => (
+                <div class="row"><span>{f.label}</span><b>{f.text}</b></div>
+              ))}
+              {a.factsChecked && <p class="cap">Programme facts checked {a.factsChecked}. Policies move; we re-check before every quote.</p>}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- TRUST -->
   <section class="section" style="padding-top:0">
     <div class="container">
@@ -150,7 +214,7 @@ const jsonld = {
   <section class="section" style="padding-top:0">
     <div class="container" style="max-width:760px">
       <div class="section-head"><h2>Buying {a.airline} miles — your questions</h2></div>
-      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} />
+      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} extras={a.faqExtras} />
     </div>
   </section>
 
