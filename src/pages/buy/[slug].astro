@@ -91,29 +91,45 @@ const jsonld = {
           <h2>Best ways to use {a.program}</h2>
           <p>Where these miles stretch furthest, and when to keep your cash.</p>
         </div>
-        <div class="uses">
-          {a.sweetSpots.map((s) => (
-            <div class="use">
-              <h4>{s.title}</h4>
-              {s.miles && (
-                <div class="use-cost">
-                  from {s.miles.toLocaleString("en-US")} Avios · {verified ? "" : "~"}${Math.round((s.miles * a.pricePerMile) / 100).toLocaleString("en-US")} at our rate
-                </div>
-              )}
-              <p>{s.desc}</p>
-            </div>
-          ))}
+        <!-- three tiers in descending visual weight: priced cards, then flat
+             cards, then a muted line — the hierarchy IS the verdict -->
+        <div class="vtier">
+          <div class="vtier-head">
+            <span class="vchip v1">Great value</span>
+            <span class="vtier-note">The redemptions worth buying miles for</span>
+          </div>
+          <div class="uses">
+            {a.sweetSpots.map((s) => (
+              <div class="use">
+                <h4>{s.title}</h4>
+                {s.miles && (
+                  <div class="use-cost">
+                    from {s.miles.toLocaleString("en-US")} miles · {verified ? "" : "~"}${Math.round((s.miles * a.pricePerMile) / 100).toLocaleString("en-US")} at our rate
+                  </div>
+                )}
+                <p>{s.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
         {a.valueBands && (
-          <div class="band-strip">
-            <div class="band-row">
-              <span class="band-lab">Also good value</span>
-              <p>{a.valueBands.good.join(" · ")}</p>
+          <div class="vtier">
+            <div class="vtier-head">
+              <span class="vchip v2">Good value</span>
+              <span class="vtier-note">Solid uses when the cash fare is high</span>
             </div>
-            <div class="band-row">
-              <span class="band-lab dim">Skip it, pay cash</span>
-              <p>{a.valueBands.skip.join(" · ")}</p>
+            <div class="vgood">
+              {a.valueBands.good.map((x) => <div class="vitem">{x}</div>)}
             </div>
+          </div>
+        )}
+        {a.valueBands && (
+          <div class="vtier">
+            <div class="vtier-head">
+              <span class="vchip v3">Skip it, pay cash</span>
+              <span class="vtier-note">Where miles waste their value</span>
+            </div>
+            <p class="vskip">{a.valueBands.skip.join("  ·  ")}</p>
           </div>
         )}
       </div>

@@ -199,15 +199,18 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 
 /* ---- product page: sweet-spot cost line, value bands, quirks + facts ---- */
 .use-cost { font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); margin-bottom:8px; }
-/* the sweet-spot cards ARE the excellent tier; this strip below them carries
-   the other two verdicts without repeating the cards' content */
-.band-strip { margin-top:22px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:8px 24px; box-shadow:var(--shadow-sm); }
-.band-row { display:flex; align-items:baseline; gap:16px; padding:13px 0; }
-.band-row + .band-row { border-top:1px solid var(--line); }
-.band-lab { flex:none; font-family:var(--display); font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--cobalt); background:var(--cobalt-tint); padding:5px 12px; border-radius:var(--radius-pill); }
-.band-lab.dim { color:var(--text-3); background:var(--raised); }
-.band-row p { margin:0; color:var(--text-2); font-size:14.5px; line-height:1.6; }
-@media (max-width:640px){ .band-row { flex-direction:column; gap:8px; } }
+/* value tiers — descending visual weight is the hierarchy: white priced
+   cards, then flat bordered items, then one muted line */
+.vtier + .vtier { margin-top:30px; }
+.vtier-head { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:14px; }
+.vchip { font-family:var(--display); font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; padding:6px 14px; border-radius:var(--radius-pill); }
+.vchip.v1 { background:var(--cobalt); color:#fff; }
+.vchip.v2 { background:var(--cobalt-tint); color:var(--cobalt); }
+.vchip.v3 { background:var(--raised); color:var(--text-3); }
+.vtier-note { font-size:13.5px; color:var(--text-3); }
+.vgood { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; }
+.vgood .vitem { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px; font-size:14.5px; color:var(--text-2); }
+.vskip { margin:0; color:var(--text-3); font-size:14px; line-height:1.7; }
 .quirkfacts { display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:start; }
 @media (max-width:860px){ .quirkfacts { grid-template-columns:1fr; } }
 .quirk { margin-bottom:22px; }
