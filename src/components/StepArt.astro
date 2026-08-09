@@ -76,14 +76,21 @@ const { step } = Astro.props;
 
 {step === "fly" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="The seat booked and the aircraft away">
-    <path class="il-line" d="M-10 22H44C120 22 190 6 236 6H250" />
+    <!-- last panel, so the wave terminates here rather than overshooting into a
+         column that doesn't exist — it ends in an arrowhead rotated onto the
+         path's own end tangent, so the head continues the line instead of
+         sitting at an angle to it. -->
+    <path class="il-line" d="M-10 22H44C110 22 156 22 196 10" />
+    <g class="il-tip" transform="translate(196 10) rotate(-17)">
+      <path d="M-3 -6.5L12 0-3 6.5z" />
+    </g>
     <circle class="il-ring" cx="44" cy="22" r="10" />
     <circle class="il-dot" cx="44" cy="22" r="4.5" />
     <path class="il-tether" d="M44 34V58" />
 
-    <!-- the route it flies, and an actual aircraft on it -->
-    <path class="il-route" d="M44 62C84 62 112 76 146 76" />
-    <g class="il-plane" transform="translate(178 76) rotate(40) scale(.82)">
+    <!-- the aircraft sits directly under its own tether, close enough that the
+         long dotted run between them is no longer needed -->
+    <g class="il-plane" transform="translate(80 80) rotate(40) scale(1.15)">
       <path d="M0 -22c2.2 0 4 3.4 4 7.6V-8l16 9.6v5.2L4 2v9.6l6 4.4v3.6L0 17.2l-10 2.4V16l6-4.4V2l-16 4.8V1.6l16-9.6v-6.4c0-4.2 1.8-7.6 4-7.6z" />
     </g>
   </svg>
@@ -123,6 +130,6 @@ const { step } = Astro.props;
   .il-edge     { fill:none; stroke:var(--line-2); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 7; }
 
   /* step 3 — the route and the aircraft */
-  .il-route  { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 7; }
   .il-plane  { fill:var(--cobalt); }
+  .il-tip    { fill:var(--cobalt); }
 </style>
