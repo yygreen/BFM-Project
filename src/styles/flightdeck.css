@@ -650,6 +650,13 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    make, not an error the visitor has committed */
 .field-help.warn { color:var(--warn); font-weight:600; }
 .qw-cta:disabled { opacity:.45; cursor:not-allowed; }
+/* the one-click way out of an out-of-range amount */
+.qw-minfix { margin-top:8px; background:none; border:0; padding:0; cursor:pointer;
+  font-family:var(--sans); font-size:12.5px; font-weight:700; color:var(--cobalt); text-decoration:underline; }
+.qw-minfix:hover { color:var(--cobalt-2); }
+.qw-minline { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; margin:10px 0 0;
+  font-size:12.5px; font-weight:600; color:var(--warn); }
+.qw-minline .qw-minfix { margin-top:0; }
 
 .qw-controls .field-wide { grid-column:1 / -1; }
 

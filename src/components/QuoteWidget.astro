@@ -102,6 +102,7 @@ const notWired = orderEmail
         <label for="qw-miles">How many miles?</label>
         <input id="qw-miles" type="number" inputmode="numeric" step="1000" value={startAmount} min={start.min} max={start.max} />
         <span class="field-help" id="qw-range"></span>
+        <button type="button" class="qw-minfix" id="qw-minfix-1" hidden></button>
       </div>
     </div>
 
@@ -130,11 +131,15 @@ const notWired = orderEmail
         <span class="qw-recap-prog" id="qw-recap-prog"></span>
         <label class="qw-recap-edit">
           <span class="sr-only">Miles</span>
-          <input id="qw-miles-2" type="number" inputmode="numeric" min="1000" step="1000" />
+          <input id="qw-miles-2" type="number" inputmode="numeric" step="1000" />
           <span>miles</span>
         </label>
         <b class="qw-recap-cost" id="qw-recap-cost"></b>
       </div>
+      <p class="qw-minline" id="qw-minline" hidden>
+        <span id="qw-minmsg"></span>
+        <button type="button" class="qw-minfix" id="qw-minfix"></button>
+      </p>
     </div>
 
     <form class="qw-form" id="qw-form">
@@ -207,15 +212,41 @@ const notWired = orderEmail
       const outOfRange = m > 0 && (m < c.min || m > c.max);
       const ok = m > 0 && !outOfRange;
 
+      // Below the minimum the fix is always the same — order the minimum — so
+      // say the number and offer it as one click rather than leaving the buyer
+      // to guess. Above the maximum the ceiling is the answer instead.
+      const below = m > 0 && m < c.min;
+      const target = below ? c.min : c.max;
+      const fixMsg = outOfRange
+        ? (below
+            ? `${c.program} has a ${num(c.min)} mile minimum.`
+            : `${c.program} caps a single order at ${num(c.max)} miles.`)
+        : "";
+      const fixLabel = outOfRange ? `Use ${num(target)}` : "";
+
       const range = $("qw-range");
-      range.textContent = outOfRange
-        ? `${c.program} orders run ${num(c.min)}–${num(c.max)} miles.`
-        : `${num(c.min)} minimum, ${num(c.max)} maximum.`;
+      range.textContent = outOfRange ? fixMsg : `${num(c.min)} minimum, ${num(c.max)} maximum.`;
       range.classList.toggle("warn", outOfRange);
 
+      const fix1 = $("qw-minfix-1");
+      fix1.hidden = !outOfRange;
+      fix1.textContent = fixLabel;
+      fix1.dataset.target = target;
+
+      // Step 2 showed a bare "—" for the price with nothing to explain it, and
+      // its submit button stayed live, so an unbuyable amount could be sent.
+      const minline = $("qw-minline");
+      minline.hidden = !outOfRange;
+      $("qw-minmsg").textContent = fixMsg;
+      const fix2 = $("qw-minfix");
+      fix2.textContent = fixLabel;
+      fix2.dataset.target = target;
+
       // Never price an amount the programme won't accept, and don't let it
-      // reach step 2 — a quote we'd have to retract is worse than no quote.
+      // reach step 2 or the inbox — a quote we'd have to retract is worse than
+      // no quote.
       $("qw-next").disabled = !ok;
+      $("qw-submit").disabled = !ok;
 
       $("qw-cost").textContent = outOfRange ? "—" : m ? approx + usd(cost) : "$0";
       // "≈" already signals approximation — don't also prefix "~"
@@ -340,6 +371,16 @@ const notWired = orderEmail
       render();
       miles1.focus();
     });
+    // one click puts the order on the nearest bound it can actually be placed at
+    function useTarget(e) {
+      const v = e.currentTarget.dataset.target;
+      miles1.value = v;
+      miles2.value = v;
+      render();
+    }
+    $("qw-minfix-1").addEventListener("click", useTarget);
+    $("qw-minfix").addEventListener("click", useTarget);
+
     miles1.addEventListener("input", render);
     // editing the amount on step 2 drives step 1's field, so there is one source of truth
     miles2.addEventListener("input", () => { miles1.value = miles2.value; render(); });
