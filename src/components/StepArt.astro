@@ -32,7 +32,7 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a programme from the list">
-    <path class="il-line" d="M-10 30H44C110 30 180 12 236 12H250" />
+    <path class="il-line" d="M-10 30H44C138 30 152 12 236 12H250" />
     <circle class="il-ring" cx="44" cy="30" r="10" />
     <circle class="il-dot" cx="44" cy="30" r="4.5" />
     <path class="il-tether" d="M44 42V58" />
@@ -55,7 +55,7 @@ const { step } = Astro.props;
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
-    <path class="il-line" d="M-10 12H44C110 12 180 22 236 22H250" />
+    <path class="il-line" d="M-10 12H44C138 12 152 22 236 22H250" />
     <circle class="il-ring" cx="44" cy="12" r="10" />
     <circle class="il-dot" cx="44" cy="12" r="4.5" />
     <path class="il-tether" d="M44 24V58" />
@@ -80,8 +80,8 @@ const { step } = Astro.props;
          column that doesn't exist — it ends in an arrowhead rotated onto the
          path's own end tangent, so the head continues the line instead of
          sitting at an angle to it. -->
-    <path class="il-line" d="M-10 22H44C110 22 156 22 196 10" />
-    <g class="il-tip" transform="translate(196 10) rotate(-17)">
+    <path class="il-line" d="M-10 22H44C132 22 158 21 196 10" />
+    <g class="il-tip" transform="translate(196 10) rotate(-16)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
     <circle class="il-ring" cx="44" cy="22" r="10" />
