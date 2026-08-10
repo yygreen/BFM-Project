@@ -309,6 +309,12 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 
 /* ---- related ---- */
 .related { display:flex; gap:11px; flex-wrap:wrap; }
+/* the ask-us card at the end of the programme grid — invitation, not product */
+.gcard-ask { display:flex; flex-direction:column; justify-content:center; gap:10px;
+  background:transparent; border:1.5px dashed var(--line-strong); box-shadow:none; }
+.gcard-ask .askp { margin:0; font-size:13.5px; line-height:1.55; color:var(--text-2); }
+.gcard-ask .askcta { color:var(--cobalt); font-weight:600; font-size:14px; }
+.gcard-ask:hover { border-color:var(--cobalt); }
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }

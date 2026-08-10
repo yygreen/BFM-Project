@@ -159,6 +159,13 @@ const jsonld = {
             <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
           </a>
         ))}
+        <!-- catch-all for programmes we don't list — a request, not a promise:
+             availability gets confirmed in the quote, never asserted here -->
+        <a class="gcard gcard-ask" href="#quote">
+          <div class="pname">Can't find your programme?</div>
+          <p class="askp">Not listed doesn't mean not available. Tell us the programme and amount, and we'll check it and quote you.</p>
+          <span class="askcta">Ask for a quote →</span>
+        </a>
       </div>
     </div>
   </section>
