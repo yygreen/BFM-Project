@@ -70,13 +70,13 @@ const jsonld = {
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <Breadcrumbs items={[
-        { label: "Home", href: "/" },
-        { label: "Programs", href: "/#programs" },
-        { label: `${a.airline} ${progShort}` },
-      ]} />
       <div class="hero-grid top">
         <div>
+          <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Programs", href: "/#programs" },
+            { label: `${a.airline} ${progShort}` },
+          ]} />
           <span class="kicker">{a.alliance}</span>
           {a.i18n?.ar && <a class="lang-toggle" href={`/ar/buy/${a.slug}`} lang="ar" hreflang="ar">العربية</a>}
           <h1>{a.heroHeadline}</h1>
@@ -100,10 +100,13 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- BEST WAYS TO USE -->
-  {a.sweetSpots && a.sweetSpots.length > 0 && (
-    <section class="section" id="uses">
-      <div class="container">
+  <!-- BEST WAYS TO USE + RUN THE NUMBERS — one section: the ladder makes the
+       value claim, and the tool that tests it against a real fare sits in the
+       same room rather than a section of its own -->
+  <section class="section wash-cool" id="uses">
+    <div class="container">
+      {a.sweetSpots && a.sweetSpots.length > 0 && (
+      <>
         <div class="section-head">
           <h2>Best ways to use {a.program}</h2>
           <p>Where these miles stretch furthest, and when to keep your cash.</p>
@@ -149,17 +152,10 @@ const jsonld = {
             <p class="vskip">{a.valueBands.skip.join("  ·  ")}</p>
           </div>
         )}
-      </div>
-    </section>
-  )}
-
-  <!-- RUN THE NUMBERS — the visitor's own fare vs our rate, verdict included.
-       Sits directly under the value ladder: the ladder makes the claim, this
-       lets the visitor test it against a fare they actually found. -->
-  <section class="section wash-cool" id="worth">
-    <div class="container">
-      <div class="section-head">
-        <h2>Does buying {progShort} beat the cash fare?</h2>
+      </>
+      )}
+      <div class="worth-sub" id="worth">
+        <h3>Does buying {progShort} beat the cash fare?</h3>
         <p>Paste the price from your flight search. If cash wins, we'll say so.</p>
       </div>
       <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />

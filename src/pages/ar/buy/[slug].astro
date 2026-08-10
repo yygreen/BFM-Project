@@ -70,13 +70,13 @@ const verified = a.priceVerified;
   <div dir="rtl" lang="ar">
     <section class="hero">
       <div class="container">
-        <Breadcrumbs rtl items={[
-          { label: "الرئيسية", href: "/" },
-          { label: "البرامج", href: "/#programs" },
-          { label: t.heroHeadline },
-        ]} />
         <div class="hero-grid top">
           <div>
+            <Breadcrumbs rtl items={[
+              { label: "الرئيسية", href: "/" },
+              { label: "البرامج", href: "/#programs" },
+              { label: t.heroHeadline },
+            ]} />
             <span class="kicker">{a.alliance}</span>
             <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">English</a>
             <h1>{t.heroHeadline}</h1>

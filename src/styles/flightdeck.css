@@ -262,6 +262,15 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .stool-cta { margin-top:16px; }
 /* .btn's display rule outranks the UA [hidden] style, so restate it */
 .stool-cta[hidden] { display:none; }
+/* the run-the-numbers block inside the value section — a sub-heading, not a
+   second section head, so ladder and tool read as one room */
+.worth-sub { margin:48px 0 22px; }
+.worth-sub h3 { font-size:clamp(21px,2.6vw,27px); letter-spacing:-0.02em; }
+.worth-sub p { color:var(--text-2); font-size:15px; margin:8px 0 0; }
+
+.stool-skip { display:inline-block; margin-top:12px; font-size:13.5px; font-weight:600; color:var(--cobalt); }
+.stool-skip:hover { text-decoration:underline; }
+.stool-skip[hidden] { display:none; }
 
 /* closing CTA band on programme pages */
 .ctaband { display:flex; align-items:center; justify-content:space-between; gap:22px; flex-wrap:wrap; }
