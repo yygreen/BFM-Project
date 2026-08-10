@@ -10,9 +10,11 @@ import StepArt from "../components/StepArt.astro";
 import { getCollection } from "astro:content";
 import { site, live, realTestimonials, realReviews } from "../lib/site";
 
+// alphabetical by carrier, matching the nav dropdown and the quote widget's
+// selector — the grid is a lookup wall, and one site shouldn't have two orders
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
-  .sort((a, b) => a.order - b.order);
+  .sort((a, b) => a.airline.localeCompare(b.airline));
 
 // Hero stats: only figures we can stand behind. The delivery window is the
 // fastest CONFIRMED one; rating/completion appear once the client verifies them.
