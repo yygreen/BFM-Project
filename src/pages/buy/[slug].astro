@@ -31,6 +31,9 @@ const verified = a.priceVerified;
 // programme name without any parenthetical — "Avios (Privilege Club)" reads
 // fine as a title but turns copy like "price your … order" into a mouthful
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
+// "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
+// suffix when the programme name already ends in it
+const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
 const rev = realReviews[0];
 const years = yearsTrading();
 const related = a.related
@@ -42,7 +45,7 @@ const related = a.related
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: `${a.airline} ${a.program} miles`,
+  name: /miles$/i.test(a.program) ? `${a.airline} ${a.program}` : `${a.airline} ${a.program} miles`,
   description: a.metaDescription,
   brand: { "@type": "Brand", name: a.airline },
   offers: {
@@ -123,7 +126,7 @@ const jsonld = {
         </div>
         <div class="hero-art">
           <div class="hero-calc" id="quote">
-            <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${a.program} miles cost?`} sub="Price it, then request your free, no-obligation quote. We confirm your exact rate before you pay." />
+            <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${progMiles} cost?`} sub="Price it, then request your free, no-obligation quote. We confirm your exact rate before you pay." />
           </div>
         </div>
       </div>

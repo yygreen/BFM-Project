@@ -117,12 +117,12 @@
     },
     {
       "source": "/airlines/cathay-pacific-asia-miles",
-      "destination": "/request",
+      "destination": "/buy/asia-miles",
       "permanent": true
     },
     {
       "source": "/airlines/avianca-lifemiles",
-      "destination": "/request",
+      "destination": "/buy/lifemiles",
       "permanent": true
     },
     {

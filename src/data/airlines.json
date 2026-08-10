@@ -7,16 +7,16 @@
     "alliance": "SkyTeam",
     "code": "DL",
     "color": "#9A1C33",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
+    "pricePerMile": 1.95,
+    "priceVerified": true,
     "min": 25000,
     "max": 500000,
     "limitsVerified": false,
     "delivery": "Within 24 hours",
-    "deliveryVerified": false,
-    "inStock": true,
+    "deliveryVerified": true,
+    "inStock": false,
     "heroHeadline": "Buy Delta SkyMiles with precision.",
-    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within the day.",
+    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within 24 hours.",
     "metaTitle": "Buy Delta SkyMiles | Fast, Secure Delivery | buyflightmiles",
     "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, your exact price confirmed before you pay.",
     "related": [
@@ -48,18 +48,18 @@
     "alliance": "Star Alliance",
     "code": "UA",
     "color": "#1A3E7E",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
+    "pricePerMile": 2,
+    "priceVerified": true,
     "min": 25000,
     "max": 500000,
     "limitsVerified": false,
-    "delivery": "Within 24 hours",
-    "deliveryVerified": false,
+    "delivery": "Within 72 hours",
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy United MileagePlus miles.",
     "heroSub": "Close the gap on a Polaris redemption. Buy the MileagePlus miles you need at a fraction of the price, delivered fast.",
     "metaTitle": "Buy United Miles | MileagePlus Top-Ups | buyflightmiles",
-    "metaDescription": "Buy United MileagePlus miles at a fraction of the price. Secure, guaranteed transfer delivered within 24 hours.",
+    "metaDescription": "Buy United MileagePlus miles at a fraction of the price. Secure transfer delivered within 72 hours, your exact rate confirmed before you pay.",
     "related": [
       "ana",
       "krisflyer"
@@ -130,18 +130,18 @@
     "alliance": "Star Alliance",
     "code": "SQ",
     "color": "#1B2A5B",
-    "pricePerMile": 1.8,
+    "pricePerMile": 2.2,
     "priceVerified": true,
     "min": 25000,
     "max": 500000,
     "limitsVerified": false,
-    "delivery": "Within 24 hours",
+    "delivery": "Within 72 hours",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Singapore KrisFlyer miles.",
     "heroSub": "Fly Singapore Suites and Business on one of the world's best airlines. Buy the KrisFlyer miles you're short, delivered fast.",
     "metaTitle": "Buy Singapore KrisFlyer Miles | buyflightmiles",
-    "metaDescription": "Buy Singapore Airlines KrisFlyer miles from 1.8¢. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy Singapore Airlines KrisFlyer miles at 2.2¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
     "related": [
       "ana",
       "eva-air"
@@ -329,7 +329,7 @@
     "limitsVerified": false,
     "delivery": "Within 72 hours",
     "deliveryVerified": true,
-    "inStock": true,
+    "inStock": false,
     "heroHeadline": "Buy ANA Mileage Club miles.",
     "heroSub": "ANA's award chart is one of the best-value routes to first and business class. Buy the miles you need, delivered securely.",
     "metaTitle": "Buy ANA Mileage Club Miles | buyflightmiles",
@@ -363,13 +363,13 @@
     "alliance": "Oneworld",
     "code": "BA",
     "color": "#1D4E89",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
+    "pricePerMile": 1.75,
+    "priceVerified": true,
     "min": 25000,
     "max": 500000,
     "limitsVerified": false,
     "delivery": "Within 24 hours",
-    "deliveryVerified": false,
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy British Airways Avios.",
     "heroSub": "Great for short-haul sweet spots and premium long-haul. Buy the Avios you're short and book the seat you want.",
@@ -647,13 +647,13 @@
     "alliance": "Star Alliance",
     "code": "AC",
     "color": "#D8232A",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
+    "pricePerMile": 1.8,
+    "priceVerified": true,
     "min": 25000,
     "max": 500000,
     "limitsVerified": false,
-    "delivery": "Within 48 hours",
-    "deliveryVerified": false,
+    "delivery": "Within 72 hours",
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Air Canada Aeroplan points.",
     "heroSub": "Top up Aeroplan and book Star Alliance partners across the network. Quoted first, delivered into the account you already hold.",
@@ -944,5 +944,131 @@
     ],
     "logo": "/logos/lufthansa-miles-more.svg",
     "logoAlt": "Lufthansa logo"
+  },
+  {
+    "id": "flying-blue",
+    "order": 19,
+    "program": "Flying Blue",
+    "airline": "Air France-KLM",
+    "alliance": "SkyTeam",
+    "code": "AF",
+    "color": "#002157",
+    "pricePerMile": 1.95,
+    "priceVerified": true,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 24 hours",
+    "deliveryVerified": true,
+    "inStock": true,
+    "heroHeadline": "Buy Flying Blue miles.",
+    "heroSub": "Air France and KLM premium cabins, plus the whole of SkyTeam, on one balance. Quoted first, delivered within 24 hours.",
+    "metaTitle": "Buy Flying Blue Miles | Air France-KLM | buyflightmiles",
+    "metaDescription": "Buy Air France-KLM Flying Blue miles at 1.95¢ per mile. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
+    "related": [
+      "delta-skymiles",
+      "krisflyer",
+      "qatar-avios"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Promo Rewards",
+        "desc": "Flying Blue publishes a monthly list of discounted awards at 25-50% off, and topped-up miles let you pounce while the list is live."
+      },
+      {
+        "title": "Air France and KLM up front",
+        "desc": "Business class to Paris or Amsterdam from a long list of gateways, on the airlines' own metal."
+      },
+      {
+        "title": "SkyTeam in one balance",
+        "desc": "Flying Blue also books Delta, Kenya Airways, Vietnam Airlines and the rest of SkyTeam."
+      }
+    ],
+    "logo": "/logos/flying-blue.svg",
+    "logoAlt": "Air France logo"
+  },
+  {
+    "id": "lifemiles",
+    "order": 20,
+    "program": "LifeMiles",
+    "airline": "Avianca",
+    "alliance": "Star Alliance",
+    "code": "AV",
+    "color": "#E30613",
+    "pricePerMile": 1.95,
+    "priceVerified": true,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 24 hours",
+    "deliveryVerified": true,
+    "inStock": true,
+    "heroHeadline": "Buy Avianca LifeMiles.",
+    "heroSub": "The Star Alliance workhorse, famous for partner awards without fuel surcharges. Buy the LifeMiles you're short, quoted before you pay.",
+    "metaTitle": "Buy Avianca LifeMiles | Star Alliance Awards | buyflightmiles",
+    "metaDescription": "Buy Avianca LifeMiles at 1.95¢ per mile for Star Alliance awards without fuel surcharges. Delivered within 24 hours, rate confirmed before you pay.",
+    "related": [
+      "united-mileageplus",
+      "lufthansa-miles-more",
+      "turkish-miles-smiles"
+    ],
+    "sweetSpots": [
+      {
+        "title": "No fuel surcharges",
+        "desc": "LifeMiles doesn't pass on carrier surcharges on partner awards, which keeps the cash side of a Lufthansa or ANA booking small."
+      },
+      {
+        "title": "All of Star Alliance",
+        "desc": "United, Lufthansa, Turkish, ANA and the rest book through one LifeMiles account."
+      },
+      {
+        "title": "Mixed-cabin pricing",
+        "desc": "LifeMiles prices each segment's cabin separately, so a partly-business itinerary costs fewer miles than all-business pricing elsewhere."
+      }
+    ],
+    "logo": "/logos/lifemiles.svg",
+    "logoAlt": "Avianca logo"
+  },
+  {
+    "id": "asia-miles",
+    "order": 21,
+    "program": "Asia Miles",
+    "airline": "Cathay Pacific",
+    "alliance": "Oneworld",
+    "code": "CX",
+    "color": "#006564",
+    "pricePerMile": 1.95,
+    "priceVerified": true,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 72 hours",
+    "deliveryVerified": true,
+    "inStock": true,
+    "heroHeadline": "Buy Cathay Asia Miles.",
+    "heroSub": "Cathay's business class to Asia for a fraction of the fare. Top up Asia Miles and book Cathay Pacific or its Oneworld partners.",
+    "metaTitle": "Buy Cathay Pacific Asia Miles | buyflightmiles",
+    "metaDescription": "Buy Cathay Pacific Asia Miles at 1.95¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
+    "related": [
+      "qatar-avios",
+      "ba-avios",
+      "emirates-skywards"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Cathay business and first",
+        "desc": "Hong Kong's flag carrier up front, on the routes its premium cabins are known for."
+      },
+      {
+        "title": "Oneworld partner awards",
+        "desc": "Asia Miles also books JAL, Qantas, British Airways and the rest of Oneworld."
+      },
+      {
+        "title": "Stopovers and open jaws",
+        "desc": "The multi-carrier award chart allows stopovers and open-jaw routings, so one award can cover two cities."
+      }
+    ],
+    "logo": "/logos/asia-miles.svg",
+    "logoAlt": "Cathay Pacific logo"
   }
 ]
