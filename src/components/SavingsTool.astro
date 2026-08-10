@@ -112,6 +112,20 @@ const approx = verified ? "" : "~";
 
     miles.addEventListener("input", render);
     fare.addEventListener("input", render);
+
+    // "Get this quoted" carries the amount into the hero quote widget and
+    // advances it to the request step, so the anchor lands on a form that's
+    // already filled in rather than a field to retype.
+    $("st-cta").addEventListener("click", () => {
+      const qw = document.getElementById("qw-miles");
+      if (!qw) return; // no widget on this page — plain anchor scroll
+      const m = parseInt(miles.value, 10);
+      if (!Number.isFinite(m) || m <= 0) return;
+      qw.value = m;
+      qw.dispatchEvent(new Event("input", { bubbles: true }));
+      const next = document.getElementById("qw-next");
+      if (next && !next.disabled) next.click();
+    });
     document.querySelectorAll(".stool-chip").forEach((c) => {
       c.addEventListener("click", () => {
         document.querySelectorAll(".stool-chip").forEach((x) => x.classList.remove("on"));

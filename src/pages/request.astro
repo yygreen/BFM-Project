@@ -1,0 +1,82 @@
+---
+// Custom quote request — the landing for "Can't find your programme?".
+//
+// Free-text programme field is the point: the quote widget can only express
+// the 13 listed programmes, and this form catches everything else. Same
+// Web3Forms wiring and graceful not-wired fallback as the quote widget; the
+// copy invites a request without asserting we can source anything.
+import Base from "../layouts/Base.astro";
+import { site, quoteFormReady } from "../lib/site";
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+const notWired = orderEmail
+  ? `Requests aren't connected yet — please email ${orderEmail} and we'll check it for you.`
+  : "Requests aren't connected yet — please contact us directly and we'll check it for you.";
+---
+<Base
+  title="Request a programme: buyflightmiles"
+  description="Tell us the loyalty programme and the amount of miles you need. We'll check availability and quote you before anything is paid."
+  slug="request"
+>
+  <section class="section">
+    <div class="container" style="max-width:640px">
+      <div class="section-head" style="text-align:center;margin:0 auto 24px">
+        <span class="kicker">Custom request</span>
+        <h2>Tell us what you need</h2>
+        <p>Programme not on our list? Send the details and we'll check availability and price. You get a firm quote before anything is paid.</p>
+      </div>
+      <form class="formcard" id="request-form" data-key={accessKey ? "1" : ""}>
+        <input type="hidden" name="access_key" value={accessKey} />
+        <input type="hidden" id="request-fallback" value={notWired} />
+        <input type="hidden" name="subject" value="Custom programme request — buyflightmiles" />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+        <div class="form-grid">
+          <div class="field"><label for="req-program">Loyalty programme *</label><input id="req-program" name="program" type="text" required placeholder="e.g. Emirates Skywards" /></div>
+          <div class="field"><label for="req-miles">Miles needed</label><input id="req-miles" name="miles" type="number" inputmode="numeric" step="1000" min="1000" placeholder="e.g. 85000" /></div>
+          <div class="field"><label for="req-name">Name *</label><input id="req-name" name="name" type="text" required /></div>
+          <div class="field"><label for="req-email">Email *</label><input id="req-email" name="email" type="email" required /></div>
+        </div>
+        <div class="field" style="margin-bottom:4px"><label for="req-message">Anything else?</label><textarea id="req-message" name="message" rows="4" placeholder="The route or award you're after, timing, account region — whatever helps us quote it right."></textarea></div>
+        <button type="submit" class="btn btn-primary" id="request-submit" style="width:100%;margin-top:14px">Send request</button>
+        <p class="form-msg" id="request-msg" hidden></p>
+        <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">Nothing is charged on this site. We reply with availability and a firm rate first.</p>
+      </form>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById("request-form");
+      const msg = document.getElementById("request-msg");
+      const btn = document.getElementById("request-submit");
+      if (!form) return;
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!form.dataset.key) {
+          msg.textContent = document.getElementById("request-fallback").value;
+          msg.className = "form-msg err"; msg.hidden = false; return;
+        }
+        const label = btn.textContent;
+        btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+        try {
+          const res = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          });
+          const data = await res.json();
+          if (data.success) {
+            msg.textContent = "Request sent. We'll come back with availability and a firm rate.";
+            msg.className = "form-msg ok"; form.reset();
+          } else { throw new Error(data.message); }
+        } catch {
+          msg.textContent = "Something went wrong sending this — please try again.";
+          msg.className = "form-msg err";
+        } finally {
+          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+        }
+      });
+    })();
+  </script>
+</Base>
