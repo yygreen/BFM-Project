@@ -2,7 +2,6 @@
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
-import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
 import SavingsTool from "../../components/SavingsTool.astro";
@@ -168,29 +167,28 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
+  <!-- HOW IT WORKS + COMPARE, folded into one slim band. The old two sections
+       repeated the widget's own numbers (rate, min/max, delivery) and retold
+       the process the hero already explains — and the "protected checkout"
+       step copy contradicted the payment-off-site rule. What survives is the
+       one thing the widget doesn't say: the airline-price-on-the-quote note. -->
   <section class="section" id="how">
     <div class="container">
       <div class="section-head">
-        <h2>How it works</h2>
-        <p>From order to miles in your account — usually within a day.</p>
+        <h2>From quote to {progShort} in your account</h2>
       </div>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><h4>Select &amp; enter</h4><p>Choose your amount and enter your {a.program} account number.</p></div>
-        <div class="step"><div class="n">02</div><h4>Pay securely</h4><p>Complete payment through our protected checkout.</p></div>
-        <div class="step"><div class="n">03</div><h4>Miles land</h4><p>{a.program} miles post to your account, {a.delivery.toLowerCase()}.</p></div>
+      <div class="steps ministeps">
+        <div class="step"><div class="n">01</div><h4>Price it</h4><p>The calculator above gives your estimate instantly.</p></div>
+        <div class="step"><div class="n">02</div><h4>We confirm</h4><p>Your exact rate and delivery window, before anything is paid.</p></div>
+        <div class="step"><div class="n">03</div><h4>Pay off-site</h4><p>After you approve the quote. Nothing is charged on this website.</p></div>
+        <div class="step"><div class="n">04</div><h4>Miles land</h4><p>{a.deliveryVerified ? `In your own ${progShort} account, ${a.delivery.toLowerCase()}.` : `In your own ${progShort} account, on the window your quote confirms.`}</p></div>
       </div>
-    </div>
-  </section>
-
-  <!-- COMPARE -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <h2>Buy {a.program} here vs. from {a.airline}</h2>
-        <p>Airlines charge a steep premium for their own miles. Here's the difference.</p>
-      </div>
-      <CompareTable program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} delivery={a.deliveryVerified ? a.delivery : ""} directBuyCents={a.directBuyCents} min={a.min} max={a.max} />
+      <p class="cmp-note" style="margin-top:26px">
+        {a.airline} sets its own price for {progShort}, and it moves with their promotions.
+        Rather than quote a figure we can't stand behind, we put the airline's current
+        price next to yours <b>on the quote itself</b> — so you can see the difference
+        before you decide, not after.
+      </p>
     </div>
   </section>
 
