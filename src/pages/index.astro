@@ -155,8 +155,10 @@ const jsonld = {
                 ? <span class="badge badge-ok">In stock</span>
                 : <span class="badge badge-warn">Limited</span>}
             </div>
-            <div class="pname">{a.program}</div>
-            <div class="plabel">{a.airline}</div>
+            <!-- airline leads: the grid sorts A-Z by carrier, and the headline
+                 must be the thing the sort is on or the order reads as random -->
+            <div class="pname">{a.airline}</div>
+            <div class="plabel">{a.program}</div>
             <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{a.pricePerMile}¢ <small>/ mile</small></div>
             <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
           </a>

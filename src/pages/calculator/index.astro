@@ -36,8 +36,8 @@ const airlines = (await getCollection("airlines"))
             <div class="top">
               <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={46} />
             </div>
-            <div class="pname">{a.program.replace(/\s*\(.*\)$/, "")} calculator</div>
-            <div class="plabel">{a.airline}</div>
+            <div class="pname">{a.airline}</div>
+            <div class="plabel">{a.program.replace(/\s*\(.*\)$/, "")} calculator</div>
             <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{a.pricePerMile}¢ <small>/ mile</small></div>
           </a>
         ))}
