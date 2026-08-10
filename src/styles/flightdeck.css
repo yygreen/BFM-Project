@@ -346,6 +346,12 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .crumbs [aria-current] { color:var(--text-2); font-weight:500; }
 .crumbs-sep { color:var(--line-strong); }
 
+/* calculator quick-reference: amount → cost rows with a dotted leader */
+.rate-rows { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; }
+.rate-row { display:flex; align-items:baseline; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px; font-size:14px; color:var(--text-3); }
+.rate-row .mono { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--text-1); font-size:16px; }
+.rate-row i { flex:1; border-bottom:1px dotted var(--line-strong); transform:translateY(-4px); }
+
 .related { display:flex; gap:11px; flex-wrap:wrap; }
 /* small pill linking a page to its language counterpart, beside the kicker */
 .lang-toggle { display:inline-block; margin-inline-start:10px; font-size:12.5px; font-weight:600;

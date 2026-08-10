@@ -1,0 +1,127 @@
+---
+// Per-programme miles calculator — the landing for "{airline} miles
+// calculator" searches (~9.2k/mo across programmes). Deliberately distinct
+// from the /buy pages: those target buy intent and carry the sales story;
+// these are tool pages whose content is the arithmetic itself, computed from
+// the programme's own data so no two pages read the same.
+//
+// The search intent is mixed: some visitors want to price buying miles (us),
+// some want the airline's earning calculator (not us). The page serves the
+// first honestly and points the second at the right door rather than
+// pretending to be it.
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import QuoteWidget from "../../components/QuoteWidget.astro";
+import SavingsTool from "../../components/SavingsTool.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+
+const { a } = Astro.props;
+const verified = a.priceVerified;
+const approx = verified ? "" : "~";
+const progShort = a.program.replace(/\s*\(.*\)$/, "");
+const per1000 = Math.round(a.pricePerMile * 10);
+const rows = [25000, 50000, 100000, 250000, 500000].filter((m) => m >= a.min && m <= a.max);
+const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+---
+<Base
+  title={`${a.airline} Miles Calculator | Price ${progShort} Instantly`}
+  description={`Calculate what ${a.airline} ${progShort} miles cost at ${approx}${a.pricePerMile}¢ per mile, and whether buying them beats the cash fare. Exact rate confirmed in your quote.`}
+  slug={`calculator/${a.slug}`}
+>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid top">
+        <div>
+          <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Calculators", href: "/calculator" },
+            { label: `${a.airline} ${progShort}` },
+          ]} />
+          <span class="kicker">Calculator</span>
+          <h1>{a.airline} miles calculator</h1>
+          <p class="sub">
+            Two calculations, both live: what {progShort} miles cost to buy at our rate, and
+            whether buying them beats the cash fare you found. Every figure here is computed
+            from the {approx}{a.pricePerMile}¢ per mile rate; your exact price is confirmed in
+            the quote before you pay.
+          </p>
+          <div class="spec">
+            <span><b>{approx}{a.pricePerMile}¢</b> / mile</span><span>·</span>
+            <span><b>{approx}${per1000}</b> per 1,000 miles</span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="hero-calc" id="quote">
+            <QuoteWidget defaultSlug={a.slug} locked heading={`Price ${progShort} miles`} sub="Enter an amount; the cost updates as you type." />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>{progShort} at a glance</h2>
+        <p>Common order sizes at the {approx}{a.pricePerMile}¢ rate — the same arithmetic the calculator runs.</p>
+      </div>
+      <div class="rate-rows">
+        {rows.map((m) => (
+          <div class="rate-row">
+            <b class="mono">{m.toLocaleString("en-US")}</b>
+            <span>miles</span>
+            <i aria-hidden="true"></i>
+            <b class="mono">{approx}{usd((m * a.pricePerMile) / 100)}</b>
+          </div>
+        ))}
+      </div>
+      {!verified && (
+        <p class="cmp-note" style="margin-top:18px">
+          The tilde matters: this programme's rate is indicative until your quote confirms it.
+          The quote is always the binding number, never this page.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <section class="section wash-cool">
+    <div class="container">
+      <div class="section-head">
+        <h2>Does buying {progShort} beat the cash fare?</h2>
+        <p>The second calculation, and the one that decides it. If cash wins, we'll say so.</p>
+      </div>
+      <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:820px">
+      <div class="section-head">
+        <h2>Looking for a different calculator?</h2>
+      </div>
+      <p class="cmp-note">
+        If you wanted to work out how many miles a <em>flight would earn you</em>, that
+        depends on {a.airline}'s earning rules and lives in the airline's own tools — this
+        page prices <b>topping up</b> an account that's short. And if you're weighing
+        redemptions rather than purchases, the <a href={`/buy/${a.slug}`}>{a.airline} {progShort} page</a> ranks
+        where these miles
+        stretch furthest and where to pay cash instead.
+      </p>
+    </div>
+  </section>
+
+  <section class="section wash-cool">
+    <div class="container ctaband">
+      <div>
+        <h3>Numbers look right?</h3>
+        <p>Send the amount as a quote request. Exact rate confirmed first, nothing charged on this site.</p>
+      </div>
+      <a class="btn btn-primary" href="#quote">Get my quote</a>
+    </div>
+  </section>
+</Base>
