@@ -62,7 +62,9 @@ const L = { ...EN, ...labels };
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
-  .sort((a, b) => a.order - b.order);
+  // alphabetical by carrier, matching the nav dropdown — a visitor scanning
+  // for their airline shouldn't meet two different orders on one page
+  .sort((a, b) => a.airline.localeCompare(b.airline));
 
 const data = airlines.map((a) => ({
   slug: a.slug,
