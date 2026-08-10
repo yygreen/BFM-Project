@@ -34,7 +34,6 @@ const EN = {
   onQuote: "On quote",
   note: "Indicative rate — request a quote and we'll confirm your exact price.",
   continue: "Continue →",
-  backLocked: "← Edit amount",
   back: "← Change programme",
   milesUnit: "miles",
   name: "Name *",
@@ -188,7 +187,10 @@ const notWired = labels.notWired ?? (orderEmail
   <!-- STEP 2 — details -->
   <div class="qw-step" data-step="2" hidden>
     <div class="qw-recap">
-      <button type="button" class="qw-back" id="qw-back">{locked ? L.backLocked : L.back}</button>
+      <!-- on a locked widget step 1 holds nothing step 2 lacks (the amount is
+           editable right here), so the back link only renders when going back
+           can change the programme -->
+      {!locked && <button type="button" class="qw-back" id="qw-back">{L.back}</button>}
       <div class="qw-recap-row">
         <span class="qw-recap-prog" id="qw-recap-prog"></span>
         <label class="qw-recap-edit">
@@ -473,7 +475,8 @@ const notWired = labels.notWired ?? (orderEmail
       show(2);
       $("qw-name").focus({ preventScroll: true });
     });
-    $("qw-back").addEventListener("click", () => {
+    const back = $("qw-back");
+    if (back) back.addEventListener("click", () => {
       show(1);
       prog.focus({ preventScroll: true });
     });
