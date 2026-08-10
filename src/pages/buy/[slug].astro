@@ -85,9 +85,18 @@ const jsonld = {
             <a class="btn btn-secondary" href="#quote">What's it cost?</a>
           </div>
           <div class="spec">
-            <span><b>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast"}</b> delivery</span><span>·</span>
-            <span><b>{verified ? "" : "~"}{a.pricePerMile}¢</b> / mile</span><span>·</span>
-            <span><b>{site.guarantee.verified ? "Guaranteed" : "Quoted first"}</b></span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              {a.deliveryVerified ? <>Delivered in <b>{a.delivery.replace("Within ", "")}</b></> : <>Delivery confirmed in your quote</>}
+            </span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <b>{verified ? "" : "~"}{a.pricePerMile}¢</b> per mile
+            </span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              {site.guarantee.verified ? site.guarantee.shortLabel : "Price confirmed before you pay"}
+            </span>
           </div>
         </div>
         <div class="hero-art">

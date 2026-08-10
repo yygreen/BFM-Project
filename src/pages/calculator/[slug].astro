@@ -116,8 +116,14 @@ const faqJsonLd = {
             on the <a href={`/buy/${a.slug}#worth`}>{progShort} page</a>.
           </p>
           <div class="spec">
-            <span><b>{approx}{a.pricePerMile}¢</b> / mile</span><span>·</span>
-            <span><b>{approx}${per1000}</b> per 1,000 miles</span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <b>{approx}{a.pricePerMile}¢</b> per mile
+            </span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <b>{approx}${per1000}</b> per 1,000 miles
+            </span>
           </div>
         </div>
         <div class="hero-art">

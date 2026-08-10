@@ -113,8 +113,10 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .hero h1 .hl { color:var(--cobalt); }
 .hero .sub { color:var(--text-2); font-size:18.5px; line-height:1.6; max-width:40ch; margin:0 0 28px; }
 .hero .cta-row { display:flex; gap:12px; flex-wrap:wrap; }
-.hero .spec { margin-top:28px; font-size:14px; color:var(--text-3); display:flex; gap:10px 20px; flex-wrap:wrap; align-items:center; }
+.hero .spec { margin-top:28px; font-size:14px; color:var(--text-2); display:flex; gap:10px 22px; flex-wrap:wrap; align-items:center; }
 .hero .spec b { color:var(--ink); font-weight:700; font-family:var(--mono); }
+.hero .spec .spec-it { display:inline-flex; align-items:center; gap:8px; }
+.hero .spec .spec-it svg { width:16px; height:16px; color:var(--cobalt); flex:0 0 auto; }
 .hero .spec .dot { width:5px; height:5px; border-radius:50%; background:var(--coral); }
 /* the rating closes the stat row — same row, same rhythm, but linked out to
    the platform so the claim is checkable rather than just asserted */
