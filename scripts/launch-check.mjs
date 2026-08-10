@@ -99,7 +99,7 @@ if (!site.guarantee.verified) {
     "Guarantee text unconfirmed — guarantee tile, FAQ entry and hero clause are all suppressed",
     "src/data/site.json → guarantee.summary + guarantee.policy, then guarantee.verified: true",
   ]);
-} else done.push(["4", "Guarantee published"]);
+} else done.push(["4", `Guarantee published${site.guarantee.placeholder ? " (PLACEHOLDER)" : ""}`]);
 
 if (!site.delivery.verified) {
   optional.push([
@@ -183,6 +183,9 @@ for (const [k, v] of Object.entries(site.trust)) {
 }
 for (const r of site.reviews || []) {
   if (r.placeholder) placeholders.push(`reviews → ${r.platform} ${r.rating}/${r.outOf}${r.count ? ` (${r.count} reviews)` : ""}`);
+}
+if (site.guarantee.verified && site.guarantee.placeholder) {
+  placeholders.push(`guarantee → "${site.guarantee.shortLabel}" (${site.guarantee.summary})`);
 }
 if (placeholders.length) {
   blocking.push([

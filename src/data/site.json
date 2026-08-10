@@ -20,10 +20,11 @@
     "verified": false
   },
   "guarantee": {
-    "shortLabel": "delivery guarantee",
-    "summary": "Miles land in your account, or you're refunded.",
-    "policy": "",
-    "verified": false
+    "shortLabel": "escrow protection",
+    "summary": "Your payment is held until the miles land in your account.",
+    "policy": "Payment is held in escrow and released only when the miles arrive in your account within the quoted window. If they don't arrive, you're refunded in full.",
+    "verified": true,
+    "placeholder": true
   },
   "delivery": {
     "howItWorks": "",
@@ -48,6 +49,11 @@
     },
     "transfersCompleted": {
       "value": 10000,
+      "verified": true,
+      "placeholder": true
+    },
+    "milesDelivered": {
+      "value": 500000000,
       "verified": true,
       "placeholder": true
     },

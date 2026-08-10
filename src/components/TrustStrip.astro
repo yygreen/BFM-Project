@@ -20,13 +20,28 @@ const coverageCap = alliances.length
   : "Across every programme we cover";
 const years = yearsTrading();
 
+// compact big-number formatting for the stat band: 500000000 → "500M"
+const fmtBig = (n) =>
+  n >= 1e9 ? `${+(n / 1e9).toFixed(1)}B` : n >= 1e6 ? `${Math.round(n / 1e6)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}k` : `${n}`;
+
+// headline stat band — the scale figures buyers compare vendors on. The two
+// client-supplied ones render only when live (or staged as placeholders); the
+// programme count and years are computed, so the band is never empty.
+const bandStats = [
+  live(site.trust.milesDelivered) ? { n: `${fmtBig(Number(site.trust.milesDelivered.value))}+`, l: "miles delivered" } : null,
+  live(site.trust.transfersCompleted) ? { n: `${fmtBig(Number(site.trust.transfersCompleted.value))}+`, l: "transfers completed" } : null,
+  { n: `${programCount}`, l: "programmes covered" },
+  years !== null ? { n: `${years}+`, l: "years trading" } : null,
+].filter(Boolean);
+
 // How many tiles actually render: four structural ones, plus whichever
-// client-supplied tiles are verified. Pick the column count that divides it
+// client-supplied tiles are verified (the delivered/years figures live in the
+// stat band above, not as tiles). Pick the column count that divides it
 // evenly so the last row is never left with a single orphaned card — the tile
 // count moves as flags flip, so this can't be a fixed number in the CSS.
-const tileCount =
-  4 + [ratingLive, live(site.trust.transfersCompleted), site.guarantee.verified, years !== null].filter(Boolean).length;
+const tileCount = 4 + [ratingLive, site.guarantee.verified].filter(Boolean).length;
 const cols = [4, 3].find((c) => tileCount % c === 0) ?? 3;
+const guaranteeLabel = site.guarantee.shortLabel.charAt(0).toUpperCase() + site.guarantee.shortLabel.slice(1);
 
 // bottom spec strip — only the verified figures
 const specs = [
@@ -35,6 +50,14 @@ const specs = [
   live(site.trust.supportHours) ? { n: `${site.trust.supportHours.value}`, l: "support" } : null,
 ].filter(Boolean);
 ---
+{bandStats.length > 0 && (
+  <div class="statband">
+    {bandStats.map((s) => (
+      <div class="sb"><b>{s.n}</b><span>{s.l}</span></div>
+    ))}
+  </div>
+)}
+
 <div class="trust-grid" style={`--tcols:${cols}`}>
   {ratingLive && (
     <div class="tbox">
@@ -47,30 +70,14 @@ const specs = [
     </div>
   )}
 
-  {live(site.trust.transfersCompleted) && (
-    <div class="tbox">
-      <p class="lab">Delivered</p>
-      <div class="big">{Number(site.trust.transfersCompleted.value).toLocaleString("en-US")}+</div>
-      <div class="cap">transfers completed</div>
-    </div>
-  )}
-
   {site.guarantee.verified && (
     <div class="tbox">
       <p class="lab">Guarantee</p>
       <div class="chip-row">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
-        Delivery guarantee
+        {guaranteeLabel}
       </div>
       <div class="cap">{site.guarantee.summary}</div>
-    </div>
-  )}
-
-  {years !== null && (
-    <div class="tbox">
-      <p class="lab">Track record</p>
-      <div class="big">{years}+</div>
-      <div class="cap">years buying and transferring miles</div>
     </div>
   )}
 

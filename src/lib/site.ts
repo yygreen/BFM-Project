@@ -55,6 +55,7 @@ const schema = z.object({
     summary: z.string().min(1),
     policy: z.string(),
     verified: z.boolean(),
+    placeholder: z.boolean().default(false),
   }),
 
   delivery: z.object({ howItWorks: z.string(), verified: z.boolean() }),
@@ -83,6 +84,8 @@ const schema = z.object({
       verified: z.boolean(),
     }),
     transfersCompleted: stat,
+    // total miles moved — the headline scale figure buyers compare vendors on
+    milesDelivered: stat,
     completionRate: stat,
     accountLocks: stat,
     supportHours: stat,

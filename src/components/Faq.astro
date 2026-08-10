@@ -27,8 +27,8 @@ const approx = priceVerified ? "" : "about ";
 
 // ---- cost -------------------------------------------------------------
 const costAnswer = pricePerMile
-  ? `Buying ${subject} here costs ${approx}${pricePerMile}¢ per mile — ${approx}$${Math.round(pricePerMile * 10)} per 1,000 miles. ${priceVerified ? "That rate is confirmed" : "That rate is indicative and we confirm the exact figure"} on your quote, before any payment is made. Use the calculator on this page to price the amount you actually need.`
-  : "It depends on the programme — each has its own per-mile rate, shown on its page. Price the amount you need with the calculator and we'll confirm the exact figure on your quote, before any payment is made.";
+  ? `Buying ${subject} here costs ${approx}${pricePerMile}¢ per mile — ${approx}$${Math.round(pricePerMile * 10)} per 1,000 miles. ${priceVerified ? "That rate is confirmed" : "That rate is indicative and we confirm the exact figure"} on your quote, before any payment is made. Use the calculator on this page to price the amount you actually need; the quote itself is free and no-obligation.`
+  : "It depends on the programme — each has its own per-mile rate, shown on its page. Price the amount you need with the calculator and we'll confirm the exact figure on your quote, before any payment is made. The quote is free and no-obligation.";
 
 // ---- can you ----------------------------------------------------------
 const canAnswer = `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty programme.`;

@@ -95,13 +95,13 @@ const jsonld = {
             </span>
             <span class="spec-it">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-              {site.guarantee.verified ? site.guarantee.shortLabel : "Price confirmed before you pay"}
+              {site.guarantee.verified ? site.guarantee.shortLabel.charAt(0).toUpperCase() + site.guarantee.shortLabel.slice(1) : "Price confirmed before you pay"}
             </span>
           </div>
         </div>
         <div class="hero-art">
           <div class="hero-calc" id="quote">
-            <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${a.program} miles cost?`} sub="Price it, then send the request. We confirm your exact rate before you pay." />
+            <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${a.program} miles cost?`} sub="Price it, then request your free, no-obligation quote. We confirm your exact rate before you pay." />
           </div>
         </div>
       </div>
@@ -266,7 +266,7 @@ const jsonld = {
       <div class="ctaband">
         <div>
           <h3>Ready to price your {progShort} order?</h3>
-          <p>Quoted first, delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
+          <p>Free, no-obligation quote first, miles delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
         </div>
         <a class="btn btn-primary" href="#quote">{verified ? `Price ${progShort} now` : "Request a live quote"}</a>
       </div>
