@@ -9,9 +9,10 @@ import Logo from "../components/Logo.astro";
 // Nav + footer program lists are generated from the collection, so adding an
 // entry to airlines.json puts it in the navigation automatically — the roster
 // is heading toward ~40 programs and a hand-maintained list would go stale.
+// Alphabetical by airline for nav — a lookup list, not a merchandising order.
 const programs = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
-  .sort((a, b) => a.order - b.order);
+  .sort((a, b) => a.airline.localeCompare(b.airline));
 
 // Blog nav: categories that have posts, plus the newest two.
 const blogCategories = await getCategoryCounts();
