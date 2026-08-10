@@ -16,7 +16,7 @@
     "deliveryVerified": false,
     "inStock": true,
     "heroHeadline": "Buy Delta SkyMiles with precision.",
-    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare \u2014 delivered to your account, securely, within the day.",
+    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within the day.",
     "metaTitle": "Buy Delta SkyMiles | Fast, Secure Delivery | buyflightmiles",
     "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, backed by our delivery guarantee.",
     "related": [
@@ -58,7 +58,7 @@
     "inStock": true,
     "heroHeadline": "Buy United MileagePlus miles.",
     "heroSub": "Close the gap on a Polaris redemption. Buy the MileagePlus miles you need at a fraction of the price, delivered fast.",
-    "metaTitle": "Buy United MileagePlus Miles | Secure Delivery | buyflightmiles",
+    "metaTitle": "Buy United Miles | MileagePlus Top-Ups | buyflightmiles",
     "metaDescription": "Buy United MileagePlus miles at a fraction of the price. Secure, guaranteed transfer delivered within 24 hours.",
     "related": [
       "ana",
@@ -99,7 +99,7 @@
     "inStock": true,
     "heroHeadline": "Buy American AAdvantage miles.",
     "heroSub": "Top up AAdvantage and unlock Flagship business for less. Secure transfer, delivered to your account within the day.",
-    "metaTitle": "Buy American AAdvantage Miles | Secure Delivery | buyflightmiles",
+    "metaTitle": "Buy American Airlines Miles | AA AAdvantage | buyflightmiles",
     "metaDescription": "Buy American Airlines AAdvantage miles at a fraction of the price. Secure, guaranteed delivery within 24 hours.",
     "related": [
       "qatar-avios",
@@ -141,7 +141,7 @@
     "heroHeadline": "Buy Singapore KrisFlyer miles.",
     "heroSub": "Fly Singapore Suites and Business on one of the world's best airlines. Buy the KrisFlyer miles you're short, delivered fast.",
     "metaTitle": "Buy Singapore KrisFlyer Miles | buyflightmiles",
-    "metaDescription": "Buy Singapore Airlines KrisFlyer miles from 1.8\u00a2. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy Singapore Airlines KrisFlyer miles from 1.8¢. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
     "related": [
       "ana",
       "eva-air"
@@ -180,9 +180,9 @@
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Qatar Airways Avios.",
-    "heroSub": "Book Qsuite \u2014 one of the best business classes in the sky \u2014 for less. Buy Qatar Avios and complete your redemption within the day.",
+    "heroSub": "Book Qsuite — one of the best business classes in the sky — for less. Buy Qatar Avios and complete your redemption within the day.",
     "metaTitle": "Buy Qatar Airways Avios | Qsuite Redemptions | buyflightmiles",
-    "metaDescription": "Buy Qatar Airways Avios from 1.8\u00a2 and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
+    "metaDescription": "Buy Qatar Airways Avios from 1.8¢ and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
     "related": [
       "ba-avios",
       "american-aadvantage"
@@ -272,10 +272,22 @@
         "heroHeadline": "اشترِ أفيوس الخطوط الجوية القطرية",
         "heroSub": "عزّز رصيدك في نادي الامتياز واحجز مقاعد كيو سويت بجزء من السعر النقدي. نؤكد لك السعر النهائي قبل أن تدفع، وتصل الأميال خلال 24 ساعة.",
         "steps": [
-          { "title": "اختر الكمية", "text": "حدّد عدد الأميال التي تحتاجها لحجزك." },
-          { "title": "اطلب عرض السعر", "text": "أرسل الطلب ونؤكد لك السعر النهائي قبل أي دفع." },
-          { "title": "ادفع خارج الموقع", "text": "لا يُحصَّل أي مبلغ على هذا الموقع — الدفع يتم بعد موافقتك على العرض." },
-          { "title": "تصل الأميال", "text": "تُضاف الأميال إلى حساب نادي الامتياز خلال 24 ساعة." }
+          {
+            "title": "اختر الكمية",
+            "text": "حدّد عدد الأميال التي تحتاجها لحجزك."
+          },
+          {
+            "title": "اطلب عرض السعر",
+            "text": "أرسل الطلب ونؤكد لك السعر النهائي قبل أي دفع."
+          },
+          {
+            "title": "ادفع خارج الموقع",
+            "text": "لا يُحصَّل أي مبلغ على هذا الموقع — الدفع يتم بعد موافقتك على العرض."
+          },
+          {
+            "title": "تصل الأميال",
+            "text": "تُضاف الأميال إلى حساب نادي الامتياز خلال 24 ساعة."
+          }
         ],
         "points": [
           "السعر 1.8 سنت لكل ميل، ويُؤكَّد قبل الدفع",
@@ -284,9 +296,18 @@
           "أفيوس قطر تُستخدم أيضاً للحجز على شركات تحالف ون وورلد"
         ],
         "faq": [
-          { "q": "كم تكلفة شراء أفيوس الخطوط القطرية؟", "a": "السعر الحالي 1.8 سنت لكل ميل، أي نحو 18 دولاراً لكل 1,000 أفيوس. نؤكد لك السعر النهائي في عرض السعر قبل أي دفع." },
-          { "q": "متى تصل الأميال إلى حسابي؟", "a": "خلال 24 ساعة من إتمام الدفع في معظم الطلبات." },
-          { "q": "ما الذي تحتاجونه مني؟", "a": "رقم عضويتك في نادي الامتياز واسم الحساب فقط. لن نطلب كلمة المرور أبداً." }
+          {
+            "q": "كم تكلفة شراء أفيوس الخطوط القطرية؟",
+            "a": "السعر الحالي 1.8 سنت لكل ميل، أي نحو 18 دولاراً لكل 1,000 أفيوس. نؤكد لك السعر النهائي في عرض السعر قبل أي دفع."
+          },
+          {
+            "q": "متى تصل الأميال إلى حسابي؟",
+            "a": "خلال 24 ساعة من إتمام الدفع في معظم الطلبات."
+          },
+          {
+            "q": "ما الذي تحتاجونه مني؟",
+            "a": "رقم عضويتك في نادي الامتياز واسم الحساب فقط. لن نطلب كلمة المرور أبداً."
+          }
         ],
         "ctaLabel": "اطلب عرض السعر",
         "reviewed": false
@@ -312,7 +333,7 @@
     "heroHeadline": "Buy ANA Mileage Club miles.",
     "heroSub": "ANA's award chart is one of the best-value routes to first and business class. Buy the miles you need, delivered securely.",
     "metaTitle": "Buy ANA Mileage Club Miles | buyflightmiles",
-    "metaDescription": "Buy ANA Mileage Club miles from 1.9\u00a2. Secure transfer, delivered within 72 hours, backed by our delivery guarantee.",
+    "metaDescription": "Buy ANA Mileage Club miles from 1.9¢. Secure transfer, delivered within 72 hours, backed by our delivery guarantee.",
     "related": [
       "krisflyer",
       "united-mileageplus"
@@ -394,7 +415,7 @@
     "heroHeadline": "Buy EVA Air miles.",
     "heroSub": "EVA's Royal Laurel business class is a standout. Buy Infinity MileageLands miles and lock in your redemption for less.",
     "metaTitle": "Buy EVA Air Infinity MileageLands Miles | buyflightmiles",
-    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95\u00a2. Secure transfer, delivered within 48 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95¢. Secure transfer, delivered within 48 hours, your exact rate confirmed before you pay.",
     "related": [
       "krisflyer",
       "ana"
@@ -444,7 +465,7 @@
     "sweetSpots": [
       {
         "title": "Every seat is bookable",
-        "desc": "Rapid Rewards has no blackout dates \u2014 if a fare is for sale, points can book it, so a top-up always has somewhere to go."
+        "desc": "Rapid Rewards has no blackout dates — if a fare is for sale, points can book it, so a top-up always has somewhere to go."
       },
       {
         "title": "Refundable bookings",
@@ -452,7 +473,7 @@
       },
       {
         "title": "Companion Pass holders",
-        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only \u2014 which doubles what a top-up is worth."
+        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only — which doubles what a top-up is worth."
       }
     ],
     "logo": "/logos/southwest-rapid-rewards.svg",
@@ -475,7 +496,7 @@
     "deliveryVerified": false,
     "inStock": true,
     "heroHeadline": "Buy Alaska Mileage Plan miles.",
-    "heroSub": "One of the most useful currencies in the air \u2014 Mileage Plan books Oneworld partners in premium cabins, and a small top-up often unlocks a far bigger seat.",
+    "heroSub": "One of the most useful currencies in the air — Mileage Plan books Oneworld partners in premium cabins, and a small top-up often unlocks a far bigger seat.",
     "metaTitle": "Buy Alaska Airlines Miles | Mileage Plan | buyflightmiles",
     "metaDescription": "Buy Alaska Airlines Mileage Plan miles for Oneworld partner redemptions in business and first. Secure transfer, exact rate confirmed before you pay.",
     "related": [
@@ -490,7 +511,7 @@
       },
       {
         "title": "Long-haul premium cabins",
-        "desc": "The programme is best known for business and first-class partner redemptions rather than domestic economy \u2014 that's where a top-up earns its keep."
+        "desc": "The programme is best known for business and first-class partner redemptions rather than domestic economy — that's where a top-up earns its keep."
       },
       {
         "title": "Stopovers on award tickets",
@@ -517,7 +538,7 @@
     "deliveryVerified": false,
     "inStock": true,
     "heroHeadline": "Buy JetBlue TrueBlue points.",
-    "heroSub": "Top up for Mint transcontinental seats or a family booking \u2014 points post to your own account and book directly with JetBlue.",
+    "heroSub": "Top up for Mint transcontinental seats or a family booking — points post to your own account and book directly with JetBlue.",
     "metaTitle": "Buy JetBlue Points | TrueBlue | buyflightmiles",
     "metaDescription": "Buy JetBlue TrueBlue points to complete a booking, including Mint. Secure transfer into your own account, exact rate confirmed before you pay.",
     "related": [
@@ -532,7 +553,7 @@
       },
       {
         "title": "No blackout dates",
-        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points \u2014 a top-up is never stranded."
+        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points — a top-up is never stranded."
       },
       {
         "title": "Points pooling",
@@ -617,5 +638,205 @@
     ],
     "logo": "/logos/frontier-miles.svg",
     "logoAlt": "Frontier Airlines logo"
+  },
+  {
+    "id": "aeroplan",
+    "order": 14,
+    "program": "Aeroplan",
+    "airline": "Air Canada",
+    "alliance": "Star Alliance",
+    "code": "AC",
+    "color": "#D8232A",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Air Canada Aeroplan points.",
+    "heroSub": "Top up Aeroplan and book Star Alliance partners across the network. Quoted first, delivered into the account you already hold.",
+    "metaTitle": "Buy Aeroplan Points | Air Canada | buyflightmiles",
+    "metaDescription": "Buy Air Canada Aeroplan points at a fair per-mile rate. Your exact price confirmed before you pay, delivered straight into your Aeroplan account.",
+    "related": [
+      "united-mileageplus",
+      "ana",
+      "krisflyer"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Star Alliance, one currency",
+        "desc": "Aeroplan books United, Lufthansa, ANA, Swiss and the rest of Star Alliance, plus a long list of non-alliance partners."
+      },
+      {
+        "title": "Stopovers on awards",
+        "desc": "Aeroplan lets you add a stopover to a one-way partner award for a small points surcharge, turning one redemption into two visits."
+      },
+      {
+        "title": "No fuel surcharges",
+        "desc": "Aeroplan doesn't add carrier fuel surcharges on partner awards, which keeps the taxes-and-fees line at checkout honest."
+      }
+    ]
+  },
+  {
+    "id": "emirates-skywards",
+    "order": 15,
+    "program": "Skywards",
+    "airline": "Emirates",
+    "alliance": "Independent",
+    "code": "EK",
+    "color": "#D71920",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Emirates Skywards miles.",
+    "heroSub": "The A380 shower is a miles purchase away. Top up Skywards for Emirates first and business, quoted before you pay a cent.",
+    "metaTitle": "Buy Emirates Skywards Miles | buyflightmiles",
+    "metaDescription": "Buy Emirates Skywards miles for first and business class redemptions. Exact rate confirmed in your quote, delivered to your Skywards account.",
+    "related": [
+      "etihad-guest",
+      "qatar-avios",
+      "turkish-miles-smiles"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Emirates First on the A380",
+        "desc": "The onboard shower and bar made this cabin famous, and Skywards is the way in — cash fares for it are eye-watering."
+      },
+      {
+        "title": "Upgrades with miles",
+        "desc": "Skywards can upgrade a paid economy or business ticket to the next cabin, often the strongest per-mile use in the programme."
+      },
+      {
+        "title": "Dubai as a one-stop hub",
+        "desc": "One award covers most of Africa, Asia and Australia via Dubai, with generous stopover potential in the city itself."
+      }
+    ]
+  },
+  {
+    "id": "turkish-miles-smiles",
+    "order": 16,
+    "program": "Miles&Smiles",
+    "airline": "Turkish Airlines",
+    "alliance": "Star Alliance",
+    "code": "TK",
+    "color": "#C90019",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Turkish Miles&Smiles.",
+    "heroSub": "Some of the cheapest Star Alliance award pricing in the sky, and Istanbul connects to more countries than any other hub. Quoted first, always.",
+    "metaTitle": "Buy Turkish Airlines Miles | Miles&Smiles | buyflightmiles",
+    "metaDescription": "Buy Turkish Airlines Miles&Smiles at a fair rate, confirmed before you pay. Delivered into your own Miles&Smiles account.",
+    "related": [
+      "united-mileageplus",
+      "lufthansa-miles-more",
+      "aeroplan"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Bargain Star Alliance awards",
+        "desc": "Miles&Smiles is known for pricing partner awards below what most Star Alliance programmes charge for the same seats."
+      },
+      {
+        "title": "Istanbul to everywhere",
+        "desc": "Turkish flies to more countries than any other airline, so one programme covers routes others can't touch."
+      },
+      {
+        "title": "Turkish business class",
+        "desc": "Long-haul business on Turkish metal comes with the airline's famous catering, at award prices that undercut the cash fare badly."
+      }
+    ]
+  },
+  {
+    "id": "etihad-guest",
+    "order": 17,
+    "program": "Etihad Guest",
+    "airline": "Etihad Airways",
+    "alliance": "Independent",
+    "code": "EY",
+    "color": "#BD8B13",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Etihad Guest miles.",
+    "heroSub": "Abu Dhabi's flag carrier, apartments in the sky included. Top up Etihad Guest with your exact rate confirmed before payment.",
+    "metaTitle": "Buy Etihad Guest Miles | buyflightmiles",
+    "metaDescription": "Buy Etihad Guest miles for first and business redemptions. Quoted before you pay, delivered into your own Etihad Guest account.",
+    "related": [
+      "emirates-skywards",
+      "qatar-avios",
+      "ba-avios"
+    ],
+    "sweetSpots": [
+      {
+        "title": "First and business on Etihad",
+        "desc": "Etihad's premium cabins, The Residence and First Apartments included on A380 routes, price far below their cash fares in miles."
+      },
+      {
+        "title": "Partner awards",
+        "desc": "Etihad Guest books a spread of partners across alliances, from Oneworld carriers to independents."
+      },
+      {
+        "title": "Miles on fare sales",
+        "desc": "Etihad prices some awards dynamically, so pairing bought miles with off-peak dates stretches them further."
+      }
+    ]
+  },
+  {
+    "id": "lufthansa-miles-more",
+    "order": 18,
+    "program": "Miles & More",
+    "airline": "Lufthansa",
+    "alliance": "Star Alliance",
+    "code": "LH",
+    "color": "#05164D",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 25000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Lufthansa Miles & More.",
+    "heroSub": "The surest route into Lufthansa First. Top up Miles & More with the rate confirmed before you pay anything.",
+    "metaTitle": "Buy Lufthansa Miles | Miles & More | buyflightmiles",
+    "metaDescription": "Buy Lufthansa Miles & More for first and business class awards. Exact rate confirmed in your quote, delivered to your own account.",
+    "related": [
+      "turkish-miles-smiles",
+      "united-mileageplus",
+      "aeroplan"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Lufthansa First Class",
+        "desc": "Lufthansa releases first class awards to partners only at the last minute; Miles & More members see that space far earlier, which makes this the programme to hold for it."
+      },
+      {
+        "title": "Lufthansa Group in one account",
+        "desc": "Lufthansa, Swiss, Austrian and Brussels Airlines all earn and burn from the same balance."
+      },
+      {
+        "title": "Star Alliance breadth",
+        "desc": "The full alliance is bookable, with solid availability on the group's own European network."
+      }
+    ]
   }
 ]
