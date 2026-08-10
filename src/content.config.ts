@@ -157,7 +157,7 @@ const blog = defineCollection({
     updated: z.coerce.date().optional(),
 
     // "News" carries a shelf life; guides are evergreen.
-    category: z.enum(["News", "Guide", "Sweet spots", "Devaluations"]),
+    category: z.enum(["News", "Guide", "Valuations", "Transfers", "Sweet spots", "Devaluations"]),
 
     // Program slugs this post relates to — renders as internal links
     // back to the money pages. Existence is checked in the template.

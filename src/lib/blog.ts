@@ -7,7 +7,7 @@ import { getCollection } from "astro:content";
 //  category to the enum without adding it here is a type error.
 // ============================================================
 
-export const CATEGORIES = ["News", "Guide", "Sweet spots", "Devaluations"] as const;
+export const CATEGORIES = ["News", "Guide", "Valuations", "Transfers", "Sweet spots", "Devaluations"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 /** "Sweet spots" → "sweet-spots" */
@@ -17,6 +17,8 @@ export const categorySlug = (c: string) => c.toLowerCase().replace(/\s+/g, "-");
 export const CATEGORY_BLURB: Record<Category, string> = {
   News: "Programme changes as they happen — each one sourced, so you can check it.",
   Guide: "How buying miles works, and how to do it without getting caught out.",
+  Valuations: "What a mile in each programme is actually worth, priced the way a trader prices it.",
+  Transfers: "Moving miles between accounts and people — what it costs, and when a top-up beats a transfer.",
   "Sweet spots": "Redemptions where the miles stretch furthest — the ones worth buying for.",
   Devaluations: "When a programme raises its award prices, what it costs you, and whether booking sooner helps.",
 };

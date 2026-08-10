@@ -2,7 +2,7 @@
 title: "How to Transfer American Airlines Miles (and When You Shouldn't)"
 description: "Yes, AAdvantage miles can be transferred, but the fees make small transfers a bad trade. The three ways to get miles where they're needed, ranked by what they actually cost."
 date: 2026-08-09
-category: "Guide"
+category: "Transfers"
 programs: ["american-aadvantage"]
 image: "/blog/how-to-transfer-american-airlines-miles.jpg"
 imageAlt: "Mile tokens arcing between two account cards, the leading token in coral"
