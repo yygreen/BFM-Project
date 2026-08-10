@@ -38,7 +38,7 @@ const approx = verified ? "" : "~";
       </div>
       <div class="field">
         <label for="st-fare">Cash fare you found ($)</label>
-        <input id="st-fare" type="number" inputmode="numeric" step="50" min="1" placeholder="from your flight search" />
+        <input id="st-fare" type="number" inputmode="numeric" step="50" min="1" placeholder="e.g. 2500" />
       </div>
     </div>
   </div>
@@ -51,12 +51,12 @@ const approx = verified ? "" : "~";
       </div>
       <div class="stool-col vs" aria-hidden="true">vs</div>
       <div class="stool-col">
-        <span class="k">{program} miles, bought at {approx}{rate}¢</span>
+        <span class="k">Bought at our {approx}{rate}¢ rate</span>
         <b id="st-cost">—</b>
       </div>
     </div>
     <div class="stool-verdict" id="st-verdict">
-      Enter the cash fare from your flight search and we'll run the numbers.
+      Enter the cash fare and we'll run the numbers.
     </div>
     <a class="btn btn-primary stool-cta" id="st-cta" href="#quote" hidden>Get this quoted →</a>
   </div>
@@ -85,7 +85,7 @@ const approx = verified ? "" : "~";
 
       if (!okM || !okF) {
         out.dataset.state = "empty";
-        $("st-verdict").textContent = "Enter the cash fare from your flight search and we'll run the numbers.";
+        $("st-verdict").textContent = "Enter the cash fare and we'll run the numbers.";
         $("st-cta").hidden = true;
         return;
       }
