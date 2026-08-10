@@ -256,10 +256,14 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .stool-col .k { display:block; font-size:12.5px; color:var(--text-2); margin-bottom:3px; }
 .stool-col b { font-family:var(--mono); font-size:24px; font-weight:600; color:var(--text-1); font-variant-numeric:tabular-nums; }
 .stool-col.vs { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-3); text-transform:uppercase; }
-.stool-verdict { margin-top:14px; font-size:14.5px; line-height:1.6; color:var(--text-2); max-width:64ch; }
+/* min-height reserves the usual three verdict lines up front — triggering the
+   tool must not change the card's height (it can be sticky-stuck mid-section,
+   and Safari doesn't re-clamp a sticky element that grows in place) */
+.stool-verdict { margin-top:14px; font-size:14.5px; line-height:1.6; color:var(--text-2); max-width:64ch; min-height:75px; }
 .stool-out[data-state="win"] .stool-verdict b, .stool-out[data-state="win"] #st-cost { color:var(--cobalt); }
 .stool-out[data-state="win"] .stool-verdict, .stool-out[data-state="ok"] .stool-verdict { color:var(--text-1); font-weight:500; }
-.stool-cta { margin-top:16px; }
+.stool-foot { margin-top:14px; min-height:54px; display:flex; align-items:center; }
+.stool-cta { margin-top:0; }
 /* .btn's display rule outranks the UA [hidden] style, so restate it */
 .stool-cta[hidden] { display:none; }
 /* the value section splits: ladder left, tool right. The tool is sticky so
