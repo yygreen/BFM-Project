@@ -3,7 +3,6 @@
 // pages. The programme list is generated from the collection so it can't
 // drift, and prices carry the same "~" indicative marker as everywhere else.
 import QuoteWidget from "./QuoteWidget.astro";
-import { getCollection } from "astro:content";
 import { getPosts, getCategoryCounts, categorySlug, formatDate } from "../lib/blog";
 
 // defaultSlug: programme to preselect in the quote widget — post pages pass
@@ -14,10 +13,6 @@ const { currentSlug = null, currentCategory = null, defaultSlug = null } = Astro
 const categories = await getCategoryCounts();
 const recent = (await getPosts()).filter((p) => p.id !== currentSlug).slice(0, 4);
 
-const programs = (await getCollection("airlines"))
-  .map((e) => ({ slug: e.id, ...e.data }))
-  .sort((a, b) => a.pricePerMile - b.pricePerMile)
-  .slice(0, 5);
 ---
 <aside class="blog-side">
   {categories.length > 0 && (
@@ -50,22 +45,6 @@ const programs = (await getCollection("airlines"))
       </ul>
     </div>
   )}
-
-  <div class="side-box">
-    <h4>Lowest rates</h4>
-    <ul class="side-progs">
-      {programs.map((a) => (
-        <li>
-          <a href={`/buy/${a.slug}`}>
-            <span class="pc" style={`--c:${a.color}`}>{a.code}</span>
-            <span class="t">{a.airline}</span>
-            <span class="p">{a.priceVerified ? "" : "~"}{a.pricePerMile}¢</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-    <a class="side-all" href="/#programs">All programmes →</a>
-  </div>
 
   <!-- the conversion card: the real two-step widget, and the sticky element
        of the column — the boxes above scroll away with the article, this
