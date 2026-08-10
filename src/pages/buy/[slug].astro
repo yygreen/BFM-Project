@@ -28,6 +28,9 @@ export async function getStaticPaths() {
 const { a, airlines, posts } = Astro.props;
 const per1000 = Math.round(a.pricePerMile * 10);
 const verified = a.priceVerified;
+// programme name without any parenthetical — "Avios (Privilege Club)" reads
+// fine as a title but turns copy like "price your … order" into a mouthful
+const progShort = a.program.replace(/\s*\(.*\)$/, "");
 const related = a.related
   .map((slug) => airlines.find((x) => x.slug === slug))
   .filter(Boolean);
@@ -69,6 +72,7 @@ const jsonld = {
       <div class="hero-grid">
         <div>
           <span class="kicker">{a.alliance}</span>
+          {a.i18n?.ar && <a class="lang-toggle" href={`/ar/buy/${a.slug}`} lang="ar" hreflang="ar">العربية</a>}
           <h1>{a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
           <div class="cta-row">
@@ -149,7 +153,7 @@ const jsonld = {
   <section class="section wash-cool" id="worth">
     <div class="container">
       <div class="section-head">
-        <h2>Does buying {a.program.split(" ")[0]} beat the cash fare?</h2>
+        <h2>Does buying {progShort} beat the cash fare?</h2>
         <p>Paste the price from your flight search. If cash wins, we'll say so.</p>
       </div>
       <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
@@ -241,10 +245,10 @@ const jsonld = {
     <div class="container">
       <div class="ctaband">
         <div>
-          <h3>Ready to price your {a.program} order?</h3>
+          <h3>Ready to price your {progShort} order?</h3>
           <p>Quoted first, delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
         </div>
-        <a class="btn btn-primary" href="#quote">{verified ? `Price ${a.program.split(" ")[0]} now` : "Request a live quote"}</a>
+        <a class="btn btn-primary" href="#quote">{verified ? `Price ${progShort} now` : "Request a live quote"}</a>
       </div>
       {related.length > 0 && (
         <div class="related related-inline">
