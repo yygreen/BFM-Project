@@ -1,5 +1,6 @@
 ---
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import PostCard from "../../../components/PostCard.astro";
 import BlogSidebar from "../../../components/BlogSidebar.astro";
 import { getPosts, getCategoryCounts, categorySlug, CATEGORY_BLURB } from "../../../lib/blog";
@@ -34,7 +35,11 @@ const jsonld = {
 >
   <section class="section">
     <div class="container">
-      <a class="backlink" href="/blog">← All posts</a>
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Blog", href: "/blog" },
+        { label: name },
+      ]} />
       <div class="section-head">
         <span class="kicker">{name}</span>
         <h2>{name}</h2>

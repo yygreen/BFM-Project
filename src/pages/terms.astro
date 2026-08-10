@@ -6,6 +6,7 @@
 // per-programme data; the refund commitment renders from site.json only once
 // the client confirms it. noindex matches the old site's legal pages.
 import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { site } from "../lib/site";
 ---
 <Base
@@ -16,6 +17,10 @@ import { site } from "../lib/site";
 >
   <section class="section">
     <div class="container" style="max-width:820px">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Terms & conditions" },
+      ]} />
       <div class="section-head">
         <span class="kicker">Legal</span>
         <h2>Terms &amp; conditions</h2>

@@ -6,6 +6,7 @@
 // Web3Forms wiring and graceful not-wired fallback as the quote widget; the
 // copy invites a request without asserting we can source anything.
 import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { site, quoteFormReady } from "../lib/site";
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
@@ -21,6 +22,10 @@ const notWired = orderEmail
 >
   <section class="section">
     <div class="container" style="max-width:640px">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Custom request" },
+      ]} />
       <div class="section-head" style="text-align:center;margin:0 auto 24px">
         <span class="kicker">Custom request</span>
         <h2>Tell us what you need</h2>

@@ -308,6 +308,13 @@ details.faq .ans { padding:0 20px 18px; color:var(--text-2); font-size:15px; lin
 summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 
 /* ---- related ---- */
+/* breadcrumb trail — quiet, single line, sits above the page's first heading */
+.crumbs { display:flex; align-items:center; flex-wrap:wrap; gap:7px; font-size:12.5px; color:var(--text-3); margin-bottom:20px; }
+.crumbs a { color:var(--text-3); }
+.crumbs a:hover { color:var(--cobalt); }
+.crumbs [aria-current] { color:var(--text-2); font-weight:500; }
+.crumbs-sep { color:var(--line-strong); }
+
 .related { display:flex; gap:11px; flex-wrap:wrap; }
 /* small pill linking a page to its language counterpart, beside the kicker */
 .lang-toggle { display:inline-block; margin-inline-start:10px; font-size:12.5px; font-weight:600;

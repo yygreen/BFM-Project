@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
 import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
@@ -69,6 +70,11 @@ const jsonld = {
   <!-- HERO -->
   <section class="hero">
     <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Programs", href: "/#programs" },
+        { label: `${a.airline} ${progShort}` },
+      ]} />
       <div class="hero-grid">
         <div>
           <span class="kicker">{a.alliance}</span>

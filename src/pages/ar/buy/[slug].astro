@@ -8,6 +8,7 @@
 // v1 scope, deliberately: the header/footer chrome stays English and the CTA
 // leads to the English quote flow. The page content itself is RTL Arabic.
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../../components/QuoteWidget.astro";
 import { getCollection } from "astro:content";
 
@@ -69,6 +70,11 @@ const verified = a.priceVerified;
   <div dir="rtl" lang="ar">
     <section class="hero">
       <div class="container">
+        <Breadcrumbs rtl items={[
+          { label: "الرئيسية", href: "/" },
+          { label: "البرامج", href: "/#programs" },
+          { label: t.heroHeadline },
+        ]} />
         <div class="hero-grid">
           <div>
             <span class="kicker">{a.alliance}</span>

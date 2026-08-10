@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PostHero from "../../components/PostHero.astro";
 import PostCard from "../../components/PostCard.astro";
 import BlogSidebar from "../../components/BlogSidebar.astro";
@@ -64,7 +65,12 @@ const jsonld = {
 <Base title={`${d.title} | buyflightmiles`} description={d.description} slug={`blog/${post.id}`} jsonld={jsonld}>
   <article class="section" style="padding-top:32px">
     <div class="container">
-      <a class="backlink" href="/blog">← All posts</a>
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Blog", href: "/blog" },
+        { label: d.category, href: `/blog/category/${categorySlug(d.category)}` },
+        { label: d.title },
+      ]} />
 
       <header class="posthead">
         <div class="pc-top">
