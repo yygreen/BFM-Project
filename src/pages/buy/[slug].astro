@@ -177,11 +177,12 @@ const jsonld = {
       <div class="section-head">
         <h2>From quote to {progShort} in your account</h2>
       </div>
+      <!-- the same three beats, same names, as the homepage's "Three steps to
+           the seat" — one story told twice, not two competing processes -->
       <div class="steps ministeps">
-        <div class="step"><div class="n">01</div><h4>Price it</h4><p>The calculator above gives your estimate instantly.</p></div>
-        <div class="step"><div class="n">02</div><h4>We confirm</h4><p>Your exact rate and delivery window, before anything is paid.</p></div>
-        <div class="step"><div class="n">03</div><h4>Pay off-site</h4><p>After you approve the quote. Nothing is charged on this website.</p></div>
-        <div class="step"><div class="n">04</div><h4>Miles land</h4><p>{a.deliveryVerified ? `In your own ${progShort} account, ${a.delivery.toLowerCase()}.` : `In your own ${progShort} account, on the window your quote confirms.`}</p></div>
+        <div class="step"><div class="n">01</div><h4>Choose</h4><p>Price your amount in the calculator above. We confirm your exact rate and delivery in the quote.</p></div>
+        <div class="step"><div class="n">02</div><h4>Pay</h4><p>Off-site, after you approve the quote. Nothing is ever charged on this website.</p></div>
+        <div class="step"><div class="n">03</div><h4>Fly</h4><p>{a.deliveryVerified ? `Miles land in your own ${progShort} account, ${a.delivery.toLowerCase()} — then book the seat.` : `Miles land in your own ${progShort} account on the window your quote confirms — then book the seat.`}</p></div>
       </div>
       <p class="cmp-note" style="margin-top:26px">
         {a.airline} sets its own price for {progShort}, and it moves with their promotions.
