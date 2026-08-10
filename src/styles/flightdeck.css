@@ -897,6 +897,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .csel-code-logo { width:auto; min-width:62px; max-width:86px; height:30px;
   background:none !important; display:flex; align-items:center; }
 .csel-code-logo img { width:auto; height:100%; max-width:100%; object-fit:contain; object-position:left center; }
+/* Emirates is the roster's one squarish mark (aspect 1.4 vs 2.8+ for the
+   rest) — at wordmark height it reads stamp-sized, so it alone draws taller,
+   centered over the same 30px slot; the row padding absorbs the difference */
+.csel-code-logo img[src*="emirates"] { height:42px; }
 .gcard .top, .pcard .top { gap:10px; }
 .gcard .top .badge, .pcard .top .badge { flex:0 0 auto; }
 
