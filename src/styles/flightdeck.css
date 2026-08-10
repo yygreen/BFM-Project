@@ -246,6 +246,8 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .stool-out[data-state="win"] .stool-verdict b, .stool-out[data-state="win"] #st-cost { color:var(--cobalt); }
 .stool-out[data-state="win"] .stool-verdict, .stool-out[data-state="ok"] .stool-verdict { color:var(--text-1); font-weight:500; }
 .stool-cta { margin-top:16px; }
+/* .btn's display rule outranks the UA [hidden] style, so restate it */
+.stool-cta[hidden] { display:none; }
 
 /* closing CTA band on programme pages */
 .ctaband { display:flex; align-items:center; justify-content:space-between; gap:22px; flex-wrap:wrap; }

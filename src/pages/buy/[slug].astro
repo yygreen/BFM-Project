@@ -137,6 +137,19 @@ const jsonld = {
     </section>
   )}
 
+  <!-- RUN THE NUMBERS — the visitor's own fare vs our rate, verdict included.
+       Sits directly under the value ladder: the ladder makes the claim, this
+       lets the visitor test it against a fare they actually found. -->
+  <section class="section" style="padding-top:0" id="worth">
+    <div class="container" style="max-width:860px">
+      <div class="section-head">
+        <h2>Does buying {a.program.split(" ")[0]} beat the cash fare?</h2>
+        <p>Paste the cash price from your flight search and we'll run the numbers. If cash wins, we'll say so.</p>
+      </div>
+      <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
+    </div>
+  </section>
+
   <!-- HOW IT WORKS -->
   <section class="section" id="how">
     <div class="container">
@@ -160,17 +173,6 @@ const jsonld = {
         <p>Airlines charge a steep premium for their own miles. Here's the difference.</p>
       </div>
       <CompareTable program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} delivery={a.deliveryVerified ? a.delivery : ""} directBuyCents={a.directBuyCents} min={a.min} max={a.max} />
-    </div>
-  </section>
-
-  <!-- RUN THE NUMBERS — the visitor's own fare vs our rate, verdict included -->
-  <section class="section" style="padding-top:0" id="worth">
-    <div class="container" style="max-width:860px">
-      <div class="section-head">
-        <h2>Does buying {a.program.split(" ")[0]} beat the cash fare?</h2>
-        <p>Paste the cash price from your flight search and we'll run the numbers. If cash wins, we'll say so.</p>
-      </div>
-      <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
     </div>
   </section>
 
