@@ -91,20 +91,20 @@ const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
   <!-- the math, spelled out — this page's job is the arithmetic; the
        buy-vs-cash VERDICT tool lives on the programme page, not here twice -->
   <section class="section wash-cool">
-    <div class="container" style="max-width:860px">
+    <div class="container">
       <div class="section-head">
         <h2>How the math works</h2>
       </div>
-      <div class="quirks">
-        <div class="quirk">
+      <div class="uses">
+        <div class="use">
           <h4>Cost = miles × rate</h4>
           <p>{progShort} at {approx}{a.pricePerMile}¢ per mile means every 1,000 miles costs {approx}${per1000}. A 70,000-mile award is 70 × {approx}${per1000} = {approx}{usd(70000 * a.pricePerMile / 100)}. No fees are added on top of the quoted rate.</p>
         </div>
-        <div class="quirk">
+        <div class="use">
           <h4>When buying makes sense</h4>
           <p>Divide the cash fare by the miles the award needs: that's what the seat values a mile at. If it's comfortably above {approx}{a.pricePerMile}¢, buying wins; if it's below, pay cash. The <a href={`/buy/${a.slug}#worth`}>{progShort} page's comparison tool</a> runs that verdict on your real numbers.</p>
         </div>
-        <div class="quirk">
+        <div class="use">
           <h4>Why the quote is the real number</h4>
           <p>Rates move with sourcing. The figure here prices your estimate; the quote confirms your exact rate and delivery window before anything is paid, and that confirmed number is the one that binds.</p>
         </div>
@@ -113,7 +113,7 @@ const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
   </section>
 
   <section class="section">
-    <div class="container" style="max-width:820px">
+    <div class="container">
       <div class="section-head">
         <h2>Looking for a different calculator?</h2>
       </div>
