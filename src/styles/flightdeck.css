@@ -237,7 +237,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .facts .cap { font-size:12px; color:var(--text-3); margin:10px 0 0; line-height:1.5; }
 
 /* ---- savings tool: the visitor's fare vs our rate ---- */
-.stool { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); overflow:hidden; }
+.stool { background:var(--surface); border:1px solid var(--line-2); border-radius:var(--radius-card); box-shadow:var(--shadow); overflow:hidden; }
 .stool-in { padding:24px 26px 20px; }
 .stool-presets { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
 .stool-chip { font-family:var(--sans); font-size:12.5px; font-weight:600; color:var(--text-2); background:var(--raised); border:1px solid transparent; border-radius:var(--radius-pill); padding:7px 14px; cursor:pointer; }
@@ -248,9 +248,9 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .stool-fields label { display:block; font-size:13px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
 .stool-fields input { width:100%; padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--radius); font-family:var(--mono); font-size:15px; background:var(--surface); color:var(--text-1); }
 .stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
-.stool-out { background:var(--raised); padding:22px 26px; }
+.stool-out { background:var(--cobalt-tint); border-top:1px solid var(--cobalt-line); padding:22px 26px; }
 .stool-cols { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.stool-col .k { display:block; font-size:12.5px; color:var(--text-3); margin-bottom:3px; }
+.stool-col .k { display:block; font-size:12.5px; color:var(--text-2); margin-bottom:3px; }
 .stool-col b { font-family:var(--mono); font-size:24px; font-weight:600; color:var(--text-1); font-variant-numeric:tabular-nums; }
 .stool-col.vs { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-3); text-transform:uppercase; }
 .stool-verdict { margin-top:14px; font-size:14.5px; line-height:1.6; color:var(--text-2); max-width:64ch; }
