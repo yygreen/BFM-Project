@@ -285,9 +285,6 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .worth-sub h3 { font-size:clamp(20px,2.4vw,25px); letter-spacing:-0.02em; }
 .worth-sub p { color:var(--text-2); font-size:14.5px; margin:8px 0 0; }
 
-.stool-skip { display:inline-block; margin-top:12px; font-size:13.5px; font-weight:600; color:var(--cobalt); }
-.stool-skip:hover { text-decoration:underline; }
-.stool-skip[hidden] { display:none; }
 
 /* closing CTA band on programme pages */
 .ctaband { display:flex; align-items:center; justify-content:space-between; gap:22px; flex-wrap:wrap; }
@@ -775,7 +772,8 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .qw-row span { color:var(--text-3); font-size:12.5px; }
 .qw-row b { font-family:var(--mono); color:var(--ink); font-weight:600; }
 .qw-save b { color:var(--coral); }
-.qw-note { color:var(--coral); font-size:12.5px; margin:12px 0 0; }
+/* informational, not a warning — status colors stay reserved for real states */
+.qw-note { color:var(--text-3); font-size:12.5px; margin:12px 0 0; }
 .qw-note[hidden] { display:none; }
 .qw-cta { width:100%; margin-top:16px; }
 

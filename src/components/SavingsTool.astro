@@ -58,13 +58,13 @@ const approx = verified ? "" : "~";
     <div class="stool-verdict" id="st-verdict">
       Enter the cash fare and we'll run the numbers.
     </div>
-    <!-- fixed-height slot: the verdict swaps which link shows, but the card's
-         outer height never changes, so a stuck sticky card can't be pushed
-         past its section when the CTA appears -->
+    <!-- fixed-height slot: states swap what shows, but the card's outer
+         height never changes, so a stuck sticky card can't be pushed past
+         its section when the CTA appears. The CTA shows whenever a miles
+         amount exists — the cost column already prices it, fare or no fare —
+         and hides only when the honest answer is "pay cash". -->
     <div class="stool-foot">
-      <a class="btn btn-primary stool-cta" id="st-cta" href="#quote" hidden>Get this quoted →</a>
-      <!-- the empty state must not dead-end: no fare handy still has a path -->
-      <a class="stool-skip" id="st-skip" href="#quote">No fare handy? Price your miles anyway →</a>
+      <a class="btn btn-primary stool-cta" id="st-cta" href="#quote">Get this quoted →</a>
     </div>
   </div>
 </div>
@@ -97,12 +97,12 @@ const approx = verified ? "" : "~";
 
       if (!okM || !okF) {
         out.dataset.state = "empty";
-        $("st-verdict").textContent = "Enter the cash fare and we'll run the numbers.";
-        $("st-cta").hidden = true;
-        $("st-skip").hidden = false;
+        $("st-verdict").textContent = okM
+          ? "That's the cost of the miles. Add the cash fare and we'll tell you which one wins."
+          : "Enter the miles and the cash fare and we'll run the numbers.";
+        $("st-cta").hidden = !okM;
         return;
       }
-      $("st-skip").hidden = true;
 
       const cost = (m * rate) / 100;
       const saving = f - cost;
