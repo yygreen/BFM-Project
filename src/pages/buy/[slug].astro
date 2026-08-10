@@ -229,14 +229,25 @@ const jsonld = {
   </section>
 
   <!-- CLOSING CTA — the widget lives in the hero, so the page ends with a
-       clear road back to it -->
+       clear road back to it. Related programmes ride along in the same band
+       rather than floating as their own sparse section. -->
   <section class="section wash-cool">
-    <div class="container ctaband">
-      <div>
-        <h3>Ready to price your {a.program} order?</h3>
-        <p>Quoted first, delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
+    <div class="container">
+      <div class="ctaband">
+        <div>
+          <h3>Ready to price your {a.program} order?</h3>
+          <p>Quoted first, delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
+        </div>
+        <a class="btn btn-primary" href="#quote">{verified ? `Price ${a.program.split(" ")[0]} now` : "Request a live quote"}</a>
       </div>
-      <a class="btn btn-primary" href="#quote">{verified ? `Price ${a.program.split(" ")[0]} now` : "Request a live quote"}</a>
+      {related.length > 0 && (
+        <div class="related related-inline">
+          <span class="related-lab">Related programmes</span>
+          {related.map((r) => (
+            <a href={`/buy/${r.slug}`}>{r.airline} {r.program} · {r.pricePerMile}¢</a>
+          ))}
+        </div>
+      )}
     </div>
   </section>
 
@@ -255,17 +266,4 @@ const jsonld = {
     </section>
   )}
 
-  <!-- RELATED -->
-  {related.length > 0 && (
-    <section class="section">
-      <div class="container">
-        <div class="section-head"><h2>Related programs</h2></div>
-        <div class="related">
-          {related.map((r) => (
-            <a href={`/buy/${r.slug}`}>{r.airline} {r.program} · {r.pricePerMile}¢</a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
 </Base>

@@ -249,7 +249,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 /* doubled selector so this outranks the later `.field input` surface rule */
 .stool .stool-fields input { width:100%; padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--radius); font-family:var(--mono); font-size:15px; background:var(--raised); color:var(--text-1); }
 .stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
-.stool-out { background:var(--cobalt-tint); border-top:1px solid var(--cobalt-line); padding:22px 26px; }
+.stool-out { border-top:1px solid var(--line-2); padding:22px 26px; }
 .stool-cols { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
 .stool-col .k { display:block; font-size:12.5px; color:var(--text-2); margin-bottom:3px; }
 .stool-col b { font-family:var(--mono); font-size:24px; font-weight:600; color:var(--text-1); font-variant-numeric:tabular-nums; }
@@ -309,6 +309,9 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 
 /* ---- related ---- */
 .related { display:flex; gap:11px; flex-wrap:wrap; }
+/* related pills inside the closing CTA band, on one baseline with a label */
+.related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
+.related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }
 .related a { font-size:14px; font-weight:600; border:1px solid var(--line-2); border-radius:var(--radius-pill); padding:9px 16px; color:var(--text-2); background:var(--surface); box-shadow:var(--shadow-sm); transition:border-color .15s ease, color .15s ease, transform .15s ease; }
 .related a:hover { border-color:var(--cobalt); color:var(--cobalt); transform:translateY(-2px); }
 
