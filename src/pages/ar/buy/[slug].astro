@@ -11,6 +11,10 @@ import Base from "../../../layouts/Base.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../../components/QuoteWidget.astro";
 import { getCollection } from "astro:content";
+import { realReviews, yearsTrading } from "../../../lib/site";
+
+const rev = realReviews[0];
+const years = yearsTrading();
 
 // Arabic strings for the quote widget's chrome. UI copy lives here in the
 // template (shared across programmes); marketing copy stays in the data.
@@ -85,18 +89,32 @@ const verified = a.priceVerified;
               <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
             </div>
             <div class="spec">
+              {rev ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <b>{rev.rating}/{rev.outOf}</b>&nbsp;على {rev.platform}
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  عرض سعر مجاني وغير مُلزِم
+                </span>
+              )}
               <span class="spec-it">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 {a.deliveryVerified ? <>التسليم خلال <b>24 ساعة</b></> : <>موعد التسليم يُؤكَّد في عرض السعر</>}
               </span>
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-                <b>{verified ? "" : "~"}{a.pricePerMile}¢</b> لكل ميل
-              </span>
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                السعر يُؤكَّد قبل الدفع
-              </span>
+              {years !== null ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                  <b>{years}+ سنوات</b>&nbsp;في السوق
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  السعر يُؤكَّد قبل الدفع
+                </span>
+              )}
             </div>
           </div>
           <div class="hero-art">

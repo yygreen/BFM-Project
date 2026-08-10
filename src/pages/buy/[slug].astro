@@ -8,7 +8,7 @@ import SavingsTool from "../../components/SavingsTool.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
-import { site } from "../../lib/site";
+import { site, realReviews, yearsTrading } from "../../lib/site";
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
@@ -31,6 +31,8 @@ const verified = a.priceVerified;
 // programme name without any parenthetical — "Avios (Privilege Club)" reads
 // fine as a title but turns copy like "price your … order" into a mouthful
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
+const rev = realReviews[0];
+const years = yearsTrading();
 const related = a.related
   .map((slug) => airlines.find((x) => x.slug === slug))
   .filter(Boolean);
@@ -84,19 +86,36 @@ const jsonld = {
             <a class="btn btn-primary" href="#quote">{verified ? `Buy ${a.program}` : "Request a live quote"}</a>
             <a class="btn btn-secondary" href="#quote">What's it cost?</a>
           </div>
+          <!-- social proof row: rating, turnaround, track record. Each slot
+               falls back to an always-true claim when its figure isn't
+               confirmed, so the row converts without ever inventing a number. -->
           <div class="spec">
+            {rev ? (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <b>{rev.rating}/{rev.outOf}</b>&nbsp;on {rev.platform}
+              </span>
+            ) : (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Free, no-obligation quote
+              </span>
+            )}
             <span class="spec-it">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               {a.deliveryVerified ? <>Delivered in <b>{a.delivery.replace("Within ", "")}</b></> : <>Delivery confirmed in your quote</>}
             </span>
-            <span class="spec-it">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-              <b>{verified ? "" : "~"}{a.pricePerMile}¢</b> per mile
-            </span>
-            <span class="spec-it">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-              {site.guarantee.verified ? site.guarantee.shortLabel.charAt(0).toUpperCase() + site.guarantee.shortLabel.slice(1) : "Price confirmed before you pay"}
-            </span>
+            {years !== null ? (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                <b>{years}+ years</b>&nbsp;in business
+              </span>
+            ) : (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                Exact price confirmed before you pay
+              </span>
+            )}
           </div>
         </div>
         <div class="hero-art">
