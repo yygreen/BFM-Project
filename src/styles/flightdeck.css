@@ -512,6 +512,10 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 /* explicit px, not 100% — inside the centred grid slot a percentage height
    resolves against the wrong box and tall marks (Emirates) overflow the row */
 .dd-code.dd-logo img { width:100%; height:24px; object-fit:contain; object-position:left center; }
+/* Emirates is the roster's one squarish mark — same treatment as the quote
+   widget's selector: it alone draws taller, centered over the 24px slot,
+   and the row padding absorbs the overhang */
+.dd-code.dd-logo img[src*="emirates"] { height:34px; }
 .dd-txt { display:flex; flex-direction:column; line-height:1.25; min-width:0; }
 .dd-air { font-size:13.5px; font-weight:600; color:var(--text-1); white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis; }
