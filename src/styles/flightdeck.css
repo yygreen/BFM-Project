@@ -55,7 +55,7 @@ img, svg { max-width:100%; }
 @media (max-width:660px){ .nav a.link { display:none; } }
 
 /* ---- footer ---- */
-.site-footer { background:var(--ink); color:var(--text-inv); margin-top:80px; }
+.site-footer { background:var(--ink); color:var(--text-inv); }
 .site-footer .container { padding-top:54px; padding-bottom:54px; }
 .site-footer .brand { color:#fff; }
 .site-footer .brand span { color:#8AA0FF; }
@@ -414,7 +414,6 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .dd-air { font-size:13.5px; font-weight:600; color:var(--text-1); white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis; }
 .dd-prog { font-size:11.5px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.dd-price { margin-left:auto; font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); }
 .dd-all { display:block; margin-top:6px; padding:10px; text-align:center; border-top:1px solid var(--line);
   font-size:13px; font-weight:600; color:var(--cobalt); }
 
