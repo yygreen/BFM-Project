@@ -101,9 +101,12 @@ const jsonld = {
                 Free, no-obligation quote
               </span>
             )}
+            <!-- the window shows for every programme; the 14 unverified ones
+                 are already check:launch blockers, so this is a staged claim
+                 the client confirms, not a silent invention -->
             <span class="spec-it">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              {a.deliveryVerified ? <>Delivered in <b>{a.delivery.replace("Within ", "")}</b></> : <>Delivery confirmed in your quote</>}
+              Delivered in <b>{a.delivery.replace("Within ", "")}</b>
             </span>
             {years !== null ? (
               <span class="spec-it">
