@@ -24,7 +24,8 @@ const verified = a.priceVerified;
 const approx = verified ? "" : "~";
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
 const per1000 = Math.round(a.pricePerMile * 10);
-const rows = [25000, 50000, 100000, 250000, 500000].filter((m) => m >= a.min && m <= a.max);
+// six values so the reference grid tiles 3×2 — five left an orphan card
+const rows = [25000, 50000, 100000, 150000, 250000, 500000].filter((m) => m >= a.min && m <= a.max);
 const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
 ---
 <Base
