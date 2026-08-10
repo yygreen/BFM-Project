@@ -12,7 +12,6 @@
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
-import SavingsTool from "../../components/SavingsTool.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -45,10 +44,10 @@ const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
           <span class="kicker">Calculator</span>
           <h1>{a.airline} miles calculator</h1>
           <p class="sub">
-            Two calculations, both live: what {progShort} miles cost to buy at our rate, and
-            whether buying them beats the cash fare you found. Every figure here is computed
-            from the {approx}{a.pricePerMile}¢ per mile rate; your exact price is confirmed in
-            the quote before you pay.
+            What {progShort} miles cost to buy, computed live at the {approx}{a.pricePerMile}¢
+            per mile rate — type an amount, see the price. Your exact rate is confirmed in the
+            quote before you pay, and the verdict on whether buying beats your cash fare lives
+            on the <a href={`/buy/${a.slug}#worth`}>{progShort} page</a>.
           </p>
           <div class="spec">
             <span><b>{approx}{a.pricePerMile}¢</b> / mile</span><span>·</span>
@@ -89,13 +88,27 @@ const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
     </div>
   </section>
 
+  <!-- the math, spelled out — this page's job is the arithmetic; the
+       buy-vs-cash VERDICT tool lives on the programme page, not here twice -->
   <section class="section wash-cool">
-    <div class="container">
+    <div class="container" style="max-width:860px">
       <div class="section-head">
-        <h2>Does buying {progShort} beat the cash fare?</h2>
-        <p>The second calculation, and the one that decides it. If cash wins, we'll say so.</p>
+        <h2>How the math works</h2>
       </div>
-      <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
+      <div class="quirks">
+        <div class="quirk">
+          <h4>Cost = miles × rate</h4>
+          <p>{progShort} at {approx}{a.pricePerMile}¢ per mile means every 1,000 miles costs {approx}${per1000}. A 70,000-mile award is 70 × {approx}${per1000} = {approx}{usd(70000 * a.pricePerMile / 100)}. No fees are added on top of the quoted rate.</p>
+        </div>
+        <div class="quirk">
+          <h4>When buying makes sense</h4>
+          <p>Divide the cash fare by the miles the award needs: that's what the seat values a mile at. If it's comfortably above {approx}{a.pricePerMile}¢, buying wins; if it's below, pay cash. The <a href={`/buy/${a.slug}#worth`}>{progShort} page's comparison tool</a> runs that verdict on your real numbers.</p>
+        </div>
+        <div class="quirk">
+          <h4>Why the quote is the real number</h4>
+          <p>Rates move with sourcing. The figure here prices your estimate; the quote confirms your exact rate and delivery window before anything is paid, and that confirmed number is the one that binds.</p>
+        </div>
+      </div>
     </div>
   </section>
 
