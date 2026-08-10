@@ -71,7 +71,7 @@ img, svg { max-width:100%; }
 /* ---- headings / type ---- */
 h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; color:var(--text-1); }
 .kicker { display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-weight:700; font-size:12.5px; letter-spacing:0.02em; text-transform:uppercase; color:var(--cobalt); background:var(--cobalt-tint); padding:6px 14px; border-radius:var(--radius-pill); }
-.section { padding:clamp(48px,7vw,90px) 0; }
+.section { padding:clamp(44px,6vw,72px) 0; }
 .section.tinted { background:var(--raised); }
 /* the washes are full-bleed bands, so they carry their own padding — never
    pair them with a padding-top:0 chain */

@@ -166,7 +166,7 @@ const jsonld = {
   </section>
 
   <!-- COMPARE -->
-  <section class="section" style="padding-top:0">
+  <section class="section">
     <div class="container">
       <div class="section-head">
         <h2>Buy {a.program} here vs. from {a.airline}</h2>
@@ -222,7 +222,7 @@ const jsonld = {
 
   <!-- FAQ -->
   <section class="section">
-    <div class="container" style="max-width:760px">
+    <div class="container">
       <div class="section-head"><h2>Buying {a.airline} miles — your questions</h2></div>
       <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} extras={a.faqExtras} />
     </div>
@@ -257,7 +257,7 @@ const jsonld = {
 
   <!-- RELATED -->
   {related.length > 0 && (
-    <section class="section" style={posts.length > 0 ? "padding-top:0" : undefined}>
+    <section class="section">
       <div class="container">
         <div class="section-head"><h2>Related programs</h2></div>
         <div class="related">
