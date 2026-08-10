@@ -62,7 +62,7 @@ const canonical = new URL(slug, site).href;
             <div class="dd-grid">
               {programs.map((p) => (
                 <a class="dd-item" href={`/buy/${p.slug}`}>
-                  <span class="dd-code" style={`--c:${p.color}`}>{p.code}</span>
+                  <span class={`dd-code${p.logo ? " dd-logo" : ""}`} style={`--c:${p.color}`}>{p.logo ? <img src={p.logo} alt="" loading="lazy" /> : p.code}</span>
                   <span class="dd-txt">
                     <span class="dd-air">{p.airline}</span>
                     <span class="dd-prog">{p.program}</span>
