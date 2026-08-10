@@ -347,6 +347,10 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .crumbs-sep { color:var(--line-strong); }
 
 /* calculator quick-reference: amount → cost rows with a dotted leader */
+/* quiet pointer from the buy page's verdict tool to the calculator page */
+.tool-more { margin-top:12px; font-size:13.5px; color:var(--text-3); line-height:1.6; }
+.tool-more a { color:var(--cobalt); font-weight:600; }
+
 /* worked division example under the math cards */
 .workx { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
   box-shadow:var(--shadow-sm); padding:20px 24px; margin-top:18px;
