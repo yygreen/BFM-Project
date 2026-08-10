@@ -1,39 +1,16 @@
 ---
-// Brand lockup: circular emblem + wordmark.
+// Brand lockup — the actual buyflightmiles asset, taken from the live site
+// (its theme ships 1x PNGs only; if a vector or 2x export turns up, drop it
+// in /public and point these paths at it — nothing else changes).
 //
-// The emblem is inline SVG so it stays crisp at any size and needs no extra
-// request; the wordmark stays real text so it uses the site font, is
-// selectable, and reads correctly to screen readers.
-//
-// If the original vector asset turns up, drop it at /public/logo.svg and
-// swap the <svg> below for an <img> — nothing else needs to change.
-const { variant = "dark", size = 30 } = Astro.props;
-
 // dark  = navy mark for light backgrounds (header)
 // light = white mark for the dark footer
-const ink = variant === "light" ? "#FFFFFF" : "#1B2A6B";
-const mark = "#E8482A";
+const { variant = "dark", size = 30 } = Astro.props;
+const src = variant === "light" ? "/footer-logo.png" : "/logo.png";
+// natural sizes: logo.png 172×40, footer-logo.png 165×54 — width/height
+// attributes keep the layout from shifting while the image loads
+const ratio = variant === "light" ? 165 / 54 : 172 / 40;
 ---
 <span class={`logo logo-${variant}`}>
-  <svg
-    class="logo-mark"
-    width={size}
-    height={size}
-    viewBox="0 0 64 64"
-    fill="none"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <circle cx="32" cy="32" r="28" stroke={ink} stroke-width="4" />
-    <!-- compass needle: tail from the upper right, head pointing lower left -->
-    <path
-      d="M47 22 C40 28 34 33 24 38"
-      stroke={mark}
-      stroke-width="3"
-      stroke-linecap="round"
-      fill="none"
-    />
-    <path d="M28 33 L15 41 L29 42 Z" fill={mark} />
-  </svg>
-  <span class="logo-word">buyflightmiles</span>
+  <img src={src} alt="buyflightmiles" width={Math.round(size * ratio)} height={size} />
 </span>
