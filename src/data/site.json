@@ -23,8 +23,8 @@
     "shortLabel": "escrow protection",
     "summary": "Your payment is held until the miles land in your account.",
     "policy": "Payment is held in escrow and released only when the miles arrive in your account within the quoted window. If they don't arrive, you're refunded in full.",
-    "verified": true,
-    "placeholder": true
+    "verified": false,
+    "placeholder": false
   },
   "delivery": {
     "howItWorks": "",
