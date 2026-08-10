@@ -38,8 +38,8 @@
     { "source": "/faqs", "destination": "/#faq", "permanent": true },
     { "source": "/checkout", "destination": "/#quote", "permanent": true },
 
-    { "source": "/about-us", "destination": "/", "permanent": false },
-    { "source": "/privacy-policy", "destination": "/", "permanent": false },
-    { "source": "/terms-and-conditions", "destination": "/", "permanent": false }
+    { "source": "/about-us", "destination": "/about", "permanent": true },
+    { "source": "/privacy-policy", "destination": "/privacy", "permanent": true },
+    { "source": "/terms-and-conditions", "destination": "/terms", "permanent": true }
   ]
 }

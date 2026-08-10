@@ -1,0 +1,75 @@
+---
+// About page. Oriented on the old site's three-part structure (it's about
+// you / why miles / why us) but rewritten to the new site's rules: every
+// number on this page is real by construction (programme count comes from
+// the collection), and there are no invented years, teams or trust stats.
+// The client's published contact details (address, phone) stay OFF this page
+// until they're confirmed on the client call — the request form is the
+// contact path that always works.
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const count = (await getCollection("airlines")).length;
+---
+<Base
+  title="About us: buyflightmiles"
+  description="An online miles agent with one job: getting people the airline miles they're short of, quickly, at a rate confirmed before they pay."
+  slug="about"
+>
+  <section class="section">
+    <div class="container" style="max-width:820px">
+      <div class="section-head">
+        <span class="kicker">About us</span>
+        <h2>The miles agent that quotes first.</h2>
+        <p>One job: getting people the airline miles they're short of, quickly, at a rate they saw before they paid.</p>
+      </div>
+
+      <h3>It starts with a shortfall</h3>
+      <p>
+        Most people who find us have a redemption in mind and a balance that doesn't reach it.
+        The award seat is sitting there; the account is 30,000 miles short. Buying that shortfall
+        at a fair per-mile rate is usually far cheaper than paying the cash fare, and that gap is
+        the entire reason this business exists.
+      </p>
+
+      <h3>Why buy miles at all?</h3>
+      <p>
+        Premium-cabin award tickets often price a mile far below what the seat costs in cash.
+        When a business-class seat needs 70,000 miles and the cash fare runs to several thousand
+        dollars, miles bought at a fixed per-mile rate can cut the price dramatically. Not always,
+        and we say so: every programme page has a calculator that compares your real cash fare
+        against buying the miles, and when cash wins, it tells you to pay cash.
+      </p>
+
+      <h3>How we work</h3>
+      <p>
+        We currently cover {count} loyalty programmes across the major alliances. The process is
+        deliberately simple, and deliberately conservative:
+      </p>
+      <ul>
+        <li><b>You're quoted first.</b> Price your amount on the site, send the request, and we confirm your exact rate and delivery window before anything is paid.</li>
+        <li><b>Nothing is charged on this site.</b> Payment happens after you approve the quote, never through the website.</li>
+        <li><b>We never ask for your password.</b> Miles are delivered into the loyalty account you already hold; your membership number and account name are all we need.</li>
+        <li><b>Programme not listed?</b> <a href="/request">Ask us</a> and we'll check availability and price before you commit to anything.</li>
+      </ul>
+
+      <h3>The honest fine print</h3>
+      <p>
+        We are an independent miles agent, not affiliated with any airline or loyalty programme.
+        Rates shown with a tilde are indicative until confirmed in your quote. If you're weighing
+        us up, start with <a href="/#trust">how every order is protected</a> and the <a href="/blog">guides on the blog</a>,
+        which are written to be just as useful if you never buy from us.
+      </p>
+    </div>
+  </section>
+
+  <section class="section wash-cool">
+    <div class="container ctaband">
+      <div>
+        <h3>Ready when you are</h3>
+        <p>Price your programme, or ask about one we don't list yet. Quoted first, always.</p>
+      </div>
+      <a class="btn btn-primary" href="/#programs">See the programmes</a>
+    </div>
+  </section>
+</Base>

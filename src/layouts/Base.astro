@@ -27,6 +27,8 @@ const {
   // language alternates for this page, e.g. [{ hreflang: "ar", slug: "ar/buy/qatar-avios" }].
   // The page's own language pair and x-default are emitted automatically.
   alternates = [],
+  // e.g. "noindex, nofollow" for legal pages — omitted entirely when null
+  robots = null,
 } = Astro.props;
 
 const site = Astro.site ?? new URL("https://buyflightmiles.com");
@@ -47,6 +49,7 @@ const hreflangs = alternates.length
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  {robots && <meta name="robots" content={robots} />}
   {hreflangs.map((h) => <link rel="alternate" hreflang={h.hreflang} href={h.href} />)}
 
   <meta property="og:type" content="website" />
@@ -180,10 +183,13 @@ const hreflangs = alternates.length
         </div>
         <div>
           <h5>Company</h5>
+          <a href="/about">About us</a>
           <a href="/agents">For agents &amp; brokers</a>
           <a href="/#how">How it works</a>
           <a href="/#faq">FAQ</a>
           <a href="/#trust">Why trust us</a>
+          <a href="/privacy">Privacy policy</a>
+          <a href="/terms">Terms &amp; conditions</a>
         </div>
       </div>
       <div class="fine">© {new Date().getFullYear()} buyflightmiles · Not affiliated with any airline or loyalty program.</div>
