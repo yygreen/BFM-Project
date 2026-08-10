@@ -140,7 +140,7 @@ const jsonld = {
   <!-- RUN THE NUMBERS — the visitor's own fare vs our rate, verdict included.
        Sits directly under the value ladder: the ladder makes the claim, this
        lets the visitor test it against a fare they actually found. -->
-  <section class="section" style="padding-top:0" id="worth">
+  <section class="section wash-cool" id="worth">
     <div class="container">
       <div class="section-head">
         <h2>Does buying {a.program.split(" ")[0]} beat the cash fare?</h2>
@@ -178,7 +178,7 @@ const jsonld = {
 
   <!-- QUIRKS + FACTS — what makes this programme ITSELF, honest bits included -->
   {(a.quirks.length > 0 || a.mechanics.length > 0) && (
-    <section class="section" style="padding-top:0">
+    <section class="section wash-neutral">
       <div class="container">
         <div class="section-head">
           <h2>Worth knowing about {a.program}</h2>
@@ -210,7 +210,7 @@ const jsonld = {
   )}
 
   <!-- TRUST -->
-  <section class="section" style="padding-top:0">
+  <section class="section wash-warm">
     <div class="container">
       <div class="section-head">
         <span class="kicker">Why trust us</span>
@@ -221,7 +221,7 @@ const jsonld = {
   </section>
 
   <!-- FAQ -->
-  <section class="section" style="padding-top:0">
+  <section class="section">
     <div class="container" style="max-width:760px">
       <div class="section-head"><h2>Buying {a.airline} miles — your questions</h2></div>
       <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} extras={a.faqExtras} />
@@ -242,7 +242,7 @@ const jsonld = {
 
   <!-- FROM THE BLOG -->
   {posts.length > 0 && (
-    <section class="section" style="padding-top:0">
+    <section class="section">
       <div class="container">
         <div class="section-head">
           <span class="kicker">From the blog</span>
@@ -257,7 +257,7 @@ const jsonld = {
 
   <!-- RELATED -->
   {related.length > 0 && (
-    <section class="section" style="padding-top:0">
+    <section class="section" style={posts.length > 0 ? "padding-top:0" : undefined}>
       <div class="container">
         <div class="section-head"><h2>Related programs</h2></div>
         <div class="related">

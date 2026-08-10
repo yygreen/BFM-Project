@@ -25,6 +25,12 @@
   --shadow:0 8px 24px rgba(37,64,255,.08), 0 2px 8px rgba(16,18,43,.05);
   --shadow-lg:0 26px 60px rgba(37,64,255,.16), 0 8px 20px rgba(16,18,43,.08);
 
+  /* section washes — token-derived so they move with the palette. Kept just
+     above the page colour so the bands read as rhythm, not as new surfaces. */
+  --wash-cool:color-mix(in srgb, var(--cobalt-tint) 72%, var(--surface));
+  --wash-neutral:color-mix(in srgb, var(--raised) 78%, var(--surface));
+  --wash-warm:color-mix(in srgb, var(--coral-tint) 28%, var(--surface));
+
   --maxw:1120px;
 }
 * { box-sizing:border-box; }
@@ -67,6 +73,11 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .kicker { display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-weight:700; font-size:12.5px; letter-spacing:0.02em; text-transform:uppercase; color:var(--cobalt); background:var(--cobalt-tint); padding:6px 14px; border-radius:var(--radius-pill); }
 .section { padding:clamp(48px,7vw,90px) 0; }
 .section.tinted { background:var(--raised); }
+/* the washes are full-bleed bands, so they carry their own padding — never
+   pair them with a padding-top:0 chain */
+.section.wash-cool { background:var(--wash-cool); }
+.section.wash-neutral { background:var(--wash-neutral); }
+.section.wash-warm { background:var(--wash-warm); }
 /* Heads sit above full-width card rows, so a 60ch cap left the copy floating
    short against the grid. Full width instead — these paragraphs are one or two
    sentences and now set on a single line. Centred heads keep a measure, since
