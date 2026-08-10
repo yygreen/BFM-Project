@@ -107,16 +107,9 @@ const jsonld = {
     <div class="container">
       <div class="section-head">
         <h2>Best ways to use {a.program}</h2>
-        <p>Where these miles stretch furthest, and when to keep your cash. Test any of it against a real fare as you read.</p>
+        <p>Where these miles stretch furthest, and when to keep your cash. Test any of it against a real fare on the right.</p>
       </div>
       <div class="value-split">
-      <div class="value-tool">
-        <div class="worth-sub" id="worth">
-          <h3>Does buying {progShort} beat the cash fare?</h3>
-          <p>Paste the price from your flight search. If cash wins, we'll say so.</p>
-        </div>
-        <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
-      </div>
       <div class="value-lad">
       {a.sweetSpots && a.sweetSpots.length > 0 && (
       <>
@@ -163,6 +156,13 @@ const jsonld = {
         )}
       </>
       )}
+      </div>
+      <div class="value-tool">
+        <div class="worth-sub" id="worth">
+          <h3>Does buying {progShort} beat the cash fare?</h3>
+          <p>Paste the price from your flight search. If cash wins, we'll say so.</p>
+        </div>
+        <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
       </div>
       </div>
     </div>

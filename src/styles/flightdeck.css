@@ -265,7 +265,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 /* the value section splits: ladder left, tool right. The tool is sticky so
    the numbers stay in view while the claims are being read — read a sweet
    spot, tap its preset, see the arithmetic. */
-.value-split { display:grid; grid-template-columns:minmax(0,.98fr) minmax(0,1.02fr); gap:clamp(26px,3.5vw,52px); align-items:start; }
+.value-split { display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr); gap:clamp(26px,3.5vw,52px); align-items:start; }
 .value-tool { position:sticky; top:92px; }
 /* single-column tiers in the narrower ladder column */
 .value-split .uses { grid-template-columns:1fr; }
