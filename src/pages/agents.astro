@@ -76,7 +76,7 @@ const jsonld = {
               <li><Fragment set:html={check} /> Partner rates that scale with volume{site.partner.verified && site.partner.qualifyText ? ` — ${site.partner.qualifyText}` : ""}</li>
               <li><Fragment set:html={check} /> Miles across every major program</li>
               <li><Fragment set:html={check} /> Business &amp; first tickets, sourced to spec</li>
-              <li><Fragment set:html={check} /> Delivered fast{site.guarantee.verified ? `, backed by our ${site.guarantee.shortLabel}` : ", with your rate confirmed up front"}</li>
+              <li><Fragment set:html={check} /> Delivered fast{site.guarantee.verified ? ", with payment held until delivery" : ", with your rate confirmed up front"}</li>
               <li><Fragment set:html={check} /> White-label — the relationship stays yours</li>
             </ul>
           </div>
@@ -156,7 +156,7 @@ const jsonld = {
 
   <!-- FAQ -->
   <section class="section" style="padding-top:0">
-    <div class="container" style="max-width:760px">
+    <div class="container">
       <div class="section-head"><h2>Partner questions</h2></div>
       <details class="faq" open><summary>How does partner pricing work?<span class="mk">+</span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact — reach out and we'll quote based on what you typically move.</div></details>
       <details class="faq"><summary>Can you source a specific business-class seat?<span class="mk">+</span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it — you receive a confirmed ticket to pass to your client.</div></details>

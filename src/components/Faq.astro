@@ -65,7 +65,7 @@ const proof = [
 const legitAnswer = [
   "Yes.",
   proof ? proof + "." : "",
-  site.guarantee.verified ? `Every order is backed by our ${site.guarantee.shortLabel} — ${site.guarantee.summary}` : "",
+  site.guarantee.verified ? site.guarantee.summary : "",
   "You get a firm quote confirming your exact rate and delivery window before any payment is made, and the miles go into an account you already control.",
 ].filter(Boolean).join(" ");
 
