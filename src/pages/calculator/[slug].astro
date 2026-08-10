@@ -27,6 +27,71 @@ const per1000 = Math.round(a.pricePerMile * 10);
 // six values so the reference grid tiles 3×2 — five left an orphan card
 const rows = [25000, 50000, 100000, 150000, 250000, 500000].filter((m) => m >= a.min && m <= a.max);
 const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+const num = (n) => n.toLocaleString("en-US");
+const cost = (m) => usd((m * a.pricePerMile) / 100);
+
+// Break-even table: a sweet spot that carries a checked `miles` figure gets a
+// named row (add the field in airlines.json and the row appears); the generic
+// cabin archetypes below carry every page that has no priced award yet. The
+// break-even IS the purchase price of the miles: fare above it, buying wins.
+const namedAwards = (a.sweetSpots ?? [])
+  .filter((s) => s.miles)
+  .map((s) => ({ label: s.title, miles: s.miles, named: true }));
+const awards = [
+  ...namedAwards,
+  { label: "Short-haul economy, round trip", miles: 30000 },
+  { label: "Long-haul economy, one-way", miles: 45000 },
+  { label: "Long-haul business, one-way", miles: 85000 },
+  { label: "Long-haul business, round trip", miles: 160000 },
+];
+
+// Worked division example — deterministic hypothetical, framed as "say the
+// fare is": teaching arithmetic, not a claim about real fares. Uses the
+// programme's own priced award when one exists so no two pages read alike.
+const exName = namedAwards[0]?.label;
+const exMiles = namedAwards[0]?.miles ?? 70000;
+const exFare = Math.round((exMiles * 0.06) / 100) * 100;
+const exPer = ((exFare * 100) / exMiles).toFixed(1);
+const exSave = exFare - (exMiles * a.pricePerMile) / 100;
+
+// Calculator-intent FAQ — distinct from the buy page's questions on purpose;
+// the two pages were just de-duplicated and their FAQs stay apart too.
+const faqs = [
+  {
+    q: `How much does it cost to buy 50,000 ${progShort} miles?`,
+    a: `At ${approx}${a.pricePerMile}¢ per mile, 50,000 ${progShort} miles cost ${approx}${cost(50000)} and 100,000 cost ${approx}${cost(100000)}. No fees are added on top of the quoted rate, and your exact figure is confirmed on the quote before any payment is made.`,
+    open: true,
+  },
+  {
+    q: `How much are ${progShort} miles worth?`,
+    a: `There is no fixed value. A mile is worth what its redemption saves you: divide the cash fare by the miles the award needs. Above ${approx}${a.pricePerMile}¢ per mile the miles are worth more than they cost to buy, and long-haul premium-cabin awards usually clear that bar by the widest margin.`,
+  },
+  {
+    q: `Should I buy ${a.airline} miles or pay cash?`,
+    a: `Compare the cash fare with the break-even: the price of the miles the award needs. At ${approx}${a.pricePerMile}¢ per mile, a 70,000-mile award breaks even at ${approx}${cost(70000)}. If the fare is higher, buying wins; if it is lower, pay cash. The comparison tool on the ${progShort} page runs that verdict on your real numbers.`,
+  },
+  {
+    q: `Does this calculator include award taxes and fees?`,
+    a: `No. Airlines bill taxes and any carrier surcharges separately when you book the award, and those vary by route. The calculator and your quote price the miles only.`,
+  },
+  {
+    q: `Can it tell me how many miles a flight will earn?`,
+    a: `No. Earning depends on ${a.airline}'s own rules and lives in the airline's tools. This page prices topping up an account that is short of an award.`,
+  },
+  {
+    q: `Is there a minimum or maximum order?`,
+    a: `Orders run from ${num(a.min)} to ${num(a.max)} miles per transfer. If you need something outside that range, say so on the quote request and we'll tell you honestly whether we can do it.`,
+  },
+];
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
 <Base
   title={`${a.airline} Miles Calculator | Price ${progShort} Instantly`}
@@ -110,22 +175,92 @@ const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
           <p>Rates move with sourcing. The figure here prices your estimate; the quote confirms your exact rate and delivery window before anything is paid, and that confirmed number is the one that binds.</p>
         </div>
       </div>
+      <div class="workx">
+        <b>A worked example.</b> {exName
+          ? `Take ${progShort}'s ${exName} at ${num(exMiles)} miles, and say the cash fare you found is ${usd(exFare)}.`
+          : `Say the award needs ${num(exMiles)} miles and the cash fare you found is ${usd(exFare)}.`}
+        {" "}That fare values each mile at <b class="mono">{exPer}¢</b> ({usd(exFare)} ÷ {num(exMiles)}),
+        and buying them at {approx}{a.pricePerMile}¢ costs <b class="mono">{approx}{cost(exMiles)}</b>.
+        Miles win by {approx}{usd(exSave)}. When the division lands below {approx}{a.pricePerMile}¢,
+        cash wins, and we say so.
+      </div>
     </div>
   </section>
 
+  <!-- the break-even table: the one number that decides each award. Converted
+       from the old site's award chart, minus its invented cash fares and
+       savings percentages: every figure here is miles × rate, nothing claimed -->
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <h2>Looking for a different calculator?</h2>
+        <h2>Where the break-even sits</h2>
+        <p>Every award has one deciding number: what its miles cost to buy. Fare above it, buying wins. Fare below it, pay cash.</p>
       </div>
-      <p class="cmp-note">
-        If you wanted to work out how many miles a <em>flight would earn you</em>, that
-        depends on {a.airline}'s earning rules and lives in the airline's own tools — this
-        page prices <b>topping up</b> an account that's short. And if you're weighing
-        redemptions rather than purchases, the <a href={`/buy/${a.slug}`}>{a.airline} {progShort} page</a> ranks
-        where these miles
-        stretch furthest and where to pay cash instead.
+      <div class="twrap">
+        <table class="cmp be">
+          <thead>
+            <tr><th>The award</th><th>Miles it needs</th><th>Break-even fare</th></tr>
+          </thead>
+          <tbody>
+            {awards.map((w) => (
+              <tr>
+                <td>{w.label}{!w.named && <span class="be-approx"> (illustrative)</span>}</td>
+                <td>{w.named ? "from " : "≈"}{num(w.miles)}</td>
+                <td>{approx}{cost(w.miles)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="cmp-note" style="margin-top:14px">
+        Generic award sizes are illustrative; {a.airline} prices its own chart, and your route
+        sets the real number. Taxes and carrier surcharges are billed by the airline at booking
+        and sit outside this math.{!verified && " The tilde means your quote confirms the exact rate."}
       </p>
+    </div>
+  </section>
+
+  <!-- the 30-second check, adapted from the old site's closing checklist -->
+  <section class="section wash-neutral">
+    <div class="container">
+      <div class="section-head">
+        <h2>Should you buy {progShort} miles? The 30-second check</h2>
+      </div>
+      <div class="uses">
+        <div class="use">
+          <h4>Premium cabin, long-haul?</h4>
+          <p>Business and first class fares clear the break-even by the widest margins. This is where buying miles most often wins.</p>
+        </div>
+        <div class="use">
+          <h4>Fare above the break-even?</h4>
+          <p>Divide the fare by the miles the award needs. Above {approx}{a.pricePerMile}¢ per mile, buying wins, and the further above, the bigger the saving.</p>
+        </div>
+        <div class="use">
+          <h4>Short hop in economy?</h4>
+          <p>Cheap cash fares rarely clear the break-even. Pay cash, and save the miles math for the long-haul trips.</p>
+        </div>
+        <div class="use">
+          <h4>Still not sure?</h4>
+          <p>Run your real fare through the <a href={`/buy/${a.slug}#worth`}>{progShort} comparison tool</a>, or send the amount as a quote request. Nothing is charged on this site.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- calculator-intent FAQ; earning-calculator seekers get their honest
+       redirect here rather than in a section of their own -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>The {progShort} math, answered</h2>
+      </div>
+      {faqs.map((f) => (
+        <details class="faq" open={f.open}>
+          <summary>{f.q}<span class="mk">+</span></summary>
+          <div class="ans">{f.a}</div>
+        </details>
+      ))}
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
     </div>
   </section>
 
