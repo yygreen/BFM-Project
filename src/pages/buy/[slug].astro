@@ -56,7 +56,13 @@ const jsonld = {
   },
 };
 ---
-<Base title={a.metaTitle} description={a.metaDescription} slug={`buy/${a.slug}`} jsonld={jsonld}>
+<Base
+  title={a.metaTitle}
+  description={a.metaDescription}
+  slug={`buy/${a.slug}`}
+  jsonld={jsonld}
+  alternates={Object.keys(a.i18n ?? {}).map((loc) => ({ hreflang: loc, slug: `${loc}/buy/${a.slug}` }))}
+>
   <!-- HERO -->
   <section class="hero">
     <div class="container">

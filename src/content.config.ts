@@ -38,6 +38,25 @@ const quirk = z.object({ title: z.string().min(1), text: z.string().min(1) });
 const fact = z.object({ label: z.string().min(1), text: z.string().min(1) });
 const faqExtra = z.object({ q: z.string().min(1), a: z.string().min(1) });
 
+// A localized landing page for a programme. Adding a block here generates
+// /{locale}/buy/{slug}/ with hreflang pairs on both sides — growing into a
+// new language market is data entry, the same as growing the roster. The old
+// WordPress site ranks with an Arabic Qatar page, so the migration must keep
+// that surface rather than folding it into English.
+const translation = z.object({
+  metaTitle: z.string().min(1).max(75),
+  metaDescription: z.string().min(1).max(200),
+  heroHeadline: z.string().min(1),
+  heroSub: z.string().min(1),
+  steps: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).min(3).max(4),
+  points: z.array(z.string().min(1)).min(2).max(6),
+  faq: z.array(faqExtra).min(1).max(6),
+  ctaLabel: z.string().min(1),
+  // set true once a native speaker has reviewed the copy — check:launch
+  // treats unreviewed translations as launch blockers, not silent passes
+  reviewed: z.boolean().default(false),
+});
+
 const airlines = defineCollection({
   loader: file("src/data/airlines.json"),
   schema: z
@@ -102,6 +121,10 @@ const airlines = defineCollection({
       faqExtras: z.array(faqExtra).default([]),
       // when the programme-fact blocks above were last checked, e.g. "August 2026"
       factsChecked: z.string().optional(),
+
+      // localized landing pages, keyed by locale ("ar" only for now — add a
+      // locale to the enum when a second market opens)
+      i18n: z.record(z.enum(["ar"]), translation).optional(),
     })
     .refine((d) => d.max >= d.min, {
       message: "max must be greater than or equal to min",

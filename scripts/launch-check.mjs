@@ -46,6 +46,23 @@ if (unlimited.length) {
   ]);
 } else done.push(["1", "All order limits verified"]);
 
+// Localized pages ship real Arabic copy that no native speaker has signed
+// off — machine-adjacent Arabic on a scam-wary purchase reads as a scam.
+const unreviewed = airlines.flatMap((a) =>
+  Object.entries(a.i18n ?? {})
+    .filter(([, t]) => !t.reviewed)
+    .map(([loc]) => `${a.program} (${loc})`)
+);
+if (unreviewed.length) {
+  blocking.push([
+    "1",
+    `Translated page(s) not yet reviewed by a native speaker: ${unreviewed.join(", ")}`,
+    "src/data/airlines.json → i18n.<locale>, have the copy reviewed, then reviewed: true",
+  ]);
+} else if (airlines.some((a) => a.i18n)) {
+  done.push(["1", "All translated pages reviewed"]);
+}
+
 // ── Agenda 2 — payment methods ───────────────────────────────────────
 if (!site.payments.verified) {
   blocking.push([

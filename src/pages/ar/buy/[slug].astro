@@ -1,0 +1,100 @@
+---
+// Localized programme landing pages — generated only for entries carrying an
+// i18n block, so adding a language market is data entry like everything else.
+// The old WordPress site ranks with /qatar-airways-ar; this is that surface,
+// carried over and held to the same honesty rules as the English pages (no
+// invented fares, payment stays off-site, unverified claims don't render).
+//
+// v1 scope, deliberately: the header/footer chrome stays English and the CTA
+// leads to the English quote flow. The page content itself is RTL Arabic.
+import Base from "../../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return airlines
+    .filter((a) => a.i18n?.ar)
+    .map((a) => ({ params: { slug: a.slug }, props: { a, t: a.i18n.ar } }));
+}
+
+const { a, t } = Astro.props;
+const verified = a.priceVerified;
+---
+<Base
+  title={t.metaTitle}
+  description={t.metaDescription}
+  slug={`ar/buy/${a.slug}`}
+  lang="ar"
+  alternates={[{ hreflang: "en", slug: `buy/${a.slug}` }]}
+>
+  <div dir="rtl" lang="ar">
+    <section class="hero">
+      <div class="container">
+        <div style="max-width:720px">
+          <span class="kicker">{a.alliance}</span>
+          <h1>{t.heroHeadline}</h1>
+          <p class="sub">{t.heroSub}</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href={`/buy/${a.slug}#quote`}>{t.ctaLabel}</a>
+          </div>
+          <div class="spec">
+            <span><b>{verified ? "" : "~"}{a.pricePerMile}¢</b> لكل ميل</span><span>·</span>
+            <span><b>{a.deliveryVerified ? "24 ساعة" : "سريع"}</b> التسليم</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>كيف تتم العملية</h2>
+        </div>
+        <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+          {t.steps.map((s, i) => (
+            <div class="step">
+              <div class="n">0{i + 1}</div>
+              <h4>{s.title}</h4>
+              <p>{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section wash-cool">
+      <div class="container">
+        <div class="section-head">
+          <h2>لماذا تشتري من buyflightmiles؟</h2>
+        </div>
+        <div class="vgood">
+          {t.points.map((p) => <div class="vitem">{p}</div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container" style="max-width:760px">
+        <div class="section-head">
+          <h2>أسئلة شائعة</h2>
+        </div>
+        {t.faq.map((f) => (
+          <details class="faq-item" style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px 22px;margin-bottom:12px">
+            <summary style="font-weight:600;cursor:pointer">{f.q}</summary>
+            <p style="color:var(--text-2);margin:12px 0 0">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="section wash-cool">
+      <div class="container ctaband">
+        <div>
+          <h3>جاهز لطلب عرض السعر؟</h3>
+          <p>نؤكد السعر أولاً — لا يُحصَّل أي مبلغ على هذا الموقع.</p>
+        </div>
+        <a class="btn btn-primary" href={`/buy/${a.slug}#quote`}>{t.ctaLabel}</a>
+      </div>
+    </section>
+  </div>
+</Base>

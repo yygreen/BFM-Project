@@ -23,19 +23,31 @@ const {
   description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, and your exact rate confirmed before you pay.",
   slug = "",
   jsonld = null,
+  lang = "en",
+  // language alternates for this page, e.g. [{ hreflang: "ar", slug: "ar/buy/qatar-avios" }].
+  // The page's own language pair and x-default are emitted automatically.
+  alternates = [],
 } = Astro.props;
 
 const site = Astro.site ?? new URL("https://buyflightmiles.com");
 const canonical = new URL(slug, site).href;
+const hreflangs = alternates.length
+  ? [
+      { hreflang: lang, href: canonical },
+      ...alternates.map((a) => ({ hreflang: a.hreflang, href: new URL(a.slug, site).href })),
+      { hreflang: "x-default", href: lang === "en" ? canonical : new URL(alternates.find((a) => a.hreflang === "en")?.slug ?? "", site).href },
+    ]
+  : [];
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  {hreflangs.map((h) => <link rel="alternate" hreflang={h.hreflang} href={h.href} />)}
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />

@@ -1,0 +1,12 @@
+{
+  "redirects": [
+    { "source": "/qatar-airways", "destination": "/buy/qatar-avios", "permanent": true },
+    { "source": "/should-i-buy-qatar-avios", "destination": "/buy/qatar-avios", "permanent": true },
+    { "source": "/qatar-avios-guide", "destination": "/buy/qatar-avios", "permanent": true },
+    { "source": "/qatar-airways-ar", "destination": "/ar/buy/qatar-avios", "permanent": true },
+    { "source": "/buy-ana-miles", "destination": "/buy/ana", "permanent": true },
+    { "source": "/buy-avios", "destination": "/buy/ba-avios", "permanent": true },
+    { "source": "/buy-krisflyer-miles", "destination": "/buy/krisflyer", "permanent": true },
+    { "source": "/faqs", "destination": "/#faq", "permanent": true }
+  ]
+}
