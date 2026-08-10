@@ -262,11 +262,24 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .stool-cta { margin-top:16px; }
 /* .btn's display rule outranks the UA [hidden] style, so restate it */
 .stool-cta[hidden] { display:none; }
+/* the value section splits: ladder left, tool right. The tool is sticky so
+   the numbers stay in view while the claims are being read — read a sweet
+   spot, tap its preset, see the arithmetic. */
+.value-split { display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr); gap:clamp(26px,3.5vw,52px); align-items:start; }
+.value-tool { position:sticky; top:92px; }
+/* single-column tiers in the narrower ladder column */
+.value-split .uses { grid-template-columns:1fr; }
+.value-split .vgood { grid-template-columns:1fr; }
+@media (max-width:940px){
+  .value-split { grid-template-columns:1fr; }
+  .value-tool { position:static; margin-top:40px; }
+}
+
 /* the run-the-numbers block inside the value section — a sub-heading, not a
    second section head, so ladder and tool read as one room */
-.worth-sub { margin:48px 0 22px; }
-.worth-sub h3 { font-size:clamp(21px,2.6vw,27px); letter-spacing:-0.02em; }
-.worth-sub p { color:var(--text-2); font-size:15px; margin:8px 0 0; }
+.worth-sub { margin:0 0 18px; }
+.worth-sub h3 { font-size:clamp(20px,2.4vw,25px); letter-spacing:-0.02em; }
+.worth-sub p { color:var(--text-2); font-size:14.5px; margin:8px 0 0; }
 
 .stool-skip { display:inline-block; margin-top:12px; font-size:13.5px; font-weight:600; color:var(--cobalt); }
 .stool-skip:hover { text-decoration:underline; }
