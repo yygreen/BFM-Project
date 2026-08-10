@@ -677,7 +677,9 @@
         "title": "No fuel surcharges",
         "desc": "Aeroplan doesn't add carrier fuel surcharges on partner awards, which keeps the taxes-and-fees line at checkout honest."
       }
-    ]
+    ],
+    "logo": "/logos/aeroplan.svg",
+    "logoAlt": "Air Canada logo"
   },
   {
     "id": "emirates-skywards",
@@ -717,7 +719,9 @@
         "title": "Dubai as a one-stop hub",
         "desc": "One award covers most of Africa, Asia and Australia via Dubai, with generous stopover potential in the city itself."
       }
-    ]
+    ],
+    "logo": "/logos/emirates-skywards.svg",
+    "logoAlt": "Emirates logo"
   },
   {
     "id": "turkish-miles-smiles",
@@ -757,7 +761,9 @@
         "title": "Turkish business class",
         "desc": "Long-haul business on Turkish metal comes with the airline's famous catering, at award prices that undercut the cash fare badly."
       }
-    ]
+    ],
+    "logo": "/logos/turkish-miles-smiles.svg",
+    "logoAlt": "Turkish Airlines logo"
   },
   {
     "id": "etihad-guest",
@@ -797,7 +803,9 @@
         "title": "Miles on fare sales",
         "desc": "Etihad prices some awards dynamically, so pairing bought miles with off-peak dates stretches them further."
       }
-    ]
+    ],
+    "logo": "/logos/etihad-guest.svg",
+    "logoAlt": "Etihad Airways logo"
   },
   {
     "id": "lufthansa-miles-more",
@@ -837,6 +845,8 @@
         "title": "Star Alliance breadth",
         "desc": "The full alliance is bookable, with solid availability on the group's own European network."
       }
-    ]
+    ],
+    "logo": "/logos/lufthansa-miles-more.svg",
+    "logoAlt": "Lufthansa logo"
   }
 ]
