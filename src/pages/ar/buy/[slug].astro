@@ -8,7 +8,46 @@
 // v1 scope, deliberately: the header/footer chrome stays English and the CTA
 // leads to the English quote flow. The page content itself is RTL Arabic.
 import Base from "../../../layouts/Base.astro";
+import QuoteWidget from "../../../components/QuoteWidget.astro";
 import { getCollection } from "astro:content";
+
+// Arabic strings for the quote widget's chrome. UI copy lives here in the
+// template (shared across programmes); marketing copy stays in the data.
+const AR_WIDGET = {
+  programme: "البرنامج",
+  howMany: "كم عدد الأميال؟",
+  est: "التكلفة التقديرية",
+  rate: "السعر",
+  delivery: "التسليم",
+  onQuote: "مع عرض السعر",
+  note: "سعر استرشادي. اطلب عرض السعر ونؤكد لك السعر النهائي.",
+  continue: "متابعة",
+  backLocked: "تعديل الكمية →",
+  back: "تغيير البرنامج →",
+  milesUnit: "ميل",
+  name: "الاسم *",
+  email: "البريد الإلكتروني *",
+  contact: "واتساب / تيليجرام",
+  contactPh: "اختياري: كيف تفضّل أن نرد عليك",
+  submit: "اطلب عرض السعر",
+  foot: "الدفع يتم خارج هذا الموقع. لا نطلب رقم عضويتك إلا بعد موافقتك على العرض.",
+  per1000: "≈ {v} لكل 1,000 ميل",
+  rangeSoft: "معظم الطلبات بين {min} و{max} ميل.",
+  rangeHard: "الحد الأدنى {min} والحد الأقصى {max}.",
+  softBelow: "تبدأ الطلبات عادة من نحو {min} ميل، راسلنا لطلب كمية أصغر.",
+  softAbove: "فوق نحو {max} ميل نسعّر الطلب كطلب خاص.",
+  hardBelow: "الحد الأدنى لبرنامج {program} هو {min} ميل.",
+  hardAbove: "الحد الأقصى للطلب الواحد في {program} هو {max} ميل.",
+  use: "استخدم {v}",
+  sending: "جارٍ الإرسال…",
+  ok: "شكراً، استلمنا طلبك. سنؤكد لك السعر النهائي والتسليم قريباً.",
+  errGeneric: "حدث خطأ ما. يرجى مراسلتنا عبر البريد الإلكتروني بدلاً من ذلك.",
+  errNetwork: "خطأ في الاتصال. حاول مجدداً أو راسلنا مباشرة.",
+  rateUnit: "¢/ميل",
+  saveVs: "توفّر مقارنة بسعر الشراء المباشر {v}¢",
+  d24: "خلال 24 ساعة",
+  notWired: "طلبات الأسعار غير مفعّلة بعد، يرجى التواصل معنا مباشرة وسنسعّر طلبك.",
+};
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
@@ -30,17 +69,24 @@ const verified = a.priceVerified;
   <div dir="rtl" lang="ar">
     <section class="hero">
       <div class="container">
-        <div style="max-width:720px">
-          <span class="kicker">{a.alliance}</span>
-          <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">English</a>
-          <h1>{t.heroHeadline}</h1>
-          <p class="sub">{t.heroSub}</p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href={`/buy/${a.slug}#quote`}>{t.ctaLabel}</a>
+        <div class="hero-grid">
+          <div>
+            <span class="kicker">{a.alliance}</span>
+            <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">English</a>
+            <h1>{t.heroHeadline}</h1>
+            <p class="sub">{t.heroSub}</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
+            </div>
+            <div class="spec">
+              <span><b>{verified ? "" : "~"}{a.pricePerMile}¢</b> لكل ميل</span><span>·</span>
+              <span><b>{a.deliveryVerified ? "24 ساعة" : "سريع"}</b> التسليم</span>
+            </div>
           </div>
-          <div class="spec">
-            <span><b>{verified ? "" : "~"}{a.pricePerMile}¢</b> لكل ميل</span><span>·</span>
-            <span><b>{a.deliveryVerified ? "24 ساعة" : "سريع"}</b> التسليم</span>
+          <div class="hero-art">
+            <div class="hero-calc" id="quote">
+              <QuoteWidget defaultSlug={a.slug} locked heading="كم ستكلف الأميال؟" sub="سعّرها ثم أرسل الطلب. نؤكد لك السعر النهائي قبل الدفع." labels={AR_WIDGET} />
+            </div>
           </div>
         </div>
       </div>
@@ -94,7 +140,7 @@ const verified = a.priceVerified;
           <h3>جاهز لطلب عرض السعر؟</h3>
           <p>نؤكد السعر أولاً — لا يُحصَّل أي مبلغ على هذا الموقع.</p>
         </div>
-        <a class="btn btn-primary" href={`/buy/${a.slug}#quote`}>{t.ctaLabel}</a>
+        <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
       </div>
     </section>
   </div>

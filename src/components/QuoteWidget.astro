@@ -19,7 +19,47 @@ const {
   // already made by being on the page, and a selector there mostly invites
   // leaving it. The homepage keeps the full selector.
   locked = false,
+  // Localized pages override any subset of the UI strings below; everything
+  // else falls back to English. Strings with {placeholders} are formatted in
+  // the inline script.
+  labels = {},
 } = Astro.props;
+
+const EN = {
+  programme: "Programme",
+  howMany: "How many miles?",
+  est: "Estimated cost",
+  rate: "Rate",
+  delivery: "Delivery",
+  onQuote: "On quote",
+  note: "Indicative rate — request a quote and we'll confirm your exact price.",
+  continue: "Continue →",
+  backLocked: "← Edit amount",
+  back: "← Change programme",
+  milesUnit: "miles",
+  name: "Name *",
+  email: "Email *",
+  contact: "WhatsApp / Telegram",
+  contactPh: "Optional — how you'd like us to reply",
+  submit: "Request my quote",
+  foot: "Payment stays off-site. We only ask for your loyalty account number once you've approved the quote.",
+  per1000: "≈ {v} per 1,000 miles",
+  rangeSoft: "Most orders run {min}–{max} miles.",
+  rangeHard: "{min} minimum, {max} maximum.",
+  softBelow: "Orders usually start around {min} miles — ask and we'll quote a smaller one.",
+  softAbove: "Above about {max} miles we'll quote it as a custom order.",
+  hardBelow: "{program} has a {min} mile minimum.",
+  hardAbove: "{program} caps a single order at {max} miles.",
+  use: "Use {v}",
+  sending: "Sending…",
+  ok: "Thanks — your request is in. We'll confirm your exact rate and delivery shortly.",
+  errGeneric: "Something went wrong. Please email us instead.",
+  errNetwork: "Network error. Please try again, or email us directly.",
+  rateUnit: "¢/mi",
+  saveVs: "You save vs {v}¢ direct",
+  d24: "24 hours",
+};
+const L = { ...EN, ...labels };
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
@@ -53,12 +93,13 @@ const startAmount = Math.min(Math.max(60000, start.min), start.max);
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
-const notWired = orderEmail
+const notWired = labels.notWired ?? (orderEmail
   ? `Quote requests aren't connected yet — please email ${orderEmail} and we'll price it for you.`
-  : "Quote requests aren't connected yet — please contact us directly and we'll price it for you.";
+  : "Quote requests aren't connected yet — please contact us directly and we'll price it for you.");
 ---
 <div class="qw" data-key={accessKey ? "1" : ""}>
   <script type="application/json" set:html={JSON.stringify(locked ? [start] : data)} class="qw-data"></script>
+  <script type="application/json" set:html={JSON.stringify(L)} class="qw-l10n"></script>
   <input type="hidden" id="qw-fallback" value={notWired} />
 
   <div class="qw-head">
@@ -76,7 +117,7 @@ const notWired = orderEmail
   <div class="qw-step" data-step="1">
     <div class="qw-controls">
       <div class="field field-wide">
-        <label id="qw-program-label" for={locked ? undefined : "qw-program-btn"}>Programme</label>
+        <label id="qw-program-label" for={locked ? undefined : "qw-program-btn"}>{L.programme}</label>
         <!-- native select keeps the value and fires change; it is the source of
              truth, the listbox below is only the presentation -->
         <select id="qw-program" class="sr-only" tabindex="-1" aria-hidden="true">
@@ -120,7 +161,7 @@ const notWired = orderEmail
         )}
       </div>
       <div class="field field-wide">
-        <label for="qw-miles">How many miles?</label>
+        <label for="qw-miles">{L.howMany}</label>
         <input id="qw-miles" type="number" inputmode="numeric" step="1000" value={startAmount} min={start.min} max={start.max} />
         <span class="field-help" id="qw-range"></span>
         <button type="button" class="qw-minfix" id="qw-minfix-1" hidden></button>
@@ -129,31 +170,31 @@ const notWired = orderEmail
 
     <div class="qw-out">
       <div>
-        <span class="qw-k">Estimated cost</span>
+        <span class="qw-k">{L.est}</span>
         <div class="qw-cost" id="qw-cost">—</div>
         <span class="qw-per" id="qw-per"></span>
       </div>
       <div class="qw-side">
-        <div class="qw-row"><span>Rate</span><b id="qw-rate">—</b></div>
-        <div class="qw-row" id="qw-delivery-row"><span>Delivery</span><b id="qw-delivery">—</b></div>
+        <div class="qw-row"><span>{L.rate}</span><b id="qw-rate">—</b></div>
+        <div class="qw-row" id="qw-delivery-row"><span>{L.delivery}</span><b id="qw-delivery">—</b></div>
         <div class="qw-row qw-save" id="qw-save-row" hidden><span id="qw-save-k">You save</span><b id="qw-save">—</b></div>
       </div>
     </div>
 
-    <p class="qw-note" id="qw-note" hidden>Indicative rate — request a quote and we'll confirm your exact price.</p>
-    <button type="button" class="btn btn-primary qw-cta" id="qw-next">Continue →</button>
+    <p class="qw-note" id="qw-note" hidden>{L.note}</p>
+    <button type="button" class="btn btn-primary qw-cta" id="qw-next">{L.continue}</button>
   </div>
 
   <!-- STEP 2 — details -->
   <div class="qw-step" data-step="2" hidden>
     <div class="qw-recap">
-      <button type="button" class="qw-back" id="qw-back">{locked ? "← Edit amount" : "← Change programme"}</button>
+      <button type="button" class="qw-back" id="qw-back">{locked ? L.backLocked : L.back}</button>
       <div class="qw-recap-row">
         <span class="qw-recap-prog" id="qw-recap-prog"></span>
         <label class="qw-recap-edit">
           <span class="sr-only">Miles</span>
           <input id="qw-miles-2" type="number" inputmode="numeric" step="1000" />
-          <span>miles</span>
+          <span>{L.milesUnit}</span>
         </label>
         <b class="qw-recap-cost" id="qw-recap-cost"></b>
       </div>
@@ -173,22 +214,22 @@ const notWired = orderEmail
 
       <div class="qw-controls">
         <div class="field">
-          <label for="qw-name">Name *</label>
+          <label for="qw-name">{L.name}</label>
           <input id="qw-name" name="name" type="text" required />
         </div>
         <div class="field">
-          <label for="qw-email">Email *</label>
+          <label for="qw-email">{L.email}</label>
           <input id="qw-email" name="email" type="email" required />
         </div>
         <div class="field field-wide">
-          <label for="qw-contact">WhatsApp / Telegram</label>
-          <input id="qw-contact" name="contact" type="text" placeholder="Optional — how you'd like us to reply" />
+          <label for="qw-contact">{L.contact}</label>
+          <input id="qw-contact" name="contact" type="text" placeholder={L.contactPh} />
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary qw-cta" id="qw-submit">Request my quote</button>
+      <button type="submit" class="btn btn-primary qw-cta" id="qw-submit">{L.submit}</button>
       <p class="form-msg" id="qw-msg" hidden></p>
-      <p class="qw-foot">Payment stays off-site. We only ask for your loyalty account number once you've approved the quote.</p>
+      <p class="qw-foot">{L.foot}</p>
     </form>
   </div>
 </div>
@@ -198,6 +239,8 @@ const notWired = orderEmail
     const root = document.querySelector(".qw");
     if (!root) return;
     const data = JSON.parse(root.querySelector(".qw-data").textContent);
+    const T = JSON.parse(root.querySelector(".qw-l10n").textContent);
+    const fmt = (t, m) => t.replace(/\{(\w+)\}/g, (_, k) => m[k] ?? "");
     const byId = Object.fromEntries(data.map((d) => [d.slug, d]));
     const $ = (id) => document.getElementById(id);
     const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
@@ -246,21 +289,17 @@ const notWired = orderEmail
       // and refusing the order on it — would be publishing an unverified claim
       // about the client's own business, and could turn away business they'd
       // happily take. Once limitsVerified flips, it becomes a firm rule.
+      const vars = { program: c.program, min: num(c.min), max: num(c.max) };
       const fixMsg = !outOfRange
         ? ""
         : c.limitsVerified
-          ? (below
-              ? `${c.program} has a ${num(c.min)} mile minimum.`
-              : `${c.program} caps a single order at ${num(c.max)} miles.`)
-          : (below
-              ? `Orders usually start around ${num(c.min)} miles — ask and we'll quote a smaller one.`
-              : `Above about ${num(c.max)} miles we'll quote it as a custom order.`);
-      const fixLabel = outOfRange && c.limitsVerified ? `Use ${num(target)}` : "";
+          ? fmt(below ? T.hardBelow : T.hardAbove, vars)
+          : fmt(below ? T.softBelow : T.softAbove, vars);
+      const fixLabel = outOfRange && c.limitsVerified ? fmt(T.use, { v: num(target) }) : "";
 
       const range = $("qw-range");
       range.textContent = outOfRange ? fixMsg
-        : c.limitsVerified ? `${num(c.min)} minimum, ${num(c.max)} maximum.`
-        : `Most orders run ${num(c.min)}–${num(c.max)} miles.`;
+        : fmt(c.limitsVerified ? T.rangeHard : T.rangeSoft, vars);
       range.classList.toggle("warn", outOfRange);
 
       const fix1 = $("qw-minfix-1");
@@ -285,15 +324,15 @@ const notWired = orderEmail
 
       $("qw-cost").textContent = blocked ? "—" : m ? approx + usd(cost) : "$0";
       // "≈" already signals approximation — don't also prefix "~"
-      $("qw-per").textContent = "≈ $" + Math.round(c.rate * 10) + " per 1,000 miles";
-      $("qw-rate").textContent = approx + c.rate + "¢/mi";
-      $("qw-delivery").textContent = c.delivery || "On quote";
+      $("qw-per").textContent = fmt(T.per1000, { v: "$" + Math.round(c.rate * 10) });
+      $("qw-rate").textContent = approx + c.rate + T.rateUnit;
+      $("qw-delivery").textContent = c.delivery ? (c.delivery === "24 hours" ? T.d24 : c.delivery) : T.onQuote;
       $("qw-note").hidden = c.verified;
 
       // savings only against a sourced airline rate
       const saveRow = $("qw-save-row");
       if (c.direct && c.direct > c.rate && canGo) {
-        $("qw-save-k").textContent = "You save vs " + c.direct + "¢ direct";
+        $("qw-save-k").textContent = fmt(T.saveVs, { v: c.direct });
         $("qw-save").textContent = usd(Math.max(0, (m * c.direct) / 100 - cost));
         saveRow.hidden = false;
       } else {
@@ -450,7 +489,7 @@ const notWired = orderEmail
         msg.className = "form-msg err"; msg.hidden = false; return;
       }
       const label = btn.textContent;
-      btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+      btn.disabled = true; btn.textContent = T.sending; msg.hidden = true;
       try {
         const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
@@ -460,14 +499,14 @@ const notWired = orderEmail
         const json = await res.json();
         if (json.success) {
           form.reset();
-          msg.textContent = "Thanks — your request is in. We'll confirm your exact rate and delivery shortly.";
+          msg.textContent = T.ok;
           msg.className = "form-msg ok";
         } else {
-          msg.textContent = json.message || "Something went wrong. Please email us instead.";
+          msg.textContent = json.message || T.errGeneric;
           msg.className = "form-msg err";
         }
       } catch (err) {
-        msg.textContent = "Network error. Please try again, or email us directly.";
+        msg.textContent = T.errNetwork;
         msg.className = "form-msg err";
       } finally {
         msg.hidden = false; btn.disabled = false; btn.textContent = label;
