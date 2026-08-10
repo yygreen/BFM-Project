@@ -183,6 +183,18 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard .price { font-family:var(--mono); font-size:28px; font-weight:600; color:var(--cobalt); }
 .gcard .price small { font-size:13px; color:var(--text-3); font-weight:400; font-family:var(--sans); }
 .gcard .meta { font-size:12.5px; color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
+/* compact cards on phones: name + price is the scan line, and the detail row
+   lives on the programme page the card links to — shorter cards mean more
+   programmes per screen and a reason to tap through */
+@media (max-width:560px){
+  .gcard { padding:15px 18px; }
+  .gcard .top { margin-bottom:8px; }
+  .gcard .pname { font-size:17px; }
+  .gcard .price { font-size:21px; }
+  .gcard .meta { display:none; }
+}
+/* the separator dots read as stray bullets once the stats wrap on phones */
+@media (max-width:660px){ .hero .spec .dot { display:none; } }
 
 /* ---- trust ---- */
 /* --tcols is set per-instance by TrustStrip.astro: it divides the rendered tile
@@ -706,8 +718,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 /* ---- brand lockup ---------------------------------------------------- */
 .logo { display:inline-flex; align-items:center; gap:9px; }
 .logo img { display:block; }
-@media (max-width:660px){ .logo img { height:26px; width:auto; } }
-@media (max-width:400px){ .logo img { height:23px; width:auto; } }
+/* the shrink is for the crowded header bar only — the footer has room, so
+   its logo keeps its full size on phones */
+@media (max-width:660px){ .site-header .logo img { height:26px; width:auto; } }
+@media (max-width:400px){ .site-header .logo img { height:23px; width:auto; } }
 
 /* ---- hero calculator card -------------------------------------------- */
 .hero-calc { background:var(--surface); border:1px solid var(--line); border-radius:26px;
