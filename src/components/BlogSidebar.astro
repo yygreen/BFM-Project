@@ -6,7 +6,10 @@ import QuoteWidget from "./QuoteWidget.astro";
 import { getCollection } from "astro:content";
 import { getPosts, getCategoryCounts, categorySlug, formatDate } from "../lib/blog";
 
-const { currentSlug = null, currentCategory = null } = Astro.props;
+// defaultSlug: programme to preselect in the quote widget — post pages pass
+// their first programs[] entry so the calculator opens on the programme the
+// article is about instead of a generic default.
+const { currentSlug = null, currentCategory = null, defaultSlug = null } = Astro.props;
 
 const categories = await getCategoryCounts();
 const recent = (await getPosts()).filter((p) => p.id !== currentSlug).slice(0, 4);
@@ -69,6 +72,6 @@ const programs = (await getCollection("airlines"))
        pins. Blog pages carry no other widget instance, so the fixed element
        IDs inside are safe here. -->
   <div class="side-box side-quote">
-    <QuoteWidget heading="Price your miles" sub="Quoted first. Nothing is charged on this site." />
+    <QuoteWidget defaultSlug={defaultSlug} heading="Price your miles" sub="Quoted first. Nothing is charged on this site." />
   </div>
 </aside>
