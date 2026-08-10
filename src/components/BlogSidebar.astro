@@ -2,6 +2,7 @@
 // Blog sidebar: categories, recent posts, and a route back to the money
 // pages. The programme list is generated from the collection so it can't
 // drift, and prices carry the same "~" indicative marker as everywhere else.
+import QuoteWidget from "./QuoteWidget.astro";
 import { getCollection } from "astro:content";
 import { getPosts, getCategoryCounts, categorySlug, formatDate } from "../lib/blog";
 
@@ -63,9 +64,11 @@ const programs = (await getCollection("airlines"))
     <a class="side-all" href="/#programs">All programmes →</a>
   </div>
 
-  <div class="side-box side-cta">
-    <h4>Need a specific amount?</h4>
-    <p>We'll confirm your exact rate and delivery before you pay anything.</p>
-    <a class="btn btn-primary" href="/#quote">Request a quote</a>
+  <!-- the conversion card: the real two-step widget, and the sticky element
+       of the column — the boxes above scroll away with the article, this
+       pins. Blog pages carry no other widget instance, so the fixed element
+       IDs inside are safe here. -->
+  <div class="side-box side-quote">
+    <QuoteWidget heading="Price your miles" sub="Quoted first. Nothing is charged on this site." />
   </div>
 </aside>

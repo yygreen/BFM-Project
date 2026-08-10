@@ -106,6 +106,8 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
   background:linear-gradient(180deg, var(--page) 0%, #FBFBFF 62%, var(--surface) 100%); }
 .hero .container { position:relative; z-index:1; }
 .hero-grid { display:grid; grid-template-columns:1.05fr 0.95fr; gap:clamp(28px,4vw,56px); align-items:center; }
+/* product pages: text column and widget start at the same height */
+.hero-grid.top { align-items:start; }
 @media (max-width:860px){ .hero-grid { grid-template-columns:1fr; } }
 .hero h1 { font-weight:800; font-size:clamp(34px,5.6vw,56px); line-height:0.99; margin:18px 0 18px; letter-spacing:-0.04em; }
 .hero h1 .hl { color:var(--cobalt); }
@@ -520,7 +522,16 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .posthero-wrap { border-radius:var(--radius-card); overflow:hidden; border:1px solid var(--line); margin-bottom:38px; }
 
 /* sidebar */
-.blog-side { display:grid; gap:16px; position:sticky; top:92px; }
+/* Block flow on purpose, twice over: the aside must span the full column
+   (stretch beats the layout's align-items:start), and it must NOT be a grid —
+   a grid sizes each row to its content, which pins the sticky quote card
+   inside a containing block with no room to travel. */
+.blog-side { display:block; align-self:stretch; }
+.blog-side > * + * { margin-top:16px; }
+/* the quote card is the sticky element, not the whole column — everything
+   above it scrolls away with the article, the conversion card pins */
+.side-quote { position:sticky; top:92px; }
+.side-quote .qw-controls { grid-template-columns:1fr; }
 @media (max-width:940px){ .blog-side { position:static; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); } }
 .side-box { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:20px; }
 .side-box h4 { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-3);
