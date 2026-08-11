@@ -34,7 +34,7 @@ const DE_WIDGET = {
   rate: "Preis pro Meile",
   delivery: "Lieferung",
   onQuote: "mit dem Angebot",
-  note: "Richtwert. Den genauen Preis bestätigen wir in Ihrem Angebot, bevor Sie zahlen.",
+  note: "Richtwert. Den genauen Preis bestätigen wir in deinem Angebot, bevor du zahlst.",
   continue: "Weiter →",
   back: "← Programm wechseln",
   backLocked: "Menge ändern →",
@@ -42,29 +42,29 @@ const DE_WIDGET = {
   name: "Name *",
   email: "E-Mail *",
   contact: "WhatsApp / Telegram",
-  contactPh: "Optional: wie sollen wir antworten?",
+  contactPh: "Optional: wie sollen wir dir antworten?",
   submit: "Angebot anfordern",
   orderInstead: "Direkt bestellen? Kontodaten angeben →",
-  foot: "Die Zahlung läuft außerhalb dieser Website. Nach Ihrer Kontonummer fragen wir erst, wenn Sie das Angebot angenommen haben.",
+  foot: "Die Zahlung läuft außerhalb dieser Website. Nach deiner Kontonummer fragen wir erst, wenn du das Angebot angenommen hast.",
   per1000: "≈ {v} je 1.000 Meilen",
   rangeSoft: "Die meisten Bestellungen liegen zwischen {min} und {max} Meilen.",
   rangeHard: "Minimum {min}, Maximum {max} Meilen.",
-  softBelow: "Bestellungen starten meist bei etwa {min} Meilen. Schreiben Sie uns für kleinere Mengen.",
+  softBelow: "Bestellungen starten meist bei etwa {min} Meilen. Schreib uns für kleinere Mengen.",
   softAbove: "Über etwa {max} Meilen kalkulieren wir individuell.",
   hardBelow: "Das Minimum bei {program} liegt bei {min} Meilen.",
   hardAbove: "{program} begrenzt eine Bestellung auf {max} Meilen.",
   use: "{v} verwenden",
   sending: "Wird gesendet…",
-  ok: "Danke, Ihre Anfrage ist da. Wir melden uns mit dem genauen Preis und dem Lieferzeitraum.",
-  errGeneric: "Etwas ist schiefgelaufen. Bitte schreiben Sie uns stattdessen eine E-Mail.",
-  errNetwork: "Verbindungsfehler. Bitte erneut versuchen oder uns direkt schreiben.",
+  ok: "Danke, deine Anfrage ist da. Wir melden uns mit dem genauen Preis und dem Lieferzeitraum.",
+  errGeneric: "Etwas ist schiefgelaufen. Bitte schreib uns stattdessen eine E-Mail.",
+  errNetwork: "Verbindungsfehler. Versuch es noch einmal oder schreib uns direkt.",
   rateUnit: "¢/Meile",
   saveVs: "Ersparnis gegenüber dem Direktkauf: {v}¢",
   d24: "innerhalb von 24 Stunden",
   // "25,000" reads as twenty-five to a German speaker — the widget groups its
   // figures by this rather than the English default
   numLocale: "de-DE",
-  notWired: "Angebotsanfragen sind noch nicht angebunden. Bitte schreiben Sie uns direkt, wir kalkulieren Ihren Preis.",
+  notWired: "Angebotsanfragen sind noch nicht angebunden. Schreib uns direkt, wir kalkulieren deinen Preis.",
 };
 
 const DE_SAVINGS = {
@@ -75,12 +75,12 @@ const DE_SAVINGS = {
   cash: "Barpreis",
   vs: "vs.",
   atOurRate: "Gekauft zu {rate}¢ pro Meile",
-  emptyBoth: "Tragen Sie Meilen und Barpreis ein, dann rechnen wir es aus.",
-  emptyFare: "Das sind die Kosten der Meilen. Tragen Sie den Barpreis ein, dann sagen wir Ihnen, was günstiger ist.",
+  emptyBoth: "Trag Meilen und Barpreis ein, dann rechnen wir es aus.",
+  emptyFare: "Das sind die Kosten der Meilen. Trag den Barpreis ein, dann sagen wir dir, was günstiger ist.",
   cta: "Dafür ein Angebot →",
   win: "Klarer Vorteil für Meilen: Dieser Flug bewertet eine Meile mit {seat}¢ gegenüber unseren {rate}¢. Der Kauf spart {saving} ({pct}% gegenüber dem Barpreis).",
   ok: "Meilen liegen vorn: {saving} günstiger als der Barpreis. Kein Erdrutsch, aber eine echte Ersparnis.",
-  payCash: "Ehrlich? Zahlen Sie hier lieber bar. Bei {fare} bewertet dieser Flug eine Meile mit {seat}¢ und liegt damit unter unseren {rate}¢. Meilen zu kaufen würde Sie Geld kosten.",
+  payCash: "Ehrlich? Zahl hier lieber bar. Bei {fare} bewertet dieser Flug eine Meile mit {seat}¢ und liegt damit unter unseren {rate}¢. Meilen zu kaufen würde dich Geld kosten.",
   numLocale: "de-DE",
 };
 
@@ -205,7 +205,7 @@ const jsonld = [
               <QuoteWidget
                 defaultSlug={a.slug}
                 locked
-                heading="Was kosten Ihre Meilen?"
+                heading="Was kosten deine Meilen?"
                 sub="Menge eingeben, Preis sehen, Angebot anfordern."
                 labels={DE_WIDGET}
               />
@@ -235,7 +235,7 @@ const jsonld = [
     <section class="section tinted">
       <div class="container">
         <div class="section-head">
-          <h2>Was Sie hier bekommen</h2>
+          <h2>Was du hier bekommst</h2>
         </div>
         <div class="vgood">
           {t.points.map((p) => <div class="vitem">{p}</div>)}
@@ -264,7 +264,7 @@ const jsonld = [
         </div>
         <p class="tiny" style="margin-top:16px">
           Das entspricht rund {usd(per1000(a.pricePerMile), DE)} je 1.000 Meilen. Den genauen Preis
-          bestätigen wir in Ihrem Angebot, bevor Sie zahlen.
+          bestätigen wir in deinem Angebot, bevor du zahlst.
         </p>
       </div>
     </section>
@@ -274,7 +274,7 @@ const jsonld = [
         <div class="section-head">
           <h2>Lohnt sich der Kauf?</h2>
           <p>
-            Tragen Sie die Meilen der Prämie und den Barpreis ein, den Sie gefunden haben.
+            Trag die Meilen der Prämie und den Barpreis ein, den du gefunden hast.
             Gerechnet wird zu unserem Preis, und wenn Bezahlen günstiger ist, sagen wir das auch.
           </p>
         </div>
@@ -316,7 +316,7 @@ const jsonld = [
     <section class="section">
       <div class="container ctaband">
         <div>
-          <h3>Bereit für Ihr Angebot?</h3>
+          <h3>Bereit für dein Angebot?</h3>
           <p>Erst der Preis, dann die Zahlung. Auf dieser Website wird nichts abgebucht.</p>
         </div>
         <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
