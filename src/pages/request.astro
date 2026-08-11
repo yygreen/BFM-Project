@@ -117,4 +117,19 @@ const notWired = orderEmail
       });
     })();
   </script>
+
+  {/* The calculator's shortfall tool links here when a gap sits below the
+      program's minimum, carrying the program and the amount, so the request
+      arrives with the two facts we would otherwise have to write back for. */}
+  <script is:inline>
+    (function () {
+      const q = new URLSearchParams(location.search);
+      const prog = q.get("program");
+      const miles = parseInt(q.get("miles") || "", 10);
+      const p = document.getElementById("req-program");
+      const m = document.getElementById("req-miles");
+      if (p && prog) p.value = prog;
+      if (m && Number.isFinite(miles) && miles > 0) m.value = miles;
+    })();
+  </script>
 </Base>

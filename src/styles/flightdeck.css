@@ -1102,3 +1102,6 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .sfl .stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
 .sfl-out[data-state="under"] .stool-verdict,
 .sfl-out[data-state="over"] .stool-verdict { color:var(--warn); }
+.sfl-ask { margin-left:16px; font-size:14px; font-weight:600; color:var(--cobalt); }
+.sfl-ask:hover { text-decoration:underline; }
+.sfl-ask::after { content:" →"; }

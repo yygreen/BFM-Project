@@ -179,9 +179,9 @@ const faqJsonLd = {
       <div class="section-head">
         <h2>How many {progMiles} do you actually need?</h2>
         <p>
-          Nobody buys a whole award's worth. Put in what the award costs and what your
-          account already holds, and this prices the gap — including the case where the
-          gap is smaller than the smallest order {progShort} allows.
+          Put in what the award costs and what your account already holds. This prices
+          the difference, whether that's a small top-up or the whole award from an empty
+          balance, and it says so when the amount lands under {progShort}'s smallest order.
         </p>
       </div>
       <ShortfallTool
@@ -191,6 +191,7 @@ const faqJsonLd = {
         min={a.min}
         max={a.max}
         award={openAward}
+        requestLabel={`${a.airline} ${progShort}`}
       />
     </div>
   </section>
