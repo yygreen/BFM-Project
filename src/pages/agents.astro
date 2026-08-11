@@ -2,15 +2,18 @@
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import { getCollection } from "astro:content";
-import { site, agentFormReady, paymentSentence } from "../lib/site";
+import { site, agentFormReady, paymentSentence, realReviews, yearsTrading } from "../lib/site";
+
+const rev = realReviews[0];
+const years = yearsTrading();
 
 // Partner-application form key + fallback inbox come from src/data/site.json:
 // set contact.web3formsKeyAgents + contact.agentEmail, flip contact.verified.
 const agentKey = agentFormReady ? site.contact.web3formsKeyAgents : "";
 const agentEmail = site.contact.agentEmail;
 const agentNotWired = agentEmail
-  ? `Applications aren't wired up yet — please email ${agentEmail} and we'll get you set up.`
-  : "Applications aren't wired up yet — please contact us directly and we'll get you set up.";
+  ? `Applications aren't wired up yet. Please email ${agentEmail} and we'll get you set up.`
+  : "Applications aren't wired up yet. Please contact us and we'll get you set up.";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
@@ -57,27 +60,53 @@ const jsonld = {
       <div class="hero-grid">
         <div>
           <span class="kicker">For agents &amp; brokers</span>
-          <h1>Wholesale miles and award tickets for travel agents.</h1>
-          <p class="sub">Partner pricing, dependable delivery, and business- and first-class seats sourced to your spec. Your clients get the trip — they never see us.</p>
+          <h1>Wholesale miles and award tickets for <span class="hl">travel agents</span>.</h1>
+          <p class="sub">Partner pricing, dependable delivery, and business- and first-class seats sourced to your spec. Your clients get the trip and never see us.</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#apply">Apply for partner access</a>
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
+          <!-- same social-proof row as the programme pages -->
           <div class="spec">
-            {fastestWindow && <><span><b>{fastestWindow}</b> delivery</span><span>·</span></>}
-            <span><b>{airlines.length}</b> programmes</span><span>·</span>
-            <span><b>White-label</b></span>
+            {rev ? (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <b>{rev.rating}/{rev.outOf}</b>&nbsp;on {rev.platform}
+              </span>
+            ) : (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Free, no-obligation quote
+              </span>
+            )}
+            {fastestWindow && (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Delivered in <b>{fastestWindow}</b>
+              </span>
+            )}
+            {years !== null ? (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                <b>{years}+ years</b>&nbsp;in business
+              </span>
+            ) : (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <b>{airlines.length}</b>&nbsp;programmes
+              </span>
+            )}
           </div>
         </div>
         <div>
           <div class="tbox" style="padding:24px">
             <p class="lab" style="margin-bottom:14px">Partner snapshot</p>
             <ul class="checklist">
-              <li><Fragment set:html={check} /> Partner rates that scale with volume{site.partner.verified && site.partner.qualifyText ? ` — ${site.partner.qualifyText}` : ""}</li>
+              <li><Fragment set:html={check} /> Partner rates that scale with volume{site.partner.verified && site.partner.qualifyText ? `, ${site.partner.qualifyText}` : ""}</li>
               <li><Fragment set:html={check} /> Miles across every major program</li>
               <li><Fragment set:html={check} /> Business &amp; first tickets, sourced to spec</li>
               <li><Fragment set:html={check} /> Delivered fast{site.guarantee.verified ? ", with payment held until delivery" : ", with your rate confirmed up front"}</li>
-              <li><Fragment set:html={check} /> White-label — the relationship stays yours</li>
+              <li><Fragment set:html={check} /> White-label, so the relationship stays yours</li>
             </ul>
           </div>
         </div>
@@ -96,9 +125,9 @@ const jsonld = {
       </div>
       <div class="uses">
         <div class="use"><h4>Partner pricing</h4><p>Per-mile rates that scale with volume, so your margin holds.</p></div>
-        <div class="use"><h4>Dependable fulfillment</h4><p>Fast, guaranteed delivery your client's itinerary can rely on.</p></div>
-        <div class="use"><h4>Premium seat sourcing</h4><p>We find specific business- and first-class award space via award arbitrage.</p></div>
-        <div class="use"><h4>White-label &amp; discreet</h4><p>We stay behind the scenes — the client relationship stays yours.</p></div>
+        <div class="use"><h4>Dependable fulfillment</h4><p>Fast delivery your client's itinerary can rely on.</p></div>
+        <div class="use"><h4>Premium seat sourcing</h4><p>We find the specific business and first class award space you need.</p></div>
+        <div class="use"><h4>White-label</h4><p>We stay behind the scenes and the client relationship stays yours.</p></div>
       </div>
     </div>
   </section>
@@ -110,14 +139,15 @@ const jsonld = {
         <h2>Two ways we help you deliver</h2>
         <p>Hand off as much or as little as you want.</p>
       </div>
-      <div class="cols">
-        <div class="tbox" style="padding:24px">
-          <p class="pname" style="font-size:19px">Miles top-ups</p>
-          <p style="color:var(--text-2);font-size:14px;line-height:1.6;margin-top:8px">Buy miles across every major program to complete your client's redemption yourself. Delivered in hours, at partner rates.</p>
+      <!-- same card as the band above, so the page reads as one system -->
+      <div class="uses uses-2">
+        <div class="use">
+          <h4>Miles top-ups</h4>
+          <p>Buy miles across every major program and complete your client's redemption yourself.</p>
         </div>
-        <div class="tbox" style="padding:24px">
-          <p class="pname" style="font-size:19px">Booked award tickets</p>
-          <p style="color:var(--text-2);font-size:14px;line-height:1.6;margin-top:8px">Prefer not to handle the booking? Send the route, cabin, and dates — we source the business- or first-class award seat and hand you a confirmed ticket.</p>
+        <div class="use">
+          <h4>Booked award tickets</h4>
+          <p>Send the route, cabin and dates. We source the seat and hand you a confirmed ticket.</p>
         </div>
       </div>
     </div>
@@ -139,7 +169,7 @@ const jsonld = {
   <!-- COVERAGE -->
   <section class="section" style="padding-top:0">
     <div class="container">
-      <div class="section-head"><h2>Every major program</h2><p>Top up any of these for your clients — and more on request.</p></div>
+      <div class="section-head"><h2>Every major program</h2><p>Top up any of these for your clients, and more on request.</p></div>
       <div class="related">
         {coverage.map((a) => (<a href={`/buy/${a.slug}`}>{a.airline} {a.program}</a>))}
       </div>
@@ -158,10 +188,10 @@ const jsonld = {
   <section class="section" style="padding-top:0">
     <div class="container">
       <div class="section-head"><h2>Partner questions</h2></div>
-      <details class="faq" open><summary>How does partner pricing work?<span class="mk">+</span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact — reach out and we'll quote based on what you typically move.</div></details>
-      <details class="faq"><summary>Can you source a specific business-class seat?<span class="mk">+</span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it — you receive a confirmed ticket to pass to your client.</div></details>
+      <details class="faq" open><summary>How does partner pricing work?<span class="mk">+</span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact. Reach out and we'll quote based on what you typically move.</div></details>
+      <details class="faq"><summary>Can you source a specific business-class seat?<span class="mk">+</span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it, and you receive a confirmed ticket to pass to your client.</div></details>
       <details class="faq"><summary>How fast is delivery?<span class="mk">+</span></summary><div class="ans">{fastestWindow ? `Most miles land within ${fastestWindow.toLowerCase()}` : "Delivery windows vary by programme and are shown on each programme page"}. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
-      <details class="faq"><summary>Is it white-label?<span class="mk">+</span></summary><div class="ans">Yes. We stay behind the scenes — your client deals only with you.</div></details>
+      <details class="faq"><summary>Is it white-label?<span class="mk">+</span></summary><div class="ans">Yes. We stay behind the scenes, and your client deals only with you.</div></details>
       <details class="faq"><summary>What payment methods and terms do you offer?<span class="mk">+</span></summary><div class="ans">{partnerPayAnswer}</div></details>
     </div>
   </section>
@@ -176,7 +206,7 @@ const jsonld = {
       <form class="formcard" id="partner-form">
         <input type="hidden" name="access_key" value={agentKey} />
         <input type="hidden" id="partner-fallback" value={agentNotWired} />
-        <input type="hidden" name="subject" value="New partner application — buyflightmiles" />
+        <input type="hidden" name="subject" value="New partner application - buyflightmiles" />
         <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
         <div class="form-grid">
           <div class="field"><label for="name">Name *</label><input id="name" name="name" type="text" required /></div>
@@ -223,7 +253,7 @@ const jsonld = {
           const json = await res.json();
           if (json.success) {
             form.reset();
-            msg.textContent = "Thanks — your application is in. We'll be in touch shortly.";
+            msg.textContent = "Thanks, your application is in. We'll be in touch shortly.";
             msg.className = "form-msg ok";
           } else {
             msg.textContent = json.message || "Something went wrong. Please email us instead.";
