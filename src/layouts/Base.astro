@@ -204,12 +204,13 @@ const hreflangs = alternates.length
   <footer class="site-footer">
     <div class="container">
       <div class="cols">
-        <!-- The brand column is the widest of the three and used to hold one
-             sentence, leaving a column of empty navy beside two tall link
-             lists. It carries the description, then the ways to reach a human:
-             a phone number in the footer is worth more here than anywhere else
-             on the site, because the thing being sold is trust. The details
-             render only while contact.verified holds. -->
+        <!-- Four columns of equal standing, so every heading sits on one
+             baseline and the brand text stops leaving a gutter of empty navy
+             between itself and the first link list. Contact is a column rather
+             than a block hung off the brand copy: a phone number is worth more
+             on this site than anywhere else, because the thing being sold is
+             trust, and it reads as a place to look rather than as a footnote.
+             Every detail renders only while contact.verified holds. -->
         <div class="foot-brand">
           <div class="brand"><Logo variant="light" size={40} /></div>
           <p>
@@ -218,17 +219,17 @@ const hreflangs = alternates.length
           <p>
             Miles are transferred into the account you already hold, across {programs.length} loyalty programs. Ask for a quote and we'll confirm your rate and delivery window before anything is paid.
           </p>
-          {contactWays.length > 0 && (
-            <div class="foot-contact">
-              <h5>Talk to us</h5>
-              {contactWays.map((w) => (
-                <a href={w.href} rel={w.external ? "noopener" : undefined} target={w.external ? "_blank" : undefined}>
-                  <span>{w.label}</span>{w.value}
-                </a>
-              ))}
-            </div>
-          )}
         </div>
+        {contactWays.length > 0 && (
+          <div class="foot-contact">
+            <h5>Talk to us</h5>
+            {contactWays.map((w) => (
+              <a href={w.href} rel={w.external ? "noopener" : undefined} target={w.external ? "_blank" : undefined}>
+                <span>{w.label}</span>{w.value}
+              </a>
+            ))}
+          </div>
+        )}
         <div>
           <h5><a href="/blog">Blog</a></h5>
           <a href="/blog">All news &amp; guides</a>
