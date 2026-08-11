@@ -16,6 +16,13 @@ const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
+// How far the "can't find your program?" card has to stretch to close the
+// roster's last row, per column count. Computed rather than written into the
+// CSS because the roster moves every time a program is added; a roster that
+// divides evenly leaves no gap and the card takes a full row of its own.
+// Same rule as the coverage grid on /agents.
+const askSpan = (cols) => cols - (airlines.length % cols);
+
 // Hero stats: only figures we can stand behind. Windows differ by program,
 // so the hero says "fast" and each program page states its own number;
 // rating/completion appear once the client verifies them.
@@ -154,7 +161,7 @@ const jsonld = {
         <h2>Choose your program</h2>
         <p>Live, transparent pricing across every program we cover. Each links to full details and delivery times.</p>
       </div>
-      <div class="grid">
+      <div class="grid grid-programs" style={`--span4:${askSpan(4)};--span3:${askSpan(3)};--span2:${askSpan(2)}`}>
         {airlines.map((a) => (
           <a class="gcard" href={`/buy/${a.slug}`}>
             <div class="top">
@@ -173,9 +180,9 @@ const jsonld = {
         ))}
         <!-- catch-all for programs we don't list — a request, not a promise:
              availability gets confirmed in the quote, never asserted here.
-             A band across the full grid rather than a tile in the last row,
-             the same shape /agents uses: as a tile it read as a 22nd program,
-             and 21 never fills a row anyway. -->
+             It stretches across whatever the roster leaves empty in its last
+             row, the same shape /agents uses, so the section ends square and
+             the card reads as an invitation rather than a 22nd program. -->
         <a class="gcard gcard-ask gcard-ask-row" href="/request">
           <span class="ask-t">
             <b>Can't find your program?</b>
