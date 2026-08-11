@@ -208,10 +208,13 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard .price small { font-size:13px; color:var(--text-3); font-weight:400; font-family:var(--sans); }
 /* logo-led coverage grid: the homepage card with the commercial detail
    stripped, since this list is about breadth rather than price */
-.grid-mini { grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:14px; }
+.grid-mini { grid-template-columns:repeat(auto-fill,minmax(206px,1fr)); gap:14px; }
 .gcard-mini { padding:18px; }
-.gcard-mini .pname { font-size:15px; margin-top:12px; }
-.gcard-mini .plabel { font-size:12.5px; }
+/* one line per name, always: a wrapped label makes its whole row taller than
+   every other card in it. The column floor and this size are set together so
+   the longest label on the roster still clears it */
+.gcard-mini .pname { font-size:14.5px; margin-top:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.gcard-mini .plabel { font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .gcard .meta { font-size:12.5px; color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
 /* compact cards on phones: name + price is the scan line, and the detail row
    lives on the programme page the card links to — shorter cards mean more
@@ -512,6 +515,18 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .gcard-ask .askp { margin:0; font-size:13.5px; line-height:1.55; color:var(--text-2); }
 .gcard-ask .askcta { color:var(--cobalt); font-weight:600; font-size:14px; }
 .gcard-ask:hover { border-color:var(--cobalt); }
+/* same invitation as .gcard-ask, laid across the full width below a grid
+   instead of sitting inside it as one more tile */
+.ask-band { display:flex; align-items:center; justify-content:space-between; gap:18px;
+  margin-top:14px; padding:18px 22px; border:1.5px dashed var(--line-strong);
+  border-radius:var(--radius-card); transition:border-color .15s ease; }
+.ask-band:hover { border-color:var(--cobalt); }
+.ask-band-t { font-size:14px; line-height:1.55; color:var(--text-2); }
+.ask-band-t b { font-family:var(--display); font-size:15px; color:var(--text-1); margin-right:6px; }
+.ask-band .askcta { color:var(--cobalt); font-weight:600; font-size:14px; white-space:nowrap; }
+@media (max-width:560px){
+  .ask-band { flex-direction:column; align-items:flex-start; gap:10px; }
+}
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }

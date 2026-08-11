@@ -22,7 +22,13 @@ const airlines = (await getCollection("airlines"))
   .sort((a, b) => a.order - b.order);
 // agents are buying breadth, so the page shows the whole roster rather
 // than a sample of eight, alphabetical to match the nav and the homepage
-const coverage = [...airlines].sort((a, b) => a.airline.localeCompare(b.airline));
+// Parentheticals are dropped here: "Avios (Executive Club)" is the only
+// label long enough to wrap onto a second line, which drags its whole grid
+// row taller than the rest. The logo above it already says which carrier's
+// Avios these are, so the qualifier earns nothing on this grid.
+const coverage = [...airlines]
+  .sort((a, b) => a.airline.localeCompare(b.airline))
+  .map((a) => ({ ...a, short: a.program.replace(/\s*\(.*\)$/, "") }));
 // Payment answer follows the same rule as the rest of the site: built from
 // confirmed methods, or an honest holding line — never a placeholder.
 const pay = paymentSentence();
@@ -173,23 +179,27 @@ const jsonld = {
                 the same thing twice; entries falling back to the code badge
                 still need naming. The logo's alt text carries it either way. */}
             {a.logo ? (
-              <div class="pname">{a.program}</div>
+              <div class="pname">{a.short}</div>
             ) : (
               <>
                 <div class="pname">{a.airline}</div>
-                <div class="plabel">{a.program}</div>
+                <div class="plabel">{a.short}</div>
               </>
             )}
           </a>
         ))}
-        <!-- the "and more on request" in the intro needs somewhere to go. No
-             body copy here: it sits in a row of logo-and-name cards, and a
-             paragraph would push the whole row taller than every card in it -->
-        <a class="gcard gcard-mini gcard-ask" href="/request">
-          <div class="pname">Programme not listed?</div>
-          <span class="askcta">Ask for a quote →</span>
-        </a>
       </div>
+      <!-- the "and more on request" in the intro needs somewhere to go. It
+           sits below the grid rather than in it: as one more card it was a
+           21st tile in a row of logos, and the invitation reads better as a
+           band across the full width than as an odd one out -->
+      <a class="ask-band" href="/request">
+        <span class="ask-band-t">
+          <b>Programme not listed?</b>
+          Tell us what your client needs and we'll check availability and price it.
+        </span>
+        <span class="askcta">Ask for a quote →</span>
+      </a>
     </div>
   </section>
 
