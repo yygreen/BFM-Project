@@ -10,7 +10,7 @@
 // the others.
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
-import { site, quoteFormReady } from "../lib/site";
+import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
@@ -47,11 +47,11 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
     </div>
   </section>
 
-  <section class="section wash-cool" style="padding-top:0">
+  <section class="section" style="padding-top:0">
     <div class="container">
       <div class="contact-grid">
         <div>
-          <form class="formcard" id="contact-form" data-key={accessKey ? "1" : ""}>
+          <form class="formcard" id="contact-form" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
             <input type="hidden" name="access_key" value={accessKey} />
             <input type="hidden" id="contact-fallback" value={notWired} />
             <input type="hidden" name="subject" value="Contact enquiry — buyflightmiles" />
@@ -142,6 +142,21 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
       if (!form) return;
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!form.dataset.key && form.dataset.inbox) {
+          // no posting key yet: compose it into the visitor's mail client
+          const fd = new FormData(form);
+          const skip = ["access_key", "botcheck", "subject"];
+          const lines = [];
+          for (const [k, v] of fd.entries()) {
+            if (skip.includes(k) || !String(v).trim()) continue;
+            lines.push(k.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase()) + ": " + v);
+          }
+          location.href = "mailto:" + form.dataset.inbox +
+            "?subject=" + encodeURIComponent("Contact enquiry — buyflightmiles") +
+            "&body=" + encodeURIComponent(lines.join("\n"));
+          msg.textContent = "Your email app should open with the message filled in — send it and we'll come back to you.";
+          msg.className = "form-msg ok"; msg.hidden = false; return;
+        }
         if (!form.dataset.key) {
           msg.textContent = document.getElementById("contact-fallback").value;
           msg.className = "form-msg err"; msg.hidden = false; return;
