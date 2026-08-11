@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
+import Emblem from "../components/Emblem.astro";
 import { getCollection } from "astro:content";
 import { site, agentFormReady, paymentSentence, realReviews } from "../lib/site";
 
@@ -19,7 +20,9 @@ const agentNotWired = agentEmail
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
-const coverage = airlines.slice(0, 8);
+// agents are buying breadth, so the page shows the whole roster rather
+// than a sample of eight, alphabetical to match the nav and the homepage
+const coverage = [...airlines].sort((a, b) => a.airline.localeCompare(b.airline));
 // Payment answer follows the same rule as the rest of the site: built from
 // confirmed methods, or an honest holding line — never a placeholder.
 const pay = paymentSentence();
@@ -162,8 +165,14 @@ const jsonld = {
   <section class="section" style="padding-top:0">
     <div class="container">
       <div class="section-head"><h2>Every major program</h2><p>Top up any of these for your clients, and more on request.</p></div>
-      <div class="related">
-        {coverage.map((a) => (<a href={`/buy/${a.slug}`}>{a.airline} {a.program}</a>))}
+      <div class="grid grid-mini">
+        {coverage.map((a) => (
+          <a class="gcard gcard-mini" href={`/buy/${a.slug}`}>
+            <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={40} />
+            <div class="pname">{a.airline}</div>
+            <div class="plabel">{a.program}</div>
+          </a>
+        ))}
       </div>
     </div>
   </section>
