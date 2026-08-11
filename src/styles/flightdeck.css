@@ -1088,3 +1088,9 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    the dollar figure is the price and this is only a reading aid */
 .qw-fx { display:block; margin-top:6px; font-size:12px; line-height:1.45; color:var(--text-3); }
 .stool-fx { margin:10px 0 0; font-size:12px; line-height:1.45; color:var(--text-3); }
+
+/* quiet hero link where a button pair used to sit — the widget is the action */
+.hero-more { margin:22px 0 0; font-size:14.5px; }
+.hero-more a { color:var(--cobalt); font-weight:600; }
+.hero-more a::after { content:" →"; }
+.hero-more a:hover { text-decoration:underline; }

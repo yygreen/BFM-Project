@@ -107,27 +107,21 @@ const jsonld = {
           ))}
           <h1>{head ? <>{head.lead}<span class="hl">{head.name}</span>{head.tail}</> : a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
-          {/* The widget sits above this row on a desktop screen and below it on
-              a phone, so the row can't just repeat what the widget does: on
-              desktop that reads as decoration, and on mobile it is the only
-              action above the fold. Each button takes the step the widget
-              doesn't.
+          {/* No button pair here. The widget is the hero's action, and it
+              sits beside this column on desktop and just under it on a phone,
+              so a "get a quote" button was sending people to something they
+              were already looking at. Removing the row costs nothing on
+              desktop (the widget is in the other column, unmoved at 148px) and
+              lifts it from 703px to 557px on a 390px screen, which puts its
+              heading above the fold instead of two buttons.
 
-              A priced programme can go straight to the order flow. An unpriced
-              one can't — asking for an account number before we've confirmed a
-              rate is the wrong order — so it points at the widget, which is a
-              real move in both directions: up to it on desktop, down to it on
-              a phone. */}
-          <div class="cta-row">
-            {verified ? (
-              <a class="btn btn-primary" href={`/order?program=${a.slug}`}>Buy {progShort}</a>
-            ) : (
-              <a class="btn btn-primary" href="#quote">Get a live quote</a>
-            )}
-            {/* names its destination rather than asking the question the widget
-                is already answering live a few pixels away */}
-            <a class="btn btn-secondary" href={`/calculator/${a.slug}`}>See the full math</a>
-          </div>
+              The order flow keeps its hero entry through the widget's own
+              "Ready to order?" link, and the calculator keeps a quiet one
+              here: it serves the visitor who wants the arithmetic before the
+              price, at a seventh of the vertical cost of a button. */}
+          <p class="hero-more">
+            <a href={`/calculator/${a.slug}`}>See the full {progShort} math</a>
+          </p>
           <!-- social proof row: rating, turnaround, track record. Each slot
                falls back to an always-true claim when its figure isn't
                confirmed, so the row converts without ever inventing a number. -->
