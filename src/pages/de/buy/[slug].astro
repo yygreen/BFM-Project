@@ -17,6 +17,7 @@
 import Base from "../../../layouts/Base.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../../components/QuoteWidget.astro";
+import SavingsTool from "../../../components/SavingsTool.astro";
 import { getCollection } from "astro:content";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { usd, per1000, costOf } from "../../../lib/money";
@@ -66,18 +67,80 @@ const DE_WIDGET = {
   notWired: "Angebotsanfragen sind noch nicht angebunden. Bitte schreiben Sie uns direkt, wir kalkulieren Ihren Preis.",
 };
 
+const DE_SAVINGS = {
+  presetsAria: "Beispiele für Prämienflüge",
+  milesLabel: "Meilen für die Prämie",
+  fareLabel: "Gefundener Barpreis ($)",
+  farePh: "z. B. 2500",
+  cash: "Barpreis",
+  vs: "vs.",
+  atOurRate: "Gekauft zu {rate}¢ pro Meile",
+  emptyBoth: "Tragen Sie Meilen und Barpreis ein, dann rechnen wir es aus.",
+  emptyFare: "Das sind die Kosten der Meilen. Tragen Sie den Barpreis ein, dann sagen wir Ihnen, was günstiger ist.",
+  cta: "Dafür ein Angebot →",
+  win: "Klarer Vorteil für Meilen: Dieser Flug bewertet eine Meile mit {seat}¢ gegenüber unseren {rate}¢. Der Kauf spart {saving} ({pct}% gegenüber dem Barpreis).",
+  ok: "Meilen liegen vorn: {saving} günstiger als der Barpreis. Kein Erdrutsch, aber eine echte Ersparnis.",
+  payCash: "Ehrlich? Zahlen Sie hier lieber bar. Bei {fare} bewertet dieser Flug eine Meile mit {seat}¢ und liegt damit unter unseren {rate}¢. Meilen zu kaufen würde Sie Geld kosten.",
+  numLocale: "de-DE",
+};
+
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
   return airlines
     .filter((a) => a.i18n?.de)
-    .map((a) => ({ params: { slug: a.slug }, props: { a, t: a.i18n.de } }));
+    .map((a) => ({ params: { slug: a.slug }, props: { a, t: a.i18n.de, airlines } }));
 }
 
-const { a, t } = Astro.props;
+const { a, t, airlines } = Astro.props;
 const verified = a.priceVerified;
 const DE = "de-DE";
 // German decimal comma: 1.9¢ is "1,9 Cent" to this reader
 const rateDe = a.pricePerMile.toLocaleString(DE);
+
+// Related programmes, but only ones that exist in German — an internal link
+// out of the language is worse than no link. The block appears on its own as
+// the German roster grows.
+const related = a.related
+  .map((slug) => airlines.find((x) => x.slug === slug))
+  .filter((x) => x?.i18n?.de);
+
+// Structured data was the real omission in v1: it has no language problem,
+// and this page is built to rank. Product carries the German name and
+// description, FAQPage carries the German answers, and the price is still
+// withheld until the rate is confirmed.
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${a.airline} ${a.program}`,
+    description: t.metaDescription,
+    brand: { "@type": "Brand", name: a.airline },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      availability: a.inStock ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability",
+      ...(verified && {
+        price: per1000(a.pricePerMile),
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: per1000(a.pricePerMile),
+          priceCurrency: "USD",
+          referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
+        },
+      }),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: "de",
+    mainEntity: t.faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
 ---
 <Base
   title={`${t.metaTitle} | buyflightmiles`}
@@ -85,6 +148,7 @@ const rateDe = a.pricePerMile.toLocaleString(DE);
   slug={`de/buy/${a.slug}`}
   lang="de"
   alternates={[{ hreflang: "en", slug: `buy/${a.slug}` }]}
+  jsonld={jsonld}
 >
   <div lang="de">
     <section class="hero">
@@ -209,6 +273,25 @@ const rateDe = a.pricePerMile.toLocaleString(DE);
       </div>
     </section>
 
+    <section class="section" id="worth">
+      <div class="container">
+        <div class="section-head">
+          <h2>Lohnt sich der Kauf?</h2>
+          <p>
+            Tragen Sie die Meilen der Prämie und den Barpreis ein, den Sie gefunden haben.
+            Gerechnet wird zu unserem Preis, und wenn Bezahlen günstiger ist, sagen wir das auch.
+          </p>
+        </div>
+        <SavingsTool
+          program={a.program}
+          rate={a.pricePerMile}
+          verified={verified}
+          presets={(a.sweetSpots ?? []).filter((sp) => sp.miles).map((sp) => ({ title: sp.title, miles: sp.miles }))}
+          labels={DE_SAVINGS}
+        />
+      </div>
+    </section>
+
     <section class="section tinted">
       <div class="container">
         <div class="section-head">
@@ -222,6 +305,17 @@ const rateDe = a.pricePerMile.toLocaleString(DE);
         ))}
       </div>
     </section>
+
+    {related.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <div class="section-head"><h2>Weitere Programme</h2></div>
+          <div class="related">
+            {related.map((r) => <a href={`/de/buy/${r.slug}`}>{r.airline} {r.program}</a>)}
+          </div>
+        </div>
+      </section>
+    )}
 
     <section class="section">
       <div class="container ctaband">

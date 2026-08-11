@@ -15,30 +15,52 @@ interface Props {
   rate: number;          // cents per mile
   verified: boolean;
   presets?: { title: string; miles: number }[];
+  // Localized pages override any subset; everything else falls back to
+  // English. {placeholders} are filled in the inline script.
+  labels?: Record<string, string>;
 }
-const { program, rate, verified, presets = [] } = Astro.props;
+const { program, rate, verified, presets = [], labels = {} } = Astro.props;
 const startMiles = presets[0]?.miles ?? 60000;
 const approx = verified ? "" : "~";
+
+const EN = {
+  presetsAria: "Example redemptions",
+  milesLabel: "Miles the award needs",
+  fareLabel: "Cash fare you found ($)",
+  farePh: "e.g. 2500",
+  cash: "Cash fare",
+  vs: "vs",
+  atOurRate: "Bought at our {rate}¢ rate",
+  emptyBoth: "Enter the miles and the cash fare and we'll run the numbers.",
+  emptyFare: "That's the cost of the miles. Add the cash fare and we'll tell you which one wins.",
+  cta: "Get this quoted →",
+  win: "Clear win for miles: this seat values a mile at {seat}¢ against our {rate}¢ rate. Buying the miles saves {saving} ({pct}% off the cash fare).",
+  ok: "Miles come out ahead: {saving} cheaper than the cash fare. Not a blowout, but a real saving.",
+  payCash: "Honestly? Pay cash for this one. At {fare}, this seat values a mile at {seat}¢, below our {rate}¢ rate. Buying miles here would cost you money.",
+  numLocale: "en-US",
+};
+const L = { ...EN, ...labels };
 ---
 <div class="stool" data-rate={rate} data-approx={approx}>
+  <script type="application/json" set:html={JSON.stringify(L)} class="stool-l10n"></script>
   <div class="stool-in">
     {presets.length > 0 && (
-      <div class="stool-presets" role="group" aria-label="Example redemptions">
+      <div class="stool-presets" role="group" aria-label={L.presetsAria}>
         {presets.map((p, i) => (
           <button type="button" class={`stool-chip${i === 0 ? " on" : ""}`} data-miles={p.miles}>
-            {p.title} · {p.miles.toLocaleString("en-US")}
+            {p.title} · {p.miles.toLocaleString(L.numLocale)}
           </button>
         ))}
       </div>
     )}
     <div class="stool-fields">
       <div class="field">
-        <label for="st-miles">Miles the award needs</label>
+        <label for="st-miles">{L.milesLabel}</label>
         <input id="st-miles" type="number" inputmode="numeric" step="1000" min="1000" value={startMiles} />
       </div>
       <div class="field">
-        <label for="st-fare">Cash fare you found ($)</label>
-        <input id="st-fare" type="number" inputmode="numeric" step="50" min="1" placeholder="e.g. 2500" />
+        <label for="st-fare">{L.fareLabel}</label>
+        <input id="st-fare" type="number" inputmode="numeric" step="50" min="1" placeholder={L.farePh} />
       </div>
     </div>
   </div>
@@ -46,25 +68,23 @@ const approx = verified ? "" : "~";
   <div class="stool-out" id="st-out" data-state="empty">
     <div class="stool-cols">
       <div class="stool-col">
-        <span class="k">Cash fare</span>
+        <span class="k">{L.cash}</span>
         <b id="st-cash">—</b>
       </div>
-      <div class="stool-col vs" aria-hidden="true">vs</div>
+      <div class="stool-col vs" aria-hidden="true">{L.vs}</div>
       <div class="stool-col">
-        <span class="k">Bought at our {approx}{rate}¢ rate</span>
+        <span class="k">{L.atOurRate.replace("{rate}", approx + rate.toLocaleString(L.numLocale))}</span>
         <b id="st-cost">—</b>
       </div>
     </div>
-    <div class="stool-verdict" id="st-verdict">
-      Enter the cash fare and we'll run the numbers.
-    </div>
+    <div class="stool-verdict" id="st-verdict">{L.emptyBoth}</div>
     <!-- fixed-height slot: states swap what shows, but the card's outer
          height never changes, so a stuck sticky card can't be pushed past
          its section when the CTA appears. The CTA shows whenever a miles
          amount exists — the cost column already prices it, fare or no fare —
          and hides only when the honest answer is "pay cash". -->
     <div class="stool-foot">
-      <a class="btn btn-primary stool-cta" id="st-cta" href="#quote">Get this quoted →</a>
+      <a class="btn btn-primary stool-cta" id="st-cta" href="#quote">{L.cta}</a>
     </div>
   </div>
 </div>
@@ -76,6 +96,9 @@ const approx = verified ? "" : "~";
     const rate = parseFloat(root.dataset.rate);
     const approx = root.dataset.approx || "";
     const $ = (id) => document.getElementById(id);
+    const T = JSON.parse(root.querySelector(".stool-l10n").textContent);
+    const LOC = T.numLocale || "en-US";
+    const fmt = (t, m) => t.replace(/\{(\w+)\}/g, (_, k) => m[k] ?? "");
     const miles = $("st-miles");
     const fare = $("st-fare");
     // Cents are shown, never rounded away: 25,000 miles at 1.95¢ is $487.50,
@@ -84,7 +107,7 @@ const approx = verified ? "" : "~";
     // cannot import.
     const usd = (n) => {
       const c = Math.round(n * 100);
-      return "$" + (c / 100).toLocaleString("en-US", {
+      return "$" + (c / 100).toLocaleString(LOC, {
         minimumFractionDigits: c % 100 === 0 ? 0 : 2, maximumFractionDigits: 2,
       });
     };
@@ -106,9 +129,7 @@ const approx = verified ? "" : "~";
 
       if (!okM || !okF) {
         out.dataset.state = "empty";
-        $("st-verdict").textContent = okM
-          ? "That's the cost of the miles. Add the cash fare and we'll tell you which one wins."
-          : "Enter the miles and the cash fare and we'll run the numbers.";
+        $("st-verdict").textContent = okM ? T.emptyFare : T.emptyBoth;
         $("st-cta").hidden = !okM;
         return;
       }
@@ -121,13 +142,13 @@ const approx = verified ? "" : "~";
       let msg;
       if (seatValue >= rate * 1.8) {
         out.dataset.state = "win";
-        msg = `Clear win for miles: this seat values a mile at ${seatValue.toFixed(1)}¢ against our ${approx}${rate}¢ rate. Buying the miles saves ${approx}${usd(saving)} (${Math.round((saving / f) * 100)}% off the cash fare).`;
+        msg = fmt(T.win, { seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC), saving: approx + usd(saving), pct: Math.round((saving / f) * 100) });
       } else if (seatValue >= rate * 1.1) {
         out.dataset.state = "ok";
-        msg = `Miles come out ahead: ${approx}${usd(saving)} cheaper than the cash fare. Not a blowout, but a real saving.`;
+        msg = fmt(T.ok, { saving: approx + usd(saving) });
       } else {
         out.dataset.state = "cash";
-        msg = `Honestly? Pay cash for this one. At ${usd(f)}, this seat values a mile at ${seatValue.toFixed(1)}¢, below our ${approx}${rate}¢ rate. Buying miles here would cost you money.`;
+        msg = fmt(T.payCash, { fare: usd(f), seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC) });
       }
       $("st-verdict").textContent = msg;
       $("st-cta").hidden = out.dataset.state === "cash";
