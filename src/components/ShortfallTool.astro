@@ -43,7 +43,7 @@ const EN = {
   ok: "That's {gap} miles to buy, which comes to {cost} at {rate}¢ per mile.",
   underMin: "That's {gap} miles to buy, but {program} orders start at {min}. The smallest order we can place is {min} miles at {cost}; the extra stays in your account for the next booking.",
   overMax: "That's {gap} miles to buy, above the {max} ceiling for a single order. Send it as a request and we'll tell you honestly how to split it.",
-  cta: "Price this →",
+  cta: "Get this quoted →",
   numLocale: "en-US",
 };
 const L = { ...EN, ...labels };
@@ -183,14 +183,18 @@ const L = { ...EN, ...labels };
     need.addEventListener("input", render);
     have.addEventListener("input", render);
 
-    // hands the orderable amount to the quote widget, so the anchor lands on a
-    // figure that can actually be bought rather than on the raw shortfall
+    // Hands the ORDERABLE amount to the quote widget — never the raw gap, which
+    // may sit under the minimum and would be rejected — then advances it to the
+    // request step, so the anchor lands on a form already filled in rather than
+    // on a field to retype. Same behaviour as the savings tool's button.
     $("sf-cta").addEventListener("click", () => {
       const qw = document.getElementById("qw-miles");
       const target = parseInt($("sf-cta").dataset.order || "", 10);
       if (!qw || !Number.isFinite(target)) return;
       qw.value = target;
       qw.dispatchEvent(new Event("input", { bubbles: true }));
+      const next = document.getElementById("qw-next");
+      if (next && !next.disabled) next.click();
     });
 
     render();

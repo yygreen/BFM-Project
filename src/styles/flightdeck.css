@@ -1102,6 +1102,12 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .sfl .stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
 .sfl-out[data-state="under"] .stool-verdict,
 .sfl-out[data-state="over"] .stool-verdict { color:var(--warn); }
+/* The savings tool reserves a fixed verdict height and clamps the line length
+   because it lives in a sticky column that must not change size. This tool is
+   a full-width section, so those reservations only leave a gap between a short
+   verdict and the button under it, and wrap the text sooner than it needs to. */
+.sfl .stool-verdict { max-width:none; min-height:0; }
+.sfl .stool-foot { min-height:0; margin-top:18px; }
 .sfl-ask { margin-left:16px; font-size:14px; font-weight:600; color:var(--cobalt); }
 .sfl-ask:hover { text-decoration:underline; }
 .sfl-ask::after { content:" →"; }
