@@ -16,14 +16,19 @@ const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
-// Hero stats: only figures we can stand behind. The delivery window is the
-// fastest CONFIRMED one; rating/completion appear once the client verifies them.
+// Hero stats: only figures we can stand behind. Windows differ by programme,
+// so the hero says "fast" and each programme page states its own number;
+// rating/completion appear once the client verifies them.
+//
+// `fastest` is the shortest CONFIRMED window — sorted by hours, since the
+// roster is ordered alphabetically and first-in-list is not fastest.
 const fastest = airlines
   .filter((a) => a.deliveryVerified)
-  .map((a) => a.delivery.replace("Within ", ""))[0];
+  .map((a) => a.delivery.replace("Within ", ""))
+  .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))[0];
 
 const heroStats = [
-  fastest ? { n: fastest, l: "delivery" } : null,
+  { n: "Fast", l: "delivery" },
   { n: String(airlines.length), l: "programmes" },
   live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
 ].filter(Boolean);
