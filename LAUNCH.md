@@ -53,15 +53,15 @@ client's, and it stays suppressed until they make it.
 
 ### Agenda 1 — Pricing, min/max, delivery → `src/data/airlines.json`
 
-> **The order limits are not confirmed for any programme.** All thirteen have
+> **The order limits are not confirmed for any program.** All thirteen have
 > carried an identical `min: 25000` / `max: 500000` since the data file was
-> created — a uniform default, never a per-programme policy, and never checked
+> created — a uniform default, never a per-program policy, and never checked
 > with the client. `priceVerified` covers the per-mile rate only. Until
 > `limitsVerified` is `true`, the quote widget *guides* with these numbers
 > ("orders usually start around 25,000 miles — ask and we'll quote a smaller
 > one") rather than refusing the order, so nobody is turned away on a figure we
-> invented. Ask the client for two things per programme: **the smallest order
-> they'll take**, and **the largest single transfer the programme itself
+> invented. Ask the client for two things per program: **the smallest order
+> they'll take**, and **the largest single transfer the program itself
 > permits** — those are different limits from different sources.
 
 Currently unconfirmed: **Delta SkyMiles, United MileagePlus, American AAdvantage, BA Avios.**
@@ -134,7 +134,7 @@ before you pay"*, which is true regardless).
 
 ## Carrier logos — a decision, not a task
 
-Every programme renders an abstract tail-fin badge in the carrier's brand
+Every program renders an abstract tail-fin badge in the carrier's brand
 colour. The slot for a real logo exists and is one field:
 
 ```jsonc
@@ -143,7 +143,7 @@ colour. The slot for a real logo exists and is one field:
 ```
 
 Drop the file under `public/logos/` and the badge is replaced everywhere it
-appears — programme grid, pricing card, and the quote widget's dropdown.
+appears — program grid, pricing card, and the quote widget's dropdown.
 
 **It is deliberately empty.** The footer states we are not affiliated with any
 airline, and most carriers' terms prohibit reselling their miles. Displaying

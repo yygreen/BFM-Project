@@ -1,12 +1,12 @@
 ---
 // Blog sidebar: categories, recent posts, and a route back to the money
-// pages. The programme list is generated from the collection so it can't
+// pages. The program list is generated from the collection so it can't
 // drift, and prices carry the same "~" indicative marker as everywhere else.
 import QuoteWidget from "./QuoteWidget.astro";
 import { getPosts, getCategoryCounts, categorySlug, formatDate } from "../lib/blog";
 
-// defaultSlug: programme to preselect in the quote widget — post pages pass
-// their first programs[] entry so the calculator opens on the programme the
+// defaultSlug: program to preselect in the quote widget — post pages pass
+// their first programs[] entry so the calculator opens on the program the
 // article is about instead of a generic default.
 const { currentSlug = null, currentCategory = null, defaultSlug = null } = Astro.props;
 

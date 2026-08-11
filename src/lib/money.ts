@@ -6,7 +6,7 @@
 //
 // Amounts are handled as integer cents because the inputs are decimal cents
 // per mile and binary floating point does not hold them exactly: at three
-// programmes on the current roster, `price * miles / 100` lands a hair off a
+// programs on the current roster, `price * miles / 100` lands a hair off a
 // round number, and formatting that directly would print a stray penny.
 //
 // The mirror of this logic lives inline in QuoteWidget, SavingsTool and

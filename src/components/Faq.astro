@@ -2,7 +2,7 @@
 // FAQ. Questions are worded to match how people actually search — Semrush
 // shows the demand is overwhelmingly in question form and per-airline
 // ("how much does it cost to buy American Airlines miles" ~260/mo, "how to
-// buy american airlines miles" ~480/mo), so programme pages ask the question
+// buy american airlines miles" ~480/mo), so program pages ask the question
 // with the airline's name in it rather than a generic phrasing.
 //
 // Answers that depend on client-confirmed facts (payments, the guarantee,
@@ -19,7 +19,7 @@ const {
   program = null,        // e.g. "AAdvantage"
   pricePerMile = null,
   priceVerified = false,
-  extras = [],          // per-programme Q&As from airlines.json (faqExtras)
+  extras = [],          // per-program Q&As from airlines.json (faqExtras)
   // The homepage shows a shortened set and links to /faq for the rest; the
   // full set — and the FAQPage markup for it — lives on that page alone, so
   // the same questions aren't published twice under two URLs.
@@ -34,15 +34,15 @@ const approx = priceVerified ? "" : "about ";
 // ---- cost -------------------------------------------------------------
 const costAnswer = pricePerMile
   ? `Buying ${subject} here costs ${approx}${pricePerMile}¢ per mile — ${approx}${usd(per1000(pricePerMile))} per 1,000 miles. ${priceVerified ? "That rate is confirmed" : "That rate is indicative and we confirm the exact figure"} on your quote, before any payment is made. Use the calculator on this page to price the amount you actually need; the quote itself is free and no-obligation.`
-  : "It depends on the programme — each has its own per-mile rate, shown on its page. Price the amount you need with the calculator and we'll confirm the exact figure on your quote, before any payment is made. The quote is free and no-obligation.";
+  : "It depends on the program — each has its own per-mile rate, shown on its page. Price the amount you need with the calculator and we'll confirm the exact figure on your quote, before any payment is made. The quote is free and no-obligation.";
 
 // ---- can you ----------------------------------------------------------
-const canAnswer = `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty programme.`;
+const canAnswer = `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty program.`;
 
 // ---- delivery ---------------------------------------------------------
 const deliveryAnswer = site.delivery.verified && site.delivery.howItWorks
   ? site.delivery.howItWorks
-  : `Most transfers land in your account within ${window}. The exact window is shown on each programme's page, and you'll get confirmation the moment the transfer completes.`;
+  : `Most transfers land in your account within ${window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.`;
 
 // ---- worth it ---------------------------------------------------------
 const worthAnswer = `It depends on what you're booking. Buying miles makes sense when you're short of a specific redemption and the miles cost less than the cash fare — a premium-cabin seat is the usual case. It rarely makes sense to buy speculatively, without a booking in mind. Confirm the award seat is available first, then buy the shortfall.`;
@@ -80,7 +80,7 @@ const faqs = [
   { q: airline ? `How much does it cost to buy ${airline} miles?` : "How much does it cost to buy airline miles?", a: costAnswer, open: true },
   { q: airline ? `Can you buy ${airline} miles?` : "Can you buy airline miles?", a: canAnswer },
   { q: airline ? `How fast are ${program || airline} miles delivered?` : "How fast are miles delivered?", a: deliveryAnswer },
-  // programme-specific questions slot in here, near the top, and join the
+  // program-specific questions slot in here, near the top, and join the
   // FAQPage JSON-LD with everything else
   ...extras.map((e) => ({ q: e.q, a: e.a })),
   { q: "Is buying airline miles worth it?", a: worthAnswer },
@@ -89,7 +89,7 @@ const faqs = [
     ? [{ q: "What if my miles don't arrive?", a: site.guarantee.policy }]
     : []),
   { q: "Is this legitimate?", a: legitAnswer },
-  { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific programme, reach out before ordering and we'll walk you through it." },
+  { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it." },
 ];
 
 const shown = limit ? faqs.slice(0, limit) : faqs;

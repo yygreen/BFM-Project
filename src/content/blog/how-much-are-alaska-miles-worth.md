@@ -22,13 +22,13 @@ rates have to track them) we look at three figures, not one:
 - **Floor: what the airline would charge you for the same seat in cash.**
   Redeem Alaska miles against a cheap domestic economy fare and you'll clear
   maybe a cent per mile. This is the value most balances actually get, and
-  it's the number the programmes would rather you didn't compute.
+  it's the number the programs would rather you didn't compute.
 - **Average: roughly 1.2–1.5¢.** Across ordinary redemptions booked by
   ordinary people, that's the band Alaska miles land in. If someone quotes you
   a single "value" for the currency, this is the honest one.
 - **Ceiling: partner premium cabins, where Alaska has always punched above
   its weight.** Mileage Plan's partner awards, long-haul business on its
-  oneworld and independent partners, are the reason this programme has a cult
+  oneworld and independent partners, are the reason this program has a cult
   following. Booked well, the same mile that was worth a cent domestically
   clears 4¢ and up. That's not a rounding error; it's a 4x difference in what
   your balance buys.

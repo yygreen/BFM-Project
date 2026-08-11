@@ -15,12 +15,12 @@ export const categorySlug = (c: string) => c.toLowerCase().replace(/\s+/g, "-");
 
 /** Short blurb used on the category archive pages. */
 export const CATEGORY_BLURB: Record<Category, string> = {
-  News: "Programme changes as they happen — each one sourced, so you can check it.",
+  News: "Program changes as they happen — each one sourced, so you can check it.",
   Guide: "How buying miles works, and how to do it without getting caught out.",
-  Valuations: "What a mile in each programme is actually worth, priced the way a trader prices it.",
+  Valuations: "What a mile in each program is actually worth, priced the way a trader prices it.",
   Transfers: "Moving miles between accounts and people — what it costs, and when a top-up beats a transfer.",
   "Sweet spots": "Redemptions where the miles stretch furthest — the ones worth buying for.",
-  Devaluations: "When a programme raises its award prices, what it costs you, and whether booking sooner helps.",
+  Devaluations: "When a program raises its award prices, what it costs you, and whether booking sooner helps.",
 };
 
 /** Published posts (drafts excluded), newest first. */
@@ -57,7 +57,7 @@ export function readingTime(body = ""): number {
   return Math.max(1, Math.round(words / 220));
 }
 
-/** Posts that reference a given programme slug, newest first. */
+/** Posts that reference a given program slug, newest first. */
 export async function getPostsForProgram(slug: string) {
   const posts = await getPosts();
   return posts.filter((p) => p.data.programs.includes(slug));

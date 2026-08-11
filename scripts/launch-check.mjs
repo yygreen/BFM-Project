@@ -35,7 +35,7 @@ if (undelivered.length) {
 } else done.push(["1", "All delivery windows verified"]);
 
 // Order limits are their own fact — priceVerified covers the per-mile rate,
-// not how small or large an order we'll take. Every programme currently
+// not how small or large an order we'll take. Every program currently
 // carries an identical 25,000/500,000, which is a default, not a policy.
 const unlimited = airlines.filter((a) => !a.limitsVerified);
 if (unlimited.length) {

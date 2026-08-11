@@ -1,8 +1,8 @@
 ---
-// Custom quote request — the landing for "Can't find your programme?".
+// Custom quote request — the landing for "Can't find your program?".
 //
-// Free-text programme field is the point: the quote widget can only express
-// the 13 listed programmes, and this form catches everything else. Same
+// Free-text program field is the point: the quote widget can only express
+// the 13 listed programs, and this form catches everything else. Same
 // Web3Forms wiring and graceful not-wired fallback as the quote widget; the
 // copy invites a request without asserting we can source anything.
 import Base from "../layouts/Base.astro";
@@ -16,8 +16,8 @@ const notWired = orderEmail
   : "Requests aren't connected yet. Send it through the contact page and we'll check it for you.";
 ---
 <Base
-  title="Request a programme: buyflightmiles"
-  description="Tell us the loyalty programme and the amount of miles you need. We'll check availability and quote you before anything is paid."
+  title="Request a program: buyflightmiles"
+  description="Tell us the loyalty program and the amount of miles you need. We'll check availability and quote you before anything is paid."
   slug="request"
 >
   <section class="section">
@@ -29,15 +29,15 @@ const notWired = orderEmail
       <div class="section-head" style="text-align:center;margin:0 auto 24px">
         <span class="kicker">Custom request</span>
         <h2>Tell us what you need</h2>
-        <p>Programme not on our list? Send the details and we'll check availability and price. You get a firm quote before anything is paid.</p>
+        <p>Program not on our list? Send the details and we'll check availability and price. You get a firm quote before anything is paid.</p>
       </div>
       <form class="formcard" id="request-form" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
         <input type="hidden" name="access_key" value={accessKey} />
         <input type="hidden" id="request-fallback" value={notWired} />
-        <input type="hidden" name="subject" value="Custom programme request — buyflightmiles" />
+        <input type="hidden" name="subject" value="Custom program request — buyflightmiles" />
         <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
         <div class="form-grid">
-          <div class="field"><label for="req-program">Loyalty programme *</label><input id="req-program" name="program" type="text" required placeholder="e.g. Emirates Skywards" /></div>
+          <div class="field"><label for="req-program">Loyalty program *</label><input id="req-program" name="program" type="text" required placeholder="e.g. Emirates Skywards" /></div>
           <div class="field"><label for="req-miles">Miles needed</label><input id="req-miles" name="miles" type="number" inputmode="numeric" step="1000" min="1000" placeholder="e.g. 85000" /></div>
           <div class="field"><label for="req-name">Name *</label><input id="req-name" name="name" type="text" required /></div>
           <div class="field"><label for="req-email">Email *</label><input id="req-email" name="email" type="email" required /></div>
@@ -47,7 +47,7 @@ const notWired = orderEmail
         <p class="form-msg" id="request-msg" hidden></p>
         <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">Nothing is charged on this site. We reply with availability and a firm rate first.</p>
         <p style="color:var(--text-3);font-size:13px;text-align:center;margin:14px 0 0">
-          Not about a specific programme? <a href="/contact" style="color:var(--cobalt);font-weight:600">Contact us</a> instead.
+          Not about a specific program? <a href="/contact" style="color:var(--cobalt);font-weight:600">Contact us</a> instead.
         </p>
       </form>
     </div>
@@ -91,7 +91,7 @@ const notWired = orderEmail
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!form.dataset.key) {
-          if (form.dataset.inbox) { mailEnquiry(form.dataset.inbox, msg, form, "Programme request — buyflightmiles"); return; }
+          if (form.dataset.inbox) { mailEnquiry(form.dataset.inbox, msg, form, "Program request — buyflightmiles"); return; }
           showFallback(msg, document.getElementById("request-fallback").value);
           return;
         }

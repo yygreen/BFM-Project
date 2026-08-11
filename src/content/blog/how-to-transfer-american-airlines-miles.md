@@ -64,7 +64,7 @@ we'd never give you a one-line rule.
 ## The one thing not to do
 
 Don't "transfer" miles by sharing account logins and booking from inside
-someone else's account without the programme's blessing. AAdvantage's terms
+someone else's account without the program's blessing. AAdvantage's terms
 are blunt about unauthorised account access, and a frozen account with a
 six-figure balance is a far worse outcome than any transfer fee. Every route
 above (booking for others, the official transfer, a direct top-up) exists

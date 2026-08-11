@@ -1,6 +1,6 @@
 ---
 // Contact — the general enquiry surface. Deliberately distinct from /request
-// (a programme we don't list) and from the quote widget (price an amount and
+// (a program we don't list) and from the quote widget (price an amount and
 // send it): this is for everything else, and for buyers who want to talk to a
 // person before they order at all, which in a scam-wary market is many of them.
 //
@@ -40,7 +40,7 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
         <h1>Talk to us before you order</h1>
         <p>
           A four-figure purchase deserves a straight answer first. Ask anything — how a
-          programme's transfer works, whether an award is worth buying for, what we can
+          program's transfer works, whether an award is worth buying for, what we can
           actually source right now. Quotes are free and no-obligation.
         </p>
       </div>
@@ -62,11 +62,11 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
             </div>
             <div class="field"><label for="c-topic">What's this about?</label>
               {/* Only what this form answers well. A new quote and an unlisted
-                  programme were offered here too, but both need the programme
+                  program were offered here too, but both need the program
                   and the amount to get a useful reply, and a free-text message
                   rarely carries them — those live in Faster routes alongside,
                   where the form asks for the figures. */}
-              <select id="c-topic" name="topic" class="c-select">
+              <select id="c-topic" name="topic">
                 <option>An order I've already placed</option>
                 <option>How buying miles works</option>
                 <option>Payment and delivery</option>
@@ -75,7 +75,7 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
             </div>
             <div class="field" style="margin-bottom:4px">
               <label for="c-message">Your message *</label>
-              <textarea id="c-message" name="message" rows="5" required placeholder="The programme and amount, the award you're chasing, or the question that's holding you up."></textarea>
+              <textarea id="c-message" name="message" rows="5" required placeholder="The program and amount, the award you're chasing, or the question that's holding you up."></textarea>
             </div>
             <button type="submit" class="btn btn-primary" id="contact-submit" style="width:100%;margin-top:14px">Send message</button>
             <p class="form-msg" id="contact-msg" hidden></p>
@@ -118,9 +118,9 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
 
           <div class="side-box">
             <p class="lab">Faster routes</p>
-            <p class="cside-p">If you know the programme and the amount, these get you a price in one step. This form is for everything else.</p>
+            <p class="cside-p">If you know the program and the amount, these get you a price in one step. This form is for everything else.</p>
             <a class="cside-link" href="/#quote">Get a price now →</a>
-            <a class="cside-link" href="/request">Programme not listed? →</a>
+            <a class="cside-link" href="/request">Program not listed? →</a>
             <a class="cside-link" href="/faq">Read the FAQ →</a>
             <a class="cside-link" href="/agents">Agent &amp; broker pricing →</a>
           </div>

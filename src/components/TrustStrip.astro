@@ -21,7 +21,7 @@ const fmtBig = (n) =>
 
 // headline stat band — the scale figures buyers compare vendors on. The two
 // client-supplied ones render only when live (or staged as placeholders); the
-// programme count and years are computed, so the band is never empty.
+// program count and years are computed, so the band is never empty.
 //
 // A single review platform joins the band as its own figure rather than
 // sitting under it as a lone full-width bar; two or more keep their own row,
@@ -30,7 +30,7 @@ const soloReview = realReviews.length === 1 ? realReviews[0] : null;
 const bandStats = [
   live(site.trust.milesDelivered) ? { n: `${fmtBig(Number(site.trust.milesDelivered.value))}+`, l: "miles delivered" } : null,
   live(site.trust.transfersCompleted) ? { n: `${fmtBig(Number(site.trust.transfersCompleted.value))}+`, l: "transfers completed" } : null,
-  { n: `${programCount}`, l: "programmes covered" },
+  { n: `${programCount}`, l: "programs covered" },
   years !== null ? { n: `${years}+`, l: "years trading" } : null,
   soloReview
     ? {

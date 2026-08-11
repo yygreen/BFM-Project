@@ -23,7 +23,7 @@ export async function getStaticPaths() {
     props: {
       a,
       airlines,
-      // blog posts that reference this programme — bidirectional linking,
+      // blog posts that reference this program — bidirectional linking,
       // so the blog feeds the money pages rather than sitting beside them
       posts: posts.filter((p) => p.data.programs.includes(a.slug)).slice(0, 2),
     },
@@ -33,11 +33,11 @@ export async function getStaticPaths() {
 const { a, airlines, posts } = Astro.props;
 const per1000 = per1000Of(a.pricePerMile);
 const verified = a.priceVerified;
-// programme name without any parenthetical — "Avios (Privilege Club)" reads
+// program name without any parenthetical — "Avios (Privilege Club)" reads
 // fine as a title but turns copy like "price your … order" into a mouthful
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
 // "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
-// suffix when the programme name already ends in it
+// suffix when the program name already ends in it
 const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
 // The h1 highlights the phrase the page is written for, which is the thing a
 // visitor is checking they landed on. The phrase is named in the data rather
@@ -130,7 +130,7 @@ const jsonld = {
                 Free, no-obligation quote
               </span>
             )}
-            <!-- the window shows for every programme; the 14 unverified ones
+            <!-- the window shows for every program; the 14 unverified ones
                  are already check:launch blockers, so this is a staged claim
                  the client confirms, not a silent invention -->
             <span class="spec-it">
@@ -257,7 +257,7 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- QUIRKS + FACTS — what makes this programme ITSELF, honest bits included -->
+  <!-- QUIRKS + FACTS — what makes this program ITSELF, honest bits included -->
   {(a.quirks.length > 0 || a.mechanics.length > 0) && (
     <section class="section wash-neutral">
       <div class="container">
@@ -282,7 +282,7 @@ const jsonld = {
               {a.mechanics.map((f) => (
                 <div class="row"><span>{f.label}</span><b>{f.text}</b></div>
               ))}
-              {a.factsChecked && <p class="cap">Programme facts checked {a.factsChecked}. Policies move; we re-check before every quote.</p>}
+              {a.factsChecked && <p class="cap">Program facts checked {a.factsChecked}. Policies move; we re-check before every quote.</p>}
             </div>
           )}
         </div>
@@ -310,7 +310,7 @@ const jsonld = {
   </section>
 
   <!-- CLOSING CTA — the widget lives in the hero, so the page ends with a
-       clear road back to it. Related programmes ride along in the same band
+       clear road back to it. Related programs ride along in the same band
        rather than floating as their own sparse section. -->
   <section class="section wash-cool">
     <div class="container">
@@ -323,12 +323,12 @@ const jsonld = {
       </div>
       {related.length > 0 && (
         <div class="related related-inline">
-          <span class="related-lab">Related programmes</span>
+          <span class="related-lab">Related programs</span>
           {related.map((r) => (
             <a href={`/buy/${r.slug}`}>{r.airline} {r.program} · {r.pricePerMile}¢</a>
           ))}
           <a href={`/calculator/${a.slug}`}>{progShort} calculator</a>
-          <a href="/request">Another programme? Ask us →</a>
+          <a href="/request">Another program? Ask us →</a>
           <a href="/contact">Questions? Contact us →</a>
         </div>
       )}

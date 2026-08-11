@@ -7,7 +7,7 @@ export async function GET(context) {
   return rss({
     title: "buyflightmiles: Miles news & guides",
     description:
-      "Programme news, devaluations, sweet spots and practical guides for buying airline miles.",
+      "Program news, devaluations, sweet spots and practical guides for buying airline miles.",
     site: context.site ?? "https://buyflightmiles.com",
     items: posts.map((p) => ({
       title: p.data.title,

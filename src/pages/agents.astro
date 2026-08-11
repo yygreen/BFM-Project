@@ -30,7 +30,7 @@ const coverage = [...airlines]
   .sort((a, b) => a.airline.localeCompare(b.airline))
   .map((a) => ({ ...a, short: a.program.replace(/\s*\(.*\)$/, "") }));
 // How far the "not listed?" tile has to stretch to close the roster's last
-// row, per column count. The roster length moves as programmes are added, so
+// row, per column count. The roster length moves as programs are added, so
 // this is computed rather than written into the CSS; a roster that divides
 // evenly leaves no gap and the tile takes a full row of its own.
 const askSpan = (cols) => cols - (coverage.length % cols);
@@ -57,7 +57,7 @@ const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" strok
 // this hero's text column is narrower than the homepage's
 const heroStats = [
   { n: "Fast", l: "delivery" },
-  { n: String(airlines.length), l: "programmes" },
+  { n: String(airlines.length), l: "programs" },
 ];
 
 const jsonld = {
@@ -196,10 +196,10 @@ const jsonld = {
         <!-- the "and more on request" in the intro needs somewhere to go, and
              it fills the gap the roster leaves in its last row. The span is
              computed per column count above, so it always reaches the right
-             edge however many programmes the roster grows to -->
+             edge however many programs the roster grows to -->
         <a class="gcard gcard-mini gcard-ask" href="/request">
           <span class="ask-t">
-            <b>Programme not listed?</b>
+            <b>Program not listed?</b>
             Tell us what your client needs and we'll check availability and price it.
           </span>
           <span class="askcta">Ask for a quote →</span>
@@ -222,7 +222,7 @@ const jsonld = {
       <div class="section-head"><h2>Partner questions</h2></div>
       <details class="faq" open><summary>How does partner pricing work?<span class="mk">+</span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact. Reach out and we'll quote based on what you typically move.</div></details>
       <details class="faq"><summary>Can you source a specific business-class seat?<span class="mk">+</span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it, and you receive a confirmed ticket to pass to your client.</div></details>
-      <details class="faq"><summary>How fast is delivery?<span class="mk">+</span></summary><div class="ans">{fastestWindow ? `Most miles land within ${fastestWindow.toLowerCase()}` : "Delivery windows vary by programme and are shown on each programme page"}. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
+      <details class="faq"><summary>How fast is delivery?<span class="mk">+</span></summary><div class="ans">{fastestWindow ? `Most miles land within ${fastestWindow.toLowerCase()}` : "Delivery windows vary by program and are shown on each program page"}. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
       <details class="faq"><summary>Is it white-label?<span class="mk">+</span></summary><div class="ans">Yes. We stay behind the scenes, and your client deals only with you.</div></details>
       <details class="faq"><summary>What payment methods and terms do you offer?<span class="mk">+</span></summary><div class="ans">{partnerPayAnswer}</div></details>
     </div>

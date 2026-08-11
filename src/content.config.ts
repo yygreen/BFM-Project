@@ -23,11 +23,11 @@ const sweetSpot = z.object({
   miles: z.number().int().positive().optional(),
 });
 
-// ---- per-programme editorial blocks -------------------------------------
+// ---- per-program editorial blocks -------------------------------------
 // What keeps thirteen generated pages from being the same page thirteen
-// times: per-programme FACTS, not filler. Every block is optional and renders
+// times: per-program FACTS, not filler. Every block is optional and renders
 // only when filled — a half-empty section is worse than none — and any claim
-// about the programme itself is dated via factsChecked, because expiry rules
+// about the program itself is dated via factsChecked, because expiry rules
 // and fee behaviour go stale.
 const valueBands = z.object({
   excellent: z.array(z.string().min(1)),
@@ -38,7 +38,7 @@ const quirk = z.object({ title: z.string().min(1), text: z.string().min(1) });
 const fact = z.object({ label: z.string().min(1), text: z.string().min(1) });
 const faqExtra = z.object({ q: z.string().min(1), a: z.string().min(1) });
 
-// A localized landing page for a programme. Adding a block here generates
+// A localized landing page for a program. Adding a block here generates
 // /{locale}/buy/{slug}/ with hreflang pairs on both sides — growing into a
 // new language market is data entry, the same as growing the roster. The old
 // WordPress site ranks with an Arabic Qatar page, so the migration must keep
@@ -97,7 +97,7 @@ const airlines = defineCollection({
       // Order limits carry their own flag. They are a different fact from a
       // different source than the per-mile price, so priceVerified must not
       // stand in for them — while this is false the widget guides with the
-      // figure instead of asserting it as the programme's policy.
+      // figure instead of asserting it as the program's policy.
       min: z.number().int().positive(),
       max: z.number().int().positive(),
       limitsVerified: z.boolean().default(false),
@@ -124,13 +124,13 @@ const airlines = defineCollection({
       quirks: z.array(quirk).default([]),
       mechanics: z.array(fact).default([]),
       faqExtras: z.array(faqExtra).default([]),
-      // when the programme-fact blocks above were last checked, e.g. "August 2026"
+      // when the program-fact blocks above were last checked, e.g. "August 2026"
       factsChecked: z.string().optional(),
 
       // Localized landing pages, keyed by locale. Add a key here and a route
       // under src/pages/{locale}/buy/ when a market opens. Optional one by
       // one rather than a record over a locale enum: that form is exhaustive
-      // in Zod, so every programme would be required to carry every language.
+      // in Zod, so every program would be required to carry every language.
       i18n: z
         .object({
           ar: translation.optional(),

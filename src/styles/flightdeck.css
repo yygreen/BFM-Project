@@ -70,8 +70,8 @@ img, svg { max-width:100%; }
 .site-footer .cols { display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px; }
 @media (max-width:900px){ .site-footer .cols { grid-template-columns:1fr 1fr; } }
 @media (max-width:520px){ .site-footer .cols { grid-template-columns:1fr; } }
-/* the roster as a wide band: 21 programmes in four short columns instead of
-   one very tall one, with the programme name stacked under the carrier so
+/* the roster as a wide band: 21 programs in four short columns instead of
+   one very tall one, with the program name stacked under the carrier so
    each link stays scannable at column width */
 .foot-programs { margin-top:38px; padding-top:26px; border-top:1px solid #262946; }
 .foot-proglist { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px 26px; }
@@ -242,8 +242,8 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard-mini .plabel { font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .gcard .meta { font-size:12.5px; color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
 /* compact cards on phones: name + price is the scan line, and the detail row
-   lives on the programme page the card links to — shorter cards mean more
-   programmes per screen and a reason to tap through */
+   lives on the program page the card links to — shorter cards mean more
+   programs per screen and a reason to tap through */
 @media (max-width:560px){
   .gcard { padding:15px 18px; }
   .gcard .top { margin-bottom:8px; }
@@ -296,7 +296,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .step-art.b { background:var(--coral-tint); color:var(--coral); }
 .step-art.c { background:var(--ok-tint); color:#0A7D5A; }
 
-/* locked programme display — the csel shell without the affordances */
+/* locked program display — the csel shell without the affordances */
 .csel-fixed { cursor:default; }
 .csel-fixed:hover { border-color:var(--line-2); }
 .csel-fixed .csel-price { margin-left:auto; font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--text-2); }
@@ -379,7 +379,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .worth-sub p { color:var(--text-2); font-size:14.5px; margin:8px 0 0; }
 
 
-/* closing CTA band on programme pages */
+/* closing CTA band on program pages */
 .ctaband { display:flex; align-items:center; justify-content:space-between; gap:22px; flex-wrap:wrap; }
 .ctaband h3 { font-weight:800; font-size:clamp(19px,2.4vw,24px); letter-spacing:-.02em; }
 .ctaband p { margin:5px 0 0; color:var(--text-2); font-size:14.5px; }
@@ -499,9 +499,6 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .cside-p { font-size:13.5px; color:var(--text-2); line-height:1.65; margin:0 0 12px; }
 .cside-link { display:block; font-size:14px; font-weight:600; color:var(--cobalt); margin-top:9px; }
 .cside-link:hover { text-decoration:underline; }
-.c-select { width:100%; padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--radius);
-  font-family:var(--sans); font-size:15px; background:var(--surface); color:var(--text-1); }
-
 /* quiet pointer from the buy page's verdict tool to the calculator page */
 .tool-more { margin-top:12px; font-size:13.5px; color:var(--text-3); line-height:1.6; }
 .tool-more a { color:var(--cobalt); font-weight:600; }
@@ -534,7 +531,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
   color:var(--cobalt); background:var(--surface); border:1px solid var(--cobalt-line);
   border-radius:var(--radius-pill); padding:5px 13px; vertical-align:middle; }
 .lang-toggle:hover { border-color:var(--cobalt); }
-/* the ask-us card at the end of the programme grid — invitation, not product */
+/* the ask-us card at the end of the program grid — invitation, not product */
 .gcard-ask { display:flex; flex-direction:column; justify-content:center; gap:10px;
   background:transparent; border:1.5px dashed var(--line-strong); box-shadow:none; }
 .gcard-ask .askp { margin:0; font-size:13.5px; line-height:1.55; color:var(--text-2); }
@@ -588,6 +585,21 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .field label { display:block; font-size:13.5px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
 .field input, .field select, .field textarea { width:100%; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--surface); border:1.5px solid var(--line-2); border-radius:var(--radius); padding:12px 14px; }
 .field textarea { resize:vertical; min-height:104px; }
+/* A select left at its native appearance draws the OS control's own chevron
+   and sizing, so it reads as a different component from the inputs beside it.
+   This resets that and paints the site's own chevron, the same mark the nav
+   and the program selector use.
+   The arrow colour is --text-3 written out: a data URI cannot read a custom
+   property, so this is the one place the token has to be spelled. Keep the
+   two in step. */
+.field select {
+  appearance:none; -webkit-appearance:none;
+  padding-right:38px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237B7F9E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  background-size:12px 12px;
+}
 /* fields inside .form-grid are spaced by its gap; standalone ones had nothing,
    so a following label sat flush against the control above it */
 .formcard > .field, .ostep > .field { margin-bottom:16px; }
@@ -666,7 +678,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .dd-all { display:block; margin-top:6px; padding:10px; text-align:center; border-top:1px solid var(--line);
   font-size:13px; font-weight:600; color:var(--cobalt); }
 /* the invitation filling the roster's empty last cell: same row shape as a
-   programme so the grid stays even, dashed and cobalt so it reads as an
+   program so the grid stays even, dashed and cobalt so it reads as an
    action rather than a carrier someone might have missed */
 .dd-more .dd-air { color:var(--text-2); font-weight:600; }
 .dd-more .dd-prog { color:var(--cobalt); font-weight:600; }
@@ -706,7 +718,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 }
 /* Below ~355px the two dropdowns and the CTA can't share a line without the
    page scrolling sideways. Drop the CTA rather than the navigation: the
-   Programs panel already lists every programme with its price. */
+   Programs panel already lists every program with its price. */
 @media (max-width:355px){
   .nav-cta { display:none; }
   .container { padding-left:14px; padding-right:14px; }
@@ -968,7 +980,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   font-size:12.5px; font-weight:600; color:var(--cobalt); margin-bottom:10px; }
 .qw-back:hover { text-decoration:underline; }
 /* Grid, not wrapping flex: the price used to drop onto a second line as soon as
-   the programme name + amount + total outgrew the row, so the recap changed
+   the program name + amount + total outgrew the row, so the recap changed
    shape depending on how many digits you typed. Fixed tracks keep it one row at
    every amount. The name is the only flexible track — the amount and the total
    are sized to their content, so a seven-figure order can't squeeze the price
@@ -994,7 +1006,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 
 /* small helper line under a form field */
 .field-help { display:block; font-size:12px; line-height:1.5; color:var(--text-3); margin-top:6px; }
-/* amber, not red: an amount outside the programme's range is a correction to
+/* amber, not red: an amount outside the program's range is a correction to
    make, not an error the visitor has committed */
 .field-help.warn { color:var(--warn); font-weight:600; }
 .qw-cta:disabled { opacity:.45; cursor:not-allowed; }
@@ -1021,7 +1033,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .rev-num small { color:var(--text-3); font-weight:400; }
 .rev-plat { font-size:12.5px; color:var(--text-3); }
 
-/* ---- custom programme dropdown --------------------------------------- */
+/* ---- custom program dropdown --------------------------------------- */
 /* a native <select> can't style its option list, so the select is kept
    offscreen as the value holder and this listbox renders on top */
 .csel { position:relative; }

@@ -23,7 +23,7 @@ const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
-// the client-side script needs rate, limits and delivery per programme
+// the client-side script needs rate, limits and delivery per program
 const data = airlines.map((a) => ({
   slug: a.slug,
   label: `${a.airline} — ${a.program}`,
@@ -93,7 +93,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
         <div class="ostep" data-step="1">
           <div class="form-grid">
             <div class="field">
-              <label id="o-program-label" for="o-prog-btn">Programme *</label>
+              <label id="o-program-label" for="o-prog-btn">Program *</label>
               <ProgramSelect id="o-prog" name="program" labelId="o-program-label" required />
             </div>
             <div class="field">
@@ -181,7 +181,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
 
           <div class="osum osum-final">
             <p class="olab" style="margin-bottom:10px">Your order</p>
-            <div class="osum-row"><span>Programme</span><b id="o-r-program">—</b></div>
+            <div class="osum-row"><span>Program</span><b id="o-r-program">—</b></div>
             <div class="osum-row"><span>Miles</span><b id="o-r-miles">—</b></div>
             <div class="osum-row"><span>Estimated cost</span><b id="o-r-cost">—</b></div>
             <div class="osum-row"><span>Delivery</span><b id="o-r-delivery">—</b></div>
@@ -235,7 +235,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
       const q = new URLSearchParams(location.search);
       const wanted = q.get("program");
       // the listbox paints from the native select on load, so a deep link has
-      // to announce the change or the button keeps showing the first programme
+      // to announce the change or the button keeps showing the first program
       if (wanted && byId[wanted]) {
         prog.value = wanted;
         prog.dispatchEvent(new Event("change", { bubbles: true }));
@@ -260,7 +260,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
 
         const stock = $("o-stock");
         stock.hidden = c.inStock;
-        if (!c.inStock) stock.textContent = "This programme is showing limited availability. Send the order anyway and we'll tell you honestly what we can fill and when.";
+        if (!c.inStock) stock.textContent = "This program is showing limited availability. Send the order anyway and we'll tell you honestly what we can fill and when.";
 
         // review panel + the hidden fields that travel with the enquiry
         $("o-r-program").textContent = c.label;

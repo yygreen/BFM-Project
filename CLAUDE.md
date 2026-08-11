@@ -94,7 +94,7 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 - Data lives in `src/data/airlines.json` (one entry per program, keyed by `id` = slug) and is validated by the Zod schema in `src/content.config.ts`. Templates read it via `getCollection("airlines")` and map `{ slug: e.id, ...e.data }`; entries are sorted by the `order` field.
 - `pricePerMile` is in **cents**. The `$ per 1,000` figure is **derived** (`× 10`) in templates — don't store both.
 - Real pricing audited from the client's live store widget (Aug 2026): Qatar 1.8 (24h), Aeroplan 1.8 (72h), BA 1.75 (24h), Delta 1.95 (24h, out of stock), ANA 1.9 (72h, out of stock), KrisFlyer 2.2 (72h), United 2.0 (72h), EVA 1.95 (48h), Flying Blue 1.95 (24h), LifeMiles 1.95 (24h), Asia Miles 1.95 (72h). These have `priceVerified: true` / `deliveryVerified: true`.
-- **`priceVerified` / `deliveryVerified` replace the old `// PLACEHOLDER` comments.** Anything `false` (American plus the ten expansion programmes) needs a **real, confirmed value before launch** — then flip the flag to `true`.
+- **`priceVerified` / `deliveryVerified` replace the old `// PLACEHOLDER` comments.** Anything `false` (American plus the ten expansion programs) needs a **real, confirmed value before launch** — then flip the flag to `true`.
 
 ## Business constraints (important)
 

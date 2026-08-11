@@ -18,7 +18,7 @@
 // equal weight and line up as a row. The tethers differ in length only because
 // the wave is at a different height in each panel — they hang like plumb lines.
 //
-// Each motif depicts its OWN step rather than gesturing at it: a programme
+// Each motif depicts its OWN step rather than gesturing at it: a program
 // selector with a chosen row, money crossing off the site, an aircraft on a
 // route. An earlier pass used abstract bars, a shield and an arrowhead, which
 // read as a skeleton loader, "secure" and "growth" respectively — none of them
@@ -31,13 +31,13 @@ interface Props { step: "choose" | "pay" | "fly" }
 const { step } = Astro.props;
 ---
 {step === "choose" && (
-  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a programme from the list">
+  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
     <path class="il-line" d="M-10 32H44C108 32 172 12 236 12H250" />
     <circle class="il-ring" cx="44" cy="32" r="10" />
     <circle class="il-dot" cx="44" cy="32" r="4.5" />
     <path class="il-tether" d="M44 44V58" />
 
-    <!-- a programme list with one row chosen: carrier chip, name, rate -->
+    <!-- a program list with one row chosen: carrier chip, name, rate -->
     <rect class="il-chip" x="20" y="62" width="13" height="9" rx="3" />
     <rect class="il-bar" x="41" y="65" width="72" height="4" rx="2" />
     <rect class="il-bar-dim" x="121" y="65" width="26" height="4" rx="2" />
@@ -109,7 +109,7 @@ const { step } = Astro.props;
   .il-dot    { fill:var(--coral); }
   .il-tether { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 6; }
 
-  /* step 1 — the programme list */
+  /* step 1 — the program list */
   .il-chip    { fill:var(--mist); }
   .il-chip-on { fill:var(--cobalt); }
   .il-bar     { fill:var(--mist); }

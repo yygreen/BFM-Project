@@ -14,8 +14,8 @@ import { site, quoteFormReady, directBuyRate, mailtoInbox } from "../lib/site";
 const {
   defaultSlug = null,
   heading = "What will your miles cost?",
-  sub = "Any programme, any amount — priced instantly.",
-  // Product pages lock the widget to their own programme: the choice is
+  sub = "Any program, any amount — priced instantly.",
+  // Product pages lock the widget to their own program: the choice is
   // already made by being on the page, and a selector there mostly invites
   // leaving it. The homepage keeps the full selector.
   locked = false,
@@ -26,7 +26,7 @@ const {
 } = Astro.props;
 
 const EN = {
-  programme: "Programme",
+  program: "Program",
   howMany: "How many miles?",
   est: "Estimated cost",
   rate: "Rate",
@@ -34,7 +34,7 @@ const EN = {
   onQuote: "On quote",
   note: "Indicative rate — request a quote and we'll confirm your exact price.",
   continue: "Continue →",
-  back: "← Change programme",
+  back: "← Change program",
   milesUnit: "miles",
   name: "Name *",
   email: "Email *",
@@ -93,7 +93,7 @@ const start = defaultSlug
   : data.find((d) => d.verified) ?? data[0];
 
 // A sensible opening amount that is actually orderable for the starting
-// programme — every programme carries its own min/max, so a fixed 60,000 would
+// program — every program carries its own min/max, so a fixed 60,000 would
 // sit below the minimum on some of them.
 const startAmount = Math.min(Math.max(60000, start.min), start.max);
 
@@ -126,7 +126,7 @@ const notWired = labels.notWired ?? (orderEmail
   <div class="qw-step" data-step="1">
     <div class="qw-controls">
       <div class="field field-wide">
-        <label id="qw-program-label" for={locked ? undefined : "qw-program-btn"}>{L.programme}</label>
+        <label id="qw-program-label" for={locked ? undefined : "qw-program-btn"}>{L.program}</label>
         <!-- native select keeps the value and fires change; it is the source of
              truth, the listbox below is only the presentation -->
         <select id="qw-program" class="sr-only" tabindex="-1" aria-hidden="true">
@@ -199,7 +199,7 @@ const notWired = labels.notWired ?? (orderEmail
     <div class="qw-recap">
       <!-- on a locked widget step 1 holds nothing step 2 lacks (the amount is
            editable right here), so the back link only renders when going back
-           can change the programme -->
+           can change the program -->
       {!locked && <button type="button" class="qw-back" id="qw-back">{L.back}</button>}
       <div class="qw-recap-row">
         <span class="qw-recap-prog" id="qw-recap-prog"></span>
@@ -219,7 +219,7 @@ const notWired = labels.notWired ?? (orderEmail
     <form class="qw-form" id="qw-form">
       <input type="hidden" name="access_key" value={accessKey} />
       <input type="hidden" name="subject" value="New quote / order request — buyflightmiles" />
-      <input type="hidden" name="programme" id="qw-f-programme" />
+      <input type="hidden" name="program" id="qw-f-program" />
       <input type="hidden" name="miles" id="qw-f-miles" />
       <input type="hidden" name="estimate" id="qw-f-estimate" />
       <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
@@ -242,7 +242,7 @@ const notWired = labels.notWired ?? (orderEmail
       <button type="submit" class="btn btn-primary qw-cta" id="qw-submit">{L.submit}</button>
       <p class="form-msg" id="qw-msg" hidden></p>
       <!-- for visitors past the asking stage: the full order flow, carrying
-           the programme and amount they already picked -->
+           the program and amount they already picked -->
       <a class="qw-order" id="qw-order" href="/order">{L.orderInstead}</a>
       <p class="qw-foot">{L.foot}</p>
     </form>
@@ -283,8 +283,8 @@ const notWired = labels.notWired ?? (orderEmail
 
     const num = (n) => n.toLocaleString(LOC);
 
-    // Each programme sets its own order size. Carry those onto the input so the
-    // field validates against the programme actually selected, not a global
+    // Each program sets its own order size. Carry those onto the input so the
+    // field validates against the program actually selected, not a global
     // floor — otherwise the widget happily prices 10,000 SkyMiles against a
     // 25,000 minimum and quotes an order that would be turned away.
     function applyBounds(c) {
@@ -343,7 +343,7 @@ const notWired = labels.notWired ?? (orderEmail
       fix2.textContent = fixLabel;
       fix2.dataset.target = target;
 
-      // Never price an amount the programme won't accept, and don't let it
+      // Never price an amount the program won't accept, and don't let it
       // reach step 2 or the inbox — a quote we'd have to retract is worse than
       // no quote.
       $("qw-next").disabled = !canGo;
@@ -374,12 +374,12 @@ const notWired = labels.notWired ?? (orderEmail
       $("qw-recap-prog").textContent = c.label;
       $("qw-recap-cost").textContent = canGo ? approx + usd(cost) : "—";
       if (document.activeElement !== miles2) miles2.value = m || "";
-      $("qw-f-programme").value = c.label;
+      $("qw-f-program").value = c.label;
       $("qw-f-miles").value = canGo ? m : "";
       $("qw-f-estimate").value = canGo ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
     }
 
-    // ---- custom programme dropdown ------------------------------------
+    // ---- custom program dropdown ------------------------------------
     // The native <select> above still holds the value and fires change; this
     // only replaces its unstylable option list.
     (function () {
@@ -464,10 +464,10 @@ const notWired = labels.notWired ?? (orderEmail
       prog.addEventListener("change", paint);
     })();
 
-    // Switching programme clears the amount and asks for it again. Carrying the
+    // Switching program clears the amount and asks for it again. Carrying the
     // previous number over re-prices silently against a different rate and a
     // different min/max, so the visitor can end up looking at a figure they
-    // never asked for — and one the new programme may not even accept.
+    // never asked for — and one the new program may not even accept.
     prog.addEventListener("change", () => {
       const c = byId[prog.value];
       applyBounds(c);

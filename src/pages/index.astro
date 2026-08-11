@@ -16,8 +16,8 @@ const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
-// Hero stats: only figures we can stand behind. Windows differ by programme,
-// so the hero says "fast" and each programme page states its own number;
+// Hero stats: only figures we can stand behind. Windows differ by program,
+// so the hero says "fast" and each program page states its own number;
 // rating/completion appear once the client verifies them.
 //
 // `fastest` is the shortest CONFIRMED window — sorted by hours, since the
@@ -29,7 +29,7 @@ const fastest = airlines
 
 const heroStats = [
   { n: "Fast", l: "delivery" },
-  { n: String(airlines.length), l: "programmes" },
+  { n: String(airlines.length), l: "programs" },
   live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
 ].filter(Boolean);
 
@@ -132,7 +132,7 @@ const jsonld = {
       <div class="steps">
         <div class="step">
           <StepArt step="choose" />
-          <div class="n">Step 01</div><h4>Choose</h4><p>Pick your programme and how many miles you need. We come back with a firm price, free and with no obligation to take it.</p>
+          <div class="n">Step 01</div><h4>Choose</h4><p>Pick your program and how many miles you need. We come back with a firm price, free and with no obligation to take it.</p>
         </div>
         <div class="step">
           <StepArt step="pay" />
@@ -171,11 +171,11 @@ const jsonld = {
             <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
           </a>
         ))}
-        <!-- catch-all for programmes we don't list — a request, not a promise:
+        <!-- catch-all for programs we don't list — a request, not a promise:
              availability gets confirmed in the quote, never asserted here -->
         <a class="gcard gcard-ask" href="/request">
-          <div class="pname">Can't find your programme?</div>
-          <p class="askp">Not listed doesn't mean not available. Tell us the programme and amount, and we'll check it and quote you.</p>
+          <div class="pname">Can't find your program?</div>
+          <p class="askp">Not listed doesn't mean not available. Tell us the program and amount, and we'll check it and quote you.</p>
           <span class="askcta">Ask for a quote →</span>
         </a>
       </div>

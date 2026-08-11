@@ -1,9 +1,9 @@
 ---
-// Per-programme miles calculator — the landing for "{airline} miles
-// calculator" searches (~9.2k/mo across programmes). Deliberately distinct
+// Per-program miles calculator — the landing for "{airline} miles
+// calculator" searches (~9.2k/mo across programs). Deliberately distinct
 // from the /buy pages: those target buy intent and carry the sales story;
 // these are tool pages whose content is the arithmetic itself, computed from
-// the programme's own data so no two pages read the same.
+// the program's own data so no two pages read the same.
 //
 // The search intent is mixed: some visitors want to price buying miles (us),
 // some want the airline's earning calculator (not us). The page serves the
@@ -25,7 +25,7 @@ const verified = a.priceVerified;
 const approx = verified ? "" : "~";
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
 // "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
-// suffix when the programme name already ends in it
+// suffix when the program name already ends in it
 const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
 const per1000 = per1000Of(a.pricePerMile);
 // six values so the reference grid tiles 3×2 — five left an orphan card
@@ -50,7 +50,7 @@ const awards = [
 
 // Worked division example — deterministic hypothetical, framed as "say the
 // fare is": teaching arithmetic, not a claim about real fares. Uses the
-// programme's own priced award when one exists so no two pages read alike.
+// program's own priced award when one exists so no two pages read alike.
 const exName = namedAwards[0]?.label;
 const exMiles = namedAwards[0]?.miles ?? 70000;
 const exFare = Math.round((exMiles * 0.06) / 100) * 100;
@@ -156,7 +156,7 @@ const faqJsonLd = {
       </div>
       {!verified && (
         <p class="cmp-note" style="margin-top:18px">
-          The tilde matters: this programme's rate is indicative until your quote confirms it.
+          The tilde matters: this program's rate is indicative until your quote confirms it.
           The quote is always the binding number, never this page.
         </p>
       )}
@@ -164,7 +164,7 @@ const faqJsonLd = {
   </section>
 
   <!-- the math, spelled out — this page's job is the arithmetic; the
-       buy-vs-cash VERDICT tool lives on the programme page, not here twice -->
+       buy-vs-cash VERDICT tool lives on the program page, not here twice -->
   <section class="section wash-cool">
     <div class="container">
       <div class="section-head">

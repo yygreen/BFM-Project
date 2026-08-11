@@ -26,20 +26,20 @@ We're not booking on your behalf and we don't hold your ticket.
 
 ## Delivery time varies by program, and it isn't arbitrary
 
-Each programme has its own transfer mechanics, so the realistic window differs. Some post
-within a day; others take longer. The window shown on each programme's page is the one we
-commit to for that programme, not a single number applied across the board, because that
+Each program has its own transfer mechanics, so the realistic window differs. Some post
+within a day; others take longer. The window shown on each program's page is the one we
+commit to for that program, not a single number applied across the board, because that
 wouldn't be true.
 
 If a seller quotes you the same delivery time for every airline, that's worth a question.
 
 ## You get a firm quote before any money moves
 
-The price shown on a programme page is what that programme costs per mile. But before you
+The price shown on a program page is what that program costs per mile. But before you
 pay anything, we confirm in writing:
 
 - the exact rate for your amount
-- the delivery window for that specific programme
+- the delivery window for that specific program
 - the total, with nothing added afterwards
 
 Nothing is charged from this website. Payment happens off-site, after you've seen and
@@ -50,7 +50,7 @@ quoted, something has gone wrong. That shouldn't happen, and it's a fair reason 
 
 Ordering goes faster if you have three things to hand:
 
-1. **The programme.** The airline whose miles you need, not the airline you're flying.
+1. **The program.** The airline whose miles you need, not the airline you're flying.
    These differ more often than people expect: many Star Alliance flights can be booked
    with a partner's miles, sometimes far more cheaply.
 2. **The amount.** Check your current balance and the award price, then order the gap.

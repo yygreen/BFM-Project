@@ -15,12 +15,12 @@ Below is the checklist we'd want a first-time buyer to run, including on us.
 ## 1. Do they quote you before taking money?
 
 A legitimate seller can tell you, in writing and before payment, the exact rate, the total,
-and the delivery window for your specific programme. Vagueness here is the clearest early
+and the delivery window for your specific program. Vagueness here is the clearest early
 warning there is. "Send the payment and we'll sort the details" is not a process.
 
-## 2. Do their delivery times differ by programme?
+## 2. Do their delivery times differ by program?
 
-Transfer mechanics vary between loyalty programmes, so realistic delivery windows vary too.
+Transfer mechanics vary between loyalty programs, so realistic delivery windows vary too.
 A single blanket promise (everything in an hour, every airline) usually means the number
 was chosen for the marketing rather than the mechanics.
 
@@ -41,7 +41,7 @@ model; an implausible one is bait.
 ## 5. Do the reviews hold up when you actually read them?
 
 Check more than the score. Look at whether reviews are spread over time or arrived in a
-cluster, whether they describe specific programmes and outcomes, and how the company
+cluster, whether they describe specific programs and outcomes, and how the company
 responds to the bad ones. A response that engages with a complaint tells you more than a
 perfect average.
 
@@ -66,6 +66,6 @@ Run this list on us. If any answer is unsatisfying, that's a reasonable basis no
 from us or from anyone. A seller who's uncomfortable being checked is telling you
 something useful.
 
-**We are not affiliated with any airline or loyalty programme.** Anyone claiming an
+**We are not affiliated with any airline or loyalty program.** Anyone claiming an
 official partnership with an airline to sell you its miles is claiming something worth
 verifying directly with that airline.

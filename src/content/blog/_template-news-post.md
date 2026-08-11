@@ -1,5 +1,5 @@
 ---
-title: "Headline: what changed, for which programme"
+title: "Headline: what changed, for which program"
 description: "One or two sentences a searcher would read in Google. Max 200 characters. Say what changed and who it affects."
 date: 2026-01-01
 category: "News"
@@ -26,7 +26,7 @@ draft: true
   Delete this comment block before publishing.
 -->
 
-Lead with the change itself in the first sentence: what it is, which programme, and from
+Lead with the change itself in the first sentence: what it is, which program, and from
 when. People arriving from search want the fact, not a preamble.
 
 ## What changed

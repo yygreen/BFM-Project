@@ -19,7 +19,7 @@ three years is long enough to forget an account exists.
 
 ## How the clock actually works
 
-The rule is the same across the Avios programmes we deal in daily: British
+The rule is the same across the Avios programs we deal in daily: British
 Airways and Qatar Airways Privilege Club run on the same currency:
 
 - **The timer applies to the account, not to individual miles.** Avios don't
@@ -27,12 +27,12 @@ Airways and Qatar Airways Privilege Club run on the same currency:
   as one from last week.
 - **Any activity resets it.** Earning counts. Spending counts. The amount is
   irrelevant. A single Avios from a shopping-portal purchase does the job.
-- **36 months is generous, and that's the trap.** Programmes with 18-month
+- **36 months is generous, and that's the trap.** Programs with 18-month
   timers train their members to pay attention. Three years trains you to
   forget.
 
-Last checked against both programmes' published terms: August 2026. Expiry
-policies do move (BA has reshaped its programme more than once), so treat the
+Last checked against both programs' published terms: August 2026. Expiry
+policies do move (BA has reshaped its program more than once), so treat the
 number as current, not permanent.
 
 ## Keeping a balance alive costs nothing
@@ -58,7 +58,7 @@ The other half of the Avios conversations we have: the balance is alive and
 well, it's just 40,000 short of the Qsuite redemption it exists for. Topping
 up through the airline's own buy-Avios pages is priced for impulse, not for
 value. That is where a per-mile rate from a trader undercuts it, usually by
-a distance. The live rates for both programmes are on our
+a distance. The live rates for both programs are on our
 [British Airways](/buy/ba-avios) and [Qatar Airways](/buy/qatar-avios) pages,
 and the quote states the full cost before you commit to anything.
 
