@@ -23,7 +23,9 @@ const notWired = orderEmail
   : "Messages aren't connected yet — please reach us on one of the channels above and we'll come straight back to you.";
 
 // A phone-style handle can be a wa.me link; anything else we print as-is.
-const waHref = whatsapp.replace(/[^\d+]/g, "");
+// wa.me wants the international number with no punctuation — a leading + in
+// the path is not a valid link.
+const waHref = whatsapp.replace(/\D/g, "");
 ---
 <Base
   title="Contact buyflightmiles | Ask Before You Order"

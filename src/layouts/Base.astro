@@ -18,6 +18,27 @@ const programs = (await getCollection("airlines"))
 const blogCategories = await getCategoryCounts();
 const latestPosts = (await getPosts()).slice(0, 2);
 
+// Footer contact block. Same rule as everywhere else: a channel is listed only
+// while site.json marks the contact details verified, and an empty field drops
+// its row rather than printing a blank one. Mirrors the ways on /contact.
+const c = siteData.contact;
+const tel = (v: string) => v.replace(/[^\d+]/g, "");
+// wa.me takes the number in international format with no punctuation at all —
+// a leading + in the path is not a valid link.
+const wa = (v: string) => v.replace(/\D/g, "");
+const contactWays = c.verified
+  ? [
+      c.orderEmail && { label: "Email", value: c.orderEmail, href: `mailto:${c.orderEmail}` },
+      c.phone && { label: "Phone", value: c.phone, href: `tel:${tel(c.phone)}` },
+      c.whatsapp && {
+        label: "WhatsApp",
+        value: c.whatsapp,
+        href: `https://wa.me/${wa(c.whatsapp)}`,
+        external: true,
+      },
+    ].filter(Boolean)
+  : [];
+
 const {
   title = "buyflightmiles: Buy airline miles, delivered fast",
   description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, and your exact rate confirmed before you pay.",
@@ -183,11 +204,30 @@ const hreflangs = alternates.length
   <footer class="site-footer">
     <div class="container">
       <div class="cols">
-        <div>
+        <!-- The brand column is the widest of the three and used to hold one
+             sentence, leaving a column of empty navy beside two tall link
+             lists. It carries the description, then the ways to reach a human:
+             a phone number in the footer is worth more here than anywhere else
+             on the site, because the thing being sold is trust. The details
+             render only while contact.verified holds. -->
+        <div class="foot-brand">
           <div class="brand"><Logo variant="light" size={40} /></div>
-          <p style="color:#B7AA8E; font-size:13.5px; max-width:36ch; margin-top:12px; line-height:1.6;">
+          <p>
             Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, {siteData.guarantee.verified ? "and your payment held until your miles arrive" : "and your exact rate confirmed before you pay"}.
           </p>
+          <p>
+            Miles are transferred into the account you already hold, across {programs.length} loyalty programs. Ask for a quote and we'll confirm your rate and delivery window before anything is paid.
+          </p>
+          {contactWays.length > 0 && (
+            <div class="foot-contact">
+              <h5>Talk to us</h5>
+              {contactWays.map((w) => (
+                <a href={w.href} rel={w.external ? "noopener" : undefined} target={w.external ? "_blank" : undefined}>
+                  <span>{w.label}</span>{w.value}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
         <div>
           <h5><a href="/blog">Blog</a></h5>

@@ -68,6 +68,14 @@ img, svg { max-width:100%; }
 .site-footer .brand span { color:#8AA0FF; }
 .site-footer .brand em { font-style:normal; color:var(--coral); }
 .site-footer .cols { display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px; }
+/* brand column: description then the contact ways, so the widest column
+   carries content instead of a tall block of empty navy */
+.foot-brand p { color:#B7AA8E; font-size:13.5px; max-width:38ch; line-height:1.6; margin:12px 0 0; }
+.foot-contact { margin-top:26px; }
+.foot-contact h5 { margin-bottom:12px; }
+.foot-contact a { font-size:14px; margin-bottom:8px; }
+.foot-contact a span { display:inline-block; min-width:82px; color:#7B80A8; }
+.foot-contact a:hover span { color:#9AA0C8; }
 @media (max-width:900px){ .site-footer .cols { grid-template-columns:1fr 1fr; } }
 @media (max-width:520px){ .site-footer .cols { grid-template-columns:1fr; } }
 /* the roster as a wide band: 21 programs in four short columns instead of
