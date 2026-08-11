@@ -96,7 +96,13 @@ const hreflangs = alternates.length
                 </a>
               ))}
             </div>
-            <a class="dd-all" href="/#programs">Compare all {programs.length} programs →</a>
+            {/* two exits from a 21-item list: the visitor who found their
+                programme is served by the list itself, and these catch the
+                two who weren't — one wants to compare, one can't see theirs */}
+            <div class="dd-foot">
+              <a class="dd-all" href="/#programs">Compare all {programs.length} programs →</a>
+              <a class="dd-all dd-ask" href="/request">Programme not listed? →</a>
+            </div>
           </div>
         </details>
         <a class="link" href="/agents">For agents</a>
