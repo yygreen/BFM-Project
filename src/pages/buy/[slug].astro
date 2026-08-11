@@ -34,6 +34,14 @@ const progShort = a.program.replace(/\s*\(.*\)$/, "");
 // "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
 // suffix when the programme name already ends in it
 const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
+// The programme name inside the h1 gets the same blue highlight the homepage
+// gives its key phrase — it's the one word on the page a visitor is checking
+// they landed on. Headlines are written "<verb> <brand + programme> <tail>",
+// so the middle is the brand phrase; anything that doesn't fit the shape
+// renders plain rather than guessing where the name ends.
+const hm = a.heroHeadline.match(/^(Buy|Top up)\s+(.+?)(\s+miles\.|\s+points\.|\s+with precision\.|\.)$/);
+const head = hm ? { lead: `${hm[1]} `, name: hm[2], tail: hm[3] } : null;
+
 const rev = realReviews[0];
 const years = yearsTrading();
 const related = a.related
@@ -83,7 +91,7 @@ const jsonld = {
           ]} />
           <span class="kicker">{a.alliance}</span>
           {a.i18n?.ar && <a class="lang-toggle" href={`/ar/buy/${a.slug}`} lang="ar" hreflang="ar">العربية</a>}
-          <h1>{a.heroHeadline}</h1>
+          <h1>{head ? <>{head.lead}<span class="hl">{head.name}</span>{head.tail}</> : a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#quote">{verified ? `Buy ${a.program}` : "Request a live quote"}</a>

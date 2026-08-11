@@ -169,10 +169,26 @@ const jsonld = {
         {coverage.map((a) => (
           <a class="gcard gcard-mini" href={`/buy/${a.slug}`}>
             <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={40} />
-            <div class="pname">{a.airline}</div>
-            <div class="plabel">{a.program}</div>
+            {/* the logo is a wordmark, so repeating the carrier under it says
+                the same thing twice; entries falling back to the code badge
+                still need naming. The logo's alt text carries it either way. */}
+            {a.logo ? (
+              <div class="pname">{a.program}</div>
+            ) : (
+              <>
+                <div class="pname">{a.airline}</div>
+                <div class="plabel">{a.program}</div>
+              </>
+            )}
           </a>
         ))}
+        <!-- the "and more on request" in the intro needs somewhere to go. No
+             body copy here: it sits in a row of logo-and-name cards, and a
+             paragraph would push the whole row taller than every card in it -->
+        <a class="gcard gcard-mini gcard-ask" href="/request">
+          <div class="pname">Programme not listed?</div>
+          <span class="askcta">Ask for a quote →</span>
+        </a>
       </div>
     </div>
   </section>
