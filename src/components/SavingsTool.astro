@@ -64,11 +64,11 @@ const L = { ...EN, ...labels };
     <div class="stool-fields">
       <div class="field">
         <label for="st-miles">{L.milesLabel}</label>
-        <input id="st-miles" type="number" inputmode="numeric" step="1000" min="1000" value={startMiles} />
+        <input id="st-miles" type="number" inputmode="numeric" step="1" min="1000" value={startMiles} />
       </div>
       <div class="field">
         <label for="st-fare">{L.fareLabel}</label>
-        <input id="st-fare" type="number" inputmode="numeric" step="50" min="1" placeholder={L.farePh} />
+        <input id="st-fare" type="number" inputmode="numeric" step="any" min="1" placeholder={L.farePh} />
       </div>
     </div>
   </div>

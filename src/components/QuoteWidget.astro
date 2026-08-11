@@ -172,7 +172,7 @@ const notWired = labels.notWired ?? (orderEmail
       </div>
       <div class="field field-wide">
         <label for="qw-miles">{L.howMany}</label>
-        <input id="qw-miles" type="number" inputmode="numeric" step="1000" value={startAmount} min={start.min} max={start.max} />
+        <input id="qw-miles" type="number" inputmode="numeric" step="1" value={startAmount} min={start.min} max={start.max} />
         <span class="field-help" id="qw-range"></span>
         <button type="button" class="qw-minfix" id="qw-minfix-1" hidden></button>
       </div>
@@ -207,7 +207,7 @@ const notWired = labels.notWired ?? (orderEmail
         <span class="qw-recap-prog" id="qw-recap-prog"></span>
         <label class="qw-recap-edit">
           <span class="sr-only">Miles</span>
-          <input id="qw-miles-2" type="number" inputmode="numeric" step="1000" />
+          <input id="qw-miles-2" type="number" inputmode="numeric" step="1" />
           <span>{L.milesUnit}</span>
         </label>
         <b class="qw-recap-cost" id="qw-recap-cost"></b>
