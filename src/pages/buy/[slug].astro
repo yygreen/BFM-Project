@@ -238,11 +238,10 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- HOW IT WORKS + COMPARE, folded into one slim band. The old two sections
-       repeated the widget's own numbers (rate, min/max, delivery) and retold
-       the process the hero already explains — and the "protected checkout"
-       step copy contradicted the payment-off-site rule. What survives is the
-       one thing the widget doesn't say: the airline-price-on-the-quote note. -->
+  <!-- HOW IT WORKS, one slim band. The old two sections repeated the widget's
+       own numbers (rate, min/max, delivery) and retold the process the hero
+       already explains, and the "protected checkout" step copy contradicted
+       the payment-off-site rule. Three beats is what's left. -->
   <section class="section" id="how">
     <div class="container">
       <div class="section-head">
@@ -255,12 +254,6 @@ const jsonld = {
         <div class="step"><div class="n">02</div><h4>Pay</h4><p>Off-site, after you approve the quote. Nothing is ever charged on this website.</p></div>
         <div class="step"><div class="n">03</div><h4>Fly</h4><p>{a.deliveryVerified ? `Miles land in your own ${progShort} account, ${a.delivery.toLowerCase()} — then book the seat.` : `Miles land in your own ${progShort} account on the window your quote confirms — then book the seat.`}</p></div>
       </div>
-      <p class="cmp-note" style="margin-top:26px">
-        {a.airline} sets its own price for {progShort}, and it moves with their promotions.
-        Quoting a figure we can't stand behind would help nobody, so we put the airline's
-        current price next to yours <b>on the quote itself</b> — the difference is in front
-        of you while you still have the choice.
-      </p>
     </div>
   </section>
 
