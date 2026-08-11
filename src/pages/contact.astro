@@ -61,11 +61,15 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
               <div class="field"><label for="c-email">Email *</label><input id="c-email" name="email" type="email" required /></div>
             </div>
             <div class="field"><label for="c-topic">What's this about?</label>
+              {/* Only what this form answers well. A new quote and an unlisted
+                  programme were offered here too, but both need the programme
+                  and the amount to get a useful reply, and a free-text message
+                  rarely carries them — those live in Faster routes alongside,
+                  where the form asks for the figures. */}
               <select id="c-topic" name="topic" class="c-select">
-                <option>A quote or an order</option>
-                <option>A programme that isn't listed</option>
+                <option>An order I've already placed</option>
                 <option>How buying miles works</option>
-                <option>Agent or broker pricing</option>
+                <option>Payment and delivery</option>
                 <option>Something else</option>
               </select>
             </div>
@@ -114,7 +118,7 @@ const waHref = whatsapp.replace(/[^\d+]/g, "");
 
           <div class="side-box">
             <p class="lab">Faster routes</p>
-            <p class="cside-p">Know the programme and the amount? The quote flow prices it and sends the request in one step.</p>
+            <p class="cside-p">If you know the programme and the amount, these get you a price in one step. This form is for everything else.</p>
             <a class="cside-link" href="/#quote">Get a price now →</a>
             <a class="cside-link" href="/request">Programme not listed? →</a>
             <a class="cside-link" href="/faq">Read the FAQ →</a>
