@@ -1,0 +1,125 @@
+---
+// Standalone FAQ — the destination the old site's /faqs URL pointed at, and
+// the page that owns the site-wide question set. The homepage keeps a short
+// version and links here; programme pages keep their own per-programme sets.
+//
+// Questions are grouped, because a flat list of fifteen is a wall: buying,
+// delivery, trust, payment. The shared <Faq> component supplies the core
+// answers (which stay wired to site.json's verified flags); the page adds the
+// site-wide questions that only make sense off a programme page.
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Faq from "../components/Faq.astro";
+import { getCollection } from "astro:content";
+import { site, live, quoteFormReady } from "../lib/site";
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+const verified = airlines.filter((a) => a.priceVerified);
+const cheapest = [...verified].sort((a, b) => a.pricePerMile - b.pricePerMile)[0];
+const fastest = [...airlines]
+  .filter((a) => a.deliveryVerified)
+  .sort((a, b) => parseInt(a.delivery.replace("Within ", ""), 10) - parseInt(b.delivery.replace("Within ", ""), 10))[0];
+
+// Site-wide questions that don't belong on a single programme's page. Every
+// answer here is true by construction or drawn from confirmed data — nothing
+// asserts a client fact that isn't verified.
+const extras = [
+  {
+    q: "Which airline programmes can I buy miles for?",
+    a: `We cover ${airlines.length} programmes today, from ${airlines[0].airline} to ${airlines[airlines.length - 1].airline}, across Star Alliance, Oneworld, SkyTeam and the independent carriers. Each has its own page with its rate, order limits and delivery window. If yours isn't listed, send a request — not listed doesn't mean not available.`,
+  },
+  {
+    q: "How do I order miles?",
+    a: "Price the amount on any programme page, then send the request with your name and email. We reply with a firm quote confirming the exact rate and delivery window. Nothing is charged on this website, and we only ask for your loyalty account number once you've approved that quote.",
+  },
+  {
+    q: "Do I need to open a new account?",
+    a: "No. The miles are transferred into the loyalty account you already hold, and you book the award yourself, directly with the airline. The reservation is in your name and stays under your control. We are not affiliated with any airline or loyalty programme.",
+  },
+  {
+    q: "Are taxes and carrier surcharges included?",
+    a: "No. You're buying miles; the airline bills award taxes and any carrier surcharges separately when you book the seat. Those vary by route and programme, and some programmes pass on far less than others, which is worth checking before you decide how many miles to buy.",
+  },
+  {
+    q: "What if the programme I want is out of stock?",
+    a: "Availability moves with sourcing, and a programme showing limited availability today may open up shortly. Send the request anyway: we'll tell you honestly whether we can fill it and when, rather than taking an order we can't deliver.",
+  },
+  {
+    q: "Can I buy miles for someone else?",
+    a: "Tell us on the request and we'll confirm what's possible for that specific programme. Rules on transferring into another person's account differ from programme to programme, so it's a question we answer per case rather than with a blanket yes.",
+  },
+];
+---
+<Base
+  title="FAQ | Buying Airline Miles, Answered | buyflightmiles"
+  description={`Answers on buying airline miles: what it costs, how fast miles arrive, how payment works and whether it's worth it. ${airlines.length} programmes covered.`}
+  slug="faq"
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "FAQ" },
+      ]} />
+      <div class="section-head">
+        <span class="kicker">FAQ</span>
+        <h1>Buying airline miles, answered</h1>
+        <p>
+          The questions people actually ask before a first order. If yours isn't
+          here, <a href="/contact">ask us directly</a> — a real answer beats a guess.
+        </p>
+      </div>
+      <div class="spec" style="margin-top:0">
+        <span class="spec-it">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <b>{airlines.length}</b>&nbsp;programmes
+        </span>
+        {cheapest && (
+          <span class="spec-it">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            from <b>{cheapest.pricePerMile}¢</b>&nbsp;per mile
+          </span>
+        )}
+        {fastest && (
+          <span class="spec-it">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            delivery from <b>{fastest.delivery.replace("Within ", "")}</b>
+          </span>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section wash-cool" style="padding-top:0">
+    <div class="container">
+      <Faq delivery={fastest ? fastest.delivery.replace("Within ", "") : "24 hours"} extras={extras} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Questions about a specific programme</h2>
+        <p>Each programme page answers its own: the rate, the order limits, the delivery window and the quirks that change how you should buy and spend those miles.</p>
+      </div>
+      <div class="related related-inline">
+        <span class="related-lab">Programmes</span>
+        {airlines.map((a) => (
+          <a href={`/buy/${a.slug}`}>{a.airline}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section wash-cool">
+    <div class="container ctaband">
+      <div>
+        <h3>Still have a question?</h3>
+        <p>Ask before you order — we'd rather answer it than have you guess. Free, no-obligation, and nothing is charged on this site.</p>
+      </div>
+      <a class="btn btn-primary" href="/contact">Contact us</a>
+    </div>
+  </section>
+</Base>

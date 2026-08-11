@@ -1,0 +1,171 @@
+---
+// Contact — the general enquiry surface. Deliberately distinct from /request
+// (a programme we don't list) and from the quote widget (price an amount and
+// send it): this is for everything else, and for buyers who want to talk to a
+// person before they order at all, which in a scam-wary market is many of them.
+//
+// Every channel renders only when its detail is confirmed in site.json, so an
+// unconfirmed inbox or WhatsApp number is suppressed rather than shown as a
+// dead link. The form uses the same Web3Forms wiring and not-wired fallback as
+// the others.
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { site, quoteFormReady } from "../lib/site";
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+const agentEmail = site.contact.agentEmail;
+const whatsapp = site.contact.verified ? site.contact.whatsapp : "";
+const telegram = site.contact.verified ? site.contact.telegram : "";
+const notWired = orderEmail
+  ? `Messages aren't connected yet — please email ${orderEmail} and we'll come straight back to you.`
+  : "Messages aren't connected yet — please reach us on one of the channels above and we'll come straight back to you.";
+
+// A phone-style handle can be a wa.me link; anything else we print as-is.
+const waHref = whatsapp.replace(/[^\d+]/g, "");
+---
+<Base
+  title="Contact buyflightmiles | Ask Before You Order"
+  description="Questions before you buy airline miles? Send a message and we'll answer with real numbers. Quotes are free and no-obligation, and nothing is charged on this site."
+  slug="contact"
+>
+  <section class="section" style="padding-bottom:14px">
+    <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Contact" },
+      ]} />
+      <div class="section-head">
+        <span class="kicker">Contact</span>
+        <h1>Talk to us before you order</h1>
+        <p>
+          A four-figure purchase deserves a straight answer first. Ask anything — how a
+          programme's transfer works, whether an award is worth buying for, what we can
+          actually source right now. Quotes are free and no-obligation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wash-cool" style="padding-top:0">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <form class="formcard" id="contact-form" data-key={accessKey ? "1" : ""}>
+            <input type="hidden" name="access_key" value={accessKey} />
+            <input type="hidden" id="contact-fallback" value={notWired} />
+            <input type="hidden" name="subject" value="Contact enquiry — buyflightmiles" />
+            <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+            <div class="form-grid">
+              <div class="field"><label for="c-name">Name *</label><input id="c-name" name="name" type="text" required /></div>
+              <div class="field"><label for="c-email">Email *</label><input id="c-email" name="email" type="email" required /></div>
+            </div>
+            <div class="field"><label for="c-topic">What's this about?</label>
+              <select id="c-topic" name="topic" class="c-select">
+                <option>A quote or an order</option>
+                <option>A programme that isn't listed</option>
+                <option>How buying miles works</option>
+                <option>Agent or broker pricing</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:4px">
+              <label for="c-message">Your message *</label>
+              <textarea id="c-message" name="message" rows="5" required placeholder="The programme and amount, the award you're chasing, or the question that's holding you up."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="contact-submit" style="width:100%;margin-top:14px">Send message</button>
+            <p class="form-msg" id="contact-msg" hidden></p>
+            <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">
+              Nothing is charged on this site. We never ask for your loyalty account password.
+            </p>
+          </form>
+        </div>
+
+        <aside class="contact-side">
+          <div class="side-box">
+            <p class="lab">Ways to reach us</p>
+            {orderEmail ? (
+              <a class="cway" href={`mailto:${orderEmail}`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                <span><b>Email</b>{orderEmail}</span>
+              </a>
+            ) : (
+              <p class="cway-none">Our enquiry inbox is being set up — use the form and it reaches us all the same.</p>
+            )}
+            {whatsapp && (
+              <a class="cway" href={`https://wa.me/${waHref}`} rel="noopener" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.2-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg>
+                <span><b>WhatsApp</b>{whatsapp}</span>
+              </a>
+            )}
+            {telegram && (
+              <a class="cway" href={`https://t.me/${telegram.replace(/^@/, "")}`} rel="noopener" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3 2 10.5l6 2.2L20 6l-9 8.5.4 5.5 3-3.6 4.3 3.1z"/></svg>
+                <span><b>Telegram</b>{telegram}</span>
+              </a>
+            )}
+            {agentEmail && agentEmail !== orderEmail && (
+              <a class="cway" href={`mailto:${agentEmail}`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+                <span><b>Agents &amp; brokers</b>{agentEmail}</span>
+              </a>
+            )}
+          </div>
+
+          <div class="side-box">
+            <p class="lab">Faster routes</p>
+            <p class="cside-p">Know the programme and the amount? The quote flow prices it and sends the request in one step.</p>
+            <a class="cside-link" href="/#quote">Price my miles →</a>
+            <a class="cside-link" href="/request">Programme not listed? →</a>
+            <a class="cside-link" href="/faq">Read the FAQ →</a>
+            <a class="cside-link" href="/agents">Agent &amp; broker pricing →</a>
+          </div>
+
+          <div class="side-box">
+            <p class="lab">Before you write</p>
+            <p class="cside-p">
+              We never ask for your loyalty account password — the account number and name
+              are all a transfer needs. Payment is handled off this site, after you've
+              approved a quote, and no card details are ever collected here.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById("contact-form");
+      const msg = document.getElementById("contact-msg");
+      const btn = document.getElementById("contact-submit");
+      if (!form) return;
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!form.dataset.key) {
+          msg.textContent = document.getElementById("contact-fallback").value;
+          msg.className = "form-msg err"; msg.hidden = false; return;
+        }
+        const label = btn.textContent;
+        btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+        try {
+          const res = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          });
+          const data = await res.json();
+          if (data.success) {
+            msg.textContent = "Message sent. We'll come back to you shortly.";
+            msg.className = "form-msg ok"; form.reset();
+          } else { throw new Error(data.message); }
+        } catch {
+          msg.textContent = "Something went wrong sending this — please try again.";
+          msg.className = "form-msg err";
+        } finally {
+          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+        }
+      });
+    })();
+  </script>
+</Base>

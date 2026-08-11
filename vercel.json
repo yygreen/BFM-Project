@@ -146,6 +146,16 @@
       "permanent": true
     },
     {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contactus",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
       "source": "/airlines/:rest*",
       "destination": "/#programs",
       "permanent": true
@@ -157,7 +167,7 @@
     },
     {
       "source": "/faqs",
-      "destination": "/#faq",
+      "destination": "/faq",
       "permanent": true
     },
     {

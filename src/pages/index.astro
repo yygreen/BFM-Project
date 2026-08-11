@@ -215,7 +215,12 @@ const jsonld = {
         <span class="kicker">Good to know</span>
         <h2>Questions about buying airline miles</h2>
       </div>
-      <Faq delivery="24 hours" />
+      <!-- the full set, and its FAQPage markup, live on /faq — the homepage
+           shows the first few and sends the rest there -->
+      <Faq delivery="24 hours" limit={5} jsonld={false} />
+      <p style="text-align:center;margin-top:22px">
+        <a class="btn btn-secondary" href="/faq">Read all questions</a>
+      </p>
     </div>
   </section>
 </Base>

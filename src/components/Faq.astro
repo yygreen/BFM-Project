@@ -19,6 +19,11 @@ const {
   pricePerMile = null,
   priceVerified = false,
   extras = [],          // per-programme Q&As from airlines.json (faqExtras)
+  // The homepage shows a shortened set and links to /faq for the rest; the
+  // full set — and the FAQPage markup for it — lives on that page alone, so
+  // the same questions aren't published twice under two URLs.
+  limit = null,
+  jsonld = true,
 } = Astro.props;
 
 const window = delivery.replace("Within ", "");
@@ -86,20 +91,22 @@ const faqs = [
   { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific programme, reach out before ordering and we'll walk you through it." },
 ];
 
+const shown = limit ? faqs.slice(0, limit) : faqs;
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
+  mainEntity: shown.map((f) => ({
     "@type": "Question",
     name: f.q,
     acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 ---
-{faqs.map((f) => (
+{shown.map((f) => (
   <details class="faq" open={f.open}>
     <summary>{f.q}<span class="mk">+</span></summary>
     <div class="ans">{f.a}</div>
   </details>
 ))}
-<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+{jsonld && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
