@@ -95,9 +95,12 @@ const startAmount = Math.min(Math.max(60000, start.min), start.max);
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
+// Until an inbox is configured the form refuses to send rather than dropping
+// an enquiry silently. Whatever the state, the message hands over a route the
+// visitor can actually take.
 const notWired = labels.notWired ?? (orderEmail
   ? `Quote requests aren't connected yet — please email ${orderEmail} and we'll price it for you.`
-  : "Quote requests aren't connected yet — please contact us directly and we'll price it for you.");
+  : "Quote requests aren't connected yet. Send it through the contact page and we'll price it for you.");
 ---
 <div class="qw" data-key={accessKey ? "1" : ""}>
   <script type="application/json" set:html={JSON.stringify(locked ? [start] : data)} class="qw-data"></script>
@@ -491,6 +494,18 @@ const notWired = labels.notWired ?? (orderEmail
       prog.focus({ preventScroll: true });
     });
 
+      // No inbox configured yet: say so and hand over a route that works.
+      function showFallback(el, text) {
+        el.textContent = text + " ";
+        const a = document.createElement("a");
+        a.href = "/contact";
+        a.textContent = "Contact us →";
+        a.style.fontWeight = "600";
+        a.style.textDecoration = "underline";
+        el.appendChild(a);
+        el.className = "form-msg err";
+        el.hidden = false;
+      }
     // submit
     const form = $("qw-form");
     const msg = $("qw-msg");
@@ -498,8 +513,8 @@ const notWired = labels.notWired ?? (orderEmail
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!root.dataset.key) {
-        msg.textContent = $("qw-fallback").value;
-        msg.className = "form-msg err"; msg.hidden = false; return;
+        showFallback(msg, $("qw-fallback").value);
+          return;
       }
       const label = btn.textContent;
       btn.disabled = true; btn.textContent = T.sending; msg.hidden = true;

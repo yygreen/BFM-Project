@@ -40,7 +40,7 @@ const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
 const notWired = orderEmail
   ? `Orders aren't connected yet — please email ${orderEmail} with the details below and we'll pick it up from there.`
-  : "Orders aren't connected yet — please contact us directly with these details and we'll pick it up from there.";
+  : "Orders aren't connected yet. Send these details through the contact page and we'll pick it up from there.";
 
 // Payment options render only once the client has confirmed them. Until then
 // the step asks for a preference in words rather than inventing a list.
@@ -304,14 +304,26 @@ const methods = site.payments.verified ? site.payments.methods : [];
         });
       });
 
+      // No inbox configured yet: say so and hand over a route that works.
+      function showFallback(el, text) {
+        el.textContent = text + " ";
+        const a = document.createElement("a");
+        a.href = "/contact";
+        a.textContent = "Contact us →";
+        a.style.fontWeight = "600";
+        a.style.textDecoration = "underline";
+        el.appendChild(a);
+        el.className = "form-msg err";
+        el.hidden = false;
+      }
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const msg = $("order-msg");
         const btn = $("order-submit");
         if (!valid(3)) return;
         if (!form.dataset.key) {
-          msg.textContent = $("order-fallback").value;
-          msg.className = "form-msg err"; msg.hidden = false; return;
+          showFallback(msg, $("order-fallback").value);
+          return;
         }
         const label = btn.textContent;
         btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;

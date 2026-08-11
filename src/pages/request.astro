@@ -13,7 +13,7 @@ const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
 const notWired = orderEmail
   ? `Requests aren't connected yet — please email ${orderEmail} and we'll check it for you.`
-  : "Requests aren't connected yet — please contact us directly and we'll check it for you.";
+  : "Requests aren't connected yet. Send it through the contact page and we'll check it for you.";
 ---
 <Base
   title="Request a programme: buyflightmiles"
@@ -59,11 +59,23 @@ const notWired = orderEmail
       const msg = document.getElementById("request-msg");
       const btn = document.getElementById("request-submit");
       if (!form) return;
+      // No inbox configured yet: say so and hand over a route that works.
+      function showFallback(el, text) {
+        el.textContent = text + " ";
+        const a = document.createElement("a");
+        a.href = "/contact";
+        a.textContent = "Contact us →";
+        a.style.fontWeight = "600";
+        a.style.textDecoration = "underline";
+        el.appendChild(a);
+        el.className = "form-msg err";
+        el.hidden = false;
+      }
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!form.dataset.key) {
-          msg.textContent = document.getElementById("request-fallback").value;
-          msg.className = "form-msg err"; msg.hidden = false; return;
+          showFallback(msg, document.getElementById("request-fallback").value);
+          return;
         }
         const label = btn.textContent;
         btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
