@@ -22,11 +22,26 @@ const fmtBig = (n) =>
 // headline stat band — the scale figures buyers compare vendors on. The two
 // client-supplied ones render only when live (or staged as placeholders); the
 // programme count and years are computed, so the band is never empty.
+//
+// A single review platform joins the band as its own figure rather than
+// sitting under it as a lone full-width bar; two or more keep their own row,
+// where they read as a set instead of an orphan.
+const soloReview = realReviews.length === 1 ? realReviews[0] : null;
 const bandStats = [
   live(site.trust.milesDelivered) ? { n: `${fmtBig(Number(site.trust.milesDelivered.value))}+`, l: "miles delivered" } : null,
   live(site.trust.transfersCompleted) ? { n: `${fmtBig(Number(site.trust.transfersCompleted.value))}+`, l: "transfers completed" } : null,
   { n: `${programCount}`, l: "programmes covered" },
   years !== null ? { n: `${years}+`, l: "years trading" } : null,
+  soloReview
+    ? {
+        n: `${soloReview.rating}`,
+        sup: `/${soloReview.outOf}`,
+        l: `${soloReview.platform}${soloReview.count ? ` · ${soloReview.count.toLocaleString("en-US")} reviews` : ""}`,
+        stars: Math.round(soloReview.rating),
+        outOf: Math.round(soloReview.outOf),
+        href: soloReview.url || null,
+      }
+    : null,
 ].filter(Boolean);
 
 // How many tiles actually render: two structural ones (the other trust facts
@@ -93,13 +108,29 @@ const specs = [
 
 {bandStats.length > 0 && (
   <div class="statband">
-    {bandStats.map((s) => (
-      <div class="sb"><b>{s.n}</b><span>{s.l}</span></div>
-    ))}
+    {bandStats.map((s) => {
+      const Tag = s.href ? "a" : "div";
+      return (
+        <Tag
+          class={`sb${s.stars ? " sb-rev" : ""}`}
+          href={s.href || undefined}
+          rel={s.href ? "nofollow noopener" : undefined}
+          target={s.href ? "_blank" : undefined}
+        >
+          {s.stars && (
+            <span class="sb-stars" aria-hidden="true">
+              {"★".repeat(s.stars)}<span class="sb-dim">{"★".repeat(Math.max(0, s.outOf - s.stars))}</span>
+            </span>
+          )}
+          <b>{s.n}{s.sup && <small>{s.sup}</small>}</b>
+          <span>{s.l}</span>
+        </Tag>
+      );
+    })}
   </div>
 )}
 
-{realReviews.length > 0 && (
+{realReviews.length > 1 && (
   <div class="revs">
     {realReviews.map((r) => (
       <a class="rev" href={r.url || undefined} rel="nofollow noopener" target={r.url ? "_blank" : undefined}>

@@ -236,6 +236,17 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .statband .sb { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:20px 22px; text-align:center; }
 .statband .sb b { display:block; font-family:var(--mono); font-weight:600; font-size:clamp(26px,3vw,34px); line-height:1.1; color:var(--cobalt); font-variant-numeric:tabular-nums; }
 .statband .sb span { display:block; font-size:13px; color:var(--text-3); margin-top:5px; }
+.statband .sb b small { font-size:.5em; color:var(--text-3); font-weight:600; }
+/* the rating card: stars sit above the score so it still reads as a review
+   rather than another counted figure */
+.statband a.sb { transition:border-color .18s ease, transform .18s ease; }
+.statband a.sb:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
+/* scoped past `.statband .sb span`, which would otherwise grey the stars out */
+.statband .sb .sb-stars { display:block; color:#F5A623; font-size:15px; letter-spacing:1px;
+  line-height:1; margin:0 0 7px; }
+.statband .sb .sb-dim { color:var(--line-2); }
+/* two-up on phones leaves the fifth card orphaned — the rating spans instead */
+@media (max-width:560px){ .statband .sb-rev { grid-column:1 / -1; } }
 
 /* ---- icon tiles / steps ---- */
 .step-art { width:66px; height:66px; border-radius:18px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; box-shadow:var(--shadow-sm); }
