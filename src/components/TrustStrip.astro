@@ -117,12 +117,14 @@ const specs = [
           rel={s.href ? "nofollow noopener" : undefined}
           target={s.href ? "_blank" : undefined}
         >
+          {/* stars sit under the score, not over it, so every card's figure
+              starts at the same height across the row */}
+          <b>{s.n}{s.sup && <small>{s.sup}</small>}</b>
           {s.stars && (
             <span class="sb-stars" aria-hidden="true">
               {"★".repeat(s.stars)}<span class="sb-dim">{"★".repeat(Math.max(0, s.outOf - s.stars))}</span>
             </span>
           )}
-          <b>{s.n}{s.sup && <small>{s.sup}</small>}</b>
           <span>{s.l}</span>
         </Tag>
       );
