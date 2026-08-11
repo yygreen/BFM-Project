@@ -24,6 +24,11 @@ const {
   // full set — and the FAQPage markup for it — lives on that page alone, so
   // the same questions aren't published twice under two URLs.
   limit = null,
+  // Questions to leave out, by key. A program page omits "worth" because the
+  // cash-vs-miles verdict is that program's calculator page's job, and asking
+  // it in both places puts two near-identical Q&As into two FAQPage blocks on
+  // one site, where they compete rather than compound.
+  omit = [],
   jsonld = true,
 } = Astro.props;
 
@@ -83,7 +88,7 @@ const faqs = [
   // program-specific questions slot in here, near the top, and join the
   // FAQPage JSON-LD with everything else
   ...extras.map((e) => ({ q: e.q, a: e.a })),
-  { q: "Is buying airline miles worth it?", a: worthAnswer },
+  ...(omit.includes("worth") ? [] : [{ q: "Is buying airline miles worth it?", a: worthAnswer }]),
   { q: "What payment methods do you accept?", a: paymentAnswer },
   ...(site.guarantee.verified && site.guarantee.policy
     ? [{ q: "What if my miles don't arrive?", a: site.guarantee.policy }]
