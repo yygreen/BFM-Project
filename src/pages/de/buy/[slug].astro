@@ -73,7 +73,7 @@ const DE_WIDGET = {
   // figures by this rather than the English default
   numLocale: "de-DE",
   fxRate: fx?.rate ?? null,
-  fxNote: fx ? `≈ {v} € nach EZB-Kurs vom ${deDate(fx.date)} · abgerechnet wird in US-Dollar` : "",
+  fxNote: fx ? `≈ {v} € zum EZB\u2011Kurs vom ${deDate(fx.date)} · Abrechnung in US\u2011Dollar` : "",
   notWired: "Angebotsanfragen sind noch nicht angebunden. Schreib uns direkt, wir kalkulieren deinen Preis.",
 };
 
@@ -94,7 +94,7 @@ const DE_SAVINGS = {
   numLocale: "de-DE",
   fxRate: fx?.rate ?? null,
   fxSymbol: "€",
-  fxFoot: fx ? `Euro-Beträge sind zum EZB-Kurs vom ${deDate(fx.date)} umgerechnet. Abgerechnet wird in US-Dollar.` : "",
+  fxFoot: fx ? `Euro\u2011Beträge sind zum EZB\u2011Kurs vom ${deDate(fx.date)} umgerechnet. Abgerechnet wird in US\u2011Dollar.` : "",
 };
 
 const DE_TRUST = {
