@@ -12,6 +12,7 @@
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
+import ShortfallTool from "../../components/ShortfallTool.astro";
 import { getCollection } from "astro:content";
 import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
 
@@ -36,6 +37,9 @@ const per1000 = per1000Of(a.pricePerMile);
 const rows = [a.min, ...[50000, 75000, 100000, 150000, 200000, 250000, 500000]
   .filter((m) => m > a.min * 1.2 && m <= a.max)].slice(0, 6);
 const num = (n) => n.toLocaleString("en-US");
+// opens on the program's own priced award where one exists, so the tool
+// starts from a real redemption rather than a round number
+const openAward = (a.sweetSpots ?? []).find((sp) => sp.miles)?.miles ?? 0;
 const cost = (m) => usd(costOf(m, a.pricePerMile));
 
 // Break-even table: a sweet spot that carries a checked `miles` figure gets a
@@ -170,6 +174,27 @@ const faqJsonLd = {
 
   <!-- the math, spelled out — this page's job is the arithmetic; the
        buy-vs-cash VERDICT tool lives on the program page, not here twice -->
+  <section class="section" id="shortfall">
+    <div class="container">
+      <div class="section-head">
+        <h2>How many {progMiles} do you actually need?</h2>
+        <p>
+          Nobody buys a whole award's worth. Put in what the award costs and what your
+          account already holds, and this prices the gap — including the case where the
+          gap is smaller than the smallest order {progShort} allows.
+        </p>
+      </div>
+      <ShortfallTool
+        program={progShort}
+        rate={a.pricePerMile}
+        verified={verified}
+        min={a.min}
+        max={a.max}
+        award={openAward}
+      />
+    </div>
+  </section>
+
   <section class="section wash-cool">
     <div class="container">
       <div class="section-head">
