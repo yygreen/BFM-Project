@@ -60,9 +60,23 @@ img, svg { max-width:100%; }
 .site-footer .brand { color:#fff; }
 .site-footer .brand span { color:#8AA0FF; }
 .site-footer .brand em { font-style:normal; color:var(--coral); }
-.site-footer .cols { display:grid; grid-template-columns:1.8fr 1fr 1fr 1fr; gap:32px; }
+.site-footer .cols { display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px; }
 @media (max-width:900px){ .site-footer .cols { grid-template-columns:1fr 1fr; } }
 @media (max-width:520px){ .site-footer .cols { grid-template-columns:1fr; } }
+/* the roster as a wide band: 21 programmes in four short columns instead of
+   one very tall one, with the programme name stacked under the carrier so
+   each link stays scannable at column width */
+.foot-programs { margin-top:38px; padding-top:26px; border-top:1px solid #262946; }
+.foot-proglist { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px 26px; }
+.foot-proglist a { margin-bottom:0; line-height:1.35; }
+.foot-proglist a span { display:block; color:#7B80A8; font-size:12.5px; }
+.foot-proglist a:hover span { color:#C4C8E6; }
+/* phones: two columns, and the carrier alone — 21 stacked rows with a
+   sub-line each is most of a screen of footer */
+@media (max-width:560px){
+  .foot-proglist { grid-template-columns:1fr 1fr; gap:9px 18px; }
+  .foot-proglist a span { display:none; }
+}
 .site-footer h5 { font-family:var(--display); font-size:13px; letter-spacing:0; color:#9AA0C8; margin:0 0 14px; font-weight:700; }
 .site-footer a { display:block; color:#C4C8E6; font-size:14px; margin-bottom:9px; }
 .site-footer a:hover { color:#fff; }

@@ -168,12 +168,6 @@ const hreflangs = alternates.length
           </p>
         </div>
         <div>
-          <h5><a href="/#programs">Programs</a></h5>
-          {programs.map((p) => (
-            <a href={`/buy/${p.slug}`}>{p.airline} {p.program}</a>
-          ))}
-        </div>
-        <div>
           <h5><a href="/blog">Blog</a></h5>
           <a href="/blog">All news &amp; guides</a>
           {blogCategories.map((c) => (
@@ -191,6 +185,17 @@ const hreflangs = alternates.length
           <a href="/#trust">Why trust us</a>
           <a href="/privacy">Privacy policy</a>
           <a href="/terms">Terms &amp; conditions</a>
+        </div>
+      </div>
+      <!-- Every programme stays linked from every page (the internal linking is
+           most of the programmatic-SEO value), but as a wide multi-column band
+           rather than a 21-item column that doubled the footer's height. -->
+      <div class="foot-programs">
+        <h5><a href="/#programs">Programs</a></h5>
+        <div class="foot-proglist">
+          {programs.map((p) => (
+            <a href={`/buy/${p.slug}`}>{p.airline} <span>{p.program}</span></a>
+          ))}
         </div>
       </div>
       <div class="fine">© {new Date().getFullYear()} buyflightmiles · Not affiliated with any airline or loyalty program.</div>
