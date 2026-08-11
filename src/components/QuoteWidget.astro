@@ -9,7 +9,7 @@
 //
 // Payment still stays off this site — this is a quote request that emails us.
 import { getCollection } from "astro:content";
-import { site, quoteFormReady, directBuyRate, mailtoInbox } from "../lib/site";
+import { site, quoteFormReady, directBuyRate, directBuySource, mailtoInbox } from "../lib/site";
 
 const {
   defaultSlug = null,
@@ -53,7 +53,11 @@ const EN = {
   errGeneric: "Something went wrong. Please email us instead.",
   errNetwork: "Network error. Please try again, or email us directly.",
   rateUnit: "¢/mi",
-  saveVs: "You save vs {v}¢ direct",
+  // "list price" rather than a bare "direct": the airlines run bonus and
+  // discount promotions on top of it, so the figure is their standard price
+  // and the footnote says so.
+  saveVs: "You save vs {v}¢ list price",
+  saveSrc: "{src}. Airlines discount this periodically.",
   d24: "24 hours",
   // grouping locale for miles counts and prices, overridden per language
   numLocale: "en-US",
@@ -86,7 +90,8 @@ const data = airlines.map((a) => ({
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
   min: a.min,
   max: a.max,
-  direct: directBuyRate(a.directBuyCents),
+  direct: directBuyRate(a.directBuy),
+  directSrc: directBuySource(a.directBuy),
 }));
 
 const start = defaultSlug
@@ -189,6 +194,11 @@ const notWired = labels.notWired ?? (orderEmail
         <div class="qw-row"><span>{L.rate}</span><b id="qw-rate">—</b></div>
         <div class="qw-row" id="qw-delivery-row"><span>{L.delivery}</span><b id="qw-delivery">—</b></div>
         <div class="qw-row qw-save" id="qw-save-row" hidden><span id="qw-save-k">You save</span><b id="qw-save">—</b></div>
+        <!-- The saving is measured against a third party's price, so it names
+             the price it used and where that came from. Airlines discount this
+             heavily and often, and a buyer who finds a 40%-off promotion after
+             reading an uncaveated "you save" has caught us overstating. -->
+        <p class="qw-src" id="qw-save-src" hidden></p>
       </div>
     </div>
 
@@ -376,12 +386,16 @@ const notWired = labels.notWired ?? (orderEmail
 
       // savings only against a sourced airline rate
       const saveRow = $("qw-save-row");
+      const saveSrc = $("qw-save-src");
       if (c.direct && c.direct > c.rate && canGo) {
         $("qw-save-k").textContent = fmt(T.saveVs, { v: c.direct });
         $("qw-save").textContent = usd(Math.max(0, (m * c.direct) / 100 - cost));
         saveRow.hidden = false;
+        saveSrc.textContent = c.directSrc ? fmt(T.saveSrc, { src: c.directSrc }) : "";
+        saveSrc.hidden = !c.directSrc;
       } else {
         saveRow.hidden = true;
+        saveSrc.hidden = true;
       }
 
       // step 2 recap + hidden fields that actually get emailed

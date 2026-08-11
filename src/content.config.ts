@@ -103,7 +103,21 @@ const airlines = defineCollection({
       // for every "you save" figure. Optional: falls back to site.json's
       // benchmark. Each program prices differently, so a per-program number
       // is always more defensible than the shared default.
-      directBuyCents: z.number().positive().max(20).nullable().default(null),
+      //
+      // It carries its own source and date because it is a claim about a third
+      // party that a buyer can check in one click, and because airlines move
+      // these prices. `verified` gates rendering the same way every other flag
+      // on this site does: a figure can be correctly sourced and still be
+      // withheld, which is what `note` is for.
+      directBuy: z
+        .object({
+          cents: z.number().positive().max(20),
+          source: z.string().min(1),
+          checked: z.string().min(1), // e.g. "August 2026"
+          verified: z.boolean().default(false),
+          note: z.string().optional(),
+        })
+        .optional(),
 
       // Order limits carry their own flag. They are a different fact from a
       // different source than the per-mile price, so priceVerified must not

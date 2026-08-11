@@ -184,12 +184,22 @@ export const agentFormReady = site.contact.verified && site.contact.web3formsKey
  */
 export const mailtoInbox = site.contact.orderEmail || "";
 
-/** The sourced airline direct-buy rate (cents/mile) for a program, or null. */
-export const directBuyRate = (programRate: number | null | undefined): number | null => {
-  if (typeof programRate === "number") return programRate;
+/**
+ * The sourced airline direct-buy rate (cents/mile) for a program, or null.
+ * A program's own figure wins over the shared benchmark, and either one shows
+ * only while its `verified` flag holds — a researched but withheld figure
+ * stays in the data and off the page.
+ */
+type DirectBuy = { cents: number; source: string; checked: string; verified: boolean } | undefined;
+export const directBuyRate = (programDirect: DirectBuy): number | null => {
+  if (programDirect?.verified) return programDirect.cents;
   const b = site.benchmark;
   return b.verified && b.directBuyCents !== null ? b.directBuyCents : null;
 };
+
+/** Where a program's published direct-buy figure came from, for the citation. */
+export const directBuySource = (programDirect: DirectBuy): string =>
+  programDirect?.verified ? `${programDirect.source}, ${programDirect.checked}` : site.benchmark.source;
 
 /** Human-readable payment list, e.g. "USDT, bank wire or cash". */
 export function paymentSentence(): string {

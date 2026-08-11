@@ -9,6 +9,12 @@
     "color": "#9A1C33",
     "pricePerMile": 1.95,
     "priceVerified": true,
+    "directBuy": {
+      "cents": 3.76,
+      "source": "Delta list price, 3.5¢ plus 7.5% US excise tax",
+      "checked": "August 2026",
+      "verified": true
+    },
     "min": 50000,
     "max": 500000,
     "limitsVerified": false,
@@ -51,6 +57,12 @@
     "color": "#1A3E7E",
     "pricePerMile": 2,
     "priceVerified": true,
+    "directBuy": {
+      "cents": 3.76,
+      "source": "United list price, 3.5¢ plus 7.5% US excise tax",
+      "checked": "August 2026",
+      "verified": true
+    },
     "min": 80000,
     "max": 500000,
     "limitsVerified": true,
@@ -135,6 +147,12 @@
     "color": "#1B2A5B",
     "pricePerMile": 2.2,
     "priceVerified": true,
+    "directBuy": {
+      "cents": 5.0,
+      "source": "Singapore Airlines top-up price, about US$40 per 1,000 miles",
+      "checked": "August 2026",
+      "verified": true
+    },
     "min": 80000,
     "max": 500000,
     "limitsVerified": true,
@@ -665,6 +683,13 @@
     "color": "#D8232A",
     "pricePerMile": 1.8,
     "priceVerified": true,
+    "directBuy": {
+      "cents": 2.67,
+      "source": "Air Canada list price, CAD $0.0375 per point",
+      "checked": "August 2026",
+      "verified": false,
+      "note": "Correct at list, but Aeroplan ran a 110% bonus to about 1.27¢ US in 2026, below our 1.8¢. Withheld until the comparison holds through a promotion."
+    },
     "min": 80000,
     "max": 500000,
     "limitsVerified": true,
@@ -1036,6 +1061,13 @@
     "color": "#002157",
     "pricePerMile": 1.95,
     "priceVerified": true,
+    "directBuy": {
+      "cents": 3.17,
+      "source": "Air France-KLM list price",
+      "checked": "August 2026",
+      "verified": false,
+      "note": "Correct at list, but Flying Blue ran an 80% bonus to 1.69¢ in 2026, below our 1.95¢. Withheld until the comparison holds through a promotion."
+    },
     "min": 49000,
     "max": 500000,
     "limitsVerified": true,
