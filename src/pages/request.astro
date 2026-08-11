@@ -7,7 +7,7 @@
 // copy invites a request without asserting we can source anything.
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
-import { site, quoteFormReady } from "../lib/site";
+import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
@@ -31,7 +31,7 @@ const notWired = orderEmail
         <h2>Tell us what you need</h2>
         <p>Programme not on our list? Send the details and we'll check availability and price. You get a firm quote before anything is paid.</p>
       </div>
-      <form class="formcard" id="request-form" data-key={accessKey ? "1" : ""}>
+      <form class="formcard" id="request-form" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
         <input type="hidden" name="access_key" value={accessKey} />
         <input type="hidden" id="request-fallback" value={notWired} />
         <input type="hidden" name="subject" value="Custom programme request — buyflightmiles" />
@@ -59,6 +59,23 @@ const notWired = orderEmail
       const msg = document.getElementById("request-msg");
       const btn = document.getElementById("request-submit");
       if (!form) return;
+      // A posting key needs an account; an inbox address needs nothing. With
+      // one configured, compose the enquiry into the visitor's mail client so
+      // it still reaches us in a click.
+      function mailEnquiry(inbox, el, formEl, subject) {
+        const fd = new FormData(formEl);
+        const skip = ["access_key", "botcheck", "subject"];
+        const lines = [];
+        for (const [k, v] of fd.entries()) {
+          if (skip.includes(k) || !String(v).trim()) continue;
+          lines.push(k.replace(/_/g, " ").replace(/^./, (s) => s.toUpperCase()) + ": " + v);
+        }
+        location.href = "mailto:" + inbox + "?subject=" + encodeURIComponent(subject) +
+          "&body=" + encodeURIComponent(lines.join("\n") + "\n\nSent from the website. Nothing has been charged.");
+        el.textContent = "Your email app should open with the details filled in — send it and we'll take it from there.";
+        el.className = "form-msg ok";
+        el.hidden = false;
+      }
       // No inbox configured yet: say so and hand over a route that works.
       function showFallback(el, text) {
         el.textContent = text + " ";
@@ -74,6 +91,7 @@ const notWired = orderEmail
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!form.dataset.key) {
+          if (form.dataset.inbox) { mailEnquiry(form.dataset.inbox, msg, form, "Programme request — buyflightmiles"); return; }
           showFallback(msg, document.getElementById("request-fallback").value);
           return;
         }

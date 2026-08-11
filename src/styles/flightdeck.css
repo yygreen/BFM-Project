@@ -40,7 +40,12 @@ html { scroll-behavior:smooth; scroll-padding-top:90px; }
 body { margin:0; background:var(--page); color:var(--text-1); font-family:var(--sans); -webkit-font-smoothing:antialiased; line-height:1.55; }
 a { color:inherit; text-decoration:none; }
 img, svg { max-width:100%; }
-.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+/* the second selector outranks `.field select { width:100% }`, which was
+   stretching the offscreen value-holder select to full width and pushing the
+   document wider than the viewport */
+.sr-only, .field .sr-only, .field select.sr-only {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); border:0; }
 .container { max-width:var(--maxw); margin:0 auto; padding:0 clamp(18px,4vw,32px); }
 
 /* ---- header / nav ---- */
@@ -542,6 +547,10 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .field label { display:block; font-size:13.5px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
 .field input, .field select, .field textarea { width:100%; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--surface); border:1.5px solid var(--line-2); border-radius:var(--radius); padding:12px 14px; }
 .field textarea { resize:vertical; min-height:104px; }
+/* fields inside .form-grid are spaced by its gap; standalone ones had nothing,
+   so a following label sat flush against the control above it */
+.formcard > .field, .ostep > .field { margin-bottom:16px; }
+.formcard > .field:last-of-type { margin-bottom:0; }
 .field input:focus, .field select:focus, .field textarea:focus { outline:none; border-color:var(--cobalt); box-shadow:0 0 0 3px var(--cobalt-tint); }
 .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 .form-msg { margin:16px 0 0; font-size:14.5px; padding:12px 14px; border-radius:var(--radius); }

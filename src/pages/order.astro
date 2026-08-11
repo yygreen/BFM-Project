@@ -17,7 +17,7 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ProgramSelect from "../components/ProgramSelect.astro";
 import { getCollection } from "astro:content";
-import { site, quoteFormReady, paymentSentence } from "../lib/site";
+import { site, quoteFormReady, paymentSentence, mailtoInbox } from "../lib/site";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
@@ -80,7 +80,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
         <li data-for="3"><b>3</b><span>Payment &amp; review</span></li>
       </ol>
 
-      <form class="formcard ocard" id="order-form" data-key={accessKey ? "1" : ""}>
+      <form class="formcard ocard" id="order-form" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
         <input type="hidden" name="access_key" value={accessKey} />
         <input type="hidden" id="order-fallback" value={notWired} />
         <input type="hidden" name="subject" value="Miles order — buyflightmiles" />
@@ -316,12 +316,34 @@ const methods = site.payments.verified ? site.payments.methods : [];
         el.className = "form-msg err";
         el.hidden = false;
       }
+      // Every answer, in the order it was asked, as a plain-text email.
+      function mailOrder(inbox, msg) {
+        const fd = new FormData(form);
+        const skip = ["access_key", "botcheck", "subject"];
+        const lines = [];
+        for (const [k, v] of fd.entries()) {
+          if (skip.includes(k) || !String(v).trim()) continue;
+          lines.push(k.replace(/_/g, " ").replace(/^./, (s) => s.toUpperCase()) + ": " + v);
+        }
+        const body = "New miles order\n\n" + lines.join("\n") +
+          "\n\nSent from the order form. Nothing has been charged.";
+        location.href = "mailto:" + inbox +
+          "?subject=" + encodeURIComponent("Miles order — buyflightmiles") +
+          "&body=" + encodeURIComponent(body);
+        msg.textContent = "Your email app should open with the order filled in — send it and we'll take it from there.";
+        msg.className = "form-msg ok";
+        msg.hidden = false;
+      }
+
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const msg = $("order-msg");
         const btn = $("order-submit");
         if (!valid(3)) return;
         if (!form.dataset.key) {
+          // No posting key yet, but an inbox is enough: compose the order into
+          // the visitor's mail client so it still reaches us in one click.
+          if (form.dataset.inbox) { mailOrder(form.dataset.inbox, msg); return; }
           showFallback(msg, $("order-fallback").value);
           return;
         }

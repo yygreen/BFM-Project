@@ -9,7 +9,7 @@
 //
 // Payment still stays off this site — this is a quote request that emails us.
 import { getCollection } from "astro:content";
-import { site, quoteFormReady, directBuyRate } from "../lib/site";
+import { site, quoteFormReady, directBuyRate, mailtoInbox } from "../lib/site";
 
 const {
   defaultSlug = null,
@@ -102,7 +102,7 @@ const notWired = labels.notWired ?? (orderEmail
   ? `Quote requests aren't connected yet — please email ${orderEmail} and we'll price it for you.`
   : "Quote requests aren't connected yet. Send it through the contact page and we'll price it for you.");
 ---
-<div class="qw" data-key={accessKey ? "1" : ""}>
+<div class="qw" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
   <script type="application/json" set:html={JSON.stringify(locked ? [start] : data)} class="qw-data"></script>
   <script type="application/json" set:html={JSON.stringify(L)} class="qw-l10n"></script>
   <input type="hidden" id="qw-fallback" value={notWired} />
@@ -494,6 +494,23 @@ const notWired = labels.notWired ?? (orderEmail
       prog.focus({ preventScroll: true });
     });
 
+      // A posting key needs an account; an inbox address needs nothing. With
+      // one configured, compose the enquiry into the visitor's mail client so
+      // it still reaches us in a click.
+      function mailEnquiry(inbox, el, formEl, subject) {
+        const fd = new FormData(formEl);
+        const skip = ["access_key", "botcheck", "subject"];
+        const lines = [];
+        for (const [k, v] of fd.entries()) {
+          if (skip.includes(k) || !String(v).trim()) continue;
+          lines.push(k.replace(/_/g, " ").replace(/^./, (s) => s.toUpperCase()) + ": " + v);
+        }
+        location.href = "mailto:" + inbox + "?subject=" + encodeURIComponent(subject) +
+          "&body=" + encodeURIComponent(lines.join("\n") + "\n\nSent from the website. Nothing has been charged.");
+        el.textContent = "Your email app should open with the details filled in — send it and we'll take it from there.";
+        el.className = "form-msg ok";
+        el.hidden = false;
+      }
       // No inbox configured yet: say so and hand over a route that works.
       function showFallback(el, text) {
         el.textContent = text + " ";
@@ -513,8 +530,9 @@ const notWired = labels.notWired ?? (orderEmail
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!root.dataset.key) {
+        if (root.dataset.inbox) { mailEnquiry(root.dataset.inbox, msg, form, "Quote request — buyflightmiles"); return; }
         showFallback(msg, $("qw-fallback").value);
-          return;
+        return;
       }
       const label = btn.textContent;
       btn.disabled = true; btn.textContent = T.sending; msg.hidden = true;

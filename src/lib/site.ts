@@ -175,6 +175,14 @@ export const realTestimonials = site.testimonials.filter((t) => t.verified);
 export const quoteFormReady = site.contact.verified && site.contact.web3formsKeyQuote !== "";
 export const agentFormReady = site.contact.verified && site.contact.web3formsKeyAgents !== "";
 
+/**
+ * An inbox to hand an enquiry to when the form itself can't post it yet.
+ * A Web3Forms key needs an account; an address needs nothing, so the moment
+ * one exists the forms compose the enquiry into the visitor's mail client
+ * instead of dead-ending. Empty until an address is configured.
+ */
+export const mailtoInbox = site.contact.orderEmail || "";
+
 /** The sourced airline direct-buy rate (cents/mile) for a program, or null. */
 export const directBuyRate = (programRate: number | null | undefined): number | null => {
   if (typeof programRate === "number") return programRate;
