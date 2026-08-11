@@ -1,0 +1,230 @@
+# SEO map and build queue
+
+What the site targets, what it misses, and what to build next. Derived from two
+Semrush exports pulled 11 Aug 2026:
+
+- **Position tracking** (33 tracked keywords, the live WordPress site) — what we
+  actually rank for today.
+- **Keyword gap** (449 keywords vs `buyairlinemiles.com`, `airmileshk.com`,
+  `milesbuyer.com/buy-miles/`) — what the vertical ranks for and we don't.
+
+Both are samples, not the full organic footprint. Treat the volumes as relative
+weights rather than traffic forecasts.
+
+---
+
+## 1. The one finding that reorders everything
+
+**Nobody in this vertical ranks for the head terms. Not us, not the three
+competitors.**
+
+Across the 449-keyword gap (147,330/mo of search volume):
+
+| | keywords | volume |
+|---|---:|---:|
+| Any competitor in the **top 10** | 5 | 590/mo |
+| Any competitor in the **top 20** | 26 | 3,830/mo |
+| Everyone stuck on page 3+ | 423 | 143,500/mo |
+
+`buy delta miles` is 8,100/mo at KD 59. The best any miles reseller manages is
+**#26**. Those SERPs belong to Delta itself and to the points blogs, and no
+amount of on-page work on a reseller domain changes that in the near term.
+
+So the gap file is not a list of things competitors took from us. It is mostly a
+list of things nobody in our niche can win.
+
+### Where the vertical *does* win
+
+The five top-10 positions any competitor holds are all one program, all long tail,
+all low difficulty:
+
+| keyword | vol | KD | who | pos |
+|---|---:|---:|---|---:|
+| purchase hawaiian miles | 320 | 24 | buyairlinemiles | 6 |
+| hawaiian air buy miles | 50 | 21 | buyairlinemiles | 7 |
+| buy hawaiian miles bonus | 40 | 11 | buyairlinemiles | 7 |
+| hawaii airline buy miles | 40 | 19 | buyairlinemiles | 9 |
+| buy delta skymiles cheap | 140 | 28 | milesbuyer | 10 |
+
+Our own top-10s, from the tracking export, follow the identical pattern: EVA and
+Qatar long tails at KD 11–27, several at #1.
+
+**The rule this gives us: KD under ~30 is winnable on a reseller domain. KD 45+
+is not, for anyone.** Every recommendation below follows from it.
+
+---
+
+## 2. Where the volume actually sits
+
+Of the 147,330/mo we don't rank for:
+
+| bucket | keywords | volume | have a page? |
+|---|---:|---:|---|
+| Programs already on our roster | 325 | 111,220 | **yes, 21 of them** |
+| Hotel points (Marriott, Hilton, Hyatt, IHG) | 77 | 30,140 | no — currency class we don't sell |
+| Everything else | 47 | 5,970 | mixed |
+
+Three quarters of the gap is on programs where we already have a `/buy/` page
+**and** a `/calculator/` page. So the problem is not roster coverage. It is that
+those pages are thin: three one-line sweet spots and a price.
+
+### By program, and why Delta is the wrong place to start
+
+`lowKD` is the share of that program's gap volume sitting under KD 35 — the part
+that is actually reachable.
+
+| our page | gap kw | gap vol | lowKD vol | reachable share |
+|---|---:|---:|---:|---:|
+| `/buy/hawaiian-miles` | 34 | 4,180 | 2,540 | **61%** |
+| `/buy/turkish-miles-smiles` | 6 | 810 | 630 | **78%** |
+| `/buy/asia-miles` | 4 | 1,610 | 610 | **38%** |
+| `/buy/alaska-mileage-plan` | 7 | 610 | 390 | **64%** |
+| `/buy/jetblue-trueblue` | 18 | 5,930 | 500 | 8% |
+| `/buy/delta-skymiles` | 113 | 50,890 | 2,530 | **5%** |
+| `/buy/southwest-rapid-rewards` | 59 | 21,610 | 710 | 3% |
+| `/buy/american-aadvantage` | 44 | 17,800 | 420 | 2% |
+| `/buy/flying-blue` | 13 | 3,780 | 110 | 3% |
+| `/buy/united-mileageplus` | 15 | 2,640 | 40 | 2% |
+
+Delta looks like the prize at 50,890/mo and is the worst use of the next week:
+95% of it is KD 45–70. Hawaiian carries a sixth of Delta's volume with **the same
+amount of reachable volume**, and a competitor has already proven top-10 is
+achievable there.
+
+### Query shape
+
+| type | keywords | volume |
+|---|---:|---:|
+| buy / purchase | 305 | 121,090 |
+| program or brand name | 105 | 18,470 |
+| value / worth / calculator | 12 | 3,070 |
+| status & elite tiers | 16 | 3,040 (all hotel) |
+| how to use / book / redeem | 9 | 1,510 |
+
+The transactional cluster is enormous but repeats one intent in dozens of
+phrasings — Delta alone has 113 variants of "buy delta miles". That is one page's
+job, not 113 pages. What it needs is body copy and FAQ entries that use the real
+phrasings: *can you buy*, *how much does it cost to buy*, *how to buy*, *cheap*.
+
+---
+
+## 3. Topical cluster map
+
+```mermaid
+mindmap
+  root((buyflightmiles))
+    Transactional
+      buy {program} miles
+        ::icon(fa fa-check)
+        /buy/{slug} x21 built
+        variants buy X / X buy / purchase X / can you buy / how to buy / cost to buy / cheap
+        121,090/mo gap, mostly KD 45+
+    Valuation
+      what are X miles worth
+        /calculator/{slug} x21 built
+        wins AI Overviews today
+        3,070/mo gap
+    Program mechanics
+      award chart
+      do X miles expire
+      upgrade with miles
+      program name and alliance
+        NO PAGE TYPE
+        18,470/mo gap
+        1,070/mo proven on EVA alone
+    Redemption
+      how to use X miles
+      best uses and sweet spots
+        partial, sweetSpots field
+        1,510/mo gap
+    Currency level
+      buy avios points
+        NO PAGE
+        390/mo gap, 4,400/mo UK head term
+    Trust and legitimacy
+      is buying miles legal
+      miles seller scam
+        blog covers this
+    Languages
+      Arabic x3 built, ranks 1-4
+      German x1 built
+      Chinese NOT built
+        里程币 1,300/mo at KD 16
+    Hotel points
+      Marriott 22,180/mo
+      Hilton 5,560/mo
+      Hyatt 2,400/mo
+        BUSINESS QUESTION, not an SEO one
+```
+
+Two branches have no page type at all: **program mechanics** and **currency
+level**. One branch is a business decision: **hotel points**.
+
+### The missing guide layer
+
+The tracking export shows the old WordPress site earning 1,070/mo from a single
+URL, `/eva-air-infinity-mileagelands-guide`, on informational queries: award
+chart (140), program name (320), mileage program (210+170), upgrades (170),
+expiry (30). The new site has no equivalent, and `/buy/eva-air` mentions "award
+chart" zero times.
+
+**The schema already supports this.** `quirks`, `mechanics`, `valueBands`,
+`faqExtras` and `factsChecked` all exist in `content.config.ts` and all render.
+Qatar fills every one of them. The other 20 programs fill none:
+
+```
+qatar-avios     quirks 3   mechanics 4   valueBands 3   faqExtras 3   factsChecked yes
+every other     -          -             -              -             -
+```
+
+So this is data entry into a template that already ships, not new engineering.
+It does need real facts, which is what `factsChecked` is for.
+
+---
+
+## 4. Build queue
+
+Ordered by reachable volume per unit of work, not by headline volume.
+
+1. **Fill `quirks` / `mechanics` / `faqExtras` for the roster, in this order:**
+   Hawaiian, Turkish, Asia Miles, Alaska, then EVA (which has 380/mo of tracked
+   keywords ranking nowhere: *eva air miles redemption*, *is eva air star
+   alliance*). These four carry the highest reachable share, and the work is
+   JSON, not templates.
+
+2. **Add the real phrasings to each `/buy/` FAQ.** *Can you buy {program}
+   miles?*, *How much does it cost to buy {n} {program} miles?*, *How to buy
+   {program} miles* are literal gap keywords at KD 24–38. One shared FAQ block
+   driven by the collection covers 21 pages at once.
+
+3. **Avios currency page.** `buy avios points` is 390/mo at KD 14 and the old
+   site ranked #18 with a dedicated URL we deleted. Avios spans BA, Qatar, Iberia
+   and Finnair, so it is a currency page, not an airline page. Connects to the
+   4,400/mo UK head term already flagged.
+
+4. **301 map from the old URLs** (from the tracking export — these carry every
+   ranking the live site has):
+
+   | old | new |
+   |---|---|
+   | `/eva-air-miles-calculator` | `/calculator/eva-air` |
+   | `/eva-air-infinity-mileagelands-guide` | `/buy/eva-air` |
+   | `/eva-air-miles` | `/buy/eva-air` |
+   | `/qatar-airways` | `/buy/qatar-avios` |
+   | `/qatar-airways-ar` | `/ar/buy/qatar-avios` |
+   | `/buy-avios` | `/buy/ba-avios` (or the currency page above) |
+
+5. **Chinese.** `里程币` is 1,300/mo at KD 16 and `airmileshk.com` reaches only
+   #87 for it. Arabic already proves the pattern works for us (5 keywords, all
+   1–4). Do this after the existing Arabic pages get their native review.
+
+6. **Ask the client about hotel points.** 30,140/mo of the gap, and `buy marriott
+   points` is 8,100/mo at KD 33 — the highest-volume genuinely reachable keyword
+   in either file. Entirely dependent on whether he sources them at all.
+
+### Explicitly not worth chasing
+
+`buy delta miles` (8,100, KD 59), `buy southwest points` (5,400, KD 54),
+`purchase delta skymiles` (3,600, KD 70), `buy delta skymiles` (4,400, KD 46).
+Best reseller position across all four is #25. Revisit once the domain has
+authority it does not have today.
