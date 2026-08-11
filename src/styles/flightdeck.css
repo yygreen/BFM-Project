@@ -122,7 +122,11 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .btn:focus-visible { outline:3px solid var(--cobalt); outline-offset:3px; }
 
 /* ---- hero ---- */
-.hero { position:relative; padding:clamp(48px,6vw,88px) 0 clamp(48px,6vw,72px); overflow:hidden;
+/* `clip` rather than `hidden`: both contain the decorative blobs, but hidden
+   also makes the hero a scroll container, and jumping to #quote inside it
+   scrolled the hero's own contents up by its top padding instead of scrolling
+   the page, leaving the widget welded to the header. clip cannot scroll. */
+.hero { position:relative; padding:clamp(48px,6vw,88px) 0 clamp(48px,6vw,72px); overflow:clip;
   border-bottom:1px solid var(--line-2);
   background:linear-gradient(180deg, var(--page) 0%, #FBFBFF 62%, var(--surface) 100%); }
 .hero .container { position:relative; z-index:1; }

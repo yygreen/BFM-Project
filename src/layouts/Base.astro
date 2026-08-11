@@ -58,6 +58,16 @@ const hreflangs = alternates.length
   <meta property="og:url" content={canonical} />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Icons: the SVG is the real one and stays sharp at any size; the 32px
+       PNG covers clients that don't take SVG, and /favicon.ico catches the
+       bare request crawlers make whatever is declared here. The old site
+       served WordPress's own logo at /favicon.ico. -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#1E2D79" />
+
   <link rel="alternate" type="application/rss+xml" title="buyflightmiles: Miles news &amp; guides" href="/rss.xml" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
