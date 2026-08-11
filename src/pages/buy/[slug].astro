@@ -107,13 +107,26 @@ const jsonld = {
           ))}
           <h1>{head ? <>{head.lead}<span class="hl">{head.name}</span>{head.tail}</> : a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
-          {/* Both buttons used to point at #quote, which sits beside them in
-              the hero: on a desktop screen the target is already in view, so
-              the click does nothing and the pair reads as decoration. Each now
-              goes somewhere the visitor isn't. */}
+          {/* The widget sits above this row on a desktop screen and below it on
+              a phone, so the row can't just repeat what the widget does: on
+              desktop that reads as decoration, and on mobile it is the only
+              action above the fold. Each button takes the step the widget
+              doesn't.
+
+              A priced programme can go straight to the order flow. An unpriced
+              one can't — asking for an account number before we've confirmed a
+              rate is the wrong order — so it points at the widget, which is a
+              real move in both directions: up to it on desktop, down to it on
+              a phone. */}
           <div class="cta-row">
-            <a class="btn btn-primary" href={`/order?program=${a.slug}`}>{verified ? `Buy ${progShort}` : "Request a live quote"}</a>
-            <a class="btn btn-secondary" href={`/calculator/${a.slug}`}>What's it cost?</a>
+            {verified ? (
+              <a class="btn btn-primary" href={`/order?program=${a.slug}`}>Buy {progShort}</a>
+            ) : (
+              <a class="btn btn-primary" href="#quote">Get a live quote</a>
+            )}
+            {/* names its destination rather than asking the question the widget
+                is already answering live a few pixels away */}
+            <a class="btn btn-secondary" href={`/calculator/${a.slug}`}>See the full math</a>
           </div>
           <!-- social proof row: rating, turnaround, track record. Each slot
                falls back to an always-true claim when its figure isn't
