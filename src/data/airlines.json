@@ -550,7 +550,46 @@
       }
     ],
     "logo": "/logos/alaska-mileage-plan.svg",
-    "logoAlt": "Alaska Airlines logo"
+    "logoAlt": "Alaska Airlines logo",
+    "quirks": [
+      {
+        "title": "Mileage Plan is called Atmos Rewards now",
+        "text": "Alaska renamed the program in August 2025 and folded HawaiianMiles into it that October. Same account, same currency, new name. Plenty of guides still say Mileage Plan, so the two names refer to one balance."
+      },
+      {
+        "title": "Points do not expire, but an idle account can lock",
+        "text": "Alaska removed expiry in April 2023 and the rebrand kept that policy. An account with no earning or redeeming for 24 months can be frozen for security, which a phone call reverses, and closed after three years."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Program today",
+        "text": "Atmos Rewards, renamed from Mileage Plan in August 2025."
+      },
+      {
+        "label": "Alliance",
+        "text": "Oneworld, which is where most of the premium-cabin value sits."
+      },
+      {
+        "label": "Award pricing",
+        "text": "Distance-based award charts rather than a flat regional table."
+      },
+      {
+        "label": "Expiry",
+        "text": "Points do not expire. An account inactive for 24 months can be frozen."
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Is Alaska Mileage Plan still called Mileage Plan?",
+        "a": "It was renamed Atmos Rewards in August 2025, and HawaiianMiles merged into it that October. It is one balance under either name, so miles bought for Mileage Plan land in the same account."
+      },
+      {
+        "q": "Do Alaska Airlines miles expire?",
+        "a": "No. Alaska dropped expiry in April 2023 and kept the policy through the rebrand. An account with no activity for 24 months can be frozen for security and closed after three years, so any earning or redeeming keeps it open."
+      }
+    ],
+    "factsChecked": "August 2026"
   },
   {
     "id": "jetblue-trueblue",
@@ -600,7 +639,7 @@
     "order": 12,
     "program": "HawaiianMiles",
     "airline": "Hawaiian Airlines",
-    "alliance": "Independent",
+    "alliance": "Oneworld",
     "code": "HA",
     "color": "#4C1D80",
     "pricePerMile": 1.9,
@@ -632,7 +671,58 @@
       }
     ],
     "logo": "/logos/hawaiian-miles.svg",
-    "logoAlt": "Hawaiian Airlines logo"
+    "logoAlt": "Hawaiian Airlines logo",
+    "quirks": [
+      {
+        "title": "HawaiianMiles are Atmos Rewards points now",
+        "text": "On 1 October 2025 every HawaiianMiles account converted into Alaska's combined program, renamed Atmos Rewards that August. Balances moved across 1:1 and elite status was matched, so nothing was lost; the branding is what retired. A top-up today lands in the Atmos Rewards balance sitting behind your old HawaiianMiles account."
+      },
+      {
+        "title": "Hawaiian joined Oneworld in April 2026",
+        "text": "These points reach a far wider network than they used to. Alongside Hawaiian and Alaska's own flights, Oneworld carriers are bookable, and that is where the premium-cabin value tends to sit."
+      },
+      {
+        "title": "Points do not expire, but an idle account can lock",
+        "text": "Alaska removed expiry in April 2023 and the rebrand kept that policy. An account with no earning or redeeming for 24 months can be frozen for security, which a phone call reverses, and closed after three years. Any activity resets the clock."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Program today",
+        "text": "Atmos Rewards, the combined Alaska and Hawaiian program, since 1 October 2025."
+      },
+      {
+        "label": "Conversion",
+        "text": "1:1 from HawaiianMiles, with elite status matched automatically."
+      },
+      {
+        "label": "Alliance",
+        "text": "Oneworld. Hawaiian joined in April 2026; Alaska was already a member."
+      },
+      {
+        "label": "Award pricing",
+        "text": "Distance-based award charts rather than a flat regional table."
+      },
+      {
+        "label": "Expiry",
+        "text": "Points do not expire. An account inactive for 24 months can be frozen."
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Do HawaiianMiles still exist?",
+        "a": "Not under that name. HawaiianMiles converted into Atmos Rewards on 1 October 2025 at 1:1, and elite status carried across automatically. The balance is intact under the new program, and that is what a top-up adds to."
+      },
+      {
+        "q": "Do Hawaiian Airlines miles expire?",
+        "a": "No. Alaska dropped expiry in April 2023 and Atmos Rewards kept the policy. An account with no activity for 24 months can be frozen for security and closed after three years, so earning or redeeming once every two years keeps it open."
+      },
+      {
+        "q": "Is Hawaiian Airlines part of an alliance?",
+        "a": "Yes, Oneworld, since April 2026. That is the practical case for holding these points: they book Oneworld partners in premium cabins, well beyond Hawaiian's own routes."
+      }
+    ],
+    "factsChecked": "August 2026"
   },
   {
     "id": "frontier-miles",
