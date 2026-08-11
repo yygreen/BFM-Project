@@ -279,6 +279,8 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .vchip.v3 { background:var(--raised); color:var(--text-3); }
 .vtier-note { font-size:13.5px; color:var(--text-3); }
 .vgood { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; }
+/* four short claims across, rather than three and an orphan */
+.vgood-4 { grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin-top:16px; }
 .vgood .vitem { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px; font-size:14.5px; color:var(--text-2); }
 .vskip { margin:0; color:var(--text-3); font-size:14px; line-height:1.7; }
 .quirkfacts { display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:start; }
