@@ -842,8 +842,9 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .toc li { font-size:14.5px; margin:5px 0; }
 .toc a { color:var(--text-2); }
 .toc a:hover { color:var(--cobalt); }
-/* sticky header would otherwise cover the target heading */
-.prose h2 { scroll-margin-top:90px; }
+/* No scroll-margin here: html carries scroll-padding-top for the sticky
+   header already, and the two add up rather than overriding each other,
+   which dropped a jumped-to heading a full second header below the bar */
 
 .post-nav { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:44px; }
 @media (max-width:620px){ .post-nav { grid-template-columns:1fr; } }
