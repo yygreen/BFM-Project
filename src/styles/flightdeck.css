@@ -32,11 +32,24 @@
   --wash-warm:color-mix(in srgb, var(--coral-tint) 28%, var(--surface));
 
   --maxw:1120px;
+
+  /* anchor landing: the sticky header's height, plus the air a heading in
+     body copy wants under it. Full-bleed bands cancel the second one. */
+  --hdr-h:71px;
+  --anchor-air:19px;
 }
 * { box-sizing:border-box; }
-/* the header is sticky, so an anchor jump would otherwise park its target's
-   top edge underneath it — every in-page link lands 90px clear instead */
-html { scroll-behavior:smooth; scroll-padding-top:90px; }
+/* The header is sticky, so an anchor jump would otherwise park its target's
+   top edge underneath it. A heading in body copy wants a little air below the
+   bar, hence the extra offset on top of the header's own height. */
+html { scroll-behavior:smooth; scroll-padding-top:calc(var(--hdr-h) + var(--anchor-air)); }
+/* A section is a full-bleed band, and that air lands its top edge BELOW the
+   bar, leaving a stripe of the previous section visible above it — which
+   reads as having stopped short of the section rather than at it. Bands land
+   flush under the header; their own 44-72px of padding is the breathing room.
+   scroll-padding and scroll-margin add rather than override, so this cancels
+   the air for these targets only. */
+.section[id] { scroll-margin-top:calc(0px - var(--anchor-air)); }
 body { margin:0; background:var(--page); color:var(--text-1); font-family:var(--sans); -webkit-font-smoothing:antialiased; line-height:1.55; }
 a { color:inherit; text-decoration:none; }
 img, svg { max-width:100%; }
@@ -50,7 +63,9 @@ img, svg { max-width:100%; }
 
 /* ---- header / nav ---- */
 .site-header { border-bottom:1px solid var(--line); background:rgba(245,246,255,.85); backdrop-filter:saturate(150%) blur(10px); position:sticky; top:0; z-index:50; }
-.site-header .bar { display:flex; align-items:center; justify-content:space-between; height:70px; }
+/* height comes from --hdr-h (bar + the 1px border below it) so the anchor
+   offsets above cannot drift out of sync with the bar they clear */
+.site-header .bar { display:flex; align-items:center; justify-content:space-between; height:calc(var(--hdr-h) - 1px); }
 .brand { font-family:var(--display); font-weight:800; font-size:21px; letter-spacing:-0.03em; color:var(--ink); }
 .brand span { color:var(--cobalt); }
 .brand em { font-style:normal; color:var(--coral); }
