@@ -565,6 +565,19 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .gcard-ask .askp { margin:0; font-size:13.5px; line-height:1.55; color:var(--text-2); }
 .gcard-ask .askcta { color:var(--cobalt); font-weight:600; font-size:14px; }
 .gcard-ask:hover { border-color:var(--cobalt); }
+/* the same card as a band across the whole program grid, the shape /agents
+   uses for its own version. 1 / -1 rather than a computed span because this
+   one takes a row of its own: the roster is 21 and will keep growing, so the
+   last row is rarely full and a tile parked in it reads as one more program */
+.gcard-ask-row { grid-column:1 / -1; flex-direction:row; align-items:center;
+  justify-content:space-between; gap:20px; padding:20px 26px; }
+.gcard-ask-row .ask-t { font-size:14px; line-height:1.55; color:var(--text-2); }
+.gcard-ask-row .ask-t b { display:block; font-family:var(--display); font-size:17px;
+  color:var(--text-1); margin-bottom:3px; }
+.gcard-ask-row .askcta { white-space:nowrap; }
+@media (max-width:640px){
+  .gcard-ask-row { flex-direction:column; align-items:flex-start; gap:10px; }
+}
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }

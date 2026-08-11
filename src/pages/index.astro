@@ -172,10 +172,15 @@ const jsonld = {
           </a>
         ))}
         <!-- catch-all for programs we don't list — a request, not a promise:
-             availability gets confirmed in the quote, never asserted here -->
-        <a class="gcard gcard-ask" href="/request">
-          <div class="pname">Can't find your program?</div>
-          <p class="askp">Not listed doesn't mean not available. Tell us the program and amount, and we'll check it and quote you.</p>
+             availability gets confirmed in the quote, never asserted here.
+             A band across the full grid rather than a tile in the last row,
+             the same shape /agents uses: as a tile it read as a 22nd program,
+             and 21 never fills a row anyway. -->
+        <a class="gcard gcard-ask gcard-ask-row" href="/request">
+          <span class="ask-t">
+            <b>Can't find your program?</b>
+            Not listed doesn't mean not available. Tell us the program and amount, and we'll check it and quote you.
+          </span>
           <span class="askcta">Ask for a quote →</span>
         </a>
       </div>
