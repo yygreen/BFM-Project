@@ -45,6 +45,7 @@ const schema = z.object({
     agentEmail: z.string().email().or(z.literal("")),
     web3formsKeyQuote: z.string(),
     web3formsKeyAgents: z.string(),
+    phone: z.string(),
     whatsapp: z.string(),
     telegram: z.string(),
     verified: z.boolean(),

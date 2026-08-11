@@ -15,9 +15,10 @@
     "agentEmail": "",
     "web3formsKeyQuote": "",
     "web3formsKeyAgents": "",
-    "whatsapp": "",
+    "whatsapp": "+1 908 718 1082",
     "telegram": "",
-    "verified": false
+    "verified": true,
+    "phone": "855-345-3500"
   },
   "guarantee": {
     "shortLabel": "escrow protection",
