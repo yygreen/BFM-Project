@@ -15,6 +15,7 @@
 // the quote widget and the comparison tool can hand a visitor straight over.
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ProgramSelect from "../components/ProgramSelect.astro";
 import { getCollection } from "astro:content";
 import { site, quoteFormReady, paymentSentence } from "../lib/site";
 
@@ -92,12 +93,8 @@ const methods = site.payments.verified ? site.payments.methods : [];
         <div class="ostep" data-step="1">
           <div class="form-grid">
             <div class="field">
-              <label for="o-program">Programme *</label>
-              <select id="o-program" name="program" class="c-select" required>
-                {airlines.map((a) => (
-                  <option value={a.slug}>{a.airline} — {a.program}</option>
-                ))}
-              </select>
+              <label id="o-program-label" for="o-prog-btn">Programme *</label>
+              <ProgramSelect id="o-prog" name="program" labelId="o-program-label" required />
             </div>
             <div class="field">
               <label for="o-miles">How many miles? *</label>
@@ -220,7 +217,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
       const data = JSON.parse(document.getElementById("order-data").textContent);
       const byId = Object.fromEntries(data.map((d) => [d.slug, d]));
       const $ = (id) => document.getElementById(id);
-      const prog = $("o-program");
+      const prog = $("o-prog-native");
       const miles = $("o-miles");
       const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
       const num = (n) => n.toLocaleString("en-US");
@@ -228,7 +225,12 @@ const methods = site.payments.verified ? site.payments.methods : [];
       // deep link: /order?program=slug&miles=70000
       const q = new URLSearchParams(location.search);
       const wanted = q.get("program");
-      if (wanted && byId[wanted]) prog.value = wanted;
+      // the listbox paints from the native select on load, so a deep link has
+      // to announce the change or the button keeps showing the first programme
+      if (wanted && byId[wanted]) {
+        prog.value = wanted;
+        prog.dispatchEvent(new Event("change", { bubbles: true }));
+      }
       const wantedMiles = parseInt(q.get("miles") || "", 10);
 
       function current() { return byId[prog.value] || data[0]; }
