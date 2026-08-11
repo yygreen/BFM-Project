@@ -241,9 +241,11 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
    rather than another counted figure */
 .statband a.sb { transition:border-color .18s ease, transform .18s ease; }
 .statband a.sb:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
-/* scoped past `.statband .sb span`, which would otherwise grey the stars out */
+/* scoped past `.statband .sb span`, which would otherwise grey the stars out.
+   The slot renders on every card — empty on the counters — so the figures
+   below it share one baseline whether a card has stars or not. */
 .statband .sb .sb-stars { display:block; color:#F5A623; font-size:14px; letter-spacing:1px;
-  line-height:1; margin:7px 0 0; }
+  line-height:1; height:14px; margin:0 0 7px; }
 .statband .sb .sb-dim { color:var(--line-2); }
 /* two-up on phones leaves the fifth card orphaned — the rating spans instead */
 @media (max-width:560px){ .statband .sb-rev { grid-column:1 / -1; } }
