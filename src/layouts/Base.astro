@@ -220,16 +220,18 @@ const hreflangs = alternates.length
             Miles are transferred into the account you already hold, across {programs.length} loyalty programs. Ask for a quote and we'll confirm your rate and delivery window before anything is paid.
           </p>
         </div>
-        {contactWays.length > 0 && (
-          <div class="foot-contact">
-            <h5>Talk to us</h5>
-            {contactWays.map((w) => (
-              <a href={w.href} rel={w.external ? "noopener" : undefined} target={w.external ? "_blank" : undefined}>
-                <span>{w.label}</span>{w.value}
-              </a>
-            ))}
-          </div>
-        )}
+        <!-- The column renders even when the channels are suppressed, so the
+             contact page stays linked from every page regardless of what
+             site.json has confirmed. -->
+        <div class="foot-contact">
+          <h5>Talk to us</h5>
+          {contactWays.map((w) => (
+            <a href={w.href} rel={w.external ? "noopener" : undefined} target={w.external ? "_blank" : undefined}>
+              <span>{w.label}</span>{w.value}
+            </a>
+          ))}
+          <a class="foot-contact-page" href="/contact">Contact</a>
+        </div>
         <div>
           <h5><a href="/blog">Blog</a></h5>
           <a href="/blog">All news &amp; guides</a>
@@ -245,7 +247,6 @@ const hreflangs = alternates.length
           <a href="/agents">For agents &amp; brokers</a>
           <a href="/#how">How it works</a>
           <a href="/faq">FAQ</a>
-          <a href="/contact">Contact</a>
           <a href="/#trust">Why trust us</a>
           <a href="/privacy">Privacy policy</a>
           <a href="/terms">Terms &amp; conditions</a>

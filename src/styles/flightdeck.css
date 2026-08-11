@@ -78,6 +78,9 @@ img, svg { max-width:100%; }
 .foot-contact a { margin-bottom:14px; line-height:1.4; }
 .foot-contact a span { display:block; color:#7B80A8; font-size:12.5px; }
 .foot-contact a:hover span { color:#9AA0C8; }
+/* the page, under the channels it lists — a destination rather than a way to
+   reach us, so it sits apart from the label/value rows above it */
+.foot-contact-page { margin-top:4px; }
 @media (max-width:900px){ .site-footer .cols { grid-template-columns:1fr 1fr; } }
 @media (max-width:520px){ .site-footer .cols { grid-template-columns:1fr; } }
 /* the roster as a wide band: 21 programs in four short columns instead of
