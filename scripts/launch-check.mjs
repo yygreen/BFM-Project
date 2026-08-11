@@ -41,7 +41,7 @@ const unlimited = airlines.filter((a) => !a.limitsVerified);
 if (unlimited.length) {
   blocking.push([
     "1",
-    `Order min/max unconfirmed for ${unlimited.length} program(s) — the quote widget GUIDES with these figures ("orders usually start around…") instead of enforcing them, so nothing is turned away on an invented limit`,
+    `Order min/max unconfirmed for ${unlimited.length} program(s) — and the widget now ENFORCES them: an amount outside the range cannot be submitted. Every wrong figure here turns away a real order`,
     "src/data/airlines.json → min, max, then limitsVerified: true. Note every program currently shares 25,000/500,000, which no one has confirmed",
   ]);
 } else done.push(["1", "All order limits verified"]);

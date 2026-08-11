@@ -31,7 +31,6 @@ const data = airlines.map((a) => ({
   verified: a.priceVerified,
   min: a.min,
   max: a.max,
-  limitsVerified: a.limitsVerified,
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
   inStock: a.inStock,
 }));
@@ -254,9 +253,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
         $("o-cost").textContent = ok ? approx + usd(cost) : "—";
         $("o-rate").textContent = approx + c.rate + "¢ / mile";
         $("o-delivery").textContent = c.delivery ? "Within " + c.delivery : "Confirmed on your quote";
-        $("o-limits").textContent = c.limitsVerified
-          ? `Orders run ${num(c.min)}–${num(c.max)} miles.`
-          : `Most orders run ${num(c.min)}–${num(c.max)} miles — ask if you need more or less.`;
+        $("o-limits").textContent = `Orders run ${num(c.min)}–${num(c.max)} miles.`;
 
         const stock = $("o-stock");
         stock.hidden = c.inStock;

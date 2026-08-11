@@ -44,12 +44,9 @@ const EN = {
   orderInstead: "Ready to order? Give us the account details →",
   foot: "Payment stays off-site. We only ask for your loyalty account number once you've approved the quote.",
   per1000: "≈ {v} per 1,000 miles",
-  rangeSoft: "Most orders run {min}–{max} miles.",
-  rangeHard: "{min} minimum, {max} maximum.",
-  softBelow: "Orders usually start around {min} miles — ask and we'll quote a smaller one.",
-  softAbove: "Above about {max} miles we'll quote it as a custom order.",
-  hardBelow: "{program} has a {min} mile minimum.",
-  hardAbove: "{program} caps a single order at {max} miles.",
+  range: "{min} minimum, {max} maximum.",
+  below: "{program} has a {min} mile minimum.",
+  above: "{program} caps a single order at {max} miles.",
   use: "Use {v}",
   sending: "Sending…",
   ok: "Thanks — your request is in. We'll confirm your exact rate and delivery shortly.",
@@ -89,7 +86,6 @@ const data = airlines.map((a) => ({
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
   min: a.min,
   max: a.max,
-  limitsVerified: a.limitsVerified,
   direct: directBuyRate(a.directBuyCents),
 }));
 
@@ -308,8 +304,10 @@ const notWired = labels.notWired ?? (orderEmail
       const approx = c.verified ? "" : "~";
       const outOfRange = m > 0 && (m < c.min || m > c.max);
       const ok = m > 0 && !outOfRange;
-      // blocked only when the limit is a confirmed rule, not a placeholder
-      const blocked = outOfRange && c.limitsVerified;
+      // The limits are a rule, not a suggestion: an amount outside them can't
+      // be submitted. Whether the FIGURES are right is a separate question,
+      // tracked by limitsVerified and still a launch blocker until confirmed.
+      const blocked = outOfRange;
       const canGo = m > 0 && !blocked;
 
       // Below the minimum the fix is always the same — order the minimum — so
@@ -317,26 +315,16 @@ const notWired = labels.notWired ?? (orderEmail
       // to guess. Above the maximum the ceiling is the answer instead.
       const below = m > 0 && m < c.min;
       const target = below ? c.min : c.max;
-      // Until the client confirms the order limits, these figures GUIDE but do
-      // not assert. Stating "KrisFlyer has a 25,000 mile minimum" as policy —
-      // and refusing the order on it — would be publishing an unverified claim
-      // about the client's own business, and could turn away business they'd
-      // happily take. Once limitsVerified flips, it becomes a firm rule.
       const vars = { program: c.program, min: num(c.min), max: num(c.max) };
-      const fixMsg = !outOfRange
-        ? ""
-        : c.limitsVerified
-          ? fmt(below ? T.hardBelow : T.hardAbove, vars)
-          : fmt(below ? T.softBelow : T.softAbove, vars);
-      const fixLabel = outOfRange && c.limitsVerified ? fmt(T.use, { v: num(target) }) : "";
+      const fixMsg = outOfRange ? fmt(below ? T.below : T.above, vars) : "";
+      const fixLabel = outOfRange ? fmt(T.use, { v: num(target) }) : "";
 
       const range = $("qw-range");
-      range.textContent = outOfRange ? fixMsg
-        : fmt(c.limitsVerified ? T.rangeHard : T.rangeSoft, vars);
+      range.textContent = outOfRange ? fixMsg : fmt(T.range, vars);
       range.classList.toggle("warn", outOfRange);
 
       const fix1 = $("qw-minfix-1");
-      fix1.hidden = !(outOfRange && c.limitsVerified);
+      fix1.hidden = !outOfRange;
       fix1.textContent = fixLabel;
       fix1.dataset.target = target;
 
