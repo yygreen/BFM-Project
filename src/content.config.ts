@@ -108,6 +108,11 @@ const airlines = defineCollection({
       inStock: z.boolean(),
 
       heroHeadline: z.string().min(1),
+      // The run of words inside heroHeadline that gets the blue highlight —
+      // normally the search phrase the page is written for, so the h1 shows
+      // what the page is about at a glance. Must appear verbatim in the
+      // headline; the template checks and falls back to a plain h1.
+      heroHighlight: z.string().min(1).optional(),
       heroSub: z.string().min(1),
       metaTitle: z.string().min(1).max(70),
       metaDescription: z.string().min(1).max(200),

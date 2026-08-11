@@ -34,13 +34,18 @@ const progShort = a.program.replace(/\s*\(.*\)$/, "");
 // "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
 // suffix when the programme name already ends in it
 const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
-// The programme name inside the h1 gets the same blue highlight the homepage
-// gives its key phrase — it's the one word on the page a visitor is checking
-// they landed on. Headlines are written "<verb> <brand + programme> <tail>",
-// so the middle is the brand phrase; anything that doesn't fit the shape
-// renders plain rather than guessing where the name ends.
-const hm = a.heroHeadline.match(/^(Buy|Top up)\s+(.+?)(\s+miles\.|\s+points\.|\s+with precision\.|\.)$/);
-const head = hm ? { lead: `${hm[1]} `, name: hm[2], tail: hm[3] } : null;
+// The h1 highlights the phrase the page is written for, which is the thing a
+// visitor is checking they landed on. The phrase is named in the data rather
+// than inferred from the sentence, so a reworded headline can't quietly
+// highlight the wrong run of words; if it isn't found, the h1 renders plain.
+const hi = a.heroHighlight && a.heroHeadline.indexOf(a.heroHighlight);
+const head = hi >= 0
+  ? {
+      lead: a.heroHeadline.slice(0, hi),
+      name: a.heroHighlight,
+      tail: a.heroHeadline.slice(hi + a.heroHighlight.length),
+    }
+  : null;
 
 const rev = realReviews[0];
 const years = yearsTrading();
