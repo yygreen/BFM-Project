@@ -99,7 +99,7 @@ const jsonld = {
         </div>
         <div>
           <div class="tbox" style="padding:24px">
-            <p class="lab" style="margin-bottom:14px">Partner snapshot</p>
+            <p class="lab" style="margin-bottom:14px">What you get</p>
             <ul class="checklist">
               <li><Fragment set:html={check} /> Partner rates that scale with volume{site.partner.verified && site.partner.qualifyText ? `, ${site.partner.qualifyText}` : ""}</li>
               <li><Fragment set:html={check} /> Miles across every major program</li>
@@ -120,23 +120,27 @@ const jsonld = {
     <div class="container">
       <div class="section-head">
         <h2>Two ways we help you deliver</h2>
-        <p>Hand off as much or as little as you want. Built for professionals who resell to clients and can't afford a miss.</p>
+        <p>Hand off as much or as little as you want.</p>
       </div>
+      <!-- the claims belong to one service or the other, so they live inside
+           the card they describe rather than floating under both -->
       <div class="uses uses-2">
         <div class="use">
           <h4>Miles top-ups</h4>
           <p>Buy miles across every major program and complete your client's redemption yourself.</p>
+          <ul class="checklist use-list">
+            <li><Fragment set:html={check} /> Per-mile rates that scale with volume</li>
+            <li><Fragment set:html={check} /> Delivery your client's itinerary can rely on</li>
+          </ul>
         </div>
         <div class="use">
           <h4>Booked award tickets</h4>
           <p>Send the route, cabin and dates. We source the seat and hand you a confirmed ticket.</p>
+          <ul class="checklist use-list">
+            <li><Fragment set:html={check} /> Specific business and first class award space</li>
+            <li><Fragment set:html={check} /> White-label, so the relationship stays yours</li>
+          </ul>
         </div>
-      </div>
-      <div class="vgood vgood-4">
-        <div class="vitem">Rates that scale with volume</div>
-        <div class="vitem">Delivery your client's itinerary can rely on</div>
-        <div class="vitem">Specific business and first class award space</div>
-        <div class="vitem">White-label, so the relationship stays yours</div>
       </div>
     </div>
   </section>

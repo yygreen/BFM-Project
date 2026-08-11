@@ -538,6 +538,9 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .checklist li { display:flex; gap:11px; align-items:flex-start; font-size:15px; color:var(--ink); padding:10px 0; border-bottom:1px solid var(--line); }
 .checklist li:last-child { border-bottom:none; }
 .checklist svg { flex:0 0 auto; margin-top:2px; }
+/* checklist nested in a card: lighter than the standalone version */
+.use-list { margin-top:14px; border-top:1px solid var(--line); padding-top:4px; }
+.use-list li { font-size:14px; color:var(--text-2); padding:8px 0; border-bottom:none; }
 
 /* ---- cta band ---- */
 .cta-band { position:relative; overflow:hidden; background:linear-gradient(120deg,var(--cobalt),#4a2fff); color:#fff; border-radius:var(--radius-card); padding:clamp(36px,5vw,64px); text-align:center; box-shadow:var(--shadow-lg); }
