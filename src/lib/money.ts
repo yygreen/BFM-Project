@@ -13,12 +13,19 @@
 // /order, which run in the browser as `is:inline` scripts and so cannot
 // import. Change one, change those.
 
-/** Dollars, with cents only when there are cents: 1080 → "$1,080", 19.5 → "$19.50" */
-export function usd(n: number): string {
+/**
+ * Dollars, with cents only when there are cents: 1080 → "$1,080", 19.5 → "$19.50"
+ *
+ * `locale` groups the digits the way the page's language does. It matters on
+ * the localized pages, where "$1,900" sitting beside "100.000 Meilen" is two
+ * conventions in one line, and where a German reader takes "1,900" for one
+ * point nine. The currency stays USD everywhere, and the localized copy says so.
+ */
+export function usd(n: number, locale = "en-US"): string {
   const cents = Math.round(n * 100);
   return (
     "$" +
-    (cents / 100).toLocaleString("en-US", {
+    (cents / 100).toLocaleString(locale, {
       minimumFractionDigits: cents % 100 === 0 ? 0 : 2,
       maximumFractionDigits: 2,
     })

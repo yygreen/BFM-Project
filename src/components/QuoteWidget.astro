@@ -58,8 +58,12 @@ const EN = {
   rateUnit: "¢/mi",
   saveVs: "You save vs {v}¢ direct",
   d24: "24 hours",
+  // grouping locale for miles counts and prices, overridden per language
+  numLocale: "en-US",
 };
 const L = { ...EN, ...labels };
+// 1.9 is "1,9" to a German reader — the rate chips follow the page language
+const rateStr = (n) => n.toLocaleString(L.numLocale);
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
@@ -135,7 +139,7 @@ const notWired = labels.notWired ?? (orderEmail
               <span class="csel-air">{start.airline}</span>
               <span class="csel-prog">{start.program}</span>
             </span>
-            <span class="csel-price">{start.verified ? "" : "~"}{start.rate}¢</span>
+            <span class="csel-price">{start.verified ? "" : "~"}{rateStr(start.rate)}¢</span>
           </div>
         )}
         {!locked && (
@@ -158,7 +162,7 @@ const notWired = labels.notWired ?? (orderEmail
                   <span class="csel-air">{d.airline}</span>
                   <span class="csel-prog">{d.program}</span>
                 </span>
-                <span class="csel-price">{d.verified ? "" : "~"}{d.rate}¢</span>
+                <span class="csel-price">{d.verified ? "" : "~"}{rateStr(d.rate)}¢</span>
               </li>
             ))}
           </ul>
@@ -258,9 +262,12 @@ const notWired = labels.notWired ?? (orderEmail
     // and $488 would overstate it. Integer cents keep binary float noise out
     // of the figure. Mirrors src/lib/money.ts, which this inline script
     // cannot import.
+    // Grouping follows the page's language: "25.000 Meilen" on the German
+    // page, where "25,000" would be read as twenty-five.
+    const LOC = T.numLocale || "en-US";
     const usd = (n) => {
       const c = Math.round(n * 100);
-      return "$" + (c / 100).toLocaleString("en-US", {
+      return "$" + (c / 100).toLocaleString(LOC, {
         minimumFractionDigits: c % 100 === 0 ? 0 : 2, maximumFractionDigits: 2,
       });
     };
@@ -274,7 +281,7 @@ const notWired = labels.notWired ?? (orderEmail
       return Number.isFinite(m) && m > 0 ? m : 0;
     }
 
-    const num = (n) => n.toLocaleString("en-US");
+    const num = (n) => n.toLocaleString(LOC);
 
     // Each programme sets its own order size. Carry those onto the input so the
     // field validates against the programme actually selected, not a global
@@ -349,7 +356,7 @@ const notWired = labels.notWired ?? (orderEmail
       $("qw-cost").textContent = blocked ? "—" : m ? approx + usd(cost) : "$0";
       // "≈" already signals approximation — don't also prefix "~"
       $("qw-per").textContent = fmt(T.per1000, { v: usd(Math.round(c.rate * 1000) / 100) });
-      $("qw-rate").textContent = approx + c.rate + T.rateUnit;
+      $("qw-rate").textContent = approx + c.rate.toLocaleString(LOC) + T.rateUnit;
       $("qw-delivery").textContent = c.delivery ? (c.delivery === "24 hours" ? T.d24 : c.delivery) : T.onQuote;
       $("qw-note").hidden = c.verified;
 

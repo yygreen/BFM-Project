@@ -11,6 +11,10 @@ import { getPosts } from "../../lib/blog";
 import { site, realReviews, yearsTrading } from "../../lib/site";
 import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
 
+// each locale named in its own language, the way a reader looking for it
+// would recognise it
+const LOCALE_NAMES: Record<string, string> = { ar: "العربية", de: "Deutsch" };
+
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
   const posts = await getPosts();
@@ -96,7 +100,11 @@ const jsonld = {
             { label: `${a.airline} ${progShort}` },
           ]} />
           <span class="kicker">{a.alliance}</span>
-          {a.i18n?.ar && <a class="lang-toggle" href={`/ar/buy/${a.slug}`} lang="ar" hreflang="ar">العربية</a>}
+          {/* one toggle per translation the entry carries, so a new market
+              needs no edit here — only the locale's own name below */}
+          {Object.keys(a.i18n ?? {}).map((loc) => (
+            <a class="lang-toggle" href={`/${loc}/buy/${a.slug}`} lang={loc} hreflang={loc}>{LOCALE_NAMES[loc] ?? loc}</a>
+          ))}
           <h1>{head ? <>{head.lead}<span class="hl">{head.name}</span>{head.tail}</> : a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
           {/* Both buttons used to point at #quote, which sits beside them in

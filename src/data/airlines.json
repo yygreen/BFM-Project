@@ -961,7 +961,59 @@
       }
     ],
     "logo": "/logos/lufthansa-miles-more.svg",
-    "logoAlt": "Lufthansa logo"
+    "logoAlt": "Lufthansa logo",
+    "i18n": {
+      "de": {
+        "metaTitle": "Lufthansa Meilen kaufen | Miles & More aufstocken",
+        "metaDescription": "Miles & More Meilen kaufen und Ihr Konto für Business und First aufstocken. Der genaue Preis steht vor der Zahlung fest, die Meilen gehen auf Ihr eigenes Konto.",
+        "heroHeadline": "Miles & More Meilen kaufen und vorne fliegen.",
+        "heroSub": "Stocken Sie Ihr Miles-&-More-Konto auf und lösen Sie Business oder First ein. Wir nennen Ihnen den Preis pro Meile und den Lieferzeitraum, bevor Sie zahlen.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Sie wählen die gewünschte Menge und erhalten ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach Ihrer Freigabe zahlen Sie außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf Ihr bestehendes Miles-&-More-Konto. Die Prämie buchen Sie danach direkt bei Lufthansa, auf Ihren Namen."
+          }
+        ],
+        "points": [
+          "Preis pro Meile und Lieferzeitraum stehen schriftlich fest, bevor Sie zahlen.",
+          "Die Meilen gehen auf Ihr eigenes Konto. Sie eröffnen nichts Neues und behalten die Buchung in der Hand.",
+          "Die Zahlung läuft außerhalb dieser Website. Hier werden keine Zahlungsdaten erfasst.",
+          "Wir sind unabhängig und gehören zu keiner Fluggesellschaft und zu keinem Vielfliegerprogramm."
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Miles-&-More-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für Ihre Menge bestätigen wir im Angebot, bevor Sie zahlen."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in Ihrem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Brauchen Sie mein Miles-&-More-Passwort?",
+            "a": "Nein. Für die Übertragung genügen Ihre Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn Sie das Angebot angenommen haben."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptieren Sie?",
+            "a": "Die akzeptierten Zahlungswege nennen wir Ihnen zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich Miles-&-More-Meilen am meisten?",
+            "a": "Für Langstrecke in Business und First. Lufthansa gibt First-Class-Prämienplätze an Partnerprogramme erst kurz vor Abflug frei, Miles-&-More-Mitglieder sehen diese Plätze deutlich früher. Lufthansa, Swiss, Austrian und Brussels Airlines buchen aus demselben Meilenkonto."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "flying-blue",

@@ -1,0 +1,236 @@
+---
+// German programme landing pages — generated only for entries carrying an
+// i18n.de block, so opening a language market stays data entry.
+//
+// German is the roster's strongest localisation case by a distance: "miles and
+// more meilen kaufen" runs 1,000/mo at KD 15, "meilen kaufen" 590 at KD 20 and
+// "lufthansa meilen kaufen" 260 at KD 12, which is the softest competitive
+// field of any buy-miles term in any language checked, English included. The
+// de database covers Germany alone, so Austria and Switzerland sit on top.
+//
+// Same honesty rules as everywhere else: an unverified rate stays marked
+// approximate, an unconfirmed delivery window is not asserted at all, and
+// payment stays off-site.
+//
+// v1 scope, as with Arabic: header and footer chrome stay English, and the
+// quote request lands in the same inbox as every other one.
+import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import QuoteWidget from "../../../components/QuoteWidget.astro";
+import { getCollection } from "astro:content";
+import { realReviews, yearsTrading } from "../../../lib/site";
+import { usd, per1000, costOf } from "../../../lib/money";
+
+const rev = realReviews[0];
+const years = yearsTrading();
+
+// German strings for the quote widget's chrome. UI copy lives here in the
+// template (shared across programmes); marketing copy stays in the data.
+const DE_WIDGET = {
+  programme: "Programm",
+  howMany: "Wie viele Meilen?",
+  est: "Geschätzter Preis",
+  rate: "Preis pro Meile",
+  delivery: "Lieferung",
+  onQuote: "mit dem Angebot",
+  note: "Richtwert. Den genauen Preis bestätigen wir in Ihrem Angebot, bevor Sie zahlen.",
+  continue: "Weiter →",
+  back: "← Programm wechseln",
+  backLocked: "Menge ändern →",
+  milesUnit: "Meilen",
+  name: "Name *",
+  email: "E-Mail *",
+  contact: "WhatsApp / Telegram",
+  contactPh: "Optional: wie sollen wir antworten?",
+  submit: "Angebot anfordern",
+  orderInstead: "Direkt bestellen? Kontodaten angeben →",
+  foot: "Die Zahlung läuft außerhalb dieser Website. Nach Ihrer Kontonummer fragen wir erst, wenn Sie das Angebot angenommen haben.",
+  per1000: "≈ {v} je 1.000 Meilen",
+  rangeSoft: "Die meisten Bestellungen liegen zwischen {min} und {max} Meilen.",
+  rangeHard: "Minimum {min}, Maximum {max} Meilen.",
+  softBelow: "Bestellungen starten meist bei etwa {min} Meilen. Schreiben Sie uns für kleinere Mengen.",
+  softAbove: "Über etwa {max} Meilen kalkulieren wir individuell.",
+  hardBelow: "Das Minimum bei {program} liegt bei {min} Meilen.",
+  hardAbove: "{program} begrenzt eine Bestellung auf {max} Meilen.",
+  use: "{v} verwenden",
+  sending: "Wird gesendet…",
+  ok: "Danke, Ihre Anfrage ist da. Wir melden uns mit dem genauen Preis und dem Lieferzeitraum.",
+  errGeneric: "Etwas ist schiefgelaufen. Bitte schreiben Sie uns stattdessen eine E-Mail.",
+  errNetwork: "Verbindungsfehler. Bitte erneut versuchen oder uns direkt schreiben.",
+  rateUnit: "¢/Meile",
+  saveVs: "Ersparnis gegenüber dem Direktkauf: {v}¢",
+  d24: "innerhalb von 24 Stunden",
+  // "25,000" reads as twenty-five to a German speaker — the widget groups its
+  // figures by this rather than the English default
+  numLocale: "de-DE",
+  notWired: "Angebotsanfragen sind noch nicht angebunden. Bitte schreiben Sie uns direkt, wir kalkulieren Ihren Preis.",
+};
+
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return airlines
+    .filter((a) => a.i18n?.de)
+    .map((a) => ({ params: { slug: a.slug }, props: { a, t: a.i18n.de } }));
+}
+
+const { a, t } = Astro.props;
+const verified = a.priceVerified;
+const DE = "de-DE";
+// German decimal comma: 1.9¢ is "1,9 Cent" to this reader
+const rateDe = a.pricePerMile.toLocaleString(DE);
+---
+<Base
+  title={`${t.metaTitle} | buyflightmiles`}
+  description={t.metaDescription}
+  slug={`de/buy/${a.slug}`}
+  lang="de"
+  alternates={[{ hreflang: "en", slug: `buy/${a.slug}` }]}
+>
+  <div lang="de">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid top">
+          <div>
+            <Breadcrumbs items={[
+              { label: "Start", href: "/" },
+              { label: "Programme", href: "/#programs" },
+              { label: `${a.airline} ${a.program}` },
+            ]} />
+            <span class="kicker">{a.alliance}</span>
+            <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">English</a>
+            <h1>{t.heroHeadline}</h1>
+            <p class="sub">{t.heroSub}</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
+            </div>
+            <div class="spec">
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                <b>{verified ? "" : "ca. "}{rateDe} ¢</b>&nbsp;pro Meile
+              </span>
+              {/* an unconfirmed window is not a promise — this says where the
+                  number comes from instead of inventing one */}
+              {a.deliveryVerified ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <b>{a.delivery.replace("Within ", "").replace("hours", "Stunden")}</b>&nbsp;Lieferzeit
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Lieferzeit im Angebot
+                </span>
+              )}
+              {rev ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <b>{rev.rating.toLocaleString(DE)}/{rev.outOf}</b>&nbsp;auf {rev.platform}
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Kostenlos und unverbindlich
+                </span>
+              )}
+              {years !== null && (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                  <b>{years}+ Jahre</b>&nbsp;am Markt
+                </span>
+              )}
+            </div>
+          </div>
+          <div class="hero-art">
+            <div class="hero-calc" id="quote">
+              <QuoteWidget
+                defaultSlug={a.slug}
+                locked
+                heading="Was kosten Ihre Meilen?"
+                sub="Menge eingeben, Preis sehen, Angebot anfordern."
+                labels={DE_WIDGET}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>So läuft es ab</h2>
+        </div>
+        <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+          {t.steps.map((s, i) => (
+            <div class="step">
+              <div class="n">0{i + 1}</div>
+              <h4>{s.title}</h4>
+              <p>{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section tinted">
+      <div class="container">
+        <div class="section-head">
+          <h2>Was Sie hier bekommen</h2>
+        </div>
+        <div class="vgood">
+          {t.points.map((p) => <div class="vitem">{p}</div>)}
+        </div>
+      </div>
+    </section>
+
+    {/* the arithmetic, in the reader's own number format — the English
+        calculator page is a separate surface and stays English for now */}
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>{a.program} im Überblick</h2>
+          <p>Gängige Bestellgrößen zum Richtwert von ca. {rateDe} Cent pro Meile. Alle Preise in US-Dollar.</p>
+        </div>
+        <div class="rate-rows">
+          {[25000, 50000, 100000, 150000, 250000, 500000]
+            .filter((m) => m >= a.min && m <= a.max)
+            .map((m) => (
+              <div class="rate-row">
+                <span>{m.toLocaleString("de-DE")} Meilen</span>
+                <i></i>
+                <b class="mono">ca. {usd(costOf(m, a.pricePerMile), DE)}</b>
+              </div>
+            ))}
+        </div>
+        <p class="tiny" style="margin-top:16px">
+          Das entspricht rund {usd(per1000(a.pricePerMile), DE)} je 1.000 Meilen. Den genauen Preis
+          bestätigen wir in Ihrem Angebot, bevor Sie zahlen.
+        </p>
+      </div>
+    </section>
+
+    <section class="section tinted">
+      <div class="container">
+        <div class="section-head">
+          <h2>Häufige Fragen</h2>
+        </div>
+        {t.faq.map((f) => (
+          <details class="faq">
+            <summary>{f.q}</summary>
+            <div class="faq-body"><p>{f.a}</p></div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container ctaband">
+        <div>
+          <h3>Bereit für Ihr Angebot?</h3>
+          <p>Erst der Preis, dann die Zahlung. Auf dieser Website wird nichts abgebucht.</p>
+        </div>
+        <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
+      </div>
+    </section>
+  </div>
+</Base>

@@ -127,9 +127,16 @@ const airlines = defineCollection({
       // when the programme-fact blocks above were last checked, e.g. "August 2026"
       factsChecked: z.string().optional(),
 
-      // localized landing pages, keyed by locale ("ar" only for now — add a
-      // locale to the enum when a second market opens)
-      i18n: z.record(z.enum(["ar"]), translation).optional(),
+      // Localized landing pages, keyed by locale. Add a key here and a route
+      // under src/pages/{locale}/buy/ when a market opens. Optional one by
+      // one rather than a record over a locale enum: that form is exhaustive
+      // in Zod, so every programme would be required to carry every language.
+      i18n: z
+        .object({
+          ar: translation.optional(),
+          de: translation.optional(),
+        })
+        .optional(),
     })
     .refine((d) => d.max >= d.min, {
       message: "max must be greater than or equal to min",
