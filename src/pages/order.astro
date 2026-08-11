@@ -1,0 +1,337 @@
+---
+// Order flow — the replacement for the old WordPress /checkout.
+//
+// The old page collected card number, CVV, a cardholder signature and a photo
+// of the buyer's ID, then "processed payment immediately". None of that can
+// live here: payment stays off this site, the accepted methods are USDT, wire
+// and cash, and a static site must never be the thing holding card data.
+//
+// What survives is everything else a checkout does — what you're buying, where
+// the miles go, how you'd like to pay, a summary you can check, and a single
+// submit. We confirm the exact rate, then send payment instructions off-site.
+// Nothing is charged here at any point.
+//
+// Deep-linkable: /order?program=qatar-avios&miles=70000 arrives prefilled, so
+// the quote widget and the comparison tool can hand a visitor straight over.
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { getCollection } from "astro:content";
+import { site, quoteFormReady, paymentSentence } from "../lib/site";
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+
+// the client-side script needs rate, limits and delivery per programme
+const data = airlines.map((a) => ({
+  slug: a.slug,
+  label: `${a.airline} — ${a.program}`,
+  rate: a.pricePerMile,
+  verified: a.priceVerified,
+  min: a.min,
+  max: a.max,
+  limitsVerified: a.limitsVerified,
+  delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
+  inStock: a.inStock,
+}));
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+const notWired = orderEmail
+  ? `Orders aren't connected yet — please email ${orderEmail} with the details below and we'll pick it up from there.`
+  : "Orders aren't connected yet — please contact us directly with these details and we'll pick it up from there.";
+
+// Payment options render only once the client has confirmed them. Until then
+// the step asks for a preference in words rather than inventing a list.
+const pay = paymentSentence();
+const methods = site.payments.verified ? site.payments.methods : [];
+---
+<Base
+  title="Order Airline Miles | Quoted First, Paid Off-Site | buyflightmiles"
+  description="Place your miles order in three steps: what you need, where it goes, how you'd like to pay. We confirm your exact rate before any payment, and nothing is charged on this site."
+  slug="order"
+  robots="noindex,follow"
+>
+  <section class="section" style="padding-bottom:16px">
+    <div class="container" style="max-width:860px">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Order" },
+      ]} />
+      <div class="section-head">
+        <span class="kicker">Order</span>
+        <h1>Place your order</h1>
+        <p>
+          Three short steps. We reply with a firm quote confirming your exact rate and
+          delivery window, and payment happens after you approve it — never on this site.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wash-cool" style="padding-top:0">
+    <div class="container" style="max-width:860px">
+      <script type="application/json" id="order-data" set:html={JSON.stringify(data)} />
+
+      <ol class="ostep-nav" aria-label="Order progress">
+        <li class="on" data-for="1"><b>1</b><span>Your miles</span></li>
+        <li data-for="2"><b>2</b><span>Where they go</span></li>
+        <li data-for="3"><b>3</b><span>Payment &amp; review</span></li>
+      </ol>
+
+      <form class="formcard ocard" id="order-form" data-key={accessKey ? "1" : ""}>
+        <input type="hidden" name="access_key" value={accessKey} />
+        <input type="hidden" id="order-fallback" value={notWired} />
+        <input type="hidden" name="subject" value="Miles order — buyflightmiles" />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+        <!-- what the buyer was actually shown travels with the enquiry -->
+        <input type="hidden" name="estimate" id="o-estimate-field" />
+        <input type="hidden" name="rate" id="o-rate-field" />
+
+        <!-- STEP 1 — what you need -->
+        <div class="ostep" data-step="1">
+          <div class="form-grid">
+            <div class="field">
+              <label for="o-program">Programme *</label>
+              <select id="o-program" name="program" class="c-select" required>
+                {airlines.map((a) => (
+                  <option value={a.slug}>{a.airline} — {a.program}</option>
+                ))}
+              </select>
+            </div>
+            <div class="field">
+              <label for="o-miles">How many miles? *</label>
+              <input id="o-miles" name="miles" type="number" inputmode="numeric" step="1000" min="1000" required />
+            </div>
+          </div>
+          <p class="ohint" id="o-limits"></p>
+          <div class="osum" id="o-quote">
+            <div class="osum-row"><span>Estimated cost</span><b id="o-cost">—</b></div>
+            <div class="osum-row"><span>Rate</span><b id="o-rate">—</b></div>
+            <div class="osum-row"><span>Delivery</span><b id="o-delivery">—</b></div>
+          </div>
+          <p class="ohint" id="o-stock" hidden></p>
+          <button type="button" class="btn btn-primary ostep-next" data-next="2">Continue →</button>
+        </div>
+
+        <!-- STEP 2 — where the miles go -->
+        <div class="ostep" data-step="2" hidden>
+          <p class="onote">
+            <b>We never ask for your password.</b> The membership number and the name on the
+            account are all a transfer needs. Miles land in the account you already hold, and
+            you book the award yourself.
+          </p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="o-account">Loyalty account number *</label>
+              <input id="o-account" name="account_number" type="text" required autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="o-holder">Account holder name *</label>
+              <input id="o-holder" name="account_name" type="text" required placeholder="Exactly as it appears on the account" />
+            </div>
+            <div class="field">
+              <label for="o-email">Email *</label>
+              <input id="o-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="o-phone">WhatsApp / Telegram</label>
+              <input id="o-phone" name="contact_handle" type="text" placeholder="Optional — how you'd like us to reply" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="o-notes">Anything we should know?</label>
+            <textarea id="o-notes" name="notes" rows="3" placeholder="The award you're chasing, timing, account region — whatever helps us get it right."></textarea>
+          </div>
+          <div class="ostep-btns">
+            <button type="button" class="ostep-back" data-back="1">← Back</button>
+            <button type="button" class="btn btn-primary ostep-next" data-next="3">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 — payment preference and review -->
+        <div class="ostep" data-step="3" hidden>
+          {methods.length > 0 ? (
+            <>
+              <p class="olab">How would you like to pay?</p>
+              <div class="opays">
+                {methods.map((m, i) => (
+                  <label class="opay">
+                    <input type="radio" name="payment_method" value={m} checked={i === 0} />
+                    <span>{m}</span>
+                  </label>
+                ))}
+              </div>
+              <p class="ohint">
+                Payment happens off this site after you approve the quote. We accept {pay}.
+                {site.payments.minOrderUsd ? ` Minimum order is $${site.payments.minOrderUsd.toLocaleString("en-US")}.` : ""}
+              </p>
+            </>
+          ) : (
+            <>
+              <p class="olab">Payment</p>
+              <p class="ohint">
+                We'll confirm the accepted payment methods with your quote. Payment is always
+                handled off this site, after you've approved that quote — no card details are
+                ever collected here.
+              </p>
+              <div class="field">
+                <label for="o-paypref">Preferred method (optional)</label>
+                <input id="o-paypref" name="payment_preference" type="text" placeholder="However you'd prefer to settle" />
+              </div>
+            </>
+          )}
+
+          <div class="osum osum-final">
+            <p class="olab" style="margin-bottom:10px">Your order</p>
+            <div class="osum-row"><span>Programme</span><b id="o-r-program">—</b></div>
+            <div class="osum-row"><span>Miles</span><b id="o-r-miles">—</b></div>
+            <div class="osum-row"><span>Estimated cost</span><b id="o-r-cost">—</b></div>
+            <div class="osum-row"><span>Delivery</span><b id="o-r-delivery">—</b></div>
+            <p class="ohint" style="margin-top:12px">
+              An estimate, not a charge. Your exact rate is confirmed in the quote we send back,
+              before any money moves.
+            </p>
+          </div>
+
+          <label class="oterms">
+            <input type="checkbox" id="o-terms" required />
+            <span>I've read the <a href="/terms">terms</a> and understand nothing is charged on this site.</span>
+          </label>
+
+          <div class="ostep-btns">
+            <button type="button" class="ostep-back" data-back="2">← Back</button>
+            <button type="submit" class="btn btn-primary" id="order-submit">Send my order</button>
+          </div>
+          <p class="form-msg" id="order-msg" hidden></p>
+        </div>
+      </form>
+
+      <p class="ohint" style="text-align:center;margin-top:16px">
+        Prefer to ask something first? <a href="/contact">Contact us</a> — quotes are free and no-obligation.
+      </p>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById("order-form");
+      if (!form) return;
+      const data = JSON.parse(document.getElementById("order-data").textContent);
+      const byId = Object.fromEntries(data.map((d) => [d.slug, d]));
+      const $ = (id) => document.getElementById(id);
+      const prog = $("o-program");
+      const miles = $("o-miles");
+      const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+      const num = (n) => n.toLocaleString("en-US");
+
+      // deep link: /order?program=slug&miles=70000
+      const q = new URLSearchParams(location.search);
+      const wanted = q.get("program");
+      if (wanted && byId[wanted]) prog.value = wanted;
+      const wantedMiles = parseInt(q.get("miles") || "", 10);
+
+      function current() { return byId[prog.value] || data[0]; }
+
+      function paint() {
+        const c = current();
+        const m = parseInt(miles.value, 10);
+        const ok = Number.isFinite(m) && m > 0;
+        const approx = c.verified ? "" : "~";
+        const cost = ok ? (m * c.rate) / 100 : 0;
+
+        $("o-cost").textContent = ok ? approx + usd(cost) : "—";
+        $("o-rate").textContent = approx + c.rate + "¢ / mile";
+        $("o-delivery").textContent = c.delivery ? "Within " + c.delivery : "Confirmed on your quote";
+        $("o-limits").textContent = c.limitsVerified
+          ? `Orders run ${num(c.min)}–${num(c.max)} miles.`
+          : `Most orders run ${num(c.min)}–${num(c.max)} miles — ask if you need more or less.`;
+
+        const stock = $("o-stock");
+        stock.hidden = c.inStock;
+        if (!c.inStock) stock.textContent = "This programme is showing limited availability. Send the order anyway and we'll tell you honestly what we can fill and when.";
+
+        // review panel + the hidden fields that travel with the enquiry
+        $("o-r-program").textContent = c.label;
+        $("o-r-miles").textContent = ok ? num(m) : "—";
+        $("o-r-cost").textContent = ok ? approx + usd(cost) : "—";
+        $("o-r-delivery").textContent = c.delivery ? "Within " + c.delivery : "Confirmed on your quote";
+        $("o-estimate-field").value = ok ? approx + usd(cost) : "";
+        $("o-rate-field").value = approx + c.rate + "¢/mile";
+      }
+
+      miles.value = Number.isFinite(wantedMiles) && wantedMiles > 0
+        ? wantedMiles
+        : Math.min(Math.max(60000, current().min), current().max);
+      prog.addEventListener("change", paint);
+      miles.addEventListener("input", paint);
+      paint();
+
+      // step navigation — each step validates its own required fields before
+      // letting the visitor move on, so nothing is discovered at submit time
+      function show(n) {
+        form.querySelectorAll(".ostep").forEach((s) => { s.hidden = s.dataset.step !== String(n); });
+        document.querySelectorAll(".ostep-nav li").forEach((li) => {
+          li.classList.toggle("on", Number(li.dataset.for) <= n);
+        });
+        const top = form.getBoundingClientRect().top + window.scrollY - 110;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+      function valid(step) {
+        const fields = form.querySelectorAll(`.ostep[data-step="${step}"] [required]`);
+        for (const f of fields) {
+          if (!f.checkValidity()) { f.reportValidity(); return false; }
+        }
+        return true;
+      }
+      form.querySelectorAll(".ostep-next").forEach((b) => {
+        b.addEventListener("click", () => {
+          const from = b.closest(".ostep").dataset.step;
+          if (!valid(from)) return;
+          show(Number(b.dataset.next));
+        });
+      });
+      form.querySelectorAll(".ostep-back").forEach((b) => {
+        b.addEventListener("click", () => show(Number(b.dataset.back)));
+      });
+      document.querySelectorAll(".ostep-nav li").forEach((li) => {
+        li.addEventListener("click", () => {
+          const target = Number(li.dataset.for);
+          const now = Number(form.querySelector(".ostep:not([hidden])").dataset.step);
+          if (target < now) show(target);
+        });
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const msg = $("order-msg");
+        const btn = $("order-submit");
+        if (!valid(3)) return;
+        if (!form.dataset.key) {
+          msg.textContent = $("order-fallback").value;
+          msg.className = "form-msg err"; msg.hidden = false; return;
+        }
+        const label = btn.textContent;
+        btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+        try {
+          const res = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          });
+          const out = await res.json();
+          if (out.success) {
+            msg.textContent = "Order received. We'll confirm your exact rate and delivery window, then send payment details — nothing has been charged.";
+            msg.className = "form-msg ok";
+            form.reset();
+          } else { throw new Error(out.message); }
+        } catch {
+          msg.textContent = "Something went wrong sending this — please try again.";
+          msg.className = "form-msg err";
+        } finally {
+          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+        }
+      });
+    })();
+  </script>
+</Base>

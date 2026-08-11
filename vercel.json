@@ -172,7 +172,7 @@
     },
     {
       "source": "/checkout",
-      "destination": "/#quote",
+      "destination": "/order",
       "permanent": true
     },
     {

@@ -41,6 +41,7 @@ const EN = {
   contact: "WhatsApp / Telegram",
   contactPh: "Optional — how you'd like us to reply",
   submit: "Request my quote",
+  orderInstead: "Ready to order? Give us the account details →",
   foot: "Payment stays off-site. We only ask for your loyalty account number once you've approved the quote.",
   per1000: "≈ {v} per 1,000 miles",
   rangeSoft: "Most orders run {min}–{max} miles.",
@@ -233,6 +234,9 @@ const notWired = labels.notWired ?? (orderEmail
 
       <button type="submit" class="btn btn-primary qw-cta" id="qw-submit">{L.submit}</button>
       <p class="form-msg" id="qw-msg" hidden></p>
+      <!-- for visitors past the asking stage: the full order flow, carrying
+           the programme and amount they already picked -->
+      <a class="qw-order" id="qw-order" href="/order">{L.orderInstead}</a>
       <p class="qw-foot">{L.foot}</p>
     </form>
   </div>
@@ -325,6 +329,10 @@ const notWired = labels.notWired ?? (orderEmail
       // no quote.
       $("qw-next").disabled = !canGo;
       $("qw-submit").disabled = !canGo;
+
+      // the order flow inherits whatever is priced here
+      const order = $("qw-order");
+      if (order) order.href = `/order?program=${encodeURIComponent(c.slug)}${m ? `&miles=${m}` : ""}`;
 
       $("qw-cost").textContent = blocked ? "—" : m ? approx + usd(cost) : "$0";
       // "≈" already signals approximation — don't also prefix "~"
