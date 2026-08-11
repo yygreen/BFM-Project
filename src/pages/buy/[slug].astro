@@ -9,6 +9,7 @@ import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
 import { site, realReviews, yearsTrading } from "../../lib/site";
+import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
@@ -26,7 +27,7 @@ export async function getStaticPaths() {
 }
 
 const { a, airlines, posts } = Astro.props;
-const per1000 = Math.round(a.pricePerMile * 10);
+const per1000 = per1000Of(a.pricePerMile);
 const verified = a.priceVerified;
 // programme name without any parenthetical — "Avios (Privilege Club)" reads
 // fine as a title but turns copy like "price your … order" into a mouthful
@@ -176,7 +177,7 @@ const jsonld = {
                 <h4>{s.title}</h4>
                 {s.miles && (
                   <div class="use-cost">
-                    from {s.miles.toLocaleString("en-US")} miles · {verified ? "" : "~"}${Math.round((s.miles * a.pricePerMile) / 100).toLocaleString("en-US")} at our rate
+                    from {s.miles.toLocaleString("en-US")} miles · {verified ? "" : "~"}{usd(costOf(s.miles, a.pricePerMile))} at our rate
                   </div>
                 )}
                 <p>{s.desc}</p>

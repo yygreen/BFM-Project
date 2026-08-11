@@ -78,7 +78,16 @@ const approx = verified ? "" : "~";
     const $ = (id) => document.getElementById(id);
     const miles = $("st-miles");
     const fare = $("st-fare");
-    const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+    // Cents are shown, never rounded away: 25,000 miles at 1.95¢ is $487.50,
+    // and $488 would overstate it. Integer cents keep binary float noise out
+    // of the figure. Mirrors src/lib/money.ts, which this inline script
+    // cannot import.
+    const usd = (n) => {
+      const c = Math.round(n * 100);
+      return "$" + (c / 100).toLocaleString("en-US", {
+        minimumFractionDigits: c % 100 === 0 ? 0 : 2, maximumFractionDigits: 2,
+      });
+    };
 
     function render() {
       let m = parseInt(miles.value, 10);

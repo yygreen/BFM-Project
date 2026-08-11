@@ -13,6 +13,7 @@ import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
 import { getCollection } from "astro:content";
+import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
@@ -26,12 +27,11 @@ const progShort = a.program.replace(/\s*\(.*\)$/, "");
 // "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
 // suffix when the programme name already ends in it
 const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
-const per1000 = Math.round(a.pricePerMile * 10);
+const per1000 = per1000Of(a.pricePerMile);
 // six values so the reference grid tiles 3×2 — five left an orphan card
 const rows = [25000, 50000, 100000, 150000, 250000, 500000].filter((m) => m >= a.min && m <= a.max);
-const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
 const num = (n) => n.toLocaleString("en-US");
-const cost = (m) => usd((m * a.pricePerMile) / 100);
+const cost = (m) => usd(costOf(m, a.pricePerMile));
 
 // Break-even table: a sweet spot that carries a checked `miles` figure gets a
 // named row (add the field in airlines.json and the row appears); the generic
@@ -125,7 +125,7 @@ const faqJsonLd = {
             </span>
             <span class="spec-it">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-              <b>{approx}${per1000}</b> per 1,000 miles
+              <b>{approx}{usd(per1000)}</b> per 1,000 miles
             </span>
           </div>
         </div>
@@ -150,7 +150,7 @@ const faqJsonLd = {
             <b class="mono">{m.toLocaleString("en-US")}</b>
             <span>miles</span>
             <i aria-hidden="true"></i>
-            <b class="mono">{approx}{usd((m * a.pricePerMile) / 100)}</b>
+            <b class="mono">{approx}{cost(m)}</b>
           </div>
         ))}
       </div>
@@ -173,7 +173,7 @@ const faqJsonLd = {
       <div class="uses">
         <div class="use">
           <h4>Cost = miles × rate</h4>
-          <p>{progShort} at {approx}{a.pricePerMile}¢ per mile means every 1,000 miles costs {approx}${per1000}. A 70,000-mile award is 70 × {approx}${per1000} = {approx}{usd(70000 * a.pricePerMile / 100)}. No fees are added on top of the quoted rate.</p>
+          <p>{progShort} at {approx}{a.pricePerMile}¢ per mile means every 1,000 miles costs {approx}{usd(per1000)}. A 70,000-mile award is 70 × {approx}{usd(per1000)} = {approx}{cost(70000)}. No fees are added on top of the quoted rate.</p>
         </div>
         <div class="use">
           <h4>When buying makes sense</h4>

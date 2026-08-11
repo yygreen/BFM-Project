@@ -8,6 +8,7 @@
 // that come from the data, and is explicit that the comparison itself lands
 // on the quote.
 import { directBuyRate, site } from "../lib/site";
+import { usd, costOf } from "../lib/money";
 
 const {
   program = "miles",
@@ -20,8 +21,8 @@ const {
 } = Astro.props;
 
 const direct = directBuyRate(directBuyCents);
-const per25k = Math.round(pricePerMile * 10 * 25);
-const direct25k = direct ? Math.round(direct * 10 * 25) : null;
+const per25k = usd(costOf(25000, pricePerMile));
+const direct25k = direct ? usd(costOf(25000, direct)) : null;
 const approx = priceVerified ? "" : "~";
 const fmt = (n: number) => n.toLocaleString("en-US");
 
@@ -38,8 +39,8 @@ const subject = program.toLowerCase() === "miles" ? "miles" : `${program} miles`
         <tr><td>Price / mile</td><td>{approx}{pricePerMile}¢</td><td>{direct}¢</td></tr>
         <tr>
           <td>25,000 miles</td>
-          <td>{approx}${fmt(per25k)}</td>
-          <td>${fmt(direct25k)}</td>
+          <td>{approx}{per25k}</td>
+          <td>{direct25k}</td>
         </tr>
         {delivery && <tr><td>Delivery</td><td>{delivery.replace("Within ", "")}</td><td>Instant, at a premium</td></tr>}
         <tr><td>Purchase cap</td><td>Up to {fmt(max)}</td><td>Often capped low</td></tr>
@@ -53,7 +54,7 @@ const subject = program.toLowerCase() === "miles" ? "miles" : `${program} miles`
       <div class="cf">
         <span class="cf-k">Your rate</span>
         <b class="cf-v">{approx}{pricePerMile}¢<small>/ mile</small></b>
-        <span class="cf-n">≈ {approx}${fmt(per25k)} for 25,000</span>
+        <span class="cf-n">≈ {approx}{per25k} for 25,000</span>
       </div>
       <div class="cf">
         <span class="cf-k">Minimum</span>

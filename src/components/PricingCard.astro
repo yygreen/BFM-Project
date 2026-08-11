@@ -1,8 +1,9 @@
 ---
 import Emblem from "./Emblem.astro";
 import { site } from "../lib/site";
+import { usd, per1000 as per1000Of } from "../lib/money";
 const { a, cta = "Buy miles" } = Astro.props;
-const per1000 = Math.round(a.pricePerMile * 10);
+const per1000 = usd(per1000Of(a.pricePerMile));
 const fmt = (n) => n.toLocaleString("en-US");
 const verified = a.priceVerified;
 const ctaText = verified ? cta : "Request a live quote";
@@ -24,7 +25,7 @@ const ctaText = verified ? cta : "Request a live quote";
     <span class="num">{verified ? "" : "~"}{a.pricePerMile}¢</span><span class="unit">/ mile</span>
     {!verified && <span class="indic">indicative</span>}
   </div>
-  <p class="alt">≈ ${per1000} per 1,000 miles{verified ? "" : " · confirmed on quote"}</p>
+  <p class="alt">≈ {per1000} per 1,000 miles{verified ? "" : " · confirmed on quote"}</p>
   <div class="rows">
     <div class="r"><span>Delivery</span><b>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "on quote"}</b></div>
     <div class="r"><span>Minimum</span><b>{fmt(a.min)}</b></div>
