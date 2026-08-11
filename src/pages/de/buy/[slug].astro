@@ -77,7 +77,7 @@ const DE_SAVINGS = {
   vs: "vs.",
   atOurRate: "Gekauft zu {rate}¢ pro Meile",
   emptyBoth: "Trag Meilen und Barpreis ein, dann rechnen wir es aus.",
-  emptyFare: "Das sind die Kosten der Meilen. Trag den Barpreis ein, dann sagen wir dir, was günstiger ist.",
+  emptyFare: "Das kosten dich die Meilen. Trag den regulären Flugpreis ein und wir zeigen dir, welche Option günstiger ist.",
   cta: "Dafür ein Angebot →",
   win: "Klarer Vorteil für Meilen: Dieser Flug bewertet eine Meile mit {seat}¢ gegenüber unseren {rate}¢. Der Kauf spart {saving} ({pct}% gegenüber dem Barpreis).",
   ok: "Meilen liegen vorn: {saving} günstiger als der Barpreis. Kein Erdrutsch, aber eine echte Ersparnis.",
@@ -247,7 +247,7 @@ const jsonld = [
       <div class="container">
         <div class="section-head">
           <h2>Wofür sich {a.program} am meisten lohnt</h2>
-          <p>Wo diese Meilen am weitesten reichen, und wann du besser bar zahlst. Prüf es rechts an einem echten Preis nach.</p>
+          <p>Finde heraus, wo deine Meilen am meisten wert sind und wann Barzahlen die bessere Wahl ist.</p>
         </div>
         <div class="value-split">
           <div class="value-lad">
@@ -271,7 +271,7 @@ const jsonld = [
           <div class="value-tool">
             <div class="worth-sub" id="worth">
               <h3>Schlägt der Meilenkauf den Barpreis?</h3>
-              <p>Trag den Preis aus deiner Flugsuche ein. Wenn bar günstiger ist, sagen wir das.</p>
+              <p>Trag den Preis aus deiner Flugsuche ein. Wir zeigen dir sofort, ob sich Meilen lohnen oder du besser direkt bezahlst.</p>
             </div>
             <SavingsTool
               program={a.program}
@@ -317,10 +317,13 @@ const jsonld = [
         <div class="section-head">
           <h2>{a.airline} Meilen kaufen: deine Fragen</h2>
         </div>
-        {t.faq.map((f) => (
-          <details class="faq">
-            <summary>{f.q}</summary>
-            <div class="faq-body"><p>{f.a}</p></div>
+        {/* the English component's markup exactly: .faq-body was a class the
+            stylesheet has never had, so the answers rendered with no padding
+            and the summary lost its + marker */}
+        {t.faq.map((f, i) => (
+          <details class="faq" open={i === 0}>
+            <summary>{f.q}<span class="mk">+</span></summary>
+            <div class="ans">{f.a}</div>
           </details>
         ))}
       </div>
