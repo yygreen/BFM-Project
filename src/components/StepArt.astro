@@ -37,7 +37,7 @@ const { step } = Astro.props;
     <circle class="il-dot" cx="44" cy="30" r="4.5" />
     <path class="il-tether" d="M44 42V58" />
 
-    <!-- a programme list with one row chosen: carrier chip, name, rate, chevron -->
+    <!-- a programme list with one row chosen: carrier chip, name, rate -->
     <rect class="il-chip" x="20" y="62" width="13" height="9" rx="3" />
     <rect class="il-bar" x="41" y="65" width="72" height="4" rx="2" />
     <rect class="il-bar-dim" x="121" y="65" width="26" height="4" rx="2" />
@@ -45,7 +45,6 @@ const { step } = Astro.props;
     <rect class="il-chip-on" x="20" y="77" width="13" height="9" rx="3" />
     <rect class="il-bar-on" x="41" y="80" width="86" height="4" rx="2" />
     <rect class="il-rate" x="135" y="80" width="30" height="4" rx="2" />
-    <path class="il-chev" d="M174 78l7 6 7-6" />
 
     <rect class="il-chip" x="20" y="92" width="13" height="9" rx="3" />
     <rect class="il-bar" x="41" y="95" width="58" height="4" rx="2" />
@@ -117,7 +116,6 @@ const { step } = Astro.props;
   .il-bar-dim { fill:var(--line-2); }
   .il-bar-on  { fill:var(--cobalt); }
   .il-rate    { fill:var(--coral); }
-  .il-chev    { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
 
   /* step 2 — money crossing off the site */
   .il-note     { fill:var(--cobalt-tint); stroke:var(--cobalt); stroke-width:2.5; }
