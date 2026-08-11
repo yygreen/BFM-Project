@@ -7,6 +7,30 @@
 import { site, live, realReviews, yearsTrading } from "../lib/site";
 import { getCollection } from "astro:content";
 
+// Localized pages override any subset; everything else falls back to English.
+// The figures themselves are language-neutral and come from site.json.
+const { labels = {} } = Astro.props;
+const EN = {
+  rating: "Rating",
+  guarantee: "Guarantee",
+  noSurprises: "No surprises",
+  quotedFirst: "Quoted before you pay",
+  quotedCap: "We confirm your exact rate and delivery window in writing before any payment is made",
+  yourAccount: "Your account",
+  milesIn: "Miles transfer in",
+  milesInCap: "They land in the account you already hold and you book direct. Payment is handled off this site, so nothing sensitive is stored here",
+  milesDelivered: "miles delivered",
+  transfers: "transfers completed",
+  programsCovered: "programs covered",
+  yearsTrading: "years trading",
+  reviews: "reviews",
+  completion: "completion",
+  accountLocks: "account locks",
+  support: "support",
+  numLocale: "en-US",
+};
+const L = { ...EN, ...labels };
+
 const r = site.trust.rating;
 const ratingLive = r.verified && r.value !== null;
 
@@ -28,15 +52,15 @@ const fmtBig = (n) =>
 // where they read as a set instead of an orphan.
 const soloReview = realReviews.length === 1 ? realReviews[0] : null;
 const bandStats = [
-  live(site.trust.milesDelivered) ? { n: `${fmtBig(Number(site.trust.milesDelivered.value))}+`, l: "miles delivered" } : null,
-  live(site.trust.transfersCompleted) ? { n: `${fmtBig(Number(site.trust.transfersCompleted.value))}+`, l: "transfers completed" } : null,
-  { n: `${programCount}`, l: "programs covered" },
-  years !== null ? { n: `${years}+`, l: "years trading" } : null,
+  live(site.trust.milesDelivered) ? { n: `${fmtBig(Number(site.trust.milesDelivered.value))}+`, l: L.milesDelivered } : null,
+  live(site.trust.transfersCompleted) ? { n: `${fmtBig(Number(site.trust.transfersCompleted.value))}+`, l: L.transfers } : null,
+  { n: `${programCount}`, l: L.programsCovered },
+  years !== null ? { n: `${years}+`, l: L.yearsTrading } : null,
   soloReview
     ? {
-        n: `${soloReview.rating}`,
+        n: `${soloReview.rating.toLocaleString(L.numLocale)}`,
         sup: `/${soloReview.outOf}`,
-        l: `${soloReview.platform}${soloReview.count ? ` · ${soloReview.count.toLocaleString("en-US")} reviews` : ""}`,
+        l: `${soloReview.platform}${soloReview.count ? ` · ${soloReview.count.toLocaleString(L.numLocale)} ${L.reviews}` : ""}`,
         stars: Math.round(soloReview.rating),
         outOf: Math.round(soloReview.outOf),
         href: soloReview.url || null,
@@ -55,9 +79,9 @@ const guaranteeLabel = site.guarantee.shortLabel.charAt(0).toUpperCase() + site.
 
 // bottom spec strip — only the verified figures
 const specs = [
-  live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
-  live(site.trust.accountLocks) ? { n: `${site.trust.accountLocks.value}`, l: "account locks" } : null,
-  live(site.trust.supportHours) ? { n: `${site.trust.supportHours.value}`, l: "support" } : null,
+  live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: L.completion } : null,
+  live(site.trust.accountLocks) ? { n: `${site.trust.accountLocks.value}`, l: L.accountLocks } : null,
+  live(site.trust.supportHours) ? { n: `${site.trust.supportHours.value}`, l: L.support } : null,
 ].filter(Boolean);
 ---
 {/* how an order is handled comes first — the section intro promises exactly
@@ -65,18 +89,18 @@ const specs = [
 <div class="trust-grid" style={`--tcols:${cols}`}>
   {ratingLive && (
     <div class="tbox">
-      <p class="lab">Rating</p>
+      <p class="lab">{L.rating}</p>
       <div class="stars">★★★★★</div>
       <div class="cap">
         <b style="color:var(--text-1);font-family:var(--mono)">{r.value}/{r.outOf}</b>
-        {r.reviewCount && r.source ? ` · ${r.reviewCount.toLocaleString("en-US")}+ ${r.source} reviews` : r.source ? ` · ${r.source}` : ""}
+        {r.reviewCount && r.source ? ` · ${r.reviewCount.toLocaleString(L.numLocale)}+ ${r.source} ${L.reviews}` : r.source ? ` · ${r.source}` : ""}
       </div>
     </div>
   )}
 
   {site.guarantee.verified && (
     <div class="tbox">
-      <p class="lab">Guarantee</p>
+      <p class="lab">{L.guarantee}</p>
       <div class="chip-row">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
         {guaranteeLabel}
@@ -89,20 +113,20 @@ const specs = [
        only, because the other trust facts are the stat band's job and
        repeating them down here read as padding. -->
   <div class="tbox">
-    <p class="lab">No surprises</p>
+    <p class="lab">{L.noSurprises}</p>
     <div class="chip-row">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
-      Quoted before you pay
+      {L.quotedFirst}
     </div>
-    <div class="cap">We confirm your exact rate and delivery window in writing before any payment is made</div>
+    <div class="cap">{L.quotedCap}</div>
   </div>
   <div class="tbox">
-    <p class="lab">Your account</p>
+    <p class="lab">{L.yourAccount}</p>
     <div class="chip-row">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
-      Miles transfer in
+      {L.milesIn}
     </div>
-    <div class="cap">They land in the account you already hold and you book direct. Payment is handled off this site, so nothing sensitive is stored here</div>
+    <div class="cap">{L.milesInCap}</div>
   </div>
 </div>
 
@@ -136,7 +160,7 @@ const specs = [
       <a class="rev" href={r.url || undefined} rel="nofollow noopener" target={r.url ? "_blank" : undefined}>
         <span class="rev-stars">{"★".repeat(Math.round(r.rating))}<span class="rev-dim">{"★".repeat(Math.max(0, Math.round(r.outOf) - Math.round(r.rating)))}</span></span>
         <span class="rev-num">{r.rating}<small>/{r.outOf}</small></span>
-        <span class="rev-plat">{r.platform}{r.count ? ` · ${r.count.toLocaleString("en-US")} reviews` : ""}</span>
+        <span class="rev-plat">{r.platform}{r.count ? ` · ${r.count.toLocaleString(L.numLocale)} ${L.reviews}` : ""}</span>
       </a>
     ))}
   </div>

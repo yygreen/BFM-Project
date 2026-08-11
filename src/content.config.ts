@@ -49,7 +49,12 @@ const translation = z.object({
   heroHeadline: z.string().min(1),
   heroSub: z.string().min(1),
   steps: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).min(3).max(4),
-  points: z.array(z.string().min(1)).min(2).max(6),
+  // the program's best redemptions, mirroring sweetSpots on the English page
+  uses: z.array(z.object({ title: z.string().min(1), desc: z.string().min(1) })).min(1).max(6).optional(),
+  // a plain benefit list. Optional: the German page renders the same trust
+  // block the English page does instead, and a section that exists in one
+  // language only is a different page rather than a translation.
+  points: z.array(z.string().min(1)).min(2).max(6).optional(),
   faq: z.array(faqExtra).min(1).max(6),
   ctaLabel: z.string().min(1),
   // set true once a native speaker has reviewed the copy — check:launch

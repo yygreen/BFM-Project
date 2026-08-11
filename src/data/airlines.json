@@ -982,12 +982,6 @@
             "text": "Die Meilen gehen auf dein bestehendes Miles-&-More-Konto. Die Prämie buchst du danach direkt bei Lufthansa, auf deinen Namen."
           }
         ],
-        "points": [
-          "Preis pro Meile und Lieferzeitraum stehen schriftlich fest, bevor du zahlst.",
-          "Die Meilen gehen auf dein eigenes Konto. Du eröffnest nichts Neues und behältst die Buchung in der Hand.",
-          "Die Zahlung läuft außerhalb dieser Website. Hier werden keine Zahlungsdaten erfasst.",
-          "Wir sind unabhängig und gehören zu keiner Fluggesellschaft und zu keinem Vielfliegerprogramm."
-        ],
         "faq": [
           {
             "q": "Was kosten Miles-&-More-Meilen?",
@@ -1011,7 +1005,21 @@
           }
         ],
         "ctaLabel": "Angebot anfordern",
-        "reviewed": false
+        "reviewed": false,
+        "uses": [
+          {
+            "title": "Lufthansa First Class",
+            "desc": "Lufthansa gibt Prämienplätze in der First an Partnerprogramme erst kurz vor Abflug frei. Miles-&-More-Mitglieder sehen diese Plätze deutlich früher, und genau dafür lohnt sich dieses Programm."
+          },
+          {
+            "title": "Die Lufthansa Group aus einem Konto",
+            "desc": "Lufthansa, Swiss, Austrian und Brussels Airlines sammeln und buchen aus demselben Meilenkonto."
+          },
+          {
+            "title": "Star Alliance in voller Breite",
+            "desc": "Die gesamte Allianz ist buchbar, mit solider Verfügbarkeit im europäischen Netz der Gruppe."
+          }
+        ]
       }
     }
   },
