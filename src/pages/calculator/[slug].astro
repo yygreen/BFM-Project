@@ -23,6 +23,9 @@ const { a } = Astro.props;
 const verified = a.priceVerified;
 const approx = verified ? "" : "~";
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
+// "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
+// suffix when the programme name already ends in it
+const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
 const per1000 = Math.round(a.pricePerMile * 10);
 // six values so the reference grid tiles 3×2 — five left an orphan card
 const rows = [25000, 50000, 100000, 150000, 250000, 500000].filter((m) => m >= a.min && m <= a.max);
@@ -58,12 +61,12 @@ const exSave = exFare - (exMiles * a.pricePerMile) / 100;
 // the two pages were just de-duplicated and their FAQs stay apart too.
 const faqs = [
   {
-    q: `How much does it cost to buy 50,000 ${progShort} miles?`,
-    a: `At ${approx}${a.pricePerMile}¢ per mile, 50,000 ${progShort} miles cost ${approx}${cost(50000)} and 100,000 cost ${approx}${cost(100000)}. No fees are added on top of the quoted rate, and your exact figure is confirmed on the quote before any payment is made.`,
+    q: `How much does it cost to buy 50,000 ${progMiles}?`,
+    a: `At ${approx}${a.pricePerMile}¢ per mile, 50,000 ${progMiles} cost ${approx}${cost(50000)} and 100,000 cost ${approx}${cost(100000)}. No fees are added on top of the quoted rate, and your exact figure is confirmed on the quote before any payment is made.`,
     open: true,
   },
   {
-    q: `How much are ${progShort} miles worth?`,
+    q: `How much are ${progMiles} worth?`,
     a: `There is no fixed value. A mile is worth what its redemption saves you: divide the cash fare by the miles the award needs. Above ${approx}${a.pricePerMile}¢ per mile the miles are worth more than they cost to buy, and long-haul premium-cabin awards usually clear that bar by the widest margin.`,
   },
   {
@@ -95,7 +98,7 @@ const faqJsonLd = {
 ---
 <Base
   title={`${a.airline} Miles Calculator | Price ${progShort} Instantly`}
-  description={`Calculate what ${a.airline} ${progShort} miles cost at ${approx}${a.pricePerMile}¢ per mile, and whether buying them beats the cash fare. Exact rate confirmed in your quote.`}
+  description={`Calculate what ${a.airline} ${progMiles} cost at ${approx}${a.pricePerMile}¢ per mile, and whether buying them beats the cash fare. Exact rate confirmed in your quote.`}
   slug={`calculator/${a.slug}`}
 >
   <section class="hero">
@@ -110,7 +113,7 @@ const faqJsonLd = {
           <span class="kicker">Calculator</span>
           <h1>{a.airline} miles calculator</h1>
           <p class="sub">
-            What {progShort} miles cost to buy, computed live at the {approx}{a.pricePerMile}¢
+            What {progMiles} cost to buy, computed live at the {approx}{a.pricePerMile}¢
             per mile rate — type an amount, see the price. Your exact rate is confirmed in the
             quote before you pay, and the verdict on whether buying beats your cash fare lives
             on the <a href={`/buy/${a.slug}#worth`}>{progShort} page</a>.
@@ -128,7 +131,7 @@ const faqJsonLd = {
         </div>
         <div class="hero-art">
           <div class="hero-calc" id="quote">
-            <QuoteWidget defaultSlug={a.slug} locked heading={`Calculate your ${progShort} cost`} sub="Enter an amount; the cost updates as you type." />
+            <QuoteWidget defaultSlug={a.slug} locked heading={`Calculate what ${progMiles} cost`} sub="Enter an amount; the cost updates as you type." />
           </div>
         </div>
       </div>
@@ -230,7 +233,7 @@ const faqJsonLd = {
   <section class="section wash-neutral">
     <div class="container">
       <div class="section-head">
-        <h2>Should you buy {progShort} miles? The 30-second check</h2>
+        <h2>Should you buy {progMiles}? The 30-second check</h2>
       </div>
       <div class="uses">
         <div class="use">
