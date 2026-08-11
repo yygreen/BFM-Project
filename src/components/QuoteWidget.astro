@@ -60,6 +60,11 @@ const EN = {
   d24: "24 hours",
   // grouping locale for miles counts and prices, overridden per language
   numLocale: "en-US",
+  // Localized pages pass a dated conversion rate so the price can be read in
+  // the local currency. The dollar figure stays the price; this is a reading
+  // aid and the label has to say so. null on the English pages.
+  fxRate: null,
+  fxNote: "",
 };
 const L = { ...EN, ...labels };
 // 1.9 is "1,9" to a German reader — the rate chips follow the page language
@@ -182,6 +187,7 @@ const notWired = labels.notWired ?? (orderEmail
         <span class="qw-k">{L.est}</span>
         <div class="qw-cost" id="qw-cost">—</div>
         <span class="qw-per" id="qw-per"></span>
+        <span class="qw-fx" id="qw-fx" hidden></span>
       </div>
       <div class="qw-side">
         <div class="qw-row"><span>{L.rate}</span><b id="qw-rate">—</b></div>
@@ -356,6 +362,13 @@ const notWired = labels.notWired ?? (orderEmail
       $("qw-cost").textContent = blocked ? "—" : m ? approx + usd(cost) : "$0";
       // "≈" already signals approximation — don't also prefix "~"
       $("qw-per").textContent = fmt(T.per1000, { v: usd(Math.round(c.rate * 1000) / 100) });
+      // conversion aid, never the charged amount — hidden entirely without a rate
+      const fxEl = $("qw-fx");
+      if (fxEl) {
+        const show = T.fxRate && m && !blocked;
+        fxEl.hidden = !show;
+        if (show) fxEl.textContent = fmt(T.fxNote, { v: Math.round(cost * T.fxRate).toLocaleString(LOC) });
+      }
       $("qw-rate").textContent = approx + c.rate.toLocaleString(LOC) + T.rateUnit;
       $("qw-delivery").textContent = c.delivery ? (c.delivery === "24 hours" ? T.d24 : c.delivery) : T.onQuote;
       $("qw-note").hidden = c.verified;

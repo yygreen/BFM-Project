@@ -1,0 +1,36 @@
+# Daily rebuild so the euro figures on the localized pages stay current.
+#
+# The rate itself is fetched during the build (scripts/fetch-fx.mjs, wired as
+# npm's prebuild), so this workflow does not commit anything. All it does is
+# ask the host to build again, which picks up that day's European Central Bank
+# reference rate.
+#
+# SETUP: add a repository secret named VERCEL_DEPLOY_HOOK holding a Deploy Hook
+# URL from Vercel (Project → Settings → Git → Deploy Hooks). Without it the job
+# skips rather than failing, so the workflow can sit in the repo unconfigured.
+#
+# The ECB publishes once per working day at about 16:00 CET, so this runs after
+# that in winter and summer alike. A weekend run simply re-publishes Friday's
+# rate, which is what the ECB itself serves.
+name: Refresh FX rate
+
+on:
+  schedule:
+    - cron: "30 16 * * *" # 16:30 UTC, after the ECB's daily publication
+  workflow_dispatch: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger a rebuild
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "VERCEL_DEPLOY_HOOK is not set — nothing to do."
+            exit 0
+          fi
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$HOOK")
+          echo "Deploy hook responded $code"
+          [ "$code" -ge 200 ] && [ "$code" -lt 300 ]

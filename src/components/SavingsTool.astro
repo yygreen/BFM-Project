@@ -38,6 +38,14 @@ const EN = {
   ok: "Miles come out ahead: {saving} cheaper than the cash fare. Not a blowout, but a real saving.",
   payCash: "Honestly? Pay cash for this one. At {fare}, this seat values a mile at {seat}¢, below our {rate}¢ rate. Buying miles here would cost you money.",
   numLocale: "en-US",
+  // Localized pages that quote in a second currency pass the USD → local rate
+  // here. The FARE FIELD is then read as that currency and converted back to
+  // dollars before any comparison, because a German flight search returns
+  // euro fares and reading one as dollars would flip the verdict outright.
+  // Billing stays in dollars; fxFoot says so.
+  fxRate: null,
+  fxSymbol: "",
+  fxFoot: "",
 };
 const L = { ...EN, ...labels };
 ---
@@ -78,6 +86,7 @@ const L = { ...EN, ...labels };
       </div>
     </div>
     <div class="stool-verdict" id="st-verdict">{L.emptyBoth}</div>
+    {L.fxFoot && <p class="stool-fx">{L.fxFoot}</p>}
     <!-- fixed-height slot: states swap what shows, but the card's outer
          height never changes, so a stuck sticky card can't be pushed past
          its section when the CTA appears. The CTA shows whenever a miles
@@ -111,21 +120,29 @@ const L = { ...EN, ...labels };
         minimumFractionDigits: c % 100 === 0 ? 0 : 2, maximumFractionDigits: 2,
       });
     };
+    // With a rate set, every figure the visitor SEES is in the local currency
+    // and every figure we COMPARE is in dollars. Rounded whole: the conversion
+    // is indicative and cents would imply a precision it does not have.
+    const FX = T.fxRate || null;
+    const money = (usdAmount) =>
+      FX ? Math.round(usdAmount * FX).toLocaleString(LOC) + " " + T.fxSymbol : usd(usdAmount);
 
     function render() {
       let m = parseInt(miles.value, 10);
-      let f = parseFloat(fare.value);
+      let fLocal = parseFloat(fare.value);
+      // the field is in the visitor's currency; the maths is in dollars
+      let f = Number.isFinite(fLocal) && FX ? fLocal / FX : fLocal;
       // fantasy input wraps the number columns and grows the card (which a
       // stuck sticky card must never do) — clamp at real-world ceilings, the
       // same way the quote widget clamps its own range
       if (Number.isFinite(m) && m > 5000000) { m = 5000000; miles.value = m; }
-      if (Number.isFinite(f) && f > 1000000) { f = 1000000; fare.value = f; }
+      if (Number.isFinite(f) && f > 1000000) { f = 1000000; fare.value = Math.round(FX ? f * FX : f); }
       const out = $("st-out");
       const okM = Number.isFinite(m) && m > 0;
       const okF = Number.isFinite(f) && f > 0;
 
-      $("st-cash").textContent = okF ? usd(f) : "—";
-      $("st-cost").textContent = okM ? approx + usd((m * rate) / 100) : "—";
+      $("st-cash").textContent = okF ? money(f) : "—";
+      $("st-cost").textContent = okM ? approx + money((m * rate) / 100) : "—";
 
       if (!okM || !okF) {
         out.dataset.state = "empty";
@@ -142,13 +159,13 @@ const L = { ...EN, ...labels };
       let msg;
       if (seatValue >= rate * 1.8) {
         out.dataset.state = "win";
-        msg = fmt(T.win, { seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC), saving: approx + usd(saving), pct: Math.round((saving / f) * 100) });
+        msg = fmt(T.win, { seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC), saving: approx + money(saving), pct: Math.round((saving / f) * 100) });
       } else if (seatValue >= rate * 1.1) {
         out.dataset.state = "ok";
-        msg = fmt(T.ok, { saving: approx + usd(saving) });
+        msg = fmt(T.ok, { saving: approx + money(saving) });
       } else {
         out.dataset.state = "cash";
-        msg = fmt(T.payCash, { fare: usd(f), seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC) });
+        msg = fmt(T.payCash, { fare: money(f), seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC) });
       }
       $("st-verdict").textContent = msg;
       $("st-cta").hidden = out.dataset.state === "cash";

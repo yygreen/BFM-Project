@@ -1083,3 +1083,8 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .trust-split { margin:44px 0 24px; padding-top:32px; border-top:1px solid var(--line-2); }
 .trust-split h3 { font-size:clamp(20px,2.4vw,26px); font-weight:800; letter-spacing:-.02em; }
 .tp-wrap { margin-top:22px; }
+
+/* conversion aid under a price: deliberately quiet and always dated, because
+   the dollar figure is the price and this is only a reading aid */
+.qw-fx { display:block; margin-top:6px; font-size:12px; line-height:1.45; color:var(--text-3); }
+.stool-fx { margin:10px 0 0; font-size:12px; line-height:1.45; color:var(--text-3); }

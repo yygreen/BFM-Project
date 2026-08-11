@@ -22,9 +22,16 @@ import TrustStrip from "../../../components/TrustStrip.astro";
 import { getCollection } from "astro:content";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { usd, per1000, costOf } from "../../../lib/money";
+import { fxFor, deDate } from "../../../lib/fx";
 
 const rev = realReviews[0];
 const years = yearsTrading();
+
+// Euro figures are a reading aid, never the charged amount: payment is in
+// dollars, and the label says so every time a euro appears. The rate is the
+// ECB's daily reference rate, refreshed before each build and dated on the
+// page so a visitor can check it.
+const fx = fxFor("EUR");
 
 // German strings for the quote widget's chrome. UI copy lives here in the
 // template (shared across programs); marketing copy stays in the data.
@@ -65,13 +72,15 @@ const DE_WIDGET = {
   // "25,000" reads as twenty-five to a German speaker — the widget groups its
   // figures by this rather than the English default
   numLocale: "de-DE",
+  fxRate: fx?.rate ?? null,
+  fxNote: fx ? `≈ {v} € nach EZB-Kurs vom ${deDate(fx.date)} · abgerechnet wird in US-Dollar` : "",
   notWired: "Angebotsanfragen sind noch nicht angebunden. Schreib uns direkt, wir kalkulieren deinen Preis.",
 };
 
 const DE_SAVINGS = {
   presetsAria: "Beispiele für Prämienflüge",
   milesLabel: "Meilen für die Prämie",
-  fareLabel: "Gefundener Barpreis ($)",
+  fareLabel: fx ? "Gefundener Flugpreis (€)" : "Gefundener Flugpreis ($)",
   farePh: "z. B. 2500",
   cash: "Barpreis",
   vs: "vs.",
@@ -83,6 +92,9 @@ const DE_SAVINGS = {
   ok: "Meilen liegen vorn: {saving} günstiger als der Barpreis. Kein Erdrutsch, aber eine echte Ersparnis.",
   payCash: "Ehrlich? Zahl hier lieber bar. Bei {fare} bewertet dieser Flug eine Meile mit {seat}¢ und liegt damit unter unseren {rate}¢. Meilen zu kaufen würde dich Geld kosten.",
   numLocale: "de-DE",
+  fxRate: fx?.rate ?? null,
+  fxSymbol: "€",
+  fxFoot: fx ? `Euro-Beträge sind zum EZB-Kurs vom ${deDate(fx.date)} umgerechnet. Abgerechnet wird in US-Dollar.` : "",
 };
 
 const DE_TRUST = {

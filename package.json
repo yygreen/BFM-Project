@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/fetch-fx.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check:launch": "node scripts/launch-check.mjs"
