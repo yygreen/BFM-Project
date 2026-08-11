@@ -33,6 +33,11 @@ const data = airlines.map((a) => ({
   max: a.max,
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
   inStock: a.inStock,
+  // "MileagePlus account number" rather than "Loyalty account number": step 2
+  // is where a stranger is asked to type the identifier of an account holding
+  // real value, and naming the program is both the clearer instruction and a
+  // small sign we know what we're handling.
+  account: a.accountLabel || `${a.program} account number`,
 }));
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
@@ -119,7 +124,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
           </p>
           <div class="form-grid">
             <div class="field">
-              <label for="o-account">Loyalty account number *</label>
+              <label for="o-account" id="o-account-label">Loyalty account number *</label>
               <input id="o-account" name="account_number" type="text" required autocomplete="off" />
             </div>
             <div class="field">
@@ -254,6 +259,8 @@ const methods = site.payments.verified ? site.payments.methods : [];
         $("o-rate").textContent = approx + c.rate + "¢ / mile";
         $("o-delivery").textContent = c.delivery ? "Within " + c.delivery : "Confirmed on your quote";
         $("o-limits").textContent = `Orders run ${num(c.min)}–${num(c.max)} miles.`;
+        // step 2's field names the program that was picked in step 1
+        $("o-account-label").textContent = `${c.account} *`;
         // The order flow has to enforce the same bounds the quote widget does.
         // It was carrying a static min of 1,000, so a deep link like
         // ?program=united-mileageplus&miles=5000 sailed through step 1 and put

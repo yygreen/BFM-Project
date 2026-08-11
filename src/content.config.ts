@@ -71,6 +71,12 @@ const airlines = defineCollection({
 
       program: z.string().min(1),
       airline: z.string().min(1),
+      // What the order form calls the buyer's membership identifier. Defaults
+      // to "{program} account number", which reads correctly for most of the
+      // roster ("MileagePlus account number"); set this only where that
+      // doesn't, e.g. the two Avios programs, whose `program` carries a
+      // parenthetical. It is terminology, not a claim about the program.
+      accountLabel: z.string().min(1).optional(),
       // several US carriers (Southwest, JetBlue, Hawaiian, Frontier) belong to
       // no alliance at all — "Independent" is a real value, not a fallback
       alliance: z.enum(["Star Alliance", "Oneworld", "SkyTeam", "Independent"]),
