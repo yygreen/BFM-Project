@@ -32,10 +32,10 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a programme from the list">
-    <path class="il-line" d="M-10 30H44C118 30 162 12 236 12H250" />
-    <circle class="il-ring" cx="44" cy="30" r="10" />
-    <circle class="il-dot" cx="44" cy="30" r="4.5" />
-    <path class="il-tether" d="M44 42V58" />
+    <path class="il-line" d="M-10 32H44C108 32 172 12 236 12H250" />
+    <circle class="il-ring" cx="44" cy="32" r="10" />
+    <circle class="il-dot" cx="44" cy="32" r="4.5" />
+    <path class="il-tether" d="M44 44V58" />
 
     <!-- a programme list with one row chosen: carrier chip, name, rate -->
     <rect class="il-chip" x="20" y="62" width="13" height="9" rx="3" />
@@ -54,7 +54,7 @@ const { step } = Astro.props;
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
-    <path class="il-line" d="M-10 12H44C118 12 162 22 236 22H250" />
+    <path class="il-line" d="M-10 12H44C108 12 172 30 236 30H250" />
     <circle class="il-ring" cx="44" cy="12" r="10" />
     <circle class="il-dot" cx="44" cy="12" r="4.5" />
     <path class="il-tether" d="M44 24V58" />
@@ -76,13 +76,13 @@ const { step } = Astro.props;
          column that doesn't exist — it ends in an arrowhead rotated onto the
          path's own end tangent, so the head continues the line instead of
          sitting at an angle to it. -->
-    <path class="il-line" d="M-10 22H44C108 22 150 14 196 10" />
-    <g class="il-tip" transform="translate(196 10) rotate(-5)">
+    <path class="il-line" d="M-10 30H44C94 30 146 16 196 12" />
+    <g class="il-tip" transform="translate(196 12) rotate(-5)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
-    <circle class="il-ring" cx="44" cy="22" r="10" />
-    <circle class="il-dot" cx="44" cy="22" r="4.5" />
-    <path class="il-tether" d="M44 34V58" />
+    <circle class="il-ring" cx="44" cy="30" r="10" />
+    <circle class="il-dot" cx="44" cy="30" r="4.5" />
+    <path class="il-tether" d="M44 42V58" />
 
     <!-- the aircraft sits directly under its own tether, close enough that the
          long dotted run between them is no longer needed -->
