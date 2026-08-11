@@ -2,10 +2,11 @@
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import { getCollection } from "astro:content";
-import { site, agentFormReady, paymentSentence, realReviews, yearsTrading } from "../lib/site";
+import { site, agentFormReady, paymentSentence, realReviews } from "../lib/site";
 
-const rev = realReviews[0];
-const years = yearsTrading();
+const rev = realReviews[0] ?? null;
+const stars = rev ? Math.round(rev.rating) : 0;
+const starsOut = rev ? Math.round(rev.outOf) : 0;
 
 // Partner-application form key + fallback inbox come from src/data/site.json:
 // set contact.web3formsKeyAgents + contact.agentEmail, flip contact.verified.
@@ -38,6 +39,13 @@ const fastestWindow = airlines
 
 const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>';
 
+// the homepage's row exactly — a fourth figure wraps it onto two lines, since
+// this hero's text column is narrower than the homepage's
+const heroStats = [
+  { n: "Fast", l: "delivery" },
+  { n: String(airlines.length), l: "programmes" },
+];
+
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -66,34 +74,25 @@ const jsonld = {
             <a class="btn btn-primary" href="#apply">Apply for partner access</a>
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
-          <!-- same social-proof row as the programme pages -->
+          <!-- the homepage's hero stat row, verbatim in structure: dotted
+               separators and the rating closing it -->
           <div class="spec">
-            {rev ? (
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <b>{rev.rating}/{rev.outOf}</b>&nbsp;on {rev.platform}
-              </span>
-            ) : (
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                Free, no-obligation quote
-              </span>
-            )}
-            {fastestWindow && (
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Delivered in <b>{fastestWindow}</b>
-              </span>
-            )}
-            {years !== null ? (
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-                <b>{years}+ years</b>&nbsp;in business
-              </span>
-            ) : (
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                <b>{airlines.length}</b>&nbsp;programmes
+            {heroStats.map((s, i) => (
+              <>
+                {i > 0 && <span class="dot"></span>}
+                <span><b>{s.n}</b> {s.l}</span>
+              </>
+            ))}
+            {rev && (
+              <span class="spec-revwrap">
+                <span class="dot"></span>
+                <a class="spec-rev" href={rev.url || undefined} rel="nofollow noopener" target={rev.url ? "_blank" : undefined}>
+                  <span class="spec-stars">
+                    {"★".repeat(stars)}<span class="spec-stars-dim">{"★".repeat(Math.max(0, starsOut - stars))}</span>
+                  </span>
+                  <b>{rev.rating}</b>
+                  <span class="spec-rev-plat">on {rev.platform}</span>
+                </a>
               </span>
             )}
           </div>
