@@ -316,22 +316,35 @@ const notWired = labels.notWired ?? (orderEmail
       const below = m > 0 && m < c.min;
       const target = below ? c.min : c.max;
       const vars = { program: c.program, min: num(c.min), max: num(c.max) };
-      const fixMsg = outOfRange ? fmt(below ? T.below : T.above, vars) : "";
-      const fixLabel = outOfRange ? fmt(T.use, { v: num(target) }) : "";
+
+      // Somebody typing 20,000 passes through 2, 20, 200 and 2,000, and
+      // telling them off at every keystroke is noise about a number they have
+      // not finished writing. While the field is focused and the amount is
+      // still SHORTER than the minimum, the line below stays empty; it speaks
+      // once the amount is as long as the minimum (18,000 against 20,000) or
+      // the moment focus leaves, so a genuinely too-small amount is never
+      // silently rejected.
+      const digits = (n) => String(Math.trunc(n)).length;
+      const typing = document.activeElement === miles1 || document.activeElement === miles2;
+      const midEntry = below && typing && digits(m) < digits(c.min);
+
+      const say = outOfRange && !midEntry;
+      const fixMsg = say ? fmt(below ? T.below : T.above, vars) : "";
+      const fixLabel = say ? fmt(T.use, { v: num(target) }) : "";
 
       const range = $("qw-range");
-      range.textContent = outOfRange ? fixMsg : fmt(T.range, vars);
-      range.classList.toggle("warn", outOfRange);
+      range.textContent = midEntry ? "" : outOfRange ? fixMsg : fmt(T.range, vars);
+      range.classList.toggle("warn", say);
 
       const fix1 = $("qw-minfix-1");
-      fix1.hidden = !outOfRange;
+      fix1.hidden = !say;
       fix1.textContent = fixLabel;
       fix1.dataset.target = target;
 
       // Step 2 showed a bare "—" for the price with nothing to explain it, and
       // its submit button stayed live, so an unbuyable amount could be sent.
       const minline = $("qw-minline");
-      minline.hidden = !outOfRange;
+      minline.hidden = !say;
       $("qw-minmsg").textContent = fixMsg;
       const fix2 = $("qw-minfix");
       fix2.textContent = fixLabel;
@@ -488,6 +501,12 @@ const notWired = labels.notWired ?? (orderEmail
     $("qw-minfix").addEventListener("click", useTarget);
 
     miles1.addEventListener("input", render);
+    // leaving the field ends "still typing", so an amount below the minimum
+    // gets its explanation instead of a silently disabled button
+    [miles1, miles2].forEach((el) => {
+      el.addEventListener("blur", render);
+      el.addEventListener("focus", render);
+    });
     // editing the amount on step 2 drives step 1's field, so there is one source of truth
     miles2.addEventListener("input", () => { miles1.value = miles2.value; render(); });
 
