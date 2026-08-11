@@ -663,18 +663,19 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .dd-air { font-size:13.5px; font-weight:600; color:var(--text-1); white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis; }
 .dd-prog { font-size:11.5px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-/* the panel's closing row: two links sharing one rule above them */
-.dd-foot { display:flex; margin-top:6px; border-top:1px solid var(--line); }
-.dd-all { display:block; flex:1; padding:10px; text-align:center;
-  font-size:13px; font-weight:600; color:var(--cobalt); border-radius:10px; }
-.dd-all:hover { background:var(--raised); }
-/* the secondary exit reads quieter until hovered — the list is the point */
-.dd-ask { color:var(--text-2); border-left:1px solid var(--line); border-radius:0 10px 10px 0; }
-.dd-ask:hover { color:var(--cobalt); }
-@media (max-width:520px){
-  .dd-foot { flex-direction:column; }
-  .dd-ask { border-left:0; border-top:1px solid var(--line); border-radius:0 0 10px 10px; }
-}
+.dd-all { display:block; margin-top:6px; padding:10px; text-align:center; border-top:1px solid var(--line);
+  font-size:13px; font-weight:600; color:var(--cobalt); }
+/* the invitation filling the roster's empty last cell: same row shape as a
+   programme so the grid stays even, dashed and cobalt so it reads as an
+   action rather than a carrier someone might have missed */
+.dd-more .dd-air { color:var(--text-2); font-weight:600; }
+.dd-more .dd-prog { color:var(--cobalt); font-weight:600; }
+/* matches the 64px logo slot rather than the 30px letter chip, so this row's
+   text starts on the same line as every carrier's above it */
+.dd-more-ic { width:64px; height:24px; border-radius:0; background:transparent; place-items:center start; }
+.dd-more-ic svg { box-sizing:border-box; width:24px; height:24px; padding:4px; color:var(--cobalt);
+  border:1.5px dashed var(--line-strong); border-radius:7px; }
+.dd-more:hover .dd-more-ic svg { border-color:var(--cobalt); }
 
 .nav-cta { padding:9px 18px; white-space:nowrap; }
 .cta-short { display:none; }

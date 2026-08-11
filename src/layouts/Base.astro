@@ -95,14 +95,20 @@ const hreflangs = alternates.length
                   </span>
                 </a>
               ))}
+              {/* an odd roster leaves the last grid cell empty, so the way out
+                  for a visitor who doesn't find their programme sits in it
+                  rather than costing the panel a row of its own */}
+              <a class="dd-item dd-more" href="/request">
+                <span class="dd-code dd-more-ic" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                </span>
+                <span class="dd-txt">
+                  <span class="dd-air">Not listed?</span>
+                  <span class="dd-prog">Ask for a quote →</span>
+                </span>
+              </a>
             </div>
-            {/* two exits from a 21-item list: the visitor who found their
-                programme is served by the list itself, and these catch the
-                two who weren't — one wants to compare, one can't see theirs */}
-            <div class="dd-foot">
-              <a class="dd-all" href="/#programs">Compare all {programs.length} programs →</a>
-              <a class="dd-all dd-ask" href="/request">Programme not listed? →</a>
-            </div>
+            <a class="dd-all" href="/#programs">Compare all {programs.length} programs →</a>
           </div>
         </details>
         <a class="link" href="/agents">For agents</a>
