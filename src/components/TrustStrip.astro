@@ -45,14 +45,8 @@ const specs = [
   live(site.trust.supportHours) ? { n: `${site.trust.supportHours.value}`, l: "support" } : null,
 ].filter(Boolean);
 ---
-{bandStats.length > 0 && (
-  <div class="statband">
-    {bandStats.map((s) => (
-      <div class="sb"><b>{s.n}</b><span>{s.l}</span></div>
-    ))}
-  </div>
-)}
-
+{/* how an order is handled comes first — the section intro promises exactly
+    that — and the scale figures follow as the backing evidence */}
 <div class="trust-grid" style={`--tcols:${cols}`}>
   {ratingLive && (
     <div class="tbox">
@@ -96,6 +90,14 @@ const specs = [
     <div class="cap">They land in the account you already hold and you book direct. Payment is handled off this site, so nothing sensitive is stored here</div>
   </div>
 </div>
+
+{bandStats.length > 0 && (
+  <div class="statband">
+    {bandStats.map((s) => (
+      <div class="sb"><b>{s.n}</b><span>{s.l}</span></div>
+    ))}
+  </div>
+)}
 
 {realReviews.length > 0 && (
   <div class="revs">
