@@ -29,6 +29,11 @@ const airlines = (await getCollection("airlines"))
 const coverage = [...airlines]
   .sort((a, b) => a.airline.localeCompare(b.airline))
   .map((a) => ({ ...a, short: a.program.replace(/\s*\(.*\)$/, "") }));
+// How far the "not listed?" tile has to stretch to close the roster's last
+// row, per column count. The roster length moves as programmes are added, so
+// this is computed rather than written into the CSS; a roster that divides
+// evenly leaves no gap and the tile takes a full row of its own.
+const askSpan = (cols) => cols - (coverage.length % cols);
 // Payment answer follows the same rule as the rest of the site: built from
 // confirmed methods, or an honest holding line — never a placeholder.
 const pay = paymentSentence();
@@ -171,7 +176,7 @@ const jsonld = {
   <section class="section" style="padding-top:0">
     <div class="container">
       <div class="section-head"><h2>Every major program</h2><p>Top up any of these for your clients, and more on request.</p></div>
-      <div class="grid grid-mini">
+      <div class="grid grid-mini" style={`--span4:${askSpan(4)};--span3:${askSpan(3)};--span2:${askSpan(2)}`}>
         {coverage.map((a) => (
           <a class="gcard gcard-mini" href={`/buy/${a.slug}`}>
             <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={40} />
@@ -188,18 +193,18 @@ const jsonld = {
             )}
           </a>
         ))}
+        <!-- the "and more on request" in the intro needs somewhere to go, and
+             it fills the gap the roster leaves in its last row. The span is
+             computed per column count above, so it always reaches the right
+             edge however many programmes the roster grows to -->
+        <a class="gcard gcard-mini gcard-ask" href="/request">
+          <span class="ask-t">
+            <b>Programme not listed?</b>
+            Tell us what your client needs and we'll check availability and price it.
+          </span>
+          <span class="askcta">Ask for a quote →</span>
+        </a>
       </div>
-      <!-- the "and more on request" in the intro needs somewhere to go. It
-           sits below the grid rather than in it: as one more card it was a
-           21st tile in a row of logos, and the invitation reads better as a
-           band across the full width than as an odd one out -->
-      <a class="ask-band" href="/request">
-        <span class="ask-band-t">
-          <b>Programme not listed?</b>
-          Tell us what your client needs and we'll check availability and price it.
-        </span>
-        <span class="askcta">Ask for a quote →</span>
-      </a>
     </div>
   </section>
 

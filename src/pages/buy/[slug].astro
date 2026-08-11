@@ -93,9 +93,13 @@ const jsonld = {
           {a.i18n?.ar && <a class="lang-toggle" href={`/ar/buy/${a.slug}`} lang="ar" hreflang="ar">العربية</a>}
           <h1>{head ? <>{head.lead}<span class="hl">{head.name}</span>{head.tail}</> : a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
+          {/* Both buttons used to point at #quote, which sits beside them in
+              the hero: on a desktop screen the target is already in view, so
+              the click does nothing and the pair reads as decoration. Each now
+              goes somewhere the visitor isn't. */}
           <div class="cta-row">
-            <a class="btn btn-primary" href="#quote">{verified ? `Buy ${a.program}` : "Request a live quote"}</a>
-            <a class="btn btn-secondary" href="#quote">What's it cost?</a>
+            <a class="btn btn-primary" href={`/order?program=${a.slug}`}>{verified ? `Buy ${progShort}` : "Request a live quote"}</a>
+            <a class="btn btn-secondary" href={`/calculator/${a.slug}`}>What's it cost?</a>
           </div>
           <!-- social proof row: rating, turnaround, track record. Each slot
                falls back to an always-true claim when its figure isn't

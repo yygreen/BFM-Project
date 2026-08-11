@@ -208,7 +208,28 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard .price small { font-size:13px; color:var(--text-3); font-weight:400; font-family:var(--sans); }
 /* logo-led coverage grid: the homepage card with the commercial detail
    stripped, since this list is about breadth rather than price */
-.grid-mini { grid-template-columns:repeat(auto-fill,minmax(206px,1fr)); gap:14px; }
+/* Explicit column counts rather than auto-fill: the "not listed?" tile has to
+   span whatever the roster leaves free in its last row, and that span can only
+   be worked out against a known number of columns. --span* come from the page,
+   computed from the roster length. */
+.grid-mini { grid-template-columns:repeat(4,1fr); gap:14px; }
+.grid-mini .gcard-ask { grid-column:span var(--span4,1); flex-direction:row; align-items:center;
+  justify-content:space-between; gap:18px; padding:18px 22px; }
+.grid-mini .ask-t { font-size:14px; line-height:1.55; color:var(--text-2); }
+.grid-mini .ask-t b { display:block; font-family:var(--display); font-size:15px; color:var(--text-1); margin-bottom:2px; }
+.grid-mini .askcta { white-space:nowrap; }
+@media (max-width:1000px){
+  .grid-mini { grid-template-columns:repeat(3,1fr); }
+  .grid-mini .gcard-ask { grid-column:span var(--span3,1); }
+}
+@media (max-width:760px){
+  .grid-mini { grid-template-columns:repeat(2,1fr); }
+  .grid-mini .gcard-ask { grid-column:span var(--span2,1); flex-direction:column; align-items:flex-start; gap:10px; }
+}
+@media (max-width:480px){
+  .grid-mini { grid-template-columns:1fr; }
+  .grid-mini .gcard-ask { grid-column:auto; }
+}
 .gcard-mini { padding:18px; }
 /* one line per name, always: a wrapped label makes its whole row taller than
    every other card in it. The column floor and this size are set together so
@@ -515,18 +536,6 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .gcard-ask .askp { margin:0; font-size:13.5px; line-height:1.55; color:var(--text-2); }
 .gcard-ask .askcta { color:var(--cobalt); font-weight:600; font-size:14px; }
 .gcard-ask:hover { border-color:var(--cobalt); }
-/* same invitation as .gcard-ask, laid across the full width below a grid
-   instead of sitting inside it as one more tile */
-.ask-band { display:flex; align-items:center; justify-content:space-between; gap:18px;
-  margin-top:14px; padding:18px 22px; border:1.5px dashed var(--line-strong);
-  border-radius:var(--radius-card); transition:border-color .15s ease; }
-.ask-band:hover { border-color:var(--cobalt); }
-.ask-band-t { font-size:14px; line-height:1.55; color:var(--text-2); }
-.ask-band-t b { font-family:var(--display); font-size:15px; color:var(--text-1); margin-right:6px; }
-.ask-band .askcta { color:var(--cobalt); font-weight:600; font-size:14px; white-space:nowrap; }
-@media (max-width:560px){
-  .ask-band { flex-direction:column; align-items:flex-start; gap:10px; }
-}
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }
