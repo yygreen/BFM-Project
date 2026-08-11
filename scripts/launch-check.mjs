@@ -35,14 +35,16 @@ if (undelivered.length) {
 } else done.push(["1", "All delivery windows verified"]);
 
 // Order limits are their own fact — priceVerified covers the per-mile rate,
-// not how small or large an order we'll take. Every program currently
-// carries an identical 25,000/500,000, which is a default, not a policy.
+// not how small or large an order we'll take. Nine programs carry limits read
+// off the client's own store; the rest share a default that is not a policy.
 const unlimited = airlines.filter((a) => !a.limitsVerified);
 if (unlimited.length) {
+  const n = (v) => v.toLocaleString("en-US");
+  const defaults = [...new Set(unlimited.map((a) => `${n(a.min)}/${n(a.max)}`))];
   blocking.push([
     "1",
     `Order min/max unconfirmed for ${unlimited.length} program(s) — and the widget now ENFORCES them: an amount outside the range cannot be submitted. Every wrong figure here turns away a real order`,
-    "src/data/airlines.json → min, max, then limitsVerified: true. Note every program currently shares 25,000/500,000, which no one has confirmed",
+    `src/data/airlines.json → min, max, then limitsVerified: true. These ${unlimited.length} currently sit on an unconfirmed ${defaults.join(" / ")}; the other ${airlines.length - unlimited.length} are sourced from the live store`,
   ]);
 } else done.push(["1", "All order limits verified"]);
 
