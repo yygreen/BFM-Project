@@ -231,25 +231,32 @@ page. The blog takes narrative, dated events, and anything spanning the
 roster.** A post that restates what a `/buy` page already says competes with
 it for the same query and wins nothing.
 
-Applying that rule, the queue is four items, not six:
+Applying that rule, the queue is three items, not six:
 
-1. **Do airline miles expire? Every program, dated** — Guide, all 21. One table,
-   21 rows, 21 internal links out of a single post. Writing it *is* the
-   correctness sweep that caught Hawaiian and Alaska, so the audit and the
-   deliverable are the same job.
-2. **EVA Air Infinity MileageLands: award chart, expiry, upgrades** — Guide.
-   The highest proven demand on the site at 1,070/mo, plus 380/mo ranking
-   nowhere. Rebuilds the old URL that earns most, which now 301s to
-   `/buy/eva-air-miles`.
+1. ~~**Do airline miles expire? Every program, dated**~~ — **shipped**,
+   `/blog/do-airline-miles-expire`. One table, 21 rows, 21 internal links out
+   of a single post. Writing it *was* the correctness sweep, and it came back
+   clean: no program on the site is described with the wrong expiry rule. It
+   also produced the depth-field material for all 21, which is the next job.
+2. ~~**How many miles for a flight?**~~ — **shipped**,
+   `/blog/how-many-miles-for-a-flight`. Roster-wide, aggregates
+   `how many skymiles for a flight` 170/KD34 and siblings, and feeds the
+   calculators. Deliberately publishes **no** miles-per-route numbers: it
+   classifies all 21 by pricing mechanism instead, because the mechanism
+   outlasts the number and three of these programs repriced in the last two
+   years.
 3. **Refresh `how-much-are-alaska-miles-worth`** — not a new post. It is live
    and written throughout about "Mileage Plan", a name retired a year ago. The
    blog has the same staleness the program pages had.
-4. **How many miles for a flight?** — Guide, roster-wide. Aggregates
-   `how many skymiles for a flight` 170/KD34 and siblings, and feeds the
-   calculators.
 
 **Dropped, because the program pages serve them:**
 
+- *EVA Air Infinity MileageLands: award chart, expiry, upgrades.* The one case
+  where the evidence pointed the other way, at 1,070/mo proven plus 380/mo
+  ranking nowhere. Same rule applies regardless: award chart, expiry and
+  upgrades are purchase-critical facts, so they belong in `/buy/eva-air-miles`
+  depth fields, where the old guide URL already 301s. This makes EVA the
+  highest-priority program-page fill on the roster.
 - *Cathay Asia Miles booking and value.* `asia mile` at 480/mo KD 23 is a brand
   misspelling, and the page that should capture it is
   `/buy/cathay-pacific-asia-miles` using the variant in its own copy. A post
@@ -257,7 +264,7 @@ Applying that rule, the queue is four items, not six:
 - *Qatar: QMiles are Avios now.* Already stated in Qatar's `quirks` on the
   program page, where a buyer meets it at the moment it matters.
 
-Both are now program-page tasks rather than posts.
+All three are now program-page tasks rather than posts.
 
 ### The missing guide layer
 
