@@ -115,10 +115,12 @@ mindmap
   root((buyflightmiles))
     Transactional
       buy {program} miles
-        ::icon(fa fa-check)
         /buy/{slug} x21 built
         variants buy X / X buy / purchase X / can you buy / how to buy / cost to buy / cheap
         121,090/mo gap, mostly KD 45+
+      what the airline charges
+        directBuy sourced on 5, shown on 3
+        withheld where their promo beats us
     Valuation
       what are X miles worth
         /calculator/{slug} x21 built
@@ -129,13 +131,19 @@ mindmap
       do X miles expire
       upgrade with miles
       program name and alliance
-        NO PAGE TYPE
+        LIVES ON /buy, short facts
         18,470/mo gap
-        1,070/mo proven on EVA alone
+        built on 3 of 21 programs
+    Program is stale
+      currency renamed or merged
+      alliance changed
+        found on Hawaiian and Alaska
+        no keyword, a correctness axis
+        factsChecked dates it
     Redemption
       how to use X miles
       best uses and sweet spots
-        partial, sweetSpots field
+        sweetSpots field
         1,510/mo gap
     Currency level
       buy avios points
@@ -157,8 +165,16 @@ mindmap
         BUSINESS QUESTION, not an SEO one
 ```
 
-Two branches have no page type at all: **program mechanics** and **currency
-level**. One branch is a business decision: **hotel points**.
+One branch still has no page at all: **currency level** (Avios). One is a
+business decision: **hotel points**. **Program mechanics** has been answered
+since this map was drawn: the short, purchase-critical facts live on `/buy`,
+and the long story goes to a post that links back.
+
+The **program is stale** branch was not in the original map and carries no
+search volume. It earned a place because looking for Hawaiian's depth fields
+turned up a currency that stopped existing in October 2025 while the site was
+still selling it. That is a correctness axis rather than a keyword one, and
+`factsChecked` is what tracks it.
 
 ### The missing guide layer
 
@@ -170,27 +186,39 @@ chart" zero times.
 
 **The schema already supports this.** `quirks`, `mechanics`, `valueBands`,
 `faqExtras` and `factsChecked` all exist in `content.config.ts` and all render.
-Qatar fills every one of them. The other 20 programs fill none:
+Three of 21 programs fill them:
 
 ```
-qatar-avios     quirks 3   mechanics 4   valueBands 3   faqExtras 3   factsChecked yes
-every other     -          -             -              -             -
+qatar-avios          quirks 3  mechanics 4  valueBands 3  faqExtras 3  factsChecked Aug 2026
+hawaiian-miles       quirks 2  mechanics 5  valueBands -  faqExtras 3  factsChecked Aug 2026
+alaska-mileage-plan  quirks 2  mechanics 4  valueBands -  faqExtras 2  factsChecked Aug 2026
+other 18             -         -            -             -            -
 ```
 
 So this is data entry into a template that already ships, not new engineering.
-It does need real facts, which is what `factsChecked` is for.
+It does need real facts, which is what `factsChecked` is for, and Hawaiian
+showed why: two of the three filled so far had something factually wrong on
+the page before the research started.
+
+Separately, `directBuy` is now sourced on five programs and rendered on three.
+Delta, United and KrisFlyer publish a saving against the airline's list price
+with the citation beside it. Aeroplan and Flying Blue are researched, correct
+and withheld, because both airlines ran 2026 promotions that undercut our own
+rate and an uncaveated saving would have been disprovable in one click.
 
 ---
 
 ## 4. Build queue
 
 Ordered by reachable volume per unit of work, not by headline volume.
+Status as of 12 August 2026.
 
-1. **Fill `quirks` / `mechanics` / `faqExtras` for the roster, in this order:**
-   Hawaiian, Turkish, Asia Miles, Alaska, then EVA (which has 380/mo of tracked
+1. ~~**Fill `quirks` / `mechanics` / `faqExtras` for Hawaiian**~~ **done**, and
+   it took Alaska with it, since after the merger the two pages describe one
+   program. **Next: Turkish, Asia Miles, then EVA** (which has 380/mo of tracked
    keywords ranking nowhere: *eva air miles redemption*, *is eva air star
-   alliance*). These four carry the highest reachable share, and the work is
-   JSON, not templates.
+   alliance*). These carry the highest reachable share and the work is JSON,
+   not templates.
 
 2. **Add the real phrasings to each `/buy/` FAQ.** *Can you buy {program}
    miles?*, *How much does it cost to buy {n} {program} miles?*, *How to buy
@@ -218,7 +246,11 @@ Ordered by reachable volume per unit of work, not by headline volume.
    #87 for it. Arabic already proves the pattern works for us (5 keywords, all
    1–4). Do this after the existing Arabic pages get their native review.
 
-6. **Ask the client about hotel points.** 30,140/mo of the gap, and `buy marriott
+6. ~~**Source the airline direct-buy benchmark**~~ **done for five programs,
+   published on three.** The savings figure was suppressed site-wide for want
+   of it. Remaining 16 need the same research and the same promo test.
+
+7. **Ask the client about hotel points.** 30,140/mo of the gap, and `buy marriott
    points` is 8,100/mo at KD 33 — the highest-volume genuinely reachable keyword
    in either file. Entirely dependent on whether he sources them at all.
 
