@@ -2,38 +2,33 @@
   <rect width="1200" height="480" fill="#F5F6FF"/>
   <rect x="64" y="112" width="1072" height="256" rx="128" fill="#E7EAFF" opacity="0.6"/>
 
-  <!-- carrier code, sitting in the lane rather than stuck in a corner -->
-  <rect x="112" y="188" width="104" height="104" rx="30" fill="#304CB2"/>
-  <text x="164" y="255" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-        font-size="40" font-weight="800" letter-spacing="1.5" fill="#FFFFFF">WN</text>
-
   <!-- the same slice comes out of every token, whatever the size of the move -->
   <g stroke="#10122B" stroke-width="3" stroke-linejoin="round">
-    <g transform="translate(336 258)">
+    <g transform="translate(264 258)">
       <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
       <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
     </g>
-    <g transform="translate(448 258)">
+    <g transform="translate(376 258)">
       <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
       <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
     </g>
-    <g transform="translate(560 258)">
+    <g transform="translate(488 258)">
       <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
       <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
     </g>
-    <g transform="translate(672 258)">
+    <g transform="translate(600 258)">
       <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
       <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
     </g>
-    <g transform="translate(784 258)">
+    <g transform="translate(712 258)">
       <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
       <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
     </g>
-    <g transform="translate(896 258)">
+    <g transform="translate(824 258)">
       <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
       <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
     </g>
-    <g transform="translate(1008 258)">
+    <g transform="translate(936 258)">
       <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
       <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
     </g>

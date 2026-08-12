@@ -861,14 +861,21 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .prose hr { border:none; border-top:1px solid var(--line); margin:2.2em 0; }
 .prose blockquote { background:var(--raised); border-radius:var(--radius); padding:14px 18px; margin-left:0; font-style:italic; }
 .prose code { font-family:var(--mono); font-size:.9em; background:var(--raised); padding:2px 6px; border-radius:5px; }
-/* Markdown tables. A post that compares the whole roster is a 21-row table and
-   markdown gives it no wrapper to scroll inside, so the table itself becomes
-   the scroll container (display:block) rather than pushing the page sideways.
-   min-width keeps it from crushing into two words per line on a phone. */
-.prose table { display:block; overflow-x:auto; width:100%; min-width:0; border-collapse:collapse;
+/* Markdown tables. A real table rather than a block, so the columns fill the
+   column width; as a block the cells collapse to their content and leave dead
+   space on the right. Markdown gives no wrapper to scroll inside, so a narrow
+   screen wraps the cell text instead, which these tables take because every
+   cell is a few words. */
+.prose table { display:table; width:100%; table-layout:auto; border-collapse:collapse;
   font-size:14.5px; line-height:1.5; }
 .prose table th, .prose table td { text-align:left; padding:11px 14px; border-bottom:1px solid var(--line);
-  vertical-align:top; min-width:150px; }
+  vertical-align:top; }
+/* On a phone a 21-row roster table cannot fit at any column split, so there
+   the table becomes its own scroll container instead of pushing the page
+   sideways. Desktop keeps the real table and the full-width columns. */
+@media (max-width:640px) {
+  .prose table { display:block; overflow-x:auto; }
+}
 .prose table thead th { font-family:var(--display); font-weight:800; font-size:13px; color:var(--text-1);
   background:var(--raised); white-space:nowrap; }
 .prose table td:first-child { color:var(--text-1); font-weight:600; }
