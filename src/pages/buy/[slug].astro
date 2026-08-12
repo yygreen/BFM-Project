@@ -257,38 +257,11 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- QUIRKS + FACTS — what makes this program ITSELF, honest bits included -->
-  {(a.quirks.length > 0 || a.mechanics.length > 0) && (
-    <section class="section wash-neutral">
-      <div class="container">
-        <div class="section-head">
-          <h2>Worth knowing about {a.program}</h2>
-          <p>The details that change how you should buy and spend these miles.</p>
-        </div>
-        <div class="quirkfacts">
-          {a.quirks.length > 0 && (
-            <div class="quirks">
-              {a.quirks.map((q) => (
-                <div class="quirk">
-                  <h4>{q.title}</h4>
-                  <p>{q.text}</p>
-                </div>
-              ))}
-            </div>
-          )}
-          {a.mechanics.length > 0 && (
-            <div class="facts">
-              <p class="lab">The facts</p>
-              {a.mechanics.map((f) => (
-                <div class="row"><span>{f.label}</span><b>{f.text}</b></div>
-              ))}
-              {a.factsChecked && <p class="cap">Program facts checked {a.factsChecked}. Policies move; we re-check before every quote.</p>}
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  )}
+  <!-- No "worth knowing" section. The quirks and mechanics it rendered are
+       program background, and background belongs in a post that can give it
+       room, not in a band two thirds down a page whose job is the purchase.
+       The purchase-critical answers stay on this page through faqExtras,
+       which renders in the FAQ below. -->
 
   <!-- TRUST -->
   <section class="section wash-warm">
