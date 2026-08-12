@@ -778,7 +778,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .postcard { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
   overflow:hidden; transition:border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
 .postcard:hover { border-color:var(--cobalt-line); transform:translateY(-2px); box-shadow:0 12px 30px rgba(16,20,50,.08); }
-.postcard .pc-art { display:block; overflow:hidden; background:var(--raised); position:relative; }
+.postcard .pc-art { display:block; overflow:hidden; background:var(--raised); }
 .postcard .pc-body { padding:20px 22px 22px; }
 .postcard h3 { font-size:19px; letter-spacing:-.015em; margin:0 0 8px; }
 .postcard h3 a { color:var(--text-1); }
@@ -804,14 +804,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .posthero, .posthero-img { display:block; width:100%; }
 .posthero.wide, .posthero-img.wide { aspect-ratio:5/2; object-fit:cover; }
 .posthero.card, .posthero-img.card { height:100%; min-height:150px; object-fit:cover; }
-.posthero-wrap { border-radius:var(--radius-card); overflow:hidden; border:1px solid var(--line); margin-bottom:38px; position:relative; }
-/* Carrier badge over the art. The emblem is the site's existing signifier for
-   a program, so a post about one program is identified the same way a pricing
-   card is. Sits over the corner the illustrations keep clear. */
-.posthero-badges { position:absolute; z-index:2; display:flex; gap:8px; }
-.posthero-badges.wide { top:16px; left:16px; }
-.posthero-badges.card { top:10px; left:10px; }
-.posthero-badges .emblem { box-shadow:0 2px 10px rgba(16,18,43,.18); border-radius:16px; }
+.posthero-wrap { border-radius:var(--radius-card); overflow:hidden; border:1px solid var(--line); margin-bottom:38px; }
 
 /* sidebar */
 /* Block flow on purpose, twice over: the aside must span the full column
