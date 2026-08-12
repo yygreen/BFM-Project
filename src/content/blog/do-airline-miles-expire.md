@@ -4,15 +4,9 @@ description: "Six of the programs we trade never expire miles. Nine run an activ
 date: 2026-08-12
 category: "Guide"
 programs: ["avianca-lifemiles", "frontier-miles", "etihad-guest", "singapore-krisflyer", "turkish-miles-smiles", "emirates-skywards"]
+image: "/blog/do-airline-miles-expire.jpg"
+imageAlt: "Three panels, one per expiry rule: a clock with no hands, a clock circled by a blue arrow winding it back, and a clock with a fixed coral wedge on its dial"
 ---
-
-<!--
-  Hero art not yet commissioned. When it lands, save it as
-  /public/blog/do-airline-miles-expire.jpg and add to the frontmatter:
-    image: "/blog/do-airline-miles-expire.jpg"
-    imageAlt: "Three clock faces in a row, the first blank, the second being wound back by a hand, the third with its hands fixed in place"
-  Until then PostHero.astro draws the generated on-brand SVG from the slug.
--->
 
 There are twenty-one programs on this site and only three expiry rules between
 them. Six programs never expire miles at all. Nine put a clock on the account

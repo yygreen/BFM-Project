@@ -4,15 +4,9 @@ description: "Six of the 21 programs we sell publish no award chart at all, so t
 date: 2026-08-12
 category: "Guide"
 programs: ["delta-skymiles", "air-france-flying-blue", "lufthansa-miles-more", "turkish-miles-smiles", "emirates-skywards", "ana-mileage-club"]
+image: "/blog/how-many-miles-for-a-flight.jpg"
+imageAlt: "A blue flight arc between two cities, and beneath it the three ways an award is priced: a block of equal bars, a distance ruler, and a rising coral line tracking a cash fare"
 ---
-
-<!--
-  Hero art not yet commissioned. When it lands, save it as
-  /public/blog/how-many-miles-for-a-flight.jpg and add to the frontmatter:
-    image: "/blog/how-many-miles-for-a-flight.jpg"
-    imageAlt: "A route line arcing between two cities, priced three ways below it: a fixed chart block, a distance ruler, and a wavy line tracking a cash fare"
-  Until then PostHero.astro draws the generated on-brand SVG from the slug.
--->
 
 The honest answer is that for six of the twenty-one programs on this site,
 there is no number. Delta, United, Southwest, JetBlue, Frontier and Flying Blue
