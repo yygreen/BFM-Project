@@ -4,15 +4,9 @@ description: "Delta charges 1 cent per mile plus a $30 processing fee, so a 1,00
 date: 2026-08-12
 category: "Transfers"
 programs: ["delta-skymiles"]
+image: "/blog/transfer-delta-skymiles-to-another-person.svg"
+imageAlt: "Two streams of miles, one small and one large, passing the same fixed coral block of a $30 fee"
 ---
-
-<!--
-  Hero art not yet commissioned. When it lands, save it as
-  /public/blog/transfer-delta-skymiles-to-another-person.jpg and add:
-    image: "/blog/transfer-delta-skymiles-to-another-person.jpg"
-    imageAlt: "Two account cards with mile tokens crossing between them, a coral fixed-size block sitting on the bridge regardless of how many tokens pass"
-  Until then PostHero.astro draws the generated on-brand SVG from the slug.
--->
 
 Yes, Delta lets you move SkyMiles into another member's account. The price has
 two parts, and the second part is the one that decides whether this is a good

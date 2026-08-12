@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480" role="img" aria-label="Two streams of different size passing the same fixed fee">
+  <rect width="1200" height="480" fill="#F5F6FF"/>
+  <rect x="70" y="96" width="1060" height="288" rx="56" fill="#E7EAFF" opacity="0.52"/>
+
+  <rect x="104" y="196" width="88" height="88" rx="26" fill="#9A1C33"/>
+  <text x="148" y="252" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="34" font-weight="800" letter-spacing="1" fill="#FFFFFF">DL</text>
+
+  <!-- two lanes, one lightly loaded and one heavily, meeting the same block -->
+  <g stroke="#10122B" stroke-width="2.5" stroke-linecap="round" opacity="0.55">
+    <line x1="250" y1="176" x2="1080" y2="176"/>
+    <line x1="250" y1="304" x2="1080" y2="304"/>
+  </g>
+  <g fill="#10122B">
+    <polygon points="1080,166 1108,176 1080,186"/>
+    <polygon points="1080,294 1108,304 1080,314"/>
+  </g>
+
+  <g fill="#2540FF" stroke="#10122B" stroke-width="2.5">
+    <circle cx="590" cy="176" r="21"/>
+    <circle cx="650" cy="176" r="21"/>
+    <circle cx="710" cy="176" r="21"/>
+
+    <circle cx="290" cy="304" r="21"/>
+    <circle cx="350" cy="304" r="21"/>
+    <circle cx="410" cy="304" r="21"/>
+    <circle cx="470" cy="304" r="21"/>
+    <circle cx="530" cy="304" r="21"/>
+    <circle cx="590" cy="304" r="21"/>
+    <circle cx="650" cy="304" r="21"/>
+    <circle cx="710" cy="304" r="21"/>
+  </g>
+
+  <!-- the flat fee: one block, identical for both lanes -->
+  <rect x="778" y="132" width="48" height="216" rx="14" fill="#FF5C3A" stroke="#10122B" stroke-width="2.5"/>
+</svg>

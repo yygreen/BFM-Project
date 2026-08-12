@@ -4,15 +4,9 @@ description: "United charges 1.5 cents a mile plus $30 to move MileagePlus miles
 date: 2026-08-12
 category: "Transfers"
 programs: ["united-mileageplus"]
+image: "/blog/transfer-united-miles-to-another-person.svg"
+imageAlt: "Five accounts feeding one shared pool with nothing in the way, beside a separate two-account bridge carrying a toll"
 ---
-
-<!--
-  Hero art not yet commissioned. When it lands, save it as
-  /public/blog/transfer-united-miles-to-another-person.jpg and add:
-    image: "/blog/transfer-united-miles-to-another-person.jpg"
-    imageAlt: "Five small account cards feeding mile tokens into one shared pool, beside a separate paid bridge between two cards with a coral toll on it"
-  Until then PostHero.astro draws the generated on-brand SVG from the slug.
--->
 
 United will move MileagePlus miles into another member's account for **$7.50 per
 500 miles, plus a $30 processing fee**, up to 100,000 miles a year. That works

@@ -4,15 +4,9 @@ description: "Southwest charges 1 cent per point to move Rapid Rewards points be
 date: 2026-08-12
 category: "Transfers"
 programs: ["southwest-rapid-rewards"]
+image: "/blog/transfer-southwest-points-to-another-person.svg"
+imageAlt: "A lane of Southwest point tokens, each losing an identical small slice, because the transfer rate is the same at any size"
 ---
-
-<!--
-  Hero art not yet commissioned. When it lands, save it as
-  /public/blog/transfer-southwest-points-to-another-person.jpg and add:
-    image: "/blog/transfer-southwest-points-to-another-person.jpg"
-    imageAlt: "Two account cards side by side, a stream of point tokens crossing between them, a coral toll gate in the middle taking one token in ten"
-  Until then PostHero.astro draws the generated on-brand SVG from the slug.
--->
 
 Yes, Southwest lets you move Rapid Rewards points into someone else's account.
 It costs **1 cent per point**, sold in 500-point blocks at $5 each, and you can
