@@ -166,6 +166,15 @@ const jsonld = {
     </div>
   </section>
 
+  <!-- What you actually receive, for a program whose currency has changed
+       name or owner. It sits here, right under the amount picker, because on
+       those programs it is the purchase itself rather than a footnote. -->
+  {a.notice && (
+    <div class="container">
+      <p class="prog-notice">{a.notice}</p>
+    </div>
+  )}
+
   <!-- BEST WAYS TO USE + RUN THE NUMBERS — one section: the ladder makes the
        value claim, and the tool that tests it against a real fare sits in the
        same room rather than a section of its own -->

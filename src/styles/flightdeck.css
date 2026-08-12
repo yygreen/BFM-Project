@@ -559,6 +559,14 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
   color:var(--cobalt); background:var(--surface); border:1px solid var(--cobalt-line);
   border-radius:var(--radius-pill); padding:5px 13px; vertical-align:middle; }
 .lang-toggle:hover { border-color:var(--cobalt); }
+/* Standing notice under the hero for a program whose currency changed name.
+   The warm accent rather than a status colour: nothing is wrong here, and
+   green/amber/red are reserved for real states. Sits between two sections, so
+   it carries its own vertical rhythm. */
+.prog-notice { margin:clamp(24px,3vw,34px) 0 0; padding:16px 20px; background:var(--coral-tint);
+  border:1px solid var(--line); border-left:4px solid var(--coral); border-radius:var(--radius);
+  color:var(--text-2); font-size:14.5px; line-height:1.6; max-width:78ch; }
+
 /* the ask-us card at the end of the program grid — invitation, not product */
 .gcard-ask { display:flex; flex-direction:column; justify-content:center; gap:10px;
   background:transparent; border:1.5px dashed var(--line-strong); box-shadow:none; }

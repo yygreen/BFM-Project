@@ -77,6 +77,14 @@ const airlines = defineCollection({
       // doesn't, e.g. the two Avios programs, whose `program` carries a
       // parenthetical. It is terminology, not a claim about the program.
       accountLabel: z.string().min(1).optional(),
+
+      // A standing notice for a program whose currency has been renamed,
+      // merged or retired: what the buyer actually receives. It renders
+      // directly under the hero, above the amount they choose, because on
+      // those programs it is the first thing that changes the decision rather
+      // than a detail to find two thirds down the page. Most programs have
+      // nothing to say here and the band never appears.
+      notice: z.string().min(1).optional(),
       // several US carriers (Southwest, JetBlue, Hawaiian, Frontier) belong to
       // no alliance at all — "Independent" is a real value, not a fallback
       alliance: z.enum(["Star Alliance", "Oneworld", "SkyTeam", "Independent"]),

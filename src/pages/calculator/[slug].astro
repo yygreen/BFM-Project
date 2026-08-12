@@ -147,6 +147,14 @@ const faqJsonLd = {
     </div>
   </section>
 
+  {/* same notice as the buy page: this page prices an amount too, so a
+      renamed or merged currency has to be stated before the arithmetic */}
+  {a.notice && (
+    <div class="container">
+      <p class="prog-notice">{a.notice}</p>
+    </div>
+  )}
+
   <section class="section">
     <div class="container">
       <div class="section-head">
