@@ -1,81 +1,64 @@
 ---
-// Localized program landing pages — generated only for entries carrying an
-// i18n block, so adding a language market is data entry like everything else.
-// The old WordPress site ranks with /qatar-airways-ar; this is that surface,
-// carried over and held to the same honesty rules as the English pages (no
-// invented fares, payment stays off-site, unverified claims don't render).
+// Localized program landing pages, one route for every language.
 //
-// v1 scope, deliberately: the header/footer chrome stays English and the CTA
-// leads to the English quote flow. The page content itself is RTL Arabic.
+// Generated only for entries carrying an i18n block, so adding a language
+// market is data entry: an entry in src/lib/locales.ts for the chrome, and an
+// i18n.<locale> block per program for the marketing copy. The old WordPress
+// site ranks with /qatar-airways-ar; this is that surface, generalized.
+//
+// Held to the same honesty rules as the English pages: no invented fares,
+// payment stays off-site, unverified claims don't render.
+//
+// v1 scope, deliberately: the header and footer chrome stays English and the
+// CTA leads to the English quote flow. The page content is in the language.
+//
+// German is excluded here because it has its own richer route file. See the
+// `bespoke` flag in the registry.
 import Base from "../../../layouts/Base.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../../components/QuoteWidget.astro";
 import { getCollection } from "astro:content";
 import { realReviews, yearsTrading } from "../../../lib/site";
+import { LOCALES, GENERIC_LOCALES } from "../../../lib/locales";
 
 const rev = realReviews[0];
 const years = yearsTrading();
 
-// Arabic strings for the quote widget's chrome. UI copy lives here in the
-// template (shared across programs); marketing copy stays in the data.
-const AR_WIDGET = {
-  program: "البرنامج",
-  howMany: "كم عدد الأميال؟",
-  est: "التكلفة التقديرية",
-  rate: "السعر",
-  delivery: "التسليم",
-  onQuote: "مع عرض السعر",
-  note: "سعر استرشادي. اطلب عرض السعر ونؤكد لك السعر النهائي.",
-  continue: "متابعة",
-  backLocked: "تعديل الكمية →",
-  back: "تغيير البرنامج →",
-  milesUnit: "ميل",
-  name: "الاسم *",
-  email: "البريد الإلكتروني *",
-  contact: "واتساب / تيليجرام",
-  contactPh: "اختياري: كيف تفضّل أن نرد عليك",
-  submit: "اطلب عرض السعر",
-  foot: "الدفع يتم خارج هذا الموقع. لا نطلب رقم عضويتك إلا بعد موافقتك على العرض.",
-  per1000: "≈ {v} لكل 1,000 ميل",
-  range: "الحد الأدنى {min} والحد الأقصى {max}.",
-  below: "الحد الأدنى لبرنامج {program} هو {min} ميل.",
-  above: "الحد الأقصى للطلب الواحد في {program} هو {max} ميل.",
-  use: "استخدم {v}",
-  sending: "جارٍ الإرسال…",
-  ok: "شكراً، استلمنا طلبك. سنؤكد لك السعر النهائي والتسليم قريباً.",
-  errGeneric: "حدث خطأ ما. يرجى مراسلتنا عبر البريد الإلكتروني بدلاً من ذلك.",
-  errNetwork: "خطأ في الاتصال. حاول مجدداً أو راسلنا مباشرة.",
-  rateUnit: "¢/ميل",
-  saveVs: "توفّر مقارنة بسعر الشراء المباشر {v}¢",
-  d24: "خلال 24 ساعة",
-  notWired: "طلبات الأسعار غير مفعّلة بعد، يرجى التواصل معنا مباشرة وسنسعّر طلبك.",
-};
-
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
-  return airlines
-    .filter((a) => a.i18n?.ar)
-    .map((a) => ({ params: { slug: a.slug }, props: { a, t: a.i18n.ar } }));
+  return GENERIC_LOCALES.flatMap((locale) =>
+    airlines
+      .filter((a) => a.i18n?.[locale])
+      .map((a) => ({
+        params: { locale, slug: a.slug },
+        props: { a, t: a.i18n[locale], locale },
+      })),
+  );
 }
 
-const { a, t } = Astro.props;
-const verified = a.priceVerified;
+const { a, t, locale } = Astro.props;
+const L = LOCALES[locale];
+const P = L.page;
+// Delivery reads "Within 48 hours" in the data; the localized page needs the
+// number without the English preposition, since each language puts its own
+// wording in `deliveredIn`.
+const deliveryValue = a.delivery.replace("Within ", "");
 ---
 <Base
   title={t.metaTitle}
   description={t.metaDescription}
-  slug={`ar/buy/${a.slug}`}
-  lang="ar"
+  slug={`${locale}/buy/${a.slug}`}
+  lang={locale}
   alternates={[{ hreflang: "en", slug: `buy/${a.slug}` }]}
 >
-  <div dir="rtl" lang="ar">
+  <div dir={L.dir} lang={locale}>
     <section class="hero">
       <div class="container">
         <div class="hero-grid top">
           <div>
-            <Breadcrumbs rtl items={[
-              { label: "الرئيسية", href: "/" },
-              { label: "البرامج", href: "/#programs" },
+            <Breadcrumbs rtl={L.dir === "rtl"} items={[
+              { label: P.home, href: "/" },
+              { label: P.programs, href: "/#programs" },
               { label: t.heroHeadline },
             ]} />
             <span class="kicker">{a.alliance}</span>
@@ -85,38 +68,41 @@ const verified = a.priceVerified;
             <div class="cta-row">
               <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
             </div>
+            <!-- the same three slots as the English hero, each falling back to
+                 an always-true claim when its figure isn't confirmed, so the
+                 row never invents a number in any language -->
             <div class="spec">
               {rev ? (
                 <span class="spec-it">
                   <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <b>{rev.rating}/{rev.outOf}</b>&nbsp;على {rev.platform}
+                  <b>{rev.rating}/{rev.outOf}</b>&nbsp;{P.on} {rev.platform}
                 </span>
               ) : (
                 <span class="spec-it">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  عرض سعر مجاني وغير مُلزِم
+                  {P.freeQuote}
                 </span>
               )}
               <span class="spec-it">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                التسليم خلال <b>{a.delivery.replace("Within ", "").replace("hours", "ساعة")}</b>
+                {P.deliveredIn} <b>{deliveryValue}</b>
               </span>
               {years !== null ? (
                 <span class="spec-it">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-                  <b>{years}+ سنوات</b>&nbsp;في السوق
+                  <b>{years}+</b>&nbsp;{P.yearsIn}
                 </span>
               ) : (
                 <span class="spec-it">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                  السعر يُؤكَّد قبل الدفع
+                  {P.ratePreConfirmed}
                 </span>
               )}
             </div>
           </div>
           <div class="hero-art">
             <div class="hero-calc" id="quote">
-              <QuoteWidget defaultSlug={a.slug} locked heading="كم ستكلف الأميال؟" sub="سعّرها ثم أرسل الطلب. نؤكد لك السعر النهائي قبل الدفع." labels={AR_WIDGET} />
+              <QuoteWidget defaultSlug={a.slug} locked heading={P.quoteHeading} sub={P.quoteSub} labels={L.widget} />
             </div>
           </div>
         </div>
@@ -126,7 +112,7 @@ const verified = a.priceVerified;
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>كيف تتم العملية</h2>
+          <h2>{P.howItWorks}</h2>
         </div>
         <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
           {t.steps.map((s, i) => (
@@ -140,21 +126,44 @@ const verified = a.priceVerified;
       </div>
     </section>
 
-    <section class="section wash-cool">
-      <div class="container">
-        <div class="section-head">
-          <h2>لماذا تشتري من buyflightmiles؟</h2>
+    {/* Sweet spots where the entry carries them, the plain benefit list where
+        it doesn't. Both are optional in the schema and a program may have
+        neither, in which case the section is skipped rather than left empty. */}
+    {t.uses && t.uses.length > 0 && (
+      <section class="section wash-cool">
+        <div class="container">
+          <div class="section-head">
+            <h2>{P.bestUses}</h2>
+          </div>
+          <div class="uses">
+            {t.uses.map((u) => (
+              <div class="use">
+                <h4>{u.title}</h4>
+                <p>{u.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div class="vgood">
-          {t.points.map((p) => <div class="vitem">{p}</div>)}
+      </section>
+    )}
+
+    {t.points && t.points.length > 0 && (
+      <section class="section wash-cool">
+        <div class="container">
+          <div class="section-head">
+            <h2>{P.whyUs}</h2>
+          </div>
+          <div class="vgood">
+            {t.points.map((p) => <div class="vitem">{p}</div>)}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>أسئلة شائعة</h2>
+          <h2>{P.faq}</h2>
         </div>
         {t.faq.map((f) => (
           <details class="faq-item" style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px 22px;margin-bottom:12px">
@@ -168,8 +177,8 @@ const verified = a.priceVerified;
     <section class="section wash-cool">
       <div class="container ctaband">
         <div>
-          <h3>جاهز لطلب عرض السعر؟</h3>
-          <p>نؤكد السعر أولاً — لا يُحصَّل أي مبلغ على هذا الموقع.</p>
+          <h3>{P.ctaHead}</h3>
+          <p>{P.ctaSub}</p>
         </div>
         <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
       </div>

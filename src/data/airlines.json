@@ -945,7 +945,63 @@
       }
     ],
     "logo": "/logos/turkish-miles-smiles.svg",
-    "logoAlt": "Turkish Airlines logo"
+    "logoAlt": "Turkish Airlines logo",
+    "i18n": {
+      "tr": {
+        "metaTitle": "Miles&Smiles Mil Satın Al | Uygun Fiyat | buyflightmiles",
+        "metaDescription": "Türk Hava Yolları Miles&Smiles milleri satın alın. Net fiyatınızı ödemeden önce onaylıyoruz ve miller kendi hesabınıza aktarılır.",
+        "heroHeadline": "Miles&Smiles mil satın alın",
+        "heroSub": "Business koltuğa birkaç bin mil kaldıysa aradaki farkı tamamlayın. Miller zaten sahip olduğunuz hesaba geçer, bileti kendiniz alırsınız.",
+        "steps": [
+          {
+            "title": "Miktarı seçin",
+            "text": "Rezervasyonunuz için kaç mil gerektiğini girin."
+          },
+          {
+            "title": "Teklif isteyin",
+            "text": "Talebi gönderin, net fiyatınızı ve teslim süresini onaylayalım."
+          },
+          {
+            "title": "Miller hesabınızda",
+            "text": "Onaydan sonra ödeme site dışında yapılır, miller hesabınıza aktarılır."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Star Alliance ödül biletleri",
+            "desc": "Miles&Smiles, Star Alliance ağındaki uzun mesafeli business koltuklar için sık sık en uygun seçenektir."
+          },
+          {
+            "title": "İstanbul aktarmalı Avrupa ve Asya",
+            "desc": "THY'nin geniş ağı sayesinde tek ödül biletiyle iki kıtaya ulaşabilirsiniz."
+          },
+          {
+            "title": "Eksik mili tamamlamak",
+            "desc": "Çoğu alıcı tüm bileti değil, sadece eksik kalan mili satın alır."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Miller ne kadar sürede hesabıma geçer?",
+            "a": "Teslim süresini teklifinizde net olarak belirtiyoruz. Süre programa göre değişir ve tahmin yürütmüyoruz."
+          },
+          {
+            "q": "Hesap şifremi vermem gerekiyor mu?",
+            "a": "Hayır. Aktarım için yalnızca üyelik numaranız ve hesaptaki isim yeterli. Şifrenizi hiçbir zaman istemiyoruz."
+          },
+          {
+            "q": "Ödeme bu sitede mi yapılıyor?",
+            "a": "Hayır. Bu sitede hiçbir tahsilat yapılmaz. Teklifi onayladıktan sonra ödeme site dışında tamamlanır."
+          },
+          {
+            "q": "Bileti kim alıyor?",
+            "a": "Siz. Miller kendi hesabınıza geçer ve rezervasyonu doğrudan havayolu üzerinden kendiniz yaparsınız."
+          }
+        ],
+        "ctaLabel": "Teklif iste",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "etihad-guest",
@@ -1189,7 +1245,63 @@
       }
     ],
     "logo": "/logos/flying-blue.svg",
-    "logoAlt": "Air France logo"
+    "logoAlt": "Air France logo",
+    "i18n": {
+      "fr": {
+        "metaTitle": "Acheter des Miles Flying Blue | Air France-KLM | buyflightmiles",
+        "metaDescription": "Achetez des miles Flying Blue Air France-KLM à prix réduit. Nous confirmons votre tarif exact avant tout paiement et les miles arrivent sur votre propre compte.",
+        "heroHeadline": "Acheter des miles Flying Blue",
+        "heroSub": "Il vous manque quelques milliers de miles pour une place en Business ? Complétez la différence. Les miles arrivent sur le compte que vous détenez déjà et vous réservez vous-même.",
+        "steps": [
+          {
+            "title": "Choisissez le montant",
+            "text": "Indiquez combien de miles il vous manque pour votre réservation."
+          },
+          {
+            "title": "Demandez le devis",
+            "text": "Envoyez la demande, nous confirmons votre tarif exact et le délai."
+          },
+          {
+            "title": "Les miles arrivent",
+            "text": "Le paiement se fait hors du site après votre accord, puis les miles sont transférés."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Promo Rewards",
+            "desc": "Flying Blue met chaque mois certaines destinations à prix réduit, souvent la meilleure valeur du programme."
+          },
+          {
+            "title": "Business vers l'Afrique et l'Asie",
+            "desc": "Les hubs de Paris et d'Amsterdam ouvrent un large réseau long-courrier en cabine avant."
+          },
+          {
+            "title": "Compléter un solde",
+            "desc": "La plupart des acheteurs ne prennent pas le billet entier, seulement les miles qui manquent."
+          }
+        ],
+        "faq": [
+          {
+            "q": "En combien de temps les miles arrivent-ils ?",
+            "a": "Le délai est confirmé dans votre devis. Il varie selon le programme et nous ne l'estimons pas au hasard."
+          },
+          {
+            "q": "Dois-je donner mon mot de passe ?",
+            "a": "Non. Un transfert nécessite seulement votre numéro d'adhérent et le nom du titulaire. Nous ne demandons jamais votre mot de passe."
+          },
+          {
+            "q": "Le paiement se fait-il sur ce site ?",
+            "a": "Non. Rien n'est débité ici. Le paiement se règle hors du site une fois le devis accepté."
+          },
+          {
+            "q": "Qui réserve le billet ?",
+            "a": "Vous. Les miles arrivent sur votre propre compte et vous réservez directement auprès de la compagnie, à votre nom."
+          }
+        ],
+        "ctaLabel": "Demander un devis",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "lifemiles",
@@ -1232,7 +1344,63 @@
       }
     ],
     "logo": "/logos/lifemiles.svg",
-    "logoAlt": "Avianca logo"
+    "logoAlt": "Avianca logo",
+    "i18n": {
+      "es": {
+        "metaTitle": "Comprar Millas LifeMiles | Avianca | buyflightmiles",
+        "metaDescription": "Compra millas LifeMiles de Avianca a una fracción del precio. Confirmamos tu precio exacto antes de que pagues y las millas llegan a tu propia cuenta.",
+        "heroHeadline": "Comprar millas LifeMiles",
+        "heroSub": "¿Te faltan unas miles de millas para el pasaje que quieres? Completa la diferencia. Las millas llegan a la cuenta que ya tienes y tú haces la reserva.",
+        "steps": [
+          {
+            "title": "Elige la cantidad",
+            "text": "Indica cuántas millas te faltan para tu reserva."
+          },
+          {
+            "title": "Pide la cotización",
+            "text": "Envía la solicitud y confirmamos tu precio exacto y el tiempo de entrega."
+          },
+          {
+            "title": "Las millas llegan",
+            "text": "El pago se hace fuera del sitio después de que aceptes, y luego transferimos las millas."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Star Alliance sin recargos",
+            "desc": "LifeMiles cobra pocas tasas en los premios de socios, así que el precio final suele ser más limpio que en otros programas."
+          },
+          {
+            "title": "Business a Europa y Norteamérica",
+            "desc": "Los vuelos largos en cabina ejecutiva son donde una milla comprada rinde más."
+          },
+          {
+            "title": "Completar un saldo",
+            "desc": "La mayoría no compra el pasaje entero, solo las millas que le faltan."
+          }
+        ],
+        "faq": [
+          {
+            "q": "¿En cuánto tiempo llegan las millas?",
+            "a": "El tiempo de entrega se confirma en tu cotización. Depende del programa y no lo estimamos a la ligera."
+          },
+          {
+            "q": "¿Tengo que dar mi contraseña?",
+            "a": "No. Una transferencia solo necesita tu número de socio y el nombre de la cuenta. Nunca pedimos tu contraseña."
+          },
+          {
+            "q": "¿El pago se hace en este sitio?",
+            "a": "No. Aquí no se cobra nada. El pago se realiza fuera del sitio una vez que aceptas la cotización."
+          },
+          {
+            "q": "¿Quién hace la reserva?",
+            "a": "Tú. Las millas llegan a tu propia cuenta y reservas directamente con la aerolínea, a tu nombre."
+          }
+        ],
+        "ctaLabel": "Pedir cotización",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "asia-miles",

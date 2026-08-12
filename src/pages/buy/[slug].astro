@@ -10,10 +10,9 @@ import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
 import { site, realReviews, yearsTrading } from "../../lib/site";
 import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
+// each locale named in its own language, from the one registry that knows
+import { LOCALE_NAMES } from "../../lib/locales";
 
-// each locale named in its own language, the way a reader looking for it
-// would recognise it
-const LOCALE_NAMES: Record<string, string> = { ar: "العربية", de: "Deutsch" };
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));

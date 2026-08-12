@@ -158,8 +158,15 @@ const airlines = defineCollection({
       // in Zod, so every program would be required to carry every language.
       i18n: z
         .object({
+          // One optional key per locale. z.record over an enum is EXHAUSTIVE
+          // in Zod, which would demand every program carry every language, so
+          // the keys are spelled out. Add a locale here and in
+          // src/lib/locales.ts and the route generates it.
           ar: translation.optional(),
           de: translation.optional(),
+          es: translation.optional(),
+          tr: translation.optional(),
+          fr: translation.optional(),
         })
         .optional(),
     })
