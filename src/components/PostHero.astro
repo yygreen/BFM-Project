@@ -8,7 +8,30 @@
 // the same — and no layout anywhere depends on art that doesn't exist yet.
 //
 // Design brief: geometric and on-palette. No stock photography.
-const { slug, category, title, image = null, imageAlt = null, variant = "wide" } = Astro.props;
+//
+// A post about one or two specific programs also gets their emblems badged
+// onto the art. Four "how to transfer X" posts illustrate the same mechanism
+// and their heroes necessarily rhyme; the carrier code and brand colour are
+// what tell them apart in a card grid, at a glance, before the headline is
+// read. Deliberately the tail-fin badge rather than the carrier's logo: the
+// footer says we are not affiliated with any airline, and a two-letter IATA
+// code is a signifier where a wordmark on someone else's art starts to look
+// like a partnership.
+//
+// Roster-wide posts pass six arbitrary slugs from a list of twenty-one, so
+// they get no badge. Badging six would imply the post is about those six.
+import Emblem from "./Emblem.astro";
+import { getCollection } from "astro:content";
+
+const { slug, category, title, image = null, imageAlt = null, variant = "wide", programs = [] } = Astro.props;
+
+const badged =
+  programs.length > 0 && programs.length <= 2
+    ? (await getCollection("airlines"))
+        .filter((e) => programs.includes(e.id))
+        .sort((a, b) => programs.indexOf(a.id) - programs.indexOf(b.id))
+        .map((e) => ({ code: e.data.code, color: e.data.color, airline: e.data.airline }))
+    : [];
 
 // tiny deterministic hash → stable per-post variation
 let h = 0;
@@ -51,6 +74,11 @@ const angle = (Math.atan2(y1 - y0, x1 - x0) * 180) / Math.PI;
 const gx = W / 8;
 const gy = H / 4;
 ---
+{badged.length > 0 && (
+  <span class={`posthero-badges ${variant}`} aria-hidden="true">
+    {badged.map((p) => <Emblem code={p.code} color={p.color} size={variant === "wide" ? 44 : 34} logo={null} />)}
+  </span>
+)}
 {image ? (
   <img class={`posthero-img ${variant}`} src={image} alt={imageAlt || title} loading="lazy" decoding="async" />
 ) : (
