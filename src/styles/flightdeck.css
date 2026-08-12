@@ -559,6 +559,10 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
   color:var(--cobalt); background:var(--surface); border:1px solid var(--cobalt-line);
   border-radius:var(--radius-pill); padding:5px 13px; vertical-align:middle; }
 .lang-toggle:hover { border-color:var(--cobalt); }
+/* the flag sits a touch larger than the label so it reads at pill size, and
+   keeps its own colour rather than inheriting the link's */
+.lang-flag { margin-inline-end:6px; font-size:14px; line-height:1;
+  font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif; }
 /* the ask-us card at the end of the program grid — invitation, not product */
 .gcard-ask { display:flex; flex-direction:column; justify-content:center; gap:10px;
   background:transparent; border:1.5px dashed var(--line-strong); box-shadow:none; }

@@ -25,6 +25,20 @@
 export type LocaleChrome = {
   /** the locale's own name, for the toggle on the English page */
   label: string;
+  /**
+   * Flag for the language toggle. A country, not a language, so it is only
+   * set where one country obviously owns the page's market. Arabic has none
+   * on purpose: no single country owns the language, our three Arabic pages
+   * span Qatar and the UAE, and picking one nation's flag to stand for a
+   * language spoken across twenty-odd countries is a claim we would not
+   * defend if asked. That toggle shows its name alone, which is enough.
+   *
+   * Rendered as an emoji rather than an asset: no request, no CSP question,
+   * and it inherits the text colour. Windows has no flag-emoji font and
+   * falls back to the boxed two-letter code (TR, FR, CO), which still reads
+   * correctly beside the language name.
+   */
+  flag?: string;
   dir: "ltr" | "rtl";
   /** number grouping, e.g. 49.000 in de/es/tr vs 49,000 in en */
   numLocale: string;
@@ -109,6 +123,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
 
   de: {
     label: "Deutsch",
+    flag: "🇩🇪",
     dir: "ltr",
     numLocale: "de-DE",
     // owns src/pages/de/buy/[slug].astro — richer than the generic page
@@ -128,6 +143,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
 
   es: {
     label: "Español",
+    flag: "🇨🇴",
     dir: "ltr",
     numLocale: "es-CO",
     page: {
@@ -182,6 +198,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
 
   tr: {
     label: "Türkçe",
+    flag: "🇹🇷",
     dir: "ltr",
     numLocale: "tr-TR",
     page: {
@@ -236,6 +253,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
 
   fr: {
     label: "Français",
+    flag: "🇫🇷",
     dir: "ltr",
     numLocale: "fr-FR",
     page: {
@@ -288,6 +306,12 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
   },
 };
+
+/**
+ * The flag on the "English" toggle that localized pages carry back. The US
+ * rather than the UK: prices are in dollars and the roster leans American.
+ */
+export const EN_FLAG = "🇺🇸";
 
 /** Locales the generic [locale] route generates (everything without its own file). */
 export const GENERIC_LOCALES = Object.keys(LOCALES).filter((l) => !LOCALES[l].bespoke);

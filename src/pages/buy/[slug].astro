@@ -11,7 +11,7 @@ import { getPosts } from "../../lib/blog";
 import { site, realReviews, yearsTrading } from "../../lib/site";
 import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
 // each locale named in its own language, from the one registry that knows
-import { LOCALE_NAMES } from "../../lib/locales";
+import { LOCALES } from "../../lib/locales";
 
 
 export async function getStaticPaths() {
@@ -102,7 +102,10 @@ const jsonld = {
           {/* one toggle per translation the entry carries, so a new market
               needs no edit here — only the locale's own name below */}
           {Object.keys(a.i18n ?? {}).map((loc) => (
-            <a class="lang-toggle" href={`/${loc}/buy/${a.slug}`} lang={loc} hreflang={loc}>{LOCALE_NAMES[loc] ?? loc}</a>
+            <a class="lang-toggle" href={`/${loc}/buy/${a.slug}`} lang={loc} hreflang={loc}>
+              {LOCALES[loc]?.flag && <span class="lang-flag" aria-hidden="true">{LOCALES[loc].flag}</span>}
+              {LOCALES[loc]?.label ?? loc}
+            </a>
           ))}
           <h1>{head ? <>{head.lead}<span class="hl">{head.name}</span>{head.tail}</> : a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>

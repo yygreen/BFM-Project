@@ -20,6 +20,7 @@ import QuoteWidget from "../../../components/QuoteWidget.astro";
 import SavingsTool from "../../../components/SavingsTool.astro";
 import TrustStrip from "../../../components/TrustStrip.astro";
 import { getCollection } from "astro:content";
+import { EN_FLAG } from "../../../lib/locales";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { usd, per1000, costOf } from "../../../lib/money";
 import { fxFor, deDate } from "../../../lib/fx";
@@ -193,7 +194,9 @@ const jsonld = [
               { label: `${a.airline} ${a.program}` },
             ]} />
             <span class="kicker">{a.alliance}</span>
-            <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">English</a>
+            <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">
+              <span class="lang-flag" aria-hidden="true">{EN_FLAG}</span>English
+            </a>
             <h1>{t.heroHeadline}</h1>
             <p class="sub">{t.heroSub}</p>
             <div class="cta-row">
