@@ -39,6 +39,12 @@ export type LocaleChrome = {
    * correctly beside the language name.
    */
   flag?: string;
+  /**
+   * What goes in lang= and hreflang=. Defaults to the registry key. Split out
+   * because the key is also the URL segment, and /zh-tw/ reads better in a URL
+   * than /zh-TW/ while the tag itself is conventionally region-capitalised.
+   */
+  htmlLang?: string;
   dir: "ltr" | "rtl";
   /** number grouping, e.g. 49.000 in de/es/tr vs 49,000 in en */
   numLocale: string;
@@ -61,6 +67,8 @@ export type LocaleChrome = {
     yearsIn: string;
     ratePreConfirmed: string;
     on: string;
+    /** "48 hours" is data; each language supplies its own unit */
+    hours: string;
   };
   /** QuoteWidget label overrides; any key omitted falls back to English */
   widget: Record<string, string>;
@@ -87,8 +95,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       yearsIn: "في السوق",
       ratePreConfirmed: "السعر يُؤكَّد قبل الدفع",
       on: "على",
+      hours: "ساعة",
     },
     widget: {
+      dHours: "{n} ساعة",
       program: "البرنامج",
       howMany: "كم عدد الأميال؟",
       est: "التكلفة التقديرية",
@@ -137,8 +147,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       quoteSub: "Preis berechnen, dann Angebot anfordern.",
       freeQuote: "Kostenloses, unverbindliches Angebot", deliveredIn: "Lieferung in",
       yearsIn: "am Markt", ratePreConfirmed: "Preis vor Zahlung bestätigt", on: "auf",
+      hours: "Stunden",
     },
     widget: {},
+      dHours: "{n} Stunden",
   },
 
   es: {
@@ -162,8 +174,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       yearsIn: "en el mercado",
       ratePreConfirmed: "Precio confirmado antes de pagar",
       on: "en",
+      hours: "horas",
     },
     widget: {
+      dHours: "{n} horas",
       program: "Programa",
       howMany: "¿Cuántas millas?",
       est: "Costo estimado",
@@ -217,8 +231,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       yearsIn: "yıldır piyasada",
       ratePreConfirmed: "Fiyat ödemeden önce onaylanır",
       on: "üzerinden",
+      hours: "saat",
     },
     widget: {
+      dHours: "{n} saat",
       program: "Program",
       howMany: "Kaç mil?",
       est: "Tahmini tutar",
@@ -272,8 +288,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       yearsIn: "d'activité",
       ratePreConfirmed: "Tarif confirmé avant paiement",
       on: "sur",
+      hours: "heures",
     },
     widget: {
+      dHours: "{n} heures",
       program: "Programme",
       howMany: "Combien de miles ?",
       est: "Coût estimé",
@@ -303,6 +321,122 @@ export const LOCALES: Record<string, LocaleChrome> = {
       saveVs: "Vous économisez face au tarif public de {v}¢",
       d24: "24 heures",
       numLocale: "fr-FR",
+    },
+  },
+
+  "zh-tw": {
+    label: "繁體中文",
+    flag: "🇹🇼",
+    htmlLang: "zh-TW",
+    dir: "ltr",
+    numLocale: "zh-TW",
+    page: {
+      home: "首頁",
+      programs: "航空計畫",
+      howItWorks: "購買流程",
+      whyUs: "為什麼向 buyflightmiles 購買？",
+      faq: "常見問題",
+      bestUses: "這些哩程最值得的用法",
+      ctaHead: "準備好取得報價了嗎？",
+      ctaSub: "我們先確認價格，本網站不會收取任何款項。",
+      quoteHeading: "哩程要多少錢？",
+      quoteSub: "先試算，再索取免費報價。付款前我們會確認你的確切價格。",
+      freeQuote: "免費報價，無購買義務",
+      deliveredIn: "入帳時間",
+      yearsIn: "年經驗",
+      ratePreConfirmed: "付款前確認價格",
+      on: "於",
+      hours: "小時",
+    },
+    widget: {
+      dHours: "{n} 小時",
+      program: "航空計畫",
+      howMany: "需要多少哩程？",
+      est: "預估費用",
+      rate: "單價",
+      delivery: "入帳時間",
+      onQuote: "報價時確認",
+      note: "此為參考價。索取報價後我們會確認你的確切價格。",
+      continue: "繼續",
+      back: "更換計畫 →",
+      milesUnit: "哩",
+      name: "姓名 *",
+      email: "電子郵件 *",
+      contact: "WhatsApp / Telegram",
+      contactPh: "選填：你希望我們如何回覆",
+      submit: "索取報價",
+      foot: "付款在本網站之外完成。你同意報價後，我們才會索取會員編號。",
+      per1000: "每 1,000 哩約 {v}",
+      range: "最低 {min}，最高 {max}。",
+      below: "{program} 的最低訂購量為 {min} 哩。",
+      above: "{program} 單筆訂單最高為 {max} 哩。",
+      use: "使用 {v}",
+      sending: "傳送中…",
+      ok: "感謝你，我們已收到需求，會盡快確認確切價格與入帳時間。",
+      errGeneric: "發生錯誤，請改以電子郵件與我們聯絡。",
+      errNetwork: "連線錯誤。請再試一次，或直接與我們聯絡。",
+      rateUnit: "¢/哩",
+      saveVs: "與定價 {v}¢ 相比為你省下",
+      d24: "24 小時",
+      numLocale: "zh-TW",
+    },
+  },
+
+  "zh-hk": {
+    label: "繁體中文",
+    flag: "🇭🇰",
+    htmlLang: "zh-HK",
+    dir: "ltr",
+    numLocale: "zh-HK",
+    page: {
+      home: "首頁",
+      programs: "飛行常客計劃",
+      howItWorks: "購買流程",
+      whyUs: "為何向 buyflightmiles 購買？",
+      faq: "常見問題",
+      bestUses: "呢啲里數最抵嘅用法",
+      ctaHead: "準備好攞報價未？",
+      ctaSub: "我哋會先確認價格，本網站唔會收取任何款項。",
+      quoteHeading: "里數要幾多錢？",
+      quoteSub: "先計價，再索取免費報價。付款前我哋會確認你嘅確實價格。",
+      freeQuote: "免費報價，無購買責任",
+      deliveredIn: "入賬時間",
+      yearsIn: "年經驗",
+      ratePreConfirmed: "付款前確認價格",
+      on: "於",
+      hours: "小時",
+    },
+    widget: {
+      dHours: "{n} 小時",
+      program: "飛行常客計劃",
+      howMany: "需要幾多里數？",
+      est: "預計費用",
+      rate: "單價",
+      delivery: "入賬時間",
+      onQuote: "報價時確認",
+      note: "此為參考價。索取報價後我哋會確認你嘅確實價格。",
+      continue: "繼續",
+      back: "更換計劃 →",
+      milesUnit: "里數",
+      name: "姓名 *",
+      email: "電郵 *",
+      contact: "WhatsApp / Telegram",
+      contactPh: "選填：你想我哋點覆你",
+      submit: "索取報價",
+      foot: "付款喺本網站以外完成。你同意報價之後，我哋先會索取會員號碼。",
+      per1000: "每 1,000 里數約 {v}",
+      range: "最少 {min}，最多 {max}。",
+      below: "{program} 嘅最低訂購量係 {min} 里數。",
+      above: "{program} 單一訂單最多 {max} 里數。",
+      use: "使用 {v}",
+      sending: "傳送緊…",
+      ok: "多謝你，我哋收到你嘅要求，會盡快確認確實價格同入賬時間。",
+      errGeneric: "發生錯誤，請改用電郵聯絡我哋。",
+      errNetwork: "連線錯誤。請再試一次，或直接聯絡我哋。",
+      rateUnit: "¢/里",
+      saveVs: "同定價 {v}¢ 相比為你慳咗",
+      d24: "24 小時",
+      numLocale: "zh-HK",
     },
   },
 };

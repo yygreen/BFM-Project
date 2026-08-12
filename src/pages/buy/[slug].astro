@@ -86,7 +86,7 @@ const jsonld = {
   description={a.metaDescription}
   slug={`buy/${a.slug}`}
   jsonld={jsonld}
-  alternates={Object.keys(a.i18n ?? {}).map((loc) => ({ hreflang: loc, slug: `${loc}/buy/${a.slug}` }))}
+  alternates={Object.keys(a.i18n ?? {}).map((loc) => ({ hreflang: LOCALES[loc]?.htmlLang ?? loc, slug: `${loc}/buy/${a.slug}` }))}
 >
   <!-- HERO -->
   <section class="hero">
@@ -102,8 +102,10 @@ const jsonld = {
           {/* one toggle per translation the entry carries, so a new market
               needs no edit here — only the locale's own name below */}
           {Object.keys(a.i18n ?? {}).map((loc) => (
-            <a class="lang-toggle" href={`/${loc}/buy/${a.slug}`} lang={loc} hreflang={loc}>
-              {LOCALES[loc]?.flag && <span class="lang-flag" aria-hidden="true">{LOCALES[loc].flag}</span>}
+            <a class="lang-toggle" href={`/${loc}/buy/${a.slug}`} lang={LOCALES[loc]?.htmlLang ?? loc} hreflang={LOCALES[loc]?.htmlLang ?? loc}>
+              {(a.i18n[loc].flag ?? LOCALES[loc]?.flag) && (
+                <span class="lang-flag" aria-hidden="true">{a.i18n[loc].flag ?? LOCALES[loc].flag}</span>
+              )}
               {LOCALES[loc]?.label ?? loc}
             </a>
           ))}

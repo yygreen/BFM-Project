@@ -42,16 +42,20 @@ const P = L.page;
 // Delivery reads "Within 48 hours" in the data; the localized page needs the
 // number without the English preposition, since each language puts its own
 // wording in `deliveredIn`.
-const deliveryValue = a.delivery.replace("Within ", "");
+// "Within 48 hours" in the data becomes "48 <unit>" in the page's language.
+// Leaving it English was the one place a translated hero still read as one.
+const deliveryValue = a.delivery.replace("Within ", "").replace(/\bhours?\b/, L.page.hours);
+// lang/hreflang can differ from the URL segment, e.g. /zh-tw/ tagged zh-TW
+const htmlLang = L.htmlLang ?? locale;
 ---
 <Base
   title={t.metaTitle}
   description={t.metaDescription}
   slug={`${locale}/buy/${a.slug}`}
-  lang={locale}
+  lang={htmlLang}
   alternates={[{ hreflang: "en", slug: `buy/${a.slug}` }]}
 >
-  <div dir={L.dir} lang={locale}>
+  <div dir={L.dir} lang={htmlLang}>
     <section class="hero">
       <div class="container">
         <div class="hero-grid top">

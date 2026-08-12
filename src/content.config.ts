@@ -57,6 +57,10 @@ const translation = z.object({
   points: z.array(z.string().min(1)).min(2).max(6).optional(),
   faq: z.array(faqExtra).min(1).max(6),
   ctaLabel: z.string().min(1),
+  // Optional flag override for this program's language toggle. The registry
+  // sets one per locale, which is right where a language maps to a country;
+  // Arabic doesn't, so its three pages name their own market instead.
+  flag: z.string().min(1).optional(),
   // set true once a native speaker has reviewed the copy — check:launch
   // treats unreviewed translations as launch blockers, not silent passes
   reviewed: z.boolean().default(false),
@@ -167,6 +171,8 @@ const airlines = defineCollection({
           es: translation.optional(),
           tr: translation.optional(),
           fr: translation.optional(),
+          "zh-tw": translation.optional(),
+          "zh-hk": translation.optional(),
         })
         .optional(),
     })

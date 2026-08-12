@@ -59,6 +59,10 @@ const EN = {
   saveVs: "You save vs {v}¢ list price",
   saveSrc: "{src}. Airlines discount this periodically.",
   d24: "24 hours",
+  // Any delivery window in the page's language: the data says "48 hours" and
+  // only the 24h case used to be translated, so every other window stayed
+  // English on a translated page.
+  dHours: "",
   // grouping locale for miles counts and prices, overridden per language
   numLocale: "en-US",
   // Localized pages pass a dated conversion rate so the price can be read in
@@ -381,7 +385,14 @@ const notWired = labels.notWired ?? (orderEmail
         if (show) fxEl.textContent = fmt(T.fxNote, { v: Math.round(cost * T.fxRate).toLocaleString(LOC) });
       }
       $("qw-rate").textContent = approx + c.rate.toLocaleString(LOC) + T.rateUnit;
-      $("qw-delivery").textContent = c.delivery ? (c.delivery === "24 hours" ? T.d24 : c.delivery) : T.onQuote;
+      const hrs = c.delivery && /^\d+ hours?$/.test(c.delivery) ? parseInt(c.delivery, 10) : null;
+      $("qw-delivery").textContent = !c.delivery
+        ? T.onQuote
+        : hrs === 24 && T.d24
+          ? T.d24
+          : hrs !== null && T.dHours
+            ? fmt(T.dHours, { n: hrs })
+            : c.delivery;
       $("qw-note").hidden = c.verified;
 
       // savings only against a sourced airline rate
