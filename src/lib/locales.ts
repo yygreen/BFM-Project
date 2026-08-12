@@ -69,9 +69,17 @@ export type LocaleChrome = {
     on: string;
     /** "48 hours" is data; each language supplies its own unit */
     hours: string;
+    /** the value section, which was missing from these pages entirely */
+    bestUsesSub: string;
+    greatValue: string;
+    greatValueNote: string;
+    worthHead: string;
+    worthSub: string;
   };
   /** QuoteWidget label overrides; any key omitted falls back to English */
   widget: Record<string, string>;
+  /** SavingsTool label overrides, same fallback rule */
+  savings: Record<string, string>;
 };
 
 export const LOCALES: Record<string, LocaleChrome> = {
@@ -96,6 +104,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "السعر يُؤكَّد قبل الدفع",
       on: "على",
       hours: "ساعة",
+      bestUsesSub: "أين تمنحك هذه الأميال أفضل قيمة، ومتى يكون الدفع نقداً أفضل. جرّب أي منها مقابل سعر حقيقي.",
+      greatValue: "قيمة ممتازة",
+      greatValueNote: "الحجوزات التي تستحق شراء الأميال من أجلها",
+      worthHead: "هل شراء الأميال أفضل من الدفع نقداً؟",
+      worthSub: "الصق السعر النقدي من بحثك عن الرحلة. إذا كان الدفع نقداً أفضل، سنقول لك ذلك.",
     },
     widget: {
       dHours: "{n} ساعة",
@@ -130,6 +143,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "خلال 24 ساعة",
       numLocale: "ar-EG",
     },
+    savings: {
+      milesLabel: "الأميال المطلوبة للحجز",
+      fareLabel: "السعر النقدي الذي وجدته ($)",
+      farePh: "مثال: 2500",
+      cash: "السعر النقدي",
+      vs: "مقابل",
+      atOurRate: "بسعرنا {rate}¢",
+      cta: "اطلب عرض السعر ←",
+      emptyBoth: "أدخل الأميال والسعر النقدي وسنحسب لك الفرق.",
+      emptyFare: "هذه تكلفة الأميال. أضف السعر النقدي لنخبرك أيهما أفضل.",
+      win: "فارق واضح لصالح الأميال: هذا المقعد يقدّر الميل بـ {seat}¢ مقابل سعرنا {rate}¢. الشراء يوفّر {saving} ({pct}% من السعر النقدي).",
+      ok: "الأميال أوفر: توفّر {saving} مقارنة بالسعر النقدي.",
+      payCash: "بصراحة؟ ادفع نقداً هنا. عند {fare} يقدّر هذا المقعد الميل بـ {seat}¢، أي أقل من سعرنا {rate}¢.",
+      numLocale: "ar-EG",
+    },
   },
 
   de: {
@@ -149,9 +177,17 @@ export const LOCALES: Record<string, LocaleChrome> = {
       freeQuote: "Kostenloses, unverbindliches Angebot", deliveredIn: "Lieferung in",
       yearsIn: "am Markt", ratePreConfirmed: "Preis vor Zahlung bestätigt", on: "auf",
       hours: "Stunden",
+      bestUsesSub: "Wo diese Meilen am meisten wert sind und wann bar besser ist.",
+      greatValue: "Sehr guter Wert",
+      greatValueNote: "Die Einlösungen, für die sich Meilenkauf lohnt",
+      worthHead: "Lohnt sich der Meilenkauf gegenüber dem Barpreis?",
+      worthSub: "Füge den Preis aus deiner Flugsuche ein.",
     },
     // German's own route file supplies the widget labels; this stays empty.
     widget: {},
+    savings: {
+      numLocale: "de-DE",
+    },
   },
 
   es: {
@@ -176,6 +212,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "Precio confirmado antes de pagar",
       on: "en",
       hours: "horas",
+      bestUsesSub: "Dónde rinden más estas millas y cuándo conviene pagar en efectivo. Ponlo a prueba contra una tarifa real.",
+      greatValue: "Gran valor",
+      greatValueNote: "Los canjes por los que vale la pena comprar millas",
+      worthHead: "¿Comprar millas te conviene más que pagar la tarifa?",
+      worthSub: "Pega el precio que viste en tu búsqueda de vuelos. Si gana el efectivo, te lo decimos.",
     },
     widget: {
       dHours: "{n} horas",
@@ -210,6 +251,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 horas",
       numLocale: "es-CO",
     },
+    savings: {
+      milesLabel: "Millas que necesita el canje",
+      fareLabel: "Tarifa en efectivo que encontraste ($)",
+      farePh: "ej. 2500",
+      cash: "Tarifa en efectivo",
+      vs: "vs",
+      atOurRate: "Compradas a nuestro precio de {rate}¢",
+      cta: "Pedir cotización →",
+      emptyBoth: "Ingresa las millas y la tarifa en efectivo y hacemos las cuentas.",
+      emptyFare: "Ese es el costo de las millas. Agrega la tarifa y te decimos cuál gana.",
+      win: "Ganan las millas con claridad: este asiento valora cada milla en {seat}¢ frente a nuestro precio de {rate}¢. Comprarlas ahorra {saving} ({pct}% de la tarifa).",
+      ok: "Las millas salen adelante: {saving} menos que la tarifa en efectivo.",
+      payCash: "¿Honestamente? Aquí paga en efectivo. A {fare}, este asiento valora la milla en {seat}¢, por debajo de nuestro precio de {rate}¢.",
+      numLocale: "es-CO",
+    },
   },
 
   tr: {
@@ -234,6 +290,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "Fiyat ödemeden önce onaylanır",
       on: "üzerinden",
       hours: "saat",
+      bestUsesSub: "Bu miller nerede en çok değer kazanır ve ne zaman nakit ödemek daha iyidir. Gerçek bir ücretle test edin.",
+      greatValue: "Yüksek değer",
+      greatValueNote: "Mil satın almaya değer kullanımlar",
+      worthHead: "Mil almak nakit ücretten daha mı iyi?",
+      worthSub: "Uçuş aramanızda gördüğünüz fiyatı yapıştırın. Nakit kazanıyorsa bunu size söyleriz.",
     },
     widget: {
       dHours: "{n} saat",
@@ -268,6 +329,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 saat",
       numLocale: "tr-TR",
     },
+    savings: {
+      milesLabel: "Ödül bilet için gereken mil",
+      fareLabel: "Bulduğunuz nakit ücret ($)",
+      farePh: "örn. 2500",
+      cash: "Nakit ücret",
+      vs: "karşı",
+      atOurRate: "{rate}¢ fiyatımızla alındığında",
+      cta: "Teklif iste →",
+      emptyBoth: "Mil miktarını ve nakit ücreti girin, hesabı biz yapalım.",
+      emptyFare: "Bu, millerin maliyeti. Nakit ücreti de girin, hangisinin kazandığını söyleyelim.",
+      win: "Miller açık ara önde: bu koltuk bir mili {seat}¢ değerliyor, bizim fiyatımız {rate}¢. Almak {saving} kazandırıyor (ücretin %{pct} kadarı).",
+      ok: "Miller önde: nakit ücretten {saving} daha ucuz.",
+      payCash: "Dürüst olalım, burada nakit ödeyin. {fare} ile bu koltuk bir mili {seat}¢ değerliyor, bizim {rate}¢ fiyatımızın altında.",
+      numLocale: "tr-TR",
+    },
   },
 
   fr: {
@@ -292,6 +368,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "Tarif confirmé avant paiement",
       on: "sur",
       hours: "heures",
+      bestUsesSub: "Là où ces miles valent le plus, et quand il vaut mieux payer en espèces. Testez-le contre un vrai tarif.",
+      greatValue: "Excellente valeur",
+      greatValueNote: "Les primes qui justifient d'acheter des miles",
+      worthHead: "Acheter des miles vaut-il mieux que payer le tarif ?",
+      worthSub: "Collez le prix vu dans votre recherche de vol. Si l'argent gagne, nous vous le dirons.",
     },
     widget: {
       dHours: "{n} heures",
@@ -326,6 +407,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 heures",
       numLocale: "fr-FR",
     },
+    savings: {
+      milesLabel: "Miles nécessaires pour la prime",
+      fareLabel: "Tarif en espèces trouvé ($)",
+      farePh: "ex. 2500",
+      cash: "Tarif en espèces",
+      vs: "contre",
+      atOurRate: "Achetés à notre tarif de {rate}¢",
+      cta: "Demander un devis →",
+      emptyBoth: "Indiquez les miles et le tarif en espèces et nous faisons le calcul.",
+      emptyFare: "Voilà le coût des miles. Ajoutez le tarif et nous vous dirons lequel gagne.",
+      win: "Nette victoire des miles : ce siège valorise le mile à {seat}¢ face à notre tarif de {rate}¢. Les acheter économise {saving} ({pct}% du tarif).",
+      ok: "Les miles l'emportent : {saving} de moins que le tarif en espèces.",
+      payCash: "Honnêtement ? Payez en espèces ici. À {fare}, ce siège valorise le mile à {seat}¢, sous notre tarif de {rate}¢.",
+      numLocale: "fr-FR",
+    },
   },
 
   "zh-tw": {
@@ -351,6 +447,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "付款前確認價格",
       on: "於",
       hours: "小時",
+      bestUsesSub: "這些哩程在哪裡最划算，以及什麼時候該直接付現。用真實票價試算看看。",
+      greatValue: "非常划算",
+      greatValueNote: "值得為它買哩程的兌換",
+      worthHead: "買哩程比付現划算嗎？",
+      worthSub: "把你在訂票網站看到的價格貼進來。如果付現比較好，我們會直說。",
     },
     widget: {
       dHours: "{n} 小時",
@@ -385,6 +486,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 小時",
       numLocale: "zh-TW",
     },
+    savings: {
+      milesLabel: "這趟兌換需要的哩程",
+      fareLabel: "你查到的現金票價（$）",
+      farePh: "例如 2500",
+      cash: "現金票價",
+      vs: "對比",
+      atOurRate: "以我們 {rate}¢ 的價格購買",
+      cta: "索取報價 →",
+      emptyBoth: "輸入哩程與現金票價，我們幫你算。",
+      emptyFare: "這是哩程的成本。再輸入現金票價，我們告訴你哪個划算。",
+      win: "哩程明顯勝出：這個座位把每哩算成 {seat}¢，我們的價格是 {rate}¢。買哩程可省下 {saving}（現金票價的 {pct}%）。",
+      ok: "哩程比較划算：比現金票價便宜 {saving}。",
+      payCash: "老實說，這趟直接付現。在 {fare} 之下，這個座位每哩只值 {seat}¢，低於我們 {rate}¢ 的價格。",
+      numLocale: "zh-TW",
+    },
   },
 
   "zh-hk": {
@@ -410,6 +526,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "付款前確認價格",
       on: "於",
       hours: "小時",
+      bestUsesSub: "呢啲里數喺邊度最抵，同幾時應該直接俾現金。用真實票價試吓。",
+      greatValue: "非常抵",
+      greatValueNote: "值得為佢買里數嘅兌換",
+      worthHead: "買里數係咪抵過俾現金？",
+      worthSub: "將你喺訂票網站見到嘅價錢貼入嚟。如果俾現金好啲，我哋會照直講。",
     },
     widget: {
       dHours: "{n} 小時",
@@ -442,6 +563,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       rateUnit: "¢/里",
       saveVs: "同定價 {v}¢ 相比為你慳咗",
       d24: "24 小時",
+      numLocale: "zh-HK",
+    },
+    savings: {
+      milesLabel: "今次兌換需要嘅里數",
+      fareLabel: "你搵到嘅現金票價（$）",
+      farePh: "例如 2500",
+      cash: "現金票價",
+      vs: "對比",
+      atOurRate: "以我哋 {rate}¢ 嘅價錢買",
+      cta: "索取報價 →",
+      emptyBoth: "輸入里數同現金票價，我哋幫你計。",
+      emptyFare: "呢個係里數嘅成本。再輸入現金票價，我哋話你知邊個抵。",
+      win: "里數明顯贏：呢個位每里計 {seat}¢，我哋嘅價錢係 {rate}¢。買里數慳到 {saving}（現金票價嘅 {pct}%）。",
+      ok: "里數抵啲：平過現金票價 {saving}。",
+      payCash: "老實講，今次直接俾現金。喺 {fare} 之下，呢個位每里只值 {seat}¢，低過我哋 {rate}¢ 嘅價錢。",
       numLocale: "zh-HK",
     },
   },

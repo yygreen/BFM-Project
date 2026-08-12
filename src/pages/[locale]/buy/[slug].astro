@@ -17,6 +17,7 @@
 import Base from "../../../layouts/Base.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../../components/QuoteWidget.astro";
+import SavingsTool from "../../../components/SavingsTool.astro";
 import { getCollection } from "astro:content";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { LOCALES, GENERIC_LOCALES, EN_FLAG } from "../../../lib/locales";
@@ -132,22 +133,46 @@ const htmlLang = L.htmlLang ?? locale;
       </div>
     </section>
 
-    {/* Sweet spots where the entry carries them, the plain benefit list where
-        it doesn't. Both are optional in the schema and a program may have
-        neither, in which case the section is skipped rather than left empty. */}
+    {/* The value section, mirroring the English page: the redemptions worth
+        buying for, and beside them the tool that tests any of it against a
+        real fare. This was missing from every translated page, which left
+        them the marketing without the one thing that argues for the price. */}
     {t.uses && t.uses.length > 0 && (
-      <section class="section wash-cool">
+      <section class="section wash-cool" id="uses">
         <div class="container">
           <div class="section-head">
             <h2>{P.bestUses}</h2>
+            <p>{P.bestUsesSub}</p>
           </div>
-          <div class="uses">
-            {t.uses.map((u) => (
-              <div class="use">
-                <h4>{u.title}</h4>
-                <p>{u.desc}</p>
+          <div class="value-split">
+            <div class="value-lad">
+              <div class="vtier">
+                <div class="vtier-head">
+                  <span class="vchip v1">{P.greatValue}</span>
+                  <span class="vtier-note">{P.greatValueNote}</span>
+                </div>
+                <div class="uses">
+                  {t.uses.map((u) => (
+                    <div class="use">
+                      <h4>{u.title}</h4>
+                      <p>{u.desc}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+            </div>
+            <div class="value-tool">
+              <div class="worth-sub" id="worth">
+                <h3>{P.worthHead}</h3>
+                <p>{P.worthSub}</p>
+              </div>
+              <SavingsTool
+                program={a.program}
+                rate={a.pricePerMile}
+                verified={a.priceVerified}
+                labels={L.savings}
+              />
+            </div>
           </div>
         </div>
       </section>
