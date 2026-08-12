@@ -32,7 +32,7 @@
     },
     {
       "source": "/eva-air-infinity-mileagelands-guide",
-      "destination": "/buy/eva-air",
+      "destination": "/buy/eva-air-miles",
       "permanent": true
     },
     {
@@ -42,7 +42,7 @@
     },
     {
       "source": "/buy-ana-miles",
-      "destination": "/buy/ana",
+      "destination": "/buy/ana-mileage-club",
       "permanent": true
     },
     {
@@ -52,12 +52,32 @@
     },
     {
       "source": "/buy-krisflyer-miles",
-      "destination": "/buy/krisflyer",
+      "destination": "/buy/singapore-krisflyer",
       "permanent": true
     },
     {
       "source": "/eva-air-miles",
-      "destination": "/buy/eva-air",
+      "destination": "/buy/eva-air-miles",
+      "permanent": true
+    },
+    {
+      "source": "/eva-air-miles-calculator",
+      "destination": "/calculator/eva-air-miles",
+      "permanent": true
+    },
+    {
+      "source": "/krisflyer-miles-calculator",
+      "destination": "/calculator/singapore-krisflyer",
+      "permanent": true
+    },
+    {
+      "source": "/ana-miles-calculator",
+      "destination": "/calculator/ana-mileage-club",
+      "permanent": true
+    },
+    {
+      "source": "/avios-calculator",
+      "destination": "/calculator/ba-avios",
       "permanent": true
     },
     {
@@ -82,12 +102,12 @@
     },
     {
       "source": "/airlines/singapore-krisflyer",
-      "destination": "/buy/krisflyer",
+      "destination": "/buy/singapore-krisflyer",
       "permanent": true
     },
     {
       "source": "/airlines/all-nippon-airways-mileage-club",
-      "destination": "/buy/ana",
+      "destination": "/buy/ana-mileage-club",
       "permanent": true
     },
     {
@@ -117,12 +137,12 @@
     },
     {
       "source": "/airlines/cathay-pacific-asia-miles",
-      "destination": "/buy/asia-miles",
+      "destination": "/buy/cathay-pacific-asia-miles",
       "permanent": true
     },
     {
       "source": "/airlines/avianca-lifemiles",
-      "destination": "/buy/lifemiles",
+      "destination": "/buy/avianca-lifemiles",
       "permanent": true
     },
     {
@@ -137,7 +157,7 @@
     },
     {
       "source": "/airlines/air-canada-aeroplan",
-      "destination": "/buy/aeroplan",
+      "destination": "/buy/air-canada-aeroplan",
       "permanent": true
     },
     {

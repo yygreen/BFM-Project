@@ -8,7 +8,8 @@
     "prebuild": "node scripts/fetch-fx.mjs",
     "build": "astro build",
     "preview": "astro preview",
-    "check:launch": "node scripts/launch-check.mjs"
+    "check:launch": "node scripts/launch-check.mjs",
+    "postbuild": "node scripts/check-redirects.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
