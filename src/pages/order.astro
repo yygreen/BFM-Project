@@ -81,7 +81,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
       <ol class="ostep-nav" aria-label="Order progress">
         <li class="on" data-for="1"><b>1</b><span>Your miles</span></li>
         <li data-for="2"><b>2</b><span>Where they go</span></li>
-        <li data-for="3"><b>3</b><span>Payment &amp; review</span></li>
+        <li data-for="3"><b>3</b><span>Preferences &amp; review</span></li>
       </ol>
 
       <form class="formcard ocard" id="order-form" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
@@ -150,7 +150,9 @@ const methods = site.payments.verified ? site.payments.methods : [];
           </div>
         </div>
 
-        <!-- STEP 3 — payment preference and review -->
+        <!-- STEP 3 — payment preference and review. No payment is taken here or
+             anywhere on this site, so the step is labelled for what it
+             collects rather than for what it is about. -->
         <div class="ostep" data-step="3" hidden>
           {methods.length > 0 ? (
             <>
@@ -202,7 +204,11 @@ const methods = site.payments.verified ? site.payments.methods : [];
 
           <div class="ostep-btns">
             <button type="button" class="ostep-back" data-back="2">← Back</button>
-            <button type="submit" class="btn btn-primary" id="order-submit">Send my order</button>
+            <!-- "request", not "order": this submits for a quote we confirm,
+                 with nothing priced firmly and nothing charged. The button has
+                 to promise what the click does, and asking for less is also
+                 the easier thing to press on a first purchase from us. -->
+            <button type="submit" class="btn btn-primary" id="order-submit">Send my request</button>
           </div>
           <p class="form-msg" id="order-msg" hidden></p>
         </div>
@@ -272,7 +278,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
 
         const stock = $("o-stock");
         stock.hidden = c.inStock;
-        if (!c.inStock) stock.textContent = "This program is showing limited availability. Send the order anyway and we'll tell you honestly what we can fill and when.";
+        if (!c.inStock) stock.textContent = "This program is showing limited availability. Send the request anyway and we'll tell you honestly what we can fill and when.";
 
         // review panel + the hidden fields that travel with the enquiry
         $("o-r-program").textContent = c.label;
@@ -351,7 +357,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
         location.href = "mailto:" + inbox +
           "?subject=" + encodeURIComponent("Miles order — buyflightmiles") +
           "&body=" + encodeURIComponent(body);
-        msg.textContent = "Your email app should open with the order filled in — send it and we'll take it from there.";
+        msg.textContent = "Your email app should open with your request filled in. Send it and we'll take it from there.";
         msg.className = "form-msg ok";
         msg.hidden = false;
       }
@@ -378,7 +384,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
           });
           const out = await res.json();
           if (out.success) {
-            msg.textContent = "Order received. We'll confirm your exact rate and delivery window, then send payment details — nothing has been charged.";
+            msg.textContent = "Request received. We'll confirm your exact rate and delivery window, then send payment details. Nothing has been charged.";
             msg.className = "form-msg ok";
             form.reset();
           } else { throw new Error(out.message); }
