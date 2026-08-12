@@ -99,6 +99,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} ساعة",
+      milesLabel: "الأميال",
       program: "البرنامج",
       howMany: "كم عدد الأميال؟",
       est: "التكلفة التقديرية",
@@ -149,8 +150,8 @@ export const LOCALES: Record<string, LocaleChrome> = {
       yearsIn: "am Markt", ratePreConfirmed: "Preis vor Zahlung bestätigt", on: "auf",
       hours: "Stunden",
     },
+    // German's own route file supplies the widget labels; this stays empty.
     widget: {},
-      dHours: "{n} Stunden",
   },
 
   es: {
@@ -178,6 +179,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} horas",
+      milesLabel: "Millas",
       program: "Programa",
       howMany: "¿Cuántas millas?",
       est: "Costo estimado",
@@ -235,6 +237,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} saat",
+      milesLabel: "Mil",
       program: "Program",
       howMany: "Kaç mil?",
       est: "Tahmini tutar",
@@ -292,6 +295,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} heures",
+      milesLabel: "Miles",
       program: "Programme",
       howMany: "Combien de miles ?",
       est: "Coût estimé",
@@ -350,6 +354,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} 小時",
+      milesLabel: "哩程",
       program: "航空計畫",
       howMany: "需要多少哩程？",
       est: "預估費用",
@@ -408,6 +413,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} 小時",
+      milesLabel: "里數",
       program: "飛行常客計劃",
       howMany: "需要幾多里數？",
       est: "預計費用",

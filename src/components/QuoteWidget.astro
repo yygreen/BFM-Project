@@ -36,6 +36,9 @@ const EN = {
   continue: "Continue →",
   back: "← Change program",
   milesUnit: "miles",
+  // accessible name for the step-2 amount field; not visible, but a screen
+  // reader on a translated page should not meet an English label
+  milesLabel: "Miles",
   name: "Name *",
   email: "Email *",
   contact: "WhatsApp / Telegram",
@@ -220,7 +223,7 @@ const notWired = labels.notWired ?? (orderEmail
       <div class="qw-recap-row">
         <span class="qw-recap-prog" id="qw-recap-prog"></span>
         <label class="qw-recap-edit">
-          <span class="sr-only">Miles</span>
+          <span class="sr-only">{L.milesLabel}</span>
           <input id="qw-miles-2" type="number" inputmode="numeric" step="1" />
           <span>{L.milesUnit}</span>
         </label>
