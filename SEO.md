@@ -132,14 +132,17 @@ mindmap
       upgrade with miles
       program name and alliance
         LIVES ON /buy, short facts
-        18,470/mo gap
-        built on 3 of 21 programs
+        25,040/mo informational gap
+        only 3,080 of it under KD 30
+        demand concentrated in 4 programs
+        built on 3 of 21
     Program is stale
       currency renamed or merged
       alliance changed
         found on Hawaiian and Alaska
         no keyword, a correctness axis
         factsChecked dates it
+        written up as a News post
     Redemption
       how to use X miles
       best uses and sweet spots
@@ -149,14 +152,17 @@ mindmap
       buy avios points
         NO PAGE
         390/mo gap, 4,400/mo UK head term
+        comprar avios 1,300/mo KD 26 in Spain
     Trust and legitimacy
       is buying miles legal
       miles seller scam
         blog covers this
     Languages
-      Arabic x3 built, ranks 1-4
-      German x1 built
-      Chinese NOT built
+      9 pages, 6 languages, one route
+      ar x3 built, ranks 1-4
+      de tr fr es zh-tw zh-hk built
+      none native-reviewed yet
+      Simplified Chinese NOT built
         里程币 1,300/mo at KD 16
     Hotel points
       Marriott 22,180/mo
@@ -175,6 +181,48 @@ search volume. It earned a place because looking for Hawaiian's depth fields
 turned up a currency that stopped existing in October 2025 while the site was
 still selling it. That is a correctness axis rather than a keyword one, and
 `factsChecked` is what tracks it.
+
+### Does the EVA pattern generalise? Mostly no
+
+The gap file splits into 305 buy-intent keywords and **134 informational ones
+worth 25,040/mo**. Only a quarter of that informational volume is reachable:
+
+| KD band | keywords | volume |
+|---|---:|---:|
+| under 30 | 25 | 3,080/mo |
+| 30 to 40 | 32 | 5,920/mo |
+| 40+ | 76 | 15,990/mo |
+
+And it concentrates in four programs. `KD<35` is the reachable slice:
+
+| program | info kw | info vol | KD<35 | the keywords |
+|---|---:|---:|---:|---|
+| Hawaiian | 26 | 3,430 | **1,790** | `hawaii miles` 590/KD33 |
+| Cathay | 4 | 1,610 | **610** | `asia mile` 480/KD23, a brand typo |
+| Delta | 20 | 2,090 | 530 | `how many skymiles for a flight` 170 |
+| Flying Blue | 8 | 2,510 | 110 | `air france flying blue miles` 1,600/KD54 |
+| everyone else | | | **0** | |
+
+Turkish has exactly one informational keyword in the file, `turkish airlines
+book with miles` at 90/mo and KD 52. Nothing reachable at all. So the queue
+order I first gave, with Turkish at the top, was wrong twice over: its
+"reachable" volume was buy-variants the existing page already serves, and its
+informational demand is zero.
+
+**Read this against EVA carefully.** EVA does not appear in this table, and
+that is a property of the file rather than of EVA: the gap export lists only
+keywords we *don't* rank for, and we already rank for the EVA cluster. Its
+1,070/mo of proven mechanics demand is real and sits in the tracking export
+instead. So the honest summary is that four programs have informational demand
+worth building for — Hawaiian, Cathay, Delta and EVA — and seventeen do not.
+
+For those seventeen, the depth fields are justified by the correctness audit
+and by conversion, which is where the Hawaiian work landed anyway. Not by
+search.
+
+One cheap win falls out of this: **480 of Cathay's 610 reachable informational
+volume is `asia mile`, singular, at KD 23.** That is a misspelling of the brand,
+and the page can capture it by using the variant naturally in the copy.
 
 ### The missing guide layer
 
@@ -215,10 +263,11 @@ Status as of 12 August 2026.
 
 1. ~~**Fill `quirks` / `mechanics` / `faqExtras` for Hawaiian**~~ **done**, and
    it took Alaska with it, since after the merger the two pages describe one
-   program. **Next: Turkish, Asia Miles, then EVA** (which has 380/mo of tracked
-   keywords ranking nowhere: *eva air miles redemption*, *is eva air star
-   alliance*). These carry the highest reachable share and the work is JSON,
-   not templates.
+   program. ~~**Then Turkish, Asia Miles, EVA**~~ **reordered against the
+   informational split above: EVA, then Cathay, then Delta.** Those are the
+   only three left with reachable informational demand. Turkish drops off this
+   list entirely, with one informational keyword at KD 52. The other seventeen
+   stay worth doing for correctness and conversion, at no urgency.
 
 2. **Add the real phrasings to each `/buy/` FAQ.** *Can you buy {program}
    miles?*, *How much does it cost to buy {n} {program} miles?*, *How to buy
@@ -242,15 +291,27 @@ Status as of 12 August 2026.
    | `/qatar-airways-ar` | `/ar/buy/qatar-avios` |
    | `/buy-avios` | `/buy/ba-avios` (or the currency page above) |
 
-5. **Chinese.** `里程币` is 1,300/mo at KD 16 and `airmileshk.com` reaches only
-   #87 for it. Arabic already proves the pattern works for us (5 keywords, all
-   1–4). Do this after the existing Arabic pages get their native review.
+5. ~~**Chinese**~~ **partly done.** Traditional Chinese shipped for Taiwan
+   (EVA) and Hong Kong (Cathay). `里程币` at 1,300/mo KD 16 is **Simplified**
+   and still unbuilt, and it is the one with the numbers: neither Traditional
+   market shows buy-intent volume at all.
+
+   Also shipped since this doc was written: Turkish, French and Spanish pages,
+   and one route now generates all six languages. **Nine translated pages, none
+   native-reviewed**, which is nine of the launch blockers' worth of risk
+   sitting behind copy I wrote.
 
 6. ~~**Source the airline direct-buy benchmark**~~ **done for five programs,
    published on three.** The savings figure was suppressed site-wide for want
    of it. Remaining 16 need the same research and the same promo test.
 
-7. **Ask the client about hotel points.** 30,140/mo of the gap, and `buy marriott
+7. **`comprar avios` in Spain: 1,300/mo at KD 26.** Turned up while validating
+   the Spanish page. It is Iberia's Avios, which is the same currency we sell as
+   BA and Qatar Avios and moves 1:1 between them. Low difficulty, real volume,
+   and it converges with the Avios currency page already at item 3. Probably the
+   best untaken opportunity in either dataset.
+
+8. **Ask the client about hotel points.** 30,140/mo of the gap, and `buy marriott
    points` is 8,100/mo at KD 33 — the highest-volume genuinely reachable keyword
    in either file. Entirely dependent on whether he sources them at all.
 
