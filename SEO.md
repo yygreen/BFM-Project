@@ -77,7 +77,7 @@ that is actually reachable.
 |---|---:|---:|---:|---:|
 | `/buy/hawaiian-miles` | 34 | 4,180 | 2,540 | **61%** |
 | `/buy/turkish-miles-smiles` | 6 | 810 | 630 | **78%** |
-| `/buy/asia-miles` | 4 | 1,610 | 610 | **38%** |
+| `/buy/cathay-pacific-asia-miles` | 4 | 1,610 | 610 | **38%** |
 | `/buy/alaska-mileage-plan` | 7 | 610 | 390 | **64%** |
 | `/buy/jetblue-trueblue` | 18 | 5,930 | 500 | 8% |
 | `/buy/delta-skymiles` | 113 | 50,890 | 2,530 | **5%** |
