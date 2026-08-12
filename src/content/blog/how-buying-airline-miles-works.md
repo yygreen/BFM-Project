@@ -3,7 +3,7 @@ title: "How buying airline miles actually works"
 description: "What happens between placing an order and the miles landing in your account: the transfer itself, how long it takes, and what to confirm before you pay."
 date: 2026-08-07
 category: "Guide"
-programs: ["krisflyer", "qatar-avios", "ana", "eva-air"]
+programs: ["singapore-krisflyer", "qatar-avios", "ana-mileage-club", "eva-air-miles"]
 ---
 
 Most people arrive at this needing a specific seat. You've found the business-class

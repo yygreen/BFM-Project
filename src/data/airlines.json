@@ -27,8 +27,8 @@
     "metaTitle": "Buy Delta SkyMiles | Fast, Secure Delivery | buyflightmiles",
     "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, your exact price confirmed before you pay.",
     "related": [
-      "ana",
-      "eva-air"
+      "ana-mileage-club",
+      "eva-air-miles"
     ],
     "sweetSpots": [
       {
@@ -75,8 +75,8 @@
     "metaTitle": "Buy United Miles | MileagePlus Top-Ups | buyflightmiles",
     "metaDescription": "Buy United MileagePlus miles at a fraction of the price. Secure transfer delivered within 72 hours, your exact rate confirmed before you pay.",
     "related": [
-      "ana",
-      "krisflyer"
+      "ana-mileage-club",
+      "singapore-krisflyer"
     ],
     "sweetSpots": [
       {
@@ -138,7 +138,7 @@
     "logoAlt": "American Airlines logo"
   },
   {
-    "id": "krisflyer",
+    "id": "singapore-krisflyer",
     "order": 4,
     "program": "KrisFlyer",
     "airline": "Singapore Airlines",
@@ -165,8 +165,8 @@
     "metaTitle": "Buy Singapore KrisFlyer Miles | buyflightmiles",
     "metaDescription": "Buy Singapore Airlines KrisFlyer miles at 2.2¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
     "related": [
-      "ana",
-      "eva-air"
+      "ana-mileage-club",
+      "eva-air-miles"
     ],
     "sweetSpots": [
       {
@@ -354,7 +354,7 @@
     }
   },
   {
-    "id": "ana",
+    "id": "ana-mileage-club",
     "order": 6,
     "program": "Mileage Club",
     "accountLabel": "ANA Mileage Club number",
@@ -376,7 +376,7 @@
     "metaTitle": "Buy ANA Mileage Club Miles | buyflightmiles",
     "metaDescription": "Buy ANA Mileage Club miles from 1.9¢. Secure transfer, delivered within 72 hours, your exact price confirmed before you pay.",
     "related": [
-      "krisflyer",
+      "singapore-krisflyer",
       "united-mileageplus"
     ],
     "sweetSpots": [
@@ -440,7 +440,7 @@
     "logoAlt": "British Airways logo"
   },
   {
-    "id": "eva-air",
+    "id": "eva-air-miles",
     "order": 8,
     "program": "Infinity MileageLands",
     "airline": "EVA Air",
@@ -461,8 +461,8 @@
     "metaTitle": "Buy EVA Air Infinity MileageLands Miles | buyflightmiles",
     "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95¢. Secure transfer, delivered within 48 hours, your exact rate confirmed before you pay.",
     "related": [
-      "krisflyer",
-      "ana"
+      "singapore-krisflyer",
+      "ana-mileage-club"
     ],
     "sweetSpots": [
       {
@@ -835,7 +835,7 @@
     "logoAlt": "Frontier Airlines logo"
   },
   {
-    "id": "aeroplan",
+    "id": "air-canada-aeroplan",
     "order": 14,
     "program": "Aeroplan",
     "airline": "Air Canada",
@@ -864,8 +864,8 @@
     "metaDescription": "Buy Air Canada Aeroplan points at a fair per-mile rate. Your exact price confirmed before you pay, delivered straight into your Aeroplan account.",
     "related": [
       "united-mileageplus",
-      "ana",
-      "krisflyer"
+      "ana-mileage-club",
+      "singapore-krisflyer"
     ],
     "sweetSpots": [
       {
@@ -1014,7 +1014,7 @@
     "related": [
       "united-mileageplus",
       "lufthansa-miles-more",
-      "aeroplan"
+      "air-canada-aeroplan"
     ],
     "sweetSpots": [
       {
@@ -1219,7 +1219,7 @@
     "related": [
       "turkish-miles-smiles",
       "united-mileageplus",
-      "aeroplan"
+      "air-canada-aeroplan"
     ],
     "sweetSpots": [
       {
@@ -1299,7 +1299,7 @@
     }
   },
   {
-    "id": "flying-blue",
+    "id": "air-france-flying-blue",
     "order": 19,
     "program": "Flying Blue",
     "airline": "Air France-KLM",
@@ -1328,7 +1328,7 @@
     "metaDescription": "Buy Air France-KLM Flying Blue miles at 1.95¢ per mile. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
     "related": [
       "delta-skymiles",
-      "krisflyer",
+      "singapore-krisflyer",
       "qatar-avios"
     ],
     "sweetSpots": [
@@ -1405,7 +1405,7 @@
     }
   },
   {
-    "id": "lifemiles",
+    "id": "avianca-lifemiles",
     "order": 20,
     "program": "LifeMiles",
     "airline": "Avianca",
