@@ -210,14 +210,13 @@ export type Channel = {
 /**
  * The channels we actually use, and the only ones.
  *
- * One definition, because this list is the answer to "is this really you?"
- * and a footer that disagrees with the verification page is worse than having
- * neither. The footer, the contact page and /verify all read from here.
+ * One definition, so the footer and anywhere else that publishes a channel
+ * cannot drift apart on what counts as ours.
  *
  * Gated on contact.verified for the same reason every other claim is: an
- * unconfirmed handle published as official is the exact mistake this page
- * exists to protect people from. Empty channels are omitted rather than shown
- * blank, so the list never implies we are reachable somewhere we are not.
+ * unconfirmed handle published as official is worse than no handle. Empty
+ * channels are omitted rather than shown blank, so the list never implies we
+ * are reachable somewhere we are not.
  *
  * WhatsApp strips to digits because wa.me rejects a leading +.
  */

@@ -22,9 +22,8 @@ const latestPosts = (await getPosts()).slice(0, 2);
 // while site.json marks the contact details verified, and an empty field drops
 // its row rather than printing a blank one.
 //
-// One definition of what counts as an official channel, shared with /verify.
-// A footer that disagrees with the verification page is worse than either on
-// its own, since that page's whole job is to be the list you can trust.
+// One definition of what counts as an official channel, so the footer and the
+// contact page cannot drift apart on what we publish as ours.
 const contactWays = officialChannels();
 
 const {
@@ -236,7 +235,6 @@ const hreflangs = alternates.length
           <a href="/#how">How it works</a>
           <a href="/faq">FAQ</a>
           <a href="/#trust">Why trust us</a>
-          <a href="/verify">Verify our channels</a>
           <a href="/privacy">Privacy policy</a>
           <a href="/terms">Terms &amp; conditions</a>
         </div>
