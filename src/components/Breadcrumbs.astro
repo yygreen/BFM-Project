@@ -6,7 +6,7 @@ interface Item { label: string; href?: string }
 interface Props { items: Item[]; rtl?: boolean }
 const { items, rtl = false } = Astro.props;
 
-const site = Astro.site ?? new URL("https://buyflightmiles.com");
+const site = Astro.site ?? new URL("https://www.buyflightmiles.com");
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",

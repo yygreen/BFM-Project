@@ -1,4 +1,5 @@
 ---
+const base = (Astro.site ?? new URL("https://www.buyflightmiles.com")).origin;
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import Trustpilot from "../components/Trustpilot.astro";
@@ -58,7 +59,7 @@ const jsonld = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "buyflightmiles",
-  url: "https://buyflightmiles.com",
+  url: base,
   description: "Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery.",
 };
 ---

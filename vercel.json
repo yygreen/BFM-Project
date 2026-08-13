@@ -176,11 +176,6 @@
       "permanent": true
     },
     {
-      "source": "/airlines/:rest*",
-      "destination": "/#programs",
-      "permanent": true
-    },
-    {
       "source": "/blogs",
       "destination": "/blog",
       "permanent": true
@@ -208,6 +203,76 @@
     {
       "source": "/terms-and-conditions",
       "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/air-france-klm-flying-blue",
+      "destination": "/buy/air-france-flying-blue",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/qatar-airways",
+      "destination": "/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/united",
+      "destination": "/buy/united-mileageplus",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/aer-lingus-aerclub",
+      "destination": "/request",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/el-al-matmid",
+      "destination": "/request",
+      "permanent": true
+    },
+    {
+      "source": "/checkout-latest",
+      "destination": "/order",
+      "permanent": true
+    },
+    {
+      "source": "/complete",
+      "destination": "/order",
+      "permanent": true
+    },
+    {
+      "source": "/author/rf_admin",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/feed",
+      "destination": "/rss.xml",
+      "permanent": true
+    },
+    {
+      "source": "/comments/feed",
+      "destination": "/rss.xml",
+      "permanent": true
+    },
+    {
+      "source": "/page/2",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/category/:rest*",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:rest*",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/:rest*",
+      "destination": "/#programs",
       "permanent": true
     }
   ]

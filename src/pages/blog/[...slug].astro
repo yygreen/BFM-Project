@@ -1,4 +1,5 @@
 ---
+const base = (Astro.site ?? new URL("https://www.buyflightmiles.com")).origin;
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PostHero from "../../components/PostHero.astro";
@@ -58,7 +59,7 @@ const jsonld = {
   articleSection: d.category,
   author: { "@type": "Organization", name: "buyflightmiles" },
   publisher: { "@type": "Organization", name: "buyflightmiles" },
-  mainEntityOfPage: `https://buyflightmiles.com/blog/${post.id}`,
+  mainEntityOfPage: `${base}/blog/${post.id}`,
   ...(d.source && { citation: d.source }),
 };
 ---

@@ -25,7 +25,10 @@ for (const r of redirects) {
   // strip the fragment and query: /#programs is the home page
   const path = r.destination.split("#")[0].split("?")[0].replace(/\/$/, "");
   if (path === "") continue;
-  if (!existsSync(`dist${path}/index.html`)) broken.push(r);
+  // A destination is either a page directory (/blog -> dist/blog/index.html)
+  // or a real file (/rss.xml). Checking only the first shape rejected a
+  // perfectly good redirect to the feed, which is how this line got written.
+  if (!existsSync(`dist${path}/index.html`) && !existsSync(`dist${path}`)) broken.push(r);
 }
 
 if (broken.length) {

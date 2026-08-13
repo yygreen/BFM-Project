@@ -1,4 +1,5 @@
 ---
+const base = (Astro.site ?? new URL("https://www.buyflightmiles.com")).origin;
 import Base from "../../layouts/Base.astro";
 import PostCard from "../../components/PostCard.astro";
 import BlogSidebar from "../../components/BlogSidebar.astro";
@@ -16,7 +17,7 @@ const jsonld = {
   "@type": "Blog",
   name: "buyflightmiles blog",
   description: "Program news, devaluations and guides for buying airline miles.",
-  url: "https://buyflightmiles.com/blog",
+  url: `${base}/blog`,
 };
 ---
 <Base

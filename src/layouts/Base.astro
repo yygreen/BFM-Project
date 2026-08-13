@@ -39,7 +39,7 @@ const {
   robots = null,
 } = Astro.props;
 
-const site = Astro.site ?? new URL("https://buyflightmiles.com");
+const site = Astro.site ?? new URL("https://www.buyflightmiles.com");
 const canonical = new URL(slug, site).href;
 const hreflangs = alternates.length
   ? [
