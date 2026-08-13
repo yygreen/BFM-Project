@@ -22,9 +22,18 @@ const fastest = [...airlines]
   .filter((a) => a.deliveryVerified)
   .sort((a, b) => parseInt(a.delivery.replace("Within ", ""), 10) - parseInt(b.delivery.replace("Within ", ""), 10))[0];
 
+// The rate range is derived, so this answer can never drift from the data.
+const rates = verified.map((a) => a.pricePerMile).sort((a, b) => a - b);
+const rateRange = rates.length ? `${rates[0]}¢ to ${rates[rates.length - 1]}¢` : "";
+
 // Site-wide questions that don't belong on a single program's page. Every
 // answer here is true by construction or drawn from confirmed data — nothing
 // asserts a client fact that isn't verified.
+//
+// Several are carried over from the old WordPress FAQ, which published all
+// eight of its questions on the home page AND on /faqs, in identical wording
+// and with no FAQPage markup on either. Same questions, two URLs, competing:
+// they live here only, and this page is the one that emits the markup.
 const extras = [
   {
     q: "Which airline programs can I buy miles for?",
@@ -49,6 +58,32 @@ const extras = [
   {
     q: "Can I buy miles for someone else?",
     a: "Tell us on the request and we'll confirm what's possible for that specific program. Rules on transferring into another person's account differ from program to program, so it's a question we answer per case rather than with a blanket yes.",
+  },
+  {
+    q: "Can I use miles and cash together to book a flight?",
+    a: "Some programs let you pay part of an award in miles and settle the rest in cash. Others don't, and want the full mileage price or nothing. Where a program has no cash-and-points option, topping the account up to the full amount is the way through, which is the situation most people are in when they find us.",
+  },
+  {
+    q: "How many miles does it take to buy a plane ticket?",
+    a: "It depends on the route and the cabin far more than on the fare: a short domestic economy seat can go for a fraction of what a long-haul business class one costs, and the same seat is priced differently by each program. The airline's own award search, or its pay-with-miles option, gives you the exact number for your dates. Our guide to how many miles a flight costs works through the typical amounts by region and cabin.",
+  },
+  {
+    q: "Do airline miles expire?",
+    a: "It depends on the program. Some expire after a stretch of account inactivity, some carry a hard expiry date regardless of activity, and a few don't expire at all. Because a single qualifying transaction often resets the clock, an account that looks dormant may be fine. Our guide lists the current rule for every program we cover, with the date it was checked.",
+  },
+  {
+    q: "Where can I buy airline miles?",
+    a: "From the airline directly, or from an independent broker like us. Buying direct is always available and is usually the most expensive route, because a program has little reason to undercut the cash fares it is also trying to sell. Whichever way you go, compare the per-mile price against the cash fare for the seat you actually want before you buy.",
+  },
+  {
+    q: "What is a good price for buying airline miles?",
+    a: rateRange
+      ? `There's no single number, because every program prices its own miles and every broker prices differently again. Across the ${rates.length} programs where our rate is confirmed, it runs from ${rateRange} per mile, and each program page shows its own rate beside its order limits and delivery window. The figure that decides it is whether the miles come to less than the cash fare for your seat, which the calculator on each page works out.`
+      : "There's no single number, because every program prices its own miles and every broker prices differently again. Each program page shows its rate beside its order limits and delivery window, and the calculator works out whether the miles come to less than the cash fare for the seat you want.",
+  },
+  {
+    q: "Is it cheaper to buy miles than to buy the ticket?",
+    a: "Sometimes, and it's worth checking rather than assuming. It's most often true for premium cabins, one-way fares and upgrades, where the cash price runs high relative to the mileage price. It's least often true for a cheap domestic economy seat. Every program page has a calculator that puts your real cash fare against the cost of buying the miles, and when cash wins it tells you to pay cash.",
   },
 ];
 ---
