@@ -23,7 +23,8 @@ import { getCollection } from "astro:content";
 import { EN_FLAG } from "../../../lib/locales";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { usd, per1000, costOf } from "../../../lib/money";
-import { fxFor, deDate } from "../../../lib/fx";
+import { fxFor, fxDate, moneyTpl } from "../../../lib/fx";
+import { LOCALES } from "../../../lib/locales";
 
 const rev = realReviews[0];
 const years = yearsTrading();
@@ -32,7 +33,11 @@ const years = yearsTrading();
 // dollars, and the label says so every time a euro appears. The rate is the
 // ECB's daily reference rate, refreshed before each build and dated on the
 // page so a visitor can check it.
-const fx = fxFor("EUR");
+// The wording lives in the locale registry alongside every other market's,
+// so all seven say the same thing about billing in dollars.
+const DE_FX = LOCALES.de.fx!;
+const fx = fxFor(DE_FX.currency);
+const deStamp = fx?.date ? fxDate(fx.date, "de-DE") : "";
 
 // German strings for the quote widget's chrome. UI copy lives here in the
 // template (shared across programs); marketing copy stays in the data.
@@ -73,7 +78,8 @@ const DE_WIDGET = {
   // figures by this rather than the English default
   numLocale: "de-DE",
   fxRate: fx?.rate ?? null,
-  fxNote: fx ? `≈ {v} € zum EZB\u2011Kurs vom ${deDate(fx.date)} · Abrechnung in US\u2011Dollar` : "",
+  fxMoney: moneyTpl(DE_FX.currency),
+  fxNote: fx ? DE_FX.note.replaceAll("{d}", deStamp) : "",
   notWired: "Angebotsanfragen sind noch nicht angebunden. Schreib uns direkt, wir kalkulieren deinen Preis.",
 };
 
@@ -93,8 +99,8 @@ const DE_SAVINGS = {
   payCash: "Ehrlich? Zahl hier lieber bar. Bei {fare} bewertet dieser Flug eine Meile mit {seat}¢ und liegt damit unter unseren {rate}¢. Meilen zu kaufen würde dich Geld kosten.",
   numLocale: "de-DE",
   fxRate: fx?.rate ?? null,
-  fxSymbol: "€",
-  fxFoot: fx ? `Euro\u2011Beträge sind zum EZB\u2011Kurs vom ${deDate(fx.date)} umgerechnet. Abgerechnet wird in US\u2011Dollar.` : "",
+  fxMoney: moneyTpl(DE_FX.currency),
+  fxFoot: fx ? DE_FX.foot.replaceAll("{d}", deStamp) : "",
 };
 
 const DE_TRUST = {

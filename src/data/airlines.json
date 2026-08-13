@@ -336,6 +336,7 @@
         "ctaLabel": "اطلب عرض السعر",
         "reviewed": false,
         "flag": "🇶🇦",
+        "currency": "QAR",
         "uses": [
           {
             "title": "كيو سويت إلى الدوحة",

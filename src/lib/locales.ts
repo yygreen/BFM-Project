@@ -76,6 +76,27 @@ export type LocaleChrome = {
     worthHead: string;
     worthSub: string;
   };
+  /**
+   * The market's currency, and how this locale words the conversion note.
+   *
+   * Each locale draws on exactly one of the three rate sources, so the source
+   * can be named in the locale's own words rather than assembled from parts:
+   * EUR, TRY and HKD come from the ECB, TWD and COP from exchangerate-api,
+   * and the Gulf currencies from their published dollar peg. A peg has no
+   * date, which is why the Arabic strings carry no {d}.
+   *
+   * `{v}` is the converted amount including its symbol, `{d}` the rate date.
+   * A program can override `currency` in its i18n block, the way it can
+   * override `flag`: the Arabic pages sell into Qatar and the UAE, and one
+   * riyal is not the other.
+   */
+  fx?: {
+    currency: string;
+    /** the line under the quote widget's estimate */
+    note: string;
+    /** the footnote under the savings tool */
+    foot: string;
+  };
   /** QuoteWidget label overrides; any key omitted falls back to English */
   widget: Record<string, string>;
   /** SavingsTool label overrides, same fallback rule */
@@ -109,6 +130,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "الحجوزات التي تستحق شراء الأميال من أجلها",
       worthHead: "هل شراء الأميال أفضل من الدفع نقداً؟",
       worthSub: "الصق السعر النقدي من بحثك عن الرحلة. إذا كان الدفع نقداً أفضل، سنقول لك ذلك.",
+    },
+    fx: {
+      currency: "AED",
+      note: "≈ {v} حسب سعر الربط الرسمي بالدولار · الفوترة بالدولار الأمريكي",
+      foot: "المبالغ محوَّلة حسب سعر الربط الرسمي بالدولار. الفوترة تتم بالدولار الأمريكي.",
     },
     widget: {
       dHours: "{n} ساعة",
@@ -145,7 +171,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     savings: {
       milesLabel: "الأميال المطلوبة للحجز",
-      fareLabel: "السعر النقدي الذي وجدته ($)",
+      fareLabel: "السعر النقدي الذي وجدته ({cur})",
       farePh: "مثال: 2500",
       cash: "السعر النقدي",
       vs: "مقابل",
@@ -183,6 +209,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       worthHead: "Lohnt sich der Meilenkauf gegenüber dem Barpreis?",
       worthSub: "Füge den Preis aus deiner Flugsuche ein.",
     },
+    fx: {
+      currency: "EUR",
+      note: "≈ {v} zum EZB\u2011Kurs vom {d} · Abrechnung in US\u2011Dollar",
+      foot: "Euro\u2011Beträge sind zum EZB\u2011Kurs vom {d} umgerechnet. Abgerechnet wird in US\u2011Dollar.",
+    },
     // German's own route file supplies the widget labels; this stays empty.
     widget: {},
     savings: {
@@ -217,6 +248,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "Los canjes por los que vale la pena comprar millas",
       worthHead: "¿Comprar millas te conviene más que pagar la tarifa?",
       worthSub: "Pega el precio que viste en tu búsqueda de vuelos. Si gana el efectivo, te lo decimos.",
+    },
+    fx: {
+      currency: "COP",
+      note: "≈ {v} al tipo de cambio de exchangerate-api.com del {d} · el cobro es en dólares",
+      foot: "Los montos en pesos se convierten al tipo de cambio de exchangerate-api.com del {d}. El cobro se hace en dólares estadounidenses.",
     },
     widget: {
       dHours: "{n} horas",
@@ -253,7 +289,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     savings: {
       milesLabel: "Millas que necesita el canje",
-      fareLabel: "Tarifa en efectivo que encontraste ($)",
+      fareLabel: "Tarifa en efectivo que encontraste ({cur})",
       farePh: "ej. 2500",
       cash: "Tarifa en efectivo",
       vs: "vs",
@@ -296,6 +332,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       worthHead: "Mil almak nakit ücretten daha mı iyi?",
       worthSub: "Uçuş aramanızda gördüğünüz fiyatı yapıştırın. Nakit kazanıyorsa bunu size söyleriz.",
     },
+    fx: {
+      currency: "TRY",
+      note: "≈ {v} · {d} tarihli Avrupa Merkez Bankası kuru · tahsilat ABD dolarıyla",
+      foot: "Lira tutarları {d} tarihli Avrupa Merkez Bankası kuruyla çevrilmiştir. Tahsilat ABD dolarıyla yapılır.",
+    },
     widget: {
       dHours: "{n} saat",
       milesLabel: "Mil",
@@ -331,7 +372,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     savings: {
       milesLabel: "Ödül bilet için gereken mil",
-      fareLabel: "Bulduğunuz nakit ücret ($)",
+      fareLabel: "Bulduğunuz nakit ücret ({cur})",
       farePh: "örn. 2500",
       cash: "Nakit ücret",
       vs: "karşı",
@@ -374,6 +415,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       worthHead: "Acheter des miles vaut-il mieux que payer le tarif ?",
       worthSub: "Collez le prix vu dans votre recherche de vol. Si l'argent gagne, nous vous le dirons.",
     },
+    fx: {
+      currency: "EUR",
+      note: "≈ {v} au taux de référence BCE du {d} · facturation en dollars US",
+      foot: "Les montants en euros sont convertis au taux de référence BCE du {d}. La facturation se fait en dollars US.",
+    },
     widget: {
       dHours: "{n} heures",
       milesLabel: "Miles",
@@ -409,7 +455,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     savings: {
       milesLabel: "Miles nécessaires pour la prime",
-      fareLabel: "Tarif en espèces trouvé ($)",
+      fareLabel: "Tarif en espèces trouvé ({cur})",
       farePh: "ex. 2500",
       cash: "Tarif en espèces",
       vs: "contre",
@@ -453,6 +499,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       worthHead: "買哩程比付現划算嗎？",
       worthSub: "把你在訂票網站看到的價格貼進來。如果付現比較好，我們會直說。",
     },
+    fx: {
+      currency: "TWD",
+      note: "≈ {v}（{d} exchangerate-api.com 匯率）· 實際以美元計價",
+      foot: "新台幣金額依 {d} 的 exchangerate-api.com 匯率換算，實際以美元結帳。",
+    },
     widget: {
       dHours: "{n} 小時",
       milesLabel: "哩程",
@@ -488,7 +539,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     savings: {
       milesLabel: "這趟兌換需要的哩程",
-      fareLabel: "你查到的現金票價（$）",
+      fareLabel: "你查到的現金票價（{cur}）",
       farePh: "例如 2500",
       cash: "現金票價",
       vs: "對比",
@@ -532,6 +583,11 @@ export const LOCALES: Record<string, LocaleChrome> = {
       worthHead: "買里數係咪抵過俾現金？",
       worthSub: "將你喺訂票網站見到嘅價錢貼入嚟。如果俾現金好啲，我哋會照直講。",
     },
+    fx: {
+      currency: "HKD",
+      note: "≈ {v}（{d} 歐洲央行匯率）· 實際以美元計價",
+      foot: "港元金額依 {d} 嘅歐洲央行匯率換算，實際以美元結帳。",
+    },
     widget: {
       dHours: "{n} 小時",
       milesLabel: "里數",
@@ -567,7 +623,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     savings: {
       milesLabel: "今次兌換需要嘅里數",
-      fareLabel: "你搵到嘅現金票價（$）",
+      fareLabel: "你搵到嘅現金票價（{cur}）",
       farePh: "例如 2500",
       cash: "現金票價",
       vs: "對比",

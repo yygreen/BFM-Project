@@ -1,8 +1,45 @@
 {
   "base": "USD",
   "rates": {
-    "EUR": 0.86618
+    "EUR": {
+      "rate": 0.86618,
+      "date": "2026-08-12",
+      "via": "ecb"
+    },
+    "TRY": {
+      "rate": 47.757,
+      "date": "2026-08-12",
+      "via": "ecb"
+    },
+    "HKD": {
+      "rate": 7.847,
+      "date": "2026-08-12",
+      "via": "ecb"
+    },
+    "TWD": {
+      "rate": 32.2002,
+      "date": "2026-08-13",
+      "via": "erapi"
+    },
+    "COP": {
+      "rate": 3131.9938,
+      "date": "2026-08-13",
+      "via": "erapi"
+    },
+    "AED": {
+      "rate": 3.6725,
+      "date": null,
+      "via": "peg"
+    },
+    "QAR": {
+      "rate": 3.64,
+      "date": null,
+      "via": "peg"
+    }
   },
-  "date": "2026-08-12",
-  "source": "European Central Bank reference rate, via frankfurter.dev"
+  "via": {
+    "ecb": "European Central Bank reference rate, via frankfurter.dev",
+    "erapi": "exchangerate-api.com daily reference rate",
+    "peg": "official central bank peg to the US dollar"
+  }
 }

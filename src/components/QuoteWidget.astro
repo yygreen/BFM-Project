@@ -73,6 +73,9 @@ const EN = {
   // aid and the label has to say so. null on the English pages.
   fxRate: null,
   fxNote: "",
+  // "{n} €" or "NT${n}": the symbol goes where the market puts it, which is
+  // not always after the number
+  fxMoney: "{n}",
 };
 const L = { ...EN, ...labels };
 // 1.9 is "1,9" to a German reader — the rate chips follow the page language
@@ -385,7 +388,10 @@ const notWired = labels.notWired ?? (orderEmail
       if (fxEl) {
         const show = T.fxRate && m && !blocked;
         fxEl.hidden = !show;
-        if (show) fxEl.textContent = fmt(T.fxNote, { v: Math.round(cost * T.fxRate).toLocaleString(LOC) });
+        if (show) {
+          const local = fmt(T.fxMoney || "{n}", { n: Math.round(cost * T.fxRate).toLocaleString(LOC) });
+          fxEl.textContent = fmt(T.fxNote, { v: local });
+        }
       }
       $("qw-rate").textContent = approx + c.rate.toLocaleString(LOC) + T.rateUnit;
       const hrs = c.delivery && /^\d+ hours?$/.test(c.delivery) ? parseInt(c.delivery, 10) : null;

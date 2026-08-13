@@ -44,7 +44,9 @@ const EN = {
   // euro fares and reading one as dollars would flip the verdict outright.
   // Billing stays in dollars; fxFoot says so.
   fxRate: null,
-  fxSymbol: "",
+  // "{n} €" or "NT${n}" — see QuoteWidget; a bare suffix symbol was wrong for
+  // every prefix currency on the roster
+  fxMoney: "{n}",
   fxFoot: "",
 };
 const L = { ...EN, ...labels };
@@ -125,7 +127,9 @@ const L = { ...EN, ...labels };
     // is indicative and cents would imply a precision it does not have.
     const FX = T.fxRate || null;
     const money = (usdAmount) =>
-      FX ? Math.round(usdAmount * FX).toLocaleString(LOC) + " " + T.fxSymbol : usd(usdAmount);
+      FX
+        ? (T.fxMoney || "{n}").replace("{n}", Math.round(usdAmount * FX).toLocaleString(LOC))
+        : usd(usdAmount);
 
     function render() {
       let m = parseInt(miles.value, 10);

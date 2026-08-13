@@ -61,6 +61,10 @@ const translation = z.object({
   // sets one per locale, which is right where a language maps to a country;
   // Arabic doesn't, so its three pages name their own market instead.
   flag: z.string().min(1).optional(),
+  // Currency for this program's converted prices, overriding the locale's.
+  // Same reason as `flag`: a language is not a market. The Arabic pages sell
+  // into Qatar and the UAE, and the riyal is not the dirham.
+  currency: z.string().length(3).optional(),
   // set true once a native speaker has reviewed the copy — check:launch
   // treats unreviewed translations as launch blockers, not silent passes
   reviewed: z.boolean().default(false),

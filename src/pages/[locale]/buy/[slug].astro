@@ -21,6 +21,7 @@ import SavingsTool from "../../../components/SavingsTool.astro";
 import { getCollection } from "astro:content";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { LOCALES, GENERIC_LOCALES, EN_FLAG } from "../../../lib/locales";
+import { fxFor, fxDate, moneyTpl, moneySymbol } from "../../../lib/fx";
 
 const rev = realReviews[0];
 const years = yearsTrading();
@@ -48,6 +49,34 @@ const P = L.page;
 const deliveryValue = a.delivery.replace("Within ", "").replace(/\bhours?\b/, L.page.hours);
 // lang/hreflang can differ from the URL segment, e.g. /zh-tw/ tagged zh-TW
 const htmlLang = L.htmlLang ?? locale;
+
+// Prices are charged in dollars; the local figure beside them is a reading
+// aid. It renders only when we hold a rate, and it always names its source
+// and, where the source has one, its date. A program may override the
+// locale's currency: the Arabic pages sell into Qatar and the UAE.
+const currency = t.currency ?? L.fx?.currency ?? null;
+const fx = currency ? fxFor(currency) : null;
+const showFx = Boolean(L.fx && fx);
+const stamp = fx?.date ? fxDate(fx.date, L.numLocale) : "";
+const fill = (s: string) => s.replaceAll("{d}", stamp);
+
+const widget = {
+  ...L.widget,
+  ...(showFx
+    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxNote: fill(L.fx!.note) }
+    : {}),
+};
+// The savings tool asks for a cash fare, so its input has to say which
+// currency it wants. Without a rate it keeps asking for dollars.
+const savings = {
+  ...L.savings,
+  ...(L.savings.fareLabel
+    ? { fareLabel: L.savings.fareLabel.replace("{cur}", showFx ? moneySymbol(currency!) : "$") }
+    : {}),
+  ...(showFx
+    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxFoot: fill(L.fx!.foot) }
+    : {}),
+};
 ---
 <Base
   title={t.metaTitle}
@@ -109,7 +138,7 @@ const htmlLang = L.htmlLang ?? locale;
           </div>
           <div class="hero-art">
             <div class="hero-calc" id="quote">
-              <QuoteWidget defaultSlug={a.slug} locked heading={P.quoteHeading} sub={P.quoteSub} labels={L.widget} />
+              <QuoteWidget defaultSlug={a.slug} locked heading={P.quoteHeading} sub={P.quoteSub} labels={widget} />
             </div>
           </div>
         </div>
@@ -170,7 +199,7 @@ const htmlLang = L.htmlLang ?? locale;
                 program={a.program}
                 rate={a.pricePerMile}
                 verified={a.priceVerified}
-                labels={L.savings}
+                labels={savings}
               />
             </div>
           </div>
