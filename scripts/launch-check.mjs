@@ -105,6 +105,17 @@ if (!site.contact.turnstileSiteKey)
   ]);
 else done.push(["3", "Forms carry a Turnstile challenge (confirm it is enforced in the Web3Forms dashboard)"]);
 
+// Account-control check. Not a launch blocker: the site is honest without it,
+// and the ops process has to exist before the claim can. It is the answer to
+// the one fraud question a buyer cannot check for themselves.
+if (!site.verification.verified)
+  optional.push([
+    "4",
+    "Account-control check unconfirmed — the 'how do you know the account is really mine' answer is suppressed on /order and in the FAQ",
+    "src/data/site.json → verification.verified: true, once the test-transfer step is actually part of the process",
+  ]);
+else done.push(["4", "Account-control check published"]);
+
 // ── Agenda 4 — guarantee + delivery transparency ─────────────────────
 if (!site.guarantee.verified) {
   blocking.push([

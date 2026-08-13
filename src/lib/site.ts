@@ -64,6 +64,20 @@ const schema = z.object({
 
   delivery: z.object({ howItWorks: z.string(), verified: z.boolean() }),
 
+  // The account-control check performed before a full transfer. A membership
+  // number alone proves nothing — anyone can type one — so a small test amount
+  // goes first and the buyer confirms what landed. It defeats delivery into a
+  // compromised account without ever asking for a credential.
+  //
+  // Suppressed until the client confirms they actually do this. Describing a
+  // verification step we do not perform would be the invented trust signal
+  // this whole file exists to prevent.
+  verification: z.object({
+    summary: z.string().min(1),
+    why: z.string().min(1),
+    verified: z.boolean(),
+  }),
+
   // The bar an agent must clear for partner pricing. Stating it protects the
   // RETAIL price: without a threshold, "partner rates that scale with volume"
   // just tells a direct visitor a cheaper price exists and they aren't getting

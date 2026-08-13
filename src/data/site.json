@@ -28,6 +28,11 @@
     "verified": false,
     "placeholder": false
   },
+  "verification": {
+    "summary": "Before the full transfer we send a small test amount and ask you to confirm the exact figure that landed and when.",
+    "why": "It proves the account is yours without ever asking for a password, and it means nobody can have miles delivered into an account they only know the number of.",
+    "verified": false
+  },
   "delivery": {
     "howItWorks": "",
     "verified": false

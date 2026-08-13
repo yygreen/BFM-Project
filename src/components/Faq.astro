@@ -95,6 +95,12 @@ const faqs = [
     : []),
   { q: "Is this legitimate?", a: legitAnswer },
   { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it." },
+  // Account-control check. Suppressed until the client confirms the process is
+  // real — it is the answer to "what stops someone having miles sent into an
+  // account that isn't theirs", which is worth nothing if we don't do it.
+  ...(site.verification.verified
+    ? [{ q: "How do you know the account is really mine?", a: `${site.verification.summary} ${site.verification.why}` }]
+    : []),
 ];
 
 const shown = limit ? faqs.slice(0, limit) : faqs;

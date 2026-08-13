@@ -79,8 +79,11 @@ const airlines = defineCollection({
 
       program: z.string().min(1),
       airline: z.string().min(1),
-      // What the order form calls the buyer's membership identifier. Defaults
-      // to "{program} account number", which reads correctly for most of the
+      // What to call the buyer's membership identifier when we ask for it.
+      // That ask happens AFTER the quote is approved, on a channel we control,
+      // so this is the wording for that message rather than for a field on the
+      // site: /order deliberately never collects it. Defaults to
+      // "{program} account number", which reads correctly for most of the
       // roster ("MileagePlus account number"); set this only where that
       // doesn't, e.g. the two Avios programs, whose `program` carries a
       // parenthetical. It is terminology, not a claim about the program.

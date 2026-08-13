@@ -34,11 +34,6 @@ const data = airlines.map((a) => ({
   max: a.max,
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
   inStock: a.inStock,
-  // "MileagePlus account number" rather than "Loyalty account number": step 2
-  // is where a stranger is asked to type the identifier of an account holding
-  // real value, and naming the program is both the clearer instruction and a
-  // small sign we know what we're handling.
-  account: a.accountLabel || `${a.program} account number`,
 }));
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
@@ -54,7 +49,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
 ---
 <Base
   title="Order Airline Miles | Quoted First, Paid Off-Site | buyflightmiles"
-  description="Place your miles order in three steps: what you need, where it goes, how you'd like to pay. We confirm your exact rate before any payment, and nothing is charged on this site."
+  description="Request your miles order in three steps: what you need, how to reach you, how you'd like to pay. We confirm your exact rate before any payment, and we never ask for your account number here."
   slug="order"
   robots="noindex,follow"
 >
@@ -81,7 +76,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
 
       <ol class="ostep-nav" aria-label="Order progress">
         <li class="on" data-for="1"><b>1</b><span>Your miles</span></li>
-        <li data-for="2"><b>2</b><span>Where they go</span></li>
+        <li data-for="2"><b>2</b><span>How to reach you</span></li>
         <li data-for="3"><b>3</b><span>Preferences &amp; review</span></li>
       </ol>
 
@@ -116,22 +111,27 @@ const methods = site.payments.verified ? site.payments.methods : [];
           <button type="button" class="btn btn-primary ostep-next" data-next="2">Continue →</button>
         </div>
 
-        <!-- STEP 2 — where the miles go -->
+        <!-- STEP 2 — how to reach you.
+             Deliberately NOT where the miles go. The account number used to be
+             collected here, which broke a promise the quote widget and the
+             privacy policy both make, and sent the one piece of data worth
+             stealing through a third-party form processor into an inbox.
+             Membership number plus account holder name is what a caller needs
+             to social-engineer an airline, so it is asked for after the quote
+             is approved, on a channel we control, and never here. -->
         <div class="ostep" data-step="2" hidden>
           <p class="onote">
-            <b>We never ask for your password.</b> The membership number and the name on the
-            account are all a transfer needs. Miles land in the account you already hold, and
-            you book the award yourself.
+            <b>We don't ask for your account number here.</b> Once you've approved the
+            quote we'll ask for the membership number and the name on the account,
+            directly, on whichever channel you prefer. We never ask for your password
+            at any point.
           </p>
+          {site.verification.verified && (
+            <p class="onote">
+              <b>{site.verification.summary}</b> {site.verification.why}
+            </p>
+          )}
           <div class="form-grid">
-            <div class="field">
-              <label for="o-account" id="o-account-label">Loyalty account number *</label>
-              <input id="o-account" name="account_number" type="text" required autocomplete="off" />
-            </div>
-            <div class="field">
-              <label for="o-holder">Account holder name *</label>
-              <input id="o-holder" name="account_name" type="text" required placeholder="Exactly as it appears on the account" />
-            </div>
             <div class="field">
               <label for="o-email">Email *</label>
               <input id="o-email" name="email" type="email" required />
@@ -267,8 +267,6 @@ const methods = site.payments.verified ? site.payments.methods : [];
         $("o-rate").textContent = approx + c.rate + "¢ / mile";
         $("o-delivery").textContent = c.delivery ? "Within " + c.delivery : "Confirmed on your quote";
         $("o-limits").textContent = `Orders run ${num(c.min)}–${num(c.max)} miles.`;
-        // step 2's field names the program that was picked in step 1
-        $("o-account-label").textContent = `${c.account} *`;
         // The order flow has to enforce the same bounds the quote widget does.
         // It was carrying a static min of 1,000, so a deep link like
         // ?program=united-mileageplus&miles=5000 sailed through step 1 and put
