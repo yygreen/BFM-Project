@@ -9,7 +9,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "check:launch": "node scripts/launch-check.mjs",
-    "postbuild": "node scripts/check-redirects.mjs"
+    "postbuild": "node scripts/check-redirects.mjs",
+    "audit:capture": "node scripts/migration-audit.mjs --capture",
+    "audit:verify": "node scripts/migration-audit.mjs --verify"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
