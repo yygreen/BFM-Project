@@ -3,7 +3,7 @@ import "../styles/flightdeck.css";
 import { getCollection } from "astro:content";
 import { getPosts, getCategoryCounts } from "../lib/blog";
 // aliased: `site` is already taken below by Astro.site (the deploy URL)
-import { site as siteData } from "../lib/site";
+import { site as siteData, officialChannels } from "../lib/site";
 import Logo from "../components/Logo.astro";
 
 // Nav + footer program lists are generated from the collection, so adding an
@@ -20,24 +20,12 @@ const latestPosts = (await getPosts()).slice(0, 2);
 
 // Footer contact block. Same rule as everywhere else: a channel is listed only
 // while site.json marks the contact details verified, and an empty field drops
-// its row rather than printing a blank one. Mirrors the ways on /contact.
-const c = siteData.contact;
-const tel = (v: string) => v.replace(/[^\d+]/g, "");
-// wa.me takes the number in international format with no punctuation at all —
-// a leading + in the path is not a valid link.
-const wa = (v: string) => v.replace(/\D/g, "");
-const contactWays = c.verified
-  ? [
-      c.orderEmail && { label: "Email", value: c.orderEmail, href: `mailto:${c.orderEmail}` },
-      c.phone && { label: "Phone", value: c.phone, href: `tel:${tel(c.phone)}` },
-      c.whatsapp && {
-        label: "WhatsApp",
-        value: c.whatsapp,
-        href: `https://wa.me/${wa(c.whatsapp)}`,
-        external: true,
-      },
-    ].filter(Boolean)
-  : [];
+// its row rather than printing a blank one.
+//
+// One definition of what counts as an official channel, shared with /verify.
+// A footer that disagrees with the verification page is worse than either on
+// its own, since that page's whole job is to be the list you can trust.
+const contactWays = officialChannels();
 
 const {
   title = "buyflightmiles: Buy airline miles, delivered fast",
@@ -248,6 +236,7 @@ const hreflangs = alternates.length
           <a href="/#how">How it works</a>
           <a href="/faq">FAQ</a>
           <a href="/#trust">Why trust us</a>
+          <a href="/verify">Verify our channels</a>
           <a href="/privacy">Privacy policy</a>
           <a href="/terms">Terms &amp; conditions</a>
         </div>

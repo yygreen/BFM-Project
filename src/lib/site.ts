@@ -198,6 +198,54 @@ export const turnstileKey = site.contact.turnstileSiteKey;
  */
 export const mailtoInbox = site.contact.orderEmail || "";
 
+export type Channel = {
+  kind: "email" | "phone" | "whatsapp" | "telegram";
+  label: string;
+  /** exactly as a visitor should see it, so they can compare character by character */
+  value: string;
+  href: string;
+  external?: boolean;
+};
+
+/**
+ * The channels we actually use, and the only ones.
+ *
+ * One definition, because this list is the answer to "is this really you?"
+ * and a footer that disagrees with the verification page is worse than having
+ * neither. The footer, the contact page and /verify all read from here.
+ *
+ * Gated on contact.verified for the same reason every other claim is: an
+ * unconfirmed handle published as official is the exact mistake this page
+ * exists to protect people from. Empty channels are omitted rather than shown
+ * blank, so the list never implies we are reachable somewhere we are not.
+ *
+ * WhatsApp strips to digits because wa.me rejects a leading +.
+ */
+export function officialChannels(): Channel[] {
+  const c = site.contact;
+  if (!c.verified) return [];
+  const out: Channel[] = [];
+  if (c.orderEmail) out.push({ kind: "email", label: "Email", value: c.orderEmail, href: `mailto:${c.orderEmail}` });
+  if (c.phone) out.push({ kind: "phone", label: "Phone", value: c.phone, href: `tel:${c.phone.replace(/[^\d+]/g, "")}` });
+  if (c.whatsapp)
+    out.push({
+      kind: "whatsapp",
+      label: "WhatsApp",
+      value: c.whatsapp,
+      href: `https://wa.me/${c.whatsapp.replace(/\D/g, "")}`,
+      external: true,
+    });
+  if (c.telegram)
+    out.push({
+      kind: "telegram",
+      label: "Telegram",
+      value: c.telegram,
+      href: `https://t.me/${c.telegram.replace(/^@/, "")}`,
+      external: true,
+    });
+  return out;
+}
+
 /**
  * The sourced airline direct-buy rate (cents/mile) for a program, or null.
  * A program's own figure wins over the shared benchmark, and either one shows
