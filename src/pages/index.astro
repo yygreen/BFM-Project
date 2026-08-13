@@ -8,6 +8,7 @@ import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
 import QuoteWidget from "../components/QuoteWidget.astro";
 import StepArt from "../components/StepArt.astro";
+import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
 import { site, live, realTestimonials, realReviews } from "../lib/site";
 
@@ -179,7 +180,34 @@ const jsonld = {
           <p class="askp">Not listed doesn't mean not available. Tell us the program and amount, and we'll check it and quote you.</p>
           <span class="askcta">Ask for a quote →</span>
         </a>
+        <!-- The trade route out of a retail grid. Agents were reaching /agents
+             only through the nav, which is the one place a visitor scanning
+             prices isn't looking. Claims here are the ones /agents already
+             makes; the volume threshold stays off it until confirmed. -->
+        <a class="gcard gcard-ask gcard-partner" href="/agents">
+          <span class="ask-tag">For agents &amp; brokers</span>
+          <div class="pname">Booking for clients?</div>
+          <p class="askp">Partner rates that scale with volume, plus business and first class seats sourced to spec. White-label, so the relationship stays yours.</p>
+          <span class="askcta">See partner access →</span>
+        </a>
       </div>
+    </div>
+  </section>
+
+  <!-- AWARD FLIGHTS — the second thing we sell, placed after the roster
+       because it answers the visitor the roster just lost: the one who wants
+       the trip and doesn't want to work out which program opens it. -->
+  <section class="section wash-warm" id="flights">
+    <div class="container" style="max-width:920px">
+      <div class="section-head center">
+        <span class="kicker">Award flights</span>
+        <h2>Or tell us where you want to go</h2>
+        <p>
+          Business and first class seats, sourced for your route and dates. We check what
+          the programs have open and quote the seat before you pay. Nothing is charged here.
+        </p>
+      </div>
+      <FlightSearch bare={true} />
     </div>
   </section>
 

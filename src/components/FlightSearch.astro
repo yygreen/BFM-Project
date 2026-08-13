@@ -1,0 +1,250 @@
+---
+// Award flight configurator — route, dates, cabin, travellers.
+//
+// This is deliberately NOT a search engine. We hold no inventory feed and no
+// award availability API, so a widget that returned "3 seats found" would be
+// inventing the one fact the whole thing turns on. It collects a brief and
+// hands it to /flights, where the contact details are captured and the
+// enquiry is sent. Everything it promises is something a person does next.
+//
+// Airports load from /data/airports.json on first focus rather than inlining
+// 300 entries into every page that embeds this. The fields accept free text,
+// so an airport missing from the list is a convenience gap and never a wall.
+const {
+  heading = "Business or first class, sourced for your dates",
+  sub = "Tell us the route and when you want to fly. We check what the award programs have open and come back with the seat and the price.",
+  // Program pages pass their slug so the enquiry records where it started.
+  program = null,
+  // The hero variant drops the heading — the section around it already has one.
+  bare = false,
+} = Astro.props;
+
+const id = `fs-${Math.random().toString(36).slice(2, 8)}`;
+---
+<div class="fsearch" id={id} data-program={program ?? ""}>
+  {!bare && (
+    <div class="fsearch-head">
+      <h3>{heading}</h3>
+      <p>{sub}</p>
+    </div>
+  )}
+
+  <div class="fs-trip" role="radiogroup" aria-label="Trip type">
+    <button type="button" class="fs-pill on" data-trip="return" role="radio" aria-checked="true">Return</button>
+    <button type="button" class="fs-pill" data-trip="oneway" role="radio" aria-checked="false">One way</button>
+  </div>
+
+  <div class="fs-route">
+    <div class="fs-field fs-ac">
+      <label for={`${id}-from`}>From</label>
+      <input id={`${id}-from`} class="fs-in fs-air" type="text" autocomplete="off" spellcheck="false"
+        placeholder="City or airport" role="combobox" aria-expanded="false" aria-autocomplete="list"
+        aria-controls={`${id}-from-list`} />
+      <ul class="fs-list" id={`${id}-from-list`} role="listbox" hidden></ul>
+    </div>
+
+    <button type="button" class="fs-swap" aria-label="Swap origin and destination">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 5h18"/><polyline points="7 23 3 19 7 15"/><path d="M21 19H3"/></svg>
+    </button>
+
+    <div class="fs-field fs-ac">
+      <label for={`${id}-to`}>To</label>
+      <input id={`${id}-to`} class="fs-in fs-air" type="text" autocomplete="off" spellcheck="false"
+        placeholder="City or airport" role="combobox" aria-expanded="false" aria-autocomplete="list"
+        aria-controls={`${id}-to-list`} />
+      <ul class="fs-list" id={`${id}-to-list`} role="listbox" hidden></ul>
+    </div>
+  </div>
+
+  <div class="fs-when">
+    <div class="fs-field">
+      <label for={`${id}-dep`}>Departing</label>
+      <input id={`${id}-dep`} class="fs-in fs-dep" type="date" />
+    </div>
+    <div class="fs-field fs-ret-wrap">
+      <label for={`${id}-ret`}>Returning</label>
+      <input id={`${id}-ret`} class="fs-in fs-ret" type="date" />
+    </div>
+    <div class="fs-field">
+      <label for={`${id}-pax`}>Travellers</label>
+      <select id={`${id}-pax`} class="fs-in fs-pax">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+          <option value={n}>{n} {n === 1 ? "traveller" : "travellers"}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  <div class="fs-cabin" role="radiogroup" aria-label="Cabin">
+    <span class="fs-lab">Cabin</span>
+    <button type="button" class="fs-pill on" data-cabin="business" role="radio" aria-checked="true">Business</button>
+    <button type="button" class="fs-pill" data-cabin="first" role="radio" aria-checked="false">First</button>
+    <button type="button" class="fs-pill" data-cabin="either" role="radio" aria-checked="false">Either</button>
+  </div>
+
+  <!-- Flexibility is the single biggest lever on whether award space exists at
+       all, so it is asked here rather than discovered over three emails. -->
+  <label class="fs-flex">
+    <input type="checkbox" class="fs-flexbox" />
+    <span>My dates are flexible by a few days</span>
+  </label>
+
+  <button type="button" class="btn btn-primary fs-go">Get a quote →</button>
+  <p class="fs-note">
+    Free and no-obligation. We confirm what's actually available and what it costs
+    before anything is paid, and nothing is ever charged on this website.
+  </p>
+</div>
+
+<script>
+  // One fetch per page, shared by every instance, started on first focus.
+  let airportsPromise = null;
+  const loadAirports = () => {
+    if (!airportsPromise) {
+      airportsPromise = fetch("/data/airports.json")
+        .then((r) => (r.ok ? r.json() : []))
+        .catch(() => []);
+    }
+    return airportsPromise;
+  };
+
+  const labelFor = (a) => (a[3] ? `${a[1]} ${a[3]} (${a[0]})` : `${a[1]} (${a[0]})`);
+
+  const search = (list, q) => {
+    const s = q.trim().toLowerCase();
+    if (s.length < 2) return [];
+    const starts = [], has = [];
+    for (const a of list) {
+      const code = a[0].toLowerCase();
+      const city = a[1].toLowerCase();
+      const country = a[2].toLowerCase();
+      if (code === s) starts.unshift(a);
+      else if (city.startsWith(s) || code.startsWith(s)) starts.push(a);
+      else if (city.includes(s) || country.includes(s) || (a[3] || "").toLowerCase().includes(s)) has.push(a);
+      if (starts.length + has.length > 80) break;
+    }
+    return starts.concat(has).slice(0, 8);
+  };
+
+  const today = () => new Date().toISOString().slice(0, 10);
+
+  document.querySelectorAll(".fsearch").forEach((root) => {
+    const $ = (sel) => root.querySelector(sel);
+    const dep = $(".fs-dep"), ret = $(".fs-ret"), retWrap = $(".fs-ret-wrap");
+
+    // ---- dates: never offer a past date, never a return before departure
+    dep.min = today();
+    ret.min = today();
+    dep.addEventListener("change", () => {
+      ret.min = dep.value || today();
+      if (ret.value && ret.value < ret.min) ret.value = ret.min;
+    });
+
+    // ---- trip type
+    let trip = "return";
+    root.querySelectorAll("[data-trip]").forEach((b) => {
+      b.addEventListener("click", () => {
+        trip = b.dataset.trip;
+        root.querySelectorAll("[data-trip]").forEach((o) => {
+          const on = o === b;
+          o.classList.toggle("on", on);
+          o.setAttribute("aria-checked", String(on));
+        });
+        retWrap.hidden = trip === "oneway";
+        if (trip === "oneway") ret.value = "";
+      });
+    });
+
+    // ---- cabin
+    let cabin = "business";
+    root.querySelectorAll("[data-cabin]").forEach((b) => {
+      b.addEventListener("click", () => {
+        cabin = b.dataset.cabin;
+        root.querySelectorAll("[data-cabin]").forEach((o) => {
+          const on = o === b;
+          o.classList.toggle("on", on);
+          o.setAttribute("aria-checked", String(on));
+        });
+      });
+    });
+
+    // ---- swap
+    $(".fs-swap").addEventListener("click", () => {
+      const [a, b] = root.querySelectorAll(".fs-air");
+      const t = a.value; a.value = b.value; b.value = t;
+    });
+
+    // ---- airport comboboxes
+    root.querySelectorAll(".fs-ac").forEach((wrap) => {
+      const input = wrap.querySelector(".fs-air");
+      const list = wrap.querySelector(".fs-list");
+      let items = [], active = -1;
+
+      const close = () => {
+        list.hidden = true;
+        list.innerHTML = "";
+        input.setAttribute("aria-expanded", "false");
+        input.removeAttribute("aria-activedescendant");
+        active = -1;
+      };
+
+      const choose = (i) => {
+        if (!items[i]) return;
+        input.value = labelFor(items[i]);
+        close();
+      };
+
+      const paint = () => {
+        list.innerHTML = "";
+        items.forEach((a, i) => {
+          const li = document.createElement("li");
+          li.id = `${input.id}-o${i}`;
+          // setAttribute, not the .role property: ARIA reflection only landed
+          // in Firefox and Safari recently and this must not be the thing that
+          // decides whether the list is announced.
+          li.setAttribute("role", "option");
+          li.className = "fs-opt" + (i === active ? " on" : "");
+          li.setAttribute("aria-selected", String(i === active));
+          li.innerHTML = `<b>${a[0]}</b><span>${a[1]}${a[3] ? " " + a[3] : ""}</span><em>${a[2]}</em>`;
+          li.addEventListener("mousedown", (e) => { e.preventDefault(); choose(i); });
+          list.appendChild(li);
+        });
+        list.hidden = items.length === 0;
+        input.setAttribute("aria-expanded", String(items.length > 0));
+        if (active >= 0) input.setAttribute("aria-activedescendant", `${input.id}-o${active}`);
+        else input.removeAttribute("aria-activedescendant");
+      };
+
+      input.addEventListener("focus", loadAirports);
+      input.addEventListener("input", async () => {
+        items = search(await loadAirports(), input.value);
+        active = -1;
+        paint();
+      });
+      input.addEventListener("keydown", (e) => {
+        if (list.hidden) return;
+        if (e.key === "ArrowDown") { e.preventDefault(); active = Math.min(active + 1, items.length - 1); paint(); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); active = Math.max(active - 1, 0); paint(); }
+        else if (e.key === "Enter" && active >= 0) { e.preventDefault(); choose(active); }
+        else if (e.key === "Escape") close();
+      });
+      input.addEventListener("blur", () => setTimeout(close, 120));
+    });
+
+    // ---- hand off to /flights with everything filled in
+    $(".fs-go").addEventListener("click", () => {
+      const [from, to] = root.querySelectorAll(".fs-air");
+      const q = new URLSearchParams();
+      if (from.value.trim()) q.set("from", from.value.trim());
+      if (to.value.trim()) q.set("to", to.value.trim());
+      if (dep.value) q.set("depart", dep.value);
+      if (trip === "return" && ret.value) q.set("return", ret.value);
+      q.set("trip", trip);
+      q.set("cabin", cabin);
+      q.set("pax", $(".fs-pax").value);
+      if ($(".fs-flexbox").checked) q.set("flexible", "1");
+      if (root.dataset.program) q.set("program", root.dataset.program);
+      window.location.href = `/flights?${q.toString()}`;
+    });
+  });
+</script>

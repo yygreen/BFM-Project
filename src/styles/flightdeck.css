@@ -569,6 +569,14 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .gcard-ask .askp { margin:0; font-size:13.5px; line-height:1.55; color:var(--text-2); }
 .gcard-ask .askcta { color:var(--cobalt); font-weight:600; font-size:14px; }
 .gcard-ask:hover { border-color:var(--cobalt); }
+/* the partner card sits beside it and must not read as a second retail tile:
+   a different accent and a tag, so the trade route is legible at a glance */
+.gcard-partner { border-color:var(--coral-tint); background:color-mix(in srgb, var(--coral-tint) 26%, transparent); }
+.gcard-partner:hover { border-color:var(--coral); }
+.gcard-partner .askcta { color:var(--coral-2); }
+.ask-tag { align-self:flex-start; font-family:var(--display); font-weight:700; font-size:11px;
+  letter-spacing:.05em; text-transform:uppercase; color:var(--coral-2);
+  background:var(--coral-tint); padding:5px 11px; border-radius:var(--radius-pill); }
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }
@@ -1166,3 +1174,55 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .sfl-ask { margin-left:16px; font-size:14px; font-weight:600; color:var(--cobalt); }
 .sfl-ask:hover { text-decoration:underline; }
 .sfl-ask::after { content:" →"; }
+
+/* ---- award flight configurator -------------------------------------------
+   A brief, not a search box: the layout puts route on one line, dates and
+   party on the next, so the whole thing reads as one short question. It has
+   no results state by design — there is no availability feed behind it. */
+.fsearch { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
+  padding:clamp(20px,2.6vw,28px); box-shadow:var(--shadow); }
+.fsearch-head { margin-bottom:18px; }
+.fsearch-head h3 { font-size:clamp(19px,2.2vw,23px); margin:0 0 6px; }
+.fsearch-head p { margin:0; font-size:14px; line-height:1.6; color:var(--text-2); }
+.fs-trip { display:flex; gap:8px; margin-bottom:16px; }
+.fs-pill { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-2);
+  background:var(--raised); border:1.5px solid transparent; border-radius:var(--radius-pill);
+  padding:8px 16px; cursor:pointer; transition:background .15s ease, color .15s ease, border-color .15s ease; }
+.fs-pill:hover { border-color:var(--line-2); }
+.fs-pill.on { background:var(--cobalt-tint); border-color:var(--cobalt-line); color:var(--cobalt); }
+.fs-route { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:end; margin-bottom:14px; }
+.fs-when { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:16px; }
+.fs-field { position:relative; min-width:0; }
+.fs-field label, .fs-lab { display:block; font-size:13px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
+.fs-in { width:100%; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--surface);
+  border:1.5px solid var(--line-2); border-radius:var(--radius); padding:12px 14px; }
+.fs-in:focus { outline:none; border-color:var(--cobalt); box-shadow:0 0 0 3px var(--cobalt-tint); }
+.fs-swap { flex:none; width:42px; height:46px; display:flex; align-items:center; justify-content:center;
+  background:var(--raised); border:1.5px solid var(--line-2); border-radius:var(--radius);
+  color:var(--text-2); cursor:pointer; }
+.fs-swap svg { width:17px; height:17px; }
+.fs-swap:hover { border-color:var(--cobalt); color:var(--cobalt); }
+/* the suggestion list floats over whatever follows, so an embedded widget
+   never pushes the page around while someone is typing */
+.fs-list { position:absolute; z-index:30; top:100%; left:0; right:0; margin:6px 0 0; padding:6px;
+  list-style:none; background:var(--surface); border:1px solid var(--line-2);
+  border-radius:var(--radius); box-shadow:var(--shadow-lg); max-height:288px; overflow-y:auto; }
+.fs-opt { display:flex; align-items:baseline; gap:10px; padding:9px 11px; border-radius:9px; cursor:pointer; font-size:14px; }
+.fs-opt b { font-family:var(--mono); font-size:13px; color:var(--cobalt); flex:none; width:34px; }
+.fs-opt span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.fs-opt em { font-style:normal; font-size:12px; color:var(--text-3); flex:none; }
+.fs-opt.on, .fs-opt:hover { background:var(--cobalt-tint); }
+.fs-cabin { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.fs-cabin .fs-lab { margin:0 4px 0 0; }
+.fs-flex { display:flex; align-items:center; gap:9px; font-size:13.5px; color:var(--text-2); margin-bottom:18px; cursor:pointer; }
+.fs-flex input { width:16px; height:16px; accent-color:var(--cobalt); }
+.fs-go { width:100%; }
+.fs-note { margin:12px 0 0; font-size:12.5px; line-height:1.55; color:var(--text-3); text-align:center; }
+@media (max-width:620px){
+  .fs-route { grid-template-columns:1fr; gap:14px; }
+  /* the swap control turns into a divider row rather than a stranded column */
+  .fs-swap { width:100%; height:38px; }
+  .fs-swap svg { transform:rotate(90deg); }
+  .fs-when { grid-template-columns:1fr 1fr; }
+  .fs-when .fs-field:last-child { grid-column:1 / -1; }
+}

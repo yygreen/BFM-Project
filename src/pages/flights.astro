@@ -1,0 +1,332 @@
+---
+// Business and first class award tickets — the retail counterpart to what
+// /agents already offers the trade.
+//
+// The honest shape of this page: we do not hold seats and we have no
+// availability feed, so nothing here states that a seat exists. It takes a
+// brief (route, dates, cabin, party), captures a way to reply, and sends it.
+// Every number and every seat is confirmed by a person afterwards.
+//
+// Deep-linkable from the configurator anywhere on the site:
+// /flights?from=...&to=...&depart=2026-11-04&cabin=business&pax=2
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import FlightSearch from "../components/FlightSearch.astro";
+import Turnstile from "../components/Turnstile.astro";
+import { getCollection } from "astro:content";
+import { site, quoteFormReady, mailtoInbox } from "../lib/site";
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+const notWired = orderEmail
+  ? `Enquiries aren't connected yet — please email ${orderEmail} with your route and dates and we'll pick it up from there.`
+  : "Enquiries aren't connected yet. Send your route and dates through the contact page and we'll pick it up from there.";
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Business and first class award ticket sourcing",
+  provider: { "@type": "Organization", name: "buyflightmiles" },
+  serviceType: "Award ticket sourcing",
+  areaServed: "Worldwide",
+  description:
+    "Business and first class award seats sourced to a requested route, date and cabin, quoted before payment.",
+};
+---
+<Base
+  title="Business & First Class Award Tickets | Quoted First | buyflightmiles"
+  description="Tell us your route, dates and cabin. We check what the award programs have open and quote the seat before you pay. Business and first class, worldwide."
+  slug="flights"
+  jsonld={jsonld}
+>
+  <section class="section">
+    <div class="container" style="max-width:920px">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Award flights" },
+      ]} />
+      <div class="section-head">
+        <span class="kicker">Award flights</span>
+        <h1>Business and first class, sourced for your dates</h1>
+        <p>
+          Some trips are easier to solve as a finished ticket than as a pile of miles.
+          Give us the route and when you want to fly, and we'll look at what the award
+          programs have open and come back with the seat and the price. You approve it
+          before anything is paid.
+        </p>
+      </div>
+
+      <FlightSearch bare={true} />
+    </div>
+  </section>
+
+  <section class="section tinted" id="brief">
+    <div class="container" style="max-width:920px">
+      <div class="section-head">
+        <h2>Where should we send the answer?</h2>
+        <p>
+          The trip below is what you selected. Change it above if it isn't right,
+          then add a way to reach you.
+        </p>
+      </div>
+
+      <form class="formcard" id="fl-form" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
+        <input type="hidden" name="access_key" value={accessKey} />
+        <input type="hidden" id="fl-fallback" value={notWired} />
+        <input type="hidden" name="subject" value="Award flight enquiry — buyflightmiles" />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+        <!-- the brief travels with the enquiry exactly as it was configured -->
+        <input type="hidden" name="route" id="fl-f-route" />
+        <input type="hidden" name="dates" id="fl-f-dates" />
+        <input type="hidden" name="cabin" id="fl-f-cabin" />
+        <input type="hidden" name="travellers" id="fl-f-pax" />
+        <input type="hidden" name="from_program_page" id="fl-f-prog" />
+
+        <div class="osum" id="fl-summary">
+          <div class="osum-row"><span>Route</span><b id="fl-route">—</b></div>
+          <div class="osum-row"><span>Dates</span><b id="fl-dates">—</b></div>
+          <div class="osum-row"><span>Cabin</span><b id="fl-cabin">—</b></div>
+          <div class="osum-row"><span>Travellers</span><b id="fl-pax">—</b></div>
+        </div>
+
+        <p class="onote" style="margin-top:16px">
+          <b>We don't ask for your loyalty account number here.</b> If the answer involves
+          a transfer into your own account, we ask for the membership number and the name
+          on it after you've approved the quote, on whichever channel you prefer. We never
+          ask for your password at any point.
+        </p>
+
+        <div class="form-grid" style="margin-top:16px">
+          <div class="field">
+            <label for="fl-email">Email *</label>
+            <input id="fl-email" name="email" type="email" required />
+          </div>
+          <div class="field">
+            <label for="fl-handle">WhatsApp / Telegram</label>
+            <input id="fl-handle" name="contact_handle" type="text" placeholder="Optional — how you'd like us to reply" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="fl-notes">Anything that changes the answer?</label>
+          <textarea id="fl-notes" name="notes" rows="3" placeholder="Preferred airlines or alliance, stopovers, how firm the dates are, who's travelling on the ticket."></textarea>
+        </div>
+
+        <Turnstile />
+        <button type="submit" class="btn btn-primary" id="fl-submit" style="width:100%;margin-top:16px">Send the enquiry</button>
+        <p class="form-msg" id="fl-msg" hidden></p>
+        <p class="fs-note" style="margin-top:14px">
+          Free and no-obligation. Nothing is charged on this website at any point.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:920px">
+      <div class="section-head">
+        <h2>How this works</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="n">Step 01</div><h3>You send the brief</h3>
+          <p>Route, dates, cabin and how many of you. Flexibility on dates is the single biggest factor in whether award space exists at all, so tell us how firm yours are.</p>
+        </div>
+        <div class="step">
+          <div class="n">Step 02</div><h3>We look, then tell you</h3>
+          <p>We check what the programs have open for those dates and come back with what's actually bookable and what it costs. If nothing worth having is there, we say so rather than talk you into a worse routing.</p>
+        </div>
+        <div class="step">
+          <div class="n">Step 03</div><h3>You approve, then pay</h3>
+          <p>Price and itinerary are confirmed before any payment, and payment happens off this site. The ticket is issued in the traveller's own name.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tinted">
+    <div class="container" style="max-width:920px">
+      <div class="section-head">
+        <h2>Straight answers before you ask</h2>
+      </div>
+      <details class="faq" open>
+        <summary>Is the ticket in my name?<span class="mk">+</span></summary>
+        <div class="ans">Yes. The booking is issued in the travelling passenger's name and you deal with the airline directly for seats, bags and changes, the same as any other ticket. We are not affiliated with any airline or loyalty program.</div>
+      </details>
+      <details class="faq">
+        <summary>Can you guarantee the seat before I pay?<span class="mk">+</span></summary>
+        <div class="ans">We confirm what is actually available and quote it before you pay anything. Award space moves, sometimes within hours, so a quote is answered against what's open when we look. If it goes before you decide, we tell you and look again rather than substituting something you didn't ask for.</div>
+      </details>
+      <details class="faq">
+        <summary>What about taxes and carrier surcharges?<span class="mk">+</span></summary>
+        <div class="ans">Award tickets carry taxes and, on some programs, carrier-imposed surcharges. They vary enormously by program and route, and they're part of what makes one routing better value than another. Your quote states what's included so there's no second number later.</div>
+      </details>
+      <details class="faq">
+        <summary>Should I buy miles instead?<span class="mk">+</span></summary>
+        <div class="ans">Often, yes, and it's worth asking. If you already hold most of the miles for the award, buying the shortfall and booking it yourself is usually the cheaper path, and every program page has a calculator for it. A finished ticket makes more sense when you're starting from nothing, when the miles you'd need aren't buyable, or when you'd rather not do the searching.</div>
+      </details>
+      <details class="faq">
+        <summary>Which airlines can you book?<span class="mk">+</span></summary>
+        <div class="ans">It depends on the route and the date more than the carrier. Tell us where you want to go and we'll tell you what's reachable, including whether a program you've never used is the one that opens it up.</div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:920px">
+      <div class="section-head">
+        <h2>Or buy the miles and book it yourself</h2>
+        <p>If you're close to the award already, topping up the account you hold is usually the cheaper route. Every program page prices the shortfall.</p>
+      </div>
+      <div class="related related-inline">
+        <span class="related-lab">Programs</span>
+        {airlines.map((a) => (
+          <a href={`/buy/${a.slug}`}>{a.airline}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const q = new URLSearchParams(location.search);
+      const $ = (id) => document.getElementById(id);
+      const root = document.querySelector(".fsearch");
+
+      // ---- prefill the configurator from the deep link
+      if (root) {
+        const [from, to] = root.querySelectorAll(".fs-air");
+        if (q.get("from")) from.value = q.get("from");
+        if (q.get("to")) to.value = q.get("to");
+        if (q.get("depart")) root.querySelector(".fs-dep").value = q.get("depart");
+        if (q.get("return")) root.querySelector(".fs-ret").value = q.get("return");
+        if (q.get("pax")) root.querySelector(".fs-pax").value = q.get("pax");
+        if (q.get("flexible")) root.querySelector(".fs-flexbox").checked = true;
+        // click rather than set: the widget's own handlers own that state
+        const trip = root.querySelector(`[data-trip="${q.get("trip") === "oneway" ? "oneway" : "return"}"]`);
+        if (trip && !trip.classList.contains("on")) trip.click();
+        const cabin = root.querySelector(`[data-cabin="${q.get("cabin") || "business"}"]`);
+        if (cabin && !cabin.classList.contains("on")) cabin.click();
+        if (root.dataset) root.dataset.program = q.get("program") || "";
+      }
+
+      // ---- the summary reads the widget, so editing it above updates here
+      const CABIN = { business: "Business class", first: "First class", either: "Business or first" };
+      const fmtDate = (s) => {
+        if (!s) return "";
+        const d = new Date(s + "T12:00:00Z");
+        return isNaN(d) ? s : d.toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+      };
+
+      function paint() {
+        if (!root) return;
+        const [from, to] = root.querySelectorAll(".fs-air");
+        const dep = root.querySelector(".fs-dep").value;
+        const ret = root.querySelector(".fs-ret").value;
+        const oneway = root.querySelector('[data-trip="oneway"]').classList.contains("on");
+        const cabin = root.querySelector(".fs-cabin .on")?.dataset.cabin || "business";
+        const pax = root.querySelector(".fs-pax").value;
+        const flex = root.querySelector(".fs-flexbox").checked;
+
+        const route = from.value && to.value
+          ? `${from.value} ${oneway ? "→" : "⇄"} ${to.value}`
+          : from.value || to.value || "—";
+        let dates = dep ? fmtDate(dep) : "—";
+        if (!oneway && ret) dates += " – " + fmtDate(ret);
+        if (dep && flex) dates += " (flexible)";
+
+        $("fl-route").textContent = route;
+        $("fl-dates").textContent = dates;
+        $("fl-cabin").textContent = CABIN[cabin];
+        $("fl-pax").textContent = pax + (pax === "1" ? " traveller" : " travellers");
+
+        $("fl-f-route").value = route === "—" ? "" : route;
+        $("fl-f-dates").value = dates === "—" ? "" : dates;
+        $("fl-f-cabin").value = CABIN[cabin];
+        $("fl-f-pax").value = pax;
+        $("fl-f-prog").value = root.dataset.program || "";
+      }
+
+      if (root) {
+        root.addEventListener("input", paint);
+        root.addEventListener("click", () => setTimeout(paint, 0));
+        paint();
+      }
+
+      // ---- submit: same contract as the order form
+      const form = $("fl-form");
+      const msg = $("fl-msg");
+      const btn = $("fl-submit");
+
+      function showFallback(text) {
+        msg.textContent = text + " ";
+        const a = document.createElement("a");
+        a.href = "/contact";
+        a.textContent = "Contact us →";
+        a.style.fontWeight = "600";
+        a.style.textDecoration = "underline";
+        msg.appendChild(a);
+        msg.className = "form-msg err";
+        msg.hidden = false;
+      }
+
+      function mailIt(inbox) {
+        const fd = new FormData(form);
+        const skip = ["access_key", "botcheck", "subject"];
+        const lines = [];
+        for (const [k, v] of fd.entries()) {
+          if (skip.includes(k) || !String(v).trim()) continue;
+          lines.push(k.replace(/_/g, " ").replace(/^./, (s) => s.toUpperCase()) + ": " + v);
+        }
+        const body = "Award flight enquiry\n\n" + lines.join("\n") +
+          "\n\nSent from the award flight form. Nothing has been charged.";
+        location.href = "mailto:" + inbox +
+          "?subject=" + encodeURIComponent("Award flight enquiry — buyflightmiles") +
+          "&body=" + encodeURIComponent(body);
+        msg.textContent = "Your email app should open with your enquiry filled in. Send it and we'll take it from there.";
+        msg.className = "form-msg ok";
+        msg.hidden = false;
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        paint();
+        if (!$("fl-f-route").value || !$("fl-f-dates").value) {
+          msg.textContent = "Add where you're flying from and to, and when — that's what we search on.";
+          msg.className = "form-msg err";
+          msg.hidden = false;
+          root.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+        if (!form.dataset.key) {
+          if (form.dataset.inbox) { mailIt(form.dataset.inbox); return; }
+          showFallback($("fl-fallback").value);
+          return;
+        }
+        const label = btn.textContent;
+        btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+        try {
+          const res = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          });
+          const out = await res.json();
+          if (out.success) {
+            msg.textContent = "Enquiry received. We'll come back with what's actually available for those dates and what it costs. Nothing has been charged.";
+            msg.className = "form-msg ok";
+            form.reset();
+          } else { throw new Error(out.message); }
+        } catch {
+          msg.textContent = "Something went wrong sending this — please try again.";
+          msg.className = "form-msg err";
+        } finally {
+          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+        }
+      });
+    })();
+  </script>
+</Base>

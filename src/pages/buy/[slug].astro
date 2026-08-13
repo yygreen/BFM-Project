@@ -5,6 +5,7 @@ import TrustStrip from "../../components/TrustStrip.astro";
 import Faq from "../../components/Faq.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
 import SavingsTool from "../../components/SavingsTool.astro";
+import FlightSearch from "../../components/FlightSearch.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
@@ -258,6 +259,26 @@ const jsonld = {
         <div class="step"><div class="n">02</div><h4>Pay</h4><p>Off-site, after you approve the quote. Nothing is ever charged on this website.</p></div>
         <div class="step"><div class="n">03</div><h4>Fly</h4><p>{a.deliveryVerified ? `Miles land in your own ${progShort} account, ${a.delivery.toLowerCase()} — then book the seat.` : `Miles land in your own ${progShort} account on the window your quote confirms — then book the seat.`}</p></div>
       </div>
+    </div>
+  </section>
+
+  <!-- The other way to solve the same trip. It sits after the process, not
+       beside the widget: someone still pricing miles shouldn't be pulled off
+       that decision, but someone who has read to here and is put off by the
+       work of finding award space now has a second door. -->
+  <section class="section wash-warm" id="flights">
+    <div class="container" style="max-width:920px">
+      <div class="section-head">
+        <span class="kicker">Or skip the search</span>
+        <h2>Would you rather we found the seat?</h2>
+        <p>
+          Buying the shortfall and booking it yourself is usually cheaper, and that's what
+          the calculator above is for. If you'd rather hand over the whole thing, tell us
+          the route and dates and we'll come back with what's bookable in business or first,
+          and what it costs.
+        </p>
+      </div>
+      <FlightSearch bare={true} program={a.slug} />
     </div>
   </section>
 
