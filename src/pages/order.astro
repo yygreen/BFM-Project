@@ -14,6 +14,7 @@
 // Deep-linkable: /order?program=qatar-avios&miles=70000 arrives prefilled, so
 // the quote widget and the comparison tool can hand a visitor straight over.
 import Base from "../layouts/Base.astro";
+import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ProgramSelect from "../components/ProgramSelect.astro";
 import { getCollection } from "astro:content";
@@ -208,6 +209,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
                  with nothing priced firmly and nothing charged. The button has
                  to promise what the click does, and asking for less is also
                  the easier thing to press on a first purchase from us. -->
+            <Turnstile />
             <button type="submit" class="btn btn-primary" id="order-submit">Send my request</button>
           </div>
           <p class="form-msg" id="order-msg" hidden></p>

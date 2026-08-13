@@ -9,6 +9,7 @@
 // dead link. The form uses the same Web3Forms wiring and not-wired fallback as
 // the others.
 import Base from "../layouts/Base.astro";
+import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
@@ -80,6 +81,7 @@ const waHref = whatsapp.replace(/\D/g, "");
               <label for="c-message">Your message *</label>
               <textarea id="c-message" name="message" rows="5" required placeholder="The program and amount, the award you're chasing, or the question that's holding you up."></textarea>
             </div>
+            <Turnstile />
             <button type="submit" class="btn btn-primary" id="contact-submit" style="width:100%;margin-top:14px">Send message</button>
             <p class="form-msg" id="contact-msg" hidden></p>
             <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">

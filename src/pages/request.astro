@@ -6,6 +6,7 @@
 // Web3Forms wiring and graceful not-wired fallback as the quote widget; the
 // copy invites a request without asserting we can source anything.
 import Base from "../layouts/Base.astro";
+import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
@@ -43,6 +44,7 @@ const notWired = orderEmail
           <div class="field"><label for="req-email">Email *</label><input id="req-email" name="email" type="email" required /></div>
         </div>
         <div class="field" style="margin-bottom:4px"><label for="req-message">Anything else?</label><textarea id="req-message" name="message" rows="4" placeholder="The route or award you're after, timing, account region — whatever helps us quote it right."></textarea></div>
+        <Turnstile />
         <button type="submit" class="btn btn-primary" id="request-submit" style="width:100%;margin-top:14px">Send request</button>
         <p class="form-msg" id="request-msg" hidden></p>
         <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">Nothing is charged on this site. We reply with availability and a firm rate first.</p>

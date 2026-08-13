@@ -45,6 +45,9 @@ const schema = z.object({
     agentEmail: z.string().email().or(z.literal("")),
     web3formsKeyQuote: z.string(),
     web3formsKeyAgents: z.string(),
+    // Cloudflare Turnstile sitekey. Empty means no challenge is rendered, so
+    // the forms behave exactly as they do today until one is set.
+    turnstileSiteKey: z.string(),
     phone: z.string(),
     whatsapp: z.string(),
     telegram: z.string(),
@@ -175,6 +178,17 @@ export const realTestimonials = site.testimonials.filter((t) => t.verified);
 /** True once the quote form can actually deliver mail. */
 export const quoteFormReady = site.contact.verified && site.contact.web3formsKeyQuote !== "";
 export const agentFormReady = site.contact.verified && site.contact.web3formsKeyAgents !== "";
+
+/**
+ * Whether to render a Turnstile challenge on the forms.
+ *
+ * The widget alone proves nothing: the Web3Forms access key is public in the
+ * page source, so a spammer can POST straight to the API and skip the page
+ * entirely. It only bites once captcha verification is switched ON in the
+ * Web3Forms dashboard, which makes them reject any submission without a valid
+ * token. Both halves or neither.
+ */
+export const turnstileKey = site.contact.turnstileSiteKey;
 
 /**
  * An inbox to hand an enquiry to when the form itself can't post it yet.

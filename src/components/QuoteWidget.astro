@@ -9,6 +9,7 @@
 //
 // Payment still stays off this site — this is a quote request that emails us.
 import { getCollection } from "astro:content";
+import Turnstile from "./Turnstile.astro";
 import { site, quoteFormReady, directBuyRate, directBuySource, mailtoInbox } from "../lib/site";
 
 const {
@@ -260,6 +261,8 @@ const notWired = labels.notWired ?? (orderEmail
           <input id="qw-contact" name="contact" type="text" placeholder={L.contactPh} />
         </div>
       </div>
+
+      <Turnstile />
 
       <button type="submit" class="btn btn-primary qw-cta" id="qw-submit">{L.submit}</button>
       <p class="form-msg" id="qw-msg" hidden></p>

@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import Turnstile from "../components/Turnstile.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import Emblem from "../components/Emblem.astro";
 import { getCollection } from "astro:content";
@@ -249,6 +250,7 @@ const jsonld = {
           <div class="field"><label for="volume">Typical monthly volume</label><select id="volume" name="volume"><option>Under $5,000</option><option>$5,000–$25,000</option><option>$25,000–$100,000</option><option>$100,000+</option></select></div>
         </div>
         <div class="field" style="margin-bottom:4px"><label for="message">What are you looking for?</label><textarea id="message" name="message" rows="4" placeholder="Programs of interest, typical routes and cabins, anything else."></textarea></div>
+        <Turnstile />
         <button type="submit" class="btn btn-primary" id="partner-submit" style="width:100%;margin-top:14px">Submit application</button>
         <p class="form-msg" id="partner-msg" hidden></p>
       </form>

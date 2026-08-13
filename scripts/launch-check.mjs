@@ -94,6 +94,17 @@ if (!site.contact.verified) {
   else done.push(["3", "Agent form wired"]);
 }
 
+// Spam hardening. Not a launch blocker: the forms work without it. It becomes
+// one the moment the pages rank, because the Web3Forms access key is public in
+// the page source and a scraped key is spammed directly, past the honeypot.
+if (!site.contact.turnstileSiteKey)
+  optional.push([
+    "3",
+    "No spam challenge on the forms — set a Turnstile sitekey AND turn captcha verification on in the Web3Forms dashboard (the widget alone does nothing, the key is public)",
+    "src/data/site.json → contact.turnstileSiteKey",
+  ]);
+else done.push(["3", "Forms carry a Turnstile challenge (confirm it is enforced in the Web3Forms dashboard)"]);
+
 // ── Agenda 4 — guarantee + delivery transparency ─────────────────────
 if (!site.guarantee.verified) {
   blocking.push([
