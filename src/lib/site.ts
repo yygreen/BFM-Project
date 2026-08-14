@@ -287,6 +287,17 @@ export const flightSavings = (): string | null =>
     ? site.flights.savingsClaim.trim()
     : null;
 
+/**
+ * The savings claim with its figures marked up for the monospace treatment
+ * every other number on this site gets — prices, delivery windows, order
+ * limits. Done here rather than by splitting the claim into fields, so the
+ * sentence stays one editable string and any rewording keeps the typography.
+ */
+export const flightSavingsHtml = (): string | null => {
+  const claim = flightSavings();
+  return claim && claim.replace(/\d[\d.,]*\s?%/g, (n) => `<b>${n}</b>`);
+};
+
 export const directBuyRate = (programDirect: DirectBuy): number | null => {
   if (programDirect?.verified) return programDirect.cents;
   const b = site.benchmark;

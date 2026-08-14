@@ -13,13 +13,14 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
-import { flightSavings } from "../lib/site";
+import { flightSavings, flightSavingsHtml } from "../lib/site";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
 const savings = flightSavings();
+const savingsHtml = flightSavingsHtml();
 
 const jsonld = {
   "@context": "https://schema.org",
@@ -48,10 +49,7 @@ const jsonld = {
         <span class="kicker">Award flights</span>
         <h1>Business and first class, sourced for your dates</h1>
         {savings && (
-          <p class="fs-save">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
-            {savings}
-          </p>
+          <p class="fs-save" set:html={savingsHtml} />
         )}
         <p>
           Some trips are easier to solve as a finished ticket than as a pile of miles.

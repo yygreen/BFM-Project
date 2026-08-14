@@ -10,7 +10,7 @@ import QuoteWidget from "../components/QuoteWidget.astro";
 import StepArt from "../components/StepArt.astro";
 import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
-import { site, live, realTestimonials, realReviews, flightSavings } from "../lib/site";
+import { site, live, realTestimonials, realReviews, flightSavings, flightSavingsHtml } from "../lib/site";
 
 // alphabetical by carrier, matching the nav dropdown and the quote widget's
 // selector — the grid is a lookup wall, and one site shouldn't have two orders
@@ -30,6 +30,7 @@ const fastest = airlines
   .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))[0];
 
 const savings = flightSavings();
+const savingsHtml = flightSavingsHtml();
 
 const heroStats = [
   { n: "Fast", l: "delivery" },
@@ -205,10 +206,7 @@ const jsonld = {
         <span class="kicker">Award flights</span>
         <h2>Or tell us where you want to go</h2>
         {savings && (
-          <p class="fs-save">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
-            {savings}
-          </p>
+          <p class="fs-save" set:html={savingsHtml} />
         )}
         <p>
           Business and first class seats, sourced for your route and dates. We check what

@@ -1269,7 +1269,15 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-cal-d:disabled { color:var(--mist); cursor:default; }
 .fs-cal-d.on { background:var(--cobalt); color:#fff; font-weight:700; }
 @media (max-width:620px){ .fs-cal { left:auto; right:0; } }
-/* the savings line, when the client has confirmed a figure to publish */
-.fs-save { display:inline-flex; align-items:center; gap:8px; font-family:var(--display);
-  font-weight:700; font-size:13px; color:var(--ok); background:var(--ok-tint);
-  padding:7px 14px; border-radius:var(--radius-pill); margin-bottom:16px; }
+/* The savings claim. It was a mint pill with a percent icon, which was wrong
+   twice: green is this site's status colour, reserved for in-stock and error
+   and never decoration, and the icon drew a % next to a sentence already
+   containing one. It is a statement now, not a tag — the strongest commercial
+   line on the page should not be dressed as a badge — and the figure takes the
+   monospace treatment every other number here gets. */
+.fs-save { margin:18px 0 0; padding-left:16px; border-left:3px solid var(--coral);
+  font-family:var(--display); font-weight:700; font-size:clamp(17px,1.7vw,20px);
+  line-height:1.35; color:var(--ink); text-wrap:balance; }
+.fs-save b { font-family:var(--mono); font-weight:600; font-size:1.12em;
+  color:var(--coral-2); letter-spacing:-.01em; }
+.section-head .fs-save + p { margin-top:14px; }
