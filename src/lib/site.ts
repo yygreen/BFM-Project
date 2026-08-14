@@ -87,6 +87,15 @@ const schema = z.object({
   // What airlines charge for their own miles — the basis of every "you save"
   // figure. Suppressed until sourced: a savings claim is the most prominent
   // number on the page and the easiest one to be caught out on.
+  // Award flights are measured against the cash fare for the same seat, which
+  // is a different benchmark from the miles side below — that one compares our
+  // per-mile rate against what the airline charges for its own miles.
+  flights: z.object({
+    savingsPercent: z.number().positive().max(100).nullable(),
+    savingsVersus: z.string(),
+    verified: z.boolean(),
+  }),
+
   benchmark: z.object({
     directBuyCents: z.number().positive().max(20).nullable(),
     source: z.string(),
@@ -266,6 +275,17 @@ export function officialChannels(): Channel[] {
  * stays in the data and off the page.
  */
 type DirectBuy = { cents: number; source: string; checked: string; verified: boolean } | undefined;
+/**
+ * The award-flight savings line, or null while it is unconfirmed. One phrasing
+ * for the whole site: a claim worded differently on two pages reads as two
+ * different claims.
+ */
+export const flightSavings = (): string | null => {
+  const f = site.flights;
+  if (!f.verified || !f.savingsPercent) return null;
+  return `${f.savingsPercent}% or more below ${f.savingsVersus}`;
+};
+
 export const directBuyRate = (programDirect: DirectBuy): number | null => {
   if (programDirect?.verified) return programDirect.cents;
   const b = site.benchmark;

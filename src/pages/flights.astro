@@ -13,10 +13,13 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
+import { flightSavings } from "../lib/site";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
+
+const savings = flightSavings();
 
 const jsonld = {
   "@context": "https://schema.org",
@@ -31,7 +34,7 @@ const jsonld = {
 ---
 <Base
   title="Business & First Class Award Tickets | Quoted First | buyflightmiles"
-  description="Tell us your route, dates and cabin. We check what the award programs have open and quote the seat before you pay. Business and first class, worldwide."
+  description={`Business and first class award seats sourced to your route and dates${savings ? `, ${savings}` : ""}. We check what the programs have open and quote the seat before you pay.`}
   slug="flights"
   jsonld={jsonld}
 >
@@ -43,7 +46,13 @@ const jsonld = {
       ]} />
       <div class="section-head">
         <span class="kicker">Award flights</span>
-        <h1>Business and first class, sourced for your dates</h1>
+        <h1>Business and first class, {savings ? "for a quarter less" : "sourced for your dates"}</h1>
+        {savings && (
+          <p class="fs-save">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+            {savings}
+          </p>
+        )}
         <p>
           Some trips are easier to solve as a finished ticket than as a pile of miles.
           Give us the route and when you want to fly, and we'll look at what the award

@@ -49,7 +49,7 @@ const notWired = orderEmail
        Same control the order flow uses. -->
   <ol class="ostep-nav fs-nav" aria-label="Progress">
     <li class="on" data-for="1"><b>1</b><span>Your trip</span></li>
-    <li data-for="2"><b>2</b><span>Where to send it</span></li>
+    <li data-for="2"><b>2</b><span>How to reach you</span></li>
   </ol>
 
   <!-- STEP 1 — the brief -->
@@ -79,14 +79,26 @@ const notWired = orderEmail
       </div>
     </div>
 
+    <!-- Dates are NOT <input type="date">. That control draws its format from
+         the visitor's browser locale, which no page attribute overrides, so a
+         German Chrome renders tt.mm.jjjj on an American site and nothing in the
+         markup can say otherwise. These are text fields with our own calendar:
+         mm/dd/yyyy for everyone, and the ISO value travels in a hidden input so
+         everything downstream is unchanged. -->
     <div class="fs-when">
-      <div class="field fs-field">
+      <div class="field fs-field fs-date">
         <label class="fs-dep-lab">Departing</label>
-        <input class="fs-dep" type="date" />
+        <input class="fs-dateview" data-role="dep" type="text" inputmode="numeric"
+          autocomplete="off" placeholder="mm/dd/yyyy" maxlength="10" />
+        <input type="hidden" class="fs-dep" />
+        <div class="fs-cal" hidden></div>
       </div>
-      <div class="field fs-field fs-ret-wrap">
+      <div class="field fs-field fs-date fs-ret-wrap">
         <label class="fs-ret-lab">Returning</label>
-        <input class="fs-ret" type="date" />
+        <input class="fs-dateview" data-role="ret" type="text" inputmode="numeric"
+          autocomplete="off" placeholder="mm/dd/yyyy" maxlength="10" />
+        <input type="hidden" class="fs-ret" />
+        <div class="fs-cal" hidden></div>
       </div>
       <div class="field fs-field">
         <label class="fs-pax-lab">Travellers</label>
@@ -137,16 +149,16 @@ const notWired = orderEmail
 
       <div class="fs-when fs-when-2">
         <div class="field fs-field">
-          <label class="fs-name-lab">Name</label>
+          <label class="fs-name-lab">Name *</label>
           <input class="fs-name" name="name" type="text" required />
         </div>
         <div class="field fs-field">
-          <label class="fs-email-lab">Email</label>
+          <label class="fs-email-lab">Email *</label>
           <input class="fs-email" name="email" type="email" required />
         </div>
         <div class="field fs-field">
-          <label class="fs-handle-lab">WhatsApp / Telegram</label>
-          <input class="fs-handle" name="contact_handle" type="text" placeholder="Optional" />
+          <label class="fs-handle-lab">WhatsApp / Telegram *</label>
+          <input class="fs-handle" name="contact_handle" type="text" placeholder="Number or @handle" required />
         </div>
       </div>
 
@@ -164,8 +176,7 @@ const notWired = orderEmail
   </div>
 
   <p class="fs-note">
-    Free and no-obligation. We confirm what's actually available and what it costs before
-    anything is paid, and nothing is ever charged on this website.
+    Free and no-obligation. We quote before you pay, and nothing is charged on this website.
     {moreLink && <> <a href="/flights">How award flights work →</a></>}
   </p>
 </div>
@@ -219,7 +230,9 @@ const notWired = orderEmail
     // ---- ids: labels have to point at real fields, and a page can hold more
     //      than one of these (a program page has the widget, /flights has it
     //      too if it is ever embedded twice)
-    [["from", from], ["to", to], ["dep", dep], ["ret", ret], ["pax", $(".fs-pax")],
+    [["from", from], ["to", to],
+     ["dep", root.querySelector('[data-role="dep"]')], ["ret", root.querySelector('[data-role="ret"]')],
+     ["pax", $(".fs-pax")],
      ["name", $(".fs-name")], ["email", $(".fs-email")], ["handle", $(".fs-handle")],
      ["notes", $(".fs-notes")]].forEach(([key, el]) => {
       const id = `fs${idx}-${key}`;
@@ -234,12 +247,122 @@ const notWired = orderEmail
       input.setAttribute("aria-controls", list.id);
     });
 
-    // ---- dates: never a past date, never a return before departure
-    dep.min = today();
-    ret.min = today();
-    dep.addEventListener("change", () => {
-      ret.min = dep.value || today();
-      if (ret.value && ret.value < ret.min) ret.value = ret.min;
+    // ---- dates. US order and US separators for every visitor, and a calendar
+    //      we draw ourselves, because the native control obeys the browser's
+    //      locale and there is no markup that overrides it.
+    const views = { dep: root.querySelector('[data-role="dep"]'), ret: root.querySelector('[data-role="ret"]') };
+    const isos = { dep, ret };
+    const cals = {
+      dep: views.dep.closest(".fs-date").querySelector(".fs-cal"),
+      ret: views.ret.closest(".fs-date").querySelector(".fs-cal"),
+    };
+    const MONTHS = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    const DOW = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    const pad = (n) => String(n).padStart(2, "0");
+    const toUS = (iso) => (iso ? `${iso.slice(5, 7)}/${iso.slice(8, 10)}/${iso.slice(0, 4)}` : "");
+    const fromUS = (s) => {
+      const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (!m) return "";
+      const [, mm, dd, yyyy] = m;
+      const d = new Date(Date.UTC(+yyyy, +mm - 1, +dd));
+      // rejects 02/31 rather than silently rolling it into March
+      return d.getUTCMonth() + 1 === +mm && d.getUTCDate() === +dd ? `${yyyy}-${mm}-${dd}` : "";
+    };
+    // the floor for each field: nothing in the past, and no return before the
+    // outbound — the same rule the native min attribute used to carry
+    const floor = (role) => (role === "ret" && isos.dep.value ? isos.dep.value : today());
+
+    let calMonth = {};
+    function drawCal(role) {
+      const cal = cals[role];
+      const min = floor(role);
+      const cur = isos[role].value;
+      const base = calMonth[role] || cur || min;
+      const y = +base.slice(0, 4), m = +base.slice(5, 7) - 1;
+      const first = new Date(Date.UTC(y, m, 1));
+      const days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      let html = `<div class="fs-cal-top">
+        <button type="button" class="fs-cal-nav" data-step="-1" aria-label="Previous month">‹</button>
+        <b>${MONTHS[m]} ${y}</b>
+        <button type="button" class="fs-cal-nav" data-step="1" aria-label="Next month">›</button>
+      </div><div class="fs-cal-grid">${DOW.map((d) => `<span class="fs-cal-dow">${d}</span>`).join("")}`;
+      for (let i = 0; i < first.getUTCDay(); i++) html += "<span></span>";
+      for (let d = 1; d <= days; d++) {
+        const iso = `${y}-${pad(m + 1)}-${pad(d)}`;
+        const off = iso < min;
+        html += `<button type="button" class="fs-cal-d${iso === cur ? " on" : ""}" data-iso="${iso}"${off ? " disabled" : ""}>${d}</button>`;
+      }
+      cal.innerHTML = html + "</div>";
+      calMonth[role] = `${y}-${pad(m + 1)}-01`;
+    }
+
+    function openCal(role) {
+      Object.values(cals).forEach((c) => { c.hidden = true; });
+      drawCal(role);
+      cals[role].hidden = false;
+    }
+
+    // A return that now sits before the outbound is cleared rather than silently
+    // corrected to a date nobody chose. This lives on its own because BOTH ways
+    // of setting a date have to run it — picking from the calendar and typing.
+    // It did not, and typing a later departure left "Dec 25 – Nov 30" standing
+    // in the brief we would have been sent.
+    function enforceOrder() {
+      if (isos.dep.value && isos.ret.value && isos.ret.value < isos.dep.value) {
+        isos.ret.value = ""; views.ret.value = "";
+      }
+    }
+
+    function setDate(role, iso) {
+      isos[role].value = iso;
+      views[role].value = toUS(iso);
+      enforceOrder();
+    }
+
+    Object.entries(views).forEach(([role, view]) => {
+      view.addEventListener("focus", () => openCal(role));
+      view.addEventListener("input", () => {
+        // type digits, get the slashes for free
+        let v = view.value.replace(/\D/g, "").slice(0, 8);
+        if (v.length > 4) v = `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
+        else if (v.length > 2) v = `${v.slice(0, 2)}/${v.slice(2)}`;
+        view.value = v;
+        const iso = fromUS(v);
+        if (iso) {
+          isos[role].value = iso < floor(role) ? "" : iso;
+          calMonth[role] = iso;
+          enforceOrder();
+          drawCal(role);
+        } else if (v === "") {
+          isos[role].value = "";
+        }
+      });
+      view.addEventListener("blur", () => {
+        setTimeout(() => { cals[role].hidden = true; }, 150);
+        // an unparseable or out-of-range entry does not linger looking valid
+        if (!isos[role].value) view.value = "";
+        else view.value = toUS(isos[role].value);
+      });
+      view.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") { cals[role].hidden = true; view.blur(); }
+      });
+      cals[role].addEventListener("mousedown", (e) => {
+        const nav = e.target.closest(".fs-cal-nav");
+        const day = e.target.closest(".fs-cal-d");
+        if (!nav && !day) return;
+        e.preventDefault();
+        if (nav) {
+          const [y, m] = calMonth[role].split("-").map(Number);
+          const d = new Date(Date.UTC(y, m - 1 + Number(nav.dataset.step), 1));
+          calMonth[role] = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-01`;
+          drawCal(role);
+          return;
+        }
+        setDate(role, day.dataset.iso);
+        cals[role].hidden = true;
+        if (role === "dep" && !isos.ret.value && trip === "return") views.ret.focus();
+      });
     });
 
     // ---- trip type
@@ -253,7 +376,7 @@ const notWired = orderEmail
           o.setAttribute("aria-checked", String(on));
         });
         retWrap.hidden = trip === "oneway";
-        if (trip === "oneway") ret.value = "";
+        if (trip === "oneway") { ret.value = ""; root.querySelector('[data-role="ret"]').value = ""; }
       });
     });
 
@@ -458,8 +581,8 @@ const notWired = orderEmail
       const q = new URLSearchParams(location.search);
       if (q.get("from")) from.value = q.get("from");
       if (q.get("to")) to.value = q.get("to");
-      if (q.get("depart")) dep.value = q.get("depart");
-      if (q.get("return")) ret.value = q.get("return");
+      if (q.get("depart")) setDate("dep", q.get("depart"));
+      if (q.get("return")) setDate("ret", q.get("return"));
       if (q.get("pax")) $(".fs-pax").value = q.get("pax");
       if (q.get("flexible")) $(".fs-flexbox").checked = true;
       // click rather than set: the handlers above own that state

@@ -10,7 +10,7 @@ import QuoteWidget from "../components/QuoteWidget.astro";
 import StepArt from "../components/StepArt.astro";
 import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
-import { site, live, realTestimonials, realReviews } from "../lib/site";
+import { site, live, realTestimonials, realReviews, flightSavings } from "../lib/site";
 
 // alphabetical by carrier, matching the nav dropdown and the quote widget's
 // selector — the grid is a lookup wall, and one site shouldn't have two orders
@@ -28,6 +28,8 @@ const fastest = airlines
   .filter((a) => a.deliveryVerified)
   .map((a) => a.delivery.replace("Within ", ""))
   .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))[0];
+
+const savings = flightSavings();
 
 const heroStats = [
   { n: "Fast", l: "delivery" },
@@ -187,7 +189,7 @@ const jsonld = {
         <a class="gcard gcard-ask gcard-partner" href="/agents">
           <span class="ask-tag">For agents &amp; brokers</span>
           <div class="pname">Booking for clients?</div>
-          <p class="askp">Partner rates that scale with volume, plus business and first class seats sourced to spec. White-label, so the relationship stays yours.</p>
+          <p class="askp">Volume pricing on miles and on business or first class seats. Your client never sees us.</p>
           <span class="askcta">See partner access →</span>
         </a>
       </div>
@@ -202,6 +204,12 @@ const jsonld = {
       <div class="section-head">
         <span class="kicker">Award flights</span>
         <h2>Or tell us where you want to go</h2>
+        {savings && (
+          <p class="fs-save">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+            {savings}
+          </p>
+        )}
         <p>
           Business and first class seats, sourced for your route and dates. We check what
           the programs have open and quote the seat before you pay. Nothing is charged here.

@@ -111,5 +111,10 @@
     "heightPx": 130,
     "verified": false
   },
-  "testimonials": []
+  "testimonials": [],
+  "flights": {
+    "savingsPercent": 25,
+    "savingsVersus": "the cash fare",
+    "verified": true
+  }
 }

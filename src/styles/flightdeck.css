@@ -1218,7 +1218,9 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-flex { display:flex; align-items:center; gap:9px; font-size:13.5px; color:var(--text-2); margin-bottom:18px; cursor:pointer; }
 .fs-flex input { width:16px; height:16px; accent-color:var(--cobalt); }
 .fs-go { width:100%; }
-.fs-note { margin:12px 0 0; font-size:12.5px; line-height:1.55; color:var(--text-3); text-align:center; }
+.fs-note { margin:12px 0 0; font-size:12.5px; line-height:1.55; color:var(--text-3);
+  text-align:center; text-wrap:balance; }
+.fs-note a { white-space:nowrap; }
 @media (max-width:620px){
   .fs-route { grid-template-columns:1fr; gap:14px; }
   /* the swap control turns into a divider row rather than a stranded column */
@@ -1247,3 +1249,27 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-err { margin:10px 0 0; font-size:13px; font-weight:600; color:var(--danger); }
 .fs-note a { color:var(--cobalt); font-weight:600; }
 @media (max-width:620px){ .fs-when-2 { grid-template-columns:1fr; } .fs-when-2 .fs-field:last-child { grid-column:auto; } }
+/* Our own calendar, because <input type="date"> renders in the visitor's
+   browser locale and no page attribute overrides it. mm/dd/yyyy for everyone. */
+.fs-date { position:relative; }
+.fs-cal { position:absolute; z-index:31; top:100%; left:0; margin-top:6px; width:274px;
+  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--radius);
+  box-shadow:var(--shadow-lg); padding:12px; }
+.fs-cal-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.fs-cal-top b { font-family:var(--display); font-size:14px; }
+.fs-cal-nav { width:28px; height:28px; border:0; border-radius:8px; background:var(--raised);
+  color:var(--text-2); font-size:17px; line-height:1; cursor:pointer; }
+.fs-cal-nav:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+.fs-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+.fs-cal-dow { display:grid; place-items:center; height:26px; font-size:11px; font-weight:700;
+  color:var(--text-3); text-transform:uppercase; }
+.fs-cal-d { height:32px; border:0; border-radius:8px; background:none; cursor:pointer;
+  font-family:var(--mono); font-size:12.5px; color:var(--ink); }
+.fs-cal-d:hover:not(:disabled) { background:var(--cobalt-tint); color:var(--cobalt); }
+.fs-cal-d:disabled { color:var(--mist); cursor:default; }
+.fs-cal-d.on { background:var(--cobalt); color:#fff; font-weight:700; }
+@media (max-width:620px){ .fs-cal { left:auto; right:0; } }
+/* the savings line, when the client has confirmed a figure to publish */
+.fs-save { display:inline-flex; align-items:center; gap:8px; font-family:var(--display);
+  font-weight:700; font-size:13px; color:var(--ok); background:var(--ok-tint);
+  padding:7px 14px; border-radius:var(--radius-pill); margin-bottom:16px; }
