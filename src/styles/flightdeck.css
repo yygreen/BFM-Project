@@ -1181,9 +1181,6 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    no results state by design — there is no availability feed behind it. */
 .fsearch { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
   padding:clamp(20px,2.6vw,28px); box-shadow:var(--shadow); }
-.fsearch-head { margin-bottom:18px; }
-.fsearch-head h3 { font-size:clamp(19px,2.2vw,23px); margin:0 0 6px; }
-.fsearch-head p { margin:0; font-size:14px; line-height:1.6; color:var(--text-2); }
 .fs-trip { display:flex; gap:8px; margin-bottom:16px; }
 .fs-pill { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-2);
   background:var(--raised); border:1.5px solid transparent; border-radius:var(--radius-pill);
@@ -1231,7 +1228,6 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 }
 /* step 2 of the configurator: the brief stays on screen above the fields that
    answer it, so nothing the visitor just chose has to be remembered */
-.fs-dots { margin:0 0 18px; }
 .fs-recap { background:var(--raised); border:1px solid var(--line); border-radius:var(--radius);
   padding:14px 16px; margin-bottom:18px; position:relative; }
 .fs-back { display:inline-block; background:none; border:0; padding:0; margin-bottom:8px; cursor:pointer;
@@ -1242,7 +1238,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-when-2 { margin-bottom:14px; }
 .fs-form textarea { min-height:88px; }
 .fs-submit { width:100%; }
-.fs-err { margin:10px 0 0; font-size:13px; font-weight:600; color:var(--danger); }
+.fs-miss { border-color:var(--danger) !important; background:var(--danger-tint); }
 .fs-note a { color:var(--cobalt); font-weight:600; }
 @media (max-width:620px){ .fs-when-2 { grid-template-columns:1fr; } .fs-when-2 .fs-field:last-child { grid-column:auto; } }
 /* Our own calendar, because <input type="date"> renders in the visitor's

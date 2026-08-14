@@ -20,11 +20,14 @@ import Turnstile from "./Turnstile.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const {
-  heading = "Business or first class, sourced for your dates",
-  sub = "Tell us the route and when you want to fly. We check what the award programs have open and come back with the seat and the price.",
+  // Short, and a question, matching the quote widget's own head. The section
+  // around this one carries the argument; the card only has to say what it
+  // wants from you.
+  heading = "Where do you want to fly?",
+  sub = "Business or first class, quoted for your dates.",
   // Program pages pass their slug so the enquiry records where it started.
   program = null,
-  // Drop the heading where the section around it already has one.
+  // Kept for callers that want the card bare; the head is the default now.
   bare = false,
   // /flights is the page this links to for the long explanation; the widget
   // there doesn't need to link to itself.
@@ -38,21 +41,20 @@ const notWired = orderEmail
   : "Enquiries aren't connected yet. Send your route and dates through the contact page and we'll pick it up from there.";
 ---
 <div class="fsearch" data-program={program ?? ""} data-inbox={mailtoInbox} data-key={accessKey ? "1" : ""}>
-  {!bare && (
-    <div class="fsearch-head">
-      <h3>{heading}</h3>
-      <p>{sub}</p>
+  <!-- The quote widget's head, verbatim in structure: title and sub on the
+       left, step marker on the right. Two widgets doing the same job on the
+       same page should not look like two different components, and the dots
+       sitting alone above the fields read as a stray element. -->
+  <div class="qw-head">
+    <div>
+      {!bare && <span class="qw-title">{heading}</span>}
+      {!bare && <span class="qw-sub">{sub}</span>}
     </div>
-  )}
-
-  <!-- The quote widget's own step marker, not the order flow's labelled pills.
-       Two steps this short do not need naming, and a full-width labelled bar
-       above a card sitting inside a page section read as page navigation
-       rather than as progress inside a form. -->
-  <ol class="qw-dots fs-dots" aria-hidden="true">
-    <li class="on" data-dot="1"></li>
-    <li data-dot="2"></li>
-  </ol>
+    <ol class="qw-dots fs-dots" aria-hidden="true">
+      <li class="on" data-dot="1"></li>
+      <li data-dot="2"></li>
+    </ol>
+  </div>
 
   <!-- STEP 1 — the brief -->
   <div class="fs-step" data-step="1">
@@ -127,7 +129,6 @@ const notWired = orderEmail
     </label>
 
     <button type="button" class="btn btn-primary fs-go">Continue →</button>
-    <p class="fs-err" hidden></p>
   </div>
 
   <!-- STEP 2 — where to send the answer. The brief stays visible and editable
@@ -227,7 +228,6 @@ const notWired = orderEmail
     const $ = (sel) => root.querySelector(sel);
     const dep = $(".fs-dep"), ret = $(".fs-ret"), retWrap = $(".fs-ret-wrap");
     const from = $(".fs-from"), to = $(".fs-to");
-    const err = $(".fs-err");
 
     // ---- ids: labels have to point at real fields, and a page can hold more
     //      than one of these (a program page has the widget, /flights has it
@@ -487,22 +487,22 @@ const notWired = orderEmail
 
     // ---- step 1 → 2. No page navigation: the answer to "where do I put my
     //      email" is right where the visitor already is.
+    // An empty field marks itself and takes focus. A sentence underneath
+    // explaining which three fields are needed said nothing the three empty
+    // boxes above it were not already saying.
     $(".fs-go").addEventListener("click", () => {
-      const missing = [];
-      if (!from.value.trim()) missing.push("where you're flying from");
-      if (!to.value.trim()) missing.push("where you're going");
-      if (!dep.value) missing.push("when you want to leave");
-      if (missing.length) {
-        err.textContent = "We need " + missing.join(", ").replace(/, ([^,]*)$/, " and $1") + " — that's what we look for.";
-        err.hidden = false;
-        (!from.value.trim() ? from : !to.value.trim() ? to : dep).focus();
-        return;
-      }
-      err.hidden = true;
+      const needed = [from, to, views.dep];
+      const empty = needed.filter((el) => !el.value.trim());
+      needed.forEach((el) => el.classList.toggle("fs-miss", !el.value.trim()));
+      if (empty.length) { empty[0].focus(); return; }
       paintRecap();
       step(2);
       $(".fs-name").focus({ preventScroll: true });
     });
+
+    // the mark clears the moment the field is being answered
+    [from, to, views.dep].forEach((el) =>
+      el.addEventListener("input", () => el.classList.remove("fs-miss")));
 
     $(".fs-back").addEventListener("click", () => step(1));
 
