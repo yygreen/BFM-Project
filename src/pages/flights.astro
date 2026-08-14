@@ -34,7 +34,7 @@ const jsonld = {
 ---
 <Base
   title="Business & First Class Award Tickets | Quoted First | buyflightmiles"
-  description={`Business and first class award seats sourced to your route and dates${savings ? `, ${savings}` : ""}. We check what the programs have open and quote the seat before you pay.`}
+  description={`${savings ? savings + ". " : ""}Business and first class award seats sourced to your route and dates. We check what the programs have open and quote the seat before you pay.`}
   slug="flights"
   jsonld={jsonld}
 >
@@ -46,7 +46,7 @@ const jsonld = {
       ]} />
       <div class="section-head">
         <span class="kicker">Award flights</span>
-        <h1>Business and first class, {savings ? "for a quarter less" : "sourced for your dates"}</h1>
+        <h1>Business and first class, sourced for your dates</h1>
         {savings && (
           <p class="fs-save">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>

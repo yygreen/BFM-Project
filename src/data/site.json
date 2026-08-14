@@ -113,8 +113,7 @@
   },
   "testimonials": [],
   "flights": {
-    "savingsPercent": 25,
-    "savingsVersus": "the cash fare",
+    "savingsClaim": "Save up to 25% and more compared to the cash fare",
     "verified": true
   }
 }

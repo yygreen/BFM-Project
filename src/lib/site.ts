@@ -91,8 +91,10 @@ const schema = z.object({
   // is a different benchmark from the miles side below — that one compares our
   // per-mile rate against what the airline charges for its own miles.
   flights: z.object({
-    savingsPercent: z.number().positive().max(100).nullable(),
-    savingsVersus: z.string(),
+    // The whole sentence, not a percentage plus a preposition. This one is
+    // being worded and reworded, and a claim assembled from parts means every
+    // rewrite is a code change; as a string the client owns the phrasing.
+    savingsClaim: z.string(),
     verified: z.boolean(),
   }),
 
@@ -280,11 +282,10 @@ type DirectBuy = { cents: number; source: string; checked: string; verified: boo
  * for the whole site: a claim worded differently on two pages reads as two
  * different claims.
  */
-export const flightSavings = (): string | null => {
-  const f = site.flights;
-  if (!f.verified || !f.savingsPercent) return null;
-  return `${f.savingsPercent}% or more below ${f.savingsVersus}`;
-};
+export const flightSavings = (): string | null =>
+  site.flights.verified && site.flights.savingsClaim.trim()
+    ? site.flights.savingsClaim.trim()
+    : null;
 
 export const directBuyRate = (programDirect: DirectBuy): number | null => {
   if (programDirect?.verified) return programDirect.cents;
