@@ -1193,11 +1193,12 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-route { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:end; margin-bottom:14px; }
 .fs-when { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:16px; }
 .fs-field { position:relative; min-width:0; }
-.fs-field label, .fs-lab { display:block; font-size:13px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
-.fs-in { width:100%; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--surface);
-  border:1.5px solid var(--line-2); border-radius:var(--radius); padding:12px 14px; }
-.fs-in:focus { outline:none; border-color:var(--cobalt); box-shadow:0 0 0 3px var(--cobalt-tint); }
-.fs-swap { flex:none; width:42px; height:46px; display:flex; align-items:center; justify-content:center;
+.fs-lab { display:block; font-size:13.5px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
+/* the widget's fields ARE the site's fields: .field carries the border, focus
+   ring, padding and the painted select chevron, so there is one definition to
+   keep in step rather than two that drift */
+.fs-field { margin-bottom:0; }
+.fs-swap { flex:none; width:46px; height:47px; display:flex; align-items:center; justify-content:center;
   background:var(--raised); border:1.5px solid var(--line-2); border-radius:var(--radius);
   color:var(--text-2); cursor:pointer; }
 .fs-swap svg { width:17px; height:17px; }
@@ -1228,6 +1229,11 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 }
 /* step 2 of the configurator: the brief stays on screen above the fields that
    answer it, so nothing the visitor just chose has to be remembered */
+.fs-nav { margin-bottom:18px; }
+.fs-nav li { cursor:default; }
+.fs-nav li[data-for="1"] { cursor:pointer; }
+.fs-nav li { background:var(--raised); }
+.fs-nav li.on { background:var(--surface); }
 .fs-recap { background:var(--raised); border:1px solid var(--line); border-radius:var(--radius);
   padding:14px 16px; margin-bottom:18px; position:relative; }
 .fs-back { display:inline-block; background:none; border:0; padding:0; margin-bottom:8px; cursor:pointer;
@@ -1235,11 +1241,8 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-back:hover { text-decoration:underline; }
 .fs-recap-route { font-family:var(--display); font-weight:800; font-size:16px; line-height:1.35; }
 .fs-recap-meta { font-size:13px; color:var(--text-2); margin-top:4px; }
-.fs-priv { margin:0 0 16px; font-size:13px; line-height:1.6; color:var(--text-2);
-  background:var(--cobalt-tint); border-radius:var(--radius); padding:12px 14px; }
-.fs-priv b { color:var(--ink); }
 .fs-when-2 { margin-bottom:14px; }
-.fs-form textarea.fs-in { resize:vertical; min-height:88px; font-family:var(--sans); }
+.fs-form textarea { min-height:88px; }
 .fs-submit { width:100%; }
 .fs-err { margin:10px 0 0; font-size:13px; font-weight:600; color:var(--danger); }
 .fs-note a { color:var(--cobalt); font-weight:600; }
