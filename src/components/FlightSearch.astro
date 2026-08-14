@@ -45,11 +45,13 @@ const notWired = orderEmail
     </div>
   )}
 
-  <!-- Two steps, named, so the length of the thing is visible before it starts.
-       Same control the order flow uses. -->
-  <ol class="ostep-nav fs-nav" aria-label="Progress">
-    <li class="on" data-for="1"><b>1</b><span>Your trip</span></li>
-    <li data-for="2"><b>2</b><span>How to reach you</span></li>
+  <!-- The quote widget's own step marker, not the order flow's labelled pills.
+       Two steps this short do not need naming, and a full-width labelled bar
+       above a card sitting inside a page section read as page navigation
+       rather than as progress inside a form. -->
+  <ol class="qw-dots fs-dots" aria-hidden="true">
+    <li class="on" data-dot="1"></li>
+    <li data-dot="2"></li>
   </ol>
 
   <!-- STEP 1 — the brief -->
@@ -478,18 +480,10 @@ const notWired = orderEmail
 
     function step(n) {
       root.querySelectorAll(".fs-step").forEach((s) => { s.hidden = s.dataset.step !== String(n); });
-      root.querySelectorAll(".fs-nav li").forEach((li) => {
-        li.classList.toggle("on", Number(li.dataset.for) <= n);
+      root.querySelectorAll(".fs-dots li").forEach((el) => {
+        el.classList.toggle("on", Number(el.dataset.dot) <= n);
       });
     }
-
-    // step 1 is reachable from the indicator, the same way the order flow lets
-    // you go back but never skip ahead
-    root.querySelectorAll(".fs-nav li").forEach((li) => {
-      li.addEventListener("click", () => {
-        if (Number(li.dataset.for) === 1) step(1);
-      });
-    });
 
     // ---- step 1 → 2. No page navigation: the answer to "where do I put my
     //      email" is right where the visitor already is.

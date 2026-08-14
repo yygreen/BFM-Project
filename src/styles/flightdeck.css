@@ -1231,11 +1231,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 }
 /* step 2 of the configurator: the brief stays on screen above the fields that
    answer it, so nothing the visitor just chose has to be remembered */
-.fs-nav { margin-bottom:18px; }
-.fs-nav li { cursor:default; }
-.fs-nav li[data-for="1"] { cursor:pointer; }
-.fs-nav li { background:var(--raised); }
-.fs-nav li.on { background:var(--surface); }
+.fs-dots { margin:0 0 18px; }
 .fs-recap { background:var(--raised); border:1px solid var(--line); border-radius:var(--radius);
   padding:14px 16px; margin-bottom:18px; position:relative; }
 .fs-back { display:inline-block; background:none; border:0; padding:0; margin-bottom:8px; cursor:pointer;
