@@ -632,6 +632,25 @@ const notWired = labels.notWired ?? (orderEmail
       }
     });
 
+    // Every "get a quote" button on a page is an anchor to #quote, and on
+    // desktop the widget is usually already on screen when one is clicked —
+    // the jump moves the page a few pixels and the click looks like it did
+    // nothing. Landing the cursor in the amount field is the visible
+    // response: the field lights up, and the visitor is exactly one number
+    // away from a price. preventScroll leaves the anchor's own (smooth)
+    // scroll in charge of position; focus only applies while step 1 is
+    // showing, since step 2 has no amount to type.
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest && e.target.closest('a[href$="#quote"]');
+      if (!link || !miles1 || miles1.offsetParent === null) return;
+      // after the hash navigation, which moves focus itself and would stomp
+      // an immediate .focus(); preventScroll leaves the anchor scroll alone
+      setTimeout(() => {
+        miles1.focus({ preventScroll: true });
+        miles1.select();
+      }, 80);
+    });
+
     applyBounds(byId[prog.value]);
     render();
   })();
