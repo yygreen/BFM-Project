@@ -25,6 +25,7 @@ import { realReviews, yearsTrading } from "../../../lib/site";
 import { usd, per1000, costOf } from "../../../lib/money";
 import { fxFor, fxDate, moneyTpl } from "../../../lib/fx";
 import { LOCALES } from "../../../lib/locales";
+import { CALC } from "../../../lib/calc-locales";
 
 const rev = realReviews[0];
 const years = yearsTrading();
@@ -39,48 +40,14 @@ const DE_FX = LOCALES.de.fx!;
 const fx = fxFor(DE_FX.currency);
 const deStamp = fx?.date ? fxDate(fx.date, "de-DE") : "";
 
-// German strings for the quote widget's chrome. UI copy lives here in the
-// template (shared across programs); marketing copy stays in the data.
+// The widget's German strings live in the locale registry (shared with the
+// localized calculator); this page only adds the live euro-conversion fields,
+// which are per-build and can't live in a static registry.
 const DE_WIDGET = {
-  program: "Programm",
-  howMany: "Wie viele Meilen?",
-  est: "Geschätzter Preis",
-  rate: "Preis pro Meile",
-  delivery: "Lieferung",
-  onQuote: "auf Anfrage",
-  note: "Richtwert. Den genauen Preis bestätigen wir in deinem Angebot, bevor du zahlst.",
-  continue: "Weiter →",
-  back: "← Programm wechseln",
-  backLocked: "Menge ändern →",
-  milesUnit: "Meilen",
-  name: "Name *",
-  email: "E-Mail *",
-  contact: "WhatsApp / Telegram",
-  contactPh: "Optional: wie sollen wir dir antworten?",
-  submit: "Angebot anfordern",
-  orderInstead: "Direkt bestellen? Kontodaten angeben →",
-  foot: "Die Zahlung läuft außerhalb dieser Website. Nach deiner Kontonummer fragen wir erst, wenn du das Angebot angenommen hast.",
-  per1000: "≈ {v} je 1.000 Meilen",
-  range: "Bestellungen laufen von {min} bis {max} Meilen.",
-  below: "Bestellungen bei {program} starten bei {min} Meilen.",
-  above: "Eine einzelne {program}-Bestellung geht bis {max} Meilen.",
-  use: "{v} verwenden",
-  sending: "Wird gesendet…",
-  ok: "Danke, deine Anfrage ist da. Wir melden uns mit dem genauen Preis und dem Lieferzeitraum.",
-  errGeneric: "Etwas ist schiefgelaufen. Bitte schreib uns stattdessen eine E-Mail.",
-  errNetwork: "Verbindungsfehler. Versuch es noch einmal oder schreib uns direkt.",
-  rateUnit: "¢/Meile",
-  saveVs: "Ersparnis gegenüber dem Direktkauf: {v}¢",
-  d24: "innerhalb von 24 Stunden",
-  dHours: "{n} Stunden",
-  milesLabel: "Meilen",
-  // "25,000" reads as twenty-five to a German speaker — the widget groups its
-  // figures by this rather than the English default
-  numLocale: "de-DE",
+  ...LOCALES.de.widget,
   fxRate: fx?.rate ?? null,
   fxMoney: moneyTpl(DE_FX.currency),
   fxNote: fx ? DE_FX.note.replaceAll("{d}", deStamp) : "",
-  notWired: "Angebotsanfragen sind noch nicht angebunden. Schreib uns direkt, wir kalkulieren deinen Preis.",
 };
 
 const DE_SAVINGS = {
@@ -207,9 +174,14 @@ const jsonld = [
             </a>
             <h1>{t.heroHeadline}</h1>
             <p class="sub">{t.heroSub}</p>
-            <div class="cta-row">
-              <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
-            </div>
+            {/* No button pair — the widget sits beside this column and IS the
+                hero's action, so a "get a quote" button jumped to something
+                already on screen and read as doing nothing. Same reasoning,
+                same fix as the English hero: a quiet link to the one page the
+                hero doesn't show, the full calculator. */}
+            <p class="hero-more">
+              <a href={`/de/calculator/${a.slug}`}>{CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}</a>
+            </p>
             {/* the English page's row, translated: rating, turnaround, track
                 record, each with the same fallback when its figure isn't
                 confirmed. Nothing extra — a fact that exists only in one

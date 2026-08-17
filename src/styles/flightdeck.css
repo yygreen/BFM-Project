@@ -1156,6 +1156,8 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .hero-more { margin:22px 0 0; font-size:14.5px; }
 .hero-more a { color:var(--cobalt); font-weight:600; }
 .hero-more a::after { content:" →"; }
+/* the arrow follows reading direction on the RTL pages */
+[dir="rtl"] .hero-more a::after { content:" ←"; }
 .hero-more a:hover { text-decoration:underline; }
 
 /* shortfall calculator shares the savings tool's shell and field styling */

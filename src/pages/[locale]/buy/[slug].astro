@@ -21,6 +21,7 @@ import SavingsTool from "../../../components/SavingsTool.astro";
 import { getCollection } from "astro:content";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { LOCALES, GENERIC_LOCALES, EN_FLAG } from "../../../lib/locales";
+import { CALC } from "../../../lib/calc-locales";
 import { fxFor, fxDate, moneyTpl, moneySymbol } from "../../../lib/fx";
 
 const rev = realReviews[0];
@@ -101,9 +102,14 @@ const savings = {
             </a>
             <h1>{t.heroHeadline}</h1>
             <p class="sub">{t.heroSub}</p>
-            <div class="cta-row">
-              <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
-            </div>
+            {/* No button pair — the widget sits beside this column and IS the
+                hero's action, so a "get a quote" button jumped to something
+                already on screen and read as doing nothing. Same reasoning,
+                same fix as the English hero: a quiet link to the one page the
+                hero doesn't show, the localized calculator. */}
+            <p class="hero-more">
+              <a href={`/${locale}/calculator/${a.slug}`}>{CALC[locale].seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}</a>
+            </p>
             <!-- the same three slots as the English hero, each falling back to
                  an always-true claim when its figure isn't confirmed, so the
                  row never invents a number in any language -->
