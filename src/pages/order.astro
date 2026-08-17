@@ -16,6 +16,7 @@
 import Base from "../layouts/Base.astro";
 import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactChannels from "../components/ContactChannels.astro";
 import ProgramSelect from "../components/ProgramSelect.astro";
 import { getCollection } from "astro:content";
 import { site, quoteFormReady, paymentSentence, mailtoInbox } from "../lib/site";
@@ -179,7 +180,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
                 handled off this site, after you've approved that quote — no card details are
                 ever collected here.
               </p>
-              <div class="field">
+              <div class="field" style="margin-top:16px">
                 <label for="o-paypref">Preferred method (optional)</label>
                 <input id="o-paypref" name="payment_preference" type="text" placeholder="However you'd prefer to settle" />
               </div>
@@ -213,6 +214,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
             <button type="submit" class="btn btn-primary" id="order-submit">Send my request</button>
           </div>
           <p class="form-msg" id="order-msg" hidden></p>
+          <ContactChannels context="my order" />
         </div>
       </form>
 

@@ -25,7 +25,7 @@ const savingsHtml = flightSavingsHtml();
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "Service",
-  name: "Business and first class award ticket sourcing",
+  name: "Business and first class flight sourcing",
   provider: { "@type": "Organization", name: "buyflightmiles" },
   serviceType: "Award ticket sourcing",
   areaServed: "Worldwide",
@@ -34,8 +34,8 @@ const jsonld = {
 };
 ---
 <Base
-  title="Business & First Class Award Tickets | Quoted First | buyflightmiles"
-  description={`${savings ? savings + ". " : ""}Business and first class award seats sourced to your route and dates. We check what the programs have open and quote the seat before you pay.`}
+  title="Business & First Class Flights for Less | buyflightmiles"
+  description={`${savings ? savings + ". " : ""}Business and first class seats sourced to your route and dates. We check what the programs have open and quote the seat before you pay.`}
   slug="flights"
   jsonld={jsonld}
 >
@@ -43,10 +43,10 @@ const jsonld = {
     <div class="container">
       <Breadcrumbs items={[
         { label: "Home", href: "/" },
-        { label: "Award flights" },
+        { label: "Flights" },
       ]} />
       <div class="section-head">
-        <span class="kicker">Award flights</span>
+        <span class="kicker">Business &amp; first class</span>
         <h1>Business and first class, sourced for your dates</h1>
         {savings && (
           <p class="fs-save" set:html={savingsHtml} />

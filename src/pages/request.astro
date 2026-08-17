@@ -8,6 +8,7 @@
 import Base from "../layouts/Base.astro";
 import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactChannels from "../components/ContactChannels.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
@@ -47,6 +48,7 @@ const notWired = orderEmail
         <Turnstile />
         <button type="submit" class="btn btn-primary" id="request-submit" style="width:100%;margin-top:14px">Send request</button>
         <p class="form-msg" id="request-msg" hidden></p>
+        <ContactChannels context="a program request" />
         <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">Nothing is charged on this site. We reply with availability and a firm rate first.</p>
         <p style="color:var(--text-3);font-size:13px;text-align:center;margin:14px 0 0">
           Not about a specific program? <a href="/contact" style="color:var(--cobalt);font-weight:600">Contact us</a> instead.

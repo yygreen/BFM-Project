@@ -17,6 +17,7 @@
 // 300 entries into every page that embeds this. The fields accept free text,
 // so an airport missing from the list is a convenience gap and never a wall.
 import Turnstile from "./Turnstile.astro";
+import ContactChannels from "./ContactChannels.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const {
@@ -174,13 +175,14 @@ const notWired = orderEmail
 
       <button type="submit" class="btn btn-primary fs-submit">Send the enquiry</button>
       <p class="form-msg fs-msg" hidden></p>
+      <ContactChannels context="a business class flight" />
       <input type="hidden" class="fs-fallback" value={notWired} />
     </form>
   </div>
 
   <p class="fs-note">
     Free and no-obligation. We quote before you pay, and nothing is charged on this website.
-    {moreLink && <> <a href="/flights">How award flights work →</a></>}
+    {moreLink && <> <a href="/flights">How we source your seat →</a></>}
   </p>
 </div>
 
