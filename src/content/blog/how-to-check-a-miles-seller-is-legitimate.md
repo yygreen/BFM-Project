@@ -1,6 +1,7 @@
 ---
 title: "How to check a miles seller is legitimate"
 description: "A practical checklist for vetting anyone selling airline miles, including the questions we'd want you to ask us before you send money."
+image: "/blog/how-to-check-a-miles-seller-is-legitimate.jpg"
 date: 2026-08-06
 category: "Guide"
 programs: []

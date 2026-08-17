@@ -1,6 +1,7 @@
 ---
 title: "HawaiianMiles Are Now Atmos Rewards: What Happened to Your Balance"
 description: "HawaiianMiles closed on 1 October 2025 and every balance moved 1:1 into Atmos Rewards, the combined Alaska and Hawaiian program. What changed, what didn't, and whether the points still expire."
+image: "/blog/hawaiianmiles-are-now-atmos-rewards.jpg"
 date: 2026-08-12
 category: "News"
 programs: ["hawaiian-miles", "alaska-mileage-plan"]
