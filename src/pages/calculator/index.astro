@@ -12,7 +12,7 @@ const airlines = (await getCollection("airlines"))
 ---
 <Base
   title="Airline Miles Calculator | Every Major Program | buyflightmiles"
-  description="Calculate what airline miles cost to buy and whether buying beats the cash fare, for 18 loyalty programs. Live rates, exact price confirmed before you pay."
+  description={`Calculate what airline miles are worth and what they cost to buy, for ${airlines.length} loyalty programs. Live rates, exact price confirmed before you pay.`}
   slug="calculator"
 >
   <section class="section">

@@ -22,6 +22,13 @@ export async function getStaticPaths() {
 }
 
 const { a } = Astro.props;
+// The worth phrasing leads; the program-named calculator tag stays while the
+// whole line fits a search result, and degrades to the bare word when the
+// program name would push it past ~70 characters (Rapid Rewards, Miles&Smiles).
+const titleFull = (tag) => `How Much Are ${a.airline} Miles Worth? | ${tag} Calculator`;
+const pageTitle = titleFull(a.program.replace(/\s*\(.*\)$/, "")).length <= 70
+  ? titleFull(a.program.replace(/\s*\(.*\)$/, ""))
+  : `How Much Are ${a.airline} Miles Worth? | Miles Calculator`;
 const verified = a.priceVerified;
 const approx = verified ? "" : "~";
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
@@ -74,7 +81,7 @@ const faqs = [
   // arithmetic MEANS: what a mile is worth, when cash wins, what the figure
   // excludes, and what it can't tell you.
   {
-    q: `How much are ${progMiles} worth?`,
+    q: `Is there a single fixed value for a ${progShort} mile?`,
     open: true,
     a: `There is no fixed value. A mile is worth what its redemption saves you: divide the cash fare by the miles the award needs. Above ${approx}${a.pricePerMile}¢ per mile the miles are worth more than they cost to buy, and long-haul premium-cabin awards usually clear that bar by the widest margin.`,
   },
@@ -106,8 +113,8 @@ const faqJsonLd = {
 };
 ---
 <Base
-  title={`${a.airline} Miles Calculator | Price ${progShort} Instantly`}
-  description={`Calculate what ${a.airline} ${progMiles} cost at ${approx}${a.pricePerMile}¢ per mile, and whether buying them beats the cash fare. Exact rate confirmed in your quote.`}
+  title={pageTitle}
+  description={`What ${a.airline} ${progMiles} are worth, and what they cost to buy at ${approx}${a.pricePerMile}¢ per mile. Price any amount live and see where the break-even sits against your cash fare.`}
   slug={`calculator/${a.slug}`}
 >
   <section class="hero">
@@ -120,12 +127,12 @@ const faqJsonLd = {
             { label: `${a.airline} ${progShort}` },
           ]} />
           <span class="kicker">Calculator</span>
-          <h1>{a.airline} miles calculator</h1>
+          <h1>How much are {a.airline} miles worth?</h1>
           <p class="sub">
-            What {progMiles} cost to buy, computed live at the {approx}{a.pricePerMile}¢
-            per mile rate — type an amount, see the price. Your exact rate is confirmed in the
-            quote before you pay, and the verdict on whether buying beats your cash fare lives
-            on the <a href={`/buy/${a.slug}#worth`}>{progShort} page</a>.
+            A mile is worth what its redemption saves you: divide the cash fare by the miles
+            the award needs. Above {approx}{a.pricePerMile}¢ per mile — what {progMiles} cost
+            to buy here — the miles beat the fare. Price your amount live, and the verdict on
+            your real fare lives on the <a href={`/buy/${a.slug}#worth`}>{progShort} page</a>.
           </p>
           <div class="spec">
             <span class="spec-it">
@@ -150,8 +157,8 @@ const faqJsonLd = {
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <h2>{progShort} at a glance</h2>
-        <p>Common order sizes at the {approx}{a.pricePerMile}¢ rate — the same arithmetic the calculator runs.</p>
+        <h2>{a.airline} miles calculator</h2>
+        <p>Type any amount in the tool above, or read the common order sizes here — both run the same arithmetic, at the same {approx}{a.pricePerMile}¢ rate.</p>
       </div>
       <div class="rate-rows">
         {rows.map((m) => (
