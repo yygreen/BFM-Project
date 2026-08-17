@@ -133,8 +133,8 @@ mindmap
       upgrade with miles
         LIVES ON /buy, short facts
         25,040/mo informational gap, 3,080 under KD 30
-        built on 3 of 21 — Qatar, Hawaiian, Alaska
-        EVA is the priority fill, 1,070/mo proven
+        BUILT ON ALL 21 — faqExtras + factsChecked Aug 2026
+        14 pages carry a chart-verified priced award
     Program is stale
       currency renamed or merged
         Atmos News post SHIPPED, with hero art
@@ -283,21 +283,21 @@ chart (140), program name (320), mileage program (210+170), upgrades (170),
 expiry (30). The new site has no equivalent, and `/buy/eva-air` mentions "award
 chart" zero times.
 
-**The schema already supports this.** `quirks`, `mechanics`, `valueBands`,
-`faqExtras` and `factsChecked` all exist in `content.config.ts` and all render.
-Three of 21 programs fill them:
+**All 21 programs now fill these fields** (August 2026 rollout): every `/buy`
+page carries 2–4 `faqExtras` (rendered in the FAQ + FAQPage JSON-LD, the
+award-chart / expiry / upgrade questions answered with sourced numbers),
+`quirks` + `mechanics` as checked data, and a `factsChecked: "August 2026"`
+stamp. Fourteen pages now carry a chart-verified priced award in
+`sweetSpots[0].miles`, which lights the "from X miles" line, the savings-tool
+preset and the calculator's named break-even row.
 
-```
-qatar-avios          quirks 3  mechanics 4  valueBands 3  faqExtras 3  factsChecked Aug 2026
-hawaiian-miles       quirks 2  mechanics 5  valueBands -  faqExtras 3  factsChecked Aug 2026
-alaska-mileage-plan  quirks 2  mechanics 4  valueBands -  faqExtras 2  factsChecked Aug 2026
-other 18             -         -            -             -            -
-```
-
-So this is data entry into a template that already ships, not new engineering.
-It does need real facts, which is what `factsChecked` is for, and Hawaiian
-showed why: two of the three filled so far had something factually wrong on
-the page before the research started.
+The research pass kept proving the correctness axis: before it, the United
+page still advertised the Excursionist Perk (dead August 2025), ANA's page
+led with the round-the-world award (eliminated June 2025), and BA's program
+label still said Executive Club (renamed April 2025). Facts marked only
+medium-confidence in research (Etihad's observed dynamic prices, Lufthansa's
+derived one-way partner rate) were phrased as observations or kept to the
+round-trip chart figure rather than shipped as hard from-prices.
 
 Separately, `directBuy` is now sourced on five programs and rendered on three.
 Delta, United and KrisFlyer publish a saving against the airline's list price
@@ -314,11 +314,10 @@ Status as of 12 August 2026.
 
 1. ~~**Fill `quirks` / `mechanics` / `faqExtras` for Hawaiian**~~ **done**, and
    it took Alaska with it, since after the merger the two pages describe one
-   program. ~~**Then Turkish, Asia Miles, EVA**~~ **reordered against the
-   informational split above: EVA, then Cathay, then Delta.** Those are the
-   only three left with reachable informational demand. Turkish drops off this
-   list entirely, with one informational keyword at KD 52. The other seventeen
-   stay worth doing for correctness and conversion, at no urgency.
+   program. ~~**Then Turkish, Asia Miles, EVA**~~ ~~**reordered: EVA, then
+   Cathay, then Delta.**~~ **All 21 done** (August 2026): the full roster now
+   carries faqExtras / quirks / mechanics / factsChecked, with priced awards
+   on the 14 programs whose charts publish a hard number.
 
 2. **Add the real phrasings to each `/buy/` FAQ.** *Can you buy {program}
    miles?*, *How much does it cost to buy {n} {program} miles?*, *How to buy
