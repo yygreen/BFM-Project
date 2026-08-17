@@ -23,12 +23,15 @@ const notWired = orderEmail
   slug="request"
 >
   <section class="section">
-    <div class="container" style="max-width:640px">
+    <div class="container">
       <Breadcrumbs items={[
         { label: "Home", href: "/" },
         { label: "Custom request" },
       ]} />
-      <div class="section-head" style="text-align:center;margin:0 auto 24px">
+      {/* full container width, head left-aligned — the same shell as every
+          other page; the old 640px centered column made this one read like a
+          different site */}
+      <div class="section-head" style="margin-bottom:24px">
         <span class="kicker">Custom request</span>
         <h1>Tell us what you need</h1>
         <p>Program not on our list? Send the details and we'll check availability and price. You get a firm quote before anything is paid.</p>
