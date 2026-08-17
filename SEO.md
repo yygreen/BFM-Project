@@ -159,7 +159,7 @@ mindmap
       transfers cluster strongest: AA Delta United Southwest
       18 of 21 programs linked from posts
       orphans: JetBlue, Aeroplan, Cathay
-      og:image NOT emitted anywhere — shares render bare
+      og:image WIRED site-wide — posts share their hero art, all else the brand card
     Flights
       business & first class, second product
       /flights built, savings claim live

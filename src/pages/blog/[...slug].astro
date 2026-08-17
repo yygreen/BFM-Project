@@ -61,9 +61,18 @@ const jsonld = {
   publisher: { "@type": "Organization", name: "buyflightmiles" },
   mainEntityOfPage: `${base}/blog/${post.id}`,
   ...(d.source && { citation: d.source }),
+  ...(d.image && { image: `${base}${d.image}` }),
 };
 ---
-<Base title={`${d.title} | buyflightmiles`} description={d.description} slug={`blog/${post.id}`} jsonld={jsonld}>
+<Base
+  title={`${d.title} | buyflightmiles`}
+  description={d.description}
+  slug={`blog/${post.id}`}
+  jsonld={jsonld}
+  {...(d.image
+    ? { ogImage: d.image, ogImageAlt: d.imageAlt ?? d.title, ogImageWidth: 1376, ogImageHeight: 768 }
+    : {})}
+>
   <article class="section" style="padding-top:32px">
     <div class="container">
       <Breadcrumbs items={[

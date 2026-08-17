@@ -20,3 +20,13 @@ Then copy the three SVGs into /public and re-raster the PNG fallbacks
 full-bleed square — iOS masks it itself, transparent corners render black).
 To change the mark, edit the control points or dot positions in compose.mjs
 and regenerate — never nudge coordinates in the shipped SVGs.
+
+## Share card (public/og/default.jpg)
+
+The site-wide og:image is rendered from `og-card.html` (1200×630): open it in
+a browser at exactly 1200×630 and screenshot as JPEG (quality ~86 lands well
+under 100 KB), or drive it with Playwright. It reuses `public/logo.svg`
+directly plus an oversized, low-opacity restatement of the route motif, so a
+logo regeneration carries into the card by re-rendering — don't edit the JPEG.
+Blog posts override the card with their own hero art via the `image`
+frontmatter; everything else falls back to this file (wired in Base.astro).
