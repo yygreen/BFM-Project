@@ -173,8 +173,22 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- COVERAGE -->
-  <section class="section" style="padding-top:0">
+  <!-- Mid-page CTA. The apply form sits five sections down, and the reader
+       who is sold after seeing the process shouldn't have to scroll past the
+       roster, trust and the FAQ to find it. -->
+  <section class="section wash-cool" style="padding-top:28px;padding-bottom:28px">
+    <div class="container ctaband">
+      <div>
+        <h3>Ready for partner pricing?</h3>
+        <p>Six fields, and we come back with your rates and a direct contact.</p>
+      </div>
+      <a class="btn btn-primary" href="#apply">Apply now</a>
+    </div>
+  </section>
+
+  <!-- COVERAGE — full top padding again: it used to ride on the section above,
+       but now it follows the wash band and needs its own breathing room -->
+  <section class="section">
     <div class="container">
       <div class="section-head"><h2>Every major program</h2><p>Top up any of these for your clients, and more on request.</p></div>
       <div class="grid grid-mini" style={`--span4:${askSpan(4)};--span3:${askSpan(3)};--span2:${askSpan(2)}`}>
