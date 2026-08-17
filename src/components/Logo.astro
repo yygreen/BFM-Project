@@ -1,15 +1,21 @@
 ---
-// Brand lockup — the actual buyflightmiles asset, taken from the live site
-// (its theme ships 1x PNGs only; if a vector or 2x export turns up, drop it
-// in /public and point these paths at it — nothing else changes).
+// Brand lockup — "the last miles, closed". A route line trails off into three
+// coral dots short of its destination waypoint; the gap is the product. Both
+// variants are SVGs with the wordmark converted to outlines, so the logo has
+// no font dependency and stays crisp at every size (the old asset was a 1×
+// PNG traced off the WordPress theme).
 //
-// dark  = navy mark for light backgrounds (header)
-// light = white mark for the dark footer
+// The files are generated, not hand-drawn — see scripts/brand/. The solid
+// route, the dots and the ring derive from ONE bézier, with the dots placed
+// at true arc-length positions. To tweak the mark, regenerate — don't nudge
+// coordinates in the SVGs.
+//
+// dark  = ink wordmark for light backgrounds (header)
+// light = white wordmark + lifted cobalt for the dark footer
 const { variant = "dark", size = 30 } = Astro.props;
-const src = variant === "light" ? "/footer-logo.png" : "/logo.png";
-// natural sizes: logo.png 172×40, footer-logo.png 165×54 — width/height
-// attributes keep the layout from shifting while the image loads
-const ratio = variant === "light" ? 165 / 54 : 172 / 40;
+const src = variant === "light" ? "/logo-light.svg" : "/logo.svg";
+// both files share one viewBox: 239×44
+const ratio = 239 / 44;
 ---
 <span class={`logo logo-${variant}`}>
   <img src={src} alt="buyflightmiles" width={Math.round(size * ratio)} height={size} />

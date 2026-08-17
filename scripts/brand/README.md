@@ -1,0 +1,22 @@
+# Brand mark generator
+
+The logo ("the last miles, closed") is generated, not hand-drawn. The solid
+route, the three coral dots and the destination ring all derive from one
+bézier; the dots sit at true arc-length positions, so spacing survives any
+tweak to the curve. The wordmark is Plus Jakarta Sans 500/800/500 converted
+to outlines, glyph by glyph with the font's own kerning.
+
+To regenerate (needs network for the fonts; opentype.js is not a project dep):
+
+    cd scripts/brand
+    npm i opentype.js
+    curl -sO https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_KUnNSg.ttf && mv LDIb*KUnNSg.ttf pjs-500.ttf
+    curl -sO https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_m07NSg.ttf && mv LDIb*m07NSg.ttf pjs-800.ttf
+    node outline.mjs     # wordmark → outlines (wordmark.json)
+    node compose.mjs     # writes logo.svg, logo-light.svg, favicon.svg
+
+Then copy the three SVGs into /public and re-raster the PNG fallbacks
+(favicon-32, icon-192, icon-512 from favicon.svg; apple-touch-icon at 180px
+full-bleed square — iOS masks it itself, transparent corners render black).
+To change the mark, edit the control points or dot positions in compose.mjs
+and regenerate — never nudge coordinates in the shipped SVGs.
