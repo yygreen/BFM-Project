@@ -467,8 +467,9 @@
     ],
     "sweetSpots": [
       {
-        "title": "Royal Laurel business",
-        "desc": "EVA's acclaimed business class to Asia at reasonable rates."
+        "title": "Royal Laurel business, Taipei to the US West Coast",
+        "desc": "EVA's acclaimed business class, one way on the current award chart.",
+        "miles": 75000
       },
       {
         "title": "Taipei hub connections",
@@ -536,7 +537,58 @@
         "ctaLabel": "索取報價",
         "reviewed": false
       }
-    }
+    },
+    "faqExtras": [
+      {
+        "q": "Does EVA Air publish an award chart?",
+        "a": "Yes, two: a zone-based award chart for EVA Air and UNI Air flights, and a separate chart for Star Alliance partners. On the current EVA chart, business class between North America and Asia runs 75,000 to 80,000 miles one way, and short intra-Asia business starts around 25,000. Find your award on the chart, then price the exact shortfall with the calculator above."
+      },
+      {
+        "q": "Can I upgrade an EVA Air flight with miles?",
+        "a": "Yes. Upgrade awards move a paid Economy ticket to Premium Economy or business, and Premium Economy up to business, but only from eligible fare classes — Standard and Up fares qualify, deep-discount economy usually doesn't. Upgrades are requested through EVA's site in advance, never at check-in. Check your ticket's fare class first, then buy the miles the upgrade needs."
+      },
+      {
+        "q": "Do EVA Air miles expire?",
+        "a": "After 36 months. There's a free extension built in: redeem any award miles and fly EVA or UNI Air internationally in the twelve months before expiry, and your unexpired miles extend 36 months from that travel date. Miles that do lapse can be reinstated for a fee within six months."
+      },
+      {
+        "q": "What is Infinity MileageLands?",
+        "a": "EVA Air's mileage program — the loyalty currency you earn flying EVA, UNI Air and Star Alliance partners, and the account your purchased miles land in. The name trips people up; the miles work like any major program's, and this page's rate, limits and delivery window all refer to it."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Upgrades check your fare class first",
+        "text": "An upgrade award only attaches to eligible paid fares — Standard and Up classes. Deep-discount economy tickets usually can't be upgraded at any mileage price, so confirm the fare class before buying miles for an upgrade."
+      },
+      {
+        "title": "The 36-month clock has a free reset",
+        "text": "Miles expire at 36 months, but redeeming award miles plus one EVA or UNI international flight in the final twelve months extends everything unexpired by another 36 from the travel date. Lapsed miles are reinstatable for a fee within six months."
+      },
+      {
+        "title": "Two award charts, not one",
+        "text": "EVA and UNI Air awards price from a zone-based chart; Star Alliance partner awards price from a separate one. The same route can cost differently depending on whose metal you book, which is worth checking before you size a top-up."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months; award redemption + an EVA/UNI international flight extends unexpired miles"
+      },
+      {
+        "label": "Book with",
+        "text": "EVA Air, UNI Air + Star Alliance (United, ANA, Singapore and more)"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Economy and Premium Economy move up one cabin, eligible fare classes only"
+      },
+      {
+        "label": "What we need",
+        "text": "Infinity MileageLands number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
   },
   {
     "id": "southwest-rapid-rewards",
