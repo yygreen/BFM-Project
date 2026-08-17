@@ -99,7 +99,7 @@ const faqs = [
   },
   {
     q: `Is there a minimum or maximum order?`,
-    a: `Orders run from ${num(a.min)} to ${num(a.max)} miles per transfer. If you need something outside that range, say so on the quote request and we'll tell you honestly whether we can do it.`,
+    a: `Orders run from ${num(a.min)} to ${num(a.max)} miles per transfer. If you need something outside that range, say so on the quote request and we'll confirm whether we can do it.`,
   },
 ];
 const faqJsonLd = {
@@ -229,7 +229,7 @@ const faqJsonLd = {
         {" "}That fare values each mile at <b class="mono">{exPer}¢</b> ({usd(exFare)} ÷ {num(exMiles)}),
         and buying them at {approx}{a.pricePerMile}¢ costs <b class="mono">{approx}{cost(exMiles)}</b>.
         Miles win by {approx}{usd(exSave)}. When the division lands below {approx}{a.pricePerMile}¢,
-        cash wins, and we say so.
+        cash wins.
       </div>
     </div>
   </section>

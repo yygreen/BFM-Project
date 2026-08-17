@@ -280,7 +280,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
 
         const stock = $("o-stock");
         stock.hidden = c.inStock;
-        if (!c.inStock) stock.textContent = "This program is showing limited availability. Send the request anyway and we'll tell you honestly what we can fill and when.";
+        if (!c.inStock) stock.textContent = "This program is showing limited availability. Send the request anyway and we'll confirm what we can fill, and when.";
 
         // review panel + the hidden fields that travel with the enquiry
         $("o-r-program").textContent = c.label;
