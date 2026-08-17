@@ -2,8 +2,9 @@
 title: "Do Airline Miles Expire? All 21 Programs, Checked August 2026"
 description: "Six of the programs we trade never expire miles. Nine run an activity clock any earn resets. Six expire on a fixed date nothing stops. The rule for each, dated."
 date: 2026-08-12
+updated: 2026-08-17
 category: "Guide"
-programs: ["avianca-lifemiles", "frontier-miles", "etihad-guest", "singapore-krisflyer", "turkish-miles-smiles", "emirates-skywards"]
+programs: ["avianca-lifemiles", "frontier-miles", "etihad-guest", "singapore-krisflyer", "turkish-miles-smiles", "emirates-skywards", "air-canada-aeroplan", "cathay-pacific-asia-miles", "jetblue-trueblue"]
 image: "/blog/do-airline-miles-expire.jpg"
 imageAlt: "Three panels, one per expiry rule: a clock with no hands, a clock circled by a blue arrow winding it back, and a clock with a fixed coral wedge on its dial"
 ---
@@ -30,14 +31,14 @@ program worked like the last one they used.
 | [Avianca LifeMiles](/buy/avianca-lifemiles) | 12 months with no earning | Earning only. Redeeming does not count |
 | [Frontier Miles](/buy/frontier-miles) | 12 months with no earning | Earning only. Cardholders are exempt |
 | [Cathay Asia Miles](/buy/cathay-pacific-asia-miles) | 18 months with no activity | Any earn or redemption |
-| [Air Canada Aeroplan](/buy/air-canada-aeroplan) | 18 months with no activity | Any earn or redemption |
+| [Air Canada Aeroplan](/buy/air-canada-aeroplan) | Paused until 30 November 2026, then 18 months with no activity, applied retroactively | Any earn or redemption |
 | [Etihad Guest](/buy/etihad-guest) | 18 months with no qualifying flight | Flying Etihad or a partner airline, and nothing else |
 | [American AAdvantage](/buy/american-aadvantage) | 24 months with no activity | Any earn or redemption |
 | [Air France-KLM Flying Blue](/buy/air-france-flying-blue) | 24 months with no earning | Earning only. Elite members are exempt |
 | [British Airways Avios](/buy/ba-avios) | 36 months with no activity | Any earn or redemption |
 | [Qatar Airways Avios](/buy/qatar-avios) | 36 months with no activity | Any earn or redemption |
 | [ANA Mileage Club](/buy/ana-mileage-club) | End of the 36th month after you earned them | Nothing. Diamond and million milers are exempt |
-| [EVA Infinity MileageLands](/buy/eva-air-miles) | 36 months from the travel or transfer date | Nothing |
+| [EVA Infinity MileageLands](/buy/eva-air-miles) | 36 months from the travel or transfer date | An award redemption plus an EVA or UNI international flight extends unexpired miles |
 | [Singapore KrisFlyer](/buy/singapore-krisflyer) | End of the 36th month after you earned them | Nothing free. A paid renewal buys six more months |
 | [Lufthansa Miles & More](/buy/lufthansa-miles-more) | 36 months, falling at the end of that quarter | Nothing. Elite status or the co-brand card exempts you |
 | [Turkish Miles&Smiles](/buy/turkish-miles-smiles) | End of the third calendar year after you earned them | Nothing free. A paid extension is offered |
@@ -82,6 +83,14 @@ transfers, shopping partners and mileage purchases no longer extend them. It is
 the strictest activity rule in the table and the one most likely to be
 remembered wrongly, because it used to work like everyone else's.
 
+**Aeroplan's clock is paused, and the restart has teeth.** Air Canada suspended
+points expiry through 29 November 2026. On 30 November the 18-month inactivity
+rule comes back, and it looks backward: an account with no activity in the 18
+months before that date loses its balance when the rule resumes, rather than
+getting a fresh clock. Any single earn or redemption before then protects
+everything. If you hold a dormant Aeroplan balance, this is the one date in
+this article worth putting in a calendar.
+
 The two Avios programs sit at the generous end at 36 months, which turns out to
 be its own trap. Three years is long enough to forget an account exists. We
 wrote up [how the Avios clock works and the fastest ways to reset it](/blog/do-avios-expire)
@@ -99,7 +108,10 @@ The mechanics differ in ways worth knowing:
   month, so everything earned in a month dies together on the last day of a
   month three years out.
 - **EVA Air** counts 36 months from the travel date, or from the date a partner
-  transfer was applied.
+  transfer was applied. It is the one program in this group with a free
+  extension built in: redeem any award miles and fly EVA or UNI Air
+  internationally in the final twelve months, and unexpired miles extend 36
+  months from that travel date.
 - **Miles & More** rounds to the end of the quarter, which usually buys a few
   extra weeks.
 - **Turkish** counts calendar years, not rolling months. Miles earned in

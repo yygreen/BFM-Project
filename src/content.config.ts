@@ -218,7 +218,9 @@ const blog = defineCollection({
 
     // Program slugs this post relates to — renders as internal links
     // back to the money pages. Existence is checked in the template.
-    programs: z.array(z.string()).max(6).default([]),
+    // capped to keep the link chips honest, not decorative; 9 exists for the
+    // all-programs roundups, which genuinely discuss more than six
+    programs: z.array(z.string()).max(9).default([]),
 
     // Where a factual claim came from. Required for News/Devaluations,
     // enforced by the refine below.

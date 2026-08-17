@@ -138,7 +138,7 @@ mindmap
     Program is stale
       currency renamed or merged
         Atmos News post SHIPPED, with hero art
-        Alaska valuation post still says Mileage Plan — open
+        Alaska valuation post updated to Atmos naming — closed
         factsChecked dates it
     Redemption
       how to use X miles
@@ -157,8 +157,7 @@ mindmap
     Blog layer
       11 posts, all with real hero art
       transfers cluster strongest: AA Delta United Southwest
-      18 of 21 programs linked from posts
-      orphans: JetBlue, Aeroplan, Cathay
+      ALL 21 programs linked from posts — orphans closed via the expiry roundup
       og:image WIRED site-wide — posts share their hero art, all else the brand card
     Flights
       business & first class, second product

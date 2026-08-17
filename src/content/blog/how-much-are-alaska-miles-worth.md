@@ -1,7 +1,8 @@
 ---
 title: "How Much Are Alaska Miles Worth? A Trader's Honest Answer"
-description: "Alaska miles are worth 1.2–1.5¢ on average and far more on partner awards, or almost nothing, redeemed badly. How to value Mileage Plan miles like someone who prices them for a living."
+description: "Alaska miles are worth 1.2–1.5¢ on average and far more on partner awards, or almost nothing, redeemed badly. How to value Atmos Rewards points like someone who prices them for a living."
 date: 2026-08-09
+updated: 2026-08-17
 category: "Valuations"
 programs: ["alaska-mileage-plan"]
 image: "/blog/how-much-are-alaska-miles-worth.jpg"
@@ -13,6 +14,12 @@ tidy number, usually around a cent and a half. Ask someone who prices miles
 for a living and you get the honest version: **a mile is worth what your next
 redemption makes it worth**, and for Alaska specifically, the spread between a
 bad redemption and a good one is about as wide as it gets in this market.
+
+One naming note before the numbers. The program you may know as Mileage Plan
+was renamed **Atmos Rewards** in August 2025, and
+[HawaiianMiles merged into it that October](/blog/hawaiianmiles-are-now-atmos-rewards).
+Same account, same balance, same partner awards; everything below values the
+same currency under its new name.
 
 ## The three numbers that matter
 
@@ -27,11 +34,11 @@ rates have to track them) we look at three figures, not one:
   ordinary people, that's the band Alaska miles land in. If someone quotes you
   a single "value" for the currency, this is the honest one.
 - **Ceiling: partner premium cabins, where Alaska has always punched above
-  its weight.** Mileage Plan's partner awards, long-haul business on its
-  oneworld and independent partners, are the reason this program has a cult
-  following. Booked well, the same mile that was worth a cent domestically
-  clears 4¢ and up. That's not a rounding error; it's a 4x difference in what
-  your balance buys.
+  its weight.** The program's partner awards, long-haul business on its
+  oneworld and independent partners, are the reason it earned a cult following
+  in its Mileage Plan years, and Atmos Rewards kept them. Booked well, the
+  same mile that was worth a cent domestically clears 4¢ and up. That's not a
+  rounding error; it's a 4x difference in what your balance buys.
 
 ## Why this matters if you're short
 
