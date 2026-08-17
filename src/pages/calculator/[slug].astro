@@ -252,7 +252,7 @@ const faqJsonLd = {
           </thead>
           <tbody>
             {awards.map((w) => (
-              <tr>
+              <tr class={w.named ? "be-named" : undefined}>
                 <td>{w.label}{!w.named && <span class="be-approx"> (illustrative)</span>}</td>
                 <td>{w.named ? "from " : "≈"}{num(w.miles)}</td>
                 <td>{approx}{cost(w.miles)}</td>
