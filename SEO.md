@@ -124,25 +124,22 @@ mindmap
     Valuation
       what are X miles worth
         /calculator/{slug} x21 built
+        RETITLED: title + h1 now ask the 3,530/mo question
+        calculator keyword kept as first h2
         wins AI Overviews today
-        3,070/mo gap
     Program mechanics
       award chart
       do X miles expire
       upgrade with miles
-      program name and alliance
         LIVES ON /buy, short facts
-        25,040/mo informational gap
-        only 3,080 of it under KD 30
-        demand concentrated in 4 programs
-        built on 3 of 21
+        25,040/mo informational gap, 3,080 under KD 30
+        built on 3 of 21 — Qatar, Hawaiian, Alaska
+        EVA is the priority fill, 1,070/mo proven
     Program is stale
       currency renamed or merged
-      alliance changed
-        found on Hawaiian and Alaska
-        no keyword, a correctness axis
+        Atmos News post SHIPPED, with hero art
+        Alaska valuation post still says Mileage Plan — open
         factsChecked dates it
-        written up as a News post
     Redemption
       how to use X miles
       best uses and sweet spots
@@ -150,13 +147,25 @@ mindmap
         1,510/mo gap
     Currency level
       buy avios points
-        NO PAGE
+        STILL NO PAGE
         390/mo gap, 4,400/mo UK head term
-        comprar avios 1,300/mo KD 26 in Spain
+        combine-avios post queued at 210/KD33
     Trust and legitimacy
       is buying miles legal
       miles seller scam
-        blog covers this
+        blog covers this, hero art shipped
+    Blog layer
+      11 posts, all with real hero art
+      transfers cluster strongest: AA Delta United Southwest
+      18 of 21 programs linked from posts
+      orphans: JetBlue, Aeroplan, Cathay
+      og:image NOT emitted anywhere — shares render bare
+    Flights
+      business & first class, second product
+      /flights built, savings claim live
+      NO content cluster yet
+      model is destination pages — competitor runs 194
+      blocked on Semrush units + client from-prices
     Languages
       9 pages, 6 languages, one route
       ar x3 built, ranks 1-4
