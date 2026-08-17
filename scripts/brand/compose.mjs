@@ -39,7 +39,9 @@ function curveTools(P) {
 
 // ---- lockup mark ----------------------------------------------------------
 // gentler entry than v1 (no flat hockey-stick foot), steady climb
-const P = [ {x:3,y:35}, {x:14,y:34}, {x:30,y:27}, {x:41,y:11} ];
+// P3 sits low enough that the ring past it clears the top of the viewBox —
+// at y:11 the ring's outer edge reached y=-1.1 and rendered shaved flat
+const P = [ {x:3,y:35}, {x:14,y:34}, {x:30,y:27}, {x:41,y:12.6} ];
 const C = curveTools(P);
 // solid route: first 58% of the arc
 const S = C.split(C.at(C.total*0.58).t).map(p=>({x:f2(p.x),y:f2(p.y)}));
