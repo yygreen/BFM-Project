@@ -531,10 +531,10 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .tool-more { margin-top:12px; font-size:13.5px; color:var(--text-3); line-height:1.6; }
 .tool-more a { color:var(--cobalt); font-weight:600; }
 
-/* worked division example under the math cards — carries the same coral rule
-   as the flights savings statement: it is the one sentence on the page where
-   the arithmetic pays off, and the warm accent marks exactly that */
-.workx { background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--coral);
+/* worked division example under the math cards. No coral border here: on a
+   rounded card the left rule curls around the corners and reads as a bracket.
+   The coral payoff figures carry the accent on their own. */
+.workx { background:var(--surface); border:1px solid var(--line);
   border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:20px 24px; margin-top:18px;
   font-size:15.5px; line-height:1.7; color:var(--text-2); }
 .workx > b:first-child { color:var(--ink); font-weight:700; }
