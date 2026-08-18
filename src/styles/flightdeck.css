@@ -531,14 +531,15 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .tool-more { margin-top:12px; font-size:13.5px; color:var(--text-3); line-height:1.6; }
 .tool-more a { color:var(--cobalt); font-weight:600; }
 
-/* worked division example under the math cards. No coral border here: on a
-   rounded card the left rule curls around the corners and reads as a bracket.
-   The coral payoff figures carry the accent on their own. */
+/* worked division example under the math cards. Deliberately coral-free: the
+   rule read as a bracket on the rounded card, and coral figures pulled focus
+   from the sentence. The calculator's coral lives in the rate-row leaders
+   and the break-even waypoint dots instead. */
 .workx { background:var(--surface); border:1px solid var(--line);
   border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:20px 24px; margin-top:18px;
   font-size:15.5px; line-height:1.7; color:var(--text-2); }
 .workx > b:first-child { color:var(--ink); font-weight:700; }
-.workx .mono { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--coral-2); }
+.workx .mono { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--text-1); }
 
 /* break-even variant of the compare table: the decision number moves to the
    third column, so the highlight follows it there */
