@@ -10,6 +10,7 @@
 // Payment still stays off this site — this is a quote request that emails us.
 import { getCollection } from "astro:content";
 import Turnstile from "./Turnstile.astro";
+import EnquiryMail from "./EnquiryMail.astro";
 import { site, quoteFormReady, directBuyRate, directBuySource, mailtoInbox } from "../lib/site";
 
 const {
@@ -77,6 +78,17 @@ const EN = {
   // "{n} €" or "NT${n}": the symbol goes where the market puts it, which is
   // not always after the number
   fxMoney: "{n}",
+  // Fallback email, written as a letter rather than a field dump. The row
+  // labels are reused from the strings above, so only the prose is new.
+  mailSubject: "Quote request: {program}, {miles} miles",
+  mailHello: "Hello buyflightmiles,",
+  mailIntro: "I'd like a quote for the miles below.",
+  mailWhat: "What I need",
+  mailWho: "How to reach me",
+  mailClosing: "Please confirm the exact rate and the delivery window before anything is paid.",
+  mailThanks: "Thanks,",
+  mailFoot: "Sent from buyflightmiles.com. Nothing has been charged.",
+  mailOpened: "Your email app should open with the whole message written out. Read it over and send it, and we'll take it from there.",
 };
 const L = { ...EN, ...labels };
 // 1.9 is "1,9" to a German reader — the rate chips follow the page language
@@ -245,6 +257,9 @@ const notWired = labels.notWired ?? (orderEmail
       <input type="hidden" name="program" id="qw-f-program" />
       <input type="hidden" name="miles" id="qw-f-miles" />
       <input type="hidden" name="estimate" id="qw-f-estimate" />
+      <!-- the window the visitor was shown travels with the enquiry, so the
+           reply confirms the same figure they were looking at -->
+      <input type="hidden" name="delivery" id="qw-f-delivery" />
       <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
 
       <div class="qw-controls">
@@ -273,6 +288,7 @@ const notWired = labels.notWired ?? (orderEmail
     </form>
   </div>
 </div>
+<EnquiryMail />
 
 <script is:inline>
   (function () {
@@ -427,7 +443,13 @@ const notWired = labels.notWired ?? (orderEmail
       if (document.activeElement !== miles2) miles2.value = m || "";
       $("qw-f-program").value = c.label;
       $("qw-f-miles").value = canGo ? m : "";
-      $("qw-f-estimate").value = canGo ? approx + usd(cost) + " at " + c.rate + "c/mile" : "";
+      // No English joining word: this string is emailed as-is, and "at
+      // 1.9c/mile" landed in the middle of a German letter. Figure, then rate
+      // in brackets, reads the same in every language the site ships.
+      $("qw-f-estimate").value = canGo
+        ? approx + usd(cost) + " (" + approx + c.rate.toLocaleString(LOC) + T.rateUnit + ")"
+        : "";
+      $("qw-f-delivery").value = $("qw-delivery").textContent;
     }
 
     // ---- custom program dropdown ------------------------------------
@@ -568,19 +590,39 @@ const notWired = labels.notWired ?? (orderEmail
     });
 
       // A posting key needs an account; an inbox address needs nothing. With
-      // one configured, compose the enquiry into the visitor's mail client so
-      // it still reaches us in a click.
-      function mailEnquiry(inbox, el, formEl, subject) {
-        const fd = new FormData(formEl);
-        const skip = ["access_key", "botcheck", "subject"];
-        const lines = [];
-        for (const [k, v] of fd.entries()) {
-          if (skip.includes(k) || !String(v).trim()) continue;
-          lines.push(k.replace(/_/g, " ").replace(/^./, (s) => s.toUpperCase()) + ": " + v);
-        }
-        location.href = "mailto:" + inbox + "?subject=" + encodeURIComponent(subject) +
-          "&body=" + encodeURIComponent(lines.join("\n") + "\n\nSent from the website. Nothing has been charged.");
-        el.textContent = "Your email app should open with the details filled in — send it and we'll take it from there.";
+      // one configured, write the enquiry into the visitor's mail client as a
+      // finished letter, in the page's own language and using the labels the
+      // form showed, so what they send reads like something a person wrote.
+      function mailEnquiry(inbox, el, formEl) {
+        const v = (id) => ($(id) ? $(id).value.trim() : "");
+        window.bfmMail({
+          inbox,
+          numLocale: LOC,
+          subject: fmt(T.mailSubject, {
+            program: v("qw-f-program"),
+            miles: (parseInt(v("qw-f-miles"), 10) || 0).toLocaleString(LOC),
+          }),
+          hello: T.mailHello,
+          intro: T.mailIntro,
+          groups: [
+            { title: T.mailWhat, rows: [
+              [T.program, v("qw-f-program")],
+              [T.milesLabel, v("qw-f-miles")],
+              [T.est, v("qw-f-estimate")],
+              [T.delivery, v("qw-f-delivery")],
+            ] },
+            { title: T.mailWho, rows: [
+              [T.name, v("qw-name")],
+              [T.email, v("qw-email")],
+              [T.contact, v("qw-contact")],
+            ] },
+          ],
+          closing: T.mailClosing,
+          thanks: T.mailThanks,
+          name: v("qw-name"),
+          foot: T.mailFoot,
+        });
+        el.textContent = T.mailOpened;
         el.className = "form-msg ok";
         el.hidden = false;
       }
@@ -603,7 +645,7 @@ const notWired = labels.notWired ?? (orderEmail
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!root.dataset.key) {
-        if (root.dataset.inbox) { mailEnquiry(root.dataset.inbox, msg, form, "Quote request — buyflightmiles"); return; }
+        if (root.dataset.inbox) { mailEnquiry(root.dataset.inbox, msg, form); return; }
         showFallback(msg, $("qw-fallback").value);
         return;
       }

@@ -18,6 +18,7 @@
 // so an airport missing from the list is a convenience gap and never a wall.
 import Turnstile from "./Turnstile.astro";
 import ContactChannels from "./ContactChannels.astro";
+import EnquiryMail from "./EnquiryMail.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const {
@@ -185,6 +186,8 @@ const notWired = orderEmail
     {moreLink && <> <a href="/flights">How we source your seat →</a></>}
   </p>
 </div>
+
+<EnquiryMail />
 
 <script>
   // One fetch per page, shared by every instance, started on first focus.
@@ -525,18 +528,40 @@ const notWired = orderEmail
       msg.hidden = false;
     }
 
+    // The enquiry as a letter: the trip first, then who's asking, then the
+    // free-text notes as their own paragraph. Field names like
+    // "from_program_page" never reach the draft.
     function mailIt(inbox) {
-      const lines = [];
-      for (const [k, v] of new FormData(form).entries()) {
-        if (["access_key", "botcheck", "subject"].includes(k) || !String(v).trim()) continue;
-        lines.push(k.replace(/_/g, " ").replace(/^./, (s) => s.toUpperCase()) + ": " + v);
-      }
-      const body = "Award flight enquiry\n\n" + lines.join("\n") +
-        "\n\nSent from the award flight form. Nothing has been charged.";
-      location.href = "mailto:" + inbox +
-        "?subject=" + encodeURIComponent("Award flight enquiry — buyflightmiles") +
-        "&body=" + encodeURIComponent(body);
-      msg.textContent = "Your email app should open with your enquiry filled in. Send it and we'll take it from there.";
+      const fd = new FormData(form);
+      const g = (k) => String(fd.get(k) || "").trim();
+      const name = g("name");
+      window.bfmMail({
+        inbox,
+        subject: "Award flight enquiry" + (g("route") ? ": " + g("route") : ""),
+        hello: "Hello buyflightmiles,",
+        intro: "I'm looking for an award seat on the trip below.",
+        groups: [
+          { title: "The trip", rows: [
+            ["Route", g("route")],
+            ["Dates", g("dates")],
+            ["Cabin", g("cabin")],
+            ["Travellers", g("travellers")],
+            ["Program I was reading about", g("from_program_page")],
+          ] },
+          { title: "How to reach me", rows: [
+            ["Name", name],
+            ["Email", g("email")],
+            ["WhatsApp / Telegram", g("contact_handle")],
+          ] },
+          { title: "Anything else", text: g("notes") },
+        ],
+        trimmable: g("notes"),
+        closing: "Please let me know what's actually available for those dates and what it would cost.",
+        thanks: "Thanks,",
+        name,
+        foot: "Sent from buyflightmiles.com. Nothing has been charged.",
+      });
+      msg.textContent = "Your email app should open with the whole enquiry written out. Read it over and send it, and we'll take it from there.";
       msg.className = "form-msg fs-msg ok";
       msg.hidden = false;
     }

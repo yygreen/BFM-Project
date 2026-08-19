@@ -9,6 +9,7 @@ import Base from "../layouts/Base.astro";
 import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ContactChannels from "../components/ContactChannels.astro";
+import EnquiryMail from "../components/EnquiryMail.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
@@ -60,6 +61,8 @@ const notWired = orderEmail
     </div>
   </section>
 
+  <EnquiryMail />
+
   <script is:inline>
     (function () {
       const form = document.getElementById("request-form");
@@ -67,19 +70,35 @@ const notWired = orderEmail
       const btn = document.getElementById("request-submit");
       if (!form) return;
       // A posting key needs an account; an inbox address needs nothing. With
-      // one configured, compose the enquiry into the visitor's mail client so
-      // it still reaches us in a click.
-      function mailEnquiry(inbox, el, formEl, subject) {
-        const fd = new FormData(formEl);
-        const skip = ["access_key", "botcheck", "subject"];
-        const lines = [];
-        for (const [k, v] of fd.entries()) {
-          if (skip.includes(k) || !String(v).trim()) continue;
-          lines.push(k.replace(/_/g, " ").replace(/^./, (s) => s.toUpperCase()) + ": " + v);
-        }
-        location.href = "mailto:" + inbox + "?subject=" + encodeURIComponent(subject) +
-          "&body=" + encodeURIComponent(lines.join("\n") + "\n\nSent from the website. Nothing has been charged.");
-        el.textContent = "Your email app should open with the details filled in — send it and we'll take it from there.";
+      // one configured, write the request into the visitor's mail client as a
+      // finished letter rather than a dump of field names.
+      function mailEnquiry(inbox, el) {
+        const v = (id) => (document.getElementById(id) || {}).value?.trim() || "";
+        const program = v("req-program");
+        const name = v("req-name");
+        window.bfmMail({
+          inbox,
+          subject: "Program request: " + (program || "unlisted program"),
+          hello: "Hello buyflightmiles,",
+          intro: "I'd like a quote for a program I couldn't find on your list.",
+          groups: [
+            { title: "What I need", rows: [
+              ["Loyalty program", program],
+              ["Miles needed", v("req-miles")],
+            ] },
+            { title: "How to reach me", rows: [
+              ["Name", name],
+              ["Email", v("req-email")],
+            ] },
+            { title: "Anything else", text: v("req-message") },
+          ],
+          trimmable: v("req-message"),
+          closing: "Please check availability and come back with a firm rate before anything is paid.",
+          thanks: "Thanks,",
+          name,
+          foot: "Sent from buyflightmiles.com. Nothing has been charged.",
+        });
+        el.textContent = "Your email app should open with the whole message written out. Read it over and send it, and we'll take it from there.";
         el.className = "form-msg ok";
         el.hidden = false;
       }
@@ -98,7 +117,7 @@ const notWired = orderEmail
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!form.dataset.key) {
-          if (form.dataset.inbox) { mailEnquiry(form.dataset.inbox, msg, form, "Program request — buyflightmiles"); return; }
+          if (form.dataset.inbox) { mailEnquiry(form.dataset.inbox, msg); return; }
           showFallback(msg, document.getElementById("request-fallback").value);
           return;
         }

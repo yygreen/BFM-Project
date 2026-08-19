@@ -527,6 +527,18 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .cside-p { font-size:13.5px; color:var(--text-2); line-height:1.65; margin:0 0 12px; }
 .cside-link { display:block; font-size:14px; font-weight:600; color:var(--cobalt); margin-top:9px; }
 .cside-link:hover { text-decoration:underline; }
+/* the partner application's rail: what happens after you press send */
+.applysteps { margin:0; padding-left:1.15em; color:var(--text-2); font-size:13.5px; line-height:1.65; }
+.applysteps li + li { margin-top:9px; }
+
+/* ---- long-form pages (about, terms, privacy) ----
+   Same container as every other page, so these don't read as a narrower site.
+   The prose keeps its own measure and the leftover width carries a contents
+   rail, which is what a legal page most wants anyway: somewhere to jump from. */
+.doc-side { position:sticky; top:92px; }
+.doc-side > * + * { margin-top:16px; }
+.doc-side .toc { margin-bottom:0; }
+@media (max-width:940px){ .doc-side { position:static; } }
 /* quiet pointer from the buy page's verdict tool to the calculator page */
 .tool-more { margin-top:12px; font-size:13.5px; color:var(--text-3); line-height:1.6; }
 .tool-more a { color:var(--cobalt); font-weight:600; }

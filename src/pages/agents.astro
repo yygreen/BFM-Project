@@ -4,7 +4,8 @@ import Turnstile from "../components/Turnstile.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import Emblem from "../components/Emblem.astro";
 import { getCollection } from "astro:content";
-import { site, agentFormReady, paymentSentence, realReviews } from "../lib/site";
+import EnquiryMail from "../components/EnquiryMail.astro";
+import { site, agentFormReady, paymentSentence, realReviews, mailtoInbox } from "../lib/site";
 
 const rev = realReviews[0] ?? null;
 const stars = rev ? Math.round(rev.rating) : 0;
@@ -244,13 +245,20 @@ const jsonld = {
   </section>
 
   <!-- APPLY -->
+  <!-- The application used to sit in a 640px column, which made the last
+       section of the page read as a different site to the eight above it. It
+       now runs the same container as everything else, with the form beside a
+       rail that answers the two questions people have while filling it in:
+       what happens after they press send, and who they're sending it to. -->
   <section class="section" id="apply" style="padding-top:0">
-    <div class="container" style="max-width:640px">
-      <div class="section-head" style="text-align:center;margin:0 auto 24px">
+    <div class="container">
+      <div class="section-head">
         <h2>Apply for partner access</h2>
         <p>Tell us about your business and we'll set you up with pricing and a direct contact.</p>
       </div>
-      <form class="formcard" id="partner-form">
+      <div class="contact-grid">
+       <div>
+      <form class="formcard" id="partner-form" data-inbox={agentEmail || mailtoInbox}>
         <input type="hidden" name="access_key" value={agentKey} />
         <input type="hidden" id="partner-fallback" value={agentNotWired} />
         <input type="hidden" name="subject" value="New partner application - buyflightmiles" />
@@ -268,13 +276,40 @@ const jsonld = {
         <button type="submit" class="btn btn-primary" id="partner-submit" style="width:100%;margin-top:14px">Submit application</button>
         <p class="form-msg" id="partner-msg" hidden></p>
       </form>
-      {agentEmail && (
-        <p style="color:var(--text-3);font-size:12px;text-align:center;margin-top:12px">Prefer email? <a href={`mailto:${agentEmail}`} style="color:var(--acc)">{agentEmail}</a></p>
-      )}
+       </div>
+
+       <aside class="contact-side">
+         <div class="side-box">
+           <p class="lab">What happens next</p>
+           <ol class="applysteps">
+             <li>We read the application and check what we can source for your volume.</li>
+             <li>You get partner rates and the name of the person handling your account.</li>
+             <li>From then on you send requests straight to them, no form in between.</li>
+           </ol>
+         </div>
+         <div class="side-box">
+           <p class="lab">Before you apply</p>
+           <p class="cside-p">
+             An IATA number is optional. Brokers and consultancies without one are
+             welcome, and the volume band only sets the starting rate, so an honest
+             estimate serves you better than a flattering one.
+           </p>
+         </div>
+         {agentEmail && (
+           <div class="side-box">
+             <p class="lab">Prefer email?</p>
+             <p class="cside-p">Write to us directly and we'll take the same details over email.</p>
+             <a class="cside-link" href={`mailto:${agentEmail}`}>{agentEmail} →</a>
+           </div>
+         )}
+       </aside>
+      </div>
     </div>
   </section>
 
-  <script>
+  <EnquiryMail />
+
+  <script is:inline>
     const form = document.getElementById("partner-form");
     const msg = document.getElementById("partner-msg");
     const btn = document.getElementById("partner-submit");
@@ -282,6 +317,43 @@ const jsonld = {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!form.querySelector('input[name="access_key"]').value) {
+          // No posting key yet. An inbox alone is enough: write the
+          // application out as a letter and hand it to their mail client,
+          // rather than telling them to start again in an email themselves.
+          const inbox = form.dataset.inbox;
+          if (inbox) {
+            const fd = new FormData(form);
+            const g = (k) => String(fd.get(k) || "").trim();
+            const name = g("name");
+            window.bfmMail({
+              inbox,
+              subject: "Partner application: " + (g("agency") || name),
+              hello: "Hello buyflightmiles,",
+              intro: "I'd like partner access for my agency.",
+              groups: [
+                { title: "The business", rows: [
+                  ["Agency / company", g("agency")],
+                  ["IATA number", g("iata")],
+                  ["Typical monthly volume", g("volume")],
+                ] },
+                { title: "How to reach me", rows: [
+                  ["Name", name],
+                  ["Work email", g("email")],
+                  ["Phone", g("phone")],
+                ] },
+                { title: "What I'm looking for", text: g("message") },
+              ],
+              trimmable: g("message"),
+              closing: "Please let me know your partner rates and who I'd be dealing with.",
+              thanks: "Thanks,",
+              name,
+              foot: "Sent from buyflightmiles.com. Nothing has been charged.",
+            });
+            msg.textContent = "Your email app should open with the whole application written out. Read it over and send it, and we'll come back to you.";
+            msg.className = "form-msg ok";
+            msg.hidden = false;
+            return;
+          }
           msg.textContent = document.getElementById("partner-fallback").value;
           msg.className = "form-msg err";
           msg.hidden = false;

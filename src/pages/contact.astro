@@ -11,6 +11,7 @@
 import Base from "../layouts/Base.astro";
 import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import EnquiryMail from "../components/EnquiryMail.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
@@ -149,6 +150,8 @@ const waHref = whatsapp.replace(/\D/g, "");
     </div>
   </section>
 
+  <EnquiryMail />
+
   <script is:inline>
     (function () {
       const form = document.getElementById("contact-form");
@@ -158,18 +161,28 @@ const waHref = whatsapp.replace(/\D/g, "");
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!form.dataset.key && form.dataset.inbox) {
-          // no posting key yet: compose it into the visitor's mail client
+          // No posting key yet: write it into the visitor's mail client as a
+          // finished letter. The topic they picked becomes the subject line,
+          // so the enquiry is sortable in the inbox before it's even opened.
           const fd = new FormData(form);
-          const skip = ["access_key", "botcheck", "subject"];
-          const lines = [];
-          for (const [k, v] of fd.entries()) {
-            if (skip.includes(k) || !String(v).trim()) continue;
-            lines.push(k.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase()) + ": " + v);
-          }
-          location.href = "mailto:" + form.dataset.inbox +
-            "?subject=" + encodeURIComponent("Contact enquiry — buyflightmiles") +
-            "&body=" + encodeURIComponent(lines.join("\n"));
-          msg.textContent = "Your email app should open with the message filled in — send it and we'll come back to you.";
+          const g = (k) => String(fd.get(k) || "").trim();
+          const name = g("name");
+          window.bfmMail({
+            inbox: form.dataset.inbox,
+            subject: "Question: " + (g("topic") || "buying miles"),
+            hello: "Hello buyflightmiles,",
+            intro: "I've got a question before I order.",
+            groups: [
+              { title: "About", rows: [["Topic", g("topic")]] },
+              { title: "My question", text: g("message") },
+              { title: "How to reach me", rows: [["Name", name], ["Email", g("email")]] },
+            ],
+            trimmable: g("message"),
+            thanks: "Thanks,",
+            name,
+            foot: "Sent from buyflightmiles.com. Nothing has been charged.",
+          });
+          msg.textContent = "Your email app should open with the whole message written out. Read it over and send it, and we'll come back to you.";
           msg.className = "form-msg ok"; msg.hidden = false; return;
         }
         if (!form.dataset.key) {

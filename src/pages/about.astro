@@ -6,11 +6,27 @@
 // The client's published contact details (address, phone) stay OFF this page
 // until they're confirmed on the client call — the request form is the
 // contact path that always works.
+//
+// Layout is the site's standard container, not the 820px column it used to
+// run in: at 1120px the reading measure comes from `.prose` and the width
+// left over carries a contents rail, so the page matches every other page
+// on the site instead of looking like a narrower one.
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { getCollection } from "astro:content";
 
 const count = (await getCollection("airlines")).length;
+
+// One list, used for both the headings and the rail, so a renamed section
+// can never leave a dead anchor behind.
+const sections = [
+  { id: "shortfall", title: "It starts with a shortfall" },
+  { id: "what-are-miles", title: "What are miles, anyway?" },
+  { id: "why-buy", title: "Why buy miles at all?" },
+  { id: "how-we-work", title: "How we work" },
+  { id: "fine-print", title: "The honest fine print" },
+];
+const h = Object.fromEntries(sections.map((s) => [s.id, s.title]));
 ---
 <Base
   title="About us: buyflightmiles"
@@ -18,7 +34,7 @@ const count = (await getCollection("airlines")).length;
   slug="about"
 >
   <section class="section">
-    <div class="container" style="max-width:820px">
+    <div class="container">
       <Breadcrumbs items={[
         { label: "Home", href: "/" },
         { label: "About us" },
@@ -29,54 +45,76 @@ const count = (await getCollection("airlines")).length;
         <p>One job: closing that gap quickly, at a rate you see before you pay.</p>
       </div>
 
-      <h2>It starts with a shortfall</h2>
-      <p>
-        Most people who find us have a redemption in mind and a balance that doesn't reach it.
-        The award seat is sitting there; the account is 30,000 miles short. Buying that shortfall
-        at a fair per-mile rate is usually far cheaper than paying the cash fare, and helping
-        people close that gap quickly and easily is the entire reason this business exists.
-      </p>
+      <div class="blog-layout">
+        <div class="blog-main">
+          <div class="prose">
+            <h2 id="shortfall">{h["shortfall"]}</h2>
+            <p>
+              Most people who find us have a redemption in mind and a balance that doesn't reach it.
+              The award seat is sitting there; the account is 30,000 miles short. Buying that shortfall
+              at a fair per-mile rate is usually far cheaper than paying the cash fare, and helping
+              people close that gap quickly and easily is the entire reason this business exists.
+            </p>
 
-      <h2>What are miles, anyway?</h2>
-      <p>
-        Airline miles, frequent flyer miles, travel points: different names for the same thing,
-        the currency of airline loyalty programs. Normally you earn them by flying or through
-        credit card spend, then redeem them for award tickets, upgrades, and companion fares.
-        One-way awards are a quietly great use: most programs price them at half a round trip,
-        while one-way cash fares are often punishingly expensive. Programs will also let you
-        spend miles on hotels, car hire, and retail, but honestly, that's usually the worst value
-        in the program; flights, and premium-cabin flights especially, are where miles earn
-        their keep.
-      </p>
+            <h2 id="what-are-miles">{h["what-are-miles"]}</h2>
+            <p>
+              Airline miles, frequent flyer miles, travel points: different names for the same thing,
+              the currency of airline loyalty programs. Normally you earn them by flying or through
+              credit card spend, then redeem them for award tickets, upgrades, and companion fares.
+              One-way awards are a quietly great use: most programs price them at half a round trip,
+              while one-way cash fares are often punishingly expensive. Programs will also let you
+              spend miles on hotels, car hire, and retail, but honestly, that's usually the worst value
+              in the program; flights, and premium-cabin flights especially, are where miles earn
+              their keep.
+            </p>
 
-      <h2>Why buy miles at all?</h2>
-      <p>
-        Premium-cabin award tickets often price a mile far below what the seat costs in cash.
-        When a business-class seat needs 70,000 miles and the cash fare runs to several thousand
-        dollars, miles bought at a fixed per-mile rate can cut the price dramatically. Not always: every program page has a calculator that compares your real cash fare
-        against buying the miles, and when cash wins, it tells you to pay cash.
-      </p>
+            <h2 id="why-buy">{h["why-buy"]}</h2>
+            <p>
+              Premium-cabin award tickets often price a mile far below what the seat costs in cash.
+              When a business-class seat needs 70,000 miles and the cash fare runs to several thousand
+              dollars, miles bought at a fixed per-mile rate can cut the price dramatically. Not always: every program page has a calculator that compares your real cash fare
+              against buying the miles, and when cash wins, it tells you to pay cash.
+            </p>
 
-      <h2>How we work</h2>
-      <p>
-        We currently cover {count} loyalty programs across the major alliances. The process is
-        deliberately simple, and deliberately conservative:
-      </p>
-      <ul>
-        <li><b>You're quoted first.</b> Price your amount on the site, send the request, and we confirm your exact rate and delivery window before anything is paid.</li>
-        <li><b>Nothing is charged on this site.</b> Payment happens after you approve the quote, never through the website.</li>
-        <li><b>We never ask for your password.</b> Miles are delivered into the loyalty account you already hold; your membership number and account name are all we need.</li>
-        <li><b>Program not listed?</b> <a href="/request">Ask us</a> and we'll check availability and price before you commit to anything.</li>
-      </ul>
+            <h2 id="how-we-work">{h["how-we-work"]}</h2>
+            <p>
+              We currently cover {count} loyalty programs across the major alliances. The process is
+              deliberately simple, and deliberately conservative:
+            </p>
+            <ul>
+              <li><b>You're quoted first.</b> Price your amount on the site, send the request, and we confirm your exact rate and delivery window before anything is paid.</li>
+              <li><b>Nothing is charged on this site.</b> Payment happens after you approve the quote, never through the website.</li>
+              <li><b>We never ask for your password.</b> Miles are delivered into the loyalty account you already hold; your membership number and account name are all we need.</li>
+              <li><b>Program not listed?</b> <a href="/request">Ask us</a> and we'll check availability and price before you commit to anything.</li>
+            </ul>
 
-      <h2>The honest fine print</h2>
-      <p>
-        We are an independent miles agent, not affiliated with any airline or loyalty program.
-        Rates shown with a tilde are indicative until confirmed in your quote. If you're weighing
-        us up, start with <a href="/#trust">how every order is protected</a>, the <a href="/faq">FAQ</a>,
-        and the <a href="/blog">guides on the blog</a>, which are written to be just as useful if
-        you never buy from us. Still unsure? <a href="/contact">Ask us directly</a>.
-      </p>
+            <h2 id="fine-print">{h["fine-print"]}</h2>
+            <p>
+              We are an independent miles agent, not affiliated with any airline or loyalty program.
+              Rates shown with a tilde are indicative until confirmed in your quote. If you're weighing
+              us up, start with <a href="/#trust">how every order is protected</a>, the <a href="/faq">FAQ</a>,
+              and the <a href="/blog">guides on the blog</a>, which are written to be just as useful if
+              you never buy from us. Still unsure? <a href="/contact">Ask us directly</a>.
+            </p>
+          </div>
+        </div>
+
+        <aside class="doc-side">
+          <nav class="toc" aria-label="On this page">
+            <h4>On this page</h4>
+            <ol>
+              {sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}
+            </ol>
+          </nav>
+          <div class="side-box">
+            <h4>Start here</h4>
+            <p class="cside-p">If you already know the program and the amount, the price takes one step.</p>
+            <a class="cside-link" href="/#quote">Get a price now →</a>
+            <a class="cside-link" href="/request">Program not listed? →</a>
+            <a class="cside-link" href="/faq">Read the FAQ →</a>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 
