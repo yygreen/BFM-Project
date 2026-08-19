@@ -72,12 +72,21 @@ const { step } = Astro.props;
 
 {step === "fly" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="The seat booked and the aircraft away">
-    <!-- last panel, so the wave terminates here rather than overshooting into a
-         column that doesn't exist — it ends in an arrowhead rotated onto the
-         path's own end tangent, so the head continues the line instead of
-         sitting at an angle to it. -->
-    <path class="il-line" d="M-10 30H44C94 30 146 16 196 12" />
-    <g class="il-tip" transform="translate(196 12) rotate(-5)">
+    <!-- Last panel, so the wave terminates here rather than overshooting into a
+         column that doesn't exist, and it ends in an arrowhead rotated onto the
+         path's own end tangent so the head continues the line instead of
+         sitting at an angle to it.
+
+         That departure angle is the logo's. The brand mark climbs 34° from the
+         start of its stroke to the destination ring, and it does so by
+         accelerating: nearly flat at the start, steepest at the end. This curve
+         is shaped the same way and leaves at the same 34°, so the one moment on
+         the page that depicts flying away reads as the mark does. The earlier
+         version flattened into its arrowhead at 5°, which decelerated exactly
+         where the logo lifts. Entry stays pinned at y=30 on a horizontal
+         tangent — that seam with the panel before it is not negotiable. -->
+    <path class="il-line" d="M-10 30H44C124 30 177 22 199 7" />
+    <g class="il-tip" transform="translate(199 7) rotate(-34)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
     <circle class="il-ring" cx="44" cy="30" r="10" />
