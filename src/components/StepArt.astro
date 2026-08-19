@@ -10,6 +10,14 @@
 // is what allows it, and the flat overshoot means the two sides meet at the
 // same height whatever the column width.
 //
+// Every cubic starts at x=108, not at the waypoint. That number is measured
+// rather than chosen: the flat that arrives at a waypoint runs from the
+// previous panel's cubic end, across the gutter, to x=44 — about 64 units —
+// so the next cubic has to wait another 64 units for the waypoint to sit in
+// the MIDDLE of its turn rather than at the trailing edge of it. Starting at
+// x=44 put every marker ~40px late. It also lands the wave on a 1:1 rhythm,
+// 128 units of turn against 128 of flat.
+//
 // Below the wave, every panel is built the same way:
 //
 //   waypoint (coral, x=44)  →  dotted tether straight down  →  the motif
@@ -32,7 +40,7 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
-    <path class="il-line" d="M-10 32H44C108 32 172 12 236 12H250" />
+    <path class="il-line" d="M-10 32H108C151 32 193 12 236 12H250" />
     <circle class="il-ring" cx="44" cy="32" r="10" />
     <circle class="il-dot" cx="44" cy="32" r="4.5" />
     <path class="il-tether" d="M44 44V58" />
@@ -54,7 +62,7 @@ const { step } = Astro.props;
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
-    <path class="il-line" d="M-10 12H44C108 12 172 30 236 30H250" />
+    <path class="il-line" d="M-10 12H108C151 12 193 30 236 30H250" />
     <circle class="il-ring" cx="44" cy="12" r="10" />
     <circle class="il-dot" cx="44" cy="12" r="4.5" />
     <path class="il-tether" d="M44 24V58" />
@@ -85,7 +93,7 @@ const { step } = Astro.props;
          version flattened into its arrowhead at 5°, which decelerated exactly
          where the logo lifts. Entry stays pinned at y=30 on a horizontal
          tangent — that seam with the panel before it is not negotiable. -->
-    <path class="il-line" d="M-10 30H44C124 30 177 22 199 7" />
+    <path class="il-line" d="M-10 30H108C155 30 186 15.7 199 7" />
     <g class="il-tip" transform="translate(199 7) rotate(-34)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
