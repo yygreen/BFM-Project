@@ -30,3 +30,19 @@ directly plus an oversized, low-opacity restatement of the route motif, so a
 logo regeneration carries into the card by re-rendering — don't edit the JPEG.
 Blog posts override the card with their own hero art via the `image`
 frontmatter; everything else falls back to this file (wired in Base.astro).
+
+## Three-step wave (src/components/StepArt.astro)
+
+`stepwave.mjs` generates the three `il-line` path strings. The wave is one
+curve crossing three separate SVGs, and its extrema have to land exactly on
+the waypoints, so it is built in continuous coordinates and cut at the panel
+edges — you cannot get that by editing the panels individually.
+
+    node stepwave.mjs      # prints the three d="" strings, then verifies them
+
+Each marker is a true turning point: horizontal tangent, no plateau, and the
+curvature matched across it (every handle is solved for one shared value
+rather than set to a third of its span). Change a marker height at the top of
+the file and re-run; paste the three paths into StepArt.astro. PITCH is the
+column pitch in viewBox units — 336px column plus 24px gutter at scale 1.4 —
+and only needs revisiting if the grid changes.

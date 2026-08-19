@@ -10,23 +10,31 @@
 // is what allows it, and the horizontal ends mean the two sides meet at the
 // same height and the same slope whatever the column width.
 //
-// ONE cubic per panel, edge to edge. No H segments, no plateaus: an earlier
-// version held a long flat, turned inside a short middle section and held flat
-// again, which read as a step rather than a wave. The two S panels are now a
-// single Bézier whose control points are mirrored about the midpoint:
+// THE WAVE TURNS AT THE WAYPOINTS. Each marker is a true extremum of the
+// curve: trough, peak, trough. Between two consecutive extrema the wave is one
+// cubic with HORIZONTAL tangents at both ends, so the slope at every marker is
+// exactly 0 with no flat section either side of it. Earlier versions had the
+// markers sitting on a slope, or centred in a plateau — near the turn, but not
+// on it.
 //
-//   P1 = P0 + (h, 0)        P2 = 2M − P1        M = (P0 + P3) / 2
+// Each panel therefore carries TWO curve segments meeting at x=44, and the
+// segments span the gutters, so the geometry is generated in continuous
+// coordinates and then cut at the panel edges. The generator is
+// scripts/brand/stepwave.mjs — edit the marker heights there and re-run it
+// rather than nudging these path strings, which are its output.
 //
-// That construction gives exact 180° rotational symmetry, so the two halves
-// are geometric mirrors, the curve passes through M precisely, the inflection
-// lands there, and the maximum slope occurs there too and nowhere else (all
-// four verified numerically, not by eye). h is a third of the span, the
-// canonical smooth S.
+// For a segment with amplitude A and handle h the curvature at both ends is
+// (2/3)·A/h². The handles are therefore NOT all a third of the span: each one
+// is solved so that value matches its neighbour's, which makes the curvature
+// continuous through every marker and not merely the tangent. All three come
+// out at 0.001434, verified numerically rather than by eye.
 //
-// The waypoint rings are no longer on a flat, so their cy is the curve's own
-// y at x=44 rather than the panel's entry height — 29.8, 14 and 28. Move a
-// control point and those have to be recomputed or the ring floats off the
-// line. The fly panel is deliberately NOT symmetric; see below.
+// The lead-in descends 1.57 units into the first trough. That is not styling:
+// a minimum needs the curve to arrive falling, and the amount is whatever the
+// curvature match dictates once its handle is capped at half the lead-in span.
+//
+// Ring cy therefore equals its marker height exactly — 29.8, 14, 28 — because
+// the curve is built to pass through those points, not the other way round.
 //
 // Below the wave, every panel is built the same way:
 //
@@ -50,7 +58,7 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
-    <path class="il-line" d="M-10 32C77 32 163 12 250 12" />
+    <path class="il-line" d="M-10 28.23C17 28.23 17 29.8 44 29.8C112.67 29.8 181.33 19.66 250 15.63" />
     <circle class="il-ring" cx="44" cy="29.8" r="10" />
     <circle class="il-dot" cx="44" cy="29.8" r="4.5" />
     <path class="il-tether" d="M44 41.8V58" />
@@ -72,7 +80,7 @@ const { step } = Astro.props;
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
-    <path class="il-line" d="M-10 12C77 12 163 30 250 30" />
+    <path class="il-line" d="M-10 15.8C8 14.7 26 14 44 14C108.18 14 181.91 22.86 250 26.48" />
     <circle class="il-ring" cx="44" cy="14" r="10" />
     <circle class="il-dot" cx="44" cy="14" r="4.5" />
     <path class="il-tether" d="M44 26V58" />
@@ -105,10 +113,11 @@ const { step } = Astro.props;
          before it left off, on a horizontal tangent — that seam is not
          negotiable.
 
-         So this panel is the one exception to the mirrored-control-point rule
-         above: a departure is asymmetric by definition. It still runs edge to
-         edge as a single cubic with no flat lead-in. -->
-    <path class="il-line" d="M-10 30C60 30 186 15.7 199 7" />
+         So this is the one segment that is not symmetric: a departure is
+         asymmetric by definition. Its handle is still solved for the same
+         curvature as every other segment, so the trough it leaves is as
+         smooth as the two before it. -->
+    <path class="il-line" d="M-10 26.33C8.5 27.35 26.6 28 44 28C88.77 28 174.07 23.69 199 7" />
     <g class="il-tip" transform="translate(199 7) rotate(-34)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
