@@ -272,8 +272,6 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
    Deliberately not a status colour: green and amber mean in stock and
    limited on this very card, and a price comparison is a claim rather than a
    state. The percentage carries the emphasis instead of the hue. */
-.gcard .gsave { font-size:12.5px; color:var(--text-2); margin-top:6px; }
-.gcard .gsave b { font-weight:700; color:var(--text-1); }
 .gcard .meta { font-size:12.5px; color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
 /* Only some cards carry the comparison line, so without this the detail row
    and the call to action sit at a different height on every card in a row.

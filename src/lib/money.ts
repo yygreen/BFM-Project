@@ -58,13 +58,3 @@ export function rateFixed(centsPerMile: number, locale = "en-US"): string {
     maximumFractionDigits: 2,
   });
 }
-
-/**
- * How far under the airline's own list price a rate sits, as a whole percent.
- * Returns null when there is no sourced list price to compare against, or
- * when ours isn't actually cheaper — the claim has to be true to render.
- */
-export function savingVsList(ourCents: number, listCents: number | null): number | null {
-  if (!listCents || listCents <= ourCents) return null;
-  return Math.round(((listCents - ourCents) / listCents) * 100);
-}
