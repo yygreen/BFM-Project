@@ -1204,40 +1204,6 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    no results state by design — there is no availability feed behind it. */
 .fsearch { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
   padding:clamp(20px,2.6vw,28px); box-shadow:var(--shadow); }
-
-/* The fold. On a program page the miles calculator is the decision the page
-   exists to close, so the award-flight widget waits behind one click instead
-   of standing as a second live form under it. Callers that don't fold carry
-   .fs-fold-static, which hides the summary and leaves the card exactly as it
-   was — one markup path, two presentations. */
-.fs-fold > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:16px; }
-/* after the rule above, not before it: both selectors are one class plus one
-   element, so on a specificity tie the later declaration is the one that wins
-   and a `display:none` written first would simply lose to the `display:flex` */
-.fs-fold-static > summary { display:none; }
-.fs-fold > summary::-webkit-details-marker { display:none; }
-.fs-fold > summary:focus-visible { outline:2px solid var(--cobalt); outline-offset:6px; border-radius:10px; }
-/* open, the summary becomes the card's header rather than a button in it */
-.fs-fold[open] > summary { margin-bottom:18px; padding-bottom:16px; border-bottom:1px solid var(--line); }
-.fs-fold-t { display:block; font-family:var(--display); font-weight:800; font-size:19px;
-  letter-spacing:-.01em; color:var(--text-1); }
-.fs-fold-h { display:block; font-size:13.5px; color:var(--text-3); margin-top:4px; }
-/* the text takes the slack, so the dots and the mark stay together on the
-   trailing edge whether or not the dots are showing — auto margins on both
-   would split the gap and strand the dots mid-row */
-.fs-fold > summary > span:first-child { flex:1; min-width:0; }
-/* the step marker rides in the summary when the card folds, and only once
-   it is open: "step 1 of 2" on a shut card is noise */
-.fs-fold:not([open]) > summary > .qw-dots { display:none; }
-/* the same "+" the FAQ rows use, turned into a close mark when open */
-.fs-fold-mk { flex:none; width:36px; height:36px; border-radius:var(--radius-pill);
-  background:var(--raised); color:var(--cobalt); display:grid; place-items:center;
-  font-family:var(--display); font-weight:800; font-size:20px; line-height:1;
-  transition:background .16s ease, transform .16s ease; }
-.fs-fold > summary:hover .fs-fold-mk { background:var(--cobalt-tint); }
-.fs-fold[open] .fs-fold-mk { transform:rotate(45deg); }
-@media (prefers-reduced-motion:reduce){ .fs-fold-mk { transition:none; } }
-
 .fs-trip { display:flex; gap:8px; margin-bottom:16px; }
 .fs-pill { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-2);
   background:var(--raised); border:1.5px solid transparent; border-radius:var(--radius-pill);
