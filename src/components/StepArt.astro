@@ -18,6 +18,16 @@
 // x=44 put every marker ~40px late. It also lands the wave on a 1:1 rhythm,
 // 128 units of turn against 128 of flat.
 //
+// Centring cost the turn half its span, which is why the handles are long
+// (56 of a 128 span) and the wave is only 15 units deep rather than 20. For a
+// symmetric S with horizontal ends, the radius where the flat meets the curve
+// works out at h²/((2/3)·A) — it depends on the handle and the depth, NOT on
+// the span. Squeezing the span at the old handle and depth dropped that radius
+// from 307 to 139 and the shoulders visibly kinked. Longer handles and a
+// shallower wave put it back at ~314 while keeping the middle gentler than a
+// handles-only fix would (12° against 17°). Depth is the cheaper thing to
+// spend here: the wave is a through-line, not a chart.
+//
 // Below the wave, every panel is built the same way:
 //
 //   waypoint (coral, x=44)  →  dotted tether straight down  →  the motif
@@ -40,10 +50,10 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
-    <path class="il-line" d="M-10 32H108C151 32 193 12 236 12H250" />
-    <circle class="il-ring" cx="44" cy="32" r="10" />
-    <circle class="il-dot" cx="44" cy="32" r="4.5" />
-    <path class="il-tether" d="M44 44V58" />
+    <path class="il-line" d="M-10 30H108C164 30 180 15 236 15H250" />
+    <circle class="il-ring" cx="44" cy="30" r="10" />
+    <circle class="il-dot" cx="44" cy="30" r="4.5" />
+    <path class="il-tether" d="M44 42V58" />
 
     <!-- a program list with one row chosen: carrier chip, name, rate -->
     <rect class="il-chip" x="20" y="62" width="13" height="9" rx="3" />
@@ -62,10 +72,10 @@ const { step } = Astro.props;
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
-    <path class="il-line" d="M-10 12H108C151 12 193 30 236 30H250" />
-    <circle class="il-ring" cx="44" cy="12" r="10" />
-    <circle class="il-dot" cx="44" cy="12" r="4.5" />
-    <path class="il-tether" d="M44 24V58" />
+    <path class="il-line" d="M-10 15H108C164 15 180 29 236 29H250" />
+    <circle class="il-ring" cx="44" cy="15" r="10" />
+    <circle class="il-dot" cx="44" cy="15" r="4.5" />
+    <path class="il-tether" d="M44 27V58" />
 
     <!-- Money, and it leaves. A note rather than a coin: two concentric circles
          read as a target or a record button, not as payment. The arrow leads
@@ -91,15 +101,16 @@ const { step } = Astro.props;
          is shaped the same way and leaves at the same 34°, so the one moment on
          the page that depicts flying away reads as the mark does. The earlier
          version flattened into its arrowhead at 5°, which decelerated exactly
-         where the logo lifts. Entry stays pinned at y=30 on a horizontal
-         tangent — that seam with the panel before it is not negotiable. -->
-    <path class="il-line" d="M-10 30H108C155 30 186 15.7 199 7" />
+         where the logo lifts. Entry stays pinned at the height the panel
+         before it left off, on a horizontal tangent — that seam is not
+         negotiable. -->
+    <path class="il-line" d="M-10 29H108C160 29 186 15.7 199 7" />
     <g class="il-tip" transform="translate(199 7) rotate(-34)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
-    <circle class="il-ring" cx="44" cy="30" r="10" />
-    <circle class="il-dot" cx="44" cy="30" r="4.5" />
-    <path class="il-tether" d="M44 42V58" />
+    <circle class="il-ring" cx="44" cy="29" r="10" />
+    <circle class="il-dot" cx="44" cy="29" r="4.5" />
+    <path class="il-tether" d="M44 41V58" />
 
     <!-- the aircraft hangs plumb under its waypoint: its centre is x=44, the
          same x the ring and tether use, like the note in the panel before -->
