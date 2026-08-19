@@ -1111,13 +1111,29 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    make, not an error the visitor has committed */
 .field-help.warn { color:var(--warn); font-weight:600; }
 .qw-cta:disabled { opacity:.45; cursor:not-allowed; }
-/* the one-click way out of an out-of-range amount */
-.qw-minfix { margin-top:8px; background:none; border:0; padding:0; cursor:pointer;
-  font-family:var(--sans); font-size:12.5px; font-weight:700; color:var(--cobalt); text-decoration:underline; }
-.qw-minfix:hover { color:var(--cobalt-2); }
-.qw-minline { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; margin:10px 0 0;
-  font-size:12.5px; font-weight:600; color:var(--warn); }
-.qw-minline .qw-minfix { margin-top:0; }
+
+/* The order limit, stated on the field it constrains and doubling as the way
+   out of breaking it. The input's trailing padding is set from JS against the
+   chip's measured width, because "min 80,000" and "الحد الأدنى 80,000" are
+   nothing like the same size and a fixed value would crowd one or waste half
+   the field on the other. */
+.qw-amt { position:relative; }
+/* the native spinners land exactly where the chip sits, and a stepper on an
+   80,000-mile field was never going to be used anyway */
+.qw-amt input { appearance:textfield; -moz-appearance:textfield; }
+.qw-amt input::-webkit-outer-spin-button,
+.qw-amt input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+.qw-lim { position:absolute; inset-inline-end:8px; top:50%; transform:translateY(-50%);
+  background:var(--raised); border:0; border-radius:var(--radius-pill); padding:5px 11px;
+  font-family:var(--mono); font-size:12px; font-weight:600; color:var(--text-3);
+  white-space:nowrap; cursor:default; transition:background .15s ease, color .15s ease; }
+/* amber, not red: an amount outside the program's range is a correction to
+   make, not an error the visitor has committed */
+.qw-lim.warn { background:var(--warn-tint); color:var(--warn); cursor:pointer; }
+.qw-lim.warn:hover { background:var(--warn); color:#fff; }
+.qw-lim:disabled { cursor:default; }
+/* on step 2 it is a standalone marker under the recap row, not an overlay */
+.qw-lim-2 { position:static; transform:none; display:inline-block; margin:10px 0 0; }
 
 .qw-controls .field-wide { grid-column:1 / -1; }
 

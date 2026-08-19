@@ -50,6 +50,10 @@ const EN = {
   foot: "Payment stays off-site. We only ask for your loyalty account number once you've approved the quote.",
   per1000: "≈ {v} per 1,000 miles",
   range: "Orders run {min} to {max} miles.",
+  // the chip on the amount field. Short by design: it sits inside the input,
+  // and the full sentence is still what a screen reader is given.
+  limMin: "min {v}",
+  limMax: "max {v}",
   below: "{program} orders start at {min} miles.",
   above: "A single {program} order goes up to {max} miles.",
   use: "Use {v}",
@@ -200,9 +204,16 @@ const notWired = labels.notWired ?? (orderEmail
       </div>
       <div class="field field-wide">
         <label for="qw-miles">{L.howMany}</label>
-        <input id="qw-miles" type="number" inputmode="numeric" step="1" value={startAmount} min={start.min} max={start.max} />
-        <span class="field-help" id="qw-range"></span>
-        <button type="button" class="qw-minfix" id="qw-minfix-1" hidden></button>
+        {/* The order limits live ON the field they constrain. They used to be
+            a grey sentence plus a separate "Use 80,000" link stacked under it:
+            two lines of chrome for one number, and both only appeared after
+            the visitor had already typed something unbuyable. The chip states
+            the binding limit up front and becomes the one-click fix when the
+            amount breaks it. */}
+        <div class="qw-amt">
+          <input id="qw-miles" type="number" inputmode="numeric" step="1" value={startAmount} min={start.min} max={start.max} />
+          <button type="button" class="qw-lim" id="qw-lim"></button>
+        </div>
       </div>
     </div>
 
@@ -245,10 +256,10 @@ const notWired = labels.notWired ?? (orderEmail
         </label>
         <b class="qw-recap-cost" id="qw-recap-cost"></b>
       </div>
-      <p class="qw-minline" id="qw-minline" hidden>
-        <span id="qw-minmsg"></span>
-        <button type="button" class="qw-minfix" id="qw-minfix"></button>
-      </p>
+      {/* the same chip as step 1, since the amount is editable here too. It
+          only appears when the amount actually breaks a limit: the recap is a
+          summary, and a limit that is being met needs no line of its own. */}
+      <button type="button" class="qw-lim qw-lim-2" id="qw-lim-2" hidden></button>
     </div>
 
     <form class="qw-form" id="qw-form">
@@ -371,23 +382,34 @@ const notWired = labels.notWired ?? (orderEmail
       const fixMsg = say ? fmt(below ? T.below : T.above, vars) : "";
       const fixLabel = say ? fmt(T.use, { v: num(target) }) : "";
 
-      const range = $("qw-range");
-      range.textContent = midEntry ? "" : outOfRange ? fixMsg : fmt(T.range, vars);
-      range.classList.toggle("warn", say);
+      // The chip's words never change as it lights up — only which limit it
+      // names. A label that rewrote itself from "min 80,000" to "Use 80,000"
+      // at the moment the field turned amber moved twice at once; leaving the
+      // number in place makes the state change legible. What it says when
+      // clicked is carried in the accessible name instead.
+      const lim = $("qw-lim");
+      const lim2 = $("qw-lim-2");
+      const limText = fmt(m > c.max ? T.limMax : T.limMin, { v: num(m > c.max ? c.max : c.min) });
+      [lim, lim2].forEach((el) => {
+        el.textContent = limText;
+        el.classList.toggle("warn", say);
+        el.dataset.target = target;
+        // only a live fix while it is actually one; in range it is a label
+        el.disabled = !say;
+        if (say) el.setAttribute("aria-label", `${fixMsg} ${fixLabel}`);
+        else el.removeAttribute("aria-label");
+      });
+      // Step 2's recap is a summary, so the chip only shows there when the
+      // amount breaks a limit. Its price shows a bare "—" otherwise, and its
+      // submit button stays disabled, so nothing unbuyable can be sent.
+      lim2.hidden = !say;
 
-      const fix1 = $("qw-minfix-1");
-      fix1.hidden = !say;
-      fix1.textContent = fixLabel;
-      fix1.dataset.target = target;
-
-      // Step 2 showed a bare "—" for the price with nothing to explain it, and
-      // its submit button stayed live, so an unbuyable amount could be sent.
-      const minline = $("qw-minline");
-      minline.hidden = !say;
-      $("qw-minmsg").textContent = fixMsg;
-      const fix2 = $("qw-minfix");
-      fix2.textContent = fixLabel;
-      fix2.dataset.target = target;
+      // The chip sits inside the field's trailing edge, so the input has to
+      // keep its own text clear of it. Measured rather than guessed: "min
+      // 80,000" and "الحد الأدنى 80,000" are not the same width, and a fixed
+      // padding would either crowd one or waste half the field on the other.
+      const pad = lim.offsetWidth;
+      miles1.style.paddingInlineEnd = pad ? `${pad + 22}px` : "";
 
       // Never price an amount the program won't accept, and don't let it
       // reach step 2 or the inbox — a quote we'd have to retract is worse than
@@ -556,8 +578,8 @@ const notWired = labels.notWired ?? (orderEmail
       miles2.value = v;
       render();
     }
-    $("qw-minfix-1").addEventListener("click", useTarget);
-    $("qw-minfix").addEventListener("click", useTarget);
+    $("qw-lim").addEventListener("click", useTarget);
+    $("qw-lim-2").addEventListener("click", useTarget);
 
     miles1.addEventListener("input", render);
     // leaving the field ends "still typing", so an amount below the minimum
