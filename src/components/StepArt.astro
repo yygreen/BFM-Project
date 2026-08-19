@@ -7,28 +7,26 @@
 // height alone still leaves a visible corner where the slopes disagree. Each
 // path also overshoots its own box (x from -10 to 250) so the stroke bridges
 // the grid gutter instead of stopping at the column edge; `overflow:visible`
-// is what allows it, and the flat overshoot means the two sides meet at the
-// same height whatever the column width.
+// is what allows it, and the horizontal ends mean the two sides meet at the
+// same height and the same slope whatever the column width.
 //
-// Every cubic starts at x=108, not at the waypoint. That number is measured
-// rather than chosen: the flat that arrives at a waypoint runs from the
-// previous panel's cubic end, across the gutter, to x=44 — about 64 units —
-// so the next cubic has to wait another 64 units for the waypoint to sit in
-// the MIDDLE of its turn rather than at the trailing edge of it. Starting at
-// x=44 put every marker ~40px late. It also lands the wave on a 1:1 rhythm,
-// 128 units of turn against 128 of flat.
+// ONE cubic per panel, edge to edge. No H segments, no plateaus: an earlier
+// version held a long flat, turned inside a short middle section and held flat
+// again, which read as a step rather than a wave. The two S panels are now a
+// single Bézier whose control points are mirrored about the midpoint:
 //
-// Centring cost the turn half its span, so the handles run the full 64 units
-// the span allows — the two of them meet at the midpoint. For a symmetric S
-// with horizontal ends, the radius where the flat meets the curve works out at
-// h²/((2/3)·A): it depends on the handle and the depth, NOT on the span. That
-// is the whole reason this still looks like the wave it replaced. Keeping the
-// old 43-unit handle through the shortened span dropped the radius from 307 to
-// 139 and the shoulders visibly kinked; at 64 it is back to exactly 307 with
-// the depth untouched. The price is paid in the middle instead, which now
-// passes through 17° rather than 9°. Shrinking the depth would buy that back,
-// but a shallower wave reads as a straight line with a bump in it, which is
-// worse than a brisk middle.
+//   P1 = P0 + (h, 0)        P2 = 2M − P1        M = (P0 + P3) / 2
+//
+// That construction gives exact 180° rotational symmetry, so the two halves
+// are geometric mirrors, the curve passes through M precisely, the inflection
+// lands there, and the maximum slope occurs there too and nowhere else (all
+// four verified numerically, not by eye). h is a third of the span, the
+// canonical smooth S.
+//
+// The waypoint rings are no longer on a flat, so their cy is the curve's own
+// y at x=44 rather than the panel's entry height — 29.8, 14 and 28. Move a
+// control point and those have to be recomputed or the ring floats off the
+// line. The fly panel is deliberately NOT symmetric; see below.
 //
 // Below the wave, every panel is built the same way:
 //
@@ -52,10 +50,10 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
-    <path class="il-line" d="M-10 32H108C172 32 172 12 236 12H250" />
-    <circle class="il-ring" cx="44" cy="32" r="10" />
-    <circle class="il-dot" cx="44" cy="32" r="4.5" />
-    <path class="il-tether" d="M44 44V58" />
+    <path class="il-line" d="M-10 32C77 32 163 12 250 12" />
+    <circle class="il-ring" cx="44" cy="29.8" r="10" />
+    <circle class="il-dot" cx="44" cy="29.8" r="4.5" />
+    <path class="il-tether" d="M44 41.8V58" />
 
     <!-- a program list with one row chosen: carrier chip, name, rate -->
     <rect class="il-chip" x="20" y="62" width="13" height="9" rx="3" />
@@ -74,10 +72,10 @@ const { step } = Astro.props;
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
-    <path class="il-line" d="M-10 12H108C172 12 172 30 236 30H250" />
-    <circle class="il-ring" cx="44" cy="12" r="10" />
-    <circle class="il-dot" cx="44" cy="12" r="4.5" />
-    <path class="il-tether" d="M44 24V58" />
+    <path class="il-line" d="M-10 12C77 12 163 30 250 30" />
+    <circle class="il-ring" cx="44" cy="14" r="10" />
+    <circle class="il-dot" cx="44" cy="14" r="4.5" />
+    <path class="il-tether" d="M44 26V58" />
 
     <!-- Money, and it leaves. A note rather than a coin: two concentric circles
          read as a target or a record button, not as payment. The arrow leads
@@ -105,14 +103,18 @@ const { step } = Astro.props;
          version flattened into its arrowhead at 5°, which decelerated exactly
          where the logo lifts. Entry stays pinned at the height the panel
          before it left off, on a horizontal tangent — that seam is not
-         negotiable. -->
-    <path class="il-line" d="M-10 30H108C164 30 186 15.7 199 7" />
+         negotiable.
+
+         So this panel is the one exception to the mirrored-control-point rule
+         above: a departure is asymmetric by definition. It still runs edge to
+         edge as a single cubic with no flat lead-in. -->
+    <path class="il-line" d="M-10 30C60 30 186 15.7 199 7" />
     <g class="il-tip" transform="translate(199 7) rotate(-34)">
       <path d="M-3 -6.5L12 0-3 6.5z" />
     </g>
-    <circle class="il-ring" cx="44" cy="30" r="10" />
-    <circle class="il-dot" cx="44" cy="30" r="4.5" />
-    <path class="il-tether" d="M44 42V58" />
+    <circle class="il-ring" cx="44" cy="28" r="10" />
+    <circle class="il-dot" cx="44" cy="28" r="4.5" />
+    <path class="il-tether" d="M44 40V58" />
 
     <!-- the aircraft hangs plumb under its waypoint: its centre is x=44, the
          same x the ring and tether use, like the note in the panel before -->
