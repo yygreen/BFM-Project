@@ -31,6 +31,17 @@ const {
   program = null,
   // Kept for callers that want the card bare; the head is the default now.
   bare = false,
+  // Folds the whole widget behind one click. Program pages use this: the
+  // miles calculator above is the decision that page exists to close, and a
+  // second live form under it competes for the same attention. Collapsed,
+  // the band still says the second door is there; opening it costs a click,
+  // which is exactly the filter you want. The homepage and /flights leave it
+  // open, because there the seat IS the product.
+  collapsed = false,
+  // Wording for the closed state. Defaults read as an invitation rather than
+  // a section title, since the section head above already made the pitch.
+  foldLabel = "Tell us the route",
+  foldHint = "Business or first class, quoted for your dates.",
   // /flights is the page this links to for the long explanation; the widget
   // there doesn't need to link to itself.
   moreLink = true,
@@ -43,20 +54,46 @@ const notWired = orderEmail
   : "Enquiries aren't connected yet. Send your route and dates through the contact page and we'll pick it up from there.";
 ---
 <div class="fsearch" data-program={program ?? ""} data-inbox={mailtoInbox} data-key={accessKey ? "1" : ""}>
+  <!-- Always a <details>, so the open and folded cases are one piece of
+       markup rather than two copies of the widget. Callers that don't fold it
+       get `open` plus a summary hidden in CSS, which renders exactly as the
+       card always did. A <details> also means the fold works with no
+       JavaScript at all. -->
+  <details class:list={["fs-fold", !collapsed && "fs-fold-static"]} open={!collapsed}>
+    <summary>
+      <span>
+        <span class="fs-fold-t">{foldLabel}</span>
+        <span class="fs-fold-h">{foldHint}</span>
+      </span>
+      {/* Folded, the summary IS the head, so the step marker belongs in this
+          row. Left where it was it sat alone above the fields with an empty
+          title beside it, which is the stray-element problem the note below
+          describes, arrived at from the other direction. CSS hides it while
+          the card is shut, where "step 1 of 2" is noise. */}
+      {collapsed && (
+        <ol class="qw-dots fs-dots" aria-hidden="true">
+          <li class="on" data-dot="1"></li>
+          <li data-dot="2"></li>
+        </ol>
+      )}
+      <span class="fs-fold-mk" aria-hidden="true">+</span>
+    </summary>
   <!-- The quote widget's head, verbatim in structure: title and sub on the
        left, step marker on the right. Two widgets doing the same job on the
        same page should not look like two different components, and the dots
        sitting alone above the fields read as a stray element. -->
-  <div class="qw-head">
-    <div>
-      {!bare && <span class="qw-title">{heading}</span>}
-      {!bare && <span class="qw-sub">{sub}</span>}
+  {!collapsed && (
+    <div class="qw-head">
+      <div>
+        {!bare && <span class="qw-title">{heading}</span>}
+        {!bare && <span class="qw-sub">{sub}</span>}
+      </div>
+      <ol class="qw-dots fs-dots" aria-hidden="true">
+        <li class="on" data-dot="1"></li>
+        <li data-dot="2"></li>
+      </ol>
     </div>
-    <ol class="qw-dots fs-dots" aria-hidden="true">
-      <li class="on" data-dot="1"></li>
-      <li data-dot="2"></li>
-    </ol>
-  </div>
+  )}
 
   <!-- STEP 1 — the brief -->
   <div class="fs-step" data-step="1">
@@ -185,6 +222,7 @@ const notWired = orderEmail
     Free and no-obligation. We quote before you pay, and nothing is charged on this website.
     {moreLink && <> <a href="/flights">How we source your seat →</a></>}
   </p>
+  </details>
 </div>
 
 <EnquiryMail />
