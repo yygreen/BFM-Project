@@ -268,7 +268,26 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
    the longest label on the roster still clears it */
 .gcard-mini .pname { font-size:14.5px; margin-top:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .gcard-mini .plabel { font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* The saving against the airline's own list price, where one is sourced.
+   Deliberately not a status colour: green and amber mean in stock and
+   limited on this very card, and a price comparison is a claim rather than a
+   state. The percentage carries the emphasis instead of the hue. */
+.gcard .gsave { font-size:12.5px; color:var(--text-2); margin-top:6px; }
+.gcard .gsave b { font-weight:700; color:var(--text-1); }
 .gcard .meta { font-size:12.5px; color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
+/* Only some cards carry the comparison line, so without this the detail row
+   and the call to action sit at a different height on every card in a row.
+   The grid already stretches each card to its row; pushing the footer down
+   makes the bottom edges line up whatever is above them. */
+.grid > .gcard { display:flex; flex-direction:column; }
+.grid > .gcard .meta { margin-top:auto; }
+/* the affordance, matching the "ask" tiles that already sit in this grid */
+.gcard .gcta { display:block; margin-top:12px; font-family:var(--display); font-weight:700;
+  font-size:13.5px; color:var(--cobalt); }
+.gcard:hover .gcta { text-decoration:underline; text-underline-offset:3px; }
+/* not affiliated, said where the logos actually are rather than only in the
+   footer three screens down */
+.grid-note { margin-top:18px; font-size:12.5px; color:var(--text-3); text-align:center; }
 /* compact cards on phones: name + price is the scan line, and the detail row
    lives on the program page the card links to — shorter cards mean more
    programs per screen and a reason to tap through */

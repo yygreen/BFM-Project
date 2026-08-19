@@ -11,6 +11,8 @@ import StepArt from "../components/StepArt.astro";
 import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
 import { site, live, realTestimonials, realReviews, flightSavings, flightSavingsHtml } from "../lib/site";
+import { directBuyRate } from "../lib/site";
+import { rateFixed, savingVsList } from "../lib/money";
 
 // alphabetical by carrier, matching the nav dropdown and the quote widget's
 // selector — the grid is a lookup wall, and one site shouldn't have two orders
@@ -172,8 +174,25 @@ const jsonld = {
                  must be the thing the sort is on or the order reads as random -->
             <div class="pname">{a.airline}</div>
             <div class="plabel">{a.program}</div>
-            <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{a.pricePerMile}¢ <small>/ mile</small></div>
+            <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{rateFixed(a.pricePerMile)}¢ <small>/ mile</small></div>
+            {/* The comparison, wherever we have a sourced one. A bare per-mile
+                rate means nothing without a benchmark, and the airline's own
+                published price is the benchmark every buyer already has in
+                mind. Renders only where the figure is sourced and dated and
+                where ours is actually cheaper, so the claim is never a guess.
+                "List price" rather than "direct": airlines discount it
+                periodically, and the program page carries that footnote. */}
+            {savingVsList(a.pricePerMile, directBuyRate(a.directBuy)) !== null && (
+              <div class="gsave">
+                <b>{savingVsList(a.pricePerMile, directBuyRate(a.directBuy))}% below</b>
+                {" "}the airline's {rateFixed(directBuyRate(a.directBuy))}¢ list price
+              </div>
+            )}
             <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
+            {/* The whole tile is a link, but nothing said so — while the two
+                "ask" tiles in the same grid both carry a call to action, so
+                half the grid read as clickable and half didn't. */}
+            <span class="gcta">See pricing →</span>
           </a>
         ))}
         <!-- catch-all for programs we don't list — a request, not a promise:
@@ -194,6 +213,15 @@ const jsonld = {
           <span class="askcta">See partner access →</span>
         </a>
       </div>
+      <!-- Said here rather than only in the footer: this is the one block on
+           the site carrying twenty-one carrier wordmarks, and "In stock"
+           beside a logo is exactly where a reader might infer a relationship
+           that does not exist. -->
+      <p class="grid-note">
+        buyflightmiles is an independent miles agent and is not affiliated with,
+        endorsed by, or acting for any airline or loyalty program shown here.
+        Program names and marks belong to their owners.
+      </p>
     </div>
   </section>
 

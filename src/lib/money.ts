@@ -41,3 +41,30 @@ export function per1000(centsPerMile: number): number {
 export function costOf(miles: number, centsPerMile: number): number {
   return Math.round(miles * centsPerMile) / 100;
 }
+
+/**
+ * A per-mile rate at a fixed two decimals: 2 → "2.00", 1.8 → "1.80".
+ *
+ * For any surface that puts rates from several programs side by side. The
+ * roster runs 1.75 to 2.2, and rendering them at their natural precision
+ * gives "2¢" next to "1.95¢" — the eye cannot rank figures whose digit
+ * counts differ, and the short one reads as a rounded guess on a card whose
+ * whole job is precision. A single rate on its own page has nothing to line
+ * up against and keeps its natural form.
+ */
+export function rateFixed(centsPerMile: number, locale = "en-US"): string {
+  return centsPerMile.toLocaleString(locale, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+/**
+ * How far under the airline's own list price a rate sits, as a whole percent.
+ * Returns null when there is no sourced list price to compare against, or
+ * when ours isn't actually cheaper — the claim has to be true to render.
+ */
+export function savingVsList(ourCents: number, listCents: number | null): number | null {
+  if (!listCents || listCents <= ourCents) return null;
+  return Math.round(((listCents - ourCents) / listCents) * 100);
+}
