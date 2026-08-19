@@ -70,25 +70,6 @@ const DE_SAVINGS = {
   fxFoot: fx ? DE_FX.foot.replaceAll("{d}", deStamp) : "",
 };
 
-const DE_TRUST = {
-  rating: "Bewertung",
-  guarantee: "Garantie",
-  noSurprises: "Keine Überraschungen",
-  quotedFirst: "Preis vor der Zahlung",
-  quotedCap: "Wir bestätigen dir deinen genauen Preis und den Lieferzeitraum schriftlich, bevor irgendetwas gezahlt wird",
-  yourAccount: "Dein Konto",
-  milesIn: "Die Meilen kommen an",
-  milesInCap: "Sie landen auf dem Konto, das du ohnehin hast, und du buchst direkt. Die Zahlung läuft außerhalb dieser Website, hier wird nichts Sensibles gespeichert",
-  milesDelivered: "Meilen geliefert",
-  transfers: "Übertragungen",
-  programsCovered: "Programme",
-  yearsTrading: "Jahre am Markt",
-  reviews: "Bewertungen",
-  completion: "Abschlussquote",
-  accountLocks: "Kontosperren",
-  support: "Support",
-  numLocale: "de-DE",
-};
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
@@ -105,6 +86,16 @@ const rateDe = a.pricePerMile.toLocaleString(DE);
 // a German compound hyphenates right through the name: "Miles-&-More-Konto"
 const progDe = a.program.replace(/ /g, "-");
 
+// The English page prices each sweet spot at our rate; the German page did
+// not, which quietly dropped the strongest number in the section. The uses are
+// authored in the same order as the sweet spots, so the nth use takes the nth
+// spot's mile count.
+const spotMiles = (a.sweetSpots ?? []).map((sp) => sp.miles ?? null);
+const useCost = (miles: number) =>
+  LOCALES.de.page.useCost
+    .replace("{miles}", miles.toLocaleString(DE))
+    .replace("{cost}", (verified ? "" : "~") + usd(costOf(miles, a.pricePerMile), DE));
+
 // Related programs, but only ones that exist in German — an internal link
 // out of the language is worse than no link. The block appears on its own as
 // the German roster grows.
@@ -116,6 +107,14 @@ const related = a.related
 // and this page is built to rank. Product carries the German name and
 // description, FAQPage carries the German answers, and the price is still
 // withheld until the rate is confirmed.
+// Every language this program exists in, not only English.
+const alternates = [
+  { hreflang: "en", slug: `buy/${a.slug}` },
+  ...Object.keys(a.i18n ?? {})
+    .filter((loc) => loc !== "de")
+    .map((loc) => ({ hreflang: LOCALES[loc]?.htmlLang ?? loc, slug: `${loc}/buy/${a.slug}` })),
+];
+
 const jsonld = [
   {
     "@context": "https://schema.org",
@@ -155,7 +154,7 @@ const jsonld = [
   description={t.metaDescription}
   slug={`de/buy/${a.slug}`}
   lang="de"
-  alternates={[{ hreflang: "en", slug: `buy/${a.slug}` }]}
+  alternates={alternates}
   jsonld={jsonld}
 >
   <div lang="de">
@@ -250,9 +249,10 @@ const jsonld = [
                   <span class="vtier-note">Die Prämien, für die sich der Kauf lohnt</span>
                 </div>
                 <div class="uses">
-                  {t.uses.map((u) => (
+                  {t.uses.map((u, i) => (
                     <div class="use">
                       <h4>{u.title}</h4>
+                      {spotMiles[i] && <div class="use-cost">{useCost(spotMiles[i]!)}</div>}
                       <p>{u.desc}</p>
                     </div>
                   ))}
@@ -304,7 +304,7 @@ const jsonld = [
           <span class="kicker">Warum uns vertrauen</span>
           <h2>Jede {progDe}-Bestellung ist abgesichert</h2>
         </div>
-        <TrustStrip labels={DE_TRUST} />
+        <TrustStrip labels={LOCALES.de.trust} />
       </div>
     </section>
 
@@ -325,24 +325,26 @@ const jsonld = [
       </div>
     </section>
 
-    {related.length > 0 && (
-      <section class="section">
-        <div class="container">
-          <div class="section-head"><h2>Weitere Programme</h2></div>
-          <div class="related">
-            {related.map((r) => <a href={`/de/buy/${r.slug}`}>{r.airline} {r.program}</a>)}
-          </div>
-        </div>
-      </section>
-    )}
-
     <section class="section">
-      <div class="container ctaband">
-        <div>
-          <h3>Bereit für dein Angebot?</h3>
-          <p>Erst der Preis, dann die Zahlung. Auf dieser Website wird nichts abgebucht.</p>
+      <div class="container">
+        <div class="ctaband">
+          <div>
+            <h3>Bereit für dein Angebot?</h3>
+            <p>Erst der Preis, dann die Zahlung. Auf dieser Website wird nichts abgebucht.</p>
+          </div>
+          <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
         </div>
-        <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
+        {/* The German roster is one program today, so the sibling links are
+            usually empty and this row used to disappear with them, leaving the
+            page with no internal exit at all. The calculator link always
+            renders; the label only when there is more than one thing behind it. */}
+        <div class="related related-inline">
+          {related.length > 0 && <span class="related-lab">Weitere Programme</span>}
+          {related.map((r) => <a href={`/de/buy/${r!.slug}`}>{r!.airline} {r!.program}</a>)}
+          <a href={`/de/calculator/${a.slug}`}>
+            {CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}
+          </a>
+        </div>
       </div>
     </section>
   </div>

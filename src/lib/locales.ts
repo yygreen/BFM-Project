@@ -75,6 +75,13 @@ export type LocaleChrome = {
     greatValueNote: string;
     worthHead: string;
     worthSub: string;
+    /** the trust band, which the generic route was missing entirely */
+    whyTrust: string;
+    /** "{program}" is substituted with the program name */
+    orderProtected: string;
+    related: string;
+    /** the price under a sweet spot: "{miles}" and "{cost}" */
+    useCost: string;
   };
   /**
    * The market's currency, and how this locale words the conversion note.
@@ -99,6 +106,8 @@ export type LocaleChrome = {
   };
   /** QuoteWidget label overrides; any key omitted falls back to English */
   widget: Record<string, string>;
+  /** TrustStrip label overrides, same fallback rule */
+  trust: Record<string, string>;
   /** SavingsTool label overrides, same fallback rule */
   savings: Record<string, string>;
 };
@@ -130,6 +139,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "الحجوزات التي تستحق شراء الأميال من أجلها",
       worthHead: "هل شراء الأميال أفضل من الدفع نقداً؟",
       worthSub: "الصق السعر النقدي من بحثك عن الرحلة. إذا كان الدفع نقداً أفضل، سنقول لك ذلك.",
+      whyTrust: "لماذا تثق بنا",
+      orderProtected: "كل طلب {program} محمي",
+      related: "برامج ذات صلة",
+      useCost: "من {miles} ميل · {cost} بسعرنا",
     },
     fx: {
       currency: "AED",
@@ -178,6 +191,25 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "خلال 24 ساعة",
       numLocale: "ar-EG",
     },
+    trust: {
+      rating: "التقييم",
+      guarantee: "الضمان",
+      noSurprises: "بلا مفاجآت",
+      quotedFirst: "السعر قبل الدفع",
+      quotedCap: "نؤكد لك السعر النهائي ومدة التسليم كتابةً قبل دفع أي مبلغ",
+      yourAccount: "باسمك أنت",
+      milesIn: "لك، وباسمك",
+      milesInCap: "الأميال تصل إلى الحساب الذي تملكه أصلاً، والتذاكر تُصدر باسم المسافر. تتعامل مع شركة الطيران مباشرة، والدفع يتم خارج هذا الموقع فلا يُحفظ هنا أي بيان حساس",
+      milesDelivered: "ميل تم تسليمها",
+      transfers: "عملية تحويل",
+      programsCovered: "برنامج",
+      yearsTrading: "سنوات في السوق",
+      reviews: "تقييم",
+      completion: "نسبة الإتمام",
+      accountLocks: "حالات تجميد الحساب",
+      support: "الدعم",
+      numLocale: "ar-EG",
+    },
     savings: {
       milesLabel: "الأميال المطلوبة للحجز",
       fareLabel: "السعر النقدي الذي وجدته ({cur})",
@@ -217,6 +249,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "Die Einlösungen, für die sich Meilenkauf lohnt",
       worthHead: "Lohnt sich der Meilenkauf gegenüber dem Barpreis?",
       worthSub: "Füge den Preis aus deiner Flugsuche ein.",
+      whyTrust: "Warum uns vertrauen",
+      orderProtected: "Jede {program}-Bestellung ist abgesichert",
+      related: "Weitere Programme",
+      useCost: "ab {miles} Meilen · {cost} zu unserem Preis",
     },
     fx: {
       currency: "EUR",
@@ -271,6 +307,25 @@ export const LOCALES: Record<string, LocaleChrome> = {
       numLocale: "de-DE",
       notWired: "Angebotsanfragen sind noch nicht angebunden. Schreib uns direkt, wir kalkulieren deinen Preis.",
     },
+    trust: {
+      rating: "Bewertung",
+      guarantee: "Garantie",
+      noSurprises: "Keine Überraschungen",
+      quotedFirst: "Preis vor der Zahlung",
+      quotedCap: "Wir bestätigen dir deinen genauen Preis und den Lieferzeitraum schriftlich, bevor irgendetwas gezahlt wird",
+      yourAccount: "Auf deinen Namen",
+      milesIn: "Deins, auf deinen Namen",
+      milesInCap: "Die Meilen landen auf dem Konto, das du ohnehin hast, Tickets laufen auf den Namen des Reisenden. Du buchst direkt bei der Airline, die Zahlung läuft außerhalb dieser Website, hier wird nichts Sensibles gespeichert",
+      milesDelivered: "Meilen geliefert",
+      transfers: "Übertragungen",
+      programsCovered: "Programme",
+      yearsTrading: "Jahre am Markt",
+      reviews: "Bewertungen",
+      completion: "Abschlussquote",
+      accountLocks: "Kontosperren",
+      support: "Support",
+      numLocale: "de-DE",
+    },
     savings: {
       numLocale: "de-DE",
     },
@@ -303,6 +358,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "Los canjes por los que vale la pena comprar millas",
       worthHead: "¿Comprar millas te conviene más que pagar la tarifa?",
       worthSub: "Pega el precio que viste en tu búsqueda de vuelos. Si gana el efectivo, te lo decimos.",
+      whyTrust: "Por qué confiar en nosotros",
+      orderProtected: "Cada pedido de {program} está protegido",
+      related: "Programas relacionados",
+      useCost: "desde {miles} millas · {cost} a nuestro precio",
     },
     fx: {
       currency: "COP",
@@ -351,6 +410,25 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 horas",
       numLocale: "es-CO",
     },
+    trust: {
+      rating: "Calificación",
+      guarantee: "Garantía",
+      noSurprises: "Sin sorpresas",
+      quotedFirst: "Precio antes de pagar",
+      quotedCap: "Confirmamos por escrito tu precio exacto y el tiempo de entrega antes de que pagues nada",
+      yourAccount: "A tu nombre",
+      milesIn: "Tuyas, y a tu nombre",
+      milesInCap: "Las millas entran en la cuenta que ya tienes y los tiquetes se emiten a nombre del pasajero. Tratas directo con la aerolínea, y el pago se maneja fuera de este sitio, así que aquí no se guarda nada sensible",
+      milesDelivered: "millas entregadas",
+      transfers: "transferencias",
+      programsCovered: "programas",
+      yearsTrading: "años en el mercado",
+      reviews: "reseñas",
+      completion: "de finalización",
+      accountLocks: "cuentas bloqueadas",
+      support: "soporte",
+      numLocale: "es-CO",
+    },
     savings: {
       milesLabel: "Millas que necesita el canje",
       fareLabel: "Tarifa en efectivo que encontraste ({cur})",
@@ -395,6 +473,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "Mil satın almaya değer kullanımlar",
       worthHead: "Mil almak nakit ücretten daha mı iyi?",
       worthSub: "Uçuş aramanızda gördüğünüz fiyatı yapıştırın. Nakit kazanıyorsa bunu size söyleriz.",
+      whyTrust: "Neden bize güvenmelisiniz",
+      orderProtected: "Her {program} siparişi güvence altında",
+      related: "İlgili programlar",
+      useCost: "{miles} milden · bizim fiyatımızla {cost}",
     },
     fx: {
       currency: "TRY",
@@ -443,6 +525,25 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 saat",
       numLocale: "tr-TR",
     },
+    trust: {
+      rating: "Puan",
+      guarantee: "Garanti",
+      noSurprises: "Sürpriz yok",
+      quotedFirst: "Ödemeden önce fiyat",
+      quotedCap: "Net fiyatınızı ve teslim sürenizi, herhangi bir ödeme yapılmadan önce yazılı olarak onaylıyoruz",
+      yourAccount: "Kendi adınıza",
+      milesIn: "Sizin, kendi adınıza",
+      milesInCap: "Miller hâlihazırda sahip olduğunuz hesaba geçer, biletler yolcunun kendi adına düzenlenir. Havayoluyla doğrudan siz ilgilenirsiniz; ödeme bu sitenin dışında yapılır, burada hassas hiçbir bilgi saklanmaz",
+      milesDelivered: "mil teslim edildi",
+      transfers: "aktarım",
+      programsCovered: "program",
+      yearsTrading: "yıllık deneyim",
+      reviews: "değerlendirme",
+      completion: "tamamlanma",
+      accountLocks: "hesap kilidi",
+      support: "destek",
+      numLocale: "tr-TR",
+    },
     savings: {
       milesLabel: "Ödül bilet için gereken mil",
       fareLabel: "Bulduğunuz nakit ücret ({cur})",
@@ -487,6 +588,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "Les primes qui justifient d'acheter des miles",
       worthHead: "Acheter des miles vaut-il mieux que payer le tarif ?",
       worthSub: "Collez le prix vu dans votre recherche de vol. Si l'argent gagne, nous vous le dirons.",
+      whyTrust: "Pourquoi nous faire confiance",
+      orderProtected: "Chaque commande {program} est protégée",
+      related: "Programmes similaires",
+      useCost: "à partir de {miles} miles · {cost} à notre tarif",
     },
     fx: {
       currency: "EUR",
@@ -535,6 +640,25 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 heures",
       numLocale: "fr-FR",
     },
+    trust: {
+      rating: "Note",
+      guarantee: "Garantie",
+      noSurprises: "Aucune surprise",
+      quotedFirst: "Le tarif avant le paiement",
+      quotedCap: "Nous confirmons par écrit votre tarif exact et le délai de livraison avant tout paiement",
+      yourAccount: "À votre nom",
+      milesIn: "À vous, à votre nom",
+      milesInCap: "Les miles arrivent sur le compte que vous détenez déjà et les billets sont émis au nom du voyageur. Vous traitez directement avec la compagnie, et le paiement se fait hors de ce site, rien de sensible n'est conservé ici",
+      milesDelivered: "miles livrés",
+      transfers: "transferts effectués",
+      programsCovered: "programmes",
+      yearsTrading: "ans d'activité",
+      reviews: "avis",
+      completion: "de réussite",
+      accountLocks: "comptes bloqués",
+      support: "assistance",
+      numLocale: "fr-FR",
+    },
     savings: {
       milesLabel: "Miles nécessaires pour la prime",
       fareLabel: "Tarif en espèces trouvé ({cur})",
@@ -580,6 +704,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "值得為它買哩程的兌換",
       worthHead: "買哩程比付現划算嗎？",
       worthSub: "把你在訂票網站看到的價格貼進來。如果付現比較好，我們會直說。",
+      whyTrust: "為什麼可以信任我們",
+      orderProtected: "每一筆 {program} 訂單都有保障",
+      related: "相關計畫",
+      useCost: "{miles} 哩起 · 依我們的價格為 {cost}",
     },
     fx: {
       currency: "TWD",
@@ -628,6 +756,25 @@ export const LOCALES: Record<string, LocaleChrome> = {
       d24: "24 小時",
       numLocale: "zh-TW",
     },
+    trust: {
+      rating: "評價",
+      guarantee: "保障",
+      noSurprises: "沒有意外",
+      quotedFirst: "付款前先報價",
+      quotedCap: "我們會在任何款項支付之前，以書面確認你的確切價格與入帳時間",
+      yourAccount: "掛在你名下",
+      milesIn: "是你的，也在你名下",
+      milesInCap: "哩程會進到你原本就有的帳戶，機票以旅客本人名義開立。你直接與航空公司往來，付款在本網站之外處理，這裡不保存任何敏感資料",
+      milesDelivered: "哩程已交付",
+      transfers: "筆轉入",
+      programsCovered: "個計畫",
+      yearsTrading: "年經驗",
+      reviews: "則評價",
+      completion: "完成率",
+      accountLocks: "帳戶遭鎖",
+      support: "客服",
+      numLocale: "zh-TW",
+    },
     savings: {
       milesLabel: "這趟兌換需要的哩程",
       fareLabel: "你查到的現金票價（{cur}）",
@@ -673,6 +820,10 @@ export const LOCALES: Record<string, LocaleChrome> = {
       greatValueNote: "值得為佢買里數嘅兌換",
       worthHead: "買里數係咪抵過俾現金？",
       worthSub: "將你喺訂票網站見到嘅價錢貼入嚟。如果俾現金好啲，我哋會照直講。",
+      whyTrust: "點解可以信我哋",
+      orderProtected: "每一單 {program} 訂單都有保障",
+      related: "相關計劃",
+      useCost: "{miles} 里起 · 以我哋嘅價錢為 {cost}",
     },
     fx: {
       currency: "HKD",
@@ -719,6 +870,25 @@ export const LOCALES: Record<string, LocaleChrome> = {
       mailOpened: "你嘅電郵程式會帶住寫好嘅整封信開啟，睇一睇就可以寄出。",
       saveVs: "同定價 {v}¢ 相比為你慳咗",
       d24: "24 小時",
+      numLocale: "zh-HK",
+    },
+    trust: {
+      rating: "評價",
+      guarantee: "保障",
+      noSurprises: "冇意外",
+      quotedFirst: "付款前先報價",
+      quotedCap: "喺任何款項支付之前，我哋會以書面確認你嘅確實價格同入賬時間",
+      yourAccount: "掛喺你名下",
+      milesIn: "係你嘅，亦喺你名下",
+      milesInCap: "里數會入到你本身就有嘅戶口，機票以旅客本人名義出。你直接同航空公司交涉，付款喺本網站以外處理，呢度唔會儲存任何敏感資料",
+      milesDelivered: "里數已交付",
+      transfers: "宗轉賬",
+      programsCovered: "個計劃",
+      yearsTrading: "年經驗",
+      reviews: "個評價",
+      completion: "完成率",
+      accountLocks: "戶口被鎖",
+      support: "客服",
       numLocale: "zh-HK",
     },
     savings: {

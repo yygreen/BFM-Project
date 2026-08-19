@@ -6,9 +6,11 @@
 // per-program data; the refund commitment renders from site.json only once
 // the client confirms it. noindex matches the old site's legal pages.
 //
-// Same container as every other page. The reading measure comes from
-// `.prose`, and the width that leaves carries a contents rail — which is
-// what anyone opening a terms page is usually looking for first.
+// Same container as every other page; the reading measure comes from
+// `.prose` rather than from a narrower container, which is what used to make
+// this page look like a different site. No sidebar: a legal page is read
+// straight through, and the section list only exists so the headings and
+// their anchor ids stay defined in one place.
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { site } from "../lib/site";
@@ -43,87 +45,68 @@ const h = Object.fromEntries(sections.map((s) => [s.id, s.title]));
         <p>Last updated August 2026.</p>
       </div>
 
-      <div class="blog-layout">
-        <div class="blog-main">
-          <div class="prose">
-            <h2 id="who-we-are">{h["who-we-are"]}</h2>
-            <p>
-              buyflightmiles is an independent miles agent. We are not affiliated with, endorsed by, or
-              acting on behalf of any airline or loyalty program shown on this site. Airline and
-              program names belong to their owners and are used only to identify the programs we
-              source miles for.
-            </p>
+      <div class="prose">
+        <h2 id="who-we-are">{h["who-we-are"]}</h2>
+        <p>
+          buyflightmiles is an independent miles agent. We are not affiliated with, endorsed by, or
+          acting on behalf of any airline or loyalty program shown on this site. Airline and
+          program names belong to their owners and are used only to identify the programs we
+          source miles for.
+        </p>
 
-            <h2 id="ordering">{h["ordering"]}</h2>
-            <p>
-              Everything starts with a quote. You tell us the program and amount, we confirm the
-              exact rate and delivery window, and only after you approve that quote is payment made.
-              No payment is taken on this website. By submitting an order request you accept these
-              terms.
-            </p>
+        <h2 id="ordering">{h["ordering"]}</h2>
+        <p>
+          Everything starts with a quote. You tell us the program and amount, we confirm the
+          exact rate and delivery window, and only after you approve that quote is payment made.
+          No payment is taken on this website. By submitting an order request you accept these
+          terms.
+        </p>
 
-            <h2 id="responsibilities">{h["responsibilities"]}</h2>
-            <p>
-              Miles are delivered into the loyalty account you name, so the details you give us must be
-              accurate: the account holder's name exactly as the program has it, and the correct
-              membership number. Once miles have posted to an account, the transfer is permanent and
-              cannot be recalled. We never ask for your account password, and you should never share it
-              with anyone who does.
-            </p>
+        <h2 id="responsibilities">{h["responsibilities"]}</h2>
+        <p>
+          Miles are delivered into the loyalty account you name, so the details you give us must be
+          accurate: the account holder's name exactly as the program has it, and the correct
+          membership number. Once miles have posted to an account, the transfer is permanent and
+          cannot be recalled. We never ask for your account password, and you should never share it
+          with anyone who does.
+        </p>
 
-            <h2 id="pricing">{h["pricing"]}</h2>
-            <p>
-              The rate confirmed in your quote is the rate you pay. Rates shown on the site with a
-              tilde (~) are indicative and are confirmed or corrected in the quote before you commit.
-            </p>
+        <h2 id="pricing">{h["pricing"]}</h2>
+        <p>
+          The rate confirmed in your quote is the rate you pay. Rates shown on the site with a
+          tilde (~) are indicative and are confirmed or corrected in the quote before you commit.
+        </p>
 
-            <h2 id="order-sizes">{h["order-sizes"]}</h2>
-            <p>
-              Typical order sizes and delivery windows are stated on each program's page and
-              confirmed in your quote. Unusually small or large orders are quoted individually rather
-              than refused outright, so ask.
-            </p>
+        <h2 id="order-sizes">{h["order-sizes"]}</h2>
+        <p>
+          Typical order sizes and delivery windows are stated on each program's page and
+          confirmed in your quote. Unusually small or large orders are quoted individually rather
+          than refused outright, so ask.
+        </p>
 
-            <h2 id="delivery-commitment">{h["delivery-commitment"]}</h2>
-            {site.guarantee.verified ? (
-              <p>{site.guarantee.summary} {site.guarantee.policy}</p>
-            ) : (
-              <p>
-                The delivery commitment for your order, including what happens if miles do not arrive
-                in the stated window, is set out in your quote before you pay. We don't publish a
-                blanket policy here that your quote might supersede; the quote is the binding version.
-              </p>
-            )}
+        <h2 id="delivery-commitment">{h["delivery-commitment"]}</h2>
+        {site.guarantee.verified ? (
+          <p>{site.guarantee.summary} {site.guarantee.policy}</p>
+        ) : (
+          <p>
+            The delivery commitment for your order, including what happens if miles do not arrive
+            in the stated window, is set out in your quote before you pay. We don't publish a
+            blanket policy here that your quote might supersede; the quote is the binding version.
+          </p>
+        )}
 
-            <h2 id="availability">{h["availability"]}</h2>
-            <p>
-              Award seat availability, program rules, and redemption pricing are controlled by the
-              airlines and can change without notice. We source miles; we cannot guarantee that a
-              specific award seat exists or remains bookable.
-            </p>
+        <h2 id="availability">{h["availability"]}</h2>
+        <p>
+          Award seat availability, program rules, and redemption pricing are controlled by the
+          airlines and can change without notice. We source miles; we cannot guarantee that a
+          specific award seat exists or remains bookable.
+        </p>
 
-            <h2 id="changes">{h["changes"]}</h2>
-            <p>
-              When these terms change, the date at the top changes with them. The version published at
-              the time of your quote is the one that applies to your order.
-            </p>
-          </div>
-        </div>
-
-        <aside class="doc-side">
-          <nav class="toc" aria-label="On this page">
-            <h4>On this page</h4>
-            <ol>
-              {sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}
-            </ol>
-          </nav>
-          <div class="side-box">
-            <h4>Also worth reading</h4>
-            <a class="cside-link" href="/privacy">Privacy policy →</a>
-            <a class="cside-link" href="/faq">Frequently asked questions →</a>
-            <a class="cside-link" href="/contact">Ask us something →</a>
-          </div>
-        </aside>
+        <h2 id="changes">{h["changes"]}</h2>
+        <p>
+          When these terms change, the date at the top changes with them. The version published at
+          the time of your quote is the one that applies to your order.
+        </p>
       </div>
     </div>
   </section>
