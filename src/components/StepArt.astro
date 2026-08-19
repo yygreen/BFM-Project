@@ -5,13 +5,14 @@
 // the same viewBox and enters at the height its neighbour left off, on a
 // horizontal tangent, so the seam between columns is invisible — matching the
 // height alone still leaves a visible corner where the slopes disagree. Each
-// path also overshoots its own box (x from -10 to 250) so the stroke bridges
+// path overshoots its own box to the right (to x=250) so the stroke bridges
 // the grid gutter instead of stopping at the column edge; `overflow:visible`
 // is what allows it, and the horizontal ends mean the two sides meet at the
-// same height and the same slope whatever the column width.
+// same height and the same slope whatever the column width. Panels 2 and 3
+// start at x=-10 to receive that overshoot; panel 1 does not, see below.
 //
-// THE WAVE TURNS AT THE WAYPOINTS. Each marker is a true extremum of the
-// curve: trough, peak, trough. Between two consecutive extrema the wave is one
+// THE WAVE TURNS AT THE WAYPOINTS. Markers 2 and 3 are true extrema of the
+// curve, peak and trough. Between two consecutive extrema the wave is one
 // cubic with HORIZONTAL tangents at both ends, so the slope at every marker is
 // exactly 0 with no flat section either side of it. Earlier versions had the
 // markers sitting on a slope, or centred in a plateau — near the turn, but not
@@ -29,9 +30,13 @@
 // continuous through every marker and not merely the tangent. All three come
 // out at 0.001434, verified numerically rather than by eye.
 //
-// The lead-in descends 1.57 units into the first trough. That is not styling:
-// a minimum needs the curve to arrive falling, and the amount is whatever the
-// curvature match dictates once its handle is capped at half the lead-in span.
+// The one exception is the lead-in, and it is deliberate: the wave starts at
+// the container's content edge rather than bleeding into the page padding, and
+// it runs dead level from there to the first waypoint. The path begins at
+// x=1.25 rather than 0 because the 2.5-wide stroke has a round cap that sticks
+// out half its width, so the visible left edge of the ink lands exactly on the
+// content edge, level with the copy below. The first marker is therefore where
+// the wave starts to rise, not a turn in it.
 //
 // Ring cy therefore equals its marker height exactly — 29.8, 14, 28 — because
 // the curve is built to pass through those points, not the other way round.
@@ -58,7 +63,7 @@ const { step } = Astro.props;
 ---
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
-    <path class="il-line" d="M-10 28.23C17 28.23 17 29.8 44 29.8C112.67 29.8 181.33 19.66 250 15.63" />
+    <path class="il-line" d="M1.25 29.8C15.5 29.8 29.75 29.8 44 29.8C112.67 29.8 181.33 19.66 250 15.63" />
     <circle class="il-ring" cx="44" cy="29.8" r="10" />
     <circle class="il-dot" cx="44" cy="29.8" r="4.5" />
     <path class="il-tether" d="M44 41.8V58" />

@@ -27,12 +27,15 @@ const K = (2 / 3) * A1 / (h1 * h1);          // target curvature at every marker
 const A2 = Math.abs(m3[1] - m2[1]);
 const h2 = Math.sqrt((2 / 3) * A2 / K);
 
-// lead-in: descends into m1 so the marker is a genuine minimum, handle capped
-// at half its span, amplitude then fixed by the curvature match
-const span0 = m1[0] - -10;
-const h0 = span0 / 2;
-const A0 = K * h0 * h0 / (2 / 3);
-const start = [-10, m1[1] - A0];
+// Lead-in: a horizontal run at the first marker's own height, so the wave
+// leaves the page edge flat and the marker is where it starts to rise.
+//
+// It begins at CAP rather than 0. The stroke is 2.5 wide with a round cap, so
+// the cap sticks out half that; starting at 1.25 puts the visible left edge of
+// the ink exactly on the container's content edge, level with the copy below.
+// The old lead-in ran to x=-10 and bled out into the page padding.
+const CAP = 2.5 / 2;
+const start = [CAP, m1[1]];
 
 // departure: horizontal at m3, exits at the logo angle
 const d3 = 30;
@@ -41,7 +44,12 @@ const h3 = Math.sqrt((2 / 3) * Math.abs(P2_3[1] - m3[1]) / K);
 
 const sym = (P0, P3, h) => [P0, [P0[0] + h, P0[1]], [P3[0] - h, P3[1]], P3];
 const segs = [
-  sym(start, m1, h0),
+  // straight and level: four points at the same height, evenly spaced so the
+  // parametrisation stays well behaved (coincident points give a zero tangent)
+  [start,
+   [start[0] + (m1[0] - start[0]) / 3, m1[1]],
+   [start[0] + 2 * (m1[0] - start[0]) / 3, m1[1]],
+   m1],
   sym(m1, m2, h1),
   sym(m2, m3, h2),
   [m3, [m3[0] + h3, m3[1]], P2_3, tip],
@@ -67,7 +75,7 @@ const der = (P, t) => {
 const tAtX = (P, X) => { let lo=0, hi=1; for (let i=0;i<80;i++){const m=(lo+hi)/2; at(P,m)[0]<X?lo=m:hi=m;} return (lo+hi)/2; };
 
 // ---- carve the wave into the three panels ---------------------------------
-const ranges = [[g(0,-10), g(0,250)], [g(1,-10), g(1,250)], [g(2,-10), g(2,199)]];
+const ranges = [[g(0,CAP), g(0,250)], [g(1,-10), g(1,250)], [g(2,-10), g(2,199)]];
 const names = ['choose','pay','fly'];
 const f = (n) => +n.toFixed(2);
 
@@ -103,5 +111,6 @@ const curvAt = (P, t) => {
   console.log(`  ${label}: slope in ${(inSlope[1]/inSlope[0]).toExponential(1)}, out ${(outSlope[1]/outSlope[0]).toExponential(1)}` +
     `  |  curvature in ${curvAt(segs[a],1).toFixed(6)}, out ${curvAt(segs[b],0).toFixed(6)}`);
 });
-console.log('\nhandles: h0 ' + f(h0) + '  h1 ' + f(h1) + '  h2 ' + f(h2) + '  h3 ' + f(h3));
-console.log('lead-in starts at y ' + f(start[1]) + ' and descends ' + f(A0) + ' into the first trough');
+console.log('\nhandles: h1 ' + f(h1) + '  h2 ' + f(h2) + '  h3 ' + f(h3));
+console.log('lead-in: level at y ' + f(start[1]) + ', from x ' + f(start[0]) +
+  ' to x ' + f(m1[0]) + ' (' + f(m1[0] - start[0]) + ' units, visible ink starts at x 0)');
