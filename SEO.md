@@ -8,8 +8,15 @@ Semrush exports pulled 11 Aug 2026:
 - **Keyword gap** (449 keywords vs `buyairlinemiles.com`, `airmileshk.com`,
   `milesbuyer.com/buy-miles/`) — what the vertical ranks for and we don't.
 
-Both are samples, not the full organic footprint. Treat the volumes as relative
-weights rather than traffic forecasts.
+and one pulled 19 Aug 2026:
+
+- **Hypothesis pull** (122 keywords, `us` database) — §3b. Written to test
+  ideas the gap file structurally cannot answer, since a competitor-relative
+  file only shows what those three competitors already rank for.
+
+All three are samples, not the full organic footprint. Treat the volumes as
+relative weights rather than traffic forecasts, and note that §3b's non-English
+figures come from the `us` database and are therefore floors.
 
 ---
 
@@ -306,6 +313,87 @@ rate and an uncaveated saving would have been disprovable in one click.
 
 ---
 
+## 3b. Second pull, 19 August 2026
+
+A 122-keyword pull against hypotheses the August gap file could not answer.
+That file was **competitor-relative** — 449 keywords vs three named resellers —
+so it can only ever surface what those three already rank for. Everything the
+whole niche has missed is invisible to it, and that is where the findings below
+came from.
+
+**Read every non-English figure as a floor.** Both files were pulled from the
+`us` database. A German-language query measured in `us` is counting German
+speakers searching from America; the same query in `de` will be a multiple of
+it. The same applies to the Portuguese terms (`br`) and the Japanese one (`jp`).
+Re-pull before sizing anything.
+
+### Winnable: under the KD 30 ceiling §1 established
+
+| keyword | vol | KD | CPC | have a page? |
+|---|---:|---:|---:|---|
+| buy avios | 880 | **23** | $8.47 | no |
+| buy avios points | 480 | **14** | $2.96 | no |
+| buy lifemiles | 390 | **25** | $8.00 | yes |
+| buy krisflyer miles | 210 | **24** | $2.84 | yes |
+| buy asia miles | 70 | 32 | $3.27 | yes |
+
+**The Avios cluster is 1,380/mo in `us` alone at KD 14–23**, before the UK
+database where the head term lives, and $8.47 CPC says the intent is
+commercial. This moves the Avios currency page from a hypothesis to the
+best-evidenced build on the list.
+
+LifeMiles and KrisFlyer are the surprise: both already have `/buy/` and
+`/calculator/` pages, both sit inside the winnable band, and neither has had
+any keyword-targeted work.
+
+### Out of reach, at the same volumes
+
+`buy aeroplan points` 880/mo at **KD 61**. `buy flying blue miles` 880/mo at
+**KD 47**. `comprar milhas` 210/mo at **KD 51**. `atmos rewards buy points`
+70/mo at KD 48. Identical volume to Avios, triple the difficulty — the cleanest
+illustration of §1's rule in the dataset, and the reason not to chase Aeroplan's
+head term however good 880/mo looks.
+
+### Negative findings, which are worth as much
+
+- `top up airline miles` **0**. `best site to buy airline miles` **0**. `best
+  time to buy airline miles` **0**. `award travel concierge` **0**. The
+  problem-first hypothesis — that people search the shortfall moment in their
+  own words — does not hold in those phrasings.
+- `buyflightmiles review` **0**; competitors' review terms run 10–20. Nobody
+  searches for any of us by name, so the 2.6★ Google Business rating is not a
+  SERP problem. It is still a conversion problem for anyone who looks.
+- `award booking service` is only 30/mo, though at KD 12 with an AI Overview.
+  The `/flights` cluster needs destination pages, not service-vocabulary pages.
+
+### German demand is program-wide, not Lufthansa-only
+
+22 German keywords, 330/mo total **in `us`**, across eight programs:
+
+| program | vol (us) | German page? |
+|---|---:|---|
+| Miles & More / Lufthansa | 130 | yes |
+| Emirates / Skywards | 70 | no |
+| Flying Blue / Air France | 30 | no |
+| Delta | 20 | no |
+| United | 20 | no |
+| Etihad | 10 | no |
+| KrisFlyer | 10 | no |
+| Turkish | 10 | no |
+
+Competitive density runs 0.00–0.43, so nobody is bidding on these either.
+
+This is the architecture's best case. `[locale]/buy/[slug].astro` generates any
+locale from an `i18n` block in `airlines.json`, so serving seven more programs
+in German is **seven data entries, not seven pages**. Emirates and Turkish
+already carry `ar` and `tr` blocks to model the shape on.
+
+The caveat that applies to all of it: nine translated pages already ship without
+a native review, and that is nine launch blockers. Seven more compounds the
+debt rather than adding to it. Review first, or expand and accept the number.
+
+---
+
 ## 4. Build queue
 
 Ordered by reachable volume per unit of work, not by headline volume.
@@ -323,10 +411,24 @@ Status as of 12 August 2026.
    {program} miles* are literal gap keywords at KD 24–38. One shared FAQ block
    driven by the collection covers 21 pages at once.
 
-3. **Avios currency page.** `buy avios points` is 390/mo at KD 14 and the old
-   site ranked #18 with a dedicated URL we deleted. Avios spans BA, Qatar, Iberia
-   and Finnair, so it is a currency page, not an airline page. Connects to the
-   4,400/mo UK head term already flagged.
+3. **Avios currency page — now the top of this list.** The 19 August pull
+   (§3b) sizes the cluster at **1,380/mo in `us` at KD 14–23**: `buy avios` 880
+   at KD 23, `buy avios points` 480 at KD 14, `qmiles to avios` 20. That is
+   before the UK database, where the 4,400/mo head term lives, and `buy avios`
+   carries an $8.47 CPC. The old site ranked #18 on a dedicated URL we deleted,
+   so it is a recoverable position rather than a cold start.
+
+   Avios spans BA, Qatar, Iberia, Finnair and Aer Lingus at 1:1, so it is a
+   currency page, not an airline page. Its spine is the decision neither
+   program page makes: BA is 1.75¢ with an 80,000 minimum, Qatar 1.8¢ with a
+   10,000 minimum, so under 80,000 you must buy Qatar and at 80,000 or more BA
+   is cheaper — then move them 1:1 to whichever program prices the award best.
+   Both rates are already `priceVerified`, so nothing here waits on the client.
+
+   Route `/buy/avios`: no collision, since the collection holds `qatar-avios`
+   and `ba-avios` but no bare `avios`, and a static file outranks the dynamic
+   `[slug]`. It is also the real 301 target for the old `/buy-avios`, currently
+   pointed at `/buy/ba-avios` as a compromise.
 
 4. **301 map from the old URLs** (from the tracking export — these carry every
    ranking the live site has):
@@ -349,6 +451,12 @@ Status as of 12 August 2026.
    and one route now generates all six languages. **Nine translated pages, none
    native-reviewed**, which is nine of the launch blockers' worth of risk
    sitting behind copy I wrote.
+
+   **German is the market to widen, not deepen (§3b).** German-language demand
+   exists for eight programs and we serve one. Seven `i18n.de` blocks in
+   `airlines.json` would cover Emirates, Flying Blue, Delta, United, Etihad,
+   KrisFlyer and Turkish, with no template work at all. Re-pull in the `de`
+   database first: the 330/mo total is a `us` figure and understates it.
 
 6. ~~**Source the airline direct-buy benchmark**~~ **done for five programs,
    published on three.** The savings figure was suppressed site-wide for want
