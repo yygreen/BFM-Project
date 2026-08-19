@@ -1275,6 +1275,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-cal-nav { width:28px; height:28px; border:0; border-radius:8px; background:var(--raised);
   color:var(--text-2); font-size:17px; line-height:1; cursor:pointer; }
 .fs-cal-nav:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+/* RTL puts "previous month" on the right, where a left-pointing chevron then
+   means forward. Flip the glyph so it still points back the way the reader
+   reads; the buttons themselves are already reordered by the flex direction */
+[dir="rtl"] .fs-cal-nav { transform:scaleX(-1); }
 .fs-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
 .fs-cal-dow { display:grid; place-items:center; height:26px; font-size:11px; font-weight:700;
   color:var(--text-3); text-transform:uppercase; }

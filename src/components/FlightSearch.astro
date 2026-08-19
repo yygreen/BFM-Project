@@ -34,15 +34,103 @@ const {
   // /flights is the page this links to for the long explanation; the widget
   // there doesn't need to link to itself.
   moreLink = true,
+  // Localized pages override any subset of the strings below; anything they
+  // leave out falls back to English. Same contract as QuoteWidget.
+  labels = {},
+  // Where "How we source your seat" points. /flights is English-only, so a
+  // translated page passes its own target or drops the link.
+  moreHref = "/flights",
+  // Where the not-wired fallback sends people.
+  contactHref = "/contact",
 } = Astro.props;
+
+const EN = {
+  tripLabel: "Trip type",
+  tripReturn: "Return",
+  tripOneway: "One way",
+  from: "From",
+  to: "To",
+  airportPh: "City or airport",
+  swap: "Swap origin and destination",
+  dep: "Departing",
+  ret: "Returning",
+  pax: "Travellers",
+  // {n} is the count; both forms are given because the split is not the same
+  // in every language, and several of ours have no plural form at all
+  paxOne: "{n} traveller",
+  paxMany: "{n} travellers",
+  cabinLabel: "Cabin",
+  cabinBusiness: "Business",
+  cabinFirst: "First",
+  cabinEither: "Either",
+  // the long forms, which travel into the enquiry rather than sitting on a pill
+  cabinBusinessLong: "Business class",
+  cabinFirstLong: "First class",
+  cabinEitherLong: "Business or first",
+  flex: "My dates are flexible by a few days",
+  flexTag: "(flexible)",
+  go: "Continue →",
+  back: "← Change the trip",
+  name: "Name *",
+  email: "Email *",
+  handle: "WhatsApp / Telegram *",
+  handlePh: "Number or @handle",
+  notes: "Anything we should know before we look?",
+  notesPh: "Airlines you'd rather fly or avoid, whether a stopover suits you, how firm the dates are, who's travelling.",
+  submit: "Send the enquiry",
+  sending: "Sending…",
+  ok: "Enquiry received. We'll come back with what's actually available for those dates and what it costs. Nothing has been charged.",
+  errGeneric: "Something went wrong sending this. Please try again.",
+  contactCta: "Contact us →",
+  note: "Free and no-obligation. We quote before you pay, and nothing is charged on this website.",
+  moreText: "How we source your seat →",
+  // ---- calendar. The native date control obeys the browser's locale and no
+  // markup overrides it, so the widget draws its own and therefore has to
+  // carry its own names, order and week start.
+  prevMonth: "Previous month",
+  nextMonth: "Next month",
+  months: ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"],
+  // always Sunday-first here; the code rotates them by weekStart, so a locale
+  // never has to remember to reorder its own array
+  dow: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  /** 0 = Sunday, 1 = Monday */
+  weekStart: 0,
+  /** "mdy" or "dmy" — which two digits the typed field takes first */
+  dateOrder: "mdy",
+  dateSep: "/",
+  datePh: "mm/dd/yyyy",
+  /** how the recap spells a date out, e.g. "Nov 20, 2026" */
+  numLocale: "en-US",
+  // ---- fallback email, composed as a letter by EnquiryMail
+  mailSubject: "Award flight enquiry",
+  mailHello: "Hello buyflightmiles,",
+  mailIntro: "I'm looking for an award seat on the trip below.",
+  mailTrip: "The trip",
+  mailWho: "How to reach me",
+  mailElse: "Anything else",
+  mailRoute: "Route",
+  mailDates: "Dates",
+  mailProgram: "Program I was reading about",
+  mailClosing: "Please let me know what's actually available for those dates and what it would cost.",
+  mailThanks: "Thanks,",
+  mailFoot: "Sent from buyflightmiles.com. Nothing has been charged.",
+  mailOpened: "Your email app should open with the whole enquiry written out. Read it over and send it, and we'll take it from there.",
+};
+const L = { ...EN, ...labels };
+const fmtPax = (n) => (n === 1 ? L.paxOne : L.paxMany).replace("{n}", String(n));
 
 const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
 const orderEmail = site.contact.orderEmail;
-const notWired = orderEmail
+const notWired = labels.notWired ?? (orderEmail
   ? `Enquiries aren't connected yet — please email ${orderEmail} with your route and dates and we'll pick it up from there.`
-  : "Enquiries aren't connected yet. Send your route and dates through the contact page and we'll pick it up from there.";
+  : "Enquiries aren't connected yet. Send your route and dates through the contact page and we'll pick it up from there.");
 ---
-<div class="fsearch" data-program={program ?? ""} data-inbox={mailtoInbox} data-key={accessKey ? "1" : ""}>
+<div class="fsearch" data-program={program ?? ""} data-inbox={mailtoInbox} data-key={accessKey ? "1" : ""} data-contact={contactHref}>
+  <!-- The client script is bundled once for the whole site, so the strings
+       travel per widget in the DOM rather than baked into the bundle. Same
+       contract as the quote widget's .qw-l10n blob. -->
+  <script type="application/json" class="fs-l10n" set:html={JSON.stringify(L)}></script>
   <!-- The quote widget's head, verbatim in structure: title and sub on the
        left, step marker on the right. Two widgets doing the same job on the
        same page should not look like two different components, and the dots
@@ -60,27 +148,27 @@ const notWired = orderEmail
 
   <!-- STEP 1 — the brief -->
   <div class="fs-step" data-step="1">
-    <div class="fs-trip" role="radiogroup" aria-label="Trip type">
-      <button type="button" class="fs-pill on" data-trip="return" role="radio" aria-checked="true">Return</button>
-      <button type="button" class="fs-pill" data-trip="oneway" role="radio" aria-checked="false">One way</button>
+    <div class="fs-trip" role="radiogroup" aria-label={L.tripLabel}>
+      <button type="button" class="fs-pill on" data-trip="return" role="radio" aria-checked="true">{L.tripReturn}</button>
+      <button type="button" class="fs-pill" data-trip="oneway" role="radio" aria-checked="false">{L.tripOneway}</button>
     </div>
 
     <div class="fs-route">
       <div class="field fs-field fs-ac">
-        <label class="fs-from-lab">From</label>
+        <label class="fs-from-lab">{L.from}</label>
         <input class="fs-air fs-from" type="text" autocomplete="off" spellcheck="false"
-          placeholder="City or airport" role="combobox" aria-expanded="false" aria-autocomplete="list" />
+          placeholder={L.airportPh} role="combobox" aria-expanded="false" aria-autocomplete="list" />
         <ul class="fs-list" role="listbox" hidden></ul>
       </div>
 
-      <button type="button" class="fs-swap" aria-label="Swap origin and destination">
+      <button type="button" class="fs-swap" aria-label={L.swap}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 5h18"/><polyline points="7 23 3 19 7 15"/><path d="M21 19H3"/></svg>
       </button>
 
       <div class="field fs-field fs-ac">
-        <label class="fs-to-lab">To</label>
+        <label class="fs-to-lab">{L.to}</label>
         <input class="fs-air fs-to" type="text" autocomplete="off" spellcheck="false"
-          placeholder="City or airport" role="combobox" aria-expanded="false" aria-autocomplete="list" />
+          placeholder={L.airportPh} role="combobox" aria-expanded="false" aria-autocomplete="list" />
         <ul class="fs-list" role="listbox" hidden></ul>
       </div>
     </div>
@@ -93,51 +181,51 @@ const notWired = orderEmail
          everything downstream is unchanged. -->
     <div class="fs-when">
       <div class="field fs-field fs-date">
-        <label class="fs-dep-lab">Departing</label>
+        <label class="fs-dep-lab">{L.dep}</label>
         <input class="fs-dateview" data-role="dep" type="text" inputmode="numeric"
-          autocomplete="off" placeholder="mm/dd/yyyy" maxlength="10" />
+          autocomplete="off" placeholder={L.datePh} maxlength="10" />
         <input type="hidden" class="fs-dep" />
         <div class="fs-cal" hidden></div>
       </div>
       <div class="field fs-field fs-date fs-ret-wrap">
-        <label class="fs-ret-lab">Returning</label>
+        <label class="fs-ret-lab">{L.ret}</label>
         <input class="fs-dateview" data-role="ret" type="text" inputmode="numeric"
-          autocomplete="off" placeholder="mm/dd/yyyy" maxlength="10" />
+          autocomplete="off" placeholder={L.datePh} maxlength="10" />
         <input type="hidden" class="fs-ret" />
         <div class="fs-cal" hidden></div>
       </div>
       <div class="field fs-field">
-        <label class="fs-pax-lab">Travellers</label>
+        <label class="fs-pax-lab">{L.pax}</label>
         <select class="fs-pax">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-            <option value={n}>{n} {n === 1 ? "traveller" : "travellers"}</option>
+            <option value={n}>{fmtPax(n)}</option>
           ))}
         </select>
       </div>
     </div>
 
-    <div class="fs-cabin" role="radiogroup" aria-label="Cabin">
-      <span class="fs-lab">Cabin</span>
-      <button type="button" class="fs-pill on" data-cabin="business" role="radio" aria-checked="true">Business</button>
-      <button type="button" class="fs-pill" data-cabin="first" role="radio" aria-checked="false">First</button>
-      <button type="button" class="fs-pill" data-cabin="either" role="radio" aria-checked="false">Either</button>
+    <div class="fs-cabin" role="radiogroup" aria-label={L.cabinLabel}>
+      <span class="fs-lab">{L.cabinLabel}</span>
+      <button type="button" class="fs-pill on" data-cabin="business" role="radio" aria-checked="true">{L.cabinBusiness}</button>
+      <button type="button" class="fs-pill" data-cabin="first" role="radio" aria-checked="false">{L.cabinFirst}</button>
+      <button type="button" class="fs-pill" data-cabin="either" role="radio" aria-checked="false">{L.cabinEither}</button>
     </div>
 
     <!-- Flexibility is the single biggest lever on whether award space exists
          at all, so it is asked here rather than discovered over three emails. -->
     <label class="fs-flex">
       <input type="checkbox" class="fs-flexbox" />
-      <span>My dates are flexible by a few days</span>
+      <span>{L.flex}</span>
     </label>
 
-    <button type="button" class="btn btn-primary fs-go">Continue →</button>
+    <button type="button" class="btn btn-primary fs-go">{L.go}</button>
   </div>
 
   <!-- STEP 2 — where to send the answer. The brief stays visible and editable
        from here: "change my mind" must never mean "go back a step". -->
   <div class="fs-step" data-step="2" hidden>
     <div class="fs-recap">
-      <button type="button" class="fs-back">← Change the trip</button>
+      <button type="button" class="fs-back">{L.back}</button>
       <div class="fs-recap-route"></div>
       <div class="fs-recap-meta"></div>
     </div>
@@ -154,27 +242,27 @@ const notWired = orderEmail
 
       <div class="fs-when fs-when-2">
         <div class="field fs-field">
-          <label class="fs-name-lab">Name *</label>
+          <label class="fs-name-lab">{L.name}</label>
           <input class="fs-name" name="name" type="text" required />
         </div>
         <div class="field fs-field">
-          <label class="fs-email-lab">Email *</label>
+          <label class="fs-email-lab">{L.email}</label>
           <input class="fs-email" name="email" type="email" required />
         </div>
         <div class="field fs-field">
-          <label class="fs-handle-lab">WhatsApp / Telegram *</label>
-          <input class="fs-handle" name="contact_handle" type="text" placeholder="Number or @handle" required />
+          <label class="fs-handle-lab">{L.handle}</label>
+          <input class="fs-handle" name="contact_handle" type="text" placeholder={L.handlePh} required />
         </div>
       </div>
 
       <div class="field fs-field" style="margin-bottom:14px">
-        <label class="fs-notes-lab">Anything we should know before we look?</label>
-        <textarea class="fs-notes" name="notes" rows="3" placeholder="Airlines you'd rather fly or avoid, whether a stopover suits you, how firm the dates are, who's travelling."></textarea>
+        <label class="fs-notes-lab">{L.notes}</label>
+        <textarea class="fs-notes" name="notes" rows="3" placeholder={L.notesPh}></textarea>
       </div>
 
       <Turnstile />
 
-      <button type="submit" class="btn btn-primary fs-submit">Send the enquiry</button>
+      <button type="submit" class="btn btn-primary fs-submit">{L.submit}</button>
       <p class="form-msg fs-msg" hidden></p>
       <ContactChannels context="a business class flight" />
       <input type="hidden" class="fs-fallback" value={notWired} />
@@ -182,8 +270,8 @@ const notWired = orderEmail
   </div>
 
   <p class="fs-note">
-    Free and no-obligation. We quote before you pay, and nothing is charged on this website.
-    {moreLink && <> <a href="/flights">How we source your seat →</a></>}
+    {L.note}
+    {moreLink && <> <a href={moreHref}>{L.moreText}</a></>}
   </p>
 </div>
 
@@ -220,17 +308,23 @@ const notWired = orderEmail
   };
 
   const today = () => new Date().toISOString().slice(0, 10);
-  const CABIN = { business: "Business class", first: "First class", either: "Business or first" };
-  const fmtDate = (s) => {
-    if (!s) return "";
-    const d = new Date(s + "T12:00:00Z");
-    return isNaN(d.getTime())
-      ? s
-      : d.toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
-  };
 
   document.querySelectorAll(".fsearch").forEach((root, idx) => {
     const $ = (sel) => root.querySelector(sel);
+    // Every visible string, this widget's own. The bundle is shared by all
+    // pages, so the language cannot live in it.
+    const T = JSON.parse(root.querySelector(".fs-l10n").textContent);
+    const fmt = (t, m) => String(t).replace(/\{(\w+)\}/g, (_, k) => m[k] ?? "");
+    const CABIN = { business: T.cabinBusinessLong, first: T.cabinFirstLong, either: T.cabinEitherLong };
+    const fmtPax = (n) => fmt(String(n) === "1" ? T.paxOne : T.paxMany, { n });
+    // Spelled out in the page's language: "20. Nov. 2026", not "Nov 20, 2026".
+    const fmtDate = (v) => {
+      if (!v) return "";
+      const d = new Date(v + "T12:00:00Z");
+      return isNaN(d.getTime())
+        ? v
+        : d.toLocaleDateString(T.numLocale, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+    };
     const dep = $(".fs-dep"), ret = $(".fs-ret"), retWrap = $(".fs-ret-wrap");
     const from = $(".fs-from"), to = $(".fs-to");
 
@@ -263,17 +357,28 @@ const notWired = orderEmail
       dep: views.dep.closest(".fs-date").querySelector(".fs-cal"),
       ret: views.ret.closest(".fs-date").querySelector(".fs-cal"),
     };
-    const MONTHS = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"];
-    const DOW = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    const MONTHS = T.months;
+    // Locales supply Sunday-first names and a week start; rotating here means
+    // a locale never has to remember to reorder its own array to match.
+    const WS = Number(T.weekStart) || 0;
+    const DOW = T.dow.slice(WS).concat(T.dow.slice(0, WS));
+    // Day-first in most of Europe, month-first in the US, and the separator
+    // moves with it: 20.11.2026 in German, 11/20/2026 in English.
+    const DMY = T.dateOrder === "dmy";
+    const SEP = T.dateSep || "/";
     const pad = (n) => String(n).padStart(2, "0");
-    const toUS = (iso) => (iso ? `${iso.slice(5, 7)}/${iso.slice(8, 10)}/${iso.slice(0, 4)}` : "");
-    const fromUS = (s) => {
-      const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    const toView = (iso) => {
+      if (!iso) return "";
+      const [y, m, d] = [iso.slice(0, 4), iso.slice(5, 7), iso.slice(8, 10)];
+      return (DMY ? [d, m, y] : [m, d, y]).join(SEP);
+    };
+    const fromView = (str) => {
+      const m = str.match(/^(\d{2}).(\d{2}).(\d{4})$/);
       if (!m) return "";
-      const [, mm, dd, yyyy] = m;
+      const [, a, b, yyyy] = m;
+      const mm = DMY ? b : a, dd = DMY ? a : b;
       const d = new Date(Date.UTC(+yyyy, +mm - 1, +dd));
-      // rejects 02/31 rather than silently rolling it into March
+      // rejects the 31st of February rather than silently rolling it into March
       return d.getUTCMonth() + 1 === +mm && d.getUTCDate() === +dd ? `${yyyy}-${mm}-${dd}` : "";
     };
     // the floor for each field: nothing in the past, and no return before the
@@ -290,11 +395,12 @@ const notWired = orderEmail
       const first = new Date(Date.UTC(y, m, 1));
       const days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
       let html = `<div class="fs-cal-top">
-        <button type="button" class="fs-cal-nav" data-step="-1" aria-label="Previous month">‹</button>
+        <button type="button" class="fs-cal-nav" data-step="-1" aria-label="${T.prevMonth}">‹</button>
         <b>${MONTHS[m]} ${y}</b>
-        <button type="button" class="fs-cal-nav" data-step="1" aria-label="Next month">›</button>
+        <button type="button" class="fs-cal-nav" data-step="1" aria-label="${T.nextMonth}">›</button>
       </div><div class="fs-cal-grid">${DOW.map((d) => `<span class="fs-cal-dow">${d}</span>`).join("")}`;
-      for (let i = 0; i < first.getUTCDay(); i++) html += "<span></span>";
+      // leading blanks measured from the locale's own first day of the week
+      for (let i = 0; i < (first.getUTCDay() - WS + 7) % 7; i++) html += "<span></span>";
       for (let d = 1; d <= days; d++) {
         const iso = `${y}-${pad(m + 1)}-${pad(d)}`;
         const off = iso < min;
@@ -323,7 +429,7 @@ const notWired = orderEmail
 
     function setDate(role, iso) {
       isos[role].value = iso;
-      views[role].value = toUS(iso);
+      views[role].value = toView(iso);
       enforceOrder();
     }
 
@@ -332,10 +438,10 @@ const notWired = orderEmail
       view.addEventListener("input", () => {
         // type digits, get the slashes for free
         let v = view.value.replace(/\D/g, "").slice(0, 8);
-        if (v.length > 4) v = `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
-        else if (v.length > 2) v = `${v.slice(0, 2)}/${v.slice(2)}`;
+        if (v.length > 4) v = `${v.slice(0, 2)}${SEP}${v.slice(2, 4)}${SEP}${v.slice(4)}`;
+        else if (v.length > 2) v = `${v.slice(0, 2)}${SEP}${v.slice(2)}`;
         view.value = v;
-        const iso = fromUS(v);
+        const iso = fromView(v);
         if (iso) {
           isos[role].value = iso < floor(role) ? "" : iso;
           calMonth[role] = iso;
@@ -349,7 +455,7 @@ const notWired = orderEmail
         setTimeout(() => { cals[role].hidden = true; }, 150);
         // an unparseable or out-of-range entry does not linger looking valid
         if (!isos[role].value) view.value = "";
-        else view.value = toUS(isos[role].value);
+        else view.value = toView(isos[role].value);
       });
       view.addEventListener("keydown", (e) => {
         if (e.key === "Escape") { cals[role].hidden = true; view.blur(); }
@@ -467,7 +573,7 @@ const notWired = orderEmail
       const route = `${from.value.trim()} ${oneway ? "→" : "⇄"} ${to.value.trim()}`;
       let dates = fmtDate(dep.value);
       if (!oneway && ret.value) dates += " – " + fmtDate(ret.value);
-      if ($(".fs-flexbox").checked) dates += " (flexible)";
+      if ($(".fs-flexbox").checked) dates += " " + T.flexTag;
       const pax = $(".fs-pax").value;
       return { route, dates, cabin: CABIN[cabin], pax };
     }
@@ -475,8 +581,7 @@ const notWired = orderEmail
     function paintRecap() {
       const b = brief();
       $(".fs-recap-route").textContent = b.route;
-      $(".fs-recap-meta").textContent =
-        `${b.dates} · ${b.cabin} · ${b.pax} ${b.pax === "1" ? "traveller" : "travellers"}`;
+      $(".fs-recap-meta").textContent = `${b.dates} · ${b.cabin} · ${fmtPax(b.pax)}`;
       $(".fs-f-route").value = b.route;
       $(".fs-f-dates").value = b.dates;
       $(".fs-f-cabin").value = b.cabin;
@@ -519,8 +624,8 @@ const notWired = orderEmail
     function showFallback(text) {
       msg.textContent = text + " ";
       const a = document.createElement("a");
-      a.href = "/contact";
-      a.textContent = "Contact us →";
+      a.href = root.dataset.contact || "/contact";
+      a.textContent = T.contactCta;
       a.style.fontWeight = "600";
       a.style.textDecoration = "underline";
       msg.appendChild(a);
@@ -537,31 +642,31 @@ const notWired = orderEmail
       const name = g("name");
       window.bfmMail({
         inbox,
-        subject: "Award flight enquiry" + (g("route") ? ": " + g("route") : ""),
-        hello: "Hello buyflightmiles,",
-        intro: "I'm looking for an award seat on the trip below.",
+        subject: T.mailSubject + (g("route") ? ": " + g("route") : ""),
+        hello: T.mailHello,
+        intro: T.mailIntro,
         groups: [
-          { title: "The trip", rows: [
-            ["Route", g("route")],
-            ["Dates", g("dates")],
-            ["Cabin", g("cabin")],
-            ["Travellers", g("travellers")],
-            ["Program I was reading about", g("from_program_page")],
+          { title: T.mailTrip, rows: [
+            [T.mailRoute, g("route")],
+            [T.mailDates, g("dates")],
+            [T.cabinLabel, g("cabin")],
+            [T.pax, g("travellers")],
+            [T.mailProgram, g("from_program_page")],
           ] },
-          { title: "How to reach me", rows: [
-            ["Name", name],
-            ["Email", g("email")],
-            ["WhatsApp / Telegram", g("contact_handle")],
+          { title: T.mailWho, rows: [
+            [T.name, name],
+            [T.email, g("email")],
+            [T.handle, g("contact_handle")],
           ] },
-          { title: "Anything else", text: g("notes") },
+          { title: T.mailElse, text: g("notes") },
         ],
         trimmable: g("notes"),
-        closing: "Please let me know what's actually available for those dates and what it would cost.",
-        thanks: "Thanks,",
+        closing: T.mailClosing,
+        thanks: T.mailThanks,
         name,
-        foot: "Sent from buyflightmiles.com. Nothing has been charged.",
+        foot: T.mailFoot,
       });
-      msg.textContent = "Your email app should open with the whole enquiry written out. Read it over and send it, and we'll take it from there.";
+      msg.textContent = T.mailOpened;
       msg.className = "form-msg fs-msg ok";
       msg.hidden = false;
     }
@@ -575,7 +680,7 @@ const notWired = orderEmail
         return;
       }
       const label = btn.textContent;
-      btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+      btn.disabled = true; btn.textContent = T.sending; msg.hidden = true;
       try {
         const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
@@ -584,12 +689,12 @@ const notWired = orderEmail
         });
         const out = await res.json();
         if (out.success) {
-          msg.textContent = "Enquiry received. We'll come back with what's actually available for those dates and what it costs. Nothing has been charged.";
+          msg.textContent = T.ok;
           msg.className = "form-msg fs-msg ok";
           form.reset();
         } else { throw new Error(out.message); }
       } catch {
-        msg.textContent = "Something went wrong sending this — please try again.";
+        msg.textContent = T.errGeneric;
         msg.className = "form-msg fs-msg err";
       } finally {
         btn.disabled = false; btn.textContent = label; msg.hidden = false;

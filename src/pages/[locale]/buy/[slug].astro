@@ -19,11 +19,13 @@ import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../../components/QuoteWidget.astro";
 import SavingsTool from "../../../components/SavingsTool.astro";
 import TrustStrip from "../../../components/TrustStrip.astro";
+import FlightSearch from "../../../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
 import { realReviews, yearsTrading } from "../../../lib/site";
 import { usd, costOf, per1000 } from "../../../lib/money";
 import { LOCALES, GENERIC_LOCALES, EN_FLAG } from "../../../lib/locales";
 import { CALC } from "../../../lib/calc-locales";
+import { FLIGHTS, FLIGHT_SECTION } from "../../../lib/flight-locales";
 import { fxFor, fxDate, moneyTpl, moneySymbol } from "../../../lib/fx";
 
 const rev = realReviews[0];
@@ -45,6 +47,7 @@ export async function getStaticPaths() {
 
 const { a, t, locale, airlines } = Astro.props;
 const L = LOCALES[locale];
+const FSEC = FLIGHT_SECTION[locale];
 const P = L.page;
 // Delivery reads "Within 48 hours" in the data; the localized page needs the
 // number without the English preposition, since each language puts its own
@@ -299,6 +302,31 @@ const useCost = (miles: number) =>
         </div>
       </section>
     )}
+
+    {/* The second product, and the one the translated pages never carried: an
+        award seat found and booked. Placed exactly where the English page puts
+        it, after the process and before trust, so someone still pricing miles
+        has passed the whole miles argument before meeting it. The heading
+        recommends the cheaper route first, as the English one does.
+
+        moreLink is off because /flights is English only, and there is no
+        localized page to send a reader of this one to yet. */}
+    <section class="section wash-warm" id="flights">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">{FSEC.kicker}</span>
+          <h2>{FSEC.h2}</h2>
+          <p>{FSEC.p}</p>
+        </div>
+        <FlightSearch
+          program={`${a.airline} — ${a.program}`}
+          heading={FSEC.cardHead}
+          sub={FSEC.cardSub}
+          moreLink={false}
+          labels={FLIGHTS[locale]}
+        />
+      </div>
+    </section>
 
     {/* Trust is the page's whole argument in a market where buyers are
         scam-wary, and the English page has carried this band since v1. Every
