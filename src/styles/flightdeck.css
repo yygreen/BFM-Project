@@ -1340,13 +1340,3 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .chanrow a { color:var(--text-2); white-space:nowrap; text-decoration:none; }
 .chanrow a b { font-family:var(--mono); font-weight:600; font-size:12.5px; color:var(--cobalt); }
 .chanrow a:hover b { text-decoration:underline; }
-
-/* "One balance, N airlines" — the carriers a program treats as its own metal.
-   Renders on the two programs where that is more than one, so the row is
-   always saying something the h1 does not. */
-.covers-row { display:flex; flex-wrap:wrap; gap:12px; }
-.covers-item { display:flex; align-items:center; gap:12px; padding:12px 18px 12px 12px;
-  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-pill);
-  box-shadow:var(--shadow-sm); }
-.covers-item span { font-family:var(--display); font-weight:700; font-size:15px; color:var(--text-1); }
-.covers-note { margin:16px 0 0; font-size:13px; color:var(--text-3); line-height:1.6; }

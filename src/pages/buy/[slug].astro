@@ -7,12 +7,11 @@ import QuoteWidget from "../../components/QuoteWidget.astro";
 import SavingsTool from "../../components/SavingsTool.astro";
 import FlightSearch from "../../components/FlightSearch.astro";
 import PostCard from "../../components/PostCard.astro";
-import Emblem from "../../components/Emblem.astro";
 import { getCollection } from "astro:content";
 import { getPosts } from "../../lib/blog";
 import { site, realReviews, yearsTrading } from "../../lib/site";
 import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
-import { covers, coversMany, coversSentence, assertOwnAirlinesUnique } from "../../lib/programs";
+import { coversMany, coversSentence, assertOwnAirlinesUnique } from "../../lib/programs";
 // each locale named in its own language, from the one registry that knows
 import { LOCALES } from "../../lib/locales";
 
@@ -268,42 +267,11 @@ const jsonld = {
     </div>
   </section>
 
-  {/* Only where it says something. Two programs on the roster cover several
-      airlines from one balance — Miles & More and Flying Blue — and on those
-      pages a visitor searching for the sibling carrier ("swiss meilen kaufen",
-      "buy klm miles") needs to see that this is their program. On the other
-      19 the list would be one row repeating the h1, so the band doesn't
-      render at all.
-
-      These are the programme's OWN airlines, not alliance partners. Partner
-      redemption is a different and much weaker promise, and conflating the
-      two would tell someone to buy Miles & More to fly United. */}
-  {coversMany(a) && (
-    <section class="section" id="covers">
-      <div class="container">
-        <div class="section-head">
-          <h2>One balance, {covers(a).length} airlines</h2>
-          <p>
-            {a.program} is the programme for {coversSentence(a)}. Miles bought here earn and
-            burn across all of them from the same account, so there is nothing to transfer
-            and no second membership to open.
-          </p>
-        </div>
-        <div class="covers-row">
-          {covers(a).map((c) => (
-            <div class="covers-item">
-              <Emblem code={c.code} color={a.color} size={38} />
-              <span>{c.name}</span>
-            </div>
-          ))}
-        </div>
-        <p class="covers-note">
-          Star Alliance, Oneworld and SkyTeam partners are bookable too, but as partner
-          awards rather than from this list. Checked {a.factsChecked ?? "at the last audit"}.
-        </p>
-      </div>
-    </section>
-  )}
+  {/* No "one balance, N airlines" band. The sibling carriers a programme
+      covers are worth stating on Miles & More and Flying Blue, but a row of
+      code badges was a section's worth of chrome for a list of four names,
+      and it looked it. The FAQ entry below carries the same fact in the place
+      someone actually asks the question. */}
 
   <!-- The other way to solve the same trip. It sits after the process, not
        beside the widget: someone still pricing miles shouldn't be pulled off
