@@ -31,6 +31,21 @@
 // the URL keeps the /buy/{thing} contract. It is also the real 301 target for
 // the old /buy-avios, which ranked #18 and currently points at ba-avios as a
 // compromise.
+//
+// THIS PAGE TARGETS THE UNQUALIFIED TERM ONLY: "buy avios", "buy avios
+// points". The carrier-qualified terms belong to the programme pages, which
+// are what actually rank for us today — the tracking export's top-10s are all
+// programme long tails. An earlier title read "Buy Avios | British Airways,
+// Qatar and Iberia", which stacked the three names those pages are built for
+// and put this page in competition with its own money pages. Carrier names
+// belong in the body here, not in the title, the h1 or the description.
+//
+// For the same reason the breadcrumb stays flat rather than making this the
+// parent of the three. A hierarchy would tell Google the hub owns the topic,
+// which is the wrong answer for "buy british airways avios", and it would
+// send link equity up to the page with no track record instead of down to the
+// three that have one. This page belongs by what it does — routing to the
+// right programme — not by sitting above them.
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
@@ -80,8 +95,9 @@ const jsonld = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: "Avios",
+  // same rule as the meta description: the currency, not the carriers
   description:
-    "Buy Avios for British Airways or Qatar Airways Privilege Club, then move them 1:1 to Iberia, Finnair or Aer Lingus.",
+    "Avios, delivered into a loyalty account you already hold and transferable 1:1 between the programmes that share the currency.",
   brand: { "@type": "Brand", name: "Avios" },
   offers: {
     "@type": "AggregateOffer",
@@ -134,8 +150,8 @@ const jsonldFaq = {
 };
 ---
 <Base
-  title="Buy Avios | British Airways, Qatar and Iberia | buyflightmiles"
-  description={`Buy Avios from ${rateFixed(cheapest.pricePerMile)}¢ each. One currency for British Airways, Iberia, Qatar, Finnair and Aer Lingus, delivered into your own account and transferable 1:1.`}
+  title="Buy Avios | One currency, three prices | buyflightmiles"
+  description={`Buy Avios from ${rateFixed(cheapest.pricePerMile)}¢ each. One currency, ${skus.length} programmes to buy it from, transferable 1:1 and delivered into an account you already hold.`}
   slug="buy/avios"
   jsonld={[jsonld, jsonldFaq]}
 >
