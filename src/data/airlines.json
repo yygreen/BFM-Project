@@ -415,6 +415,7 @@
     "metaTitle": "Buy Qatar Airways Avios | Qsuite Redemptions | buyflightmiles",
     "metaDescription": "Buy Qatar Airways Avios from 1.8¢ and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
     "related": [
+      "iberia-avios",
       "ba-avios",
       "american-aadvantage"
     ],
@@ -679,6 +680,7 @@
     "metaTitle": "Buy British Airways Avios | buyflightmiles",
     "metaDescription": "Buy British Airways Avios at a fraction of the price. Secure, guaranteed transfer delivered fast.",
     "related": [
+      "iberia-avios",
       "qatar-avios",
       "american-aadvantage"
     ],
@@ -752,8 +754,97 @@
     "factsChecked": "August 2026"
   },
   {
-    "id": "eva-air-miles",
+    "id": "iberia-avios",
     "order": 8,
+    "program": "Avios (Iberia Club)",
+    "airline": "Iberia",
+    "alliance": "Oneworld",
+    "code": "IB",
+    "color": "#D7192D",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 24 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "accountLabel": "Iberia Club membership number",
+    "heroHeadline": "Buy Avios for Iberia.",
+    "heroHighlight": "Avios",
+    "heroSub": "The same Avios as British Airways and Qatar, spent from the programme that charges less to fly the Atlantic. Buy the shortfall and book the seat.",
+    "metaTitle": "Buy Iberia Avios | Iberia Club | buyflightmiles",
+    "metaDescription": "Buy Iberia Avios and book Iberia's own transatlantic business class with low surcharges. Quoted before you pay, delivered into your own Iberia Club account.",
+    "related": [
+      "ba-avios",
+      "qatar-avios"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Madrid to North America in business",
+        "miles": 40500,
+        "desc": "Iberia's own metal from Madrid is one of the cheapest ways across the Atlantic in a flat bed, and the cash surcharges are a fraction of what British Airways adds on the same route. Off-peak one way; peak dates price higher."
+      },
+      {
+        "title": "Short hops inside Spain",
+        "desc": "Distance pricing makes domestic and short European segments some of the least expensive awards anywhere in the Avios world."
+      },
+      {
+        "title": "Oneworld partner awards",
+        "desc": "American, British Airways, Qatar, Japan Airlines and the rest of Oneworld are all bookable from an Iberia Club balance."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The programme has been renamed twice",
+        "text": "Iberia Plus became Club Iberia Plus in April 2025 and is now Iberia Club. Your Avios, your membership number and your balance carried across every rename. Older guides still say Iberia Plus, and they mean this programme."
+      },
+      {
+        "title": "This is where the low fees live",
+        "text": "Avios are one currency across British Airways, Iberia, Qatar, Finnair, Aer Lingus, Vueling and Loganair, but each programme sets its own cash surcharges. Iberia's are consistently among the lowest on transatlantic awards, which is why buyers move Avios here to spend them."
+      },
+      {
+        "title": "Transferring in doesn't restart the clock",
+        "text": "Moving Avios from British Airways into Iberia Club counts as activity on both accounts, so it keeps them alive. It does not give the transferred Avios a fresh 36 months. Plan the transfer around the booking rather than as a way to park a balance."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months of inactivity; any earning or spending resets it"
+      },
+      {
+        "label": "Currency",
+        "text": "Avios, shared 1:1 with British Airways, Qatar, Finnair, Aer Lingus, Vueling and Loganair"
+      },
+      {
+        "label": "Award pricing",
+        "text": "Distance based, with off-peak and peak dates"
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Is Iberia Club the same as Iberia Plus?",
+        "a": "Yes. Iberia Plus was renamed Club Iberia Plus in April 2025 and then Iberia Club. It is one programme with one balance, and anything written about Iberia Plus applies to it. This page's rate and delivery window refer to that same account."
+      },
+      {
+        "q": "Can I move Iberia Avios to British Airways?",
+        "a": "Yes, 1:1. British Airways Club, Iberia Club, Aer Lingus AerClub, Vueling Club and Loganair Loyalty transfer between each other as often as you like, and Qatar Airways Privilege Club and Finnair Plus are transferable too. It is worth comparing our Iberia and British Airways rates before you buy, since the cheaper one funds the same redemption."
+      },
+      {
+        "q": "Do Iberia Avios expire?",
+        "a": "After 36 months without earning or spending on the account. Any activity resets that, and a transfer in or out counts as activity. One thing to know: a transfer does not hand the Avios themselves a new 36 months, it only keeps the account active."
+      },
+      {
+        "q": "Why buy Iberia Avios rather than British Airways Avios?",
+        "a": "Because of what you pay in cash at the end. The Avios are identical and move 1:1, but each programme sets its own surcharges, and Iberia's are consistently lower on transatlantic awards flown on Iberia's own aircraft. If you are booking from Madrid, that difference is usually larger than any difference in what the Avios cost."
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "eva-air-miles",
+    "order": 9,
     "program": "Infinity MileageLands",
     "airline": "EVA Air",
     "alliance": "Star Alliance",
@@ -903,7 +994,7 @@
   },
   {
     "id": "southwest-rapid-rewards",
-    "order": 9,
+    "order": 10,
     "program": "Rapid Rewards",
     "airline": "Southwest Airlines",
     "alliance": "Independent",
@@ -993,7 +1084,7 @@
   },
   {
     "id": "alaska-mileage-plan",
-    "order": 10,
+    "order": 11,
     "program": "Mileage Plan",
     "airline": "Alaska Airlines",
     "alliance": "Oneworld",
@@ -1075,7 +1166,7 @@
   },
   {
     "id": "jetblue-trueblue",
-    "order": 11,
+    "order": 12,
     "program": "TrueBlue",
     "airline": "JetBlue",
     "alliance": "Independent",
@@ -1165,7 +1256,7 @@
   },
   {
     "id": "hawaiian-miles",
-    "order": 12,
+    "order": 13,
     "program": "HawaiianMiles",
     "airline": "Hawaiian Airlines",
     "alliance": "Oneworld",
@@ -1255,7 +1346,7 @@
   },
   {
     "id": "frontier-miles",
-    "order": 13,
+    "order": 14,
     "program": "Frontier Miles",
     "airline": "Frontier Airlines",
     "alliance": "Independent",
@@ -1342,7 +1433,7 @@
   },
   {
     "id": "air-canada-aeroplan",
-    "order": 14,
+    "order": 15,
     "program": "Aeroplan",
     "airline": "Air Canada",
     "alliance": "Star Alliance",
@@ -1444,7 +1535,7 @@
   },
   {
     "id": "emirates-skywards",
-    "order": 15,
+    "order": 16,
     "program": "Skywards",
     "airline": "Emirates",
     "alliance": "Independent",
@@ -1602,7 +1693,7 @@
   },
   {
     "id": "turkish-miles-smiles",
-    "order": 16,
+    "order": 17,
     "program": "Miles&Smiles",
     "airline": "Turkish Airlines",
     "alliance": "Star Alliance",
@@ -1753,7 +1844,7 @@
   },
   {
     "id": "etihad-guest",
-    "order": 17,
+    "order": 18,
     "program": "Etihad Guest",
     "airline": "Etihad Airways",
     "alliance": "Independent",
@@ -1910,7 +2001,7 @@
   },
   {
     "id": "lufthansa-miles-more",
-    "order": 18,
+    "order": 19,
     "program": "Miles & More",
     "airline": "Lufthansa",
     "alliance": "Star Alliance",
@@ -2082,7 +2173,7 @@
   },
   {
     "id": "air-france-flying-blue",
-    "order": 19,
+    "order": 20,
     "program": "Flying Blue",
     "airline": "Air France-KLM",
     "alliance": "SkyTeam",
@@ -2250,7 +2341,7 @@
   },
   {
     "id": "avianca-lifemiles",
-    "order": 20,
+    "order": 21,
     "program": "LifeMiles",
     "airline": "Avianca",
     "alliance": "Star Alliance",
@@ -2401,7 +2492,7 @@
   },
   {
     "id": "cathay-pacific-asia-miles",
-    "order": 21,
+    "order": 22,
     "program": "Asia Miles",
     "airline": "Cathay Pacific",
     "alliance": "Oneworld",
