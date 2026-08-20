@@ -1934,6 +1934,24 @@
       "united-mileageplus",
       "air-canada-aeroplan"
     ],
+    "ownAirlines": [
+      {
+        "name": "Lufthansa",
+        "code": "LH"
+      },
+      {
+        "name": "SWISS",
+        "code": "LX"
+      },
+      {
+        "name": "Austrian Airlines",
+        "code": "OS"
+      },
+      {
+        "name": "Brussels Airlines",
+        "code": "SN"
+      }
+    ],
     "sweetSpots": [
       {
         "title": "Lufthansa First Class",
@@ -2094,6 +2112,16 @@
       "delta-skymiles",
       "singapore-krisflyer",
       "qatar-avios"
+    ],
+    "ownAirlines": [
+      {
+        "name": "Air France",
+        "code": "AF"
+      },
+      {
+        "name": "KLM",
+        "code": "KL"
+      }
     ],
     "sweetSpots": [
       {

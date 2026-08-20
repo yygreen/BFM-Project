@@ -155,6 +155,39 @@ const airlines = defineCollection({
 
       // slugs of related programs (validated for existence in [slug].astro)
       related: z.array(z.string()).max(4).default([]),
+
+      /**
+       * Airlines this program treats as its OWN metal — not alliance partners,
+       * which are derivable from `alliance` and are a different promise.
+       *
+       * The roster is keyed by airline because that is how people search
+       * ("buy lufthansa miles", never "buy miles and more miles"), but what we
+       * actually sell is a PROGRAM, and two of them cover several airlines:
+       * Miles & More and Flying Blue. Before this field those siblings existed
+       * only in prose, so nothing could sort by them or link to them, and KLM
+       * survived in the data purely as the hyphen in "Air France-KLM".
+       *
+       * LEAVE IT EMPTY where a program covers only its own airline. The
+       * template falls back to the entry's own airline, so an 18-program list
+       * of one-item arrays would say nothing that `airline` does not.
+       *
+       * Membership is part of what `factsChecked` dates. Only carriers already
+       * named in that program's checked copy are listed; the rest of each
+       * group's roster goes in at the next audit rather than from memory.
+       *
+       * An airline may be own-metal for exactly ONE program. [slug].astro
+       * fails the build if that is ever violated, because the lookup it
+       * enables would otherwise have two contradictory answers.
+       */
+      ownAirlines: z
+        .array(
+          z.object({
+            name: z.string().min(1),
+            /** IATA code, for the badge and so a search on "KL" finds KLM */
+            code: z.string().length(2),
+          }),
+        )
+        .default([]),
       sweetSpots: z.array(sweetSpot).default([]),
       valueBands: valueBands.optional(),
       quirks: z.array(quirk).default([]),
