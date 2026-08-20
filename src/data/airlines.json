@@ -760,7 +760,7 @@
     "airline": "Iberia",
     "alliance": "Oneworld",
     "code": "IB",
-    "color": "#D7192D",
+    "color": "#DA1C2D",
     "pricePerMile": 1.9,
     "priceVerified": false,
     "min": 50000,
@@ -840,7 +840,9 @@
         "a": "Because of what you pay in cash at the end. The Avios are identical and move 1:1, but each programme sets its own surcharges, and Iberia's are consistently lower on transatlantic awards flown on Iberia's own aircraft. If you are booking from Madrid, that difference is usually larger than any difference in what the Avios cost."
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "logo": "/logos/iberia-avios.svg",
+    "logoAlt": "Iberia logo"
   },
   {
     "id": "eva-air-miles",
