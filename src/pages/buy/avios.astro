@@ -32,6 +32,7 @@
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import QuoteWidget from "../../components/QuoteWidget.astro";
+import FlightSearch from "../../components/FlightSearch.astro";
 import Emblem from "../../components/Emblem.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
 import PostCard from "../../components/PostCard.astro";
@@ -280,30 +281,33 @@ const jsonldFaq = {
           </p>
         </div>
       </div>
+      {/* The surcharge figure is the reason moving them matters at all, so it
+          rides with the transfer section rather than getting a band of its
+          own. Straight from ba.quirks, dated, so it can't drift from the
+          program page that also states it. */}
+      <p class="avios-note">
+        {ba.quirks?.find((q) => /fee/i.test(q.title))?.text} Facts checked {ba.factsChecked}.
+      </p>
     </div>
   </section>
 
-  <!-- THE FEE TRAP — from ba.quirks, dated August 2026. This is the single
-       most valuable thing the page can tell someone, and neither program page
-       is scoped to say it. -->
-  <section class="section wash-warm">
+  <!-- The other way to solve the same trip, in the same place the program
+       pages put it: after the process, so someone still pricing Avios isn't
+       pulled off that decision, and there for someone who has read this far
+       and would rather not hunt award space at all. -->
+  <section class="section wash-warm" id="flights">
     <div class="container">
       <div class="section-head">
-        <span class="kicker">Worth knowing before you book</span>
-        <h2>The Avios are only half the price</h2>
+        <span class="kicker">Or skip the search</span>
+        <h2>Would you rather we found the seat?</h2>
+        <p>
+          Buying Avios and booking it yourself is usually cheaper, and that's what the
+          calculator above is for. If you'd rather hand over the whole thing, tell us the
+          route and dates and we'll come back with what's bookable in business or first,
+          and what it costs.
+        </p>
       </div>
-      <div class="uses uses-2">
-        {ba.quirks?.filter((q) => /fee|move between/i.test(q.title)).map((q) => (
-          <div class="use">
-            <h4>{q.title}</h4>
-            <p>{q.text}</p>
-          </div>
-        ))}
-      </div>
-      <p class="avios-note">
-        Facts checked {ba.factsChecked}. Award pricing and fees are the airlines' to change,
-        and we re-check these with every price audit.
-      </p>
+      <FlightSearch program="Avios" />
     </div>
   </section>
 
