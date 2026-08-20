@@ -210,7 +210,11 @@ const jsonldFaq = {
                 <Emblem code={s.code} color={s.color} logo={s.logo} logoAlt={s.logoAlt} size={44} />
                 <div>
                   <p class="plabel">{s.airline}</p>
-                  <p class="pname">{s.program}</p>
+                  {/* the programme name without the "Avios (…)" wrapper: every
+                      card on this page sells Avios, so repeating it three
+                      times says nothing and wrapped BA's title onto a fourth
+                      line while the others took three */}
+                  <p class="pname">{s.program.replace(/^Avios\s*\((.*)\)$/, "$1")}</p>
                 </div>
               </div>
               {s.inStock
@@ -416,10 +420,24 @@ const jsonldFaq = {
      one row however many there are. --n comes from the page rather than
      auto-fit: a third card must join the row, not start a new one alone. */
   .avios-split { display:grid; grid-template-columns:repeat(var(--n,2),minmax(0,1fr));
-    gap:clamp(14px,1.8vw,22px); align-items:start; }
+    gap:clamp(14px,1.8vw,22px); align-items:stretch; }
   @media (max-width:980px){ .avios-split { grid-template-columns:1fr 1fr; } }
   @media (max-width:660px){ .avios-split { grid-template-columns:1fr; } }
+  /* stretch alone only equalises the boxes; the cards also have to lay their
+     own contents out or the CTA floats wherever the rows above leave it.
+     Column flex with the button pushed down puts every CTA on one line. */
+  .avios-card { display:flex; flex-direction:column; }
   .avios-card .price { margin-bottom:14px; }
+  .avios-card .rows { margin-bottom:18px; }
+  .avios-card .btn { margin-top:auto; }
+  /* Logo above the name, not beside it. Side by side, the mark took a third
+     of the card and pushed "The British Airways Club" onto four lines while
+     the shorter two took two — equal heights but a visibly emptier card.
+     Stacked, every title has the full column to wrap in. */
+  .avios-card .top { align-items:flex-start; }
+  .avios-card .top > div:first-child { min-width:0; flex-direction:column;
+    align-items:flex-start; gap:10px !important; }
+  .avios-card .pname { line-height:1.25; }
 
   /* the rule, as two rows rather than a paragraph: a buyer scanning for their
      own amount should find it without reading a sentence */

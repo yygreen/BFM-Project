@@ -1340,3 +1340,11 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .chanrow a { color:var(--text-2); white-space:nowrap; text-decoration:none; }
 .chanrow a b { font-family:var(--mono); font-weight:600; font-size:12.5px; color:var(--cobalt); }
 .chanrow a:hover b { text-decoration:underline; }
+
+/* Two links under the programme roster: the full grid, and the currency page.
+   Side by side so neither reads as the primary way out of the panel. */
+.dd-foot { display:grid; grid-template-columns:1fr 1fr; margin-top:6px; border-top:1px solid var(--line); }
+.dd-foot .dd-all { margin-top:0; border-top:0; }
+.dd-foot .dd-all + .dd-all { border-left:1px solid var(--line); }
+@media (max-width:700px){ .dd-foot { grid-template-columns:1fr; }
+  .dd-foot .dd-all + .dd-all { border-left:0; border-top:1px solid var(--line); } }
