@@ -324,6 +324,14 @@ const jsonld = {
       {related.length > 0 && (
         <div class="related related-inline">
           <span class="related-lab">Related programs</span>
+          {/* The currency page, from the two programs that share the currency.
+              Not in `related`, because that field is slugs from the collection
+              and /buy/avios is not a program. This is where the link earns its
+              place anyway: a visitor on one Avios page at the moment they
+              wonder whether the other one is cheaper. */}
+          {a.slug.endsWith("-avios") && (
+            <a href="/buy/avios">Compare BA and Qatar Avios →</a>
+          )}
           {related.map((r) => (
             <a href={`/buy/${r.slug}`}>{r.airline} {r.program} · {r.pricePerMile}¢</a>
           ))}

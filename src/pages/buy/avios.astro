@@ -1,0 +1,423 @@
+---
+// Avios currency page — DRAFT.
+//
+// Not a program page. Avios is one currency shared by British Airways, Iberia,
+// Qatar Privilege Club, Finnair and Aer Lingus, moving 1:1 between them, and
+// the two questions a buyer actually has are independent of each other:
+//
+//   where do I buy it cheapest?   →  BA 1.75¢ but 80,000 minimum
+//                                    Qatar 1.8¢ but 10,000 minimum
+//   where do I spend it best?     →  BA metal carries ~$410 of surcharges one
+//                                    way transatlantic; the same Avios on
+//                                    Qatar, Iberia or Aer Lingus do not
+//
+// Neither /buy/ba-avios nor /buy/qatar-avios can answer both, because each is
+// scoped to one program. This page exists to answer them together, and every
+// number on it comes from the same verified collection those pages use, so it
+// can never drift from them.
+//
+// WE SELL TWO SKUs, NOT FIVE. Delivery is into a BA Executive Club or a Qatar
+// Privilege Club account; the buyer moves Avios onward themselves. The page
+// must never imply we deliver into Iberia Plus, Finnair Plus or AerClub —
+// someone would order expecting it. Keyword data (20 Aug) supports this
+// rather than fighting it: "buy iberia avios" is 70/mo at KD 41, while the
+// TRANSFER questions are 490/mo at KD 14–21 with AI Overviews. The demand is
+// for moving Avios into Iberia, not for buying them there.
+//
+// Route: /buy/avios. The collection holds qatar-avios and ba-avios but no
+// bare avios, so this static file and the dynamic [slug] never collide, and
+// the URL keeps the /buy/{thing} contract. It is also the real 301 target for
+// the old /buy-avios, which ranked #18 and currently points at ba-avios as a
+// compromise.
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import QuoteWidget from "../../components/QuoteWidget.astro";
+import Emblem from "../../components/Emblem.astro";
+import TrustStrip from "../../components/TrustStrip.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getCollection } from "astro:content";
+import { getPosts } from "../../lib/blog";
+import { usd, costOf, rateFixed } from "../../lib/money";
+
+const all = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+const ba = all.find((a) => a.slug === "ba-avios");
+const qr = all.find((a) => a.slug === "qatar-avios");
+
+// The two SKUs, cheapest first. Sorted rather than hardcoded: if the client
+// ever reprices, the page's argument follows the data instead of contradicting
+// it. Everything downstream reads "cheaper" and "lower minimum" off these.
+const skus = [ba, qr].sort((x, y) => x.pricePerMile - y.pricePerMile);
+const cheapest = skus[0];
+const lowestMin = [ba, qr].sort((x, y) => x.min - y.min)[0];
+// The amount above which the cheaper rate is actually orderable. Below it the
+// low-minimum program is the only one that can take the order at all.
+const switchAt = cheapest.min;
+// A worked example at a round number both programs accept, so the saving is a
+// real subtraction rather than a percentage.
+const example = 100000;
+const saving = costOf(example, qr.pricePerMile) - costOf(example, ba.pricePerMile);
+
+const posts = (await getPosts())
+  .filter((p) => p.data.programs.some((s) => s === "ba-avios" || s === "qatar-avios"))
+  .slice(0, 2);
+
+// Both rates are priceVerified, so the range is real and can carry a price in
+// structured data. AggregateOffer rather than Offer: this page sells at two
+// prices, and inventing a single one to satisfy the schema would be the sort
+// of thing the rest of the site refuses to do.
+const per1000 = (c) => Math.round(c * 1000) / 100;
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Avios",
+  description:
+    "Buy Avios for British Airways or Qatar Airways Privilege Club, then move them 1:1 to Iberia, Finnair or Aer Lingus.",
+  brand: { "@type": "Brand", name: "Avios" },
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "USD",
+    offerCount: skus.length,
+    lowPrice: per1000(cheapest.pricePerMile),
+    highPrice: per1000(skus[skus.length - 1].pricePerMile),
+    availability: skus.every((s) => s.inStock)
+      ? "https://schema.org/InStock"
+      : "https://schema.org/LimitedAvailability",
+  },
+};
+
+// Only what the collection already states, dated August 2026. Anything about
+// Iberia, Finnair or Aer Lingus transfer CONDITIONS (account age, activity
+// requirements) is deliberately absent until it is sourced the same way.
+const faqs = [
+  {
+    q: "Is Avios one currency or several?",
+    a: `One. British Airways, Iberia, Qatar Airways Privilege Club, Finnair and Aer Lingus all hold the same Avios, and balances move between them 1:1 and instantly. What changes between programs is what an award costs and what fees it carries, not the currency itself.`,
+  },
+  {
+    q: "Which should I buy, BA or Qatar Avios?",
+    a: `Under ${switchAt.toLocaleString("en-US")} Avios, ${lowestMin.airline} is the only one of the two that can take the order: its minimum is ${lowestMin.min.toLocaleString("en-US")} against ${cheapest.min.toLocaleString("en-US")}. At ${switchAt.toLocaleString("en-US")} or more, ${cheapest.airline} is cheaper per Avios. Either way they are the same Avios once delivered, so buy whichever fits your amount and move them if you want to spend elsewhere.`,
+  },
+  {
+    q: "Can I move Avios to Iberia or Finnair?",
+    a: `Yes, 1:1. We deliver into the ${ba.airline} or ${qr.airline} account you already hold, and you move them onward yourself from there. We don't deliver directly into Iberia Plus, Finnair Plus or AerClub.`,
+  },
+  {
+    q: "Is Avios the same as QMiles?",
+    a: qr.faqExtras?.find((f) => /QMiles/i.test(f.q))?.a ?? "",
+  },
+  {
+    q: "Do Avios expire?",
+    a: ba.faqExtras?.find((f) => /expire/i.test(f.q))?.a ?? "",
+  },
+];
+
+const jsonldFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.filter((f) => f.a).map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+<Base
+  title="Buy Avios | British Airways, Qatar and Iberia | buyflightmiles"
+  description={`Buy Avios from ${rateFixed(cheapest.pricePerMile)}¢ each. One currency for British Airways, Iberia, Qatar, Finnair and Aer Lingus, delivered into your own account and transferable 1:1.`}
+  slug="buy/avios"
+  jsonld={[jsonld, jsonldFaq]}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid top">
+        <div>
+          <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Programs", href: "/#programs" },
+            { label: "Avios" },
+          ]} />
+          <span class="kicker">Oneworld currency</span>
+          <h1>Buy <span class="hl">Avios</span> at the cheaper of two prices.</h1>
+          <p class="sub">
+            British Airways, Iberia, Qatar, Finnair and Aer Lingus all run on the same Avios,
+            and they move between those accounts 1:1. So the question isn't which airline,
+            it's which of the two is cheaper for the amount you need.
+          </p>
+          <p class="hero-more">
+            <a href="#which">Which one should I buy?</a>
+          </p>
+          <div class="spec">
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              From <b>{rateFixed(cheapest.pricePerMile)}¢</b>&nbsp;per Avios
+            </span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Delivered in <b>{ba.delivery.replace("Within ", "")}</b>
+            </span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 5h18"/><polyline points="7 23 3 19 7 15"/><path d="M21 19H3"/></svg>
+              Transfers <b>1:1</b>&nbsp;between programs
+            </span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="hero-calc" id="quote">
+            {/* Both SKUs selectable, and nothing else: the choice between them
+                is the whole page, and the full 21-program list would bury it. */}
+            <QuoteWidget
+              only={["ba-avios", "qatar-avios"]}
+              defaultSlug={cheapest.slug}
+              heading="What will your Avios cost?"
+              sub="Switch between the two and watch the price and the minimum change."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHICH ONE — the page's whole reason to exist. Two verified rates and
+       two verified minimums, and the answer flips at one number. -->
+  <section class="section wash-cool" id="which">
+    <div class="container">
+      <div class="section-head">
+        <h2>Same Avios, two prices, two minimums</h2>
+        <p>
+          The cheaper rate isn't always available to you: it carries the higher minimum order.
+          That is the entire decision, and it turns at {switchAt.toLocaleString("en-US")} Avios.
+        </p>
+      </div>
+
+      <div class="avios-split">
+        {skus.map((s) => (
+          <div class="pcard avios-card">
+            <div class="top">
+              <div style="display:flex;align-items:center;gap:14px">
+                <Emblem code={s.code} color={s.color} logo={s.logo} logoAlt={s.logoAlt} size={44} />
+                <div>
+                  <p class="plabel">{s.airline}</p>
+                  <p class="pname">{s.program}</p>
+                </div>
+              </div>
+              {s.inStock
+                ? <span class="badge badge-ok">In stock</span>
+                : <span class="badge badge-warn">Limited</span>}
+            </div>
+            <div class="price">
+              <span class="num">{s.priceVerified ? "" : "~"}{rateFixed(s.pricePerMile)}¢</span><span class="unit">/ Avios</span>
+            </div>
+            <div class="rows">
+              <div class="r"><span>Minimum order</span><b>{s.min.toLocaleString("en-US")}</b></div>
+              <div class="r"><span>Maximum</span><b>{s.max.toLocaleString("en-US")}</b></div>
+              <div class="r"><span>Delivery</span><b>{s.deliveryVerified ? s.delivery.replace("Within ", "") : "on quote"}</b></div>
+              <div class="r"><span>{example.toLocaleString("en-US")} Avios</span><b>{usd(costOf(example, s.pricePerMile))}</b></div>
+            </div>
+            <a class="btn btn-primary" href={`/buy/${s.slug}`}>See {s.airline} Avios</a>
+          </div>
+        ))}
+      </div>
+
+      <!-- The rule, stated once, in the order a buyer meets it. Both halves
+           come from limitsVerified / priceVerified data. -->
+      <div class="avios-rule">
+        <div class="ar-row">
+          <span class="ar-k">Under {switchAt.toLocaleString("en-US")}</span>
+          <span class="ar-v">
+            <b>{lowestMin.airline}</b> — the only one of the two that takes an order this small,
+            from {lowestMin.min.toLocaleString("en-US")} Avios.
+          </span>
+        </div>
+        <div class="ar-row">
+          <span class="ar-k">{switchAt.toLocaleString("en-US")} and up</span>
+          <span class="ar-v">
+            <b>{cheapest.airline}</b> — cheaper per Avios. On {example.toLocaleString("en-US")} that is
+            {" "}{usd(saving)} less than the same Avios bought through {qr.airline}.
+          </span>
+        </div>
+      </div>
+      <p class="avios-note">
+        They are the same Avios once delivered. Buy whichever fits your amount, then move them
+        to the program you want to book from.
+      </p>
+    </div>
+  </section>
+
+  <!-- TRANSFERS — 490/mo of low-KD search demand (20 Aug), and the mechanic
+       the whole page rests on. Only the two programs we sell get a rate; the
+       rest are transfer destinations and are labelled as such. -->
+  <section class="section" id="transfer">
+    <div class="container">
+      <div class="section-head">
+        <h2>Where your Avios can go</h2>
+        <p>
+          Link the accounts and Avios move 1:1, instantly, in both directions. We deliver into
+          the two programs we sell; from there they are yours to move.
+        </p>
+      </div>
+      <div class="avios-web">
+        <div class="aw-col">
+          <span class="aw-lab">We deliver into</span>
+          {skus.map((s) => (
+            <a class="aw-item aw-sell" href={`/buy/${s.slug}`}>
+              <Emblem code={s.code} color={s.color} logo={s.logo} logoAlt={s.logoAlt} size={32} />
+              <span class="aw-txt">
+                <b>{s.airline}</b>
+                <span>{rateFixed(s.pricePerMile)}¢ · from {s.min.toLocaleString("en-US")}</span>
+              </span>
+            </a>
+          ))}
+        </div>
+        <div class="aw-col">
+          <span class="aw-lab">You can move them 1:1 to</span>
+          <div class="aw-item"><span class="aw-txt"><b>Iberia Plus</b><span>Often the lowest fees on transatlantic awards</span></span></div>
+          <div class="aw-item"><span class="aw-txt"><b>Finnair Plus</b><span>Oneworld awards through Helsinki</span></span></div>
+          <div class="aw-item"><span class="aw-txt"><b>Aer Lingus AerClub</b><span>Transatlantic without the BA surcharges</span></span></div>
+          <p class="aw-foot">
+            We don't deliver directly into these three. You move the Avios yourself once they
+            land in your {ba.airline} or {qr.airline} account.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE FEE TRAP — from ba.quirks, dated August 2026. This is the single
+       most valuable thing the page can tell someone, and neither program page
+       is scoped to say it. -->
+  <section class="section wash-warm">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Worth knowing before you book</span>
+        <h2>The Avios are only half the price</h2>
+      </div>
+      <div class="uses uses-2">
+        {ba.quirks?.filter((q) => /fee|move between/i.test(q.title)).map((q) => (
+          <div class="use">
+            <h4>{q.title}</h4>
+            <p>{q.text}</p>
+          </div>
+        ))}
+      </div>
+      <p class="avios-note">
+        Facts checked {ba.factsChecked}. Award pricing and fees are the airlines' to change,
+        and we re-check these with every price audit.
+      </p>
+    </div>
+  </section>
+
+  <!-- SWEET SPOTS, both programs in one ladder -->
+  <section class="section" id="uses">
+    <div class="container">
+      <div class="section-head">
+        <h2>What Avios are worth spending on</h2>
+        <p>Where they stretch furthest across the two programs we sell.</p>
+      </div>
+      <div class="uses">
+        {skus.flatMap((s) =>
+          (s.sweetSpots ?? []).filter((x) => x.miles).map((x) => (
+            <div class="use">
+              <h4>{x.title}</h4>
+              <div class="use-cost">
+                from {x.miles.toLocaleString("en-US")} Avios · {s.priceVerified ? "" : "~"}{usd(costOf(x.miles, s.pricePerMile))} at our {s.airline} rate
+              </div>
+              <p>{x.desc}</p>
+            </div>
+          )),
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="section wash-cool">
+    <div class="container">
+      <div class="section-head"><h2>Every Avios order is protected</h2></div>
+      <TrustStrip />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><h2>Buying Avios — your questions</h2></div>
+      {faqs.filter((f) => f.a).map((f, i) => (
+        <details class="faq" open={i === 0}>
+          <summary>{f.q}<span class="mk">+</span></summary>
+          <div class="ans">{f.a}</div>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA + related -->
+  <section class="section wash-cool">
+    <div class="container">
+      <div class="ctaband">
+        <div>
+          <h3>Ready to price your Avios?</h3>
+          <p>Free, no-obligation quote first, delivered {ba.delivery.toLowerCase()}. Nothing is charged on this site.</p>
+        </div>
+        <a class="btn btn-primary" href="#quote">Price Avios now</a>
+      </div>
+      <div class="related related-inline">
+        <span class="related-lab">Go deeper</span>
+        <a href="/buy/ba-avios">{ba.airline} Avios · {rateFixed(ba.pricePerMile)}¢</a>
+        <a href="/buy/qatar-avios">{qr.airline} Avios · {rateFixed(qr.pricePerMile)}¢</a>
+        <a href="/calculator/ba-avios">Avios calculator</a>
+        <a href="/request">Another program? Ask us →</a>
+        <a href="/contact">Questions? Contact us →</a>
+      </div>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">From the blog</span>
+          <h2>Latest on Avios</h2>
+        </div>
+        <div class="postlist postlist-2">
+          {posts.map((p) => <PostCard post={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  /* two SKU cards side by side, the comparison the page is built on */
+  .avios-split { display:grid; grid-template-columns:1fr 1fr; gap:clamp(16px,2vw,24px); align-items:start; }
+  @media (max-width:760px){ .avios-split { grid-template-columns:1fr; } }
+  .avios-card .price { margin-bottom:14px; }
+
+  /* the rule, as two rows rather than a paragraph: a buyer scanning for their
+     own amount should find it without reading a sentence */
+  .avios-rule { margin-top:clamp(20px,2.5vw,28px); border:1px solid var(--line);
+    border-radius:var(--radius-card); background:var(--surface); overflow:hidden; }
+  .ar-row { display:grid; grid-template-columns:minmax(0,180px) minmax(0,1fr); gap:18px;
+    padding:16px clamp(16px,2vw,22px); align-items:baseline; }
+  .ar-row + .ar-row { border-top:1px solid var(--line); }
+  @media (max-width:620px){ .ar-row { grid-template-columns:1fr; gap:4px; } }
+  .ar-k { font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--cobalt); }
+  .ar-v { font-size:15px; line-height:1.6; color:var(--text-2); }
+  .ar-v b { color:var(--text-1); font-weight:700; }
+  .avios-note { margin:14px 0 0; font-size:13px; color:var(--text-3); line-height:1.6; }
+
+  /* what we sell on the left, where it can go on the right */
+  .avios-web { display:grid; grid-template-columns:1fr 1fr; gap:clamp(18px,2.5vw,32px); align-items:start; }
+  @media (max-width:760px){ .avios-web { grid-template-columns:1fr; } }
+  .aw-lab { display:block; font-family:var(--display); font-size:11.5px; text-transform:uppercase;
+    letter-spacing:.07em; color:var(--text-3); margin-bottom:12px; }
+  .aw-item { display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface);
+    border:1px solid var(--line); border-radius:var(--radius-card); }
+  .aw-item + .aw-item { margin-top:10px; }
+  .aw-sell { transition:border-color .18s ease, transform .18s ease; }
+  .aw-sell:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
+  .aw-txt { display:block; min-width:0; }
+  .aw-txt b { display:block; font-family:var(--display); font-size:15.5px; color:var(--text-1); }
+  .aw-txt span { display:block; font-size:13px; color:var(--text-3); margin-top:2px; }
+  .aw-foot { margin:12px 0 0; font-size:13px; color:var(--text-3); line-height:1.6; }
+</style>
