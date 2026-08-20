@@ -205,22 +205,22 @@ const jsonldFaq = {
       <div class="avios-split" style={`--n:${skus.length}`}>
         {skus.map((s) => (
           <div class="pcard avios-card">
+            {/* Logo and status share the top row; the name sits under them at
+                the card's full width. Nesting the name beside the logo let the
+                badge steal width from it, and the inline align-items:center it
+                needed there centred each logo over the text so three cards
+                that should share a left edge each began somewhere different. */}
             <div class="top">
-              <div style="display:flex;align-items:center;gap:14px">
-                <Emblem code={s.code} color={s.color} logo={s.logo} logoAlt={s.logoAlt} size={44} />
-                <div>
-                  <p class="plabel">{s.airline}</p>
-                  {/* the programme name without the "Avios (…)" wrapper: every
-                      card on this page sells Avios, so repeating it three
-                      times says nothing and wrapped BA's title onto a fourth
-                      line while the others took three */}
-                  <p class="pname">{s.program.replace(/^Avios\s*\((.*)\)$/, "$1")}</p>
-                </div>
-              </div>
+              <Emblem code={s.code} color={s.color} logo={s.logo} logoAlt={s.logoAlt} size={44} />
               {s.inStock
                 ? <span class="badge badge-ok">In stock</span>
                 : <span class="badge badge-warn">Limited</span>}
             </div>
+            <p class="plabel">{s.airline}</p>
+            {/* the programme name without the "Avios (…)" wrapper: every card
+                here sells Avios, so repeating the word three times says
+                nothing and cost British Airways two extra lines */}
+            <p class="pname">{s.program.replace(/^Avios\s*\((.*)\)$/, "$1")}</p>
             <div class="price">
               <span class="num">{s.priceVerified ? "" : "~"}{rateFixed(s.pricePerMile)}¢</span><span class="unit">/ Avios</span>
             </div>
@@ -430,14 +430,12 @@ const jsonldFaq = {
   .avios-card .price { margin-bottom:14px; }
   .avios-card .rows { margin-bottom:18px; }
   .avios-card .btn { margin-top:auto; }
-  /* Logo above the name, not beside it. Side by side, the mark took a third
-     of the card and pushed "The British Airways Club" onto four lines while
-     the shorter two took two — equal heights but a visibly emptier card.
-     Stacked, every title has the full column to wrap in. */
-  .avios-card .top { align-items:flex-start; }
-  .avios-card .top > div:first-child { min-width:0; flex-direction:column;
-    align-items:flex-start; gap:10px !important; }
-  .avios-card .pname { line-height:1.25; }
+  .avios-card .top { align-items:center; margin-bottom:14px; }
+  .avios-card .plabel { margin-bottom:2px; }
+  /* 24px is the shared card size and puts "The British Airways Club" onto a
+     second line at this width. 19.5 keeps the longest of the three on one
+     line with room to spare, and the airline is named directly above it. */
+  .avios-card .pname { font-size:19.5px; line-height:1.3; margin-bottom:16px; }
 
   /* the rule, as two rows rather than a paragraph: a buyer scanning for their
      own amount should find it without reading a sentence */
