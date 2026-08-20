@@ -221,7 +221,7 @@
     "metaDescription": "Buy American Airlines AAdvantage miles at a fraction of the price. Secure, guaranteed delivery within 24 hours.",
     "related": [
       "qatar-avios",
-      "ba-avios"
+      "british-airways-avios"
     ],
     "sweetSpots": [
       {
@@ -416,7 +416,7 @@
     "metaDescription": "Buy Qatar Airways Avios from 1.8¢ and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
     "related": [
       "iberia-avios",
-      "ba-avios",
+      "british-airways-avios",
       "american-aadvantage"
     ],
     "sweetSpots": [
@@ -658,7 +658,7 @@
     "factsChecked": "August 2026"
   },
   {
-    "id": "ba-avios",
+    "id": "british-airways-avios",
     "order": 7,
     "program": "Avios (The British Airways Club)",
     "accountLabel": "British Airways Club membership number",
@@ -699,7 +699,7 @@
         "desc": "Qatar, Japan Airlines and Cathay open up with Avios, usually with far lower fees than BA's own long-haul flights."
       }
     ],
-    "logo": "/logos/ba-avios.svg",
+    "logo": "/logos/british-airways-avios.svg",
     "logoAlt": "British Airways logo",
     "faqExtras": [
       {
@@ -776,7 +776,7 @@
     "metaTitle": "Buy Iberia Avios | Iberia Club | buyflightmiles",
     "metaDescription": "Buy Iberia Avios and book Iberia's own transatlantic business class with low surcharges. Quoted before you pay, delivered into your own Iberia Club account.",
     "related": [
-      "ba-avios",
+      "british-airways-avios",
       "qatar-avios"
     ],
     "sweetSpots": [
@@ -1108,7 +1108,7 @@
     "related": [
       "american-aadvantage",
       "qatar-avios",
-      "ba-avios"
+      "british-airways-avios"
     ],
     "sweetSpots": [
       {
@@ -1868,7 +1868,7 @@
     "related": [
       "emirates-skywards",
       "qatar-avios",
-      "ba-avios"
+      "british-airways-avios"
     ],
     "sweetSpots": [
       {
@@ -2515,7 +2515,7 @@
     "metaDescription": "Buy Cathay Pacific Asia Miles at 1.95¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
     "related": [
       "qatar-avios",
-      "ba-avios",
+      "british-airways-avios",
       "emirates-skywards"
     ],
     "sweetSpots": [

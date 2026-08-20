@@ -35,7 +35,7 @@ program worked like the last one they used.
 | [Etihad Guest](/buy/etihad-guest) | 18 months with no qualifying flight | Flying Etihad or a partner airline, and nothing else |
 | [American AAdvantage](/buy/american-aadvantage) | 24 months with no activity | Any earn or redemption |
 | [Air France-KLM Flying Blue](/buy/air-france-flying-blue) | 24 months with no earning | Earning only. Elite members are exempt |
-| [British Airways Avios](/buy/ba-avios) | 36 months with no activity | Any earn or redemption |
+| [British Airways Avios](/buy/british-airways-avios) | 36 months with no activity | Any earn or redemption |
 | [Qatar Airways Avios](/buy/qatar-avios) | 36 months with no activity | Any earn or redemption |
 | [ANA Mileage Club](/buy/ana-mileage-club) | End of the 36th month after you earned them | Nothing. Diamond and million milers are exempt |
 | [EVA Infinity MileageLands](/buy/eva-air-miles) | 36 months from the travel or transfer date | An award redemption plus an EVA or UNI international flight extends unexpired miles |

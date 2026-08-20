@@ -426,9 +426,9 @@ Status as of 12 August 2026.
    Both rates are already `priceVerified`, so nothing here waits on the client.
 
    Route `/buy/avios`: no collision, since the collection holds `qatar-avios`
-   and `ba-avios` but no bare `avios`, and a static file outranks the dynamic
+   and `british-airways-avios` but no bare `avios`, and a static file outranks the dynamic
    `[slug]`. It is also the real 301 target for the old `/buy-avios`, currently
-   pointed at `/buy/ba-avios` as a compromise.
+   pointed at `/buy/british-airways-avios` as a compromise.
 
 4. **301 map from the old URLs** (from the tracking export — these carry every
    ranking the live site has):
@@ -440,7 +440,7 @@ Status as of 12 August 2026.
    | `/eva-air-miles` | `/buy/eva-air` |
    | `/qatar-airways` | `/buy/qatar-avios` |
    | `/qatar-airways-ar` | `/ar/buy/qatar-avios` |
-   | `/buy-avios` | `/buy/ba-avios` (or the currency page above) |
+   | `/buy-avios` | `/buy/british-airways-avios` (or the currency page above) |
 
 5. ~~**Chinese**~~ **partly done.** Traditional Chinese shipped for Taiwan
    (EVA) and Hong Kong (Cathay). `里程币` at 1,300/mo KD 16 is **Simplified**

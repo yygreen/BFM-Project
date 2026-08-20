@@ -11,8 +11,8 @@
 //                                    way transatlantic; the same Avios on
 //                                    Qatar, Iberia or Aer Lingus do not
 //
-// Neither /buy/ba-avios nor /buy/qatar-avios can answer both, because each is
-// scoped to one program. This page exists to answer them together, and every
+// Neither /buy/british-airways-avios nor /buy/qatar-avios can answer both,
+// because each is scoped to one programme. This page exists to answer them together, and every
 // number on it comes from the same verified collection those pages use, so it
 // can never drift from them.
 //
@@ -26,11 +26,10 @@
 // 41, while the TRANSFER questions are 490/mo at KD 14-21 with AI Overviews.
 // So the transfer web is a primary section here, not background colour.
 //
-// Route: /buy/avios. The collection holds qatar-avios and ba-avios but no
-// bare avios, so this static file and the dynamic [slug] never collide, and
-// the URL keeps the /buy/{thing} contract. It is also the real 301 target for
-// the old /buy-avios, which ranked #18 and currently points at ba-avios as a
-// compromise.
+// Route: /buy/avios. The collection holds qatar-avios, british-airways-avios
+// and iberia-avios but no bare avios, so this static file and the dynamic
+// [slug] never collide, and the URL keeps the /buy/{thing} contract. It is
+// also the real 301 target for the old /buy-avios, which ranked #18.
 //
 // THIS PAGE TARGETS THE UNQUALIFIED TERM ONLY: "buy avios", "buy avios
 // points". The carrier-qualified terms belong to the programme pages, which
@@ -58,7 +57,7 @@ import { getPosts } from "../../lib/blog";
 import { usd, costOf, rateFixed } from "../../lib/money";
 
 const all = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
-const ba = all.find((a) => a.slug === "ba-avios");
+const ba = all.find((a) => a.slug === "british-airways-avios");
 const qr = all.find((a) => a.slug === "qatar-avios");
 
 // Every programme on the roster that denominates in Avios, cheapest first.
@@ -84,7 +83,7 @@ const example = 100000;
 const saving = costOf(example, qr.pricePerMile) - costOf(example, ba.pricePerMile);
 
 const posts = (await getPosts())
-  .filter((p) => p.data.programs.some((s) => s === "ba-avios" || s === "qatar-avios"))
+  .filter((p) => p.data.programs.some((s) => s === "british-airways-avios" || s === "qatar-avios"))
   .slice(0, 2);
 
 // AggregateOffer rather than Offer: this page sells the same currency at
@@ -409,7 +408,7 @@ const jsonldFaq = {
         {skus.map((s) => (
           <a href={`/buy/${s.slug}`}>{s.airline} Avios · {s.priceVerified ? "" : "~"}{rateFixed(s.pricePerMile)}¢</a>
         ))}
-        <a href="/calculator/ba-avios">Avios calculator</a>
+        <a href="/calculator/british-airways-avios">Avios calculator</a>
         <a href="/request">Another program? Ask us →</a>
         <a href="/contact">Questions? Contact us →</a>
       </div>

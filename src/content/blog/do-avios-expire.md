@@ -3,7 +3,7 @@ title: "Do Avios Expire? The 36-Month Rule, and the 10-Second Fix"
 description: "Avios expire after 36 months without activity, but any earn or spend resets the clock. How the rule works for BA and Qatar, and the fastest ways to keep a balance alive."
 date: 2026-08-09
 category: "Guide"
-programs: ["ba-avios", "qatar-avios"]
+programs: ["british-airways-avios", "qatar-avios"]
 image: "/blog/do-avios-expire.jpg"
 imageAlt: "An hourglass pouring coral mile tokens, one token lifted back out by an upward arrow"
 ---
@@ -59,7 +59,7 @@ well, it's just 40,000 short of the Qsuite redemption it exists for. Topping
 up through the airline's own buy-Avios pages is priced for impulse, not for
 value. That is where a per-mile rate from a trader undercuts it, usually by
 a distance. The live rates for both programs are on our
-[British Airways](/buy/ba-avios) and [Qatar Airways](/buy/qatar-avios) pages,
+[British Airways](/buy/british-airways-avios) and [Qatar Airways](/buy/qatar-avios) pages,
 and the quote states the full cost before you commit to anything.
 
 ## The 10-second habit

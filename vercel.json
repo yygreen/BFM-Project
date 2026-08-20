@@ -77,7 +77,7 @@
     },
     {
       "source": "/avios-calculator",
-      "destination": "/calculator/ba-avios",
+      "destination": "/calculator/british-airways-avios",
       "permanent": true
     },
     {
@@ -87,7 +87,7 @@
     },
     {
       "source": "/airlines/british-airways-executive-club",
-      "destination": "/buy/ba-avios",
+      "destination": "/buy/british-airways-avios",
       "permanent": true
     },
     {
@@ -112,7 +112,7 @@
     },
     {
       "source": "/british-airways",
-      "destination": "/buy/ba-avios",
+      "destination": "/buy/british-airways-avios",
       "permanent": true
     },
     {
@@ -273,6 +273,16 @@
     {
       "source": "/airlines/:rest*",
       "destination": "/#programs",
+      "permanent": true
+    },
+    {
+      "source": "/buy/ba-avios",
+      "destination": "/buy/british-airways-avios",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/ba-avios",
+      "destination": "/calculator/british-airways-avios",
       "permanent": true
     }
   ]

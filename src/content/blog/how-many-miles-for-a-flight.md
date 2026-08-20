@@ -53,7 +53,7 @@ chart, which is exactly why the partner award is so often the better buy.
 | [Air Canada Aeroplan](/buy/air-canada-aeroplan) | Dynamic on Air Canada. Distance chart on partners | Partners only |
 | [Lufthansa Miles & More](/buy/lufthansa-miles-more) | Dynamic on Lufthansa Group since June 2025. Chart on Star Alliance partners | Partners only |
 | [Etihad Guest](/buy/etihad-guest) | Distance-based Saver awards from Abu Dhabi. Most other seats dynamic | Saver only |
-| [British Airways Avios](/buy/ba-avios) | Distance bands, with peak and off-peak dates | Published |
+| [British Airways Avios](/buy/british-airways-avios) | Distance bands, with peak and off-peak dates | Published |
 | [Qatar Airways Avios](/buy/qatar-avios) | Distance bands | Published |
 | [Cathay Asia Miles](/buy/cathay-pacific-asia-miles) | Distance bands, on Cathay and on partners | Published |
 | [Alaska Atmos Rewards](/buy/alaska-mileage-plan) | Distance chart on Alaska and Hawaiian, three regional charts on partners | Published |
