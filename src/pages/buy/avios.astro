@@ -167,9 +167,9 @@ const jsonldFaq = {
           <span class="kicker">Oneworld currency</span>
           <h1>Buy <span class="hl">Avios</span> at the cheapest of {skus.length} prices.</h1>
           <p class="sub">
-            British Airways, Iberia, Qatar, Finnair and Aer Lingus all run on the same Avios,
-            and they move between those accounts 1:1. So the question isn't which airline,
-            it's which of the two is cheaper for the amount you need.
+            British Airways, Iberia, Qatar, Finnair, Aer Lingus, Vueling and Loganair all run
+            on the same Avios, and they move between those accounts 1:1. So the question
+            isn't which airline, it's which one is cheapest for the amount you need.
           </p>
           <p class="hero-more">
             <a href="#which">Which one should I buy?</a>
@@ -313,19 +313,15 @@ const jsonldFaq = {
           <div class="aw-item"><span class="aw-txt"><b>Aer Lingus AerClub</b><span>Lower fees than BA metal on transatlantic</span></span></div>
           <div class="aw-item"><span class="aw-txt"><b>Vueling Club</b><span>Short-haul across Spain and Europe</span></span></div>
           <div class="aw-item"><span class="aw-txt"><b>Loganair Loyalty</b><span>Regional UK routes</span></span></div>
+          {/* Not "these three": the list was three entries until British
+              Airways' own transfer page turned up Vueling and Loganair, and a
+              hardcoded count then said the wrong thing. */}
           <p class="aw-foot">
-            We don't deliver directly into these three. You move the Avios yourself once they
-            land in your {ba.airline} or {qr.airline} account.
+            We don't deliver directly into any of these. You move the Avios yourself once
+            they land in an account we do deliver into.
           </p>
         </div>
       </div>
-      {/* The surcharge figure is the reason moving them matters at all, so it
-          rides with the transfer section rather than getting a band of its
-          own. Straight from ba.quirks, dated, so it can't drift from the
-          program page that also states it. */}
-      <p class="avios-note">
-        {ba.quirks?.find((q) => /fee/i.test(q.title))?.text} Facts checked {ba.factsChecked}.
-      </p>
     </div>
   </section>
 
