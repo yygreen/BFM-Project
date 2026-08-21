@@ -122,7 +122,7 @@ const faqs = [
   },
   {
     q: "Which should I buy, BA or Qatar Avios?",
-    a: `Under ${switchAt.toLocaleString("en-US")} Avios, ${lowestMin.airline} is the only one of the two that can take the order: its minimum is ${lowestMin.min.toLocaleString("en-US")} against ${cheapest.min.toLocaleString("en-US")}. At ${switchAt.toLocaleString("en-US")} or more, ${cheapest.airline} is cheaper per Avios. Either way they are the same Avios once delivered, so buy whichever fits your amount and move them if you want to spend elsewhere.`,
+    a: `Under ${switchAt.toLocaleString("en-US")} Avios, ${lowestMin.airline} is the only confirmed rate that can take the order: its minimum is ${lowestMin.min.toLocaleString("en-US")} against ${cheapest.min.toLocaleString("en-US")}. At ${switchAt.toLocaleString("en-US")} or more, ${cheapest.airline} is cheaper per Avios. Either way they are the same Avios once delivered, so buy whichever fits your amount and move them if you want to spend elsewhere.`,
   },
   {
     q: "Can I move Avios to Iberia or Finnair?",
@@ -149,7 +149,7 @@ const jsonldFaq = {
 };
 ---
 <Base
-  title="Buy Avios | One currency, three prices | buyflightmiles"
+  title={`Buy Avios | One currency, ${skus.length} prices | buyflightmiles`}
   description={`Buy Avios from ${rateFixed(cheapest.pricePerMile)}¢ each. One currency, ${skus.length} programmes to buy it from, transferable 1:1 and delivered into an account you already hold.`}
   slug="buy/avios"
   jsonld={[jsonld, jsonldFaq]}
@@ -197,7 +197,7 @@ const jsonldFaq = {
               only={skus.map((s) => s.slug)}
               defaultSlug={cheapest.slug}
               heading="What will your Avios cost?"
-              sub="Switch between the two and watch the price and the minimum change."
+              sub={`Switch between the ${skus.length} and watch the price and the minimum change.`}
             />
           </div>
         </div>
@@ -256,7 +256,7 @@ const jsonldFaq = {
         <div class="ar-row">
           <span class="ar-k">Under {switchAt.toLocaleString("en-US")}</span>
           <span class="ar-v">
-            <b>{lowestMin.airline}</b> — the only one of the two that takes an order this small,
+            <b>{lowestMin.airline}</b> — the only confirmed rate that takes an order this small,
             from {lowestMin.min.toLocaleString("en-US")} Avios.
           </span>
         </div>
@@ -276,15 +276,15 @@ const jsonldFaq = {
   </section>
 
   <!-- TRANSFERS — 490/mo of low-KD search demand (20 Aug), and the mechanic
-       the whole page rests on. Only the two programs we sell get a rate; the
+       the whole page rests on. Only the programmes we sell get a rate; the
        rest are transfer destinations and are labelled as such. -->
   <section class="section" id="transfer">
     <div class="container">
       <div class="section-head">
         <h2>Where your Avios can go</h2>
         <p>
-          Link the accounts and Avios move 1:1, instantly, in both directions. We deliver into
-          the two programs we sell; from there they are yours to move.
+          Link the accounts and Avios move 1:1, instantly, in both directions. We deliver
+          into the programmes we sell; from there they are yours to move.
         </p>
       </div>
       <div class="avios-web">
@@ -292,10 +292,15 @@ const jsonldFaq = {
           <span class="aw-lab">We deliver into</span>
           {skus.map((s) => (
             <a class="aw-item aw-sell" href={`/buy/${s.slug}`}>
-              <Emblem code={s.code} color={s.color} logo={s.logo} logoAlt={s.logoAlt} size={32} />
+              {/* wrapper rather than styling .emblem-logo directly: that class
+                  belongs to the Emblem component, so this file's scoped CSS
+                  never reaches it */}
+              <span class="aw-logo">
+                <Emblem code={s.code} color={s.color} logo={s.logo} logoAlt={s.logoAlt} size={32} />
+              </span>
               <span class="aw-txt">
                 <b>{s.airline}</b>
-                <span>{rateFixed(s.pricePerMile)}¢ · from {s.min.toLocaleString("en-US")}</span>
+                <span>{s.priceVerified ? "" : "~"}{rateFixed(s.pricePerMile)}¢ · from {s.min.toLocaleString("en-US")}</span>
               </span>
             </a>
           ))}
@@ -345,12 +350,12 @@ const jsonldFaq = {
     </div>
   </section>
 
-  <!-- SWEET SPOTS, both programs in one ladder -->
+  <!-- SWEET SPOTS, every programme we sell in one ladder -->
   <section class="section" id="uses">
     <div class="container">
       <div class="section-head">
         <h2>What Avios are worth spending on</h2>
-        <p>Where they stretch furthest across the two programs we sell.</p>
+        <p>Where they stretch furthest across the programmes we sell.</p>
       </div>
       <div class="uses">
         {skus.flatMap((s) =>
@@ -468,6 +473,11 @@ const jsonldFaq = {
     letter-spacing:.07em; color:var(--text-3); margin-bottom:12px; }
   .aw-item { display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface);
     border:1px solid var(--line); border-radius:var(--radius-card); }
+  /* Fixed logo column. The marks have wildly different aspect ratios — the
+     British Airways wordmark is 10.7:1, Qatar 2.9:1 — so sizing the slot to
+     the artwork started each row's text at a different x. A fixed box left-
+     aligns the logo inside it and lines every name up on one edge. */
+  .aw-logo { flex:0 0 108px; width:108px; display:flex; align-items:center; }
   .aw-item + .aw-item { margin-top:10px; }
   .aw-sell { transition:border-color .18s ease, transform .18s ease; }
   .aw-sell:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
