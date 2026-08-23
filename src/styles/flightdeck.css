@@ -1347,3 +1347,21 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .dd-foot .dd-all + .dd-all { border-left:1px solid var(--line); }
 @media (max-width:700px){ .dd-foot { grid-template-columns:1fr; }
   .dd-foot .dd-all + .dd-all { border-left:0; border-top:1px solid var(--line); } }
+
+/* Header contact. A phone number a buyer can see without scrolling is the
+   strongest trust signal on a page selling a four-figure purchase, and it is
+   the one we already have confirmed. Rendered from officialChannels(), so an
+   unverified contact block yields nothing rather than a made-up number. */
+.nav-contact { display:flex; align-items:center; gap:8px; }
+.nav-tel, .nav-chat { display:inline-flex; align-items:center; gap:7px; border-radius:var(--radius-pill);
+  color:var(--text-2); transition:color .15s ease, background .15s ease; }
+.nav-tel { padding:7px 13px 7px 11px; background:var(--raised); }
+.nav-tel b { font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--text-1); white-space:nowrap; }
+.nav-tel svg, .nav-chat svg { width:15px; height:15px; flex:none; }
+.nav-tel:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+.nav-tel:hover b { color:var(--cobalt); }
+.nav-chat { width:34px; height:34px; justify-content:center; background:var(--raised); }
+.nav-chat:hover { background:var(--ok-tint); color:#0A7D5A; }
+/* Below this the nav is already fighting for room and the footer block is a
+   short scroll away, so the number steps aside rather than wrapping the bar. */
+@media (max-width:1080px){ .nav-contact { display:none; } }
