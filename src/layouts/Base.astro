@@ -5,6 +5,7 @@ import { getPosts, getCategoryCounts } from "../lib/blog";
 // aliased: `site` is already taken below by Astro.site (the deploy URL)
 import { site as siteData, officialChannels } from "../lib/site";
 import Logo from "../components/Logo.astro";
+import ContactDock from "../components/ContactDock.astro";
 
 // Nav + footer program lists are generated from the collection, so adding an
 // entry to airlines.json puts it in the navigation automatically — the roster
@@ -29,11 +30,10 @@ const latestPosts = (await getPosts()).slice(0, 2);
 // One definition of what counts as an official channel, so the footer and the
 // contact page cannot drift apart on what we publish as ours.
 const contactWays = officialChannels();
-// The header's own contact pair. Same registry as the footer, so it inherits
-// the verified gate: with contact.verified false the header simply has no
-// contact block rather than printing a number nobody confirmed.
+// The header's call CTA. Same registry as the footer, so it inherits the
+// verified gate: with contact.verified false the header simply has no number
+// rather than printing one nobody confirmed.
 const headerPhone = contactWays.find((c) => c.kind === "phone");
-const headerChat = contactWays.find((c) => c.kind === "whatsapp");
 
 const {
   title = "buyflightmiles: Buy airline miles, delivered fast",
@@ -174,25 +174,17 @@ const hreflangs = alternates.length
         <a class="link" href="/faq">FAQ</a>
         {/* A four-figure purchase from a site the buyer has never used before
             is the case where a phone number does more work than any other
-            element on the page, and ours was only reachable by scrolling to
-            the footer. Both of these are already confirmed in site.json, so
-            this is the rare trust improvement that needs nothing from the
-            client. Hidden on narrow screens, where the nav is already tight
-            and the footer block is a short scroll away. */}
-        {(headerPhone || headerChat) && (
-          <span class="nav-contact">
-            {headerChat && (
-              <a class="nav-chat" href={headerChat.href} rel="noopener" target="_blank" aria-label={`WhatsApp ${headerChat.value}`}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.2-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg>
-              </a>
-            )}
-            {headerPhone && (
-              <a class="nav-tel" href={headerPhone.href}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <b>{headerPhone.value}</b>
-              </a>
-            )}
-          </span>
+            element on the page. One call CTA here, sized as the secondary
+            action beside the pricing button; WhatsApp and the rest live in the
+            dock pinned to the corner. Confirmed in site.json already, so this
+            is the rare trust improvement that needs nothing from the client.
+            Hidden on narrow screens, where the nav is tight and the dock
+            carries the same number anyway. */}
+        {headerPhone && (
+          <a class="nav-tel" href={headerPhone.href}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <b>{headerPhone.value}</b>
+          </a>
         )}
         <a class="btn btn-primary nav-cta" href="/#programs"
           ><span class="cta-long">View pricing</span><span class="cta-short">Pricing</span></a
@@ -301,5 +293,9 @@ const hreflangs = alternates.length
       <div class="fine">© {new Date().getFullYear()} buyflightmiles · Not affiliated with any airline or loyalty program.</div>
     </div>
   </footer>
+
+  {/* Pinned bottom right on every page, in the page's own language. Renders
+      nothing at all unless site.json has a verified phone or WhatsApp. */}
+  <ContactDock lang={lang} />
 </body>
 </html>

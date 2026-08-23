@@ -110,6 +110,8 @@ export type LocaleChrome = {
   trust: Record<string, string>;
   /** SavingsTool label overrides, same fallback rule */
   savings: Record<string, string>;
+  /** ContactDock label overrides, same fallback rule */
+  dock?: Record<string, string>;
 };
 
 export const LOCALES: Record<string, LocaleChrome> = {
@@ -227,6 +229,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       payCash: "بصراحة؟ ادفع نقداً هنا. عند {fare} يقدّر هذا المقعد الميل بـ {seat}¢، أي أقل من سعرنا {rate}¢.",
       numLocale: "ar-EG",
     },
+    dock: {
+      lab: "تحدث إلينا",
+      title: "تحدث إلى شخص حقيقي",
+      sub: "اسأل عن السعر ومدة التسليم وطريقة الدفع قبل الشراء.",
+      optQuote: "أريد شراء أميال",
+      optOrder: "سؤال عن طلب حالي",
+      ordiv: "أو",
+      call: "اتصل بنا",
+      callSub: "نوضح كل شيء قبل الدفع",
+      chat: "راسلنا على واتساب",
+      chatSub: "أرسل لنا رسالة",
+      close: "إغلاق",
+      more: "طرق تواصل أخرى",
+      waPrefill: "مرحباً، لدي سؤال عن شراء الأميال.",
+    },
   },
 
   de: {
@@ -332,6 +349,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     savings: {
       numLocale: "de-DE",
+    },
+    dock: {
+      lab: "Sprich mit uns",
+      title: "Sprich mit einem echten Menschen",
+      sub: "Frag vor dem Kauf nach Preis, Lieferzeit oder Zahlung.",
+      optQuote: "Ich möchte Meilen kaufen",
+      optOrder: "Frage zu einer Bestellung",
+      ordiv: "oder",
+      call: "Ruf uns an",
+      callSub: "Erst klären, dann zahlen",
+      chat: "Auf WhatsApp schreiben",
+      chatSub: "Schick uns eine Nachricht",
+      close: "Schließen",
+      more: "Weitere Kontaktwege",
+      waPrefill: "Hallo, ich habe eine Frage zum Meilenkauf.",
     },
   },
 
@@ -450,6 +482,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       payCash: "¿Honestamente? Aquí paga en efectivo. A {fare}, este asiento valora la milla en {seat}¢, por debajo de nuestro precio de {rate}¢.",
       numLocale: "es-CO",
     },
+    dock: {
+      lab: "Habla con nosotros",
+      title: "Habla con una persona real",
+      sub: "Pregunta por el precio, la entrega o el pago antes de comprar.",
+      optQuote: "Quiero comprar millas",
+      optOrder: "Consulta sobre un pedido",
+      ordiv: "o",
+      call: "Llámanos",
+      callSub: "Resuélvelo antes de pagar",
+      chat: "Escríbenos por WhatsApp",
+      chatSub: "Envíanos un mensaje",
+      close: "Cerrar",
+      more: "Más formas de contactarnos",
+      waPrefill: "Hola, tengo una pregunta sobre la compra de millas.",
+    },
   },
 
   tr: {
@@ -567,6 +614,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       payCash: "Dürüst olalım, burada nakit ödeyin. {fare} ile bu koltuk bir mili {seat}¢ değerliyor, bizim {rate}¢ fiyatımızın altında.",
       numLocale: "tr-TR",
     },
+    dock: {
+      lab: "Bize ulaşın",
+      title: "Gerçek bir kişiyle konuşun",
+      sub: "Almadan önce fiyatı, teslimatı ve ödemeyi sorun.",
+      optQuote: "Mil satın almak istiyorum",
+      optOrder: "Siparişimle ilgili soru",
+      ordiv: "veya",
+      call: "Bizi arayın",
+      callSub: "Ödemeden önce konuşalım",
+      chat: "WhatsApp'tan yazın",
+      chatSub: "Bize mesaj gönderin",
+      close: "Kapat",
+      more: "Diğer iletişim yolları",
+      waPrefill: "Merhaba, mil satın alma hakkında bir sorum var.",
+    },
   },
 
   fr: {
@@ -683,6 +745,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ok: "Les miles l'emportent : {saving} de moins que le tarif en espèces.",
       payCash: "Honnêtement ? Payez en espèces ici. À {fare}, ce siège valorise le mile à {seat}¢, sous notre tarif de {rate}¢.",
       numLocale: "fr-FR",
+    },
+    dock: {
+      lab: "Parlez-nous",
+      title: "Parlez à une vraie personne",
+      sub: "Posez vos questions sur le tarif, le délai ou le paiement avant d'acheter.",
+      optQuote: "Je veux acheter des miles",
+      optOrder: "Question sur une commande",
+      ordiv: "ou",
+      call: "Appelez-nous",
+      callSub: "On en parle avant de payer",
+      chat: "Écrire sur WhatsApp",
+      chatSub: "Envoyez-nous un message",
+      close: "Fermer",
+      more: "Autres moyens de nous joindre",
+      waPrefill: "Bonjour, j'ai une question sur l'achat de miles.",
     },
   },
 
@@ -802,6 +879,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       payCash: "老實說，這趟直接付現。在 {fare} 之下，這個座位每哩只值 {seat}¢，低於我們 {rate}¢ 的價格。",
       numLocale: "zh-TW",
     },
+    dock: {
+      lab: "與我們聯絡",
+      title: "與真人專員對話",
+      sub: "購買前先問清楚價格、交件時間與付款方式。",
+      optQuote: "我想購買哩程",
+      optOrder: "訂單相關問題",
+      ordiv: "或",
+      call: "來電洽詢",
+      callSub: "付款前先談清楚",
+      chat: "用 WhatsApp 聯絡",
+      chatSub: "傳訊息給我們",
+      close: "關閉",
+      more: "更多聯絡方式",
+      waPrefill: "你好，我想詢問購買哩程的事。",
+    },
   },
 
   "zh-hk": {
@@ -919,6 +1011,21 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ok: "里數抵啲：平過現金票價 {saving}。",
       payCash: "老實講，今次直接俾現金。喺 {fare} 之下，呢個位每里只值 {seat}¢，低過我哋 {rate}¢ 嘅價錢。",
       numLocale: "zh-HK",
+    },
+    dock: {
+      lab: "搵我哋傾",
+      title: "同真人客服傾",
+      sub: "買之前可以問清楚價錢、幾時到同點畀錢。",
+      optQuote: "我想買里數",
+      optOrder: "想問訂單嘅事",
+      ordiv: "或",
+      call: "打電話畀我哋",
+      callSub: "畀錢之前傾清楚",
+      chat: "WhatsApp 搵我哋",
+      chatSub: "傳個訊息畀我哋",
+      close: "關閉",
+      more: "其他聯絡方法",
+      waPrefill: "你好，我想問買里數嘅事。",
     },
   },
 };
