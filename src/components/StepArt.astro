@@ -95,19 +95,21 @@ const { step } = Astro.props;
 
 {step === "fly" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="The route arriving at its destination, the seat booked">
-    <!-- Last panel: the line stops on the destination ring's rim. Ring outer
-         edge = cx 204 − (r 7.25 + stroke 5.5/2) = 194. Sized from the knobs
-         with an optical correction: a solid annulus reads larger than a thin
-         outline of the same size, so its outer radius is 10 — the waypoint
-         rings' geometric radius, inside their stroke — while the hole stays
-         4.5, exactly the coral dots' radius. -->
-    <path class="il-line" d="M-10 24H194" />
+    <!-- Last panel: the line stops on the destination ring's rim, and the
+         ring's right edge lands exactly on the container's content edge
+         (x=240), mirroring the lead-in that starts on the left content edge
+         two panels back: cx 230 + outer radius 10 = 240, line to 220.
+         Sized from the knobs with an optical correction: a solid annulus
+         reads larger than a thin outline of the same size, so its outer
+         radius is 10 — the waypoint rings' geometric radius, inside their
+         stroke — while the hole stays 4.5, exactly the coral dots' radius. -->
+    <path class="il-line" d="M-10 24H220" />
     <circle class="il-ring" cx="11.25" cy="24" r="10" />
     <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
     <path class="il-tether" d="M11.25 36V58" />
 
     <!-- the logo's destination ring: a thick annulus, arrival not a step -->
-    <circle class="il-dest" cx="204" cy="24" r="7.25" />
+    <circle class="il-dest" cx="230" cy="24" r="7.25" />
 
     <!-- translate x is solved so the rotated aircraft's leftmost INK lands
          on x=0, the same alignment line as the ring and the caption's S. Ink,
