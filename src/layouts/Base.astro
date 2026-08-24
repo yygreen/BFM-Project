@@ -16,9 +16,6 @@ const programs = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
-// How many programmes sell Avios, for the currency-page link below the
-// roster. Counted rather than written down: it was two last week.
-const aviosCount = programs.filter((p) => p.program.startsWith("Avios")).length;
 
 // Blog nav: categories that have posts, plus the newest two.
 const blogCategories = await getCategoryCounts();
@@ -140,14 +137,6 @@ const hreflangs = alternates.length
                   </span>
                 </a>
               ))}
-            </div>
-            {/* Two ways out of the roster. The currency page is not a
-                programme and must not sit in the grid above as a 23rd
-                airline, but it needs a permanent home somewhere in the
-                navigation or it is reachable only by knowing the URL. */}
-            <div class="dd-foot">
-              <a class="dd-all" href="/#programs">Compare all {programs.length} programs →</a>
-              <a class="dd-all" href="/buy/avios">Buy Avios: one currency, {aviosCount} prices →</a>
             </div>
           </div>
         </details>
