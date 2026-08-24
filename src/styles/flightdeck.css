@@ -469,8 +469,7 @@ table.cmp tr:last-child td { border-bottom:none; }
 
 /* ---- faq ---- */
 /* FAQ — one flat list on one surface, not the stock stacked-card accordion.
-   Every question is a hairline row, with the answer's key figure surfaced as
-   a mono chip while the row is closed. The row marker is the logo's motif:
+   Every question is a hairline row. The row marker is the logo's motif:
    three coral dots trailing off while closed, completing into the solid
    route line when the answer is open. */
 .faqx-list { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:4px 0; }
@@ -479,9 +478,6 @@ details.faq summary { list-style:none; cursor:pointer; padding:17px 22px; font-f
 details.faq summary::-webkit-details-marker { display:none; }
 details.faq summary:hover .faq-q { color:var(--cobalt); }
 .faq-q { flex:1; min-width:0; transition:color .15s ease; }
-.faq-chip { flex:none; font-family:var(--mono); font-size:12px; font-weight:600; color:var(--text-2);
-  background:var(--raised); padding:4px 10px; border-radius:var(--radius-pill); white-space:nowrap; }
-details.faq[open] .faq-chip { display:none; } /* the answer now states it in full */
 .faq-mk { flex:none; width:22px; height:3px;
   background:radial-gradient(circle 1.6px at 1.7px 1.5px, var(--coral) 99%, transparent 100%) 0 50%/7.4px 3px repeat-x; }
 details.faq[open] .faq-mk { background:var(--coral); border-radius:2px; }
@@ -489,7 +485,6 @@ details.faq .ans { padding:0 58px 19px 22px; color:var(--text-2); font-size:15px
 
 @media (max-width:900px){
   details.faq .ans { padding-right:22px; }
-  .faq-chip { display:none; }
 }
 summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 

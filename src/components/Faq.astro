@@ -14,12 +14,6 @@
 // every site in this market, and a page selling trust should not open its
 // questions section looking like a template.
 //
-// Rows carry their key figure as a monospace chip while closed (rate,
-// delivery window, payment methods), so the closed state is informative
-// instead of uniform. Chips exist only where the answer's number is real:
-// an unverified rate keeps its tilde, an unconfirmed payment list shows no
-// chip at all.
-//
 // Emits FAQPage JSON-LD so the answers are eligible for rich results.
 import { site, live, paymentSentence } from "../lib/site";
 import { usd, per1000 } from "../lib/money";
@@ -91,24 +85,16 @@ const legitAnswer = [
   "You get a firm quote confirming your exact rate and delivery window before any payment is made, and the miles go into an account you already control.",
 ].filter(Boolean).join(" ");
 
-// ---- row chips --------------------------------------------------------
-// The figure each answer hangs on, surfaced on the closed row in mono. "24
-// hours" compacts to "24h" so the chip stays a glance, and the tilde carries
-// through so an indicative rate never sheds its qualifier on the way up.
-const rateChip = pricePerMile ? `${priceVerified ? "" : "~"}${pricePerMile}¢/mi` : null;
-const windowChip = window.replace(/\s*hours?\b/, "h");
-const payChip = pay ? site.payments.methods.join(" · ") : null;
-
 // ---- assembled --------------------------------------------------------
 const faqs = [
-  { q: airline ? `How much does it cost to buy ${airline} miles?` : "How much does it cost to buy airline miles?", a: costAnswer, chip: rateChip, open: true },
+  { q: airline ? `How much does it cost to buy ${airline} miles?` : "How much does it cost to buy airline miles?", a: costAnswer, open: true },
   { q: airline ? `Can you buy ${airline} miles?` : "Can you buy airline miles?", a: canAnswer },
-  { q: airline ? `How fast are ${program || airline} miles delivered?` : "How fast are miles delivered?", a: deliveryAnswer, chip: windowChip },
+  { q: airline ? `How fast are ${program || airline} miles delivered?` : "How fast are miles delivered?", a: deliveryAnswer },
   // program-specific questions slot in here, near the top, and join the
   // FAQPage JSON-LD with everything else
   ...extras.map((e) => ({ q: e.q, a: e.a })),
   ...(omit.includes("worth") ? [] : [{ q: "Is buying airline miles worth it?", a: worthAnswer }]),
-  { q: "What payment methods do you accept?", a: paymentAnswer, chip: payChip },
+  { q: "What payment methods do you accept?", a: paymentAnswer },
   ...(site.guarantee.verified && site.guarantee.policy
     ? [{ q: "What if my miles don't arrive?", a: site.guarantee.policy }]
     : []),
@@ -140,7 +126,6 @@ const faqJsonLd = {
     <details class="faq" open={f.open}>
       <summary>
         <span class="faq-q">{f.q}</span>
-        {f.chip && <span class="faq-chip">{f.chip}</span>}
         <span class="faq-mk" aria-hidden="true"></span>
       </summary>
       <div class="ans">{f.a}</div>
