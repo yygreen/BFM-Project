@@ -1371,11 +1371,18 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 @media (max-width:1080px){ .nav-tel { display:none; } }
 
 /* ── contact dock ─────────────────────────────────────────────────────────
-   Pinned bottom right on every page. Collapsed it is a single dark pill:
-   number on the left (dials straight out), caret on the right (opens the
-   panel). Open it is a small card of the two things a hesitant buyer wants:
-   a route into a quote, and a human on the other end.
-   z-index sits above the sticky header (50) and the nav panels (60). */
+   Pinned bottom right on every page. Open it is a small card of the two
+   things a hesitant buyer wants: a route into a quote, and a human on the
+   other end. z-index sits above the sticky header (50) and nav panels (60).
+
+   Two collapsed faces, chosen by whether the page's free margin can hold
+   them without covering content. The container is 1120 wide, so at
+   (100vw − 1120)/2 ≥ pill + offsets the full pill — number visible, dials
+   straight out — sits entirely in the margin; that lands at 1560px and up.
+   Below it the dock is a compact circle instead: at 1214px+ even that sits
+   wholly in the margin, and narrower still it covers the least a floating
+   control can. The full pill never overlaps content by design — showing the
+   number is worth less than covering the page's own words. */
 .dock { position:fixed; z-index:80; right:18px;
   bottom:calc(18px + env(safe-area-inset-bottom, 0px)); font-family:var(--sans); }
 /* Flat brand cobalt, the same fill the primary button carries, so the dock is
@@ -1385,7 +1392,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   background:var(--cobalt);
   box-shadow:0 15px 36px color-mix(in srgb, var(--cobalt) 34%, transparent),
              0 3px 10px color-mix(in srgb, var(--ink) 26%, transparent); }
-.dock-tel { display:flex; flex-direction:column; justify-content:center; gap:1px;
+.dock-tel { display:none; flex-direction:column; justify-content:center; gap:1px;
   padding:9px 15px 10px 19px; color:#fff; border-start-start-radius:var(--radius-pill);
   border-end-start-radius:var(--radius-pill); transition:background .15s ease; }
 .dock-tel:hover { background:rgba(255,255,255,.1); color:#fff; }
@@ -1401,14 +1408,24 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 /* A plain hairline here on purpose: a vertical dotted run down the pill read
    as a tear-off perforation, not as the mark. The coral belongs horizontal,
    the way the logo and the calculator leaders run it. */
-.dock-more { list-style:none; display:flex; align-items:center; padding:0 16px 0 14px; cursor:pointer;
-  color:var(--cobalt-tint); border-inline-start:1px solid color-mix(in srgb, var(--cobalt-tint) 32%, transparent);
-  border-start-end-radius:var(--radius-pill); border-end-start-radius:0;
-  border-end-end-radius:var(--radius-pill); transition:background .15s ease, color .15s ease; }
+/* compact face: one round button, the phone glyph, opens the panel */
+.dock-more { list-style:none; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  width:54px; height:54px; border-radius:50%; color:#fff;
+  transition:background .15s ease, color .15s ease; }
 .dock-more::-webkit-details-marker { display:none; }
 .dock-more:hover { background:rgba(255,255,255,.1); color:#fff; }
-.dock-more svg { transition:transform .18s ease; }
-.dock-d[open] .dock-more svg { transform:rotate(180deg); }
+.dock-caret { display:none; transition:transform .18s ease; }
+.dock-d[open] .dock-caret { transform:rotate(180deg); }
+
+@media (min-width:1560px){
+  .dock-tel { display:flex; }
+  .dock-more { width:auto; height:auto; border-radius:0; padding:0 16px 0 14px;
+    color:var(--cobalt-tint); border-inline-start:1px solid color-mix(in srgb, var(--cobalt-tint) 32%, transparent);
+    border-start-end-radius:var(--radius-pill); border-end-start-radius:0;
+    border-end-end-radius:var(--radius-pill); }
+  .dock-caret { display:block; }
+  .dock-fab-ic { display:none; }
+}
 
 /* Plain white with a cobalt hairline: the brand shows in the border, the rows
    and the pill below, so the card itself stays quiet behind them. */
@@ -1452,8 +1469,6 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 
 @media (max-width:560px){
   .dock { inset-inline-end:12px; bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
-  .dock-tel { padding:8px 13px 9px 16px; }
-  .dock-tel b { font-size:14px; }
   .dock-panel { width:calc(100vw - 24px); }
 }
 @media print { .dock { display:none; } }

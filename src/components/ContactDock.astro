@@ -8,9 +8,13 @@
 // selling at this price point (business-class.com runs four numbers on one
 // page) keeps a reachable human pinned to the viewport instead.
 //
-// Collapsed it is one dark pill: the number, tappable straight into a call,
-// plus a caret that opens the rest. That split is deliberate — on a phone the
-// highest-value action is dialling, and it should not cost a menu first.
+// Collapsed it has two faces, decided in CSS by whether the page's free
+// margin can hold them without covering content: the full pill — number
+// visible, tappable straight into a call, caret opening the rest — on wide
+// screens where it fits beside the content column, and a compact round
+// phone button everywhere else, which opens the panel where the call row is
+// the first thing under the two options. Never covering the page's own
+// words outranks showing the number.
 //
 // Everything it publishes comes from site.json's verified contact block, so
 // an unconfirmed channel is absent rather than wrong, and the whole dock
@@ -84,7 +88,10 @@ const show = Boolean(phone || chat);
       )}
       <details class="dock-d" id="dock-d">
         <summary class="dock-more" aria-label={t.more}>
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          {/* two faces for one control: the caret beside the number on wide
+              screens, the phone glyph when the dock is the compact circle */}
+          <svg class="dock-caret" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="dock-fab-ic" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </summary>
 
         <div class="dock-panel">
