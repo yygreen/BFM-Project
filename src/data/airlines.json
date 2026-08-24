@@ -1017,7 +1017,7 @@
     "metaDescription": "Buy Southwest Rapid Rewards points to top up your balance. Secure transfer into your own account, with your exact rate confirmed before you pay.",
     "related": [
       "jetblue-trueblue",
-      "alaska-mileage-plan",
+      "alaska-atmos-rewards",
       "delta-skymiles"
     ],
     "sweetSpots": [
@@ -1085,9 +1085,9 @@
     "factsChecked": "August 2026"
   },
   {
-    "id": "alaska-mileage-plan",
+    "id": "alaska-atmos-rewards",
     "order": 11,
-    "program": "Mileage Plan",
+    "program": "Atmos Rewards",
     "airline": "Alaska Airlines",
     "alliance": "Oneworld",
     "code": "AS",
@@ -1100,11 +1100,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy Alaska miles for Mileage Plan.",
-    "heroHighlight": "Alaska miles",
-    "heroSub": "One of the most useful currencies in the air — Mileage Plan books Oneworld partners in premium cabins, and a small top-up often unlocks a far bigger seat.",
-    "metaTitle": "Buy Alaska Airlines Miles | Mileage Plan | buyflightmiles",
-    "metaDescription": "Buy Alaska Airlines Mileage Plan miles for Oneworld partner redemptions in business and first. Secure transfer, exact rate confirmed before you pay.",
+    "heroHeadline": "Buy Atmos Rewards points for Alaska and Hawaiian.",
+    "heroHighlight": "Atmos Rewards points",
+    "heroSub": "One balance now covers both airlines: Oneworld partners in premium cabins, island hops, and the mainland run to Honolulu. A small top-up often unlocks a far bigger seat.",
+    "metaTitle": "Buy Alaska Miles | Atmos Rewards | buyflightmiles",
+    "metaDescription": "Buy Atmos Rewards points, the combined Alaska and Hawaiian program, for Oneworld partner redemptions in business and first. Exact rate confirmed before you pay.",
     "related": [
       "american-aadvantage",
       "qatar-avios",
@@ -1113,23 +1113,27 @@
     "sweetSpots": [
       {
         "title": "Oneworld partner awards",
-        "desc": "Mileage Plan books a wide set of Oneworld carriers, so miles bought here reach cabins Alaska doesn't fly itself."
+        "desc": "Atmos Rewards books a wide set of Oneworld carriers, so points bought here reach cabins Alaska and Hawaiian don't fly themselves."
       },
       {
         "title": "Long-haul premium cabins",
         "desc": "The program is best known for business and first-class partner redemptions rather than domestic economy — that's where a top-up earns its keep."
       },
       {
+        "title": "Hawaii, both directions",
+        "desc": "The old HawaiianMiles territory lives here now: neighbour-island hops and west-coast departures to Honolulu, in economy or the premium cabin."
+      },
+      {
         "title": "Stopovers on award tickets",
-        "desc": "Mileage Plan has historically allowed a stopover on one-way awards, which turns a single redemption into two destinations."
+        "desc": "The program has historically allowed a stopover on one-way awards, which turns a single redemption into two destinations."
       }
     ],
-    "logo": "/logos/alaska-mileage-plan.svg",
+    "logo": "/logos/alaska-atmos-rewards.svg",
     "logoAlt": "Alaska Airlines logo",
     "quirks": [
       {
-        "title": "Mileage Plan is called Atmos Rewards now",
-        "text": "Alaska renamed the program in August 2025 and folded HawaiianMiles into it that October. Same account, same currency, new name. Plenty of guides still say Mileage Plan, so the two names refer to one balance."
+        "title": "One program, three former names",
+        "text": "Alaska renamed Mileage Plan to Atmos Rewards in August 2025 and folded HawaiianMiles into it that October, at 1:1 with elite status matched. Same account, same currency — guides that say Mileage Plan or HawaiianMiles are describing this balance."
       },
       {
         "title": "Points do not expire, but an idle account can lock",
@@ -1139,11 +1143,15 @@
     "mechanics": [
       {
         "label": "Program today",
-        "text": "Atmos Rewards, renamed from Mileage Plan in August 2025."
+        "text": "Atmos Rewards — Mileage Plan renamed in August 2025, HawaiianMiles merged in that October."
+      },
+      {
+        "label": "Covers",
+        "text": "Alaska Airlines and Hawaiian Airlines, one balance across both."
       },
       {
         "label": "Alliance",
-        "text": "Oneworld, which is where most of the premium-cabin value sits."
+        "text": "Oneworld. Alaska was already a member; Hawaiian joined in April 2026."
       },
       {
         "label": "Award pricing",
@@ -1157,14 +1165,28 @@
     "faqExtras": [
       {
         "q": "Is Alaska Mileage Plan still called Mileage Plan?",
-        "a": "It was renamed Atmos Rewards in August 2025, and HawaiianMiles merged into it that October. It is one balance under either name, so miles bought for Mileage Plan land in the same account."
+        "a": "It was renamed Atmos Rewards in August 2025. It is one balance under either name, so miles bought for Mileage Plan land in the same account."
       },
       {
-        "q": "Do Alaska Airlines miles expire?",
+        "q": "Do HawaiianMiles still exist?",
+        "a": "Not under that name. HawaiianMiles converted into Atmos Rewards on 1 October 2025 at 1:1, and elite status carried across automatically. The balance is intact under the combined program, and that is what a top-up adds to."
+      },
+      {
+        "q": "Do Atmos Rewards points expire?",
         "a": "No. Alaska dropped expiry in April 2023 and kept the policy through the rebrand. An account with no activity for 24 months can be frozen for security and closed after three years, so any earning or redeeming keeps it open."
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "ownAirlines": [
+      {
+        "name": "Alaska Airlines",
+        "code": "AS"
+      },
+      {
+        "name": "Hawaiian Airlines",
+        "code": "HA"
+      }
+    ]
   },
   {
     "id": "jetblue-trueblue",
@@ -1257,98 +1279,8 @@
     "factsChecked": "August 2026"
   },
   {
-    "id": "hawaiian-miles",
-    "order": 13,
-    "program": "HawaiianMiles",
-    "airline": "Hawaiian Airlines",
-    "alliance": "Oneworld",
-    "code": "HA",
-    "color": "#4C1D80",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
-    "min": 50000,
-    "max": 500000,
-    "limitsVerified": false,
-    "delivery": "Within 48 hours",
-    "deliveryVerified": false,
-    "inStock": true,
-    "heroHeadline": "Buy Hawaiian miles and book direct.",
-    "heroHighlight": "Hawaiian miles",
-    "heroSub": "Top up for island flights or a mainland run to Honolulu. Miles land in the account you already hold, and you book direct.",
-    "metaTitle": "Buy Hawaiian Airlines Miles | HawaiianMiles | buyflightmiles",
-    "metaDescription": "Buy Hawaiian Airlines HawaiianMiles to top up your balance for island and mainland routes. Secure transfer, exact rate confirmed before you pay.",
-    "related": [
-      "alaska-mileage-plan",
-      "delta-skymiles",
-      "united-mileageplus"
-    ],
-    "sweetSpots": [
-      {
-        "title": "Neighbour-island hops",
-        "desc": "Short inter-island flights are among the cheapest redemptions in the program, so a modest top-up goes a long way."
-      },
-      {
-        "title": "Mainland to Honolulu",
-        "desc": "West-coast departures are the routes most people are buying miles to complete, in economy or the premium cabin."
-      },
-      {
-        "title": "Oneworld partner awards",
-        "desc": "Hawaiian joined Oneworld in April 2026, so these points now book partner carriers well beyond Hawaiian's own routes. That is where the premium-cabin value tends to sit."
-      }
-    ],
-    "logo": "/logos/hawaiian-miles.svg",
-    "logoAlt": "Hawaiian Airlines logo",
-    "quirks": [
-      {
-        "title": "HawaiianMiles are Atmos Rewards points now",
-        "text": "On 1 October 2025 every HawaiianMiles account converted into Alaska's combined program, renamed Atmos Rewards that August. Balances moved across 1:1 and elite status was matched, so nothing was lost; the branding is what retired. A top-up today lands in the Atmos Rewards balance sitting behind your old HawaiianMiles account."
-      },
-      {
-        "title": "Points do not expire, but an idle account can lock",
-        "text": "Alaska removed expiry in April 2023 and the rebrand kept that policy. An account with no earning or redeeming for 24 months can be frozen for security, which a phone call reverses, and closed after three years. Any activity resets the clock."
-      }
-    ],
-    "mechanics": [
-      {
-        "label": "Program today",
-        "text": "Atmos Rewards, the combined Alaska and Hawaiian program, since 1 October 2025."
-      },
-      {
-        "label": "Conversion",
-        "text": "1:1 from HawaiianMiles, with elite status matched automatically."
-      },
-      {
-        "label": "Alliance",
-        "text": "Oneworld. Hawaiian joined in April 2026; Alaska was already a member."
-      },
-      {
-        "label": "Award pricing",
-        "text": "Distance-based award charts rather than a flat regional table."
-      },
-      {
-        "label": "Expiry",
-        "text": "Points do not expire. An account inactive for 24 months can be frozen."
-      }
-    ],
-    "faqExtras": [
-      {
-        "q": "Do HawaiianMiles still exist?",
-        "a": "Not under that name. HawaiianMiles converted into Atmos Rewards on 1 October 2025 at 1:1, and elite status carried across automatically. The balance is intact under the new program, and that is what a top-up adds to."
-      },
-      {
-        "q": "Do Hawaiian Airlines miles expire?",
-        "a": "No. Alaska dropped expiry in April 2023 and Atmos Rewards kept the policy. An account with no activity for 24 months can be frozen for security and closed after three years, so earning or redeeming once every two years keeps it open."
-      },
-      {
-        "q": "Is Hawaiian Airlines part of an alliance?",
-        "a": "Yes, Oneworld, since April 2026. That is the practical case for holding these points: they book Oneworld partners in premium cabins, well beyond Hawaiian's own routes."
-      }
-    ],
-    "factsChecked": "August 2026"
-  },
-  {
     "id": "frontier-miles",
-    "order": 14,
+    "order": 13,
     "program": "Frontier Miles",
     "airline": "Frontier Airlines",
     "alliance": "Independent",
@@ -1435,7 +1367,7 @@
   },
   {
     "id": "air-canada-aeroplan",
-    "order": 15,
+    "order": 14,
     "program": "Aeroplan",
     "airline": "Air Canada",
     "alliance": "Star Alliance",
@@ -1537,7 +1469,7 @@
   },
   {
     "id": "emirates-skywards",
-    "order": 16,
+    "order": 15,
     "program": "Skywards",
     "airline": "Emirates",
     "alliance": "Independent",
@@ -1695,7 +1627,7 @@
   },
   {
     "id": "turkish-miles-smiles",
-    "order": 17,
+    "order": 16,
     "program": "Miles&Smiles",
     "airline": "Turkish Airlines",
     "alliance": "Star Alliance",
@@ -1846,7 +1778,7 @@
   },
   {
     "id": "etihad-guest",
-    "order": 18,
+    "order": 17,
     "program": "Etihad Guest",
     "airline": "Etihad Airways",
     "alliance": "Independent",
@@ -2003,7 +1935,7 @@
   },
   {
     "id": "lufthansa-miles-more",
-    "order": 19,
+    "order": 18,
     "program": "Miles & More",
     "airline": "Lufthansa",
     "alliance": "Star Alliance",
@@ -2175,7 +2107,7 @@
   },
   {
     "id": "air-france-flying-blue",
-    "order": 20,
+    "order": 19,
     "program": "Flying Blue",
     "airline": "Air France-KLM",
     "alliance": "SkyTeam",
@@ -2343,7 +2275,7 @@
   },
   {
     "id": "avianca-lifemiles",
-    "order": 21,
+    "order": 20,
     "program": "LifeMiles",
     "airline": "Avianca",
     "alliance": "Star Alliance",
@@ -2494,7 +2426,7 @@
   },
   {
     "id": "cathay-pacific-asia-miles",
-    "order": 22,
+    "order": 21,
     "program": "Asia Miles",
     "airline": "Cathay Pacific",
     "alliance": "Oneworld",
@@ -2642,5 +2574,87 @@
       }
     ],
     "factsChecked": "August 2026"
+  },
+  {
+    "id": "qantas-frequent-flyer",
+    "order": 22,
+    "program": "Frequent Flyer",
+    "airline": "Qantas",
+    "alliance": "Oneworld",
+    "code": "QF",
+    "color": "#E40000",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Qantas Points for Classic Rewards.",
+    "heroHighlight": "Qantas Points",
+    "heroSub": "Top up for a fixed-price Classic Reward instead of paying the cash fare — Qantas' own long-haul cabins, Oneworld partners, and Emirates through the partnership.",
+    "metaTitle": "Buy Qantas Points | Qantas Frequent Flyer | buyflightmiles",
+    "metaDescription": "Buy Qantas Frequent Flyer points for Classic Reward bookings on Qantas, Oneworld partners and Emirates. Secure transfer, exact rate confirmed before you pay.",
+    "related": [
+      "british-airways-avios",
+      "cathay-pacific-asia-miles",
+      "emirates-skywards"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Classic Rewards on Qantas long-haul",
+        "desc": "Fixed-price awards in premium cabins on Qantas' own network. The seats are limited, but when one is open the points price sits well under the cash fare."
+      },
+      {
+        "title": "Oneworld partner awards",
+        "desc": "Qantas is a founding Oneworld member, so Frequent Flyer points reach Cathay Pacific, Qatar Airways, JAL and the rest of the alliance as Classic Rewards."
+      },
+      {
+        "title": "Emirates through the partnership",
+        "desc": "The long-standing Qantas-Emirates partnership makes Emirates one of the most useful non-alliance redemptions in the program."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The 18-month activity clock",
+        "text": "Qantas Points lapse after 18 months with no earning or redeeming on the account, and any activity resets the clock. Qantas emails at 12 months dormant and again 45 days before expiry, so plan to book inside that window."
+      },
+      {
+        "title": "Classic is the price worth buying for",
+        "text": "Classic Rewards are the fixed-price awards; Classic Plus follows the cash fare and is Qantas-only, so the same points buy far less there. Check Classic availability for your route before topping up."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Alliance",
+        "text": "Oneworld, plus the separate Emirates partnership."
+      },
+      {
+        "label": "Award pricing",
+        "text": "Fixed Classic Reward tables by distance, alongside fare-linked Classic Plus on Qantas' own flights."
+      },
+      {
+        "label": "Expiry",
+        "text": "Points lapse after 18 months without earning or redeeming activity."
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Do Qantas Points expire?",
+        "a": "Yes — after 18 months without earning or redeeming on the account. Any eligible activity resets the clock, and Qantas warns by email at 12 months dormant and again 45 days out, so a topped-up balance should be booked inside that window."
+      },
+      {
+        "q": "What can I book with Qantas Points?",
+        "a": "Classic Rewards are the value play: fixed points prices on Qantas, Jetstar, Oneworld carriers and partners including Emirates. Classic Plus opens far more seats but follows the cash fare and only covers Qantas' own flights, so the per-point value is much lower."
+      },
+      {
+        "q": "Are there fees on Qantas award bookings?",
+        "a": "Yes. Carrier charges apply on top of the points price and are heaviest on Qantas' own long-haul premium cabins; partner bookings often carry lower charges. The taxes and charges are shown before you confirm the booking."
+      }
+    ],
+    "factsChecked": "August 2026",
+    "logo": "/logos/qantas-frequent-flyer.svg",
+    "logoAlt": "Qantas logo"
   }
 ]

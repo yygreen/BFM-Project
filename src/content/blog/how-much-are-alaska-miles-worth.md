@@ -4,7 +4,7 @@ description: "Alaska miles are worth 1.2–1.5¢ on average and far more on part
 date: 2026-08-09
 updated: 2026-08-17
 category: "Valuations"
-programs: ["alaska-mileage-plan"]
+programs: ["alaska-atmos-rewards"]
 image: "/blog/how-much-are-alaska-miles-worth.jpg"
 imageAlt: "A balance scale weighing one mile token against three ascending coin stacks topped with a paper plane"
 ---
@@ -52,7 +52,7 @@ That's the whole test, and it's indifferent to where the miles come from:
 **price of the miles versus value of the specific seat**. Alaska's own
 top-up pricing is built for people who don't run that comparison. Ours is
 built for people who do. The current per-mile rate is on the
-[Alaska Airlines page](/buy/alaska-mileage-plan), and the quote shows the
+[Alaska Airlines page](/buy/alaska-atmos-rewards), and the quote shows the
 full cost against your target amount before anything is committed.
 
 ## What we'd actually do with an Alaska balance

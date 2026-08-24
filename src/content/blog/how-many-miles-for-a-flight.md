@@ -56,8 +56,7 @@ chart, which is exactly why the partner award is so often the better buy.
 | [British Airways Avios](/buy/british-airways-avios) | Distance bands, with peak and off-peak dates | Published |
 | [Qatar Airways Avios](/buy/qatar-avios) | Distance bands | Published |
 | [Cathay Asia Miles](/buy/cathay-pacific-asia-miles) | Distance bands, on Cathay and on partners | Published |
-| [Alaska Atmos Rewards](/buy/alaska-mileage-plan) | Distance chart on Alaska and Hawaiian, three regional charts on partners | Published |
-| [HawaiianMiles, now Atmos](/buy/hawaiian-miles) | The same charts as Alaska since October 2025 | Published |
+| [Atmos Rewards (Alaska & Hawaiian)](/buy/alaska-atmos-rewards) | Distance chart on Alaska and Hawaiian, three regional charts on partners | Published |
 | [ANA Mileage Club](/buy/ana-mileage-club) | Region chart with low, regular and high seasons | Published |
 | [EVA Infinity MileageLands](/buy/eva-air-miles) | Region chart | Published |
 | [Singapore KrisFlyer](/buy/singapore-krisflyer) | Saver chart on Singapore. Partner awards priced separately | Published |

@@ -26,8 +26,7 @@ program worked like the last one they used.
 | [United MileagePlus](/buy/united-mileageplus) | Never | Nothing to reset |
 | [Southwest Rapid Rewards](/buy/southwest-rapid-rewards) | Never | Nothing to reset |
 | [JetBlue TrueBlue](/buy/jetblue-trueblue) | Never | Nothing to reset |
-| [Alaska Atmos Rewards](/buy/alaska-mileage-plan) | Never, but see the account clock below | Any activity keeps the account open |
-| [HawaiianMiles, now Atmos](/buy/hawaiian-miles) | Never, same program as Alaska since October 2025 | Any activity keeps the account open |
+| [Atmos Rewards (Alaska & Hawaiian)](/buy/alaska-atmos-rewards) | Never, but see the account clock below | Any activity keeps the account open |
 | [Avianca LifeMiles](/buy/avianca-lifemiles) | 12 months with no earning | Earning only. Redeeming does not count |
 | [Frontier Miles](/buy/frontier-miles) | 12 months with no earning | Earning only. Cardholders are exempt |
 | [Cathay Asia Miles](/buy/cathay-pacific-asia-miles) | 18 months with no activity | Any earn or redemption |

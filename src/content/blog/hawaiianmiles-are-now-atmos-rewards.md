@@ -4,7 +4,7 @@ description: "HawaiianMiles closed on 1 October 2025 and every balance moved 1:1
 image: "/blog/hawaiianmiles-are-now-atmos-rewards.jpg"
 date: 2026-08-12
 category: "News"
-programs: ["hawaiian-miles", "alaska-mileage-plan"]
+programs: ["alaska-atmos-rewards"]
 source: "https://news.alaskaair.com/loyalty/countdown-to-combined-benefits-what-hawaiianmiles-members-need-to-know/"
 sourceLabel: "Alaska Airlines newsroom"
 ---
@@ -90,13 +90,12 @@ ordering, because a transfer goes where you send it.
 
 ## Where to buy them
 
-Prices and delivery windows for both entry points are on their own pages:
-[Hawaiian Airlines](/buy/hawaiian-miles) and
-[Alaska Airlines](/buy/alaska-mileage-plan). Both quote the same live rate we
-would give you on the phone, and both confirm your exact price before any
-payment. Nothing is charged on this site.
+There is one balance now, so there is one page:
+[Atmos Rewards](/buy/alaska-atmos-rewards) covers Alaska and Hawaiian alike.
+It quotes the same live rate we would give you on the phone and confirms your
+exact price before any payment. Nothing is charged on this site.
 
 If you are weighing whether to buy at all, the
-[Hawaiian miles calculator](/calculator/hawaiian-miles) prices an amount
+[Atmos Rewards calculator](/calculator/alaska-atmos-rewards) prices an amount
 against a real cash fare and will tell you when paying cash is the better
 trade. It says so often enough that we trust it.

@@ -97,7 +97,7 @@
     },
     {
       "source": "/airlines/hawaiian-airlines-hawaiian-miles",
-      "destination": "/buy/hawaiian-miles",
+      "destination": "/buy/alaska-atmos-rewards",
       "permanent": true
     },
     {
@@ -283,6 +283,26 @@
     {
       "source": "/calculator/ba-avios",
       "destination": "/calculator/british-airways-avios",
+      "permanent": true
+    },
+    {
+      "source": "/buy/alaska-mileage-plan",
+      "destination": "/buy/alaska-atmos-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/alaska-mileage-plan",
+      "destination": "/calculator/alaska-atmos-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/buy/hawaiian-miles",
+      "destination": "/buy/alaska-atmos-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/hawaiian-miles",
+      "destination": "/calculator/alaska-atmos-rewards",
       "permanent": true
     }
   ]
