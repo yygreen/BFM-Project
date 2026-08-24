@@ -20,11 +20,15 @@
 //
 // Below the line, every panel is built the same way:
 //
-//   waypoint (coral, x=44)  →  dotted tether straight down  →  the motif
+//   waypoint (coral)  →  dotted tether straight down  →  the motif
 //
-// and every motif spans the same band (x 14–210, y 60–102) so the three carry
-// equal weight and line up as a row. The tethers are plumb lines of one
-// length, because the route is at one height.
+// Everything keys to the column's text alignment line: the ring's visible
+// left edge sits exactly on x=0, directly above the S of "Step 0n" in the
+// caption, and every motif's leftmost ink starts on that same line. The ring
+// is r=10 with a 2.5 stroke, so its centre is at 11.25; the dot and the
+// tether hang at that x, entering each motif near its leading edge. The
+// tethers are plumb lines of one length, because the route is at one
+// height.
 //
 // The destination ring carries no tether and no motif: it is not a step, it
 // is where the three of them get you. Drawn as the thick annulus from the
@@ -46,40 +50,40 @@ const { step } = Astro.props;
 {step === "choose" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
     <path class="il-line" d="M1.25 24H250" />
-    <circle class="il-ring" cx="44" cy="24" r="10" />
-    <circle class="il-dot" cx="44" cy="24" r="4.5" />
-    <path class="il-tether" d="M44 36V58" />
+    <circle class="il-ring" cx="11.25" cy="24" r="10" />
+    <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
+    <path class="il-tether" d="M11.25 36V58" />
 
     <!-- a program list with one row chosen: carrier chip, name, rate -->
-    <rect class="il-chip" x="20" y="62" width="13" height="9" rx="3" />
-    <rect class="il-bar" x="41" y="65" width="72" height="4" rx="2" />
-    <rect class="il-bar-dim" x="121" y="65" width="26" height="4" rx="2" />
+    <rect class="il-chip" x="0" y="62" width="13" height="9" rx="3" />
+    <rect class="il-bar" x="21" y="65" width="72" height="4" rx="2" />
+    <rect class="il-bar-dim" x="101" y="65" width="26" height="4" rx="2" />
 
-    <rect class="il-chip-on" x="20" y="77" width="13" height="9" rx="3" />
-    <rect class="il-bar-on" x="41" y="80" width="86" height="4" rx="2" />
-    <rect class="il-rate" x="135" y="80" width="30" height="4" rx="2" />
+    <rect class="il-chip-on" x="0" y="77" width="13" height="9" rx="3" />
+    <rect class="il-bar-on" x="21" y="80" width="86" height="4" rx="2" />
+    <rect class="il-rate" x="115" y="80" width="30" height="4" rx="2" />
 
-    <rect class="il-chip" x="20" y="92" width="13" height="9" rx="3" />
-    <rect class="il-bar" x="41" y="95" width="58" height="4" rx="2" />
-    <rect class="il-bar-dim" x="107" y="95" width="26" height="4" rx="2" />
+    <rect class="il-chip" x="0" y="92" width="13" height="9" rx="3" />
+    <rect class="il-bar" x="21" y="95" width="58" height="4" rx="2" />
+    <rect class="il-bar-dim" x="87" y="95" width="26" height="4" rx="2" />
   </svg>
 )}
 
 {step === "pay" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
     <path class="il-line" d="M-10 24H250" />
-    <circle class="il-ring" cx="44" cy="24" r="10" />
-    <circle class="il-dot" cx="44" cy="24" r="4.5" />
-    <path class="il-tether" d="M44 36V58" />
+    <circle class="il-ring" cx="11.25" cy="24" r="10" />
+    <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
+    <path class="il-tether" d="M11.25 36V58" />
 
     <!-- Money, and it leaves. A note rather than a coin: two concentric circles
          read as a target or a record button, not as payment. The arrow leads
          away and keeps going, because nothing is ever charged here. -->
-    <rect class="il-note" x="13" y="62" width="62" height="32" rx="6" />
-    <circle class="il-note-in" cx="44" cy="78" r="7.5" />
+    <rect class="il-note" x="0" y="62" width="62" height="32" rx="6" />
+    <circle class="il-note-in" cx="31" cy="78" r="7.5" />
 
-    <path class="il-cross" d="M89 78h111" />
-    <path class="il-arrow" d="M198 72l11 6-11 6z" />
+    <path class="il-cross" d="M76 78h111" />
+    <path class="il-arrow" d="M185 72l11 6-11 6z" />
   </svg>
 )}
 
@@ -88,16 +92,16 @@ const { step } = Astro.props;
     <!-- Last panel: the line stops on the destination ring's rim. Ring outer
          edge = cx 204 − (r 9 + stroke 7/2) = 191.5. -->
     <path class="il-line" d="M-10 24H191.5" />
-    <circle class="il-ring" cx="44" cy="24" r="10" />
-    <circle class="il-dot" cx="44" cy="24" r="4.5" />
-    <path class="il-tether" d="M44 36V58" />
+    <circle class="il-ring" cx="11.25" cy="24" r="10" />
+    <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
+    <path class="il-tether" d="M11.25 36V58" />
 
     <!-- the logo's destination ring: a thick annulus, arrival not a step -->
     <circle class="il-dest" cx="204" cy="24" r="9" />
 
-    <!-- the aircraft hangs plumb under its waypoint: its centre is x=44, the
-         same x the ring and tether use, like the note in the panel before -->
-    <g class="il-plane" transform="translate(44 78) rotate(40) scale(.95)">
+    <!-- translate x is solved so the rotated aircraft's leftmost ink lands
+         on x=0, the same alignment line as the ring and the caption's S -->
+    <g class="il-plane" transform="translate(26.5 78) rotate(40) scale(.95)">
       <path d="M0 -22c2.2 0 4 3.4 4 7.6V-8l16 9.6v5.2L4 2v9.6l6 4.4v3.6L0 17.2l-10 2.4V16l6-4.4V2l-16 4.8V1.6l16-9.6v-6.4c0-4.2 1.8-7.6 4-7.6z" />
     </g>
   </svg>
