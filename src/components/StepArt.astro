@@ -96,16 +96,18 @@ const { step } = Astro.props;
 {step === "fly" && (
   <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="The route arriving at its destination, the seat booked">
     <!-- Last panel: the line stops on the destination ring's rim. Ring outer
-         edge = cx 204 − (r 8 + stroke 7/2) = 192.5. Sized from the knobs: at
-         r=8 the ring's hole is 4.5, exactly the coral dots' radius, and its
-         outer radius (11.5) sits within a quarter unit of theirs (11.25). -->
-    <path class="il-line" d="M-10 24H192.5" />
+         edge = cx 204 − (r 7.25 + stroke 5.5/2) = 194. Sized from the knobs
+         with an optical correction: a solid annulus reads larger than a thin
+         outline of the same size, so its outer radius is 10 — the waypoint
+         rings' geometric radius, inside their stroke — while the hole stays
+         4.5, exactly the coral dots' radius. -->
+    <path class="il-line" d="M-10 24H194" />
     <circle class="il-ring" cx="11.25" cy="24" r="10" />
     <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
     <path class="il-tether" d="M11.25 36V58" />
 
     <!-- the logo's destination ring: a thick annulus, arrival not a step -->
-    <circle class="il-dest" cx="204" cy="24" r="8" />
+    <circle class="il-dest" cx="204" cy="24" r="7.25" />
 
     <!-- translate x is solved so the rotated aircraft's leftmost INK lands
          on x=0, the same alignment line as the ring and the caption's S. Ink,
@@ -136,7 +138,7 @@ const { step } = Astro.props;
   .il-tether { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 6; }
 
   /* the terminus — the logo's ring, thick and solid cobalt */
-  .il-dest { fill:none; stroke:var(--cobalt); stroke-width:7; }
+  .il-dest { fill:none; stroke:var(--cobalt); stroke-width:5.5; }
 
   /* step 1 — the program list */
   .il-chip    { fill:var(--mist); }
