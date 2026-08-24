@@ -556,8 +556,6 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .cside-link { display:block; font-size:14px; font-weight:600; color:var(--cobalt); margin-top:9px; }
 .cside-link:hover { text-decoration:underline; }
 /* the partner application's rail: what happens after you press send */
-.applysteps { margin:0; padding-left:1.15em; color:var(--text-2); font-size:13.5px; line-height:1.65; }
-.applysteps li + li { margin-top:9px; }
 
 /* ---- long-form pages (about, terms, privacy) ----
    Same container as every other page, so these don't read as a narrower site.

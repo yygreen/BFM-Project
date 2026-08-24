@@ -249,17 +249,13 @@ const jsonld = {
   <!-- APPLY -->
   <!-- The application used to sit in a 640px column, which made the last
        section of the page read as a different site to the eight above it. It
-       now runs the same container as everything else, with the form beside a
-       rail that answers the two questions people have while filling it in:
-       what happens after they press send, and who they're sending it to. -->
+       now runs the same container as everything else, form full width. -->
   <section class="section" id="apply" style="padding-top:0">
     <div class="container">
       <div class="section-head">
         <h2>Apply for partner access</h2>
         <p>Tell us about your business and we'll set you up with pricing and a direct contact.</p>
       </div>
-      <div class="contact-grid">
-       <div>
       <form class="formcard" id="partner-form" data-inbox={agentEmail || mailtoInbox}>
         <input type="hidden" name="access_key" value={agentKey} />
         <input type="hidden" id="partner-fallback" value={agentNotWired} />
@@ -278,34 +274,6 @@ const jsonld = {
         <button type="submit" class="btn btn-primary" id="partner-submit" style="width:100%;margin-top:14px">Submit application</button>
         <p class="form-msg" id="partner-msg" hidden></p>
       </form>
-       </div>
-
-       <aside class="contact-side">
-         <div class="side-box">
-           <p class="lab">What happens next</p>
-           <ol class="applysteps">
-             <li>We read the application and check what we can source for your volume.</li>
-             <li>You get partner rates and the name of the person handling your account.</li>
-             <li>From then on you send requests straight to them, no form in between.</li>
-           </ol>
-         </div>
-         <div class="side-box">
-           <p class="lab">Before you apply</p>
-           <p class="cside-p">
-             An IATA number is optional. Brokers and consultancies without one are
-             welcome, and the volume band only sets the starting rate, so an honest
-             estimate serves you better than a flattering one.
-           </p>
-         </div>
-         {agentEmail && (
-           <div class="side-box">
-             <p class="lab">Prefer email?</p>
-             <p class="cside-p">Write to us directly and we'll take the same details over email.</p>
-             <a class="cside-link" href={`mailto:${agentEmail}`}>{agentEmail} →</a>
-           </div>
-         )}
-       </aside>
-      </div>
     </div>
   </section>
 
