@@ -9,14 +9,10 @@
 // delivery mechanics) come from src/data/site.json and fall back to an honest
 // holding answer — never to an invented claim. See LAUNCH.md.
 //
-// Layout: one flat list on one surface, beside a rail that carries the
-// heading and a way to ask a person. Deliberately NOT the stacked-white-cards
-// accordion: that silhouette is the stock FAQ widget on every site in this
-// market, and a page selling trust should not open its questions section
-// looking like a template. The rail's contact block is the real
-// differentiator — a phone number next to the questions — and it renders from
-// officialChannels(), so it disappears rather than lies if contact is ever
-// unverified.
+// Layout: one flat list on one surface, full width. Deliberately NOT the
+// stacked-white-cards accordion: that silhouette is the stock FAQ widget on
+// every site in this market, and a page selling trust should not open its
+// questions section looking like a template.
 //
 // Rows carry their key figure as a monospace chip while closed (rate,
 // delivery window, payment methods), so the closed state is informative
@@ -25,7 +21,7 @@
 // chip at all.
 //
 // Emits FAQPage JSON-LD so the answers are eligible for rich results.
-import { site, live, paymentSentence, officialChannels } from "../lib/site";
+import { site, live, paymentSentence } from "../lib/site";
 import { usd, per1000 } from "../lib/money";
 
 const {
@@ -45,13 +41,6 @@ const {
   // one site, where they compete rather than compound.
   omit = [],
   jsonld = true,
-  // Rail content. heading=null keeps the rail to the contact block alone —
-  // the /faq page already carries its h1 above and must not say it twice.
-  kicker = null,
-  heading = null,
-  sub = null,
-  // "All questions →" target, for call sites showing a shortened set
-  moreHref = null,
 } = Astro.props;
 
 const window = delivery.replace("Within ", "");
@@ -145,42 +134,17 @@ const faqJsonLd = {
   })),
 };
 
-const ways = officialChannels();
-const askPhone = ways.find((c) => c.kind === "phone");
-const askChat = ways.find((c) => c.kind === "whatsapp");
-const askMail = ways.find((c) => c.kind === "email");
-const hasAsk = Boolean(askPhone || askChat || askMail);
 ---
-<div class="faqx">
-  <aside class="faqx-rail">
-    {kicker && <span class="kicker">{kicker}</span>}
-    {heading && <h2>{heading}</h2>}
-    {sub && <p class="faqx-sub">{sub}</p>}
-    {hasAsk && (
-      <div class="faqx-ask">
-        <p class="faqx-ask-t">Rather ask a person?</p>
-        <p class="faqx-ask-s">A real answer, before anything is paid.</p>
-        <div class="faqx-ask-ways">
-          {askPhone && <a href={askPhone.href}><b>{askPhone.value}</b></a>}
-          {askChat && <a href={askChat.href} target="_blank" rel="noopener">WhatsApp</a>}
-          {askMail && <a href={askMail.href}>Email</a>}
-        </div>
-      </div>
-    )}
-    {moreHref && <a class="faqx-more" href={moreHref}>All questions →</a>}
-  </aside>
-
-  <div class="faqx-list">
-    {shown.map((f) => (
-      <details class="faq" open={f.open}>
-        <summary>
-          <span class="faq-q">{f.q}</span>
-          {f.chip && <span class="faq-chip">{f.chip}</span>}
-          <span class="faq-mk" aria-hidden="true"></span>
-        </summary>
-        <div class="ans">{f.a}</div>
-      </details>
-    ))}
-  </div>
+<div class="faqx-list">
+  {shown.map((f) => (
+    <details class="faq" open={f.open}>
+      <summary>
+        <span class="faq-q">{f.q}</span>
+        {f.chip && <span class="faq-chip">{f.chip}</span>}
+        <span class="faq-mk" aria-hidden="true"></span>
+      </summary>
+      <div class="ans">{f.a}</div>
+    </details>
+  ))}
 </div>
 {jsonld && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}

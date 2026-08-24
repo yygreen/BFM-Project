@@ -315,6 +315,7 @@ const jsonld = {
   <!-- FAQ -->
   <section class="section">
     <div class="container">
+      <div class="section-head"><h2>Buying {a.airline} miles — your questions</h2></div>
       {/* One entry naming the whole group, not one per airline: N near-identical
           "Can I use X miles on Y?" Q&As would carry the same keywords into
           FAQPage JSON-LD while reading as generated filler. Prepended to the
@@ -322,7 +323,6 @@ const jsonld = {
           the price, availability and delivery basics the component always
           asks first. */}
       <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified}
-        heading={`Buying ${a.airline} miles — your questions`}
         extras={coversMany(a)
           ? [{
               q: `Which airlines can I fly with ${a.program} miles?`,

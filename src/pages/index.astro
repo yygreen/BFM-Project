@@ -265,13 +265,16 @@ const jsonld = {
   <!-- FAQ -->
   <section class="section tinted" id="faq">
     <div class="container">
+      <div class="section-head center">
+        <span class="kicker">Good to know</span>
+        <h2>Questions about buying airline miles</h2>
+      </div>
       <!-- the full set, and its FAQPage markup, live on /faq — the homepage
-           shows the first few and sends the rest there via the rail link -->
-      <Faq delivery="24 hours" limit={5} jsonld={false}
-        kicker="Good to know"
-        heading="Questions about buying airline miles"
-        sub="The essentials before a first order. The full list lives on the FAQ page."
-        moreHref="/faq" />
+           shows the first few and sends the rest there -->
+      <Faq delivery="24 hours" limit={5} jsonld={false} />
+      <p style="text-align:center;margin-top:22px">
+        <a class="btn btn-secondary" href="/faq">Read all questions</a>
+      </p>
     </div>
   </section>
 </Base>
