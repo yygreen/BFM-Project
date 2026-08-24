@@ -1373,28 +1373,37 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    z-index sits above the sticky header (50) and the nav panels (60). */
 .dock { position:fixed; z-index:80; right:18px;
   bottom:calc(18px + env(safe-area-inset-bottom, 0px)); font-family:var(--sans); }
-.dock-bar { display:flex; align-items:stretch; background:var(--ink); border-radius:var(--radius-pill);
-  box-shadow:0 14px 34px rgba(16,18,43,.3), 0 3px 10px rgba(16,18,43,.18); }
+/* Brand navy into cobalt, mixed from the tokens rather than picked by eye, so
+   the pill moves with the palette. Dark enough that white numerals hold, blue
+   enough that it reads as ours from across the page; the drop shadow carries
+   the same cobalt so it lands on the page like the other raised surfaces. */
+.dock-bar { display:flex; align-items:stretch; border-radius:var(--radius-pill);
+  background:linear-gradient(142deg, var(--ink) 4%, color-mix(in srgb, var(--cobalt) 58%, var(--ink)) 100%);
+  box-shadow:0 15px 36px color-mix(in srgb, var(--cobalt) 32%, transparent),
+             0 3px 10px color-mix(in srgb, var(--ink) 28%, transparent); }
 .dock-tel { display:flex; flex-direction:column; justify-content:center; gap:1px;
   padding:9px 15px 10px 19px; color:#fff; border-start-start-radius:var(--radius-pill);
   border-end-start-radius:var(--radius-pill); transition:background .15s ease; }
-.dock-tel:hover { background:rgba(255,255,255,.09); color:#fff; }
+.dock-tel:hover { background:rgba(255,255,255,.1); color:#fff; }
 .dock-lab { font-size:9.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
-  color:rgba(238,240,254,.62); }
+  color:color-mix(in srgb, var(--cobalt-line) 82%, transparent); }
 .dock-tel b { font-family:var(--mono); font-size:15px; font-weight:600; white-space:nowrap; }
 .dock-d { position:static; display:flex; }
 .dock-more { list-style:none; display:flex; align-items:center; padding:0 16px 0 14px; cursor:pointer;
-  color:rgba(238,240,254,.8); border-inline-start:1px solid rgba(238,240,254,.2);
+  color:var(--cobalt-line); border-inline-start:1px solid color-mix(in srgb, var(--cobalt-line) 28%, transparent);
   border-start-end-radius:var(--radius-pill); border-end-start-radius:0;
   border-end-end-radius:var(--radius-pill); transition:background .15s ease, color .15s ease; }
 .dock-more::-webkit-details-marker { display:none; }
-.dock-more:hover { background:rgba(255,255,255,.09); color:#fff; }
+.dock-more:hover { background:rgba(255,255,255,.1); color:#fff; }
 .dock-more svg { transition:transform .18s ease; }
 .dock-d[open] .dock-more svg { transform:rotate(180deg); }
 
+/* The card picks the brand up softly: the cool wash the sections use, fading
+   into white by the time it reaches the channel rows. */
 .dock-panel { position:absolute; right:0; bottom:calc(100% + 12px); width:336px;
-  max-width:calc(100vw - 32px); padding:20px 18px 18px; background:var(--surface);
-  border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-lg);
+  max-width:calc(100vw - 32px); padding:20px 18px 18px;
+  background:linear-gradient(180deg, var(--wash-cool), var(--surface) 132px);
+  border:1px solid var(--cobalt-line); border-radius:var(--radius-card); box-shadow:var(--shadow-lg);
   display:flex; flex-direction:column; gap:9px; animation:dockIn .16s ease-out; }
 @keyframes dockIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 @media (prefers-reduced-motion:reduce){ .dock-panel { animation:none; } .dock-more svg { transition:none; } }
