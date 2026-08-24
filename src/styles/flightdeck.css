@@ -468,12 +468,56 @@ table.cmp tr:last-child td { border-bottom:none; }
 .step p { color:var(--text-2); font-size:14.5px; line-height:1.6; }
 
 /* ---- faq ---- */
-details.faq { border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); margin-bottom:12px; box-shadow:var(--shadow-sm); overflow:hidden; }
-details.faq summary { list-style:none; cursor:pointer; padding:18px 20px; font-family:var(--display); font-weight:700; font-size:16px; color:var(--ink); display:flex; justify-content:space-between; align-items:center; gap:16px; }
+/* FAQ — a rail beside one flat list, not the stock stacked-card accordion.
+   The rail holds the heading and a human to ask; the list holds every
+   question as a hairline row on a single surface, with the answer's key
+   figure surfaced as a mono chip while the row is closed. The row marker is
+   the logo's motif: three coral dots trailing off while closed, completing
+   into the solid route line when the answer is open. */
+.faqx { display:grid; grid-template-columns:minmax(240px,1fr) minmax(0,2.2fr); gap:clamp(26px,4vw,56px); align-items:start; }
+.faqx-rail { position:sticky; top:calc(var(--hdr-h) + 24px); display:flex; flex-direction:column; gap:14px; }
+.faqx-rail h2 { margin:0; }
+.faqx-rail .kicker { align-self:flex-start; }
+.faqx-sub { margin:0; color:var(--text-2); font-size:15px; line-height:1.6; }
+.faqx-ask { margin-top:8px; padding:18px 20px; border:1px solid var(--line-2); border-radius:var(--radius-card); background:var(--surface); box-shadow:var(--shadow-sm); }
+.faqx-ask-t { margin:0; font-family:var(--display); font-weight:700; font-size:15.5px; color:var(--ink); }
+.faqx-ask-s { margin:3px 0 12px; font-size:13.5px; color:var(--text-2); }
+.faqx-ask-ways { display:flex; flex-wrap:wrap; gap:8px; }
+.faqx-ask-ways a { display:inline-flex; align-items:center; padding:7px 13px; border-radius:var(--radius-pill);
+  background:var(--raised); font-size:13.5px; font-weight:600; color:var(--text-1); transition:background .15s ease, color .15s ease; }
+.faqx-ask-ways a:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+.faqx-ask-ways b { font-family:var(--mono); font-weight:600; font-size:13px; }
+.faqx-more { align-self:flex-start; font-weight:650; color:var(--cobalt); }
+
+.faqx-list { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:4px 0; }
+details.faq + details.faq { border-top:1px solid var(--line); }
+details.faq summary { list-style:none; cursor:pointer; padding:17px 22px; font-family:var(--display); font-weight:650; font-size:15.5px; color:var(--ink); display:flex; align-items:center; gap:14px; }
 details.faq summary::-webkit-details-marker { display:none; }
-details.faq summary .mk { color:var(--cobalt); font-size:22px; font-weight:400; transition:transform .2s ease; flex:0 0 auto; }
-details.faq[open] summary .mk { transform:rotate(45deg); }
-details.faq .ans { padding:0 20px 18px; color:var(--text-2); font-size:15px; line-height:1.65; }
+details.faq summary:hover .faq-q { color:var(--cobalt); }
+.faq-q { flex:1; min-width:0; transition:color .15s ease; }
+.faq-chip { flex:none; font-family:var(--mono); font-size:12px; font-weight:600; color:var(--text-2);
+  background:var(--raised); padding:4px 10px; border-radius:var(--radius-pill); white-space:nowrap; }
+details.faq[open] .faq-chip { display:none; } /* the answer now states it in full */
+.faq-mk { flex:none; width:22px; height:3px;
+  background:radial-gradient(circle 1.6px at 1.7px 1.5px, var(--coral) 99%, transparent 100%) 0 50%/7.4px 3px repeat-x; }
+details.faq[open] .faq-mk { background:var(--coral); border-radius:2px; }
+details.faq .ans { padding:0 58px 19px 22px; color:var(--text-2); font-size:15px; line-height:1.65; }
+
+@media (max-width:900px){
+  .faqx { grid-template-columns:1fr; gap:20px; }
+  .faqx-rail { position:static; }
+  /* the questions come first on a phone; the ask block and the "all
+     questions" link wait below the list instead of pushing it down a screen */
+  .faqx-rail { display:contents; }
+  .faqx-rail .kicker { order:0; justify-self:start; }
+  .faqx-rail h2 { order:1; }
+  .faqx-sub { order:2; }
+  .faqx-list { order:3; }
+  .faqx-ask { order:4; }
+  .faqx-more { order:5; justify-self:start; }
+  details.faq .ans { padding-right:22px; }
+  .faq-chip { display:none; }
+}
 summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 
 /* ---- related ---- */

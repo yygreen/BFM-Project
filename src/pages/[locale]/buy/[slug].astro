@@ -350,12 +350,14 @@ const useCost = (miles: number) =>
         {/* the site's own accordion markup. This used to be a hand-rolled
             .faq-item with inline styles, so the answers had no padding and
             the summary had no + marker — the same bug the German page fixed */}
-        {t.faq.map((f, i) => (
-          <details class="faq" open={i === 0}>
-            <summary>{f.q}<span class="mk">+</span></summary>
-            <div class="ans">{f.a}</div>
-          </details>
-        ))}
+        <div class="faqx-list">
+          {t.faq.map((f, i) => (
+            <details class="faq" open={i === 0}>
+              <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+              <div class="ans">{f.a}</div>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
 

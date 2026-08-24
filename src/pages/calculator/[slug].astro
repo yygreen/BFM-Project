@@ -308,12 +308,14 @@ const faqJsonLd = {
       <div class="section-head">
         <h2>The {progShort} math, answered</h2>
       </div>
-      {faqs.map((f) => (
-        <details class="faq" open={f.open}>
-          <summary>{f.q}<span class="mk">+</span></summary>
-          <div class="ans">{f.a}</div>
-        </details>
-      ))}
+      <div class="faqx-list">
+        {faqs.map((f) => (
+          <details class="faq" open={f.open}>
+            <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+            <div class="ans">{f.a}</div>
+          </details>
+        ))}
+      </div>
       <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
     </div>
   </section>

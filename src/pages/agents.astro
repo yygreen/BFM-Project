@@ -236,11 +236,13 @@ const jsonld = {
   <section class="section" style="padding-top:0">
     <div class="container">
       <div class="section-head"><h2>Partner questions</h2></div>
-      <details class="faq" open><summary>How does partner pricing work?<span class="mk">+</span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact. Reach out and we'll quote based on what you typically move.</div></details>
-      <details class="faq"><summary>Can you source a specific business-class seat?<span class="mk">+</span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it, and you receive a confirmed ticket to pass to your client.</div></details>
-      <details class="faq"><summary>How fast is delivery?<span class="mk">+</span></summary><div class="ans">{fastestWindow ? `Most miles land within ${fastestWindow.toLowerCase()}` : "Delivery windows vary by program and are shown on each program page"}. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
-      <details class="faq"><summary>Is it white-label?<span class="mk">+</span></summary><div class="ans">Yes. We stay behind the scenes, and your client deals only with you.</div></details>
-      <details class="faq"><summary>What payment methods and terms do you offer?<span class="mk">+</span></summary><div class="ans">{partnerPayAnswer}</div></details>
+      <div class="faqx-list">
+      <details class="faq" open><summary><span class="faq-q">How does partner pricing work?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact. Reach out and we'll quote based on what you typically move.</div></details>
+      <details class="faq"><summary><span class="faq-q">Can you source a specific business-class seat?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it, and you receive a confirmed ticket to pass to your client.</div></details>
+      <details class="faq"><summary><span class="faq-q">How fast is delivery?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">{fastestWindow ? `Most miles land within ${fastestWindow.toLowerCase()}` : "Delivery windows vary by program and are shown on each program page"}. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
+      <details class="faq"><summary><span class="faq-q">Is it white-label?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">Yes. We stay behind the scenes, and your client deals only with you.</div></details>
+      <details class="faq"><summary><span class="faq-q">What payment methods and terms do you offer?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">{partnerPayAnswer}</div></details>
+      </div>
     </div>
   </section>
 

@@ -9,8 +9,23 @@
 // delivery mechanics) come from src/data/site.json and fall back to an honest
 // holding answer — never to an invented claim. See LAUNCH.md.
 //
+// Layout: one flat list on one surface, beside a rail that carries the
+// heading and a way to ask a person. Deliberately NOT the stacked-white-cards
+// accordion: that silhouette is the stock FAQ widget on every site in this
+// market, and a page selling trust should not open its questions section
+// looking like a template. The rail's contact block is the real
+// differentiator — a phone number next to the questions — and it renders from
+// officialChannels(), so it disappears rather than lies if contact is ever
+// unverified.
+//
+// Rows carry their key figure as a monospace chip while closed (rate,
+// delivery window, payment methods), so the closed state is informative
+// instead of uniform. Chips exist only where the answer's number is real:
+// an unverified rate keeps its tilde, an unconfirmed payment list shows no
+// chip at all.
+//
 // Emits FAQPage JSON-LD so the answers are eligible for rich results.
-import { site, live, paymentSentence } from "../lib/site";
+import { site, live, paymentSentence, officialChannels } from "../lib/site";
 import { usd, per1000 } from "../lib/money";
 
 const {
@@ -30,6 +45,13 @@ const {
   // one site, where they compete rather than compound.
   omit = [],
   jsonld = true,
+  // Rail content. heading=null keeps the rail to the contact block alone —
+  // the /faq page already carries its h1 above and must not say it twice.
+  kicker = null,
+  heading = null,
+  sub = null,
+  // "All questions →" target, for call sites showing a shortened set
+  moreHref = null,
 } = Astro.props;
 
 const window = delivery.replace("Within ", "");
@@ -80,16 +102,24 @@ const legitAnswer = [
   "You get a firm quote confirming your exact rate and delivery window before any payment is made, and the miles go into an account you already control.",
 ].filter(Boolean).join(" ");
 
+// ---- row chips --------------------------------------------------------
+// The figure each answer hangs on, surfaced on the closed row in mono. "24
+// hours" compacts to "24h" so the chip stays a glance, and the tilde carries
+// through so an indicative rate never sheds its qualifier on the way up.
+const rateChip = pricePerMile ? `${priceVerified ? "" : "~"}${pricePerMile}¢/mi` : null;
+const windowChip = window.replace(/\s*hours?\b/, "h");
+const payChip = pay ? site.payments.methods.join(" · ") : null;
+
 // ---- assembled --------------------------------------------------------
 const faqs = [
-  { q: airline ? `How much does it cost to buy ${airline} miles?` : "How much does it cost to buy airline miles?", a: costAnswer, open: true },
+  { q: airline ? `How much does it cost to buy ${airline} miles?` : "How much does it cost to buy airline miles?", a: costAnswer, chip: rateChip, open: true },
   { q: airline ? `Can you buy ${airline} miles?` : "Can you buy airline miles?", a: canAnswer },
-  { q: airline ? `How fast are ${program || airline} miles delivered?` : "How fast are miles delivered?", a: deliveryAnswer },
+  { q: airline ? `How fast are ${program || airline} miles delivered?` : "How fast are miles delivered?", a: deliveryAnswer, chip: windowChip },
   // program-specific questions slot in here, near the top, and join the
   // FAQPage JSON-LD with everything else
   ...extras.map((e) => ({ q: e.q, a: e.a })),
   ...(omit.includes("worth") ? [] : [{ q: "Is buying airline miles worth it?", a: worthAnswer }]),
-  { q: "What payment methods do you accept?", a: paymentAnswer },
+  { q: "What payment methods do you accept?", a: paymentAnswer, chip: payChip },
   ...(site.guarantee.verified && site.guarantee.policy
     ? [{ q: "What if my miles don't arrive?", a: site.guarantee.policy }]
     : []),
@@ -114,11 +144,43 @@ const faqJsonLd = {
     acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
+
+const ways = officialChannels();
+const askPhone = ways.find((c) => c.kind === "phone");
+const askChat = ways.find((c) => c.kind === "whatsapp");
+const askMail = ways.find((c) => c.kind === "email");
+const hasAsk = Boolean(askPhone || askChat || askMail);
 ---
-{shown.map((f) => (
-  <details class="faq" open={f.open}>
-    <summary>{f.q}<span class="mk">+</span></summary>
-    <div class="ans">{f.a}</div>
-  </details>
-))}
+<div class="faqx">
+  <aside class="faqx-rail">
+    {kicker && <span class="kicker">{kicker}</span>}
+    {heading && <h2>{heading}</h2>}
+    {sub && <p class="faqx-sub">{sub}</p>}
+    {hasAsk && (
+      <div class="faqx-ask">
+        <p class="faqx-ask-t">Rather ask a person?</p>
+        <p class="faqx-ask-s">A real answer, before anything is paid.</p>
+        <div class="faqx-ask-ways">
+          {askPhone && <a href={askPhone.href}><b>{askPhone.value}</b></a>}
+          {askChat && <a href={askChat.href} target="_blank" rel="noopener">WhatsApp</a>}
+          {askMail && <a href={askMail.href}>Email</a>}
+        </div>
+      </div>
+    )}
+    {moreHref && <a class="faqx-more" href={moreHref}>All questions →</a>}
+  </aside>
+
+  <div class="faqx-list">
+    {shown.map((f) => (
+      <details class="faq" open={f.open}>
+        <summary>
+          <span class="faq-q">{f.q}</span>
+          {f.chip && <span class="faq-chip">{f.chip}</span>}
+          <span class="faq-mk" aria-hidden="true"></span>
+        </summary>
+        <div class="ans">{f.a}</div>
+      </details>
+    ))}
+  </div>
+</div>
 {jsonld && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}

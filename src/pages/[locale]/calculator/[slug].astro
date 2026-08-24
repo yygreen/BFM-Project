@@ -268,12 +268,14 @@ const sfLabels = { ...C.sf };
         <div class="section-head">
           <h2>{fmt(C.faqHead)}</h2>
         </div>
-        {faqs.map((f, i) => (
-          <details class="faq" open={i === 0}>
-            <summary>{f.q}<span class="mk">+</span></summary>
-            <div class="ans">{f.a}</div>
-          </details>
-        ))}
+        <div class="faqx-list">
+          {faqs.map((f, i) => (
+            <details class="faq" open={i === 0}>
+              <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+              <div class="ans">{f.a}</div>
+            </details>
+          ))}
+        </div>
         <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
       </div>
     </section>
