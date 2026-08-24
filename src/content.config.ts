@@ -251,9 +251,10 @@ const blog = defineCollection({
 
     // Program slugs this post relates to — renders as internal links
     // back to the money pages. Existence is checked in the template.
-    // capped to keep the link chips honest, not decorative; 9 exists for the
-    // all-programs roundups, which genuinely discuss more than six
-    programs: z.array(z.string()).max(9).default([]),
+    // capped to keep the link chips honest, not decorative; the ceiling
+    // exists for the all-programs roundups, which genuinely discuss the
+    // whole roster and are the first place a new program earns links
+    programs: z.array(z.string()).max(12).default([]),
 
     // Where a factual claim came from. Required for News/Devaluations,
     // enforced by the refine below.

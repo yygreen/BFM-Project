@@ -1,6 +1,6 @@
 ---
 title: "How Many Miles for a Flight? What Actually Sets the Number"
-description: "Six of the 21 programs we sell publish no award chart at all, so there is no fixed answer. How each one prices a flight, and how to find your own number before you buy."
+description: "Six of the 22 programs we sell publish no award chart at all, so there is no fixed answer. How each one prices a flight, and how to find your own number before you buy."
 date: 2026-08-12
 category: "Guide"
 programs: ["delta-skymiles", "air-france-flying-blue", "lufthansa-miles-more", "turkish-miles-smiles", "emirates-skywards", "ana-mileage-club"]
@@ -8,13 +8,13 @@ image: "/blog/how-many-miles-for-a-flight.jpg"
 imageAlt: "A blue flight arc between two cities, and beneath it the three ways an award is priced: a block of equal bars, a distance ruler, and a rising coral line tracking a cash fare"
 ---
 
-The honest answer is that for six of the twenty-one programs on this site,
+The honest answer is that for six of the twenty-two programs on this site,
 there is no number. Delta, United, Southwest, JetBlue, Frontier and Flying Blue
 price an award off the cash fare on the day, which means the miles needed for
 your flight are whatever the search says this afternoon and possibly something
 else tomorrow.
 
-For the other fifteen there is a real number, and you can look it up before
+For the other sixteen there is a real number, and you can look it up before
 you spend anything. Which group you are in decides how you should shop.
 
 ## Three ways a program decides the price
@@ -55,6 +55,7 @@ chart, which is exactly why the partner award is so often the better buy.
 | [Etihad Guest](/buy/etihad-guest) | Distance-based Saver awards from Abu Dhabi. Most other seats dynamic | Saver only |
 | [British Airways Avios](/buy/british-airways-avios) | Distance bands, with peak and off-peak dates | Published |
 | [Qatar Airways Avios](/buy/qatar-avios) | Distance bands | Published |
+| [Iberia Avios](/buy/iberia-avios) | Distance bands | Published |
 | [Cathay Asia Miles](/buy/cathay-pacific-asia-miles) | Distance bands, on Cathay and on partners | Published |
 | [Atmos Rewards (Alaska & Hawaiian)](/buy/alaska-atmos-rewards) | Distance chart on Alaska and Hawaiian, three regional charts on partners | Published |
 | [ANA Mileage Club](/buy/ana-mileage-club) | Region chart with low, regular and high seasons | Published |
@@ -62,6 +63,7 @@ chart, which is exactly why the partner award is so often the better buy.
 | [Singapore KrisFlyer](/buy/singapore-krisflyer) | Saver chart on Singapore. Partner awards priced separately | Published |
 | [Turkish Miles&Smiles](/buy/turkish-miles-smiles) | Two charts, one for Turkish flights and one for Star Alliance partners | Published |
 | [Avianca LifeMiles](/buy/avianca-lifemiles) | Region chart | Published |
+| [Qantas Frequent Flyer](/buy/qantas-frequent-flyer) | Classic Rewards on distance bands. Classic Plus follows the cash fare | Published |
 | [Emirates Skywards](/buy/emirates-skywards) | Fixed per route, in Emirates' own miles calculator, at Saver and Flex tiers | Per route |
 
 *Checked against each program in August 2026. Award pricing is the fastest
@@ -130,11 +132,11 @@ most expensive route to a balance, which is why the gap between an airline's
 own buy-miles page and a trader rate is normally worth checking rather than
 assuming.
 
-Live per-mile rates and delivery windows for all twenty-one programs are on
+Live per-mile rates and delivery windows for all twenty-two programs are on
 their own pages, linked in the table above. A quote states your full cost
 before anything is agreed, and nothing is charged on this site.
 
 One last thing worth knowing before you buy into a fixed-chart program: those
 same programs are usually the ones with hard expiry dates.
-[We checked all twenty-one](/blog/do-airline-miles-expire), and the miles you
+[We checked all twenty-two](/blog/do-airline-miles-expire), and the miles you
 buy arrive with a clock of their own.

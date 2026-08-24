@@ -1,9 +1,9 @@
 ---
 title: "Do Avios Expire? The 36-Month Rule, and the 10-Second Fix"
-description: "Avios expire after 36 months without activity, but any earn or spend resets the clock. How the rule works for BA and Qatar, and the fastest ways to keep a balance alive."
+description: "Avios expire after 36 months without activity, but any earn or spend resets the clock. How the rule works for BA, Iberia and Qatar, and the fastest ways to keep a balance alive."
 date: 2026-08-09
 category: "Guide"
-programs: ["british-airways-avios", "qatar-avios"]
+programs: ["british-airways-avios", "qatar-avios", "iberia-avios"]
 image: "/blog/do-avios-expire.jpg"
 imageAlt: "An hourglass pouring coral mile tokens, one token lifted back out by an upward arrow"
 ---
@@ -20,7 +20,7 @@ three years is long enough to forget an account exists.
 ## How the clock actually works
 
 The rule is the same across the Avios programs we deal in daily: British
-Airways and Qatar Airways Privilege Club run on the same currency:
+Airways, Iberia and Qatar Airways Privilege Club run on the same currency:
 
 - **The timer applies to the account, not to individual miles.** Avios don't
   age individually. Keep the account active and a balance from 2019 is as good
@@ -31,7 +31,7 @@ Airways and Qatar Airways Privilege Club run on the same currency:
   timers train their members to pay attention. Three years trains you to
   forget.
 
-Last checked against both programs' published terms: August 2026. Expiry
+Last checked against each program's published terms: August 2026. Expiry
 policies do move (BA has reshaped its program more than once), so treat the
 number as current, not permanent.
 
@@ -42,7 +42,10 @@ Ranked by how little effort they take, the resets we actually use:
 1. **Move Avios between your own BA and Qatar accounts.** Linking the two and
    transferring even 1,000 Avios across is free, instant, and counts as
    activity on both sides. If you hold both accounts, this is the whole
-   answer.
+   answer. One warning if Iberia is your home program: Iberia's terms do not
+   count an Avios transfer as activity, so a move keeps a BA or Qatar clock
+   alive and leaves the Iberia one running. Reset Iberia with an earn or a
+   redemption instead.
 2. **Buy one thing through the shopping portal.** An earn of 12 Avios resets
    180,000 of them. The maths of that never stops being funny.
 3. **A co-brand card or an e-store purchase you were making anyway.** Anything
@@ -58,9 +61,11 @@ The other half of the Avios conversations we have: the balance is alive and
 well, it's just 40,000 short of the Qsuite redemption it exists for. Topping
 up through the airline's own buy-Avios pages is priced for impulse, not for
 value. That is where a per-mile rate from a trader undercuts it, usually by
-a distance. The live rates for both programs are on our
-[British Airways](/buy/british-airways-avios) and [Qatar Airways](/buy/qatar-avios) pages,
-and the quote states the full cost before you commit to anything.
+a distance. The live rates are on our
+[British Airways](/buy/british-airways-avios), [Iberia](/buy/iberia-avios)
+and [Qatar Airways](/buy/qatar-avios) pages, with
+[every Avios rate compared side by side](/buy/avios), and the quote states
+the full cost before you commit to anything.
 
 ## The 10-second habit
 

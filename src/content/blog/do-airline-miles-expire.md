@@ -1,18 +1,18 @@
 ---
-title: "Do Airline Miles Expire? All 21 Programs, Checked August 2026"
-description: "Six of the programs we trade never expire miles. Nine run an activity clock any earn resets. Six expire on a fixed date nothing stops. The rule for each, dated."
+title: "Do Airline Miles Expire? All 22 Programs, Checked August 2026"
+description: "Five of the programs we trade never expire miles. Eleven run an activity clock. Six expire on a fixed date nothing stops. The rule for each of the 22, dated."
 date: 2026-08-12
-updated: 2026-08-17
+updated: 2026-08-24
 category: "Guide"
-programs: ["avianca-lifemiles", "frontier-miles", "etihad-guest", "singapore-krisflyer", "turkish-miles-smiles", "emirates-skywards", "air-canada-aeroplan", "cathay-pacific-asia-miles", "jetblue-trueblue"]
+programs: ["avianca-lifemiles", "frontier-miles", "etihad-guest", "singapore-krisflyer", "turkish-miles-smiles", "emirates-skywards", "air-canada-aeroplan", "cathay-pacific-asia-miles", "jetblue-trueblue", "qantas-frequent-flyer", "iberia-avios"]
 image: "/blog/do-airline-miles-expire.jpg"
 imageAlt: "Three panels, one per expiry rule: a clock with no hands, a clock circled by a blue arrow winding it back, and a clock with a fixed coral wedge on its dial"
 ---
 
-There are twenty-one programs on this site and only three expiry rules between
-them. Six programs never expire miles at all. Nine put a clock on the account
-that any activity resets. Six expire miles on a fixed date, and nothing you do
-in the account moves it.
+There are twenty-two programs on this site and only three expiry rules between
+them. Five programs never expire miles at all. Eleven put a clock on the
+account that any activity resets. Six expire miles on a fixed date, and
+nothing you do in the account moves it.
 
 Knowing which of the three you are holding is the whole thing. People do not
 lose miles because a rule is harsh. They lose them because they assumed their
@@ -30,12 +30,14 @@ program worked like the last one they used.
 | [Avianca LifeMiles](/buy/avianca-lifemiles) | 12 months with no earning | Earning only. Redeeming does not count |
 | [Frontier Miles](/buy/frontier-miles) | 12 months with no earning | Earning only. Cardholders are exempt |
 | [Cathay Asia Miles](/buy/cathay-pacific-asia-miles) | 18 months with no activity | Any earn or redemption |
+| [Qantas Frequent Flyer](/buy/qantas-frequent-flyer) | 18 months with no activity | Any earn or redemption |
 | [Air Canada Aeroplan](/buy/air-canada-aeroplan) | Paused until 30 November 2026, then 18 months with no activity, applied retroactively | Any earn or redemption |
 | [Etihad Guest](/buy/etihad-guest) | 18 months with no qualifying flight | Flying Etihad or a partner airline, and nothing else |
 | [American AAdvantage](/buy/american-aadvantage) | 24 months with no activity | Any earn or redemption |
 | [Air France-KLM Flying Blue](/buy/air-france-flying-blue) | 24 months with no earning | Earning only. Elite members are exempt |
 | [British Airways Avios](/buy/british-airways-avios) | 36 months with no activity | Any earn or redemption |
 | [Qatar Airways Avios](/buy/qatar-avios) | 36 months with no activity | Any earn or redemption |
+| [Iberia Avios](/buy/iberia-avios) | 36 months with no activity | Any earn or redemption, but not an Avios transfer |
 | [ANA Mileage Club](/buy/ana-mileage-club) | End of the 36th month after you earned them | Nothing. Diamond and million milers are exempt |
 | [EVA Infinity MileageLands](/buy/eva-air-miles) | 36 months from the travel or transfer date | An award redemption plus an EVA or UNI international flight extends unexpired miles |
 | [Singapore KrisFlyer](/buy/singapore-krisflyer) | End of the 36th month after you earned them | Nothing free. A paid renewal buys six more months |
@@ -65,8 +67,8 @@ exactly the account this rule was written for.
 
 ## Group two: the clock resets, and it is nearly free
 
-Nine programs expire miles only after a period with nothing happening on the
-account. Every one of them resets in full on a single qualifying transaction,
+Eleven programs expire miles only after a period with nothing happening on
+the account. Every one of them resets in full on a single qualifying transaction,
 of any size. One mile earned from a shopping portal saves a balance of 200,000.
 
 Two details separate them, and both catch people:
@@ -90,9 +92,11 @@ getting a fresh clock. Any single earn or redemption before then protects
 everything. If you hold a dormant Aeroplan balance, this is the one date in
 this article worth putting in a calendar.
 
-The two Avios programs sit at the generous end at 36 months, which turns out to
-be its own trap. Three years is long enough to forget an account exists. We
-wrote up [how the Avios clock works and the fastest ways to reset it](/blog/do-avios-expire)
+The three Avios programs sit at the generous end at 36 months, which turns
+out to be its own trap. Three years is long enough to forget an account
+exists. One footnote separates them: at Iberia, moving Avios between accounts
+does not count as activity, while at BA and Qatar it does. We wrote up
+[how the Avios clock works and the fastest ways to reset it](/blog/do-avios-expire)
 separately.
 
 ## Group three: fixed date, no reset
@@ -148,7 +152,7 @@ that expire in September.
 The rule we work to, and the one we will tell you on the phone:
 
 1. **Buy close to the redemption.** Miles bought for a trip you are booking
-   this month have no expiry problem in any of the twenty-one programs.
+   this month have no expiry problem in any of the twenty-two programs.
    Speculative balances are where expiry bites.
 2. **Check the balance you already hold before topping it up.** If the account
    is in group three, find out what dies and when. Topping up an account that
