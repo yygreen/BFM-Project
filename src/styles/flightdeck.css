@@ -1373,12 +1373,11 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    z-index sits above the sticky header (50) and the nav panels (60). */
 .dock { position:fixed; z-index:80; right:18px;
   bottom:calc(18px + env(safe-area-inset-bottom, 0px)); font-family:var(--sans); }
-/* Brand cobalt, on the same diagonal the hero's feature card runs, deepening
-   toward ink at the far end so white numerals keep their contrast. Mixed from
-   the tokens rather than picked by eye, so the pill moves with the palette,
-   and the drop shadow carries the same cobalt as every other raised surface. */
+/* Flat brand cobalt, the same fill the primary button carries, so the dock is
+   the same object as every other call to action rather than a variant of one.
+   The drop shadow takes the same cobalt as the other raised surfaces. */
 .dock-bar { display:flex; align-items:stretch; border-radius:var(--radius-pill);
-  background:linear-gradient(155deg, var(--cobalt), color-mix(in srgb, var(--cobalt) 46%, var(--ink)) 94%);
+  background:var(--cobalt);
   box-shadow:0 15px 36px color-mix(in srgb, var(--cobalt) 34%, transparent),
              0 3px 10px color-mix(in srgb, var(--ink) 26%, transparent); }
 .dock-tel { display:flex; flex-direction:column; justify-content:center; gap:1px;
@@ -1406,11 +1405,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .dock-more svg { transition:transform .18s ease; }
 .dock-d[open] .dock-more svg { transform:rotate(180deg); }
 
-/* The card picks the brand up softly: the cool wash the sections use, fading
-   into white by the time it reaches the channel rows. */
+/* Plain white with a cobalt hairline: the brand shows in the border, the rows
+   and the pill below, so the card itself stays quiet behind them. */
 .dock-panel { position:absolute; right:0; bottom:calc(100% + 12px); width:336px;
-  max-width:calc(100vw - 32px); padding:20px 18px 18px;
-  background:linear-gradient(180deg, var(--wash-cool), var(--surface) 132px);
+  max-width:calc(100vw - 32px); padding:20px 18px 18px; background:var(--surface);
   border:1px solid var(--cobalt-line); border-radius:var(--radius-card); box-shadow:var(--shadow-lg);
   display:flex; flex-direction:column; gap:9px; animation:dockIn .16s ease-out; }
 @keyframes dockIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
