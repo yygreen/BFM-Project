@@ -1373,24 +1373,32 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    z-index sits above the sticky header (50) and the nav panels (60). */
 .dock { position:fixed; z-index:80; right:18px;
   bottom:calc(18px + env(safe-area-inset-bottom, 0px)); font-family:var(--sans); }
-/* Brand navy into cobalt, mixed from the tokens rather than picked by eye, so
-   the pill moves with the palette. Dark enough that white numerals hold, blue
-   enough that it reads as ours from across the page; the drop shadow carries
-   the same cobalt so it lands on the page like the other raised surfaces. */
+/* Brand cobalt, on the same diagonal the hero's feature card runs, deepening
+   toward ink at the far end so white numerals keep their contrast. Mixed from
+   the tokens rather than picked by eye, so the pill moves with the palette,
+   and the drop shadow carries the same cobalt as every other raised surface. */
 .dock-bar { display:flex; align-items:stretch; border-radius:var(--radius-pill);
-  background:linear-gradient(142deg, var(--ink) 4%, color-mix(in srgb, var(--cobalt) 58%, var(--ink)) 100%);
-  box-shadow:0 15px 36px color-mix(in srgb, var(--cobalt) 32%, transparent),
-             0 3px 10px color-mix(in srgb, var(--ink) 28%, transparent); }
+  background:linear-gradient(155deg, var(--cobalt), color-mix(in srgb, var(--cobalt) 46%, var(--ink)) 94%);
+  box-shadow:0 15px 36px color-mix(in srgb, var(--cobalt) 34%, transparent),
+             0 3px 10px color-mix(in srgb, var(--ink) 26%, transparent); }
 .dock-tel { display:flex; flex-direction:column; justify-content:center; gap:1px;
   padding:9px 15px 10px 19px; color:#fff; border-start-start-radius:var(--radius-pill);
   border-end-start-radius:var(--radius-pill); transition:background .15s ease; }
 .dock-tel:hover { background:rgba(255,255,255,.1); color:#fff; }
 .dock-lab { font-size:9.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
-  color:color-mix(in srgb, var(--cobalt-line) 82%, transparent); }
+  color:color-mix(in srgb, var(--cobalt-tint) 78%, transparent); }
+/* The mark itself: a route trailing off into three coral dots. Drawn from one
+   repeating tile rather than three elements, so it scales with the label. */
+.dock-lab::before { content:""; display:inline-block; width:20px; height:3px; vertical-align:2px;
+  margin-inline-end:7px;
+  background:radial-gradient(circle 1.6px at 1.6px 1.5px, var(--coral) 99%, transparent 100%) 0 0/7px 3px repeat-x; }
 .dock-tel b { font-family:var(--mono); font-size:15px; font-weight:600; white-space:nowrap; }
 .dock-d { position:static; display:flex; }
+/* A plain hairline here on purpose: a vertical dotted run down the pill read
+   as a tear-off perforation, not as the mark. The coral belongs horizontal,
+   the way the logo and the calculator leaders run it. */
 .dock-more { list-style:none; display:flex; align-items:center; padding:0 16px 0 14px; cursor:pointer;
-  color:var(--cobalt-line); border-inline-start:1px solid color-mix(in srgb, var(--cobalt-line) 28%, transparent);
+  color:var(--cobalt-tint); border-inline-start:1px solid color-mix(in srgb, var(--cobalt-tint) 32%, transparent);
   border-start-end-radius:var(--radius-pill); border-end-start-radius:0;
   border-end-end-radius:var(--radius-pill); transition:background .15s ease, color .15s ease; }
 .dock-more::-webkit-details-marker { display:none; }
@@ -1422,7 +1430,9 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .dock-opt svg { flex:none; color:var(--text-3); }
 .dock-opt:hover svg { color:var(--cobalt); }
 .dock-or { display:flex; align-items:center; gap:10px; margin:3px 0; font-size:12px; color:var(--text-3); }
-.dock-or::before, .dock-or::after { content:""; flex:1; border-top:1px dashed var(--line-2); }
+/* Same coral run as the pill's divider and the calculator's leaders. */
+.dock-or::before, .dock-or::after { content:""; flex:1;
+  border-top:2px dotted color-mix(in srgb, var(--coral) 46%, transparent); }
 .dock-ch { display:flex; align-items:center; gap:12px; padding:10px 13px; border:1px solid var(--line-2);
   border-radius:var(--radius-pill); transition:border-color .15s ease, box-shadow .15s ease; }
 .dock-ch:hover { border-color:var(--line-strong); box-shadow:var(--shadow-sm); }
