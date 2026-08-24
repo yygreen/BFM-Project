@@ -6,6 +6,7 @@ import { getPosts, getCategoryCounts } from "../lib/blog";
 import { site as siteData, officialChannels } from "../lib/site";
 import Logo from "../components/Logo.astro";
 import ContactDock from "../components/ContactDock.astro";
+import { LOCALES } from "../lib/locales";
 
 // Nav + footer program lists are generated from the collection, so adding an
 // entry to airlines.json puts it in the navigation automatically — the roster
@@ -60,6 +61,13 @@ const {
   ogImageHeight = 630,
 } = Astro.props;
 
+// How this page groups numbers, published on <html> for the inline scripts.
+// The page's own locale rather than its language tag: Chromium resolves bare
+// "ar" to latin digits while the Arabic pages format with ar-EG, so reading
+// the tag would have grouped the amount fields in a numbering system nothing
+// else on the page uses.
+const numLocale = LOCALES[lang.toLowerCase()]?.numLocale ?? "en-US";
+
 const site = Astro.site ?? new URL("https://www.buyflightmiles.com");
 const canonical = new URL(slug, site).href;
 // scrapers want an absolute URL; a root-relative one is silently dropped
@@ -73,7 +81,7 @@ const hreflangs = alternates.length
   : [];
 ---
 <!DOCTYPE html>
-<html lang={lang}>
+<html lang={lang} data-numlocale={numLocale}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -192,6 +200,77 @@ const hreflangs = alternates.length
       </nav>
     </div>
   </header>
+
+  <script is:inline>
+    // Thousands separators inside the amount fields: 80,000 rather than 80000.
+    //
+    // Every figure the site prints is grouped, and the field the visitor types
+    // the amount into was the one place that wasn't. On a purchase where one
+    // extra zero is a ten-times price error, a grouped number is checkable at
+    // a glance and a bare run of digits is not.
+    //
+    // It lives here rather than in each tool because five components take an
+    // amount and all of them would otherwise carry their own copy of the caret
+    // arithmetic. Fields opt in by calling wire(), which upgrades the input
+    // from type=number to type=text — a number input silently rejects any
+    // value with a separator in it, so grouping is impossible without the
+    // swap. Done at runtime, so with no JS the field stays a real number input
+    // with its own keypad and validation.
+    //
+    // Locales whose numerals are not 0-9 are left alone: Arabic formats 49,000
+    // as ٤٩٬٠٠٠, and rewriting the digits of someone typing on a latin keypad
+    // would be worse than no grouping at all. bare() still works there, so the
+    // parsing side is identical in every locale.
+    window.bfmNum = (function () {
+      const loc = document.documentElement.dataset.numlocale || document.documentElement.lang || "en";
+      let sep = "";
+      try {
+        const parts = new Intl.NumberFormat(loc).formatToParts(1234567);
+        const latin = parts.filter((p) => p.type === "integer").every((p) => /^[0-9]+$/.test(p.value));
+        const group = parts.find((p) => p.type === "group");
+        if (latin && group) sep = group.value;
+      } catch (e) {}
+
+      // digits only, and capped so a pasted essay can't reach Number()
+      const bare = (v) => String(v == null ? "" : v).replace(/\D/g, "").slice(0, 12);
+      // grouped from four figures up, which is where the first separator falls
+      const grouped = (v) => {
+        const d = bare(v);
+        return sep && d.length > 3 ? Number(d).toLocaleString(loc) : d;
+      };
+
+      // Reformatting rewrites the whole value, which would otherwise throw the
+      // caret to the end mid-edit. Anchor it to the digit it sat after rather
+      // than to a character offset, so an inserted separator doesn't shift it.
+      function format(el) {
+        const at = el.selectionStart == null ? el.value.length : el.selectionStart;
+        const before = bare(el.value.slice(0, at)).length;
+        const next = grouped(el.value);
+        if (next === el.value) return;
+        el.value = next;
+        let i = 0;
+        let seen = 0;
+        while (i < next.length && seen < before) {
+          if (next.charCodeAt(i) >= 48 && next.charCodeAt(i) <= 57) seen++;
+          i++;
+        }
+        try { el.setSelectionRange(i, i); } catch (e) {}
+      }
+
+      function wire(el) {
+        if (!el || !sep) return;
+        el.type = "text";
+        el.inputMode = "numeric";
+        el.autocomplete = "off";
+        // registered before the tool's own listener, so by the time the tool
+        // reads the field the value is already in its final shape
+        el.addEventListener("input", () => format(el));
+        format(el);
+      }
+
+      return { bare, grouped, wire, format };
+    })();
+  </script>
 
   <script is:inline>
     // Nav dropdowns: <details> already handles click + keyboard natively.

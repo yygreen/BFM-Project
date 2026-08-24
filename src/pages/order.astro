@@ -240,6 +240,9 @@ const methods = site.payments.verified ? site.payments.methods : [];
       const $ = (id) => document.getElementById(id);
       const prog = $("o-prog-native");
       const miles = $("o-miles");
+      // the amount groups as it is typed; see bfmNum in Base.astro
+      const G = window.bfmNum || { bare: (v) => String(v).replace(/\D/g, ""), grouped: (v) => String(v), wire: () => {} };
+      G.wire(miles);
       // Cents are shown, never rounded away: 25,000 miles at 1.95¢ is $487.50,
       // and $488 would overstate it. Integer cents keep binary float noise out
       // of the figure. Mirrors src/lib/money.ts, which this inline script
@@ -267,7 +270,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
 
       function paint() {
         const c = current();
-        const m = parseInt(miles.value, 10);
+        const m = parseInt(G.bare(miles.value), 10);
         const ok = Number.isFinite(m) && m > 0;
         const approx = c.verified ? "" : "~";
         const cost = ok ? (m * c.rate) / 100 : 0;
@@ -284,6 +287,14 @@ const methods = site.payments.verified ? site.payments.methods : [];
         miles.min = c.min;
         miles.max = c.max;
         miles.placeholder = num(c.min);
+        // Grouping the field means it is a text input, and a text input has no
+        // native min/max — so the bound that step 1 refuses to advance past is
+        // stated here instead. Same guard, same step, said in words.
+        miles.setCustomValidity(
+          ok && (m < c.min || m > c.max)
+            ? `${c.label} orders run ${num(c.min)} to ${num(c.max)} miles.`
+            : ""
+        );
 
         const stock = $("o-stock");
         stock.hidden = c.inStock;
@@ -300,9 +311,9 @@ const methods = site.payments.verified ? site.payments.methods : [];
         $("o-delivery-field").value = $("o-r-delivery").textContent;
       }
 
-      miles.value = Number.isFinite(wantedMiles) && wantedMiles > 0
+      miles.value = G.grouped(Number.isFinite(wantedMiles) && wantedMiles > 0
         ? wantedMiles
-        : Math.min(Math.max(60000, current().min), current().max);
+        : Math.min(Math.max(60000, current().min), current().max));
       prog.addEventListener("change", paint);
       miles.addEventListener("input", paint);
       paint();

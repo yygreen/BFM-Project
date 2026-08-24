@@ -113,6 +113,10 @@ const L = { ...EN, ...labels };
     const $ = (id) => document.getElementById(id);
     const need = $("sf-need");
     const have = $("sf-have");
+    // amounts group as they are typed; see bfmNum in Base.astro
+    const G = window.bfmNum || { bare: (v) => String(v).replace(/\D/g, ""), grouped: (v) => String(v), wire: () => {} };
+    G.wire(need);
+    G.wire(have);
     const num = (n) => n.toLocaleString(LOC);
     // mirrors src/lib/money.ts — cents shown, never rounded to the dollar
     const usd = (n) => {
@@ -124,12 +128,12 @@ const L = { ...EN, ...labels };
     const cost = (m) => usd(Math.round(m * rate) / 100);
 
     function render() {
-      let n = parseInt(need.value, 10);
+      let n = parseInt(G.bare(need.value), 10);
       // blank means "none", not "unanswered" — buying the whole award is the
               // case with nothing to type, and it shouldn't be the one that stalls
-              let h = have.value.trim() === "" ? 0 : parseInt(have.value, 10);
-      if (Number.isFinite(n) && n > 5000000) { n = 5000000; need.value = n; }
-      if (Number.isFinite(h) && h > 5000000) { h = 5000000; have.value = h; }
+              let h = have.value.trim() === "" ? 0 : parseInt(G.bare(have.value), 10);
+      if (Number.isFinite(n) && n > 5000000) { n = 5000000; need.value = G.grouped(n); }
+      if (Number.isFinite(h) && h > 5000000) { h = 5000000; have.value = G.grouped(h); }
       const okN = Number.isFinite(n) && n > 0;
       const okH = Number.isFinite(h) && h >= 0;
       const out = $("sf-out");

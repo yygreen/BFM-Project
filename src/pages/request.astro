@@ -154,8 +154,11 @@ const notWired = orderEmail
       const miles = parseInt(q.get("miles") || "", 10);
       const p = document.getElementById("req-program");
       const m = document.getElementById("req-miles");
+      // the amount groups as it is typed; see bfmNum in Base.astro
+      const G = window.bfmNum || { grouped: (v) => String(v), wire: () => {} };
+      G.wire(m);
       if (p && prog) p.value = prog;
-      if (m && Number.isFinite(miles) && miles > 0) m.value = miles;
+      if (m && Number.isFinite(miles) && miles > 0) m.value = G.grouped(miles);
     })();
   </script>
 </Base>

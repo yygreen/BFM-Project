@@ -334,8 +334,16 @@ const notWired = labels.notWired ?? (orderEmail
     const miles1 = $("qw-miles");
     const miles2 = $("qw-miles-2");
 
+    // Both amount fields group as they are typed (see bfmNum in Base.astro),
+    // so every read of them goes through bare() and every write through
+    // grouped(). The separator is display only: nothing downstream ever sees
+    // anything but digits.
+    const G = window.bfmNum || { bare: (v) => String(v).replace(/\D/g, ""), grouped: (v) => String(v), wire: () => {} };
+    G.wire(miles1);
+    G.wire(miles2);
+
     function amount() {
-      const m = parseInt(miles1.value, 10);
+      const m = parseInt(G.bare(miles1.value), 10);
       return Number.isFinite(m) && m > 0 ? m : 0;
     }
 
@@ -468,7 +476,7 @@ const notWired = labels.notWired ?? (orderEmail
       // step 2 recap + hidden fields that actually get emailed
       $("qw-recap-prog").textContent = c.label;
       $("qw-recap-cost").textContent = canGo ? approx + usd(cost) : "—";
-      if (document.activeElement !== miles2) miles2.value = m || "";
+      if (document.activeElement !== miles2) miles2.value = m ? G.grouped(m) : "";
       $("qw-f-program").value = c.label;
       $("qw-f-miles").value = canGo ? m : "";
       // No English joining word: this string is emailed as-is, and "at
@@ -579,7 +587,7 @@ const notWired = labels.notWired ?? (orderEmail
     });
     // one click puts the order on the nearest bound it can actually be placed at
     function useTarget(e) {
-      const v = e.currentTarget.dataset.target;
+      const v = G.grouped(e.currentTarget.dataset.target);
       miles1.value = v;
       miles2.value = v;
       render();

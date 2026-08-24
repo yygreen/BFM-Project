@@ -112,6 +112,11 @@ const L = { ...EN, ...labels };
     const fmt = (t, m) => t.replace(/\{(\w+)\}/g, (_, k) => m[k] ?? "");
     const miles = $("st-miles");
     const fare = $("st-fare");
+    // The miles field groups as it is typed (see bfmNum in Base.astro). The
+    // fare beside it does not: it takes decimals, and grouping a figure that
+    // is still being typed to the cent fights the person typing it.
+    const G = window.bfmNum || { bare: (v) => String(v).replace(/\D/g, ""), grouped: (v) => String(v), wire: () => {} };
+    G.wire(miles);
     // Cents are shown, never rounded away: 25,000 miles at 1.95¢ is $487.50,
     // and $488 would overstate it. Integer cents keep binary float noise out
     // of the figure. Mirrors src/lib/money.ts, which this inline script
@@ -132,14 +137,14 @@ const L = { ...EN, ...labels };
         : usd(usdAmount);
 
     function render() {
-      let m = parseInt(miles.value, 10);
+      let m = parseInt(G.bare(miles.value), 10);
       let fLocal = parseFloat(fare.value);
       // the field is in the visitor's currency; the maths is in dollars
       let f = Number.isFinite(fLocal) && FX ? fLocal / FX : fLocal;
       // fantasy input wraps the number columns and grows the card (which a
       // stuck sticky card must never do) — clamp at real-world ceilings, the
       // same way the quote widget clamps its own range
-      if (Number.isFinite(m) && m > 5000000) { m = 5000000; miles.value = m; }
+      if (Number.isFinite(m) && m > 5000000) { m = 5000000; miles.value = G.grouped(m); }
       if (Number.isFinite(f) && f > 1000000) { f = 1000000; fare.value = Math.round(FX ? f * FX : f); }
       const out = $("st-out");
       const okM = Number.isFinite(m) && m > 0;
@@ -184,7 +189,7 @@ const L = { ...EN, ...labels };
     $("st-cta").addEventListener("click", () => {
       const qw = document.getElementById("qw-miles");
       if (!qw) return; // no widget on this page — plain anchor scroll
-      const m = parseInt(miles.value, 10);
+      const m = parseInt(G.bare(miles.value), 10);
       if (!Number.isFinite(m) || m <= 0) return;
       qw.value = m;
       qw.dispatchEvent(new Event("input", { bubbles: true }));
@@ -195,7 +200,7 @@ const L = { ...EN, ...labels };
       c.addEventListener("click", () => {
         document.querySelectorAll(".stool-chip").forEach((x) => x.classList.remove("on"));
         c.classList.add("on");
-        miles.value = c.dataset.miles;
+        miles.value = G.grouped(c.dataset.miles);
         render();
         fare.focus();
       });
