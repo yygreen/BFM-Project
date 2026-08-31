@@ -21,14 +21,18 @@
 // <details> carries the open/closed state, so the panel works with no JS at
 // all. The script only adds what markup cannot: outside-click, Escape, and
 // the close button (hidden until JS is present, so it is never a dead control).
+//
+// ENGLISH ON EVERY PAGE, the translated ones included, and on purpose: the
+// people on the other end of this phone and this WhatsApp speak English. A
+// dock inviting someone to talk in Spanish or Arabic is a support-language
+// claim the business cannot honour — the same kind of implied promise the
+// verified flags exist to keep off this site. (It is not an SEO concern:
+// page language is judged on main content, and a fixed widget is
+// boilerplate.) If multilingual support ever becomes real, localizing this
+// is a strings-only change.
 import { site, officialChannels, live } from "../lib/site";
-import { LOCALES } from "../lib/locales";
 
-const { lang = "en" } = Astro.props;
-
-// English is the fallback for every string, so a locale that adds no `dock`
-// block still gets a working dock rather than blank rows.
-const EN: Record<string, string> = {
+const t: Record<string, string> = {
   lab: "Talk to us",
   title: "Talk to a real person",
   sub: "Ask about rates, delivery or payment before you buy.",
@@ -43,14 +47,6 @@ const EN: Record<string, string> = {
   more: "More ways to reach us",
   waPrefill: "Hi, I have a question about buying miles.",
 };
-
-const chrome = LOCALES[lang.toLowerCase()];
-const t = { ...EN, ...(chrome?.dock ?? {}) };
-// <html> carries no dir on the Arabic pages (only the article body does), so
-// the dock declares its own: labels, icon order and chevrons all flow the
-// right way. Its corner does not move — it is pinned right physically, so the
-// widget sits where it does on every other page.
-const dir = chrome?.dir ?? "ltr";
 
 const ways = officialChannels();
 const phone = ways.find((c) => c.kind === "phone");
@@ -69,7 +65,7 @@ const show = Boolean(phone || chat);
 ---
 
 {show && (
-  <div class="dock" id="dock" dir={dir}>
+  <div class="dock" id="dock" dir="ltr" lang="en">
     <div class="dock-bar">
       {phone ? (
         <a class="dock-tel" href={phone.href}>

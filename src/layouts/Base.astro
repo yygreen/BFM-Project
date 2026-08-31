@@ -362,8 +362,10 @@ const hreflangs = alternates.length
     </div>
   </footer>
 
-  {/* Pinned bottom right on every page, in the page's own language. Renders
-      nothing at all unless site.json has a verified phone or WhatsApp. */}
-  <ContactDock lang={lang} />
+  {/* Pinned bottom right on every page — in English even on the translated
+      ones, because that is the language the phone actually answers in.
+      Renders nothing at all unless site.json has a verified phone or
+      WhatsApp. */}
+  <ContactDock />
 </body>
 </html>
