@@ -804,8 +804,8 @@
         "text": "Avios are one currency across British Airways, Iberia, Qatar, Finnair, Aer Lingus, Vueling and Loganair, but each programme sets its own cash surcharges. Iberia's are consistently among the lowest on transatlantic awards, which is why buyers move Avios here to spend them."
       },
       {
-        "title": "Transferring in doesn't restart the clock",
-        "text": "Moving Avios from British Airways into Iberia Club counts as activity on both accounts, so it keeps them alive. It does not give the transferred Avios a fresh 36 months. Plan the transfer around the booking rather than as a way to park a balance."
+        "title": "A transfer doesn't reset Iberia's clock",
+        "text": "Iberia's terms don't count an Avios transfer, in or out, as account activity — so moving a balance here keeps the BA or Qatar side alive and leaves the Iberia clock running. An earn or a redemption, of any size, is what resets Iberia's 36 months."
       }
     ],
     "mechanics": [
@@ -833,7 +833,7 @@
       },
       {
         "q": "Do Iberia Avios expire?",
-        "a": "After 36 months without earning or spending on the account. Any activity resets that, and a transfer in or out counts as activity. One thing to know: a transfer does not hand the Avios themselves a new 36 months, it only keeps the account active."
+        "a": "After 36 months without earning or spending on the account. Any earn or redemption resets that, but an Avios transfer in or out does not count as activity under Iberia's terms — unlike at British Airways and Qatar, where it does. Keep an Iberia balance alive with an earn or a redemption, however small."
       },
       {
         "q": "Why buy Iberia Avios rather than British Airways Avios?",
@@ -842,7 +842,71 @@
     ],
     "factsChecked": "August 2026",
     "logo": "/logos/iberia-avios.svg",
-    "logoAlt": "Iberia logo"
+    "logoAlt": "Iberia logo",
+    "i18n": {
+      "es": {
+        "metaTitle": "Comprar Avios de Iberia | Iberia Club | buyflightmiles",
+        "metaDescription": "Compra Avios para tu cuenta de Iberia Club a una fracción del precio. Confirmamos tu precio exacto antes de que pagues y los Avios llegan a tu propia cuenta.",
+        "heroHeadline": "Comprar Avios para Iberia",
+        "heroSub": "Los mismos Avios que British Airways y Qatar, gastados desde el programa que cobra menos recargos para cruzar el Atlántico. Compra los que te faltan y reserva tu plaza.",
+        "steps": [
+          {
+            "title": "Elige la cantidad",
+            "text": "Indica cuántos Avios te faltan para tu reserva."
+          },
+          {
+            "title": "Pide tu cotización",
+            "text": "Envía la solicitud y confirmamos tu precio exacto y el plazo de entrega antes de pagar nada."
+          },
+          {
+            "title": "Llegan los Avios",
+            "text": "El pago se hace fuera de este sitio una vez que aceptas, y los Avios se transfieren a tu cuenta de Iberia Club."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Madrid a Norteamérica en business",
+            "desc": "El propio metal de Iberia desde Madrid es una de las formas más baratas de cruzar el Atlántico en cama plana, y los recargos son una fracción de lo que British Airways añade en la misma ruta. Ida en fechas valle; las fechas punta cuestan más."
+          },
+          {
+            "title": "Vuelos cortos dentro de España",
+            "desc": "El precio por distancia hace que los trayectos nacionales y europeos cortos estén entre los premios más baratos de todo el mundo Avios."
+          },
+          {
+            "title": "Premios con socios Oneworld",
+            "desc": "American, British Airways, Qatar, Japan Airlines y el resto de Oneworld se reservan desde un saldo de Iberia Club."
+          }
+        ],
+        "faq": [
+          {
+            "q": "¿Iberia Club es lo mismo que Iberia Plus?",
+            "a": "Sí. Iberia Plus pasó a llamarse Club Iberia Plus en abril de 2025 y después Iberia Club. Es un solo programa con un solo saldo, y todo lo escrito sobre Iberia Plus se aplica igual. El precio y el plazo de esta página se refieren a esa misma cuenta."
+          },
+          {
+            "q": "¿Puedo mover mis Avios de Iberia a British Airways?",
+            "a": "Sí, 1:1. Iberia Club, British Airways Club, Aer Lingus AerClub, Vueling Club y Loganair Loyalty se transfieren entre sí cuantas veces quieras, y Qatar Airways Privilege Club y Finnair Plus también. Conviene comparar nuestros precios de Iberia y de British Airways antes de comprar: el más barato financia el mismo premio."
+          },
+          {
+            "q": "¿Caducan los Avios de Iberia?",
+            "a": "A los 36 meses sin ganar ni gastar en la cuenta. Cualquier acumulación o canje reinicia el contador, pero una transferencia de Avios no cuenta como actividad según las condiciones de Iberia, a diferencia de British Airways y Qatar. Mantén viva la cuenta con una acumulación o un canje, por pequeño que sea."
+          },
+          {
+            "q": "¿Tengo que dar mi contraseña?",
+            "a": "No. Una transferencia solo necesita tu número de socio y el nombre de la cuenta. Nunca pedimos tu contraseña."
+          },
+          {
+            "q": "¿El pago se hace en este sitio?",
+            "a": "No. Aquí no se cobra nada. El pago se realiza fuera del sitio una vez que aceptas la cotización, y antes te confirmamos por escrito el precio exacto y el plazo de entrega."
+          }
+        ],
+        "ctaLabel": "Pedir cotización",
+        "flag": "🇪🇸",
+        "currency": "EUR",
+        "reviewed": false,
+        "fxNote": "≈ {v} al cambio del BCE del {d} · el cobro es en dólares",
+        "fxFoot": "Los importes en euros se convierten al tipo de referencia del BCE del {d}. El cobro se hace en dólares estadounidenses."
+      }
+    }
   },
   {
     "id": "eva-air-miles",

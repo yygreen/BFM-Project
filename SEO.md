@@ -462,11 +462,16 @@ Status as of 12 August 2026.
    published on three.** The savings figure was suppressed site-wide for want
    of it. Remaining 16 need the same research and the same promo test.
 
-7. **`comprar avios` in Spain: 1,300/mo at KD 26.** Turned up while validating
-   the Spanish page. It is Iberia's Avios, which is the same currency we sell as
-   BA and Qatar Avios and moves 1:1 between them. Low difficulty, real volume,
-   and it converges with the Avios currency page already at item 3. Probably the
-   best untaken opportunity in either dataset.
+7. ~~**`comprar avios` in Spain: 1,300/mo at KD 26.**~~ **Built (31 August).**
+   `/es/buy/avios` mirrors the currency page's thesis in Spanish with euro
+   conversion from the ECB, and `iberia-avios` gained an `i18n.es` block that
+   generates `/es/buy/iberia-avios` and `/es/calculator/iberia-avios` — Spain
+   market (🇪🇸 flag and EUR override; the es locale's defaults are Colombian).
+   The build also corrected the Iberia expiry claim to what Iberia's terms say:
+   an Avios transfer does not count as account activity there, unlike BA.
+   Both new pages are unreviewed translations — the native-review debt is now
+   eleven pages, the static `/es/buy/avios` included (it sits outside the
+   `reviewed` flag machinery, so check:launch does not count it).
 
 8. **Ask the client about hotel points.** 30,140/mo of the gap, and `buy marriott
    points` is 8,100/mo at KD 33 — the highest-volume genuinely reachable keyword

@@ -71,7 +71,7 @@ const fill = (s: string) => s.replaceAll("{d}", stamp);
 const widget = {
   ...L.widget,
   ...(showFx
-    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxNote: fill(L.fx!.note) }
+    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxNote: fill(t.fxNote ?? L.fx!.note) }
     : {}),
 };
 // The savings tool asks for a cash fare, so its input has to say which
@@ -82,7 +82,7 @@ const savings = {
     ? { fareLabel: L.savings.fareLabel.replace("{cur}", showFx ? moneySymbol(currency!) : "$") }
     : {}),
   ...(showFx
-    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxFoot: fill(L.fx!.foot) }
+    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxFoot: fill(t.fxFoot ?? L.fx!.foot) }
     : {}),
 };
 

@@ -65,6 +65,13 @@ const translation = z.object({
   // Same reason as `flag`: a language is not a market. The Arabic pages sell
   // into Qatar and the UAE, and the riyal is not the dirham.
   currency: z.string().length(3).optional(),
+  // Conversion-note wording overrides, for when a currency override also
+  // changes the RATE SOURCE the locale's default note names. Spanish's
+  // default is the peso via exchangerate-api; the Iberia page converts to
+  // euros from the ECB, and a note naming the wrong source is exactly the
+  // kind of claim this site refuses to ship. {v} and {d} as in the registry.
+  fxNote: z.string().min(1).optional(),
+  fxFoot: z.string().min(1).optional(),
   // set true once a native speaker has reviewed the copy — check:launch
   // treats unreviewed translations as launch blockers, not silent passes
   reviewed: z.boolean().default(false),
