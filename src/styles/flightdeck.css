@@ -25,19 +25,47 @@
   --shadow:0 8px 24px rgba(37,64,255,.08), 0 2px 8px rgba(16,18,43,.05);
   --shadow-lg:0 26px 60px rgba(37,64,255,.16), 0 8px 20px rgba(16,18,43,.08);
 
+  /* section washes — token-derived so they move with the palette. Kept just
+     above the page colour so the bands read as rhythm, not as new surfaces. */
+  --wash-cool:color-mix(in srgb, var(--cobalt-tint) 72%, var(--surface));
+  --wash-neutral:color-mix(in srgb, var(--raised) 78%, var(--surface));
+  --wash-warm:color-mix(in srgb, var(--coral-tint) 28%, var(--surface));
+
   --maxw:1120px;
+
+  /* anchor landing: the sticky header's height, plus the air a heading in
+     body copy wants under it. Full-bleed bands cancel the second one. */
+  --hdr-h:71px;
+  --anchor-air:19px;
 }
 * { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
+/* The header is sticky, so an anchor jump would otherwise park its target's
+   top edge underneath it. A heading in body copy wants a little air below the
+   bar, hence the extra offset on top of the header's own height. */
+html { scroll-behavior:smooth; scroll-padding-top:calc(var(--hdr-h) + var(--anchor-air)); }
+/* A section is a full-bleed band, and that air lands its top edge BELOW the
+   bar, leaving a stripe of the previous section visible above it — which
+   reads as having stopped short of the section rather than at it. Bands land
+   flush under the header; their own 44-72px of padding is the breathing room.
+   scroll-padding and scroll-margin add rather than override, so this cancels
+   the air for these targets only. */
+.section[id] { scroll-margin-top:calc(0px - var(--anchor-air)); }
 body { margin:0; background:var(--page); color:var(--text-1); font-family:var(--sans); -webkit-font-smoothing:antialiased; line-height:1.55; }
 a { color:inherit; text-decoration:none; }
 img, svg { max-width:100%; }
-.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+/* the second selector outranks `.field select { width:100% }`, which was
+   stretching the offscreen value-holder select to full width and pushing the
+   document wider than the viewport */
+.sr-only, .field .sr-only, .field select.sr-only {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); border:0; }
 .container { max-width:var(--maxw); margin:0 auto; padding:0 clamp(18px,4vw,32px); }
 
 /* ---- header / nav ---- */
 .site-header { border-bottom:1px solid var(--line); background:rgba(245,246,255,.85); backdrop-filter:saturate(150%) blur(10px); position:sticky; top:0; z-index:50; }
-.site-header .bar { display:flex; align-items:center; justify-content:space-between; height:70px; }
+/* height comes from --hdr-h (bar + the 1px border below it) so the anchor
+   offsets above cannot drift out of sync with the bar they clear */
+.site-header .bar { display:flex; align-items:center; justify-content:space-between; height:calc(var(--hdr-h) - 1px); }
 .brand { font-family:var(--display); font-weight:800; font-size:21px; letter-spacing:-0.03em; color:var(--ink); }
 .brand span { color:var(--cobalt); }
 .brand em { font-style:normal; color:var(--coral); }
@@ -49,13 +77,41 @@ img, svg { max-width:100%; }
 @media (max-width:660px){ .nav a.link { display:none; } }
 
 /* ---- footer ---- */
-.site-footer { background:var(--ink); color:var(--text-inv); margin-top:80px; }
+.site-footer { background:var(--ink); color:var(--text-inv); }
 .site-footer .container { padding-top:54px; padding-bottom:54px; }
 .site-footer .brand { color:#fff; }
 .site-footer .brand span { color:#8AA0FF; }
 .site-footer .brand em { font-style:normal; color:var(--coral); }
-.site-footer .cols { display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px; }
-@media (max-width:640px){ .site-footer .cols { grid-template-columns:1fr 1fr; } }
+/* Brand copy is wider than a link list but not twice as wide, and the three
+   list columns are equal, so all four heads land on one baseline and no
+   column ends in a stretch of empty navy. */
+.site-footer .cols { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:32px; }
+.foot-brand p { color:#B7AA8E; font-size:13.5px; line-height:1.6; margin:14px 0 0; }
+/* label above value: at column width an inline label leaves a ragged gutter
+   (Email clears its value by 60px, WhatsApp by 4), and a fixed gutter wide
+   enough for WhatsApp wraps the email address */
+.foot-contact a { margin-bottom:14px; line-height:1.4; }
+.foot-contact a span { display:block; color:#7B80A8; font-size:12.5px; }
+.foot-contact a:hover span { color:#9AA0C8; }
+/* the page, under the channels it lists — a destination rather than a way to
+   reach us, so it sits apart from the label/value rows above it */
+.foot-contact-page { margin-top:4px; }
+@media (max-width:900px){ .site-footer .cols { grid-template-columns:1fr 1fr; } }
+@media (max-width:520px){ .site-footer .cols { grid-template-columns:1fr; } }
+/* the roster as a wide band: 21 programs in four short columns instead of
+   one very tall one, with the program name stacked under the carrier so
+   each link stays scannable at column width */
+.foot-programs { margin-top:38px; padding-top:26px; border-top:1px solid #262946; }
+.foot-proglist { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px 26px; }
+.foot-proglist a { margin-bottom:0; line-height:1.35; }
+.foot-proglist a span { display:block; color:#7B80A8; font-size:12.5px; }
+.foot-proglist a:hover span { color:#C4C8E6; }
+/* phones: two columns, and the carrier alone — 21 stacked rows with a
+   sub-line each is most of a screen of footer */
+@media (max-width:560px){
+  .foot-proglist { grid-template-columns:1fr 1fr; gap:9px 18px; }
+  .foot-proglist a span { display:none; }
+}
 .site-footer h5 { font-family:var(--display); font-size:13px; letter-spacing:0; color:#9AA0C8; margin:0 0 14px; font-weight:700; }
 .site-footer a { display:block; color:#C4C8E6; font-size:14px; margin-bottom:9px; }
 .site-footer a:hover { color:#fff; }
@@ -64,10 +120,22 @@ img, svg { max-width:100%; }
 /* ---- headings / type ---- */
 h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; color:var(--text-1); }
 .kicker { display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-weight:700; font-size:12.5px; letter-spacing:0.02em; text-transform:uppercase; color:var(--cobalt); background:var(--cobalt-tint); padding:6px 14px; border-radius:var(--radius-pill); }
-.section { padding:clamp(48px,7vw,90px) 0; }
+.section { padding:clamp(44px,6vw,72px) 0; }
 .section.tinted { background:var(--raised); }
-.section-head { max-width:60ch; margin-bottom:38px; }
-.section-head.center { margin-left:auto; margin-right:auto; text-align:center; }
+/* the washes are full-bleed bands, so they carry their own padding — never
+   pair them with a padding-top:0 chain */
+.section.wash-cool { background:var(--wash-cool); }
+.section.wash-neutral { background:var(--wash-neutral); }
+.section.wash-warm { background:var(--wash-warm); }
+/* Heads sit above full-width card rows, so a 60ch cap left the copy floating
+   short against the grid. Full width instead — these paragraphs are one or two
+   sentences and now set on a single line. Centred heads keep a measure, since
+   centred text needs one to stay readable. */
+.section-head { max-width:none; margin-bottom:38px; }
+.section-head p { max-width:none; }
+.section-head.center { max-width:62ch; margin-left:auto; margin-right:auto; text-align:center; }
+/* the hero puts 18px between its kicker and h1; section heads had none */
+.section-head .kicker + h2 { margin-top:18px; }
 .section-head h2 { font-weight:800; font-size:clamp(28px,4vw,42px); line-height:1.04; }
 .section-head p { color:var(--text-2); font-size:16.5px; margin:14px 0 0; }
 
@@ -82,17 +150,40 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .btn:focus-visible { outline:3px solid var(--cobalt); outline-offset:3px; }
 
 /* ---- hero ---- */
-.hero { position:relative; padding:clamp(48px,6vw,88px) 0 clamp(40px,5vw,64px); overflow:hidden; }
+/* `clip` rather than `hidden`: both contain the decorative blobs, but hidden
+   also makes the hero a scroll container, and jumping to #quote inside it
+   scrolled the hero's own contents up by its top padding instead of scrolling
+   the page, leaving the widget welded to the header. clip cannot scroll. */
+.hero { position:relative; padding:clamp(48px,6vw,88px) 0 clamp(48px,6vw,72px); overflow:clip;
+  border-bottom:1px solid var(--line-2);
+  background:linear-gradient(180deg, var(--page) 0%, #FBFBFF 62%, var(--surface) 100%); }
 .hero .container { position:relative; z-index:1; }
 .hero-grid { display:grid; grid-template-columns:1.05fr 0.95fr; gap:clamp(28px,4vw,56px); align-items:center; }
+/* product pages: text column and widget start at the same height */
+.hero-grid.top { align-items:start; }
 @media (max-width:860px){ .hero-grid { grid-template-columns:1fr; } }
 .hero h1 { font-weight:800; font-size:clamp(34px,5.6vw,56px); line-height:0.99; margin:18px 0 18px; letter-spacing:-0.04em; }
 .hero h1 .hl { color:var(--cobalt); }
 .hero .sub { color:var(--text-2); font-size:18.5px; line-height:1.6; max-width:40ch; margin:0 0 28px; }
 .hero .cta-row { display:flex; gap:12px; flex-wrap:wrap; }
-.hero .spec { margin-top:28px; font-size:14px; color:var(--text-3); display:flex; gap:10px 20px; flex-wrap:wrap; align-items:center; }
-.hero .spec b { color:var(--ink); font-weight:700; font-family:var(--mono); }
+/* the stat row is not hero-only — scoping its sizing to .hero left the icons
+   unconstrained (and enormous) anywhere else it appears */
+.spec { font-size:14px; color:var(--text-2); display:flex; gap:10px 22px; flex-wrap:wrap; align-items:center; }
+.hero .spec { margin-top:28px; }
+.spec b { color:var(--ink); font-weight:700; font-family:var(--mono); }
+.spec .spec-it { display:inline-flex; align-items:center; gap:8px; }
+.spec .spec-it svg { width:16px; height:16px; color:var(--cobalt); flex:0 0 auto; }
 .hero .spec .dot { width:5px; height:5px; border-radius:50%; background:var(--coral); }
+/* the rating closes the stat row — same row, same rhythm, but linked out to
+   the platform so the claim is checkable rather than just asserted */
+/* dot and badge wrap as one unit, so a narrow hero can't leave the separator
+   orphaned at the end of the line above */
+.hero .spec-revwrap { display:inline-flex; align-items:center; gap:20px; }
+.hero .spec-rev { display:inline-flex; align-items:center; gap:7px; }
+.hero .spec-rev:hover .spec-rev-plat { color:var(--text-2); }
+.spec-stars { color:#F5A623; font-size:13px; letter-spacing:1px; line-height:1; }
+.spec-stars-dim { color:var(--line-2); }
+.spec-rev-plat { color:var(--text-3); }
 .blob { position:absolute; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none; }
 
 /* hero feature card */
@@ -147,10 +238,72 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard .plabel { font-size:13px; color:var(--text-3); margin-top:2px; }
 .gcard .price { font-family:var(--mono); font-size:28px; font-weight:600; color:var(--cobalt); }
 .gcard .price small { font-size:13px; color:var(--text-3); font-weight:400; font-family:var(--sans); }
+/* logo-led coverage grid: the homepage card with the commercial detail
+   stripped, since this list is about breadth rather than price */
+/* Explicit column counts rather than auto-fill: the "not listed?" tile has to
+   span whatever the roster leaves free in its last row, and that span can only
+   be worked out against a known number of columns. --span* come from the page,
+   computed from the roster length. */
+.grid-mini { grid-template-columns:repeat(4,1fr); gap:14px; }
+.grid-mini .gcard-ask { grid-column:span var(--span4,1); flex-direction:row; align-items:center;
+  justify-content:space-between; gap:18px; padding:18px 22px; }
+.grid-mini .ask-t { font-size:14px; line-height:1.55; color:var(--text-2); }
+.grid-mini .ask-t b { display:block; font-family:var(--display); font-size:15px; color:var(--text-1); margin-bottom:2px; }
+.grid-mini .askcta { white-space:nowrap; }
+@media (max-width:1000px){
+  .grid-mini { grid-template-columns:repeat(3,1fr); }
+  .grid-mini .gcard-ask { grid-column:span var(--span3,1); }
+}
+@media (max-width:760px){
+  .grid-mini { grid-template-columns:repeat(2,1fr); }
+  .grid-mini .gcard-ask { grid-column:span var(--span2,1); flex-direction:column; align-items:flex-start; gap:10px; }
+}
+@media (max-width:480px){
+  .grid-mini { grid-template-columns:1fr; }
+  .grid-mini .gcard-ask { grid-column:auto; }
+}
+.gcard-mini { padding:18px; }
+/* one line per name, always: a wrapped label makes its whole row taller than
+   every other card in it. The column floor and this size are set together so
+   the longest label on the roster still clears it */
+.gcard-mini .pname { font-size:14.5px; margin-top:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.gcard-mini .plabel { font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* The saving against the airline's own list price, where one is sourced.
+   Deliberately not a status colour: green and amber mean in stock and
+   limited on this very card, and a price comparison is a claim rather than a
+   state. The percentage carries the emphasis instead of the hue. */
 .gcard .meta { font-size:12.5px; color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
+/* Only some cards carry the comparison line, so without this the detail row
+   and the call to action sit at a different height on every card in a row.
+   The grid already stretches each card to its row; pushing the footer down
+   makes the bottom edges line up whatever is above them. */
+.grid > .gcard { display:flex; flex-direction:column; }
+.grid > .gcard .meta { margin-top:auto; }
+/* the affordance, matching the "ask" tiles that already sit in this grid */
+.gcard .gcta { display:block; margin-top:12px; font-family:var(--display); font-weight:700;
+  font-size:13.5px; color:var(--cobalt); }
+.gcard:hover .gcta { text-decoration:underline; text-underline-offset:3px; }
+/* not affiliated, said where the logos actually are rather than only in the
+   footer three screens down */
+/* compact cards on phones: name + price is the scan line, and the detail row
+   lives on the program page the card links to — shorter cards mean more
+   programs per screen and a reason to tap through */
+@media (max-width:560px){
+  .gcard { padding:15px 18px; }
+  .gcard .top { margin-bottom:8px; }
+  .gcard .pname { font-size:17px; }
+  .gcard .price { font-size:21px; }
+  .gcard .meta { display:none; }
+}
+/* the separator dots read as stray bullets once the stats wrap on phones */
+@media (max-width:660px){ .hero .spec .dot { display:none; } }
 
 /* ---- trust ---- */
-.trust-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+/* --tcols is set per-instance by TrustStrip.astro: it divides the rendered tile
+   count evenly so the last row never orphans a single card. */
+.trust-grid { display:grid; grid-template-columns:repeat(var(--tcols,3),1fr); gap:14px; }
+@media (max-width:860px){ .trust-grid { grid-template-columns:1fr 1fr; } }
+@media (max-width:520px){ .trust-grid { grid-template-columns:1fr; } }
 .tbox { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px; box-shadow:var(--shadow-sm); }
 .tbox .lab { font-size:13px; font-weight:600; color:var(--text-3); margin:0 0 10px; }
 .stars { color:var(--coral); font-size:20px; letter-spacing:2px; }
@@ -161,12 +314,119 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .spec-strip b { color:#fff; font-weight:700; font-family:var(--mono); }
 .spec-strip .dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.4); }
 
+/* big-number stat band, below the process tiles it backs up */
+.statband { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-top:18px; }
+.statband .sb { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:20px 22px; text-align:center; }
+.statband .sb b { display:block; font-family:var(--mono); font-weight:600; font-size:clamp(26px,3vw,34px); line-height:1.1; color:var(--cobalt); font-variant-numeric:tabular-nums; }
+.statband .sb span { display:block; font-size:13px; color:var(--text-3); margin-top:5px; }
+.statband .sb b small { font-size:.5em; color:var(--text-3); font-weight:600; }
+/* the rating card: stars sit above the score so it still reads as a review
+   rather than another counted figure */
+.statband a.sb { transition:border-color .18s ease, transform .18s ease; }
+.statband a.sb:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
+/* scoped past `.statband .sb span`, which would otherwise grey the stars out.
+   The slot renders on every card — empty on the counters — so the figures
+   below it share one baseline whether a card has stars or not. */
+.statband .sb .sb-stars { display:block; color:#F5A623; font-size:14px; letter-spacing:1px;
+  line-height:1; height:14px; margin:0 0 7px; }
+.statband .sb .sb-dim { color:var(--line-2); }
+/* two-up on phones leaves the fifth card orphaned — the rating spans instead */
+@media (max-width:560px){ .statband .sb-rev { grid-column:1 / -1; } }
+
 /* ---- icon tiles / steps ---- */
 .step-art { width:66px; height:66px; border-radius:18px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; box-shadow:var(--shadow-sm); }
 .step-art svg { width:32px; height:32px; }
 .step-art.a { background:var(--cobalt-tint); color:var(--cobalt); }
 .step-art.b { background:var(--coral-tint); color:var(--coral); }
 .step-art.c { background:var(--ok-tint); color:#0A7D5A; }
+
+/* locked program display — the csel shell without the affordances */
+.csel-fixed { cursor:default; }
+.csel-fixed:hover { border-color:var(--line-2); }
+.csel-fixed .csel-price { margin-left:auto; font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--text-2); }
+
+/* ---- product page: sweet-spot cost line, value bands, quirks + facts ---- */
+.use-cost { font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); margin-bottom:8px; }
+/* value tiers — descending visual weight is the hierarchy: white priced
+   cards, then flat bordered items, then one muted line */
+.vtier + .vtier { margin-top:30px; }
+.vtier-head { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:14px; }
+.vchip { font-family:var(--display); font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; padding:6px 14px; border-radius:var(--radius-pill); }
+.vchip.v1 { background:var(--cobalt); color:#fff; }
+.vchip.v2 { background:var(--cobalt-tint); color:var(--cobalt); }
+.vchip.v3 { background:var(--raised); color:var(--text-3); }
+.vtier-note { font-size:13.5px; color:var(--text-3); }
+.vgood { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; }
+/* four short claims across, rather than three and an orphan */
+.vgood-4 { grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin-top:16px; }
+.vgood .vitem { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px; font-size:14.5px; color:var(--text-2); }
+.vskip { margin:0; color:var(--text-3); font-size:14px; line-height:1.7; }
+.quirkfacts { display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:start; }
+@media (max-width:860px){ .quirkfacts { grid-template-columns:1fr; } }
+.quirk { margin-bottom:22px; }
+.quirk:last-child { margin-bottom:0; }
+.quirk h4 { font-weight:800; font-size:17px; margin-bottom:6px; }
+.quirk p { color:var(--text-2); font-size:14.5px; line-height:1.65; max-width:58ch; }
+.facts { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px 24px; box-shadow:var(--shadow-sm); }
+.facts .lab { font-size:13px; font-weight:600; color:var(--text-3); margin:0 0 6px; }
+.facts .row { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid var(--line); font-size:14px; }
+.facts .row:last-of-type { border-bottom:0; }
+.facts .row span { color:var(--text-3); white-space:nowrap; }
+.facts .row b { color:var(--text-1); font-weight:600; text-align:right; }
+.facts .cap { font-size:12px; color:var(--text-3); margin:10px 0 0; line-height:1.5; }
+
+/* ---- savings tool: the visitor's fare vs our rate ---- */
+.stool, .sfl { background:var(--surface); border:1px solid var(--line-2); border-radius:var(--radius-card); box-shadow:var(--shadow); overflow:hidden; }
+.stool-in { padding:24px 26px 20px; }
+.stool-presets { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+.stool-chip { font-family:var(--sans); font-size:12.5px; font-weight:600; color:var(--text-2); background:var(--raised); border:1px solid transparent; border-radius:var(--radius-pill); padding:7px 14px; cursor:pointer; }
+.stool-chip:hover { color:var(--cobalt); }
+.stool-chip.on { color:var(--cobalt); background:var(--cobalt-tint); border-color:var(--cobalt-line); }
+.stool-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:560px){ .stool-fields { grid-template-columns:1fr; } }
+.stool-fields label { display:block; font-size:13px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
+/* doubled selector so this outranks the later `.field input` surface rule */
+.stool .stool-fields input { width:100%; padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--radius); font-family:var(--mono); font-size:15px; background:var(--raised); color:var(--text-1); }
+.stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
+.stool-out, .sfl-out { border-top:1px solid var(--line-2); padding:22px 26px; }
+.stool-cols { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+.stool-col .k { display:block; font-size:12.5px; color:var(--text-2); margin-bottom:3px; }
+.stool-col b { font-family:var(--mono); font-size:24px; font-weight:600; color:var(--text-1); font-variant-numeric:tabular-nums; }
+.stool-col.vs { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-3); text-transform:uppercase; }
+/* min-height reserves the usual three verdict lines up front — triggering the
+   tool must not change the card's height (it can be sticky-stuck mid-section,
+   and Safari doesn't re-clamp a sticky element that grows in place) */
+.stool-verdict { margin-top:14px; font-size:14.5px; line-height:1.6; color:var(--text-2); max-width:64ch; min-height:75px; }
+.stool-out[data-state="win"] .stool-verdict b, .stool-out[data-state="win"] #st-cost { color:var(--cobalt); }
+.stool-out[data-state="win"] .stool-verdict, .stool-out[data-state="ok"] .stool-verdict { color:var(--text-1); font-weight:500; }
+.stool-foot { margin-top:14px; min-height:54px; display:flex; align-items:center; }
+.stool-cta { margin-top:0; }
+/* .btn's display rule outranks the UA [hidden] style, so restate it */
+.stool-cta[hidden] { display:none; }
+/* the value section splits: ladder left, tool right. The tool is sticky so
+   the numbers stay in view while the claims are being read — read a sweet
+   spot, tap its preset, see the arithmetic. */
+.value-split { display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr); gap:clamp(26px,3.5vw,52px); align-items:start; }
+.value-tool { position:sticky; top:92px; }
+/* single-column tiers in the narrower ladder column */
+.value-split .uses { grid-template-columns:1fr; }
+.value-split .vgood { grid-template-columns:1fr; }
+@media (max-width:940px){
+  .value-split { grid-template-columns:1fr; }
+  .value-tool { position:static; margin-top:40px; }
+}
+
+/* the run-the-numbers block inside the value section — a sub-heading, not a
+   second section head, so ladder and tool read as one room */
+.worth-sub { margin:0 0 18px; }
+.worth-sub h3 { font-size:clamp(20px,2.4vw,25px); letter-spacing:-0.02em; }
+.worth-sub p { color:var(--text-2); font-size:14.5px; margin:8px 0 0; }
+
+
+/* closing CTA band on program pages */
+.ctaband { display:flex; align-items:center; justify-content:space-between; gap:22px; flex-wrap:wrap; }
+.ctaband h3 { font-weight:800; font-size:clamp(19px,2.4vw,24px); letter-spacing:-.02em; }
+.ctaband p { margin:5px 0 0; color:var(--text-2); font-size:14.5px; }
 
 /* ---- compare table ---- */
 .twrap { overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); }
@@ -180,27 +440,200 @@ table.cmp td:nth-child(3) { color:var(--text-3); }
 table.cmp tr:last-child td { border-bottom:none; }
 
 /* ---- steps ---- */
-.steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:24px; }
+/* Always three across. The route illustration is ONE wave spanning all three
+   panels, so a wrap to two columns strands the third with a line arriving from
+   nowhere. Below 820px the columns are too narrow to draw the wave legibly, so
+   the art is dropped and the steps stay as a compact three-up text row. */
+.steps { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+/* the four-up slim variant used where process and comparison share one band */
+.steps.ministeps { grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); }
+/* four steps read as a 2x2 block of cards, matching the carded sections
+   around it — not three-and-an-orphan, not loose text in empty space */
+.steps.steps-2x2 { grid-template-columns:repeat(2,1fr); gap:16px; }
+.steps-2x2 .step { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:24px 26px; }
+@media (max-width:640px){ .steps.steps-2x2 { grid-template-columns:1fr; } }
+@media (max-width:820px){
+  .steps { gap:16px; }
+  .step .n { font-size:11px; margin-bottom:6px; }
+  .step h4 { font-size:16px; }
+  .step p { font-size:13px; line-height:1.5; }
+}
+@media (max-width:520px){
+  .steps { gap:11px; }
+  .step h4 { font-size:15px; margin-bottom:5px; }
+  .step p { font-size:12px; }
+}
 .step .n { font-family:var(--mono); font-size:12px; font-weight:600; color:var(--coral); margin-bottom:12px; letter-spacing:0.04em; }
 .step h4 { font-weight:800; font-size:18px; margin-bottom:7px; }
 .step p { color:var(--text-2); font-size:14.5px; line-height:1.6; }
 
 /* ---- faq ---- */
-details.faq { border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); margin-bottom:12px; box-shadow:var(--shadow-sm); overflow:hidden; }
-details.faq summary { list-style:none; cursor:pointer; padding:18px 20px; font-family:var(--display); font-weight:700; font-size:16px; color:var(--ink); display:flex; justify-content:space-between; align-items:center; gap:16px; }
+/* FAQ — one flat list on one surface, not the stock stacked-card accordion.
+   Every question is a hairline row. The row marker is the logo's motif:
+   three coral dots trailing off while closed, completing into the solid
+   route line when the answer is open. */
+.faqx-list { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:4px 0; }
+details.faq + details.faq { border-top:1px solid var(--line); }
+details.faq summary { list-style:none; cursor:pointer; padding:17px 22px; font-family:var(--display); font-weight:650; font-size:15.5px; color:var(--ink); display:flex; align-items:center; gap:14px; }
 details.faq summary::-webkit-details-marker { display:none; }
-details.faq summary .mk { color:var(--cobalt); font-size:22px; font-weight:400; transition:transform .2s ease; flex:0 0 auto; }
-details.faq[open] summary .mk { transform:rotate(45deg); }
-details.faq .ans { padding:0 20px 18px; color:var(--text-2); font-size:15px; line-height:1.65; }
+details.faq summary:hover .faq-q { color:var(--cobalt); }
+.faq-q { flex:1; min-width:0; transition:color .15s ease; }
+.faq-mk { flex:none; width:22px; height:3px;
+  background:radial-gradient(circle 1.6px at 1.7px 1.5px, var(--coral) 99%, transparent 100%) 0 50%/7.4px 3px repeat-x; }
+details.faq[open] .faq-mk { background:var(--coral); border-radius:2px; }
+details.faq .ans { padding:0 58px 19px 22px; color:var(--text-2); font-size:15px; line-height:1.65; }
+
+@media (max-width:900px){
+  details.faq .ans { padding-right:22px; }
+}
 summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 
 /* ---- related ---- */
+/* breadcrumb trail — quiet, single line, sits above the page's first heading */
+.crumbs { display:flex; align-items:center; flex-wrap:wrap; gap:7px; font-size:12.5px; color:var(--text-3); margin-bottom:20px; }
+.crumbs a { color:var(--text-3); }
+.crumbs a:hover { color:var(--cobalt); }
+.crumbs [aria-current] { color:var(--text-2); font-weight:500; }
+.crumbs-sep { color:var(--line-strong); }
+
+/* calculator quick-reference: amount → cost rows with a dotted leader */
+.qw-order { display:block; text-align:center; margin-top:14px; font-size:13.5px;
+  font-weight:600; color:var(--cobalt); }
+.qw-order:hover { text-decoration:underline; }
+
+/* ---- order flow ---- */
+.ostep-nav { display:flex; gap:8px; list-style:none; margin:0 0 18px; padding:0; }
+.ostep-nav li { display:flex; align-items:center; gap:9px; flex:1; min-width:0; font-size:13.5px;
+  color:var(--text-3); padding:10px 14px; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius-pill); }
+.ostep-nav li b { display:grid; place-items:center; width:22px; height:22px; border-radius:50%;
+  background:var(--raised); color:var(--text-3); font-family:var(--mono); font-size:12px; flex:0 0 auto; }
+.ostep-nav li.on { color:var(--ink); border-color:var(--cobalt-line); }
+.ostep-nav li.on b { background:var(--cobalt); color:#fff; }
+.ostep-nav li span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+@media (max-width:560px){ .ostep-nav li span { display:none; } .ostep-nav li { flex:0 0 auto; padding:8px; } }
+.ocard .ostep-btns { display:flex; align-items:center; gap:16px; margin-top:18px; }
+.ocard .ostep-btns .btn { flex:1; }
+.ostep-back { background:none; border:none; padding:0; cursor:pointer; font-family:var(--display);
+  font-weight:600; font-size:14px; color:var(--text-3); }
+.ostep-back:hover { color:var(--cobalt); }
+.ocard .ostep-next { width:100%; margin-top:18px; }
+.ocard .ostep-btns .ostep-next { margin-top:0; }
+.osum { background:var(--raised); border-radius:var(--radius); padding:16px 18px; margin-top:16px; }
+.osum-row { display:flex; justify-content:space-between; align-items:baseline; gap:16px; font-size:14px;
+  color:var(--text-2); padding:5px 0; }
+.osum-row b { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600; }
+.osum-final { background:var(--surface); border:1px solid var(--line-2); }
+.ohint { font-size:13px; color:var(--text-3); line-height:1.6; margin:10px 0 0; }
+.onote { font-size:13.5px; color:var(--text-2); line-height:1.65; margin:0 0 18px;
+  background:var(--raised); border-radius:var(--radius); padding:13px 16px; }
+.onote b { color:var(--ink); }
+.olab { font-family:var(--display); font-weight:700; font-size:14px; color:var(--ink); margin:0 0 12px; }
+.opays { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; }
+.opay { display:flex; align-items:center; gap:9px; padding:12px 14px; border:1px solid var(--line-2);
+  border-radius:var(--radius); font-size:14.5px; cursor:pointer; background:var(--surface); }
+.opay:has(input:checked) { border-color:var(--cobalt); background:var(--cobalt-tint); }
+.oterms { display:flex; align-items:flex-start; gap:10px; margin-top:18px; font-size:13.5px;
+  color:var(--text-2); line-height:1.55; cursor:pointer; }
+.oterms input { margin-top:2px; flex:0 0 auto; }
+.oterms a { color:var(--cobalt); font-weight:600; }
+
+/* ---- contact page ---- */
+.contact-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); gap:clamp(24px,3vw,42px); align-items:start; }
+@media (max-width:860px){ .contact-grid { grid-template-columns:1fr; } }
+.contact-side { display:block; }
+.contact-side > * + * { margin-top:16px; }
+.contact-side .lab { font-family:var(--display); font-size:11.5px; text-transform:uppercase; letter-spacing:.07em;
+  color:var(--text-3); font-weight:700; margin:0 0 14px; }
+.cway { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--line); }
+.cway:last-child { border-bottom:none; padding-bottom:0; }
+.cway svg { width:18px; height:18px; color:var(--cobalt); flex:0 0 auto; }
+.cway span { display:flex; flex-direction:column; font-size:14px; color:var(--text-2); min-width:0; word-break:break-word; }
+.cway span b { font-size:12.5px; color:var(--text-3); font-weight:600; }
+.cway:hover span { color:var(--cobalt); }
+.cway-none { font-size:13.5px; color:var(--text-3); margin:0; line-height:1.6; }
+.cside-p { font-size:13.5px; color:var(--text-2); line-height:1.65; margin:0 0 12px; }
+.cside-link { display:block; font-size:14px; font-weight:600; color:var(--cobalt); margin-top:9px; }
+.cside-link:hover { text-decoration:underline; }
+/* the partner application's rail: what happens after you press send */
+
+/* ---- long-form pages (about, terms, privacy) ----
+   Same container as every other page, so these don't read as a narrower site.
+   The prose keeps its own measure and the leftover width carries a contents
+   rail, which is what a legal page most wants anyway: somewhere to jump from. */
+.doc-side { position:sticky; top:92px; }
+.doc-side > * + * { margin-top:16px; }
+.doc-side .toc { margin-bottom:0; }
+@media (max-width:940px){ .doc-side { position:static; } }
+/* quiet pointer from the buy page's verdict tool to the calculator page */
+.tool-more { margin-top:12px; font-size:13.5px; color:var(--text-3); line-height:1.6; }
+.tool-more a { color:var(--cobalt); font-weight:600; }
+
+/* worked division example under the math cards. Deliberately coral-free: the
+   rule read as a bracket on the rounded card, and coral figures pulled focus
+   from the sentence. The calculator's coral lives in the rate-row leaders
+   and the break-even waypoint dots instead. */
+.workx { background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:20px 24px; margin-top:18px;
+  font-size:15.5px; line-height:1.7; color:var(--text-2); }
+.workx > b:first-child { color:var(--ink); font-weight:700; }
+.workx .mono { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--text-1); }
+
+/* break-even variant of the compare table: the decision number moves to the
+   third column, so the highlight follows it there */
+table.cmp.be thead th:nth-child(2) { background:none; color:inherit; }
+table.cmp.be td:nth-child(2) { background:none; color:var(--text-1); font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; }
+table.cmp.be thead th:nth-child(3) { background:var(--cobalt-tint); color:var(--cobalt); }
+table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); font-weight:700; font-family:var(--mono); font-variant-numeric:tabular-nums; }
+.be-approx { color:var(--text-3); font-size:12px; }
+/* a named row is a real chart price, not an archetype — the coral waypoint
+   marks it, and its award name reads in ink rather than the muted grey */
+.be-named td:first-child { color:var(--text-1); font-weight:600; }
+.be-named td:first-child::before { content:""; display:inline-block; width:6px; height:6px;
+  border-radius:50%; background:var(--coral); margin-right:9px; vertical-align:2px; }
+
+.rate-rows { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+@media (max-width:940px) { .rate-rows { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:560px) { .rate-rows { grid-template-columns:minmax(0,1fr); } }
+.rate-row { display:flex; align-items:baseline; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px; font-size:14px; color:var(--text-3); }
+.rate-row .mono { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--text-1); font-size:16px; }
+/* the leader is the logo's tether: coral dots carrying the amount to its price */
+.rate-row i { flex:1; border-bottom:2px dotted var(--coral); opacity:.55; transform:translateY(-4px); }
+
 .related { display:flex; gap:11px; flex-wrap:wrap; }
+/* small pill linking a page to its language counterpart, beside the kicker */
+.lang-toggle { display:inline-block; margin-inline-start:10px; font-size:12.5px; font-weight:600;
+  color:var(--cobalt); background:var(--surface); border:1px solid var(--cobalt-line);
+  border-radius:var(--radius-pill); padding:5px 13px; vertical-align:middle; }
+.lang-toggle:hover { border-color:var(--cobalt); }
+/* the flag sits a touch larger than the label so it reads at pill size, and
+   keeps its own colour rather than inheriting the link's */
+.lang-flag { margin-inline-end:6px; font-size:14px; line-height:1;
+  font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif; }
+/* the ask-us card at the end of the program grid — invitation, not product */
+.gcard-ask { display:flex; flex-direction:column; justify-content:center; gap:10px;
+  background:transparent; border:1.5px dashed var(--line-strong); box-shadow:none; }
+.gcard-ask .askp { margin:0; font-size:13.5px; line-height:1.55; color:var(--text-2); }
+.gcard-ask .askcta { color:var(--cobalt); font-weight:600; font-size:14px; }
+.gcard-ask:hover { border-color:var(--cobalt); }
+/* the partner card sits beside it and must not read as a second retail tile:
+   a different accent and a tag, so the trade route is legible at a glance */
+.gcard-partner { border-color:var(--coral-tint); background:color-mix(in srgb, var(--coral-tint) 26%, transparent); }
+.gcard-partner:hover { border-color:var(--coral); }
+.gcard-partner .askcta { color:var(--coral-2); }
+.ask-tag { align-self:flex-start; font-family:var(--display); font-weight:700; font-size:11px;
+  letter-spacing:.05em; text-transform:uppercase; color:var(--coral-2);
+  background:var(--coral-tint); padding:5px 11px; border-radius:var(--radius-pill); }
+/* related pills inside the closing CTA band, on one baseline with a label */
+.related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
+.related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }
 .related a { font-size:14px; font-weight:600; border:1px solid var(--line-2); border-radius:var(--radius-pill); padding:9px 16px; color:var(--text-2); background:var(--surface); box-shadow:var(--shadow-sm); transition:border-color .15s ease, color .15s ease, transform .15s ease; }
 .related a:hover { border-color:var(--cobalt); color:var(--cobalt); transform:translateY(-2px); }
 
 /* ---- feature / use cards ---- */
 .uses { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; }
+/* two cards read better a touch wider than the four-up grid allows */
+.uses-2 { grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
 .use { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:24px; box-shadow:var(--shadow-sm); transition:transform .18s ease, box-shadow .18s ease; }
 .use:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
 .use h4 { font-weight:800; font-size:17px; margin-bottom:7px; }
@@ -223,6 +656,9 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .checklist li { display:flex; gap:11px; align-items:flex-start; font-size:15px; color:var(--ink); padding:10px 0; border-bottom:1px solid var(--line); }
 .checklist li:last-child { border-bottom:none; }
 .checklist svg { flex:0 0 auto; margin-top:2px; }
+/* checklist nested in a card: lighter than the standalone version */
+.use-list { margin-top:14px; border-top:1px solid var(--line); padding-top:4px; }
+.use-list li { font-size:14px; color:var(--text-2); padding:8px 0; border-bottom:none; }
 
 /* ---- cta band ---- */
 .cta-band { position:relative; overflow:hidden; background:linear-gradient(120deg,var(--cobalt),#4a2fff); color:#fff; border-radius:var(--radius-card); padding:clamp(36px,5vw,64px); text-align:center; box-shadow:var(--shadow-lg); }
@@ -236,6 +672,25 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .field label { display:block; font-size:13.5px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
 .field input, .field select, .field textarea { width:100%; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--surface); border:1.5px solid var(--line-2); border-radius:var(--radius); padding:12px 14px; }
 .field textarea { resize:vertical; min-height:104px; }
+/* A select left at its native appearance draws the OS control's own chevron
+   and sizing, so it reads as a different component from the inputs beside it.
+   This resets that and paints the site's own chevron, the same mark the nav
+   and the program selector use.
+   The arrow colour is --text-3 written out: a data URI cannot read a custom
+   property, so this is the one place the token has to be spelled. Keep the
+   two in step. */
+.field select {
+  appearance:none; -webkit-appearance:none;
+  padding-right:38px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237B7F9E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  background-size:12px 12px;
+}
+/* fields inside .form-grid are spaced by its gap; standalone ones had nothing,
+   so a following label sat flush against the control above it */
+.formcard > .field, .ostep > .field { margin-bottom:16px; }
+.formcard > .field:last-of-type { margin-bottom:0; }
 .field input:focus, .field select:focus, .field textarea:focus { outline:none; border-color:var(--cobalt); box-shadow:0 0 0 3px var(--cobalt-tint); }
 .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 .form-msg { margin:16px 0 0; font-size:14.5px; padding:12px 14px; border-radius:var(--radius); }
@@ -246,6 +701,816 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .cols { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
 @media (max-width:640px){ .cols { grid-template-columns:1fr; } }
 
+/* ---- indicative-price tag (unverified programs) ---- */
+.pcard .price .indic { font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--coral); background:var(--coral-tint); padding:3px 8px; border-radius:var(--radius-pill); align-self:center; }
+
+/* ---- miles calculator ---- */
+.calc { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow); padding:clamp(20px,3vw,28px); text-align:left; }
+.calc-controls { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+@media (max-width:520px){ .calc-controls { grid-template-columns:1fr; } }
+.calc-out { display:grid; grid-template-columns:1.05fr 1fr; gap:22px; align-items:center; background:var(--raised); border-radius:var(--radius); padding:20px 22px; }
+@media (max-width:560px){ .calc-out { grid-template-columns:1fr; } }
+.calc-lab { font-size:13px; color:var(--text-3); }
+.calc-cost { font-family:var(--mono); font-weight:600; font-size:clamp(34px,6vw,48px); color:var(--cobalt); line-height:1; margin:4px 0 3px; letter-spacing:-.02em; }
+.calc-sub { font-size:13px; color:var(--text-3); }
+.calc-side { display:flex; flex-direction:column; gap:9px; }
+/* separators sit on the TOP edge so hiding the last row (unsourced savings)
+   never leaves a dangling rule under the one above it */
+.calc-stat { display:flex; justify-content:space-between; align-items:baseline; gap:12px; font-size:14px; border-top:1px solid var(--line); padding-top:8px; }
+/* author display: rules beat the UA [hidden] rule — restore it explicitly */
+.calc-stat[hidden] { display:none; }
+.calc-stat:first-child { border-top:none; padding-top:0; }
+.calc-stat .k { color:var(--text-3); font-size:12.5px; }
+.calc-stat b { font-family:var(--mono); color:var(--ink); font-weight:600; }
+.calc-save b { color:var(--coral); }
+.calc-note { font-size:12.5px; color:var(--coral); margin:12px 0 0; }
+.calc-cta { width:100%; margin-top:16px; }
+
 @media (prefers-reduced-motion: reduce) {
   * { transition:none !important; scroll-behavior:auto !important; }
 }
+
+/* ---- Programs dropdown (nav) ---------------------------------------- */
+.dd { position:relative; }
+.dd summary { list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:5px;
+  font-size:14.5px; color:var(--text-2); font-weight:500; }
+.dd summary::-webkit-details-marker { display:none; }
+.dd summary:hover, .dd[open] summary { color:var(--cobalt); }
+.dd .dd-c { transition:transform .18s ease; opacity:.6; }
+.dd[open] .dd-c { transform:rotate(180deg); }
+.dd summary:focus-visible { outline:2px solid var(--cobalt); outline-offset:3px; border-radius:4px; }
+
+.dd-panel { position:absolute; top:calc(100% + 14px); left:50%; transform:translateX(-50%);
+  width:min(560px, calc(100vw - 32px)); background:#fff; border:1px solid var(--line);
+  border-radius:16px; box-shadow:0 18px 44px rgba(16,20,50,.14); padding:10px; z-index:60; }
+.dd-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+.dd-item { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px; }
+.dd-item:hover { background:var(--cobalt-tint); }
+.dd-code { flex:0 0 auto; width:30px; height:30px; border-radius:8px; display:grid; place-items:center;
+  background:color-mix(in srgb, var(--c) 13%, #fff); color:var(--c);
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.02em; }
+/* real carrier logo replaces the letter chip when the data has one */
+.dd-code.dd-logo { width:64px; height:24px; border-radius:0; background:transparent; }
+/* explicit px, not 100% — inside the centred grid slot a percentage height
+   resolves against the wrong box and tall marks (Emirates) overflow the row */
+.dd-code.dd-logo img { width:100%; height:24px; object-fit:contain; object-position:left center; }
+/* Emirates is the roster's one squarish mark — same treatment as the quote
+   widget's selector: it alone draws taller, centered over the 24px slot,
+   and the row padding absorbs the overhang */
+.dd-code.dd-logo img[src*="emirates"] { height:34px; }
+.dd-txt { display:flex; flex-direction:column; line-height:1.25; min-width:0; }
+.dd-air { font-size:13.5px; font-weight:600; color:var(--text-1); white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }
+.dd-prog { font-size:11.5px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dd-all { display:block; margin-top:6px; padding:10px; text-align:center; border-top:1px solid var(--line);
+  font-size:13px; font-weight:600; color:var(--cobalt); }
+/* the invitation filling the roster's empty last cell: same row shape as a
+   program so the grid stays even, dashed and cobalt so it reads as an
+   action rather than a carrier someone might have missed */
+.dd-more .dd-air { color:var(--text-2); font-weight:600; }
+.dd-more .dd-prog { color:var(--cobalt); font-weight:600; }
+/* matches the 64px logo slot rather than the 30px letter chip, so this row's
+   text starts on the same line as every carrier's above it */
+.dd-more-ic { width:64px; height:24px; border-radius:0; background:transparent; place-items:center start; }
+.dd-more-ic svg { box-sizing:border-box; width:24px; height:24px; padding:4px; color:var(--cobalt);
+  border:1.5px dashed var(--line-strong); border-radius:7px; }
+.dd-more:hover .dd-more-ic svg { border-color:var(--cobalt); }
+
+.nav-cta { padding:9px 18px; white-space:nowrap; }
+.cta-short { display:none; }
+
+@media (max-width:660px){
+  .dd { position:static; }
+  .dd-panel { left:16px; right:16px; transform:none; width:auto; }
+  .dd-grid, .ddj-cats { grid-template-columns:1fr; }
+  /* one column of 21 makes the panel taller than the phone, which put the
+     closing links past the end of a long scroll. The list scrolls inside the
+     panel instead, so the two exits stay on screen. */
+  .dd-grid { max-height:min(56vh, 430px); overflow-y:auto; overscroll-behavior:contain; }
+  /* only the two dropdowns and the CTA survive at this width — they must all
+     fit on one line beside the brand, so tighten everything that can give */
+  .site-header .bar { gap:10px; }
+  .nav { gap:12px; }
+  .brand { flex:0 0 auto; font-size:17px; }
+  .dd summary { font-size:13.5px; gap:3px; }
+  .nav-cta { padding:9px 14px; font-size:14px; }
+  .cta-long { display:none; }
+  .cta-short { display:inline; }
+}
+@media (max-width:400px){
+  .brand { font-size:15.5px; }
+  .nav { gap:10px; }
+  .dd summary { font-size:13px; }
+  .nav-cta { font-size:13px; padding:8px 12px; }
+}
+/* Below ~355px the two dropdowns and the CTA can't share a line without the
+   page scrolling sideways. Drop the CTA rather than the navigation: the
+   Programs panel already lists every program with its price. */
+@media (max-width:355px){
+  .nav-cta { display:none; }
+  .container { padding-left:14px; padding-right:14px; }
+}
+
+/* ---- Compare table: sourcing note / suppressed state ----------------- */
+.cmp-src { margin-top:10px; font-size:11.5px; color:var(--text-3); font-family:var(--mono); }
+.cmp-empty { color:var(--text-2); font-size:15px; max-width:62ch; line-height:1.65; }
+
+/* ---- Blog ------------------------------------------------------------ */
+.blog-layout { display:grid; grid-template-columns:minmax(0,1fr) 296px; gap:44px; align-items:start; }
+.blog-main { min-width:0; }
+@media (max-width:940px){ .blog-layout { grid-template-columns:1fr; gap:52px; } }
+
+/* category chips */
+.cat-bar { display:flex; flex-wrap:wrap; gap:8px; margin:-16px 0 30px; }
+.cat-chip { display:inline-flex; align-items:center; gap:8px; padding:8px 15px; border-radius:var(--radius-pill);
+  border:1px solid var(--line-2); background:var(--surface); font-size:13.5px; font-weight:600; color:var(--text-2); }
+.cat-chip:hover { border-color:var(--cobalt-line); color:var(--cobalt); }
+.cat-chip.on { background:var(--cobalt); border-color:var(--cobalt); color:#fff; }
+.cat-chip .n { font-family:var(--mono); font-size:11px; opacity:.65; }
+
+/* post cards */
+.postlist { display:grid; gap:16px; }
+.postcard { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
+  overflow:hidden; transition:border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
+.postcard:hover { border-color:var(--cobalt-line); transform:translateY(-2px); box-shadow:0 12px 30px rgba(16,20,50,.08); }
+.postcard .pc-art { display:block; overflow:hidden; background:var(--raised); }
+.postcard .pc-body { padding:20px 22px 22px; }
+.postcard h3 { font-size:19px; letter-spacing:-.015em; margin:0 0 8px; }
+.postcard h3 a { color:var(--text-1); }
+.postcard:hover h3 a { color:var(--cobalt); }
+.postcard p { color:var(--text-2); font-size:14.5px; line-height:1.6; margin:0 0 12px; }
+.pc-more { font-size:13.5px; font-weight:700; color:var(--cobalt); font-family:var(--display); }
+.pc-top { display:flex; align-items:center; gap:10px; margin-bottom:11px; flex-wrap:wrap; }
+.pc-top time, .upd { font-family:var(--mono); font-size:11.5px; color:var(--text-3); }
+.badge-cat { background:var(--cobalt-tint); color:var(--cobalt); border:none; font-weight:700;
+  font-size:11.5px; padding:5px 11px; border-radius:var(--radius-pill); }
+a.badge-cat:hover { background:var(--cobalt); color:#fff; }
+
+/* non-lead cards: art beside the text on wider screens */
+.postcard:not(.lead) { display:grid; grid-template-columns:210px minmax(0,1fr); align-items:stretch; }
+.postcard:not(.lead) .pc-art { height:100%; }
+@media (max-width:620px){ .postcard:not(.lead) { grid-template-columns:1fr; } }
+.postcard.lead { margin-bottom:16px; }
+.postcard.lead .pc-body { padding:26px 28px 28px; }
+.postcard.lead h3 { font-size:26px; }
+.postcard.lead p { font-size:15.5px; }
+
+/* generated hero art */
+.posthero, .posthero-img { display:block; width:100%; }
+.posthero.wide, .posthero-img.wide { aspect-ratio:5/2; object-fit:cover; }
+.posthero.card, .posthero-img.card { height:100%; min-height:150px; object-fit:cover; }
+.posthero-wrap { border-radius:var(--radius-card); overflow:hidden; border:1px solid var(--line); margin-bottom:38px; }
+
+/* sidebar */
+/* Block flow on purpose, twice over: the aside must span the full column
+   (stretch beats the layout's align-items:start), and it must NOT be a grid —
+   a grid sizes each row to its content, which pins the sticky quote card
+   inside a containing block with no room to travel. */
+.blog-side { display:block; align-self:stretch; }
+.blog-side > * + * { margin-top:16px; }
+/* the quote card is the sticky element, not the whole column — everything
+   above it scrolls away with the article, the conversion card pins */
+.side-quote { position:sticky; top:92px; }
+.side-quote .qw-controls { grid-template-columns:1fr; }
+@media (max-width:940px){ .blog-side { position:static; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); } }
+.side-box { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:20px; }
+.side-box h4 { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-3);
+  margin:0 0 14px; font-family:var(--display); }
+.side-box ul { list-style:none; margin:0; padding:0; }
+.side-cats a { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:7px 0;
+  font-size:14px; color:var(--text-2); font-weight:500; }
+.side-cats a:hover, .side-cats a.on { color:var(--cobalt); }
+.side-cats .n { font-family:var(--mono); font-size:11.5px; color:var(--text-3); }
+.side-recent li + li { margin-top:13px; padding-top:13px; border-top:1px solid var(--line); }
+.side-recent .t { display:block; font-size:14px; font-weight:600; color:var(--text-1); line-height:1.4; margin-bottom:3px; }
+.side-recent a:hover .t { color:var(--cobalt); }
+.side-recent time { font-family:var(--mono); font-size:11px; color:var(--text-3); }
+.side-progs a { display:flex; align-items:center; gap:9px; padding:6px 0; }
+.side-progs .pc { width:26px; height:26px; flex:0 0 auto; border-radius:7px; display:grid; place-items:center;
+  background:color-mix(in srgb, var(--c) 13%, #fff); color:var(--c); font-family:var(--mono); font-size:10px; font-weight:600; }
+.side-progs .t { font-size:13.5px; color:var(--text-2); font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.side-progs .p { margin-left:auto; font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); }
+.side-progs a:hover .t { color:var(--cobalt); }
+.side-all { display:block; margin-top:12px; padding-top:12px; border-top:1px solid var(--line);
+  font-size:13px; font-weight:600; color:var(--cobalt); }
+.side-cta { background:var(--cobalt-tint); border-color:var(--cobalt-line); }
+.side-cta h4 { color:var(--cobalt); text-transform:none; letter-spacing:-.01em; font-size:16px; }
+.side-cta p { font-size:13.5px; color:var(--text-2); line-height:1.55; margin:0 0 15px; }
+.side-cta .btn { width:100%; font-size:14px; padding:11px 18px; }
+
+/* post body */
+.backlink { display:inline-block; font-size:13.5px; font-weight:600; color:var(--text-3); margin-bottom:20px; }
+.backlink:hover { color:var(--cobalt); }
+.posthead { max-width:760px; margin-bottom:28px; }
+.posthead h1 { font-size:clamp(28px,4.6vw,42px); letter-spacing:-.035em; margin:0 0 14px; text-wrap:balance; }
+.post-sub { color:var(--text-2); font-size:17.5px; line-height:1.6; margin:0; }
+
+.prose { color:var(--text-2); font-size:16.5px; line-height:1.75; max-width:68ch; }
+.prose > * + * { margin-top:1.1em; }
+.prose h2 { color:var(--text-1); font-size:23px; letter-spacing:-.02em; margin-top:2em; margin-bottom:.1em; }
+.prose h3 { color:var(--text-1); font-size:18.5px; margin-top:1.7em; margin-bottom:.1em; }
+.prose strong { color:var(--text-1); font-weight:600; }
+.prose a { color:var(--cobalt); text-decoration:underline; text-underline-offset:2px; }
+.prose ul, .prose ol { padding-left:1.3em; }
+.prose li + li { margin-top:.5em; }
+.prose hr { border:none; border-top:1px solid var(--line); margin:2.2em 0; }
+.prose blockquote { background:var(--raised); border-radius:var(--radius); padding:14px 18px; margin-left:0; font-style:italic; }
+.prose code { font-family:var(--mono); font-size:.9em; background:var(--raised); padding:2px 6px; border-radius:5px; }
+/* Markdown tables. A real table rather than a block, so the columns fill the
+   column width; as a block the cells collapse to their content and leave dead
+   space on the right. Markdown gives no wrapper to scroll inside, so a narrow
+   screen wraps the cell text instead, which these tables take because every
+   cell is a few words. */
+.prose table { display:table; width:100%; table-layout:auto; border-collapse:collapse;
+  font-size:14.5px; line-height:1.5; }
+.prose table th, .prose table td { text-align:left; padding:11px 14px; border-bottom:1px solid var(--line);
+  vertical-align:top; }
+/* On a phone a 21-row roster table cannot fit at any column split, so there
+   the table becomes its own scroll container instead of pushing the page
+   sideways. Desktop keeps the real table and the full-width columns. */
+@media (max-width:640px) {
+  .prose table { display:block; overflow-x:auto; }
+}
+.prose table thead th { font-family:var(--display); font-weight:800; font-size:13px; color:var(--text-1);
+  background:var(--raised); white-space:nowrap; }
+.prose table td:first-child { color:var(--text-1); font-weight:600; }
+.prose table tr:last-child td { border-bottom:none; }
+
+.post-source { margin-top:32px; padding:14px 16px; background:var(--raised); border-radius:12px; font-size:13.5px; }
+.post-source a { color:var(--cobalt); }
+.post-programs, .post-more { margin-top:44px; }
+.post-programs h4, .post-more h4 { font-size:12px; color:var(--text-3); text-transform:uppercase;
+  letter-spacing:.07em; margin:0 0 14px; font-family:var(--display); }
+.post-cta { margin-top:44px; padding:28px; background:var(--cobalt-tint); border-radius:var(--radius-card); text-align:center; }
+.post-cta h4 { font-size:20px; color:var(--text-1); margin:0 0 8px; letter-spacing:-.015em; }
+.post-cta p { color:var(--text-2); font-size:14.5px; margin:0 0 18px; }
+
+/* ---- Journal nav dropdown -------------------------------------------- */
+.dd-journal { width:min(420px, calc(100vw - 32px)); padding:14px; }
+.ddj-cats { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:10px; }
+.ddj-cat { display:flex; justify-content:space-between; align-items:center; gap:8px;
+  padding:9px 11px; border-radius:10px; font-size:13.5px; font-weight:600; color:var(--text-2); }
+.ddj-cat:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+.ddj-cat .n { font-family:var(--mono); font-size:11px; color:var(--text-3); }
+.ddj-latest { border-top:1px solid var(--line); padding-top:12px; }
+.ddj-lab { display:block; font-family:var(--display); font-size:11px; text-transform:uppercase;
+  letter-spacing:.07em; color:var(--text-3); margin-bottom:8px; padding:0 11px; }
+.ddj-post { display:block; padding:8px 11px; border-radius:10px; font-size:13.5px; font-weight:600;
+  color:var(--text-1); line-height:1.4; }
+.ddj-post:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+@media (max-width:660px){ .ddj-cats { grid-template-columns:1fr; } }
+
+/* ---- Blog: search, TOC, prev/next ------------------------------------ */
+.blog-search { display:flex; align-items:center; gap:9px; background:var(--surface);
+  border:1px solid var(--line-2); border-radius:var(--radius-pill); padding:0 16px; margin-bottom:18px;
+  color:var(--text-3); transition:border-color .16s ease; }
+.blog-search:focus-within { border-color:var(--cobalt); color:var(--cobalt); }
+.blog-search input { flex:1; border:0; outline:0; background:transparent; padding:12px 0;
+  font-family:var(--sans); font-size:14.5px; color:var(--text-1); }
+.blog-search input::placeholder { color:var(--text-3); }
+.search-none { color:var(--text-2); font-size:15px; padding:22px 4px; }
+.post-slot[hidden] { display:none; }
+
+.toc { background:var(--surface); border:1px solid var(--line);
+  border-radius:12px; padding:18px 22px; margin-bottom:32px; }
+.toc h4 { font-family:var(--display); font-size:11.5px; text-transform:uppercase; letter-spacing:.07em;
+  color:var(--text-3); margin:0 0 10px; }
+.toc ol { margin:0; padding:0; list-style:none; }
+.toc li { font-size:14.5px; margin:5px 0; }
+.toc a { color:var(--text-2); }
+.toc a:hover { color:var(--cobalt); }
+/* No scroll-margin here: html carries scroll-padding-top for the sticky
+   header already, and the two add up rather than overriding each other,
+   which dropped a jumped-to heading a full second header below the bar */
+
+.post-nav { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:44px; }
+@media (max-width:620px){ .post-nav { grid-template-columns:1fr; } }
+.pn { display:block; padding:16px 18px; border:1px solid var(--line); border-radius:14px;
+  background:var(--surface); transition:border-color .16s ease, transform .16s ease; }
+.pn:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
+.pn.next { text-align:right; }
+.pn-lab { display:block; font-family:var(--mono); font-size:11px; color:var(--text-3); margin-bottom:5px; }
+.pn-t { display:block; font-size:14.5px; font-weight:600; color:var(--text-1); line-height:1.4; }
+.pn:hover .pn-t { color:var(--cobalt); }
+
+.postlist-2 { grid-template-columns:1fr 1fr; }
+@media (max-width:820px){ .postlist-2 { grid-template-columns:1fr; } }
+
+/* ---- brand lockup ---------------------------------------------------- */
+.logo { display:inline-flex; align-items:center; gap:9px; }
+.logo img { display:block; }
+/* the shrink is for the crowded header bar only — the footer has room, so
+   its logo keeps its full size on phones */
+@media (max-width:660px){ .site-header .logo img { height:26px; width:auto; } }
+@media (max-width:400px){ .site-header .logo img { height:23px; width:auto; } }
+
+/* ---- hero calculator card -------------------------------------------- */
+.hero-calc { background:var(--surface); border:1px solid var(--line); border-radius:26px;
+  padding:24px; box-shadow:var(--shadow-lg); }
+.hc-head { margin-bottom:18px; }
+.hc-title { display:block; font-family:var(--display); font-weight:800; font-size:19px;
+  letter-spacing:-.02em; color:var(--text-1); }
+.hc-sub { display:block; font-size:13.5px; color:var(--text-3); margin-top:4px; }
+.hero-calc .calc { padding:0; background:transparent; border:0; box-shadow:none; }
+.hero-calc .calc-out { grid-template-columns:1fr; gap:14px; }
+.hero-calc .calc-cost { font-size:clamp(30px,4.4vw,40px); }
+
+/* ---- compare: fallback when no sourced airline rate ------------------- */
+.cmp-alt { display:grid; gap:22px; }
+.cmp-facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+.cf { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:18px 20px; }
+.cf-k { display:block; font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--text-3); font-family:var(--display); font-weight:700; margin-bottom:8px; }
+.cf-v { display:block; font-family:var(--mono); font-size:26px; font-weight:600; color:var(--cobalt); line-height:1.1; }
+.cf-v small { font-family:var(--sans); font-size:12.5px; color:var(--text-3); font-weight:400; margin-left:4px; }
+.cf-n { display:block; font-size:12.5px; color:var(--text-3); margin-top:6px; }
+.cmp-note { color:var(--text-2); font-size:15.5px; line-height:1.7; margin:0; }
+.cmp-note b { color:var(--text-1); font-weight:600; }
+
+/* stop headings breaking awkwardly mid-phrase */
+.section-head h2, .postcard h3, .post-cta h4 { text-wrap:balance; }
+
+/* nav dropdown label is a real link; the chevron area still toggles the panel */
+.dd-link { color:inherit; }
+.dd summary:hover .dd-link, .dd[open] .dd-link { color:var(--cobalt); }
+.dd-link:focus-visible { outline:2px solid var(--cobalt); outline-offset:3px; border-radius:4px; }
+/* footer headings link to their section */
+.site-footer h5 a { display:inline; color:inherit; font-size:inherit; margin:0; }
+.site-footer h5 a:hover { color:#fff; }
+
+/* live estimate inside the quote form */
+.qf-est { background:var(--cobalt-tint); border:1px solid var(--cobalt-line); border-radius:14px;
+  padding:14px 16px; margin:4px 0 16px; }
+.qf-est[hidden] { display:none; }
+.qf-est-main { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.qf-est-k { font-size:13px; font-weight:600; color:var(--text-2); }
+.qf-est-v { font-family:var(--mono); font-size:24px; font-weight:600; color:var(--cobalt); }
+.qf-est-n { display:block; font-size:12.5px; color:var(--text-3); margin-top:6px; line-height:1.5; }
+
+/* ---- two-step quote widget ------------------------------------------- */
+.qw { display:block; }
+.qw-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-bottom:18px; }
+.qw-title { display:block; font-family:var(--display); font-weight:800; font-size:19px;
+  letter-spacing:-.02em; color:var(--text-1); }
+.qw-sub { display:block; font-size:13.5px; color:var(--text-3); margin-top:4px; }
+.qw-dots { display:flex; gap:6px; list-style:none; margin:6px 0 0; padding:0; flex:0 0 auto; }
+.qw-dots li { width:22px; height:4px; border-radius:99px; background:var(--line-2); transition:background .2s ease; }
+.qw-dots li.on { background:var(--cobalt); }
+
+.qw-step[hidden] { display:none; }
+.qw-controls { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:520px){ .qw-controls { grid-template-columns:1fr; } }
+
+.qw-out { display:grid; grid-template-columns:1fr; gap:14px; background:var(--raised);
+  border-radius:14px; padding:16px 18px; margin-top:16px; }
+.qw-k { font-size:12.5px; color:var(--text-3); }
+.qw-cost { font-family:var(--mono); font-weight:600; color:var(--cobalt);
+  font-size:clamp(30px,4.4vw,40px); line-height:1.05; margin:2px 0; }
+.qw-per { font-size:12.5px; color:var(--text-3); }
+.qw-side { display:grid; gap:0; }
+.qw-row { display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  font-size:14px; border-top:1px solid var(--line); padding-top:8px; margin-top:8px; }
+.qw-row:first-child { border-top:none; padding-top:0; margin-top:0; }
+.qw-row[hidden] { display:none; }
+.qw-row span { color:var(--text-3); font-size:12.5px; }
+.qw-row b { font-family:var(--mono); color:var(--ink); font-weight:600; }
+.qw-save b { color:var(--coral); }
+/* informational, not a warning — status colors stay reserved for real states */
+/* citation under the savings row — the claim is about a third party's price,
+   so it carries where the price came from and when it was checked */
+.qw-src { color:var(--text-3); font-size:11.5px; line-height:1.45; margin:6px 0 0; }
+.qw-src[hidden] { display:none; }
+.qw-note { color:var(--text-3); font-size:12.5px; margin:12px 0 0; }
+.qw-note[hidden] { display:none; }
+.qw-cta { width:100%; margin-top:16px; }
+
+.qw-recap { background:var(--cobalt-tint); border:1px solid var(--cobalt-line);
+  border-radius:14px; padding:14px 16px; margin-bottom:16px; }
+.qw-back { background:none; border:0; padding:0; cursor:pointer; font-family:var(--sans);
+  font-size:12.5px; font-weight:600; color:var(--cobalt); margin-bottom:10px; }
+.qw-back:hover { text-decoration:underline; }
+/* Grid, not wrapping flex: the price used to drop onto a second line as soon as
+   the program name + amount + total outgrew the row, so the recap changed
+   shape depending on how many digits you typed. Fixed tracks keep it one row at
+   every amount. The name is the only flexible track — the amount and the total
+   are sized to their content, so a seven-figure order can't squeeze the price
+   into the input next to it. */
+.qw-recap-row { display:grid; grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center; gap:12px; }
+.qw-recap-prog { font-size:14px; font-weight:600; color:var(--text-1); min-width:0; }
+.qw-recap-edit { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text-3); }
+.qw-recap-edit input { width:92px; padding:6px 9px; border:1px solid var(--line-2); border-radius:9px;
+  font-family:var(--mono); font-size:13px; background:#fff; color:var(--text-1); }
+.qw-recap-edit input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
+/* tabular figures so the total doesn't jitter sideways as digits are typed */
+.qw-recap-cost { justify-self:end; white-space:nowrap; font-variant-numeric:tabular-nums;
+  font-family:var(--mono); font-size:19px; font-weight:600; color:var(--cobalt); }
+/* Below this the three tracks genuinely don't fit. Stack them deliberately —
+   name across the top, amount and total on one line — rather than letting the
+   price wrap unpredictably. */
+@media (max-width:430px){
+  .qw-recap-row { grid-template-columns:auto 1fr; }
+  .qw-recap-prog { grid-column:1 / -1; }
+}
+.qw-foot { text-align:center; font-size:12px; color:var(--text-3); margin:12px 0 0; }
+
+/* small helper line under a form field */
+.field-help { display:block; font-size:12px; line-height:1.5; color:var(--text-3); margin-top:6px; }
+/* amber, not red: an amount outside the program's range is a correction to
+   make, not an error the visitor has committed */
+.field-help.warn { color:var(--warn); font-weight:600; }
+.qw-cta:disabled { opacity:.45; cursor:not-allowed; }
+
+/* The order limit, stated on the field it constrains and doubling as the way
+   out of breaking it. The input's trailing padding is set from JS against the
+   chip's measured width, because "min 80,000" and "الحد الأدنى 80,000" are
+   nothing like the same size and a fixed value would crowd one or waste half
+   the field on the other. */
+.qw-amt { position:relative; }
+/* the native spinners land exactly where the chip sits, and a stepper on an
+   80,000-mile field was never going to be used anyway */
+.qw-amt input { appearance:textfield; -moz-appearance:textfield; }
+.qw-amt input::-webkit-outer-spin-button,
+.qw-amt input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+.qw-lim { position:absolute; inset-inline-end:8px; top:50%; transform:translateY(-50%);
+  background:var(--raised); border:0; border-radius:var(--radius-pill); padding:5px 11px;
+  font-family:var(--mono); font-size:12px; font-weight:600; color:var(--text-3);
+  white-space:nowrap; cursor:default; transition:background .15s ease, color .15s ease; }
+/* amber, not red: an amount outside the program's range is a correction to
+   make, not an error the visitor has committed */
+.qw-lim.warn { background:var(--warn-tint); color:var(--warn); cursor:pointer; }
+.qw-lim.warn:hover { background:var(--warn); color:#fff; }
+.qw-lim:disabled { cursor:default; }
+/* on step 2 it is a standalone marker under the recap row, not an overlay */
+.qw-lim-2 { position:static; transform:none; display:inline-block; margin:10px 0 0; }
+
+.qw-controls .field-wide { grid-column:1 / -1; }
+
+/* review platforms — each one cited and linked, never a bare number */
+/* The badge spans the row rather than sitting as a lone pill against a wide
+   empty gap — a single rating floating at the left reads as an afterthought. */
+.revs { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:18px; }
+.rev { display:flex; align-items:center; justify-content:center; gap:10px; background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--radius-pill); padding:10px 18px; }
+.rev:hover { border-color:var(--cobalt-line); }
+.rev-stars { color:#F5A623; font-size:14px; letter-spacing:1px; }
+.rev-dim { color:var(--line-2); }
+.rev-num { font-family:var(--mono); font-weight:600; font-size:14px; color:var(--text-1); }
+.rev-num small { color:var(--text-3); font-weight:400; }
+.rev-plat { font-size:12.5px; color:var(--text-3); }
+
+/* ---- custom program dropdown --------------------------------------- */
+/* a native <select> can't style its option list, so the select is kept
+   offscreen as the value holder and this listbox renders on top */
+.csel { position:relative; }
+.csel-btn { display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
+  background:var(--surface); border:1px solid var(--line-2); border-radius:12px;
+  padding:9px 12px; font-family:var(--sans); color:var(--text-1); }
+.csel-btn:hover { border-color:var(--cobalt-line); }
+.csel-btn:focus-visible, .csel-btn[aria-expanded="true"] { outline:none; border-color:var(--cobalt);
+  box-shadow:0 0 0 3px var(--cobalt-tint); }
+.csel-code { flex:0 0 auto; width:30px; height:30px; border-radius:8px; display:grid; place-items:center;
+  background:color-mix(in srgb, var(--c) 13%, #fff); color:var(--c);
+  font-family:var(--mono); font-size:11px; font-weight:600; }
+.csel-txt { display:flex; flex-direction:column; min-width:0; line-height:1.25; }
+.csel-air { font-size:14px; font-weight:600; color:var(--text-1); white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }
+.csel-prog { font-size:11.5px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.csel-chev { margin-left:auto; flex:0 0 auto; color:var(--text-3); transition:transform .18s ease; }
+.csel-btn[aria-expanded="true"] .csel-chev { transform:rotate(180deg); }
+
+.csel-list { position:absolute; z-index:70; top:calc(100% + 6px); left:0; right:0; margin:0; padding:6px;
+  list-style:none; background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; box-shadow:0 18px 44px rgba(16,20,50,.16); max-height:290px; overflow-y:auto; }
+.csel-list[hidden] { display:none; }
+.csel-opt { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; }
+.csel-opt[aria-selected="true"] { background:var(--raised); }
+.csel-opt.on { background:var(--cobalt-tint); }
+.csel-price { margin-left:auto; font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); }
+
+/* ---- carrier logos ---------------------------------------------------
+   These are wordmarks: wide and of wildly varying aspect ratio. Constrain
+   the HEIGHT and let width follow, otherwise a square tile shrinks them to
+   an illegible smudge. */
+.emblem-logo { display:flex; align-items:center; justify-content:flex-start;
+  width:auto; max-width:108px; min-width:0; flex:0 1 auto; background:none; }
+.emblem-logo img { width:auto; height:100%; max-width:100%; object-fit:contain; object-position:left center; }
+.csel-code-logo { width:86px; min-width:86px; height:30px;
+  background:none !important; display:flex; align-items:center; }
+.csel-code-logo img { width:auto; height:100%; max-width:100%; object-fit:contain; object-position:left center; }
+/* Emirates is the roster's one squarish mark (aspect 1.4 vs 2.8+ for the
+   rest) — at wordmark height it reads stamp-sized, so it alone draws taller,
+   centered over the same 30px slot; the row padding absorbs the difference */
+.csel-code-logo img[src*="emirates"] { height:42px; margin:0 auto; object-position:center; }
+.gcard .top, .pcard .top { gap:10px; }
+.gcard .top .badge, .pcard .top .badge { flex:0 0 auto; }
+
+/* divider inside the merged trust section */
+.trust-split { margin:44px 0 24px; padding-top:32px; border-top:1px solid var(--line-2); }
+.trust-split h3 { font-size:clamp(20px,2.4vw,26px); font-weight:800; letter-spacing:-.02em; }
+.tp-wrap { margin-top:22px; }
+
+/* conversion aid under a price: deliberately quiet and always dated, because
+   the dollar figure is the price and this is only a reading aid */
+.qw-fx { display:block; margin-top:6px; font-size:12px; line-height:1.45; color:var(--text-3); }
+.stool-fx { margin:10px 0 0; font-size:12px; line-height:1.45; color:var(--text-3); }
+
+/* quiet hero link where a button pair used to sit — the widget is the action */
+.hero-more { margin:22px 0 0; font-size:14.5px; }
+.hero-more a { color:var(--cobalt); font-weight:600; }
+.hero-more a::after { content:" →"; }
+/* the arrow follows reading direction on the RTL pages */
+[dir="rtl"] .hero-more a::after { content:" ←"; }
+.hero-more a:hover { text-decoration:underline; }
+
+/* shortfall calculator shares the savings tool's shell and field styling */
+.sfl-in { padding:22px 26px; }
+.sfl .stool-fields input { width:100%; padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--radius);
+  font-family:var(--mono); font-size:15px; background:var(--raised); color:var(--text-1); }
+.sfl .stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
+.sfl-out[data-state="under"] .stool-verdict,
+.sfl-out[data-state="over"] .stool-verdict { color:var(--warn); }
+/* The savings tool reserves a fixed verdict height and clamps the line length
+   because it lives in a sticky column that must not change size. This tool is
+   a full-width section, so those reservations only leave a gap between a short
+   verdict and the button under it, and wrap the text sooner than it needs to. */
+.sfl .stool-verdict { max-width:none; min-height:0; }
+.sfl .stool-foot { min-height:0; margin-top:18px; }
+.sfl-ask { margin-left:16px; font-size:14px; font-weight:600; color:var(--cobalt); }
+.sfl-ask:hover { text-decoration:underline; }
+.sfl-ask::after { content:" →"; }
+
+/* ---- award flight configurator -------------------------------------------
+   A brief, not a search box: the layout puts route on one line, dates and
+   party on the next, so the whole thing reads as one short question. It has
+   no results state by design — there is no availability feed behind it. */
+.fsearch { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
+  padding:clamp(20px,2.6vw,28px); box-shadow:var(--shadow); }
+.fs-trip { display:flex; gap:8px; margin-bottom:16px; }
+.fs-pill { font-family:var(--display); font-weight:700; font-size:13px; color:var(--text-2);
+  background:var(--raised); border:1.5px solid transparent; border-radius:var(--radius-pill);
+  padding:8px 16px; cursor:pointer; transition:background .15s ease, color .15s ease, border-color .15s ease; }
+.fs-pill:hover { border-color:var(--line-2); }
+.fs-pill.on { background:var(--cobalt-tint); border-color:var(--cobalt-line); color:var(--cobalt); }
+.fs-route { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:end; margin-bottom:14px; }
+.fs-when { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:16px; }
+.fs-field { position:relative; min-width:0; }
+.fs-lab { display:block; font-size:13.5px; font-weight:600; color:var(--text-2); margin-bottom:7px; }
+/* the widget's fields ARE the site's fields: .field carries the border, focus
+   ring, padding and the painted select chevron, so there is one definition to
+   keep in step rather than two that drift */
+.fs-field { margin-bottom:0; }
+.fs-swap { flex:none; width:46px; height:47px; display:flex; align-items:center; justify-content:center;
+  background:var(--raised); border:1.5px solid var(--line-2); border-radius:var(--radius);
+  color:var(--text-2); cursor:pointer; }
+.fs-swap svg { width:17px; height:17px; }
+.fs-swap:hover { border-color:var(--cobalt); color:var(--cobalt); }
+/* the suggestion list floats over whatever follows, so an embedded widget
+   never pushes the page around while someone is typing */
+.fs-list { position:absolute; z-index:30; top:100%; left:0; right:0; margin:6px 0 0; padding:6px;
+  list-style:none; background:var(--surface); border:1px solid var(--line-2);
+  border-radius:var(--radius); box-shadow:var(--shadow-lg); max-height:288px; overflow-y:auto; }
+.fs-opt { display:flex; align-items:baseline; gap:10px; padding:9px 11px; border-radius:9px; cursor:pointer; font-size:14px; }
+.fs-opt b { font-family:var(--mono); font-size:13px; color:var(--cobalt); flex:none; width:34px; }
+.fs-opt span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.fs-opt em { font-style:normal; font-size:12px; color:var(--text-3); flex:none; }
+.fs-opt.on, .fs-opt:hover { background:var(--cobalt-tint); }
+.fs-cabin { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.fs-cabin .fs-lab { margin:0 4px 0 0; }
+.fs-flex { display:flex; align-items:center; gap:9px; font-size:13.5px; color:var(--text-2); margin-bottom:18px; cursor:pointer; }
+.fs-flex input { width:16px; height:16px; accent-color:var(--cobalt); }
+.fs-go { width:100%; }
+.fs-note { margin:12px 0 0; font-size:12.5px; line-height:1.55; color:var(--text-3);
+  text-align:center; text-wrap:balance; }
+.fs-note a { white-space:nowrap; }
+@media (max-width:620px){
+  .fs-route { grid-template-columns:1fr; gap:14px; }
+  /* the swap control turns into a divider row rather than a stranded column */
+  .fs-swap { width:100%; height:38px; }
+  .fs-swap svg { transform:rotate(90deg); }
+  .fs-when { grid-template-columns:1fr 1fr; }
+  .fs-when .fs-field:last-child { grid-column:1 / -1; }
+}
+/* step 2 of the configurator: the brief stays on screen above the fields that
+   answer it, so nothing the visitor just chose has to be remembered */
+.fs-recap { background:var(--raised); border:1px solid var(--line); border-radius:var(--radius);
+  padding:14px 16px; margin-bottom:18px; position:relative; }
+.fs-back { display:inline-block; background:none; border:0; padding:0; margin-bottom:8px; cursor:pointer;
+  font-family:var(--display); font-weight:700; font-size:12.5px; color:var(--cobalt); }
+.fs-back:hover { text-decoration:underline; }
+.fs-recap-route { font-family:var(--display); font-weight:800; font-size:16px; line-height:1.35; }
+.fs-recap-meta { font-size:13px; color:var(--text-2); margin-top:4px; }
+.fs-when-2 { margin-bottom:14px; }
+.fs-form textarea { min-height:88px; }
+.fs-submit { width:100%; }
+.fs-miss { border-color:var(--danger) !important; background:var(--danger-tint); }
+.fs-note a { color:var(--cobalt); font-weight:600; }
+@media (max-width:620px){ .fs-when-2 { grid-template-columns:1fr; } .fs-when-2 .fs-field:last-child { grid-column:auto; } }
+/* Our own calendar, because <input type="date"> renders in the visitor's
+   browser locale and no page attribute overrides it. mm/dd/yyyy for everyone. */
+.fs-date { position:relative; }
+.fs-cal { position:absolute; z-index:31; top:100%; left:0; margin-top:6px; width:274px;
+  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--radius);
+  box-shadow:var(--shadow-lg); padding:12px; }
+.fs-cal-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.fs-cal-top b { font-family:var(--display); font-size:14px; }
+.fs-cal-nav { width:28px; height:28px; border:0; border-radius:8px; background:var(--raised);
+  color:var(--text-2); font-size:17px; line-height:1; cursor:pointer; }
+.fs-cal-nav:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+/* RTL puts "previous month" on the right, where a left-pointing chevron then
+   means forward. Flip the glyph so it still points back the way the reader
+   reads; the buttons themselves are already reordered by the flex direction */
+[dir="rtl"] .fs-cal-nav { transform:scaleX(-1); }
+.fs-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+.fs-cal-dow { display:grid; place-items:center; height:26px; font-size:11px; font-weight:700;
+  color:var(--text-3); text-transform:uppercase; }
+.fs-cal-d { height:32px; border:0; border-radius:8px; background:none; cursor:pointer;
+  font-family:var(--mono); font-size:12.5px; color:var(--ink); }
+.fs-cal-d:hover:not(:disabled) { background:var(--cobalt-tint); color:var(--cobalt); }
+.fs-cal-d:disabled { color:var(--mist); cursor:default; }
+.fs-cal-d.on { background:var(--cobalt); color:#fff; font-weight:700; }
+@media (max-width:620px){ .fs-cal { left:auto; right:0; } }
+/* The savings claim. It was a mint pill with a percent icon, which was wrong
+   twice: green is this site's status colour, reserved for in-stock and error
+   and never decoration, and the icon drew a % next to a sentence already
+   containing one. It is a statement now, not a tag — the strongest commercial
+   line on the page should not be dressed as a badge — and the figure takes the
+   monospace treatment every other number here gets. */
+.fs-save { margin:18px 0 0; padding-left:16px; border-left:3px solid var(--coral);
+  font-family:var(--display); font-weight:700; font-size:clamp(17px,1.7vw,20px);
+  line-height:1.35; color:var(--ink); text-wrap:balance; }
+.fs-save b { font-family:var(--mono); font-weight:600; font-size:1.12em;
+  color:var(--coral-2); letter-spacing:-.01em; }
+.section-head .fs-save + p { margin-top:14px; }
+/* the channel row under a submit: exits for whoever the form would lose,
+   deliberately quieter than the button above it */
+.chanrow { display:flex; flex-wrap:wrap; justify-content:center; align-items:baseline;
+  gap:6px 18px; margin:14px 0 0; font-size:13px; color:var(--text-3); text-align:center; }
+.chanrow a { color:var(--text-2); white-space:nowrap; text-decoration:none; }
+.chanrow a b { font-family:var(--mono); font-weight:600; font-size:12.5px; color:var(--cobalt); }
+.chanrow a:hover b { text-decoration:underline; }
+
+/* Two links under the programme roster: the full grid, and the currency page.
+   Side by side so neither reads as the primary way out of the panel. */
+
+/* Header call CTA. A phone number a buyer can see without scrolling is the
+   strongest trust signal on a page selling a four-figure purchase, and it is
+   the one we already have confirmed. Rendered from officialChannels(), so an
+   unverified contact block yields nothing rather than a made-up number.
+   Outlined rather than filled: it sits beside the pricing button and should
+   read as the second call to action, not compete with it. */
+.nav-tel { display:inline-flex; align-items:center; gap:8px; border-radius:var(--radius-pill);
+  padding:8px 15px 8px 13px; border:1px solid var(--line-2); background:var(--surface);
+  color:var(--cobalt); transition:border-color .15s ease, background .15s ease, box-shadow .15s ease; }
+.nav-tel b { font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--text-1); white-space:nowrap; }
+.nav-tel svg { width:15px; height:15px; flex:none; }
+.nav-tel:hover { border-color:var(--cobalt-line); background:var(--cobalt-tint); box-shadow:var(--shadow-sm); }
+.nav-tel:hover b { color:var(--cobalt); }
+/* Below this the nav is already fighting for room, and the dock keeps the same
+   number pinned to the corner anyway, so the header one steps aside. */
+@media (max-width:1080px){ .nav-tel { display:none; } }
+
+/* ── contact dock ─────────────────────────────────────────────────────────
+   Pinned bottom right on every page. Collapsed it is a single dark pill:
+   number on the left (dials straight out), caret on the right (opens the
+   panel). Open it is a small card of the two things a hesitant buyer wants:
+   a route into a quote, and a human on the other end.
+   z-index sits above the sticky header (50) and the nav panels (60). */
+.dock { position:fixed; z-index:80; right:18px;
+  bottom:calc(18px + env(safe-area-inset-bottom, 0px)); font-family:var(--sans); }
+/* Flat brand cobalt, the same fill the primary button carries, so the dock is
+   the same object as every other call to action rather than a variant of one.
+   The drop shadow takes the same cobalt as the other raised surfaces. */
+.dock-bar { display:flex; align-items:stretch; border-radius:var(--radius-pill);
+  background:var(--cobalt);
+  box-shadow:0 15px 36px color-mix(in srgb, var(--cobalt) 34%, transparent),
+             0 3px 10px color-mix(in srgb, var(--ink) 26%, transparent); }
+.dock-tel { display:flex; flex-direction:column; justify-content:center; gap:1px;
+  padding:9px 15px 10px 19px; color:#fff; border-start-start-radius:var(--radius-pill);
+  border-end-start-radius:var(--radius-pill); transition:background .15s ease; }
+.dock-tel:hover { background:rgba(255,255,255,.1); color:#fff; }
+.dock-lab { font-size:9.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
+  color:color-mix(in srgb, var(--cobalt-tint) 78%, transparent); }
+/* The mark itself: a route trailing off into three coral dots. Drawn from one
+   repeating tile rather than three elements, so it scales with the label. */
+.dock-lab::before { content:""; display:inline-block; width:20px; height:3px; vertical-align:2px;
+  margin-inline-end:7px;
+  background:radial-gradient(circle 1.6px at 1.6px 1.5px, var(--coral) 99%, transparent 100%) 0 0/7px 3px repeat-x; }
+.dock-tel b { font-family:var(--mono); font-size:15px; font-weight:600; white-space:nowrap; }
+.dock-d { position:static; display:flex; }
+/* A plain hairline here on purpose: a vertical dotted run down the pill read
+   as a tear-off perforation, not as the mark. The coral belongs horizontal,
+   the way the logo and the calculator leaders run it. */
+.dock-more { list-style:none; display:flex; align-items:center; padding:0 16px 0 14px; cursor:pointer;
+  color:var(--cobalt-tint); border-inline-start:1px solid color-mix(in srgb, var(--cobalt-tint) 32%, transparent);
+  border-start-end-radius:var(--radius-pill); border-end-start-radius:0;
+  border-end-end-radius:var(--radius-pill); transition:background .15s ease, color .15s ease; }
+.dock-more::-webkit-details-marker { display:none; }
+.dock-more:hover { background:rgba(255,255,255,.1); color:#fff; }
+.dock-more svg { transition:transform .18s ease; }
+.dock-d[open] .dock-more svg { transform:rotate(180deg); }
+
+/* Plain white with a cobalt hairline: the brand shows in the border, the rows
+   and the pill below, so the card itself stays quiet behind them. */
+.dock-panel { position:absolute; right:0; bottom:calc(100% + 12px); width:336px;
+  max-width:calc(100vw - 32px); padding:20px 18px 18px; background:var(--surface);
+  border:1px solid var(--cobalt-line); border-radius:var(--radius-card); box-shadow:var(--shadow-lg);
+  display:flex; flex-direction:column; gap:9px; animation:dockIn .16s ease-out; }
+@keyframes dockIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ .dock-panel { animation:none; } .dock-more svg { transition:none; } }
+.dock-x { display:none; position:absolute; top:12px; inset-inline-end:12px; width:28px; height:28px;
+  align-items:center; justify-content:center; border:0; border-radius:50%; cursor:pointer;
+  background:var(--raised); color:var(--text-2); }
+.dock.js .dock-x { display:flex; }
+.dock-x:hover { background:var(--line-2); color:var(--text-1); }
+.dock-h { margin:0; padding-inline-end:26px; font-family:var(--display); font-size:16.5px;
+  font-weight:800; color:var(--text-1); letter-spacing:-.01em; }
+.dock-s { margin:0 0 4px; font-size:13px; line-height:1.45; color:var(--text-2); }
+.dock-opt { display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:12px 16px; border-radius:var(--radius-pill); background:var(--raised);
+  font-size:14.5px; font-weight:650; color:var(--text-1); transition:background .15s ease, color .15s ease; }
+.dock-opt:hover { background:var(--cobalt-tint); color:var(--cobalt); }
+.dock-opt svg { flex:none; color:var(--text-3); }
+.dock-opt:hover svg { color:var(--cobalt); }
+.dock-or { display:flex; align-items:center; gap:10px; margin:3px 0; font-size:12px; color:var(--text-3); }
+/* Same coral run as the pill's divider and the calculator's leaders. */
+.dock-or::before, .dock-or::after { content:""; flex:1;
+  border-top:2px dotted color-mix(in srgb, var(--coral) 46%, transparent); }
+.dock-ch { display:flex; align-items:center; gap:12px; padding:10px 13px; border:1px solid var(--line-2);
+  border-radius:var(--radius-pill); transition:border-color .15s ease, box-shadow .15s ease; }
+.dock-ch:hover { border-color:var(--line-strong); box-shadow:var(--shadow-sm); }
+.dock-ic { flex:none; width:38px; height:38px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; background:var(--cobalt-tint); color:var(--cobalt); }
+.dock-ch.wa .dock-ic { background:var(--ok-tint); color:#0A7D5A; }
+.dock-ct { display:flex; flex-direction:column; gap:1px; min-width:0; }
+.dock-ct b { font-size:14.5px; font-weight:700; color:var(--text-1); }
+.dock-ch:not(.wa) .dock-ct b { font-family:var(--mono); font-size:14px; letter-spacing:.01em; }
+.dock-ct span { font-size:12px; color:var(--text-2); }
+/* The arrow is direction, not decoration: it has to point the way the text
+   reads. Everything else flips on its own from dir on the dock. */
+.dock[dir="rtl"] .dock-opt svg { transform:scaleX(-1); }
+
+@media (max-width:560px){
+  .dock { inset-inline-end:12px; bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .dock-tel { padding:8px 13px 9px 16px; }
+  .dock-tel b { font-size:14px; }
+  .dock-panel { width:calc(100vw - 24px); }
+}
+@media print { .dock { display:none; } }
+
+/* ── Avios currency pages (/buy/avios and /es/buy/avios) ─────────────────
+   One definition for both language versions, so the comparison cards and
+   the transfer web cannot drift apart between languages. */
+  /* One column per programme that sells this currency, so the comparison is
+     one row however many there are. --n comes from the page rather than
+     auto-fit: a third card must join the row, not start a new one alone. */
+  .avios-split { display:grid; grid-template-columns:repeat(var(--n,2),minmax(0,1fr));
+    gap:clamp(14px,1.8vw,22px); align-items:stretch; }
+  @media (max-width:980px){ .avios-split { grid-template-columns:1fr 1fr; } }
+  @media (max-width:660px){ .avios-split { grid-template-columns:1fr; } }
+  /* stretch alone only equalises the boxes; the cards also have to lay their
+     own contents out or the CTA floats wherever the rows above leave it.
+     Column flex with the button pushed down puts every CTA on one line. */
+  .avios-card { display:flex; flex-direction:column; }
+  .avios-card .price { margin-bottom:14px; }
+  .avios-card .rows { margin-bottom:18px; }
+  .avios-card .btn { margin-top:auto; }
+  .avios-card .top { align-items:center; margin-bottom:14px; }
+  .avios-card .plabel { margin-bottom:2px; }
+  /* 24px is the shared card size and puts "The British Airways Club" onto a
+     second line at this width. 19.5 keeps the longest of the three on one
+     line with room to spare, and the airline is named directly above it. */
+  .avios-card .pname { font-size:19.5px; line-height:1.3; margin-bottom:16px; }
+
+  /* the rule, as two rows rather than a paragraph: a buyer scanning for their
+     own amount should find it without reading a sentence */
+  .avios-rule { margin-top:clamp(20px,2.5vw,28px); border:1px solid var(--line);
+    border-radius:var(--radius-card); background:var(--surface); overflow:hidden; }
+  .ar-row { display:grid; grid-template-columns:minmax(0,180px) minmax(0,1fr); gap:18px;
+    padding:16px clamp(16px,2vw,22px); align-items:baseline; }
+  .ar-row + .ar-row { border-top:1px solid var(--line); }
+  @media (max-width:620px){ .ar-row { grid-template-columns:1fr; gap:4px; } }
+  .ar-k { font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--cobalt); }
+  .ar-v { font-size:15px; line-height:1.6; color:var(--text-2); }
+  .ar-v b { color:var(--text-1); font-weight:700; }
+  .avios-note { margin:14px 0 0; font-size:13px; color:var(--text-3); line-height:1.6; }
+
+  /* what we sell on the left, where it can go on the right */
+  .avios-web { display:grid; grid-template-columns:1fr 1fr; gap:clamp(18px,2.5vw,32px); align-items:start; }
+  @media (max-width:760px){ .avios-web { grid-template-columns:1fr; } }
+  .aw-lab { display:block; font-family:var(--display); font-size:11.5px; text-transform:uppercase;
+    letter-spacing:.07em; color:var(--text-3); margin-bottom:12px; }
+  .aw-item { display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface);
+    border:1px solid var(--line); border-radius:var(--radius-card); }
+  /* Fixed logo column. The marks have wildly different aspect ratios — the
+     British Airways wordmark is 10.7:1, Qatar 2.9:1 — so sizing the slot to
+     the artwork started each row's text at a different x. A fixed box left-
+     aligns the logo inside it and lines every name up on one edge. */
+  .aw-logo { flex:0 0 108px; width:108px; display:flex; align-items:center; }
+  .aw-item + .aw-item { margin-top:10px; }
+  .aw-sell { transition:border-color .18s ease, transform .18s ease; }
+  .aw-sell:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
+  .aw-txt { display:block; min-width:0; }
+  .aw-txt b { display:block; font-family:var(--display); font-size:15.5px; color:var(--text-1); }
+  .aw-txt span { display:block; font-size:13px; color:var(--text-3); margin-top:2px; }
+  .aw-foot { margin:12px 0 0; font-size:13px; color:var(--text-3); line-height:1.6; }

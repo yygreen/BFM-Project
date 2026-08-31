@@ -1,116 +1,308 @@
 ---
 import Base from "../../layouts/Base.astro";
-import PricingCard from "../../components/PricingCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import TrustStrip from "../../components/TrustStrip.astro";
-import CompareTable from "../../components/CompareTable.astro";
 import Faq from "../../components/Faq.astro";
+import QuoteWidget from "../../components/QuoteWidget.astro";
+import SavingsTool from "../../components/SavingsTool.astro";
+import FlightSearch from "../../components/FlightSearch.astro";
+import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
+import { getPosts } from "../../lib/blog";
+import { site, realReviews, yearsTrading } from "../../lib/site";
+import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
+import { coversMany, coversSentence, assertOwnAirlinesUnique } from "../../lib/programs";
+// each locale named in its own language, from the one registry that knows
+import { LOCALES } from "../../lib/locales";
+
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
-  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a, airlines } }));
+  // Cross-entry rule, so it can't live in the Zod schema: an airline may be
+  // own-metal for exactly one program. Checked here for the same reason
+  // `related` is — this is the one place that sees the whole roster at once.
+  assertOwnAirlinesUnique(airlines);
+  const posts = await getPosts();
+  return airlines.map((a) => ({
+    params: { slug: a.slug },
+    props: {
+      a,
+      airlines,
+      // blog posts that reference this program — bidirectional linking,
+      // so the blog feeds the money pages rather than sitting beside them
+      posts: posts.filter((p) => p.data.programs.includes(a.slug)).slice(0, 2),
+    },
+  }));
 }
 
-const { a, airlines } = Astro.props;
-const per1000 = Math.round(a.pricePerMile * 10);
+const { a, airlines, posts } = Astro.props;
+const per1000 = per1000Of(a.pricePerMile);
+const verified = a.priceVerified;
+// program name without any parenthetical — "Avios (Privilege Club)" reads
+// fine as a title but turns copy like "price your … order" into a mouthful
+const progShort = a.program.replace(/\s*\(.*\)$/, "");
+// "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
+// suffix when the program name already ends in it
+const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
+// The h1 highlights the phrase the page is written for, which is the thing a
+// visitor is checking they landed on. The phrase is named in the data rather
+// than inferred from the sentence, so a reworded headline can't quietly
+// highlight the wrong run of words; if it isn't found, the h1 renders plain.
+const hi = a.heroHighlight && a.heroHeadline.indexOf(a.heroHighlight);
+const head = hi >= 0
+  ? {
+      lead: a.heroHeadline.slice(0, hi),
+      name: a.heroHighlight,
+      tail: a.heroHeadline.slice(hi + a.heroHighlight.length),
+    }
+  : null;
+
+const rev = realReviews[0];
+const years = yearsTrading();
 const related = a.related
   .map((slug) => airlines.find((x) => x.slug === slug))
   .filter(Boolean);
 
+// Only publish a firm price in structured data once it's confirmed —
+// unverified programs advertise availability + a quote path instead.
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: `${a.airline} ${a.program} miles`,
+  name: /miles$/i.test(a.program) ? `${a.airline} ${a.program}` : `${a.airline} ${a.program} miles`,
   description: a.metaDescription,
   brand: { "@type": "Brand", name: a.airline },
   offers: {
     "@type": "Offer",
     priceCurrency: "USD",
-    price: per1000,
-    priceSpecification: {
-      "@type": "UnitPriceSpecification",
-      price: per1000,
-      priceCurrency: "USD",
-      referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
-    },
     availability: a.inStock ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability",
+    ...(verified && {
+      price: per1000,
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: per1000,
+        priceCurrency: "USD",
+        referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
+      },
+    }),
   },
 };
 ---
-<Base title={a.metaTitle} description={a.metaDescription} slug={`buy/${a.slug}`} jsonld={jsonld}>
+<Base
+  title={a.metaTitle}
+  description={a.metaDescription}
+  slug={`buy/${a.slug}`}
+  jsonld={jsonld}
+  alternates={Object.keys(a.i18n ?? {}).map((loc) => ({ hreflang: LOCALES[loc]?.htmlLang ?? loc, slug: `${loc}/buy/${a.slug}` }))}
+>
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div class="hero-grid">
+      <div class="hero-grid top">
         <div>
+          <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Programs", href: "/#programs" },
+            { label: `${a.airline} ${progShort}` },
+          ]} />
           <span class="kicker">{a.alliance}</span>
-          <h1>{a.heroHeadline}</h1>
+          {/* one toggle per translation the entry carries, so a new market
+              needs no edit here — only the locale's own name below */}
+          {Object.keys(a.i18n ?? {}).map((loc) => (
+            <a class="lang-toggle" href={`/${loc}/buy/${a.slug}`} lang={LOCALES[loc]?.htmlLang ?? loc} hreflang={LOCALES[loc]?.htmlLang ?? loc}>
+              {(a.i18n[loc].flag ?? LOCALES[loc]?.flag) && (
+                <span class="lang-flag" aria-hidden="true">{a.i18n[loc].flag ?? LOCALES[loc].flag}</span>
+              )}
+              {LOCALES[loc]?.label ?? loc}
+            </a>
+          ))}
+          <h1>{head ? <>{head.lead}<span class="hl">{head.name}</span>{head.tail}</> : a.heroHeadline}</h1>
           <p class="sub">{a.heroSub}</p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="#buy">Buy {a.program}</a>
-            <a class="btn btn-secondary" href="#how">How it works</a>
-          </div>
+          {/* No button pair here. The widget is the hero's action, and it
+              sits beside this column on desktop and just under it on a phone,
+              so a "get a quote" button was sending people to something they
+              were already looking at. Removing the row costs nothing on
+              desktop (the widget is in the other column, unmoved at 148px) and
+              lifts it from 703px to 557px on a 390px screen, which puts its
+              heading above the fold instead of two buttons.
+
+              The order flow keeps its hero entry through the widget's own
+              "Ready to order?" link, and the calculator keeps a quiet one
+              here: it serves the visitor who wants the arithmetic before the
+              price, at a seventh of the vertical cost of a button. */}
+          <p class="hero-more">
+            <a href={`/calculator/${a.slug}`}>See the full {progShort} math</a>
+          </p>
+          <!-- social proof row: rating, turnaround, track record. Each slot
+               falls back to an always-true claim when its figure isn't
+               confirmed, so the row converts without ever inventing a number. -->
           <div class="spec">
-            <span><b>{a.delivery.replace("Within ", "")}</b> delivery</span><span>·</span>
-            <span><b>{a.pricePerMile}¢</b> / mile</span><span>·</span>
-            <span><b>Guaranteed</b></span>
+            {rev ? (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <b>{rev.rating}/{rev.outOf}</b>&nbsp;on {rev.platform}
+              </span>
+            ) : (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Free, no-obligation quote
+              </span>
+            )}
+            <!-- the window shows for every program; the 14 unverified ones
+                 are already check:launch blockers, so this is a staged claim
+                 the client confirms, not a silent invention -->
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Delivered in <b>{a.delivery.replace("Within ", "")}</b>
+            </span>
+            {years !== null ? (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                <b>{years}+ years</b>&nbsp;in business
+              </span>
+            ) : (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                Exact price confirmed before you pay
+              </span>
+            )}
           </div>
         </div>
-        <div id="buy">
-          <PricingCard a={a} cta={`Buy ${a.program}`} />
+        <div class="hero-art">
+          <div class="hero-calc" id="quote">
+            <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${progMiles} cost?`} sub="Price it, then request your free, no-obligation quote. We confirm your exact rate before you pay." />
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BEST WAYS TO USE -->
-  {a.sweetSpots && a.sweetSpots.length > 0 && (
-    <section class="section" id="uses">
-      <div class="container">
-        <div class="section-head">
-          <h2>Best ways to use {a.program}</h2>
-          <p>Where these miles stretch furthest — the redemptions worth buying for.</p>
-        </div>
-        <div class="uses">
-          {a.sweetSpots.map((s) => (
-            <div class="use">
-              <h4>{s.title}</h4>
-              <p>{s.desc}</p>
-            </div>
-          ))}
-        </div>
+  <!-- BEST WAYS TO USE + RUN THE NUMBERS — one section: the ladder makes the
+       value claim, and the tool that tests it against a real fare sits in the
+       same room rather than a section of its own -->
+  <section class="section wash-cool" id="uses">
+    <div class="container">
+      <div class="section-head">
+        <h2>Best ways to use {a.program}</h2>
+        <p>Where these miles stretch furthest, and when to keep your cash. Test any of it against a real fare on the right.</p>
       </div>
-    </section>
-  )}
+      <div class="value-split">
+      <div class="value-lad">
+      {a.sweetSpots && a.sweetSpots.length > 0 && (
+      <>
+        <!-- three tiers in descending visual weight: priced cards, then flat
+             cards, then a muted line — the hierarchy IS the verdict -->
+        <div class="vtier">
+          <div class="vtier-head">
+            <span class="vchip v1">Great value</span>
+            <span class="vtier-note">The redemptions worth buying miles for</span>
+          </div>
+          <div class="uses">
+            {a.sweetSpots.map((s) => (
+              <div class="use">
+                <h4>{s.title}</h4>
+                {s.miles && (
+                  <div class="use-cost">
+                    from {s.miles.toLocaleString("en-US")} miles · {verified ? "" : "~"}{usd(costOf(s.miles, a.pricePerMile))} at our rate
+                  </div>
+                )}
+                <p>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        {a.valueBands && (
+          <div class="vtier">
+            <div class="vtier-head">
+              <span class="vchip v2">Good value</span>
+              <span class="vtier-note">Solid uses when the cash fare is high</span>
+            </div>
+            <div class="vgood">
+              {a.valueBands.good.map((x) => <div class="vitem">{x}</div>)}
+            </div>
+          </div>
+        )}
+        {a.valueBands && (
+          <div class="vtier">
+            <div class="vtier-head">
+              <span class="vchip v3">Skip it, pay cash</span>
+              <span class="vtier-note">Where miles waste their value</span>
+            </div>
+            <p class="vskip">{a.valueBands.skip.join("  ·  ")}</p>
+          </div>
+        )}
+      </>
+      )}
+      </div>
+      <div class="value-tool">
+        <div class="worth-sub" id="worth">
+          <h3>Does buying {progShort} beat the cash fare?</h3>
+          <p>Paste the price from your flight search and see which side wins.</p>
+        </div>
+        <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
+        <p class="tool-more">
+          Just want the arithmetic? The <a href={`/calculator/${a.slug}`}>{progShort} miles calculator</a> has
+          order sizes, break-evens and the math spelled out.
+        </p>
+      </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- HOW IT WORKS -->
+  <!-- HOW IT WORKS, one slim band. The old two sections repeated the widget's
+       own numbers (rate, min/max, delivery) and retold the process the hero
+       already explains, and the "protected checkout" step copy contradicted
+       the payment-off-site rule. Three beats is what's left. -->
   <section class="section" id="how">
     <div class="container">
       <div class="section-head">
-        <h2>How it works</h2>
-        <p>From order to miles in your account — usually within a day.</p>
+        <h2>From quote to {progShort} in your account</h2>
       </div>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><h4>Select &amp; enter</h4><p>Choose your amount and enter your {a.program} account number.</p></div>
-        <div class="step"><div class="n">02</div><h4>Pay securely</h4><p>Complete payment through our protected checkout.</p></div>
-        <div class="step"><div class="n">03</div><h4>Miles land</h4><p>{a.program} miles post to your account, {a.delivery.toLowerCase()}.</p></div>
+      <!-- the same three beats, same names, as the homepage's "Three steps to
+           the seat" — one story told twice, not two competing processes -->
+      <div class="steps ministeps">
+        <div class="step"><div class="n">01</div><h4>Choose</h4><p>Price your amount in the calculator above. We confirm your exact rate and delivery in the quote.</p></div>
+        <div class="step"><div class="n">02</div><h4>Pay</h4><p>Off-site, after you approve the quote. Nothing is ever charged on this website.</p></div>
+        <div class="step"><div class="n">03</div><h4>Fly</h4><p>{a.deliveryVerified ? `Miles land in your own ${progShort} account, ${a.delivery.toLowerCase()} — then book the seat.` : `Miles land in your own ${progShort} account on the window your quote confirms — then book the seat.`}</p></div>
       </div>
     </div>
   </section>
 
-  <!-- COMPARE -->
-  <section class="section" style="padding-top:0">
+  {/* No "one balance, N airlines" band. The sibling carriers a programme
+      covers are worth stating on Miles & More and Flying Blue, but a row of
+      code badges was a section's worth of chrome for a list of four names,
+      and it looked it. The FAQ entry below carries the same fact in the place
+      someone actually asks the question. */}
+
+  <!-- The other way to solve the same trip. It sits after the process, not
+       beside the widget: someone still pricing miles shouldn't be pulled off
+       that decision, but someone who has read to here and is put off by the
+       work of finding award space now has a second door. -->
+  <section class="section wash-warm" id="flights">
     <div class="container">
       <div class="section-head">
-        <h2>Buy {a.program} here vs. from {a.airline}</h2>
-        <p>Airlines charge a steep premium for their own miles. Here's the difference.</p>
+        <span class="kicker">Or skip the search</span>
+        <h2>Would you rather we found the seat?</h2>
+        <p>
+          Buying the shortfall and booking it yourself is usually cheaper, and that's what
+          the calculator above is for. If you'd rather hand over the whole thing, tell us
+          the route and dates and we'll come back with what's bookable in business or first,
+          and what it costs.
+        </p>
       </div>
-      <CompareTable program={a.program} pricePerMile={a.pricePerMile} />
+      {/* the readable program name, not the slug: it travels into the enquiry
+          email, where "eva-air-miles" reads as a debug value */}
+      <FlightSearch program={`${a.airline} — ${a.program}`} />
     </div>
   </section>
 
+  <!-- No "worth knowing" section. The quirks and mechanics it rendered are
+       program background, and background belongs in a post that can give it
+       room, not in a band two thirds down a page whose job is the purchase.
+       The purchase-critical answers stay on this page through faqExtras,
+       which renders in the FAQ below. -->
+
   <!-- TRUST -->
-  <section class="section" style="padding-top:0">
+  <section class="section wash-warm">
     <div class="container">
       <div class="section-head">
         <span class="kicker">Why trust us</span>
@@ -121,24 +313,73 @@ const jsonld = {
   </section>
 
   <!-- FAQ -->
-  <section class="section" style="padding-top:0">
-    <div class="container" style="max-width:760px">
-      <div class="section-head"><h2>{a.program} — questions, answered</h2></div>
-      <Faq delivery={a.delivery} />
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><h2>Buying {a.airline} miles — your questions</h2></div>
+      {/* One entry naming the whole group, not one per airline: N near-identical
+          "Can I use X miles on Y?" Q&As would carry the same keywords into
+          FAQPage JSON-LD while reading as generated filler. Prepended to the
+          program's own extras, which puts it fourth overall, straight after
+          the price, availability and delivery basics the component always
+          asks first. */}
+      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified}
+        extras={coversMany(a)
+          ? [{
+              q: `Which airlines can I fly with ${a.program} miles?`,
+              a: `${coversSentence(a)} all run on ${a.program}, so miles bought here work across every one of them from the same account — there is nothing to transfer between them. ${a.alliance} partners are bookable too, as partner awards.`,
+            }, ...a.faqExtras]
+          : a.faqExtras}
+        omit={["worth"]} />
     </div>
   </section>
 
-  <!-- RELATED -->
-  {related.length > 0 && (
-    <section class="section" style="padding-top:0">
-      <div class="container">
-        <div class="section-head"><h2>Related programs</h2></div>
-        <div class="related">
+  <!-- CLOSING CTA — the widget lives in the hero, so the page ends with a
+       clear road back to it. Related programs ride along in the same band
+       rather than floating as their own sparse section. -->
+  <section class="section wash-cool">
+    <div class="container">
+      <div class="ctaband">
+        <div>
+          <h3>Ready to price your {progShort} order?</h3>
+          <p>Free, no-obligation quote first, miles delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
+        </div>
+        <a class="btn btn-primary" href="#quote">{verified ? `Price ${progShort} now` : "Request a live quote"}</a>
+      </div>
+      {related.length > 0 && (
+        <div class="related related-inline">
+          <span class="related-lab">Related programs</span>
+          {/* The currency page, from the two programs that share the currency.
+              Not in `related`, because that field is slugs from the collection
+              and /buy/avios is not a program. This is where the link earns its
+              place anyway: a visitor on one Avios page at the moment they
+              wonder whether the other one is cheaper. */}
+          {a.slug.endsWith("-avios") && (
+            <a href="/buy/avios">Compare every Avios rate →</a>
+          )}
           {related.map((r) => (
             <a href={`/buy/${r.slug}`}>{r.airline} {r.program} · {r.pricePerMile}¢</a>
           ))}
+          <a href={`/calculator/${a.slug}`}>{progShort} calculator</a>
+          <a href="/request">Another program? Ask us →</a>
+          <a href="/contact">Questions? Contact us →</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- FROM THE BLOG -->
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">From the blog</span>
+          <h2>Latest on {a.program}</h2>
+        </div>
+        <div class="postlist postlist-2">
+          {posts.map((p) => <PostCard post={p} />)}
         </div>
       </div>
     </section>
   )}
+
 </Base>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480" role="img" aria-label="A lane of point tokens, an identical slice lifted out of every one">
+  <rect width="1200" height="480" fill="#F5F6FF"/>
+  <rect x="64" y="112" width="1072" height="256" rx="128" fill="#E7EAFF" opacity="0.6"/>
+
+  <!-- the same slice comes out of every token, whatever the size of the move -->
+  <g stroke="#10122B" stroke-width="3" stroke-linejoin="round">
+    <g transform="translate(264 258)">
+      <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
+      <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
+    </g>
+    <g transform="translate(376 258)">
+      <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
+      <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
+    </g>
+    <g transform="translate(488 258)">
+      <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
+      <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
+    </g>
+    <g transform="translate(600 258)">
+      <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
+      <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
+    </g>
+    <g transform="translate(712 258)">
+      <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
+      <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
+    </g>
+    <g transform="translate(824 258)">
+      <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
+      <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
+    </g>
+    <g transform="translate(936 258)">
+      <path d="M0 0 L33.7 -28.3 A44 44 0 1 1 0 -44 Z" fill="#2540FF"/>
+      <path d="M14 -18 L14 -62 A44 44 0 0 1 47.7 -46.3 Z" fill="#FF5C3A"/>
+    </g>
+  </g>
+</svg>

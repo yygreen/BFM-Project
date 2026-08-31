@@ -1,0 +1,56 @@
+---
+// Blog sidebar: categories, recent posts, and a route back to the money
+// pages. The program list is generated from the collection so it can't
+// drift, and prices carry the same "~" indicative marker as everywhere else.
+import QuoteWidget from "./QuoteWidget.astro";
+import { getPosts, getCategoryCounts, categorySlug, formatDate } from "../lib/blog";
+
+// defaultSlug: program to preselect in the quote widget — post pages pass
+// their first programs[] entry so the calculator opens on the program the
+// article is about instead of a generic default.
+const { currentSlug = null, currentCategory = null, defaultSlug = null } = Astro.props;
+
+const categories = await getCategoryCounts();
+const recent = (await getPosts()).filter((p) => p.id !== currentSlug).slice(0, 4);
+
+---
+<aside class="blog-side">
+  {categories.length > 0 && (
+    <div class="side-box">
+      <h4>Categories</h4>
+      <ul class="side-cats">
+        {categories.map((c) => (
+          <li>
+            <a href={`/blog/category/${c.slug}`} class={c.name === currentCategory ? "on" : ""}>
+              <span>{c.name}</span><span class="n">{c.count}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  {recent.length > 0 && (
+    <div class="side-box">
+      <h4>Recent</h4>
+      <ul class="side-recent">
+        {recent.map((p) => (
+          <li>
+            <a href={`/blog/${p.id}`}>
+              <span class="t">{p.data.title}</span>
+              <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <!-- the conversion card: the real two-step widget, and the sticky element
+       of the column — the boxes above scroll away with the article, this
+       pins. Blog pages carry no other widget instance, so the fixed element
+       IDs inside are safe here. -->
+  <div class="side-box side-quote">
+    <QuoteWidget defaultSlug={defaultSlug} heading="Price your miles" sub="Quoted first. Nothing is charged on this site." />
+  </div>
+</aside>

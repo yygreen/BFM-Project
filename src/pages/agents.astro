@@ -1,13 +1,66 @@
 ---
 import Base from "../layouts/Base.astro";
+import Turnstile from "../components/Turnstile.astro";
 import TrustStrip from "../components/TrustStrip.astro";
+import Emblem from "../components/Emblem.astro";
 import { getCollection } from "astro:content";
+import EnquiryMail from "../components/EnquiryMail.astro";
+import { site, agentFormReady, paymentSentence, realReviews, mailtoInbox } from "../lib/site";
+
+const rev = realReviews[0] ?? null;
+const stars = rev ? Math.round(rev.rating) : 0;
+const starsOut = rev ? Math.round(rev.outOf) : 0;
+
+// Partner-application form key + fallback inbox come from src/data/site.json:
+// set contact.web3formsKeyAgents + contact.agentEmail, flip contact.verified.
+const agentKey = agentFormReady ? site.contact.web3formsKeyAgents : "";
+const agentEmail = site.contact.agentEmail;
+const agentNotWired = agentEmail
+  ? `Applications aren't wired up yet. Please email ${agentEmail} and we'll get you set up.`
+  : "Applications aren't wired up yet. Please contact us and we'll get you set up.";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.order - b.order);
-const coverage = airlines.slice(0, 8);
+// agents are buying breadth, so the page shows the whole roster rather
+// than a sample of eight, alphabetical to match the nav and the homepage
+// Parentheticals are dropped here: "Avios (Executive Club)" is the only
+// label long enough to wrap onto a second line, which drags its whole grid
+// row taller than the rest. The logo above it already says which carrier's
+// Avios these are, so the qualifier earns nothing on this grid.
+const coverage = [...airlines]
+  .sort((a, b) => a.airline.localeCompare(b.airline))
+  .map((a) => ({ ...a, short: a.program.replace(/\s*\(.*\)$/, "") }));
+// How far the "not listed?" tile has to stretch to close the roster's last
+// row, per column count. The roster length moves as programs are added, so
+// this is computed rather than written into the CSS; a roster that divides
+// evenly leaves no gap and the tile takes a full row of its own.
+const askSpan = (cols) => cols - (coverage.length % cols);
+// Payment answer follows the same rule as the rest of the site: built from
+// confirmed methods, or an honest holding line — never a placeholder.
+const pay = paymentSentence();
+const partnerPayAnswer = pay
+  ? [
+      `We accept ${pay}.`,
+      site.payments.usdtNetworks.length ? `USDT is accepted on ${site.payments.usdtNetworks.join(" and ")}.` : "",
+      site.payments.minOrderUsd ? `Minimum order is $${site.payments.minOrderUsd.toLocaleString("en-US")}.` : "",
+      site.payments.cardAnswer,
+    ].filter(Boolean).join(" ")
+  : "We'll confirm accepted methods and any partner terms when we set up your account. Payment is always handled off this site.";
+
+// fastest confirmed delivery window, rather than a hardcoded claim
+const fastestWindow = airlines
+  .filter((a) => a.deliveryVerified)
+  .map((a) => a.delivery.replace("Within ", ""))[0];
+
 const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>';
+
+// the homepage's row exactly — a fourth figure wraps it onto two lines, since
+// this hero's text column is narrower than the homepage's
+const heroStats = [
+  { n: "Fast", l: "delivery" },
+  { n: String(airlines.length), l: "programs" },
+];
 
 const jsonld = {
   "@context": "https://schema.org",
@@ -21,7 +74,7 @@ const jsonld = {
 ---
 <Base
   title="Wholesale Miles & Award Tickets for Travel Agents | buyflightmiles"
-  description="Partner pricing on airline miles plus business- and first-class award tickets sourced to spec, for travel agents and brokers. Fast, guaranteed, white-label."
+  description="Partner pricing on airline miles, and business or first class seats found and booked for your clients. For travel agents and brokers, white-label."
   slug="agents"
   jsonld={jsonld}
 >
@@ -31,27 +84,44 @@ const jsonld = {
       <div class="hero-grid">
         <div>
           <span class="kicker">For agents &amp; brokers</span>
-          <h1>Wholesale miles and award tickets for travel agents.</h1>
-          <p class="sub">Partner pricing, dependable delivery, and business- and first-class seats sourced to your spec. Your clients get the trip — they never see us.</p>
+          <h1>Wholesale miles and award tickets for <span class="hl">travel agents</span>.</h1>
+          <p class="sub">Partner pricing, dependable delivery, and the business or first class seat your client wants, found and booked. Your clients get the trip and never see us.</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#apply">Apply for partner access</a>
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
+          <!-- the homepage's hero stat row, verbatim in structure: dotted
+               separators and the rating closing it -->
           <div class="spec">
-            <span><b>24h</b> delivery</span><span>·</span>
-            <span><b>Every</b> major program</span><span>·</span>
-            <span><b>White-label</b></span>
+            {heroStats.map((s, i) => (
+              <>
+                {i > 0 && <span class="dot"></span>}
+                <span><b>{s.n}</b> {s.l}</span>
+              </>
+            ))}
+            {rev && (
+              <span class="spec-revwrap">
+                <span class="dot"></span>
+                <a class="spec-rev" href={rev.url || undefined} rel="nofollow noopener" target={rev.url ? "_blank" : undefined}>
+                  <span class="spec-stars">
+                    {"★".repeat(stars)}<span class="spec-stars-dim">{"★".repeat(Math.max(0, starsOut - stars))}</span>
+                  </span>
+                  <b>{rev.rating}</b>
+                  <span class="spec-rev-plat">on {rev.platform}</span>
+                </a>
+              </span>
+            )}
           </div>
         </div>
         <div>
           <div class="tbox" style="padding:24px">
-            <p class="lab" style="margin-bottom:14px">Partner snapshot</p>
+            <p class="lab" style="margin-bottom:14px">Benefits for partners</p>
             <ul class="checklist">
-              <li><Fragment set:html={check} /> Partner rates that scale with volume</li>
+              <li><Fragment set:html={check} /> Partner rates that scale with volume{site.partner.verified && site.partner.qualifyText ? `, ${site.partner.qualifyText}` : ""}</li>
               <li><Fragment set:html={check} /> Miles across every major program</li>
-              <li><Fragment set:html={check} /> Business &amp; first tickets, sourced to spec</li>
-              <li><Fragment set:html={check} /> Delivered fast, backed by guarantee</li>
-              <li><Fragment set:html={check} /> White-label — the relationship stays yours</li>
+              <li><Fragment set:html={check} /> The exact business or first seat, found and booked</li>
+              <li><Fragment set:html={check} /> Delivered fast{site.guarantee.verified ? ", with payment held until delivery" : ", with your rate confirmed up front"}</li>
+              <li><Fragment set:html={check} /> White-label, so the relationship stays yours</li>
             </ul>
           </div>
         </div>
@@ -59,37 +129,33 @@ const jsonld = {
     </div>
   </section>
 
-  <!-- WHY AGENTS -->
-  <section class="section" style="padding-top:0">
-    <div class="container">
-      <div class="section-head">
-        <h2>Why agents work with us</h2>
-        <p>Built for professionals who resell to clients and can't afford a miss.</p>
-      </div>
-      <div class="uses">
-        <div class="use"><h4>Partner pricing</h4><p>Per-mile rates that scale with volume, so your margin holds.</p></div>
-        <div class="use"><h4>Dependable fulfillment</h4><p>Fast, guaranteed delivery your client's itinerary can rely on.</p></div>
-        <div class="use"><h4>Premium seat sourcing</h4><p>We find specific business- and first-class award space via award arbitrage.</p></div>
-        <div class="use"><h4>White-label &amp; discreet</h4><p>We stay behind the scenes — the client relationship stays yours.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TWO SERVICES -->
-  <section class="section" style="padding-top:0">
+  <!-- WHAT WE DO — the offer and the reasons were two sections of near-identical
+       cards, which read as the same thing said twice. One section now: the two
+       services as cards, the four reasons as a compact row beneath them. -->
+  <section class="section">
     <div class="container">
       <div class="section-head">
         <h2>Two ways we help you deliver</h2>
         <p>Hand off as much or as little as you want.</p>
       </div>
-      <div class="cols">
-        <div class="tbox" style="padding:24px">
-          <p class="pname" style="font-size:19px">Miles top-ups</p>
-          <p style="color:var(--text-2);font-size:14px;line-height:1.6;margin-top:8px">Buy miles across every major program to complete your client's redemption yourself. Delivered in hours, at partner rates.</p>
+      <!-- the claims belong to one service or the other, so they live inside
+           the card they describe rather than floating under both -->
+      <div class="uses uses-2">
+        <div class="use">
+          <h4>Miles top-ups</h4>
+          <p>Buy miles across every major program and complete your client's redemption yourself.</p>
+          <ul class="checklist use-list">
+            <li><Fragment set:html={check} /> Per-mile rates that scale with volume</li>
+            <li><Fragment set:html={check} /> Delivery your client's itinerary can rely on</li>
+          </ul>
         </div>
-        <div class="tbox" style="padding:24px">
-          <p class="pname" style="font-size:19px">Booked award tickets</p>
-          <p style="color:var(--text-2);font-size:14px;line-height:1.6;margin-top:8px">Prefer not to handle the booking? Send the route, cabin, and dates — we source the business- or first-class award seat and hand you a confirmed ticket.</p>
+        <div class="use">
+          <h4>Booked award tickets</h4>
+          <p>Send the route, cabin and dates. We source the seat and hand you a confirmed ticket.</p>
+          <ul class="checklist use-list">
+            <li><Fragment set:html={check} /> Specific business and first class award space</li>
+            <li><Fragment set:html={check} /> White-label, so the relationship stays yours</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -99,21 +165,61 @@ const jsonld = {
   <section class="section" id="how" style="padding-top:0">
     <div class="container">
       <div class="section-head"><h2>How the partnership works</h2></div>
-      <div class="steps">
+      <div class="steps steps-2x2">
         <div class="step"><div class="n">01</div><h4>Apply</h4><p>Tell us about your business and typical volume.</p></div>
         <div class="step"><div class="n">02</div><h4>Get partner pricing</h4><p>We set you up with rates and a direct contact.</p></div>
         <div class="step"><div class="n">03</div><h4>Submit requests</h4><p>Send miles top-ups or specific ticket requests, any time.</p></div>
-        <div class="step"><div class="n">04</div><h4>We source &amp; deliver</h4><p>Miles land or tickets arrive — fast, and guaranteed.</p></div>
+        <div class="step"><div class="n">04</div><h4>We source &amp; deliver</h4><p>Miles land or tickets arrive, with the timeline agreed before you commit.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- COVERAGE -->
-  <section class="section" style="padding-top:0">
+  <!-- Mid-page CTA. The apply form sits five sections down, and the reader
+       who is sold after seeing the process shouldn't have to scroll past the
+       roster, trust and the FAQ to find it. -->
+  <section class="section wash-cool" style="padding-top:28px;padding-bottom:28px">
+    <div class="container ctaband">
+      <div>
+        <h3>Ready for partner pricing?</h3>
+        <p>Applying takes about two minutes. Then you've got volume rates, a direct line to a real person, and someone who finds the seat your client wants.</p>
+      </div>
+      <a class="btn btn-primary" href="#apply">Apply now</a>
+    </div>
+  </section>
+
+  <!-- COVERAGE — full top padding again: it used to ride on the section above,
+       but now it follows the wash band and needs its own breathing room -->
+  <section class="section">
     <div class="container">
-      <div class="section-head"><h2>Every major program</h2><p>Top up any of these for your clients — and more on request.</p></div>
-      <div class="related">
-        {coverage.map((a) => (<a href={`/buy/${a.slug}`}>{a.airline} {a.program}</a>))}
+      <div class="section-head"><h2>Every major program</h2><p>Top up any of these for your clients, and more on request.</p></div>
+      <div class="grid grid-mini" style={`--span4:${askSpan(4)};--span3:${askSpan(3)};--span2:${askSpan(2)}`}>
+        {coverage.map((a) => (
+          <a class="gcard gcard-mini" href={`/buy/${a.slug}`}>
+            <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={40} />
+            {/* the logo is a wordmark, so repeating the carrier under it says
+                the same thing twice; entries falling back to the code badge
+                still need naming. The logo's alt text carries it either way. */}
+            {a.logo ? (
+              <div class="pname">{a.short}</div>
+            ) : (
+              <>
+                <div class="pname">{a.airline}</div>
+                <div class="plabel">{a.short}</div>
+              </>
+            )}
+          </a>
+        ))}
+        <!-- the "and more on request" in the intro needs somewhere to go, and
+             it fills the gap the roster leaves in its last row. The span is
+             computed per column count above, so it always reaches the right
+             edge however many programs the roster grows to -->
+        <a class="gcard gcard-mini gcard-ask" href="/request">
+          <span class="ask-t">
+            <b>Program not listed?</b>
+            Tell us what your client needs and we'll check availability and price it.
+          </span>
+          <span class="askcta">Ask for a quote →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -128,26 +234,32 @@ const jsonld = {
 
   <!-- FAQ -->
   <section class="section" style="padding-top:0">
-    <div class="container" style="max-width:760px">
+    <div class="container">
       <div class="section-head"><h2>Partner questions</h2></div>
-      <details class="faq" open><summary>How does partner pricing work?<span class="mk">+</span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact — reach out and we'll quote based on what you typically move.</div></details>
-      <details class="faq"><summary>Can you source a specific business-class seat?<span class="mk">+</span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it — you receive a confirmed ticket to pass to your client.</div></details>
-      <details class="faq"><summary>How fast is delivery?<span class="mk">+</span></summary><div class="ans">Most miles land within 24 hours. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
-      <details class="faq"><summary>Is it white-label?<span class="mk">+</span></summary><div class="ans">Yes. We stay behind the scenes — your client deals only with you.</div></details>
-      <details class="faq"><summary>What payment methods and terms do you offer?<span class="mk">+</span></summary><div class="ans">[Replace with your actual accepted methods and any partner terms.]</div></details>
+      <div class="faqx-list">
+      <details class="faq" open><summary><span class="faq-q">How does partner pricing work?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">Rates scale with volume. You get a set per-mile price and a direct contact. Reach out and we'll quote based on what you typically move.</div></details>
+      <details class="faq"><summary><span class="faq-q">Can you source a specific business-class seat?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">Yes. Send the route, cabin, and dates, and we find the award space and book it, and you receive a confirmed ticket to pass to your client.</div></details>
+      <details class="faq"><summary><span class="faq-q">How fast is delivery?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">{fastestWindow ? `Most miles land within ${fastestWindow.toLowerCase()}` : "Delivery windows vary by program and are shown on each program page"}. Sourced tickets depend on availability; we confirm realistic timelines before you commit.</div></details>
+      <details class="faq"><summary><span class="faq-q">Is it white-label?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">Yes. We stay behind the scenes, and your client deals only with you.</div></details>
+      <details class="faq"><summary><span class="faq-q">What payment methods and terms do you offer?</span><span class="faq-mk" aria-hidden="true"></span></summary><div class="ans">{partnerPayAnswer}</div></details>
+      </div>
     </div>
   </section>
 
   <!-- APPLY -->
+  <!-- The application used to sit in a 640px column, which made the last
+       section of the page read as a different site to the eight above it. It
+       now runs the same container as everything else, form full width. -->
   <section class="section" id="apply" style="padding-top:0">
-    <div class="container" style="max-width:640px">
-      <div class="section-head" style="text-align:center;margin:0 auto 24px">
+    <div class="container">
+      <div class="section-head">
         <h2>Apply for partner access</h2>
         <p>Tell us about your business and we'll set you up with pricing and a direct contact.</p>
       </div>
-      <form class="formcard" id="partner-form">
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
-        <input type="hidden" name="subject" value="New partner application — buyflightmiles" />
+      <form class="formcard" id="partner-form" data-inbox={agentEmail || mailtoInbox}>
+        <input type="hidden" name="access_key" value={agentKey} />
+        <input type="hidden" id="partner-fallback" value={agentNotWired} />
+        <input type="hidden" name="subject" value="New partner application - buyflightmiles" />
         <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
         <div class="form-grid">
           <div class="field"><label for="name">Name *</label><input id="name" name="name" type="text" required /></div>
@@ -158,20 +270,65 @@ const jsonld = {
           <div class="field"><label for="volume">Typical monthly volume</label><select id="volume" name="volume"><option>Under $5,000</option><option>$5,000–$25,000</option><option>$25,000–$100,000</option><option>$100,000+</option></select></div>
         </div>
         <div class="field" style="margin-bottom:4px"><label for="message">What are you looking for?</label><textarea id="message" name="message" rows="4" placeholder="Programs of interest, typical routes and cabins, anything else."></textarea></div>
+        <Turnstile />
         <button type="submit" class="btn btn-primary" id="partner-submit" style="width:100%;margin-top:14px">Submit application</button>
         <p class="form-msg" id="partner-msg" hidden></p>
       </form>
-      <p style="color:var(--text-3);font-size:12px;font-family:var(--mono);text-align:center;margin-top:12px">TODO: set your Web3Forms access key (register it with the destination Gmail).</p>
     </div>
   </section>
 
-  <script>
+  <EnquiryMail />
+
+  <script is:inline>
     const form = document.getElementById("partner-form");
     const msg = document.getElementById("partner-msg");
     const btn = document.getElementById("partner-submit");
     if (form) {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!form.querySelector('input[name="access_key"]').value) {
+          // No posting key yet. An inbox alone is enough: write the
+          // application out as a letter and hand it to their mail client,
+          // rather than telling them to start again in an email themselves.
+          const inbox = form.dataset.inbox;
+          if (inbox) {
+            const fd = new FormData(form);
+            const g = (k) => String(fd.get(k) || "").trim();
+            const name = g("name");
+            window.bfmMail({
+              inbox,
+              subject: "Partner application: " + (g("agency") || name),
+              hello: "Hello buyflightmiles,",
+              intro: "I'd like partner access for my agency.",
+              groups: [
+                { title: "The business", rows: [
+                  ["Agency / company", g("agency")],
+                  ["IATA number", g("iata")],
+                  ["Typical monthly volume", g("volume")],
+                ] },
+                { title: "How to reach me", rows: [
+                  ["Name", name],
+                  ["Work email", g("email")],
+                  ["Phone", g("phone")],
+                ] },
+                { title: "What I'm looking for", text: g("message") },
+              ],
+              trimmable: g("message"),
+              closing: "Please let me know your partner rates and who I'd be dealing with.",
+              thanks: "Thanks,",
+              name,
+              foot: "Sent from buyflightmiles.com. Nothing has been charged.",
+            });
+            msg.textContent = "Your email app should open with the whole application written out. Read it over and send it, and we'll come back to you.";
+            msg.className = "form-msg ok";
+            msg.hidden = false;
+            return;
+          }
+          msg.textContent = document.getElementById("partner-fallback").value;
+          msg.className = "form-msg err";
+          msg.hidden = false;
+          return;
+        }
         const label = btn.textContent;
         btn.disabled = true;
         btn.textContent = "Sending…";
@@ -186,7 +343,7 @@ const jsonld = {
           const json = await res.json();
           if (json.success) {
             form.reset();
-            msg.textContent = "Thanks — your application is in. We'll be in touch shortly.";
+            msg.textContent = "Thanks, your application is in. We'll be in touch shortly.";
             msg.className = "form-msg ok";
           } else {
             msg.textContent = json.message || "Something went wrong. Please email us instead.";

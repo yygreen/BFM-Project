@@ -1,0 +1,291 @@
+{
+  "capturedFrom": "https://www.buyflightmiles.com",
+  "capturedAt": "2026-08-13",
+  "urls": [
+    {
+      "path": "/",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/about-us",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines",
+      "status": 301,
+      "redirectsTo": "/"
+    },
+    {
+      "path": "/airlines/aer-lingus-aerclub",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/aeromexico-club-premier",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/air-canada-aeroplan",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/air-france-klm-flying-blue",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/alitalia-millemiglia",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/all-nippon-airways-mileage-club",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/avaair",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/avianca-lifemiles",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/british-airways-executive-club",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/cathay-pacific-asia-miles",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/delta-skymiles",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/el-al-matmid",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/etihad-guest",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/hawaiian-airlines-hawaiian-miles",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/iberia-plus",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/jetblue-trueblue",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/qatar-airways",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/singapore-krisflyer",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/united",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/airlines/virgin-atlantic-flying-club",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/ana-miles-calculator",
+      "status": 404,
+      "redirectsTo": null
+    },
+    {
+      "path": "/author/rf_admin",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/avios-calculator",
+      "status": 404,
+      "redirectsTo": null
+    },
+    {
+      "path": "/blogs",
+      "status": 404,
+      "redirectsTo": null
+    },
+    {
+      "path": "/british-airways",
+      "status": 301,
+      "redirectsTo": "/airlines/british-airways-executive-club"
+    },
+    {
+      "path": "/buy-ana-miles",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/buy-avios",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/buy-krisflyer-miles",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/buy-skyward-miles",
+      "status": 404,
+      "redirectsTo": null
+    },
+    {
+      "path": "/checkout",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/checkout-latest",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/comments/feed",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/complete",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/contact-us",
+      "status": 404,
+      "redirectsTo": null
+    },
+    {
+      "path": "/contactus",
+      "status": 404,
+      "redirectsTo": null
+    },
+    {
+      "path": "/etihad",
+      "status": 301,
+      "redirectsTo": "/airlines/etihad-guest"
+    },
+    {
+      "path": "/eva-air-infinity-mileagelands-guide",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/eva-air-miles",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/eva-air-miles-calculator",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/faqs",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/feed",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/index.php",
+      "status": 301,
+      "redirectsTo": "/"
+    },
+    {
+      "path": "/krisflyer-miles-calculator",
+      "status": 404,
+      "redirectsTo": null
+    },
+    {
+      "path": "/page/2",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/privacy-policy",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/qatar-airways",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/qatar-airways-ar",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/qatar-avios-guide",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/qatar-avios-guide-ar",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/should-i-buy-qatar-avios",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/should-i-buy-qatar-avios-ar",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/terms-and-conditions",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/wp-json",
+      "status": 200,
+      "redirectsTo": null
+    },
+    {
+      "path": "/wp-json/wp/v2/pages/6",
+      "status": 403,
+      "redirectsTo": null
+    }
+  ]
+}

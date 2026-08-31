@@ -1,0 +1,132 @@
+---
+// Business and first class award tickets — the retail counterpart to what
+// /agents already offers the trade.
+//
+// This page owns the search traffic and the explanation. It does NOT own the
+// form: FlightSearch is self-contained and submits in place, here and
+// everywhere else it is embedded, so nobody is ever moved to another page to
+// finish a thought they already started.
+//
+// The honest shape of it: we hold no seats and have no availability feed, so
+// nothing here states that a seat exists. A brief goes in, a person answers.
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import FlightSearch from "../components/FlightSearch.astro";
+import { getCollection } from "astro:content";
+import { flightSavings, flightSavingsHtml } from "../lib/site";
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+
+const savings = flightSavings();
+const savingsHtml = flightSavingsHtml();
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Business and first class flight sourcing",
+  provider: { "@type": "Organization", name: "buyflightmiles" },
+  serviceType: "Award ticket sourcing",
+  areaServed: "Worldwide",
+  description:
+    "Business and first class award seats sourced to a requested route, date and cabin, quoted before payment.",
+};
+---
+<Base
+  title="Business & First Class Flights for Less | buyflightmiles"
+  description={`${savings ? savings + ". " : ""}Business and first class seats sourced to your route and dates. We check what the programs have open and quote the seat before you pay.`}
+  slug="flights"
+  jsonld={jsonld}
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Flights" },
+      ]} />
+      <div class="section-head">
+        <span class="kicker">Business &amp; first class</span>
+        <h1>Business and first class, sourced for your dates</h1>
+        {savings && (
+          <p class="fs-save" set:html={savingsHtml} />
+        )}
+        <p>
+          Some trips are easier to solve as a finished ticket than as a pile of miles.
+          Give us the route and when you want to fly, and we'll look at what the award
+          programs have open and come back with the seat and the price. You approve it
+          before anything is paid.
+        </p>
+      </div>
+
+      <FlightSearch moreLink={false} />
+    </div>
+  </section>
+
+  <section class="section tinted">
+    <div class="container">
+      <div class="section-head">
+        <h2>How this works</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="n">Step 01</div><h3>You send the brief</h3>
+          <p>Route, dates, cabin and how many of you. Flexibility on dates is the single biggest factor in whether award space exists at all, so tell us how firm yours are.</p>
+        </div>
+        <div class="step">
+          <div class="n">Step 02</div><h3>We look, then tell you</h3>
+          <p>We check what the programs have open for those dates and come back with what's actually bookable and what it costs.</p>
+        </div>
+        <div class="step">
+          <div class="n">Step 03</div><h3>You approve, then pay</h3>
+          <p>Price and itinerary are confirmed before any payment, and payment happens off this site. The ticket is issued in the traveller's own name.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Straight answers before you ask</h2>
+      </div>
+      <div class="faqx-list">
+      <details class="faq" open>
+        <summary><span class="faq-q">Is the ticket in my name?</span><span class="faq-mk" aria-hidden="true"></span></summary>
+        <div class="ans">Yes. The booking is issued in the travelling passenger's name and you deal with the airline directly for seats, bags and changes, the same as any other ticket. We are not affiliated with any airline or loyalty program.</div>
+      </details>
+      <details class="faq">
+        <summary><span class="faq-q">Can you guarantee the seat before I pay?</span><span class="faq-mk" aria-hidden="true"></span></summary>
+        <div class="ans">We confirm what is actually available and quote it before you pay anything. Award space moves, sometimes within hours, so a quote is answered against what's open when we look. If it goes before you decide, we tell you and look again rather than substituting something you didn't ask for.</div>
+      </details>
+      <details class="faq">
+        <summary><span class="faq-q">What about taxes and carrier surcharges?</span><span class="faq-mk" aria-hidden="true"></span></summary>
+        <div class="ans">Award tickets carry taxes and, on some programs, carrier-imposed surcharges. They vary enormously by program and route, and they're part of what makes one routing better value than another. Your quote states what's included so there's no second number later.</div>
+      </details>
+      <details class="faq">
+        <summary><span class="faq-q">Should I buy miles instead?</span><span class="faq-mk" aria-hidden="true"></span></summary>
+        <div class="ans">Often, yes, and it's worth asking. If you already hold most of the miles for the award, buying the shortfall and booking it yourself is usually the cheaper path, and every program page has a calculator for it. A finished ticket makes more sense when you're starting from nothing, when the miles you'd need aren't buyable, or when you'd rather not do the searching.</div>
+      </details>
+      <details class="faq">
+        <summary><span class="faq-q">Which airlines can you book?</span><span class="faq-mk" aria-hidden="true"></span></summary>
+        <div class="ans">It depends on the route and the date more than the carrier. Tell us where you want to go and we'll tell you what's reachable, including whether a program you've never used is the one that opens it up.</div>
+      </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tinted">
+    <div class="container">
+      <div class="section-head">
+        <h2>Or buy the miles and book it yourself</h2>
+        <p>If you're close to the award already, topping up the account you hold is usually the cheaper route. Every program page prices the shortfall.</p>
+      </div>
+      <div class="related related-inline">
+        <span class="related-lab">Programs</span>
+        {airlines.map((a) => (
+          <a href={`/buy/${a.slug}`}>{a.airline}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

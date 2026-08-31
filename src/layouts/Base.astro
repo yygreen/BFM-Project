@@ -1,30 +1,116 @@
 ---
 import "../styles/flightdeck.css";
+import { getCollection } from "astro:content";
+import { getPosts, getCategoryCounts } from "../lib/blog";
+// aliased: `site` is already taken below by Astro.site (the deploy URL)
+import { site as siteData, officialChannels } from "../lib/site";
+import Logo from "../components/Logo.astro";
+import ContactDock from "../components/ContactDock.astro";
+import { LOCALES } from "../lib/locales";
+
+// Nav + footer program lists are generated from the collection, so adding an
+// entry to airlines.json puts it in the navigation automatically — the roster
+// is heading toward ~40 programs and a hand-maintained list would go stale.
+// Alphabetical by airline for nav — a lookup list, not a merchandising order.
+const programs = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+
+
+// Blog nav: categories that have posts, plus the newest two.
+const blogCategories = await getCategoryCounts();
+const latestPosts = (await getPosts()).slice(0, 2);
+
+// Footer contact block. Same rule as everywhere else: a channel is listed only
+// while site.json marks the contact details verified, and an empty field drops
+// its row rather than printing a blank one.
+//
+// One definition of what counts as an official channel, so the footer and the
+// contact page cannot drift apart on what we publish as ours.
+const contactWays = officialChannels();
+// The header's call CTA. Same registry as the footer, so it inherits the
+// verified gate: with contact.verified false the header simply has no number
+// rather than printing one nobody confirmed.
+const headerPhone = contactWays.find((c) => c.kind === "phone");
 
 const {
-  title = "buyflightmiles — Buy airline miles, delivered fast",
-  description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, backed by our delivery guarantee.",
+  title = "buyflightmiles: Buy airline miles, delivered fast",
+  description = "Buy airline miles at a fraction of the price. Secure transfer, fast delivery, and your exact rate confirmed before you pay.",
   slug = "",
   jsonld = null,
+  lang = "en",
+  // language alternates for this page, e.g. [{ hreflang: "ar", slug: "ar/buy/qatar-avios" }].
+  // The page's own language pair and x-default are emitted automatically.
+  alternates = [],
+  // e.g. "noindex, nofollow" for legal pages — omitted entirely when null
+  robots = null,
+  // Path under /public for the share card. Every page gets the brand card by
+  // default; a page with real art of its own (a blog post with a hero image)
+  // passes it instead. Always a raster: the generated SVG hero fallback can't
+  // be an og:image because the link-preview scrapers don't rasterise SVG.
+  ogImage = "/og/default.jpg",
+  // Written out with the image so screen readers on the consuming platform
+  // have something better than the filename.
+  ogImageAlt = "buyflightmiles: buy airline miles for premium-cabin redemptions",
+  // The default card is 1200×630; the blog heroes are 1376×768. Stated so
+  // scrapers can lay the preview out before fetching the image.
+  ogImageWidth = 1200,
+  ogImageHeight = 630,
 } = Astro.props;
 
-const site = Astro.site ?? new URL("https://buyflightmiles.com");
+// How this page groups numbers, published on <html> for the inline scripts.
+// The page's own locale rather than its language tag: Chromium resolves bare
+// "ar" to latin digits while the Arabic pages format with ar-EG, so reading
+// the tag would have grouped the amount fields in a numbering system nothing
+// else on the page uses.
+const numLocale = LOCALES[lang.toLowerCase()]?.numLocale ?? "en-US";
+
+const site = Astro.site ?? new URL("https://www.buyflightmiles.com");
 const canonical = new URL(slug, site).href;
+// scrapers want an absolute URL; a root-relative one is silently dropped
+const ogImageUrl = new URL(ogImage, site).href;
+const hreflangs = alternates.length
+  ? [
+      { hreflang: lang, href: canonical },
+      ...alternates.map((a) => ({ hreflang: a.hreflang, href: new URL(a.slug, site).href })),
+      { hreflang: "x-default", href: lang === "en" ? canonical : new URL(alternates.find((a) => a.hreflang === "en")?.slug ?? "", site).href },
+    ]
+  : [];
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang} data-numlocale={numLocale}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  {robots && <meta name="robots" content={robots} />}
+  {hreflangs.map((h) => <link rel="alternate" hreflang={h.hreflang} href={h.href} />)}
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content="buyflightmiles" />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:image:width" content={String(ogImageWidth)} />
+  <meta property="og:image:height" content={String(ogImageHeight)} />
+  <meta property="og:image:alt" content={ogImageAlt} />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={ogImageUrl} />
+
+  <!-- Icons: the SVG is the real one and stays sharp at any size; the 32px
+       PNG covers clients that don't take SVG, and /favicon.ico catches the
+       bare request crawlers make whatever is declared here. The old site
+       served WordPress's own logo at /favicon.ico. -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#1E2D79" />
+
+  <link rel="alternate" type="application/rss+xml" title="buyflightmiles: Miles news &amp; guides" href="/rss.xml" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,16 +120,175 @@ const canonical = new URL(slug, site).href;
 <body>
   <header class="site-header">
     <div class="container bar">
-      <a href="/" class="brand">buy<span>flight</span><em>miles</em></a>
+      <a href="/" class="brand" aria-label="buyflightmiles home"><Logo /></a>
       <nav class="nav">
-        <a class="link" href="/#programs">Programs</a>
+        <details class="dd" id="nav-dd">
+          <summary class="link dd-t"><a class="dd-link" href="/#programs">Programs</a>
+            <svg class="dd-c" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="dd-panel">
+            <div class="dd-grid">
+              {programs.map((p) => (
+                <a class="dd-item" href={`/buy/${p.slug}`}>
+                  <span class={`dd-code${p.logo ? " dd-logo" : ""}`} style={`--c:${p.color}`}>{p.logo ? <img src={p.logo} alt="" loading="lazy" /> : p.code}</span>
+                  <span class="dd-txt">
+                    <span class="dd-air">{p.airline}</span>
+                    <span class="dd-prog">{p.program}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </details>
         <a class="link" href="/agents">For agents</a>
-        <a class="link" href="/#how">How it works</a>
-        <a class="link" href="/#faq">FAQ</a>
-        <a class="btn btn-primary" href="/#programs" style="padding:9px 18px">View pricing</a>
+
+        {latestPosts.length > 0 && (
+          <details class="dd" id="nav-journal">
+            <summary class="link dd-t"><a class="dd-link" href="/blog">Blog</a>
+              <svg class="dd-c" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="dd-panel dd-journal">
+              {blogCategories.length > 0 && (
+                <div class="ddj-cats">
+                  {blogCategories.map((c) => (
+                    <a class="ddj-cat" href={`/blog/category/${c.slug}`}>
+                      <span>{c.name}</span><span class="n">{c.count}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+              <div class="ddj-latest">
+                <span class="ddj-lab">Latest</span>
+                {latestPosts.map((p) => (
+                  <a class="ddj-post" href={`/blog/${p.id}`}>{p.data.title}</a>
+                ))}
+              </div>
+              <a class="dd-all" href="/blog">All news &amp; guides →</a>
+            </div>
+          </details>
+        )}
+
+        <a class="link" href="/faq">FAQ</a>
+        {/* A four-figure purchase from a site the buyer has never used before
+            is the case where a phone number does more work than any other
+            element on the page. One call CTA here, sized as the secondary
+            action beside the pricing button; WhatsApp and the rest live in the
+            dock pinned to the corner. Confirmed in site.json already, so this
+            is the rare trust improvement that needs nothing from the client.
+            Hidden on narrow screens, where the nav is tight and the dock
+            carries the same number anyway. */}
+        {headerPhone && (
+          <a class="nav-tel" href={headerPhone.href}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <b>{headerPhone.value}</b>
+          </a>
+        )}
+        <a class="btn btn-primary nav-cta" href="/#programs"
+          ><span class="cta-long">View pricing</span><span class="cta-short">Pricing</span></a
+        >
       </nav>
     </div>
   </header>
+
+  <script is:inline>
+    // Thousands separators inside the amount fields: 80,000 rather than 80000.
+    //
+    // Every figure the site prints is grouped, and the field the visitor types
+    // the amount into was the one place that wasn't. On a purchase where one
+    // extra zero is a ten-times price error, a grouped number is checkable at
+    // a glance and a bare run of digits is not.
+    //
+    // It lives here rather than in each tool because five components take an
+    // amount and all of them would otherwise carry their own copy of the caret
+    // arithmetic. Fields opt in by calling wire(), which upgrades the input
+    // from type=number to type=text — a number input silently rejects any
+    // value with a separator in it, so grouping is impossible without the
+    // swap. Done at runtime, so with no JS the field stays a real number input
+    // with its own keypad and validation.
+    //
+    // Locales whose numerals are not 0-9 are left alone: Arabic formats 49,000
+    // as ٤٩٬٠٠٠, and rewriting the digits of someone typing on a latin keypad
+    // would be worse than no grouping at all. bare() still works there, so the
+    // parsing side is identical in every locale.
+    window.bfmNum = (function () {
+      const loc = document.documentElement.dataset.numlocale || document.documentElement.lang || "en";
+      let sep = "";
+      try {
+        const parts = new Intl.NumberFormat(loc).formatToParts(1234567);
+        const latin = parts.filter((p) => p.type === "integer").every((p) => /^[0-9]+$/.test(p.value));
+        const group = parts.find((p) => p.type === "group");
+        if (latin && group) sep = group.value;
+      } catch (e) {}
+
+      // digits only, and capped so a pasted essay can't reach Number()
+      const bare = (v) => String(v == null ? "" : v).replace(/\D/g, "").slice(0, 12);
+      // grouped from four figures up, which is where the first separator falls
+      const grouped = (v) => {
+        const d = bare(v);
+        return sep && d.length > 3 ? Number(d).toLocaleString(loc) : d;
+      };
+
+      // Reformatting rewrites the whole value, which would otherwise throw the
+      // caret to the end mid-edit. Anchor it to the digit it sat after rather
+      // than to a character offset, so an inserted separator doesn't shift it.
+      function format(el) {
+        const at = el.selectionStart == null ? el.value.length : el.selectionStart;
+        const before = bare(el.value.slice(0, at)).length;
+        const next = grouped(el.value);
+        if (next === el.value) return;
+        el.value = next;
+        let i = 0;
+        let seen = 0;
+        while (i < next.length && seen < before) {
+          if (next.charCodeAt(i) >= 48 && next.charCodeAt(i) <= 57) seen++;
+          i++;
+        }
+        try { el.setSelectionRange(i, i); } catch (e) {}
+      }
+
+      function wire(el) {
+        if (!el || !sep) return;
+        el.type = "text";
+        el.inputMode = "numeric";
+        el.autocomplete = "off";
+        // registered before the tool's own listener, so by the time the tool
+        // reads the field the value is already in its final shape
+        el.addEventListener("input", () => format(el));
+        format(el);
+      }
+
+      return { bare, grouped, wire, format };
+    })();
+  </script>
+
+  <script is:inline>
+    // Nav dropdowns: <details> already handles click + keyboard natively.
+    // This adds close-on-outside-click, Escape, and closes any sibling so
+    // two panels can never be open at once.
+    (function () {
+      const dds = Array.from(document.querySelectorAll(".nav details.dd"));
+      if (!dds.length) return;
+      dds.forEach((dd) => {
+        dd.addEventListener("toggle", () => {
+          if (dd.open) dds.forEach((o) => o !== dd && (o.open = false));
+        });
+      });
+      document.addEventListener("click", (e) => {
+        dds.forEach((dd) => {
+          if (dd.open && !dd.contains(e.target)) dd.open = false;
+        });
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        dds.forEach((dd) => {
+          if (dd.open) {
+            dd.open = false;
+            dd.querySelector("summary").focus();
+          }
+        });
+      });
+    })();
+  </script>
 
   <main>
     <slot />
@@ -52,29 +297,75 @@ const canonical = new URL(slug, site).href;
   <footer class="site-footer">
     <div class="container">
       <div class="cols">
-        <div>
-          <div class="brand">buy<span>flight</span><em>miles</em></div>
-          <p style="color:#B7AA8E; font-size:13.5px; max-width:36ch; margin-top:12px; line-height:1.6;">
-            Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, every order backed by our guarantee.
+        <!-- Four columns of equal standing, so every heading sits on one
+             baseline and the brand text stops leaving a gutter of empty navy
+             between itself and the first link list. Contact is a column rather
+             than a block hung off the brand copy: a phone number is worth more
+             on this site than anywhere else, because the thing being sold is
+             trust, and it reads as a place to look rather than as a footnote.
+             Every detail renders only while contact.verified holds. -->
+        <div class="foot-brand">
+          <div class="brand"><Logo variant="light" size={40} /></div>
+          <p>
+            Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery, {siteData.guarantee.verified ? "and your payment held until your miles arrive" : "and your exact rate confirmed before you pay"}.
+          </p>
+          <p>
+            Miles are transferred into the account you already hold, across {programs.length} loyalty programs. Ask for a quote and we'll confirm your rate and delivery window before anything is paid.
           </p>
         </div>
+        <!-- The column renders even when the channels are suppressed, so the
+             contact page stays linked from every page regardless of what
+             site.json has confirmed. -->
+        <div class="foot-contact">
+          <h5>Talk to us</h5>
+          {contactWays.map((w) => (
+            <a href={w.href} rel={w.external ? "noopener" : undefined} target={w.external ? "_blank" : undefined}>
+              <span>{w.label}</span>{w.value}
+            </a>
+          ))}
+          <a class="foot-contact-page" href="/contact">Contact</a>
+        </div>
         <div>
-          <h5>Programs</h5>
-          <a href="/buy/delta-skymiles">Delta SkyMiles</a>
-          <a href="/buy/united-mileageplus">United MileagePlus</a>
-          <a href="/buy/american-aadvantage">American AAdvantage</a>
-          <a href="/buy/krisflyer">Singapore KrisFlyer</a>
+          <h5><a href="/blog">Blog</a></h5>
+          <a href="/blog">All news &amp; guides</a>
+          {blogCategories.map((c) => (
+            <a href={`/blog/category/${c.slug}`}>{c.name}</a>
+          ))}
+          <a href="/rss.xml">RSS feed</a>
         </div>
         <div>
           <h5>Company</h5>
+          <a href="/about">About us</a>
+          <a href="/calculator">Miles calculators</a>
+          <a href="/buy/avios">Buy Avios</a>
+          <a href="/flights">Business &amp; first class flights</a>
           <a href="/agents">For agents &amp; brokers</a>
           <a href="/#how">How it works</a>
-          <a href="/#faq">FAQ</a>
+          <a href="/faq">FAQ</a>
           <a href="/#trust">Why trust us</a>
+          <a href="/privacy">Privacy policy</a>
+          <a href="/terms">Terms &amp; conditions</a>
+        </div>
+      </div>
+      <!-- Every program stays linked from every page (the internal linking is
+           most of the programmatic-SEO value), but as a wide multi-column band
+           rather than a 21-item column that doubled the footer's height. -->
+      <div class="foot-programs">
+        <h5><a href="/#programs">Programs</a></h5>
+        <div class="foot-proglist">
+          {programs.map((p) => (
+            <a href={`/buy/${p.slug}`}>{p.airline} <span>{p.program}</span></a>
+          ))}
         </div>
       </div>
       <div class="fine">© {new Date().getFullYear()} buyflightmiles · Not affiliated with any airline or loyalty program.</div>
     </div>
   </footer>
+
+  {/* Pinned bottom right on every page — in English even on the translated
+      ones, because that is the language the phone actually answers in.
+      Renders nothing at all unless site.json has a verified phone or
+      WhatsApp. */}
+  <ContactDock />
 </body>
 </html>

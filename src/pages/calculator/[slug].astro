@@ -1,0 +1,332 @@
+---
+// Per-program miles calculator — the landing for "{airline} miles
+// calculator" searches (~9.2k/mo across programs). Deliberately distinct
+// from the /buy pages: those target buy intent and carry the sales story;
+// these are tool pages whose content is the arithmetic itself, computed from
+// the program's own data so no two pages read the same.
+//
+// The search intent is mixed: some visitors want to price buying miles (us),
+// some want the airline's earning calculator (not us). The page serves the
+// first honestly and points the second at the right door rather than
+// pretending to be it.
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import QuoteWidget from "../../components/QuoteWidget.astro";
+import ShortfallTool from "../../components/ShortfallTool.astro";
+import { getCollection } from "astro:content";
+import { usd, per1000 as per1000Of, costOf } from "../../lib/money";
+import { LOCALES } from "../../lib/locales";
+
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+
+const { a } = Astro.props;
+// The worth phrasing leads; the program-named calculator tag stays while the
+// whole line fits a search result, and degrades to the bare word when the
+// program name would push it past ~70 characters (Rapid Rewards, Miles&Smiles).
+const titleFull = (tag) => `How Much Are ${a.airline} Miles Worth? | ${tag} Calculator`;
+const pageTitle = titleFull(a.program.replace(/\s*\(.*\)$/, "")).length <= 70
+  ? titleFull(a.program.replace(/\s*\(.*\)$/, ""))
+  : `How Much Are ${a.airline} Miles Worth? | Miles Calculator`;
+const verified = a.priceVerified;
+const approx = verified ? "" : "~";
+const progShort = a.program.replace(/\s*\(.*\)$/, "");
+// "LifeMiles miles" and "Asia Miles miles" read like a stutter — skip the
+// suffix when the program name already ends in it
+const progMiles = /miles$/i.test(progShort) ? progShort : `${progShort} miles`;
+const per1000 = per1000Of(a.pricePerMile);
+// Six values so the grid tiles 3×2, and the first is the program's OWN
+// minimum: the minimums are per-program (10,000 on Qatar, 80,000 on United),
+// so a fixed ladder either priced amounts that can't be ordered or dropped
+// rows and orphaned the grid. Steps below 1.2× the minimum are skipped so the
+// first two rows aren't 49,000 and 50,000.
+const rows = [a.min, ...[50000, 75000, 100000, 150000, 200000, 250000, 500000]
+  .filter((m) => m > a.min * 1.2 && m <= a.max)].slice(0, 6);
+const num = (n) => n.toLocaleString("en-US");
+// opens on the program's own priced award where one exists, so the tool
+// starts from a real redemption rather than a round number
+const openAward = (a.sweetSpots ?? []).find((sp) => sp.miles)?.miles ?? 0;
+const cost = (m) => usd(costOf(m, a.pricePerMile));
+
+// Break-even table: a sweet spot that carries a checked `miles` figure gets a
+// named row (add the field in airlines.json and the row appears); the generic
+// cabin archetypes below carry every page that has no priced award yet. The
+// break-even IS the purchase price of the miles: fare above it, buying wins.
+const namedAwards = (a.sweetSpots ?? [])
+  .filter((s) => s.miles)
+  .map((s) => ({ label: s.title, miles: s.miles, named: true }));
+const awards = [
+  ...namedAwards,
+  { label: "Short-haul economy, round trip", miles: 30000 },
+  { label: "Long-haul economy, one-way", miles: 45000 },
+  { label: "Long-haul business, one-way", miles: 85000 },
+  { label: "Long-haul business, round trip", miles: 160000 },
+];
+
+// Worked division example — deterministic hypothetical, framed as "say the
+// fare is": teaching arithmetic, not a claim about real fares. Uses the
+// program's own priced award when one exists so no two pages read alike.
+const exName = namedAwards[0]?.label;
+const exMiles = namedAwards[0]?.miles ?? 70000;
+const exFare = Math.round((exMiles * 0.06) / 100) * 100;
+const exPer = ((exFare * 100) / exMiles).toFixed(1);
+const exSave = exFare - (exMiles * a.pricePerMile) / 100;
+
+// Calculator-intent FAQ — distinct from the buy page's questions on purpose;
+// the two pages were just de-duplicated and their FAQs stay apart too.
+const faqs = [
+  // The flat "what does it cost" question lives on the buy page, which is
+  // where someone asking it wants to end up. This page answers what the
+  // arithmetic MEANS: what a mile is worth, when cash wins, what the figure
+  // excludes, and what it can't tell you.
+  {
+    q: `Is there a single fixed value for a ${progShort} mile?`,
+    open: true,
+    a: `There is no fixed value. A mile is worth what its redemption saves you: divide the cash fare by the miles the award needs. Above ${approx}${a.pricePerMile}¢ per mile the miles are worth more than they cost to buy, and long-haul premium-cabin awards usually clear that bar by the widest margin.`,
+  },
+  {
+    q: `Should I buy ${a.airline} miles or pay cash?`,
+    a: `Compare the cash fare with the break-even: the price of the miles the award needs. At ${approx}${a.pricePerMile}¢ per mile, a 70,000-mile award breaks even at ${approx}${cost(70000)}. If the fare is higher, buying wins; if it is lower, pay cash. The comparison tool on the ${progShort} page runs that verdict on your real numbers.`,
+  },
+  {
+    q: `Does this calculator include award taxes and fees?`,
+    a: `No. Airlines bill taxes and any carrier surcharges separately when you book the award, and those vary by route. The calculator and your quote price the miles only.`,
+  },
+  {
+    q: `Can it tell me how many miles a flight will earn?`,
+    a: `No. Earning depends on ${a.airline}'s own rules and lives in the airline's tools. This page prices topping up an account that is short of an award.`,
+  },
+  {
+    q: `Is there a minimum or maximum order?`,
+    a: `Orders run from ${num(a.min)} to ${num(a.max)} miles per transfer. If you need something outside that range, say so on the quote request and we'll confirm whether we can do it.`,
+  },
+];
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+<Base
+  title={pageTitle}
+  description={`What ${a.airline} ${progMiles} are worth, and what they cost to buy at ${approx}${a.pricePerMile}¢ per mile. Price any amount live and see where the break-even sits against your cash fare.`}
+  slug={`calculator/${a.slug}`}
+  alternates={Object.keys(a.i18n ?? {}).map((loc) => ({ hreflang: LOCALES[loc]?.htmlLang ?? loc, slug: `${loc}/calculator/${a.slug}` }))}
+>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid top">
+        <div>
+          <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Calculators", href: "/calculator" },
+            { label: `${a.airline} ${progShort}` },
+          ]} />
+          <span class="kicker">Calculator</span>
+          <h1>How much are {a.airline} miles worth?</h1>
+          <p class="sub">
+            A mile is worth what its redemption saves you: divide the cash fare by the miles
+            the award needs. Above {approx}{a.pricePerMile}¢ per mile — what {progMiles} cost
+            to buy here — the miles beat the fare. Price your amount live, and the verdict on
+            your real fare lives on the <a href={`/buy/${a.slug}#worth`}>{progShort} page</a>.
+          </p>
+          <div class="spec">
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <b>{approx}{a.pricePerMile}¢</b> per mile
+            </span>
+            <span class="spec-it">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <b>{approx}{usd(per1000)}</b> per 1,000 miles
+            </span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="hero-calc" id="quote">
+            <QuoteWidget defaultSlug={a.slug} locked heading={`Calculate what ${progMiles} cost`} sub="Enter an amount; the cost updates as you type." />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>{a.airline} miles calculator</h2>
+        <p>Type any amount in the tool above, or read the common order sizes here — both run the same arithmetic, at the same {approx}{a.pricePerMile}¢ rate.</p>
+      </div>
+      <div class="rate-rows">
+        {rows.map((m) => (
+          <div class="rate-row">
+            <b class="mono">{m.toLocaleString("en-US")}</b>
+            <span>miles</span>
+            <i aria-hidden="true"></i>
+            <b class="mono">{approx}{cost(m)}</b>
+          </div>
+        ))}
+      </div>
+      {!verified && (
+        <p class="cmp-note" style="margin-top:18px">
+          The tilde matters: this program's rate is indicative until your quote confirms it.
+          The quote is always the binding number, never this page.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- the math, spelled out — this page's job is the arithmetic; the
+       buy-vs-cash VERDICT tool lives on the program page, not here twice -->
+  <section class="section" id="shortfall">
+    <div class="container">
+      <div class="section-head">
+        <h2>How many {progMiles} do you actually need?</h2>
+        <p>
+          Put in what the award costs and what your account already holds. This prices
+          the difference, whether that's a small top-up or the whole award from an empty
+          balance, and it says so when the amount lands under {progShort}'s smallest order.
+        </p>
+      </div>
+      <ShortfallTool
+        program={progShort}
+        rate={a.pricePerMile}
+        verified={verified}
+        min={a.min}
+        max={a.max}
+        award={openAward}
+        requestLabel={`${a.airline} ${progShort}`}
+      />
+    </div>
+  </section>
+
+  <section class="section wash-cool">
+    <div class="container">
+      <div class="section-head">
+        <h2>How the math works</h2>
+      </div>
+      <div class="uses">
+        <div class="use">
+          <h4>Cost = miles × rate</h4>
+          <p>{progShort} at {approx}{a.pricePerMile}¢ per mile means every 1,000 miles costs {approx}{usd(per1000)}. A 70,000-mile award is 70 × {approx}{usd(per1000)} = {approx}{cost(70000)}. No fees are added on top of the quoted rate.</p>
+        </div>
+        <div class="use">
+          <h4>When buying makes sense</h4>
+          <p>Divide the cash fare by the miles the award needs: that's what the seat values a mile at. If it's comfortably above {approx}{a.pricePerMile}¢, buying wins; if it's below, pay cash. The <a href={`/buy/${a.slug}#worth`}>{progShort} page's comparison tool</a> runs that verdict on your real numbers.</p>
+        </div>
+        <div class="use">
+          <h4>Why the quote is the real number</h4>
+          <p>Rates move with sourcing. The figure here prices your estimate; the quote confirms your exact rate and delivery window before anything is paid, and that confirmed number is the one that binds.</p>
+        </div>
+      </div>
+      <div class="workx">
+        <b>A worked example.</b> {exName
+          ? `Take ${progShort}'s ${exName} at ${num(exMiles)} miles, and say the cash fare you found is ${usd(exFare)}.`
+          : `Say the award needs ${num(exMiles)} miles and the cash fare you found is ${usd(exFare)}.`}
+        {" "}That fare values each mile at <b class="mono">{exPer}¢</b> ({usd(exFare)} ÷ {num(exMiles)}),
+        and buying them at {approx}{a.pricePerMile}¢ costs <b class="mono">{approx}{cost(exMiles)}</b>.
+        Miles win by {approx}{usd(exSave)}. When the division lands below {approx}{a.pricePerMile}¢,
+        cash wins.
+      </div>
+    </div>
+  </section>
+
+  <!-- the break-even table: the one number that decides each award. Converted
+       from the old site's award chart, minus its invented cash fares and
+       savings percentages: every figure here is miles × rate, nothing claimed -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Where the break-even sits</h2>
+        <p>Every award has one deciding number: what its miles cost to buy. Fare above it, buying wins. Fare below it, pay cash.</p>
+      </div>
+      <div class="twrap">
+        <table class="cmp be">
+          <thead>
+            <tr><th>The award</th><th>Miles it needs</th><th>Break-even fare</th></tr>
+          </thead>
+          <tbody>
+            {awards.map((w) => (
+              <tr class={w.named ? "be-named" : undefined}>
+                <td>{w.label}{!w.named && <span class="be-approx"> (illustrative)</span>}</td>
+                <td>{w.named ? "from " : "≈"}{num(w.miles)}</td>
+                <td>{approx}{cost(w.miles)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="cmp-note" style="margin-top:14px">
+        Generic award sizes are illustrative; {a.airline} prices its own chart, and your route
+        sets the real number. Taxes and carrier surcharges are billed by the airline at booking
+        and sit outside this math.{!verified && " The tilde means your quote confirms the exact rate."}
+      </p>
+    </div>
+  </section>
+
+  <!-- the 30-second check, adapted from the old site's closing checklist -->
+  <section class="section wash-neutral">
+    <div class="container">
+      <div class="section-head">
+        {/* Categorical, not a verdict: the buy page asks "does buying beat the
+            cash fare?" and answers it from the visitor's own numbers. This
+            section says when it TENDS to win, needs no input, and hands off to
+            that tool below. Two pages asking the same question in a heading
+            read as duplicates even when what sits under them differs. */}
+        <h2>When {progMiles} are worth buying</h2>
+      </div>
+      <div class="uses">
+        <div class="use">
+          <h4>Premium cabin, long-haul?</h4>
+          <p>Business and first class fares clear the break-even by the widest margins. This is where buying miles most often wins.</p>
+        </div>
+        <div class="use">
+          <h4>Fare above the break-even?</h4>
+          <p>Divide the fare by the miles the award needs. Above {approx}{a.pricePerMile}¢ per mile, buying wins, and the further above, the bigger the saving.</p>
+        </div>
+        <div class="use">
+          <h4>Short hop in economy?</h4>
+          <p>Cheap cash fares rarely clear the break-even. Pay cash, and save the miles math for the long-haul trips.</p>
+        </div>
+        <div class="use">
+          <h4>Still not sure?</h4>
+          <p>Run your real fare through the <a href={`/buy/${a.slug}#worth`}>{progShort} comparison tool</a>, or send the amount as a quote request. Nothing is charged on this site.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- calculator-intent FAQ; earning-calculator seekers get their honest
+       redirect here rather than in a section of their own -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>The {progShort} math, answered</h2>
+      </div>
+      <div class="faqx-list">
+        {faqs.map((f) => (
+          <details class="faq" open={f.open}>
+            <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+            <div class="ans">{f.a}</div>
+          </details>
+        ))}
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    </div>
+  </section>
+
+  <section class="section wash-cool">
+    <div class="container ctaband">
+      <div>
+        <h3>Numbers look right?</h3>
+        <p>Send the amount as a quote request. Exact rate confirmed first, nothing charged on this site.</p>
+      </div>
+      <a class="btn btn-primary" href="#quote">Get my quote</a>
+    </div>
+  </section>
+</Base>

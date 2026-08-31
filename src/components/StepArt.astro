@@ -1,0 +1,161 @@
+---
+// Custom illustration set for "Three steps to the seat".
+//
+// The through-line is ONE dead-level route crossing all three columns, with
+// four knobs on it: a waypoint over each step, and the logo's destination
+// ring closing the line at the far end. The brand mark draws a route that
+// trails off three dots short of its ring — the gap is the product — so the
+// one section that explains the product ends with that same route arriving:
+// the line runs level through choose, pay, fly and lands on the ring.
+//
+// The line is horizontal by design (an earlier version was a wave with the
+// markers solved onto its extrema; the flat line replaced it together with
+// the terminal arrowhead). Level geometry makes the columns seamless for
+// free: panels 1 and 2 overshoot to x=250 so the stroke bridges the grid
+// gutter (`overflow:visible` allows it), panels 2 and 3 start at x=-10 to
+// receive the overshoot, and any column widths meet at the same height.
+// Panel 1 instead begins at x=1.25: the 2.5-wide stroke has a round cap that
+// sticks out half its width, so the visible ink starts exactly on the
+// container's content edge, level with the copy below.
+//
+// Below the line, every panel is built the same way:
+//
+//   waypoint (coral)  →  dotted tether straight down  →  the motif
+//
+// Everything keys to the column's text alignment line: the ring's visible
+// left edge sits exactly on x=0, directly above the S of "Step 0n" in the
+// caption, and every motif's leftmost ink starts on that same line. The ring
+// is r=10 with a 2.5 stroke, so its centre is at 11.25; the dot and the
+// tether hang at that x, entering each motif near its leading edge. The
+// tethers are plumb lines of one length, because the route is at one
+// height.
+//
+// The destination ring carries no tether and no motif: it is not a step, it
+// is where the three of them get you. Drawn as the thick annulus from the
+// logo rather than a fourth thin ring, so it reads as arrival rather than as
+// a step that lost its caption. The line stops on its rim, not through it.
+//
+// The motifs share one centreline: the chosen row's coral rate bar, the
+// coral line that carries the money away, and the aircraft all sit on y=82,
+// so the one orange stroke in each panel reads as a single level across the
+// row. The list's row grid fixes that height; the note and the plane are
+// placed to meet it.
+//
+// Each motif depicts its OWN step rather than gesturing at it: a program
+// selector with a chosen row, money crossing off the site, an aircraft on a
+// route. An earlier pass used abstract bars, a shield and an arrowhead, which
+// read as a skeleton loader, "secure" and "growth" respectively — none of
+// them said choose / pay / fly.
+//
+// Two colours only, both from the brand: cobalt carries structure, coral
+// marks the one live thing per scene. Every value is a CSS custom property,
+// so the art moves with the tokens instead of being pinned to hex.
+interface Props { step: "choose" | "pay" | "fly" }
+const { step } = Astro.props;
+---
+{step === "choose" && (
+  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Choosing a program from the list">
+    <path class="il-line" d="M1.25 24H250" />
+    <circle class="il-ring" cx="11.25" cy="24" r="10" />
+    <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
+    <path class="il-tether" d="M11.25 36V58" />
+
+    <!-- a program list with one row chosen: carrier chip, name, rate -->
+    <rect class="il-chip" x="0" y="62" width="13" height="9" rx="3" />
+    <rect class="il-bar" x="21" y="65" width="72" height="4" rx="2" />
+    <rect class="il-bar-dim" x="101" y="65" width="26" height="4" rx="2" />
+
+    <rect class="il-chip-on" x="0" y="77" width="13" height="9" rx="3" />
+    <rect class="il-bar-on" x="21" y="80" width="86" height="4" rx="2" />
+    <rect class="il-rate" x="115" y="80" width="30" height="4" rx="2" />
+
+    <rect class="il-chip" x="0" y="92" width="13" height="9" rx="3" />
+    <rect class="il-bar" x="21" y="95" width="58" height="4" rx="2" />
+    <rect class="il-bar-dim" x="87" y="95" width="26" height="4" rx="2" />
+  </svg>
+)}
+
+{step === "pay" && (
+  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="Payment handled away from this site">
+    <path class="il-line" d="M-10 24H250" />
+    <circle class="il-ring" cx="11.25" cy="24" r="10" />
+    <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
+    <path class="il-tether" d="M11.25 36V58" />
+
+    <!-- Money, and it leaves. A note rather than a coin: two concentric circles
+         read as a target or a record button, not as payment. The arrow leads
+         away and keeps going, because nothing is ever charged here. -->
+    <rect class="il-note" x="0" y="66" width="62" height="32" rx="6" />
+    <circle class="il-note-in" cx="31" cy="82" r="7.5" />
+
+    <path class="il-cross" d="M76 82h111" />
+    <path class="il-arrow" d="M185 76l11 6-11 6z" />
+  </svg>
+)}
+
+{step === "fly" && (
+  <svg class="illo" viewBox="0 0 240 110" role="img" aria-label="The route arriving at its destination, the seat booked">
+    <!-- Last panel: the line stops on the destination ring's rim, and the
+         ring's right edge lands exactly on the container's content edge
+         (x=240), mirroring the lead-in that starts on the left content edge
+         two panels back: cx 230 + outer radius 10 = 240, line to 220.
+         Sized from the knobs with an optical correction: a solid annulus
+         reads larger than a thin outline of the same size, so its outer
+         radius is 10 — the waypoint rings' geometric radius, inside their
+         stroke — while the hole stays 4.5, exactly the coral dots' radius. -->
+    <path class="il-line" d="M-10 24H220" />
+    <circle class="il-ring" cx="11.25" cy="24" r="10" />
+    <circle class="il-dot" cx="11.25" cy="24" r="4.5" />
+    <path class="il-tether" d="M11.25 36V58" />
+
+    <!-- the logo's destination ring: a thick annulus, arrival not a step -->
+    <circle class="il-dest" cx="230" cy="24" r="7.25" />
+
+    <!-- translate x is solved so the rotated aircraft's leftmost INK lands
+         on x=0, the same alignment line as the ring and the caption's S. Ink,
+         not bounding box: the rotated bbox's left corner is empty air, and
+         the true leftmost point is the tail tip — vertex (-10, 19.6) rotated
+         40 degrees and scaled .95 lands at x = -19.25. -->
+    <g class="il-plane" transform="translate(19.25 82) rotate(40) scale(.95)">
+      <path d="M0 -22c2.2 0 4 3.4 4 7.6V-8l16 9.6v5.2L4 2v9.6l6 4.4v3.6L0 17.2l-10 2.4V16l6-4.4V2l-16 4.8V1.6l16-9.6v-6.4c0-4.2 1.8-7.6 4-7.6z" />
+    </g>
+  </svg>
+)}
+
+<style>
+  .illo { display:block; width:100%; height:auto; margin-bottom:20px; overflow:visible; }
+  /* Below this the columns are too narrow to draw the route legibly, and the
+     steps run as a compact three-up text row instead. Scoped here rather than
+     in flightdeck.css because Astro's scoping makes the rule above and a
+     `.steps .illo` override equally specific — same-specificity ties go to
+     whichever loads last, which is this file. */
+  @media (max-width:820px){ .illo { display:none; } }
+
+  /* the route — one unbroken stroke the whole way across */
+  .il-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
+
+  /* the waypoint, and the tether down to this step's motif */
+  .il-ring   { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
+  .il-dot    { fill:var(--coral); }
+  .il-tether { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 6; }
+
+  /* the terminus — the logo's ring, thick and solid cobalt */
+  .il-dest { fill:none; stroke:var(--cobalt); stroke-width:5.5; }
+
+  /* step 1 — the program list */
+  .il-chip    { fill:var(--mist); }
+  .il-chip-on { fill:var(--cobalt); }
+  .il-bar     { fill:var(--mist); }
+  .il-bar-dim { fill:var(--line-2); }
+  .il-bar-on  { fill:var(--cobalt); }
+  .il-rate    { fill:var(--coral); }
+
+  /* step 2 — money crossing off the site */
+  .il-note     { fill:var(--cobalt-tint); stroke:var(--cobalt); stroke-width:2.5; }
+  .il-note-in  { fill:none; stroke:var(--cobalt); stroke-width:2.5; }
+  .il-cross    { fill:none; stroke:var(--coral); stroke-width:2.5; stroke-linecap:round; }
+  .il-arrow    { fill:var(--coral); }
+
+  /* step 3 — the route and the aircraft */
+  .il-plane  { fill:var(--cobalt); }
+</style>

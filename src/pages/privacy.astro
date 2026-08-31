@@ -1,0 +1,87 @@
+---
+// Privacy policy. Oriented on the old site's policy but corrected to match
+// what THIS site actually does: the old policy claimed to collect credit
+// card numbers and expiry dates, which is exactly what the new site is built
+// never to do. noindex matches the old site's treatment of legal pages.
+//
+// Same container and layout as /terms, so the legal pages sit on the same
+// grid as the rest of the site. The section list keeps each heading with its
+// anchor id; there is no sidebar, the page is read straight through.
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+
+const sections = [
+  { id: "what-we-collect", title: "What we collect" },
+  { id: "how-its-used", title: "How it's used" },
+  { id: "cookies", title: "Cookies and analytics" },
+  { id: "third-parties", title: "Third parties" },
+  { id: "your-choices", title: "Your choices" },
+];
+const h = Object.fromEntries(sections.map((s) => [s.id, s.title]));
+---
+<Base
+  title="Privacy policy: buyflightmiles"
+  description="What we collect through this site, what we do with it, and what we never collect."
+  slug="privacy"
+  robots="noindex, nofollow"
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Privacy policy" },
+      ]} />
+      <div class="section-head">
+        <span class="kicker">Legal</span>
+        <h1>Privacy policy</h1>
+        <p>Last updated August 2026.</p>
+      </div>
+
+      <div class="prose">
+        <h2 id="what-we-collect">{h["what-we-collect"]}</h2>
+        <p>
+          The forms on this site ask for what a quote needs and nothing more: your name, an email
+          address, the program and amount you're interested in, and optionally a WhatsApp or
+          Telegram handle if you'd rather be answered there. <b>No form on this website asks for
+          your loyalty account number.</b> Once you approve a quote we ask for the membership
+          number and the account name directly, on the channel you chose, so that detail never
+          passes through this site or the form processor at all.
+        </p>
+        <p>
+          <b>What we never collect through this site:</b> payment card numbers, banking details, or
+          loyalty account passwords. No payment is taken on this website, and no legitimate message
+          from us will ever ask for a password.
+        </p>
+
+        <h2 id="how-its-used">{h["how-its-used"]}</h2>
+        <p>
+          Form submissions are delivered to our inbox by our form processor and used to answer you
+          and fulfil your order. We don't sell or rent personal information, and we don't add you
+          to marketing lists you didn't ask for.
+        </p>
+
+        <h2 id="cookies">{h["cookies"]}</h2>
+        <p>
+          This is a static site. It sets no advertising or cross-site tracking cookies. Our hosting
+          provider records standard server logs (IP address, browser, pages requested) to serve and
+          secure the site.
+        </p>
+
+        <h2 id="third-parties">{h["third-parties"]}</h2>
+        <p>
+          Form submissions pass through <b>Web3Forms</b>, which delivers them to our inbox, and
+          our hosting provider serves the pages. Naming them is the point: you should be able to
+          see who handles a message before you send it. Pages link out to airline and program
+          websites, whose own policies apply once you're there.
+        </p>
+
+        <h2 id="your-choices">{h["your-choices"]}</h2>
+        <p>
+          If you'd like the details from an enquiry corrected or deleted, reply to any message
+          we've sent you, or send a note through the <a href="/request">request form</a> and we'll
+          take care of it.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

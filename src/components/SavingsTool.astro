@@ -1,0 +1,210 @@
+---
+// Miles-vs-cash comparison tool, embedded on each program page.
+//
+// The argument for buying miles, made interactively and honestly. We hold no
+// verified cash-fare data (the old site's invented "$6,000 fare" examples were
+// removed on purpose), so the visitor supplies the cash price they actually
+// found, we supply the arithmetic at OUR live rate, and the verdict is allowed
+// to be "pay cash" when the miles lose. A tool that can say "don't buy from
+// us" is worth ten that can't.
+//
+// Presets come from the program's sweetSpots (the ones carrying a miles
+// figure), so the tool opens on the redemption the page is about.
+interface Props {
+  program: string;
+  rate: number;          // cents per mile
+  verified: boolean;
+  presets?: { title: string; miles: number }[];
+  // Localized pages override any subset; everything else falls back to
+  // English. {placeholders} are filled in the inline script.
+  labels?: Record<string, string>;
+}
+const { program, rate, verified, presets = [], labels = {} } = Astro.props;
+const startMiles = presets[0]?.miles ?? 60000;
+const approx = verified ? "" : "~";
+
+const EN = {
+  presetsAria: "Example redemptions",
+  milesLabel: "Miles the award needs",
+  fareLabel: "Cash fare you found ($)",
+  farePh: "e.g. 2500",
+  cash: "Cash fare",
+  vs: "vs",
+  atOurRate: "Bought at our {rate}¢ rate",
+  emptyBoth: "Enter the miles and the cash fare and we'll run the numbers.",
+  emptyFare: "That's the cost of the miles. Add the cash fare and we'll tell you which one wins.",
+  cta: "Get this quoted →",
+  win: "Clear win for miles: this seat values a mile at {seat}¢ against our {rate}¢ rate. Buying the miles saves {saving} ({pct}% off the cash fare).",
+  ok: "Miles come out ahead: {saving} cheaper than the cash fare. Not a blowout, but a real saving.",
+  payCash: "Honestly? Pay cash for this one. At {fare}, this seat values a mile at {seat}¢, below our {rate}¢ rate. Buying miles here would cost you money.",
+  numLocale: "en-US",
+  // Localized pages that quote in a second currency pass the USD → local rate
+  // here. The FARE FIELD is then read as that currency and converted back to
+  // dollars before any comparison, because a German flight search returns
+  // euro fares and reading one as dollars would flip the verdict outright.
+  // Billing stays in dollars; fxFoot says so.
+  fxRate: null,
+  // "{n} €" or "NT${n}" — see QuoteWidget; a bare suffix symbol was wrong for
+  // every prefix currency on the roster
+  fxMoney: "{n}",
+  fxFoot: "",
+};
+const L = { ...EN, ...labels };
+---
+<div class="stool" data-rate={rate} data-approx={approx}>
+  <script type="application/json" set:html={JSON.stringify(L)} class="stool-l10n"></script>
+  <div class="stool-in">
+    {presets.length > 0 && (
+      <div class="stool-presets" role="group" aria-label={L.presetsAria}>
+        {presets.map((p, i) => (
+          <button type="button" class={`stool-chip${i === 0 ? " on" : ""}`} data-miles={p.miles}>
+            {p.title} · {p.miles.toLocaleString(L.numLocale)}
+          </button>
+        ))}
+      </div>
+    )}
+    <div class="stool-fields">
+      <div class="field">
+        <label for="st-miles">{L.milesLabel}</label>
+        <input id="st-miles" type="number" inputmode="numeric" step="1" min="1000" value={startMiles} />
+      </div>
+      <div class="field">
+        <label for="st-fare">{L.fareLabel}</label>
+        <input id="st-fare" type="number" inputmode="numeric" step="any" min="1" placeholder={L.farePh} />
+      </div>
+    </div>
+  </div>
+
+  <div class="stool-out" id="st-out" data-state="empty">
+    <div class="stool-cols">
+      <div class="stool-col">
+        <span class="k">{L.cash}</span>
+        <b id="st-cash">—</b>
+      </div>
+      <div class="stool-col vs" aria-hidden="true">{L.vs}</div>
+      <div class="stool-col">
+        <span class="k">{L.atOurRate.replace("{rate}", approx + rate.toLocaleString(L.numLocale))}</span>
+        <b id="st-cost">—</b>
+      </div>
+    </div>
+    <div class="stool-verdict" id="st-verdict">{L.emptyBoth}</div>
+    {L.fxFoot && <p class="stool-fx">{L.fxFoot}</p>}
+    <!-- fixed-height slot: states swap what shows, but the card's outer
+         height never changes, so a stuck sticky card can't be pushed past
+         its section when the CTA appears. The CTA shows whenever a miles
+         amount exists — the cost column already prices it, fare or no fare —
+         and hides only when the honest answer is "pay cash". -->
+    <div class="stool-foot">
+      <a class="btn btn-primary stool-cta" id="st-cta" href="#quote">{L.cta}</a>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const root = document.querySelector(".stool");
+    if (!root) return;
+    const rate = parseFloat(root.dataset.rate);
+    const approx = root.dataset.approx || "";
+    const $ = (id) => document.getElementById(id);
+    const T = JSON.parse(root.querySelector(".stool-l10n").textContent);
+    const LOC = T.numLocale || "en-US";
+    const fmt = (t, m) => t.replace(/\{(\w+)\}/g, (_, k) => m[k] ?? "");
+    const miles = $("st-miles");
+    const fare = $("st-fare");
+    // The miles field groups as it is typed (see bfmNum in Base.astro). The
+    // fare beside it does not: it takes decimals, and grouping a figure that
+    // is still being typed to the cent fights the person typing it.
+    const G = window.bfmNum || { bare: (v) => String(v).replace(/\D/g, ""), grouped: (v) => String(v), wire: () => {} };
+    G.wire(miles);
+    // Cents are shown, never rounded away: 25,000 miles at 1.95¢ is $487.50,
+    // and $488 would overstate it. Integer cents keep binary float noise out
+    // of the figure. Mirrors src/lib/money.ts, which this inline script
+    // cannot import.
+    const usd = (n) => {
+      const c = Math.round(n * 100);
+      return "$" + (c / 100).toLocaleString(LOC, {
+        minimumFractionDigits: c % 100 === 0 ? 0 : 2, maximumFractionDigits: 2,
+      });
+    };
+    // With a rate set, every figure the visitor SEES is in the local currency
+    // and every figure we COMPARE is in dollars. Rounded whole: the conversion
+    // is indicative and cents would imply a precision it does not have.
+    const FX = T.fxRate || null;
+    const money = (usdAmount) =>
+      FX
+        ? (T.fxMoney || "{n}").replace("{n}", Math.round(usdAmount * FX).toLocaleString(LOC))
+        : usd(usdAmount);
+
+    function render() {
+      let m = parseInt(G.bare(miles.value), 10);
+      let fLocal = parseFloat(fare.value);
+      // the field is in the visitor's currency; the maths is in dollars
+      let f = Number.isFinite(fLocal) && FX ? fLocal / FX : fLocal;
+      // fantasy input wraps the number columns and grows the card (which a
+      // stuck sticky card must never do) — clamp at real-world ceilings, the
+      // same way the quote widget clamps its own range
+      if (Number.isFinite(m) && m > 5000000) { m = 5000000; miles.value = G.grouped(m); }
+      if (Number.isFinite(f) && f > 1000000) { f = 1000000; fare.value = Math.round(FX ? f * FX : f); }
+      const out = $("st-out");
+      const okM = Number.isFinite(m) && m > 0;
+      const okF = Number.isFinite(f) && f > 0;
+
+      $("st-cash").textContent = okF ? money(f) : "—";
+      $("st-cost").textContent = okM ? approx + money((m * rate) / 100) : "—";
+
+      if (!okM || !okF) {
+        out.dataset.state = "empty";
+        $("st-verdict").textContent = okM ? T.emptyFare : T.emptyBoth;
+        $("st-cta").hidden = !okM;
+        return;
+      }
+
+      const cost = (m * rate) / 100;
+      const saving = f - cost;
+      const seatValue = (f / m) * 100; // what this seat values one mile at, in cents
+
+      // The verdict is allowed to be "pay cash". That honesty is the point.
+      let msg;
+      if (seatValue >= rate * 1.8) {
+        out.dataset.state = "win";
+        msg = fmt(T.win, { seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC), saving: approx + money(saving), pct: Math.round((saving / f) * 100) });
+      } else if (seatValue >= rate * 1.1) {
+        out.dataset.state = "ok";
+        msg = fmt(T.ok, { saving: approx + money(saving) });
+      } else {
+        out.dataset.state = "cash";
+        msg = fmt(T.payCash, { fare: money(f), seat: seatValue.toLocaleString(LOC, { maximumFractionDigits: 1 }), rate: approx + rate.toLocaleString(LOC) });
+      }
+      $("st-verdict").textContent = msg;
+      $("st-cta").hidden = out.dataset.state === "cash";
+    }
+
+    miles.addEventListener("input", render);
+    fare.addEventListener("input", render);
+
+    // "Get this quoted" carries the amount into the hero quote widget and
+    // advances it to the request step, so the anchor lands on a form that's
+    // already filled in rather than a field to retype.
+    $("st-cta").addEventListener("click", () => {
+      const qw = document.getElementById("qw-miles");
+      if (!qw) return; // no widget on this page — plain anchor scroll
+      const m = parseInt(G.bare(miles.value), 10);
+      if (!Number.isFinite(m) || m <= 0) return;
+      qw.value = m;
+      qw.dispatchEvent(new Event("input", { bubbles: true }));
+      const next = document.getElementById("qw-next");
+      if (next && !next.disabled) next.click();
+    });
+    document.querySelectorAll(".stool-chip").forEach((c) => {
+      c.addEventListener("click", () => {
+        document.querySelectorAll(".stool-chip").forEach((x) => x.classList.remove("on"));
+        c.classList.add("on");
+        miles.value = G.grouped(c.dataset.miles);
+        render();
+        fare.focus();
+      });
+    });
+    render();
+  })();
+</script>

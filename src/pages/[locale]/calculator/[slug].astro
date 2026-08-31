@@ -1,0 +1,293 @@
+---
+// Localized miles calculator, one route for every language — the counterpart
+// to the English /calculator/[slug] for every program that carries an i18n
+// block. Exists because the localized buy pages' hero CTA anchored to a
+// widget that was already on screen; the English hero solved that with a
+// quiet "see the full math" link, and this page is what that link needs to
+// point at in each language.
+//
+// Generated for ALL locales including German: `bespoke` only opts a locale
+// out of the generic BUY route (German's buy page is richer); the calculator
+// chrome is identical everywhere, so one route serves all seven.
+//
+// Same honesty rules as the English calculator: every figure is miles × rate,
+// the generic award sizes are marked illustrative, an unverified rate stays
+// approximate, and the quote is named as the binding number. Named break-even
+// rows are deliberately absent: sweet-spot titles exist in English only, and
+// a half-translated table reads as broken rather than thorough.
+import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import QuoteWidget from "../../../components/QuoteWidget.astro";
+import ShortfallTool from "../../../components/ShortfallTool.astro";
+import { getCollection } from "astro:content";
+import { usd, per1000 as per1000Of, costOf } from "../../../lib/money";
+import { LOCALES, EN_FLAG } from "../../../lib/locales";
+import { CALC } from "../../../lib/calc-locales";
+import { fxFor, fxDate, moneyTpl } from "../../../lib/fx";
+
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return Object.keys(LOCALES).flatMap((locale) =>
+    airlines
+      .filter((a) => a.i18n?.[locale])
+      .map((a) => ({ params: { locale, slug: a.slug }, props: { a, t: a.i18n[locale], locale } })),
+  );
+}
+
+const { a, t, locale } = Astro.props;
+const L = LOCALES[locale];
+const C = CALC[locale];
+const htmlLang = L.htmlLang ?? locale;
+const verified = a.priceVerified;
+const approx = verified ? "" : "~";
+const progShort = a.program.replace(/\s*\(.*\)$/, "");
+const per1000 = per1000Of(a.pricePerMile);
+const num = (n: number) => n.toLocaleString(L.numLocale);
+// Money groups the way the page's language does. The currency stays USD, but
+// "$1,330" beside "70.000 Meilen" is two conventions in one sentence, and a
+// German reader takes "1,330" for one point three.
+const money = (n: number) => usd(n, L.numLocale);
+const cost = (m: number) => money(costOf(m, a.pricePerMile));
+// every placeholder the strings use, pre-formatted once
+const fmt = (s: string) =>
+  s
+    .replaceAll("{airline}", a.airline)
+    .replaceAll("{program}", progShort)
+    .replaceAll("{rate}", `${approx}${a.pricePerMile.toLocaleString(L.numLocale)}`)
+    .replaceAll("{per1000}", `${approx}${money(per1000)}`)
+    .replaceAll("{cost70}", `${approx}${cost(70000)}`)
+    .replaceAll("{min}", num(a.min))
+    .replaceAll("{max}", num(a.max));
+
+// the same order-size ladder as the English page: the program's own minimum
+// first, then round steps that clear it comfortably
+const rows = [a.min, ...[50000, 75000, 100000, 150000, 200000, 250000, 500000]
+  .filter((m) => m > a.min * 1.2 && m <= a.max)].slice(0, 6);
+
+// worked example: deterministic hypothetical from the program's priced award
+// where one exists, otherwise the same 70k default as the English page
+const exMiles = (a.sweetSpots ?? []).find((sp) => sp.miles)?.miles ?? 70000;
+const exFare = Math.round((exMiles * 0.06) / 100) * 100;
+// one decimal, with the language's decimal separator: "6,0¢" in German
+const exPer = ((exFare * 100) / exMiles).toLocaleString(L.numLocale, {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
+const exSave = exFare - (exMiles * a.pricePerMile) / 100;
+const worked = fmt(C.worked)
+  .replaceAll("{miles}", num(exMiles))
+  .replaceAll("{fare}", money(exFare))
+  .replaceAll("{per}", exPer)
+  .replaceAll("{cost}", `${approx}${cost(exMiles)}`)
+  .replaceAll("{save}", `${approx}${money(exSave)}`);
+
+const beAwards = [
+  { label: C.beRows[0], miles: 30000 },
+  { label: C.beRows[1], miles: 45000 },
+  { label: C.beRows[2], miles: 85000 },
+  { label: C.beRows[3], miles: 160000 },
+];
+
+const faqs = C.faqs.map((f) => ({ q: fmt(f.q), a: fmt(f.a) }));
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: htmlLang,
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+// widget fx composition, same as the localized buy page
+const currency = t.currency ?? L.fx?.currency ?? null;
+const fx = currency ? fxFor(currency) : null;
+const showFx = Boolean(L.fx && fx);
+const stamp = fx?.date ? fxDate(fx.date, L.numLocale) : "";
+const widget = {
+  ...L.widget,
+  ...(showFx
+    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxNote: L.fx!.note.replaceAll("{d}", stamp) }
+    : {}),
+};
+const sfLabels = { ...C.sf };
+---
+<Base
+  title={fmt(C.metaTitle)}
+  description={fmt(C.metaDescription)}
+  slug={`${locale}/calculator/${a.slug}`}
+  lang={htmlLang}
+  alternates={[{ hreflang: "en", slug: `calculator/${a.slug}` }]}
+>
+  <div dir={L.dir} lang={htmlLang}>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid top">
+          <div>
+            <Breadcrumbs rtl={L.dir === "rtl"} items={[
+              { label: L.page.home, href: "/" },
+              { label: t.heroHeadline, href: `/${locale}/buy/${a.slug}` },
+              { label: fmt(C.kicker) },
+            ]} />
+            <span class="kicker">{C.kicker}</span>
+            <a class="lang-toggle" href={`/calculator/${a.slug}`} lang="en" hreflang="en">
+              <span class="lang-flag" aria-hidden="true">{EN_FLAG}</span>English
+            </a>
+            <h1>{fmt(C.h1)}</h1>
+            <p class="sub">{fmt(C.sub)}</p>
+            <p class="hero-more">
+              <a href={`/${locale}/buy/${a.slug}#worth`}>{fmt(C.subLink)}</a>
+            </p>
+            <div class="spec">
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                <b>{approx}{a.pricePerMile.toLocaleString(L.numLocale)}¢</b> {C.perMile}
+              </span>
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <b>{approx}{money(per1000)}</b> {C.per1000}
+              </span>
+            </div>
+          </div>
+          <div class="hero-art">
+            <div class="hero-calc" id="quote">
+              <QuoteWidget defaultSlug={a.slug} locked heading={L.page.quoteHeading} sub={L.page.quoteSub} labels={widget} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>{fmt(C.ratesHead)}</h2>
+          <p>{fmt(C.ratesSub)}</p>
+        </div>
+        <div class="rate-rows">
+          {rows.map((m) => (
+            <div class="rate-row">
+              <b class="mono">{num(m)}</b>
+              <span>{C.milesWord}</span>
+              <i aria-hidden="true"></i>
+              <b class="mono">{approx}{cost(m)}</b>
+            </div>
+          ))}
+        </div>
+        {!verified && (
+          <p class="cmp-note" style="margin-top:18px">{fmt(C.indicative)}</p>
+        )}
+      </div>
+    </section>
+
+    <section class="section" id="shortfall">
+      <div class="container">
+        <div class="section-head">
+          <h2>{fmt(C.shortHead)}</h2>
+          <p>{fmt(C.shortSub)}</p>
+        </div>
+        <ShortfallTool
+          program={progShort}
+          rate={a.pricePerMile}
+          verified={verified}
+          min={a.min}
+          max={a.max}
+          award={exMiles}
+          requestLabel={`${a.airline} ${progShort}`}
+          labels={sfLabels}
+        />
+      </div>
+    </section>
+
+    <section class="section wash-cool">
+      <div class="container">
+        <div class="section-head">
+          <h2>{C.mathHead}</h2>
+        </div>
+        <div class="uses">
+          <div class="use">
+            <h4>{C.m1h}</h4>
+            <p>{fmt(C.m1p)}</p>
+          </div>
+          <div class="use">
+            <h4>{C.m2h}</h4>
+            <p>{fmt(C.m2p)}</p>
+          </div>
+          <div class="use">
+            <h4>{C.m3h}</h4>
+            <p>{fmt(C.m3p)}</p>
+          </div>
+        </div>
+        <div class="workx">{worked}</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>{C.beHead}</h2>
+          <p>{C.beSub}</p>
+        </div>
+        <div class="twrap">
+          <table class="cmp be">
+            <thead>
+              <tr><th>{C.thAward}</th><th>{C.thMiles}</th><th>{C.thBE}</th></tr>
+            </thead>
+            <tbody>
+              {beAwards.map((w) => (
+                <tr>
+                  <td>{w.label}</td>
+                  <td>≈{num(w.miles)}</td>
+                  <td>{approx}{cost(w.miles)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="cmp-note" style="margin-top:14px">{fmt(C.beNote)}{!verified && ` ${fmt(C.indicative)}`}</p>
+      </div>
+    </section>
+
+    <section class="section wash-neutral">
+      <div class="container">
+        <div class="section-head">
+          <h2>{fmt(C.whenHead)}</h2>
+        </div>
+        <div class="uses">
+          <div class="use"><h4>{C.w1h}</h4><p>{fmt(C.w1p)}</p></div>
+          <div class="use"><h4>{C.w2h}</h4><p>{fmt(C.w2p)}</p></div>
+          <div class="use"><h4>{C.w3h}</h4><p>{fmt(C.w3p)}</p></div>
+          <div class="use"><h4>{C.w4h}</h4><p>{fmt(C.w4p)}</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>{fmt(C.faqHead)}</h2>
+        </div>
+        <div class="faqx-list">
+          {faqs.map((f, i) => (
+            <details class="faq" open={i === 0}>
+              <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+              <div class="ans">{f.a}</div>
+            </details>
+          ))}
+        </div>
+        <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+      </div>
+    </section>
+
+    <section class="section wash-cool">
+      <div class="container ctaband">
+        <div>
+          <h3>{L.page.ctaHead}</h3>
+          <p>{L.page.ctaSub}</p>
+        </div>
+        <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
+      </div>
+    </section>
+  </div>
+</Base>

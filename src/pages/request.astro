@@ -1,0 +1,164 @@
+---
+// Custom quote request — the landing for "Can't find your program?".
+//
+// Free-text program field is the point: the quote widget can only express
+// the 13 listed programs, and this form catches everything else. Same
+// Web3Forms wiring and graceful not-wired fallback as the quote widget; the
+// copy invites a request without asserting we can source anything.
+import Base from "../layouts/Base.astro";
+import Turnstile from "../components/Turnstile.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactChannels from "../components/ContactChannels.astro";
+import EnquiryMail from "../components/EnquiryMail.astro";
+import { site, quoteFormReady, mailtoInbox } from "../lib/site";
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+const notWired = orderEmail
+  ? `Requests aren't connected yet — please email ${orderEmail} and we'll check it for you.`
+  : "Requests aren't connected yet. Send it through the contact page and we'll check it for you.";
+---
+<Base
+  title="Request a program: buyflightmiles"
+  description="Tell us the loyalty program and the amount of miles you need. We'll check availability and quote you before anything is paid."
+  slug="request"
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Custom request" },
+      ]} />
+      {/* full container width, head left-aligned — the same shell as every
+          other page; the old 640px centered column made this one read like a
+          different site */}
+      <div class="section-head" style="margin-bottom:24px">
+        <span class="kicker">Custom request</span>
+        <h1>Tell us what you need</h1>
+        <p>Program not on our list? Send the details and we'll check availability and price. You get a firm quote before anything is paid.</p>
+      </div>
+      <form class="formcard" id="request-form" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
+        <input type="hidden" name="access_key" value={accessKey} />
+        <input type="hidden" id="request-fallback" value={notWired} />
+        <input type="hidden" name="subject" value="Custom program request — buyflightmiles" />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+        <div class="form-grid">
+          <div class="field"><label for="req-program">Loyalty program *</label><input id="req-program" name="program" type="text" required placeholder="e.g. Emirates Skywards" /></div>
+          <div class="field"><label for="req-miles">Miles needed</label><input id="req-miles" name="miles" type="number" inputmode="numeric" step="1" min="1000" placeholder="e.g. 85000" /></div>
+          <div class="field"><label for="req-name">Name *</label><input id="req-name" name="name" type="text" required /></div>
+          <div class="field"><label for="req-email">Email *</label><input id="req-email" name="email" type="email" required /></div>
+        </div>
+        <div class="field" style="margin-bottom:4px"><label for="req-message">Anything else?</label><textarea id="req-message" name="message" rows="4" placeholder="The route or award you're after, timing, account region — whatever helps us quote it right."></textarea></div>
+        <Turnstile />
+        <button type="submit" class="btn btn-primary" id="request-submit" style="width:100%;margin-top:14px">Send request</button>
+        <p class="form-msg" id="request-msg" hidden></p>
+        <ContactChannels context="a program request" />
+        <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">Nothing is charged on this site. We reply with availability and a firm rate first.</p>
+        <p style="color:var(--text-3);font-size:13px;text-align:center;margin:14px 0 0">
+          Not about a specific program? <a href="/contact" style="color:var(--cobalt);font-weight:600">Contact us</a> instead.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <EnquiryMail />
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById("request-form");
+      const msg = document.getElementById("request-msg");
+      const btn = document.getElementById("request-submit");
+      if (!form) return;
+      // A posting key needs an account; an inbox address needs nothing. With
+      // one configured, write the request into the visitor's mail client as a
+      // finished letter rather than a dump of field names.
+      function mailEnquiry(inbox, el) {
+        const v = (id) => (document.getElementById(id) || {}).value?.trim() || "";
+        const program = v("req-program");
+        const name = v("req-name");
+        window.bfmMail({
+          inbox,
+          subject: "Program request: " + (program || "unlisted program"),
+          hello: "Hello buyflightmiles,",
+          intro: "I'd like a quote for a program I couldn't find on your list.",
+          groups: [
+            { title: "What I need", rows: [
+              ["Loyalty program", program],
+              ["Miles needed", v("req-miles")],
+            ] },
+            { title: "How to reach me", rows: [
+              ["Name", name],
+              ["Email", v("req-email")],
+            ] },
+            { title: "Anything else", text: v("req-message") },
+          ],
+          trimmable: v("req-message"),
+          closing: "Please check availability and come back with a firm rate before anything is paid.",
+          thanks: "Thanks,",
+          name,
+          foot: "Sent from buyflightmiles.com. Nothing has been charged.",
+        });
+        el.textContent = "Your email app should open with the whole message written out. Read it over and send it, and we'll take it from there.";
+        el.className = "form-msg ok";
+        el.hidden = false;
+      }
+      // No inbox configured yet: say so and hand over a route that works.
+      function showFallback(el, text) {
+        el.textContent = text + " ";
+        const a = document.createElement("a");
+        a.href = "/contact";
+        a.textContent = "Contact us →";
+        a.style.fontWeight = "600";
+        a.style.textDecoration = "underline";
+        el.appendChild(a);
+        el.className = "form-msg err";
+        el.hidden = false;
+      }
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!form.dataset.key) {
+          if (form.dataset.inbox) { mailEnquiry(form.dataset.inbox, msg); return; }
+          showFallback(msg, document.getElementById("request-fallback").value);
+          return;
+        }
+        const label = btn.textContent;
+        btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
+        try {
+          const res = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          });
+          const data = await res.json();
+          if (data.success) {
+            msg.textContent = "Request sent. We'll come back with availability and a firm rate.";
+            msg.className = "form-msg ok"; form.reset();
+          } else { throw new Error(data.message); }
+        } catch {
+          msg.textContent = "Something went wrong sending this — please try again.";
+          msg.className = "form-msg err";
+        } finally {
+          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+        }
+      });
+    })();
+  </script>
+
+  {/* The calculator's shortfall tool links here when a gap sits below the
+      program's minimum, carrying the program and the amount, so the request
+      arrives with the two facts we would otherwise have to write back for. */}
+  <script is:inline>
+    (function () {
+      const q = new URLSearchParams(location.search);
+      const prog = q.get("program");
+      const miles = parseInt(q.get("miles") || "", 10);
+      const p = document.getElementById("req-program");
+      const m = document.getElementById("req-miles");
+      // the amount groups as it is typed; see bfmNum in Base.astro
+      const G = window.bfmNum || { grouped: (v) => String(v), wire: () => {} };
+      G.wire(m);
+      if (p && prog) p.value = prog;
+      if (m && Number.isFinite(miles) && miles > 0) m.value = G.grouped(miles);
+    })();
+  </script>
+</Base>

@@ -1,0 +1,309 @@
+{
+  "redirects": [
+    {
+      "source": "/qatar-airways",
+      "destination": "/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/should-i-buy-qatar-avios",
+      "destination": "/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/qatar-avios-guide",
+      "destination": "/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/qatar-airways-ar",
+      "destination": "/ar/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/qatar-avios-guide-ar",
+      "destination": "/ar/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/should-i-buy-qatar-avios-ar",
+      "destination": "/ar/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/eva-air-infinity-mileagelands-guide",
+      "destination": "/buy/eva-air-miles",
+      "permanent": true
+    },
+    {
+      "source": "/index.php",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/buy-ana-miles",
+      "destination": "/buy/ana-mileage-club",
+      "permanent": true
+    },
+    {
+      "source": "/buy-avios",
+      "destination": "/buy/avios",
+      "permanent": true
+    },
+    {
+      "source": "/buy-krisflyer-miles",
+      "destination": "/buy/singapore-krisflyer",
+      "permanent": true
+    },
+    {
+      "source": "/eva-air-miles",
+      "destination": "/buy/eva-air-miles",
+      "permanent": true
+    },
+    {
+      "source": "/eva-air-miles-calculator",
+      "destination": "/calculator/eva-air-miles",
+      "permanent": true
+    },
+    {
+      "source": "/krisflyer-miles-calculator",
+      "destination": "/calculator/singapore-krisflyer",
+      "permanent": true
+    },
+    {
+      "source": "/ana-miles-calculator",
+      "destination": "/calculator/ana-mileage-club",
+      "permanent": true
+    },
+    {
+      "source": "/avios-calculator",
+      "destination": "/calculator/british-airways-avios",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/delta-skymiles",
+      "destination": "/buy/delta-skymiles",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/british-airways-executive-club",
+      "destination": "/buy/british-airways-avios",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/jetblue-trueblue",
+      "destination": "/buy/jetblue-trueblue",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/hawaiian-airlines-hawaiian-miles",
+      "destination": "/buy/alaska-atmos-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/singapore-krisflyer",
+      "destination": "/buy/singapore-krisflyer",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/all-nippon-airways-mileage-club",
+      "destination": "/buy/ana-mileage-club",
+      "permanent": true
+    },
+    {
+      "source": "/british-airways",
+      "destination": "/buy/british-airways-avios",
+      "permanent": true
+    },
+    {
+      "source": "/buy-skyward-miles",
+      "destination": "/buy/emirates-skywards",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/etihad-guest",
+      "destination": "/buy/etihad-guest",
+      "permanent": true
+    },
+    {
+      "source": "/etihad",
+      "destination": "/buy/etihad-guest",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/virgin-atlantic-flying-club",
+      "destination": "/request",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/cathay-pacific-asia-miles",
+      "destination": "/buy/cathay-pacific-asia-miles",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/avianca-lifemiles",
+      "destination": "/buy/avianca-lifemiles",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/iberia-plus",
+      "destination": "/request",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/aeromexico-club-premier",
+      "destination": "/request",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/air-canada-aeroplan",
+      "destination": "/buy/air-canada-aeroplan",
+      "permanent": true
+    },
+    {
+      "source": "/airlines",
+      "destination": "/#programs",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contactus",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/blogs",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/faqs",
+      "destination": "/faq",
+      "permanent": true
+    },
+    {
+      "source": "/checkout",
+      "destination": "/order",
+      "permanent": true
+    },
+    {
+      "source": "/about-us",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/air-france-klm-flying-blue",
+      "destination": "/buy/air-france-flying-blue",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/qatar-airways",
+      "destination": "/buy/qatar-avios",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/united",
+      "destination": "/buy/united-mileageplus",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/aer-lingus-aerclub",
+      "destination": "/request",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/el-al-matmid",
+      "destination": "/request",
+      "permanent": true
+    },
+    {
+      "source": "/checkout-latest",
+      "destination": "/order",
+      "permanent": true
+    },
+    {
+      "source": "/complete",
+      "destination": "/order",
+      "permanent": true
+    },
+    {
+      "source": "/author/rf_admin",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/feed",
+      "destination": "/rss.xml",
+      "permanent": true
+    },
+    {
+      "source": "/comments/feed",
+      "destination": "/rss.xml",
+      "permanent": true
+    },
+    {
+      "source": "/page/2",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/category/:rest*",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:rest*",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/airlines/:rest*",
+      "destination": "/#programs",
+      "permanent": true
+    },
+    {
+      "source": "/buy/ba-avios",
+      "destination": "/buy/british-airways-avios",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/ba-avios",
+      "destination": "/calculator/british-airways-avios",
+      "permanent": true
+    },
+    {
+      "source": "/buy/alaska-mileage-plan",
+      "destination": "/buy/alaska-atmos-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/alaska-mileage-plan",
+      "destination": "/calculator/alaska-atmos-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/buy/hawaiian-miles",
+      "destination": "/buy/alaska-atmos-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/hawaiian-miles",
+      "destination": "/calculator/alaska-atmos-rewards",
+      "permanent": true
+    }
+  ]
+}

@@ -1,0 +1,720 @@
+---
+// Award flight configurator — route, dates, cabin, travellers, then contact.
+//
+// Two steps in place, never a page navigation. The first build handed off to
+// /flights and landed the visitor at the top of a page whose form was a
+// screenful down, which is the same "build an estimate, then go find the form"
+// break the quote widget exists to have removed. Step 1 takes the brief, step
+// 2 shows it back with the contact fields under it, and the brief stays
+// editable from step 2 so changing your mind is not a step backwards.
+//
+// It is deliberately NOT a search. We hold no availability feed, so a widget
+// that answered "3 seats found" would be inventing the one fact the whole
+// transaction turns on. It has no results state: it takes a brief, and a
+// person answers it.
+//
+// Airports load from /data/airports.json on first focus rather than inlining
+// 300 entries into every page that embeds this. The fields accept free text,
+// so an airport missing from the list is a convenience gap and never a wall.
+import Turnstile from "./Turnstile.astro";
+import ContactChannels from "./ContactChannels.astro";
+import EnquiryMail from "./EnquiryMail.astro";
+import { site, quoteFormReady, mailtoInbox } from "../lib/site";
+
+const {
+  // Short, and a question, matching the quote widget's own head. The section
+  // around this one carries the argument; the card only has to say what it
+  // wants from you.
+  heading = "Where do you want to fly?",
+  sub = "Business or first class, quoted for your dates.",
+  // Program pages pass their slug so the enquiry records where it started.
+  program = null,
+  // Kept for callers that want the card bare; the head is the default now.
+  bare = false,
+  // /flights is the page this links to for the long explanation; the widget
+  // there doesn't need to link to itself.
+  moreLink = true,
+  // Localized pages override any subset of the strings below; anything they
+  // leave out falls back to English. Same contract as QuoteWidget.
+  labels = {},
+  // Where "How we source your seat" points. /flights is English-only, so a
+  // translated page passes its own target or drops the link.
+  moreHref = "/flights",
+  // Where the not-wired fallback sends people.
+  contactHref = "/contact",
+} = Astro.props;
+
+const EN = {
+  tripLabel: "Trip type",
+  tripReturn: "Return",
+  tripOneway: "One way",
+  from: "From",
+  to: "To",
+  airportPh: "City or airport",
+  swap: "Swap origin and destination",
+  dep: "Departing",
+  ret: "Returning",
+  pax: "Travellers",
+  // {n} is the count; both forms are given because the split is not the same
+  // in every language, and several of ours have no plural form at all
+  paxOne: "{n} traveller",
+  paxMany: "{n} travellers",
+  cabinLabel: "Cabin",
+  cabinBusiness: "Business",
+  cabinFirst: "First",
+  cabinEither: "Either",
+  // the long forms, which travel into the enquiry rather than sitting on a pill
+  cabinBusinessLong: "Business class",
+  cabinFirstLong: "First class",
+  cabinEitherLong: "Business or first",
+  flex: "My dates are flexible by a few days",
+  flexTag: "(flexible)",
+  go: "Continue →",
+  back: "← Change the trip",
+  name: "Name *",
+  email: "Email *",
+  handle: "WhatsApp / Telegram *",
+  handlePh: "Number or @handle",
+  notes: "Anything we should know before we look?",
+  notesPh: "Airlines you'd rather fly or avoid, whether a stopover suits you, how firm the dates are, who's travelling.",
+  submit: "Send the enquiry",
+  sending: "Sending…",
+  ok: "Enquiry received. We'll come back with what's actually available for those dates and what it costs. Nothing has been charged.",
+  errGeneric: "Something went wrong sending this. Please try again.",
+  contactCta: "Contact us →",
+  note: "Free and no-obligation. We quote before you pay, and nothing is charged on this website.",
+  moreText: "How we source your seat →",
+  // ---- calendar. The native date control obeys the browser's locale and no
+  // markup overrides it, so the widget draws its own and therefore has to
+  // carry its own names, order and week start.
+  prevMonth: "Previous month",
+  nextMonth: "Next month",
+  months: ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"],
+  // always Sunday-first here; the code rotates them by weekStart, so a locale
+  // never has to remember to reorder its own array
+  dow: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  /** 0 = Sunday, 1 = Monday */
+  weekStart: 0,
+  /** "mdy" or "dmy" — which two digits the typed field takes first */
+  dateOrder: "mdy",
+  dateSep: "/",
+  datePh: "mm/dd/yyyy",
+  /** how the recap spells a date out, e.g. "Nov 20, 2026" */
+  numLocale: "en-US",
+  // ---- fallback email, composed as a letter by EnquiryMail
+  mailSubject: "Award flight enquiry",
+  mailHello: "Hello buyflightmiles,",
+  mailIntro: "I'm looking for an award seat on the trip below.",
+  mailTrip: "The trip",
+  mailWho: "How to reach me",
+  mailElse: "Anything else",
+  mailRoute: "Route",
+  mailDates: "Dates",
+  mailProgram: "Program I was reading about",
+  mailClosing: "Please let me know what's actually available for those dates and what it would cost.",
+  mailThanks: "Thanks,",
+  mailFoot: "Sent from buyflightmiles.com. Nothing has been charged.",
+  mailOpened: "Your email app should open with the whole enquiry written out. Read it over and send it, and we'll take it from there.",
+};
+const L = { ...EN, ...labels };
+const fmtPax = (n) => (n === 1 ? L.paxOne : L.paxMany).replace("{n}", String(n));
+
+const accessKey = quoteFormReady ? site.contact.web3formsKeyQuote : "";
+const orderEmail = site.contact.orderEmail;
+const notWired = labels.notWired ?? (orderEmail
+  ? `Enquiries aren't connected yet — please email ${orderEmail} with your route and dates and we'll pick it up from there.`
+  : "Enquiries aren't connected yet. Send your route and dates through the contact page and we'll pick it up from there.");
+---
+<div class="fsearch" data-program={program ?? ""} data-inbox={mailtoInbox} data-key={accessKey ? "1" : ""} data-contact={contactHref}>
+  <!-- The client script is bundled once for the whole site, so the strings
+       travel per widget in the DOM rather than baked into the bundle. Same
+       contract as the quote widget's .qw-l10n blob. -->
+  <script type="application/json" class="fs-l10n" set:html={JSON.stringify(L)}></script>
+  <!-- The quote widget's head, verbatim in structure: title and sub on the
+       left, step marker on the right. Two widgets doing the same job on the
+       same page should not look like two different components, and the dots
+       sitting alone above the fields read as a stray element. -->
+  <div class="qw-head">
+    <div>
+      {!bare && <span class="qw-title">{heading}</span>}
+      {!bare && <span class="qw-sub">{sub}</span>}
+    </div>
+    <ol class="qw-dots fs-dots" aria-hidden="true">
+      <li class="on" data-dot="1"></li>
+      <li data-dot="2"></li>
+    </ol>
+  </div>
+
+  <!-- STEP 1 — the brief -->
+  <div class="fs-step" data-step="1">
+    <div class="fs-trip" role="radiogroup" aria-label={L.tripLabel}>
+      <button type="button" class="fs-pill on" data-trip="return" role="radio" aria-checked="true">{L.tripReturn}</button>
+      <button type="button" class="fs-pill" data-trip="oneway" role="radio" aria-checked="false">{L.tripOneway}</button>
+    </div>
+
+    <div class="fs-route">
+      <div class="field fs-field fs-ac">
+        <label class="fs-from-lab">{L.from}</label>
+        <input class="fs-air fs-from" type="text" autocomplete="off" spellcheck="false"
+          placeholder={L.airportPh} role="combobox" aria-expanded="false" aria-autocomplete="list" />
+        <ul class="fs-list" role="listbox" hidden></ul>
+      </div>
+
+      <button type="button" class="fs-swap" aria-label={L.swap}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 5h18"/><polyline points="7 23 3 19 7 15"/><path d="M21 19H3"/></svg>
+      </button>
+
+      <div class="field fs-field fs-ac">
+        <label class="fs-to-lab">{L.to}</label>
+        <input class="fs-air fs-to" type="text" autocomplete="off" spellcheck="false"
+          placeholder={L.airportPh} role="combobox" aria-expanded="false" aria-autocomplete="list" />
+        <ul class="fs-list" role="listbox" hidden></ul>
+      </div>
+    </div>
+
+    <!-- Dates are NOT <input type="date">. That control draws its format from
+         the visitor's browser locale, which no page attribute overrides, so a
+         German Chrome renders tt.mm.jjjj on an American site and nothing in the
+         markup can say otherwise. These are text fields with our own calendar:
+         mm/dd/yyyy for everyone, and the ISO value travels in a hidden input so
+         everything downstream is unchanged. -->
+    <div class="fs-when">
+      <div class="field fs-field fs-date">
+        <label class="fs-dep-lab">{L.dep}</label>
+        <input class="fs-dateview" data-role="dep" type="text" inputmode="numeric"
+          autocomplete="off" placeholder={L.datePh} maxlength="10" />
+        <input type="hidden" class="fs-dep" />
+        <div class="fs-cal" hidden></div>
+      </div>
+      <div class="field fs-field fs-date fs-ret-wrap">
+        <label class="fs-ret-lab">{L.ret}</label>
+        <input class="fs-dateview" data-role="ret" type="text" inputmode="numeric"
+          autocomplete="off" placeholder={L.datePh} maxlength="10" />
+        <input type="hidden" class="fs-ret" />
+        <div class="fs-cal" hidden></div>
+      </div>
+      <div class="field fs-field">
+        <label class="fs-pax-lab">{L.pax}</label>
+        <select class="fs-pax">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+            <option value={n}>{fmtPax(n)}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <div class="fs-cabin" role="radiogroup" aria-label={L.cabinLabel}>
+      <span class="fs-lab">{L.cabinLabel}</span>
+      <button type="button" class="fs-pill on" data-cabin="business" role="radio" aria-checked="true">{L.cabinBusiness}</button>
+      <button type="button" class="fs-pill" data-cabin="first" role="radio" aria-checked="false">{L.cabinFirst}</button>
+      <button type="button" class="fs-pill" data-cabin="either" role="radio" aria-checked="false">{L.cabinEither}</button>
+    </div>
+
+    <!-- Flexibility is the single biggest lever on whether award space exists
+         at all, so it is asked here rather than discovered over three emails. -->
+    <label class="fs-flex">
+      <input type="checkbox" class="fs-flexbox" />
+      <span>{L.flex}</span>
+    </label>
+
+    <button type="button" class="btn btn-primary fs-go">{L.go}</button>
+  </div>
+
+  <!-- STEP 2 — where to send the answer. The brief stays visible and editable
+       from here: "change my mind" must never mean "go back a step". -->
+  <div class="fs-step" data-step="2" hidden>
+    <div class="fs-recap">
+      <button type="button" class="fs-back">{L.back}</button>
+      <div class="fs-recap-route"></div>
+      <div class="fs-recap-meta"></div>
+    </div>
+
+    <form class="fs-form">
+      <input type="hidden" name="access_key" value={accessKey} />
+      <input type="hidden" name="subject" value="Award flight enquiry — buyflightmiles" />
+      <input type="hidden" name="route" class="fs-f-route" />
+      <input type="hidden" name="dates" class="fs-f-dates" />
+      <input type="hidden" name="cabin" class="fs-f-cabin" />
+      <input type="hidden" name="travellers" class="fs-f-pax" />
+      <input type="hidden" name="from_program_page" class="fs-f-prog" value={program ?? ""} />
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+      <div class="fs-when fs-when-2">
+        <div class="field fs-field">
+          <label class="fs-name-lab">{L.name}</label>
+          <input class="fs-name" name="name" type="text" required />
+        </div>
+        <div class="field fs-field">
+          <label class="fs-email-lab">{L.email}</label>
+          <input class="fs-email" name="email" type="email" required />
+        </div>
+        <div class="field fs-field">
+          <label class="fs-handle-lab">{L.handle}</label>
+          <input class="fs-handle" name="contact_handle" type="text" placeholder={L.handlePh} required />
+        </div>
+      </div>
+
+      <div class="field fs-field" style="margin-bottom:14px">
+        <label class="fs-notes-lab">{L.notes}</label>
+        <textarea class="fs-notes" name="notes" rows="3" placeholder={L.notesPh}></textarea>
+      </div>
+
+      <Turnstile />
+
+      <button type="submit" class="btn btn-primary fs-submit">{L.submit}</button>
+      <p class="form-msg fs-msg" hidden></p>
+      <ContactChannels context="a business class flight" />
+      <input type="hidden" class="fs-fallback" value={notWired} />
+    </form>
+  </div>
+
+  <p class="fs-note">
+    {L.note}
+    {moreLink && <> <a href={moreHref}>{L.moreText}</a></>}
+  </p>
+</div>
+
+<EnquiryMail />
+
+<script>
+  // One fetch per page, shared by every instance, started on first focus.
+  let airportsPromise = null;
+  const loadAirports = () => {
+    if (!airportsPromise) {
+      airportsPromise = fetch("/data/airports.json")
+        .then((r) => (r.ok ? r.json() : []))
+        .catch(() => []);
+    }
+    return airportsPromise;
+  };
+
+  const labelFor = (a) => (a[3] ? `${a[1]} ${a[3]} (${a[0]})` : `${a[1]} (${a[0]})`);
+
+  const search = (list, q) => {
+    const s = q.trim().toLowerCase();
+    if (s.length < 2) return [];
+    const starts = [], has = [];
+    for (const a of list) {
+      const code = a[0].toLowerCase();
+      const city = a[1].toLowerCase();
+      const country = a[2].toLowerCase();
+      if (code === s) starts.unshift(a);
+      else if (city.startsWith(s) || code.startsWith(s)) starts.push(a);
+      else if (city.includes(s) || country.includes(s) || (a[3] || "").toLowerCase().includes(s)) has.push(a);
+      if (starts.length + has.length > 80) break;
+    }
+    return starts.concat(has).slice(0, 8);
+  };
+
+  const today = () => new Date().toISOString().slice(0, 10);
+
+  document.querySelectorAll(".fsearch").forEach((root, idx) => {
+    const $ = (sel) => root.querySelector(sel);
+    // Every visible string, this widget's own. The bundle is shared by all
+    // pages, so the language cannot live in it.
+    const T = JSON.parse(root.querySelector(".fs-l10n").textContent);
+    const fmt = (t, m) => String(t).replace(/\{(\w+)\}/g, (_, k) => m[k] ?? "");
+    const CABIN = { business: T.cabinBusinessLong, first: T.cabinFirstLong, either: T.cabinEitherLong };
+    const fmtPax = (n) => fmt(String(n) === "1" ? T.paxOne : T.paxMany, { n });
+    // Spelled out in the page's language: "20. Nov. 2026", not "Nov 20, 2026".
+    const fmtDate = (v) => {
+      if (!v) return "";
+      const d = new Date(v + "T12:00:00Z");
+      return isNaN(d.getTime())
+        ? v
+        : d.toLocaleDateString(T.numLocale, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+    };
+    const dep = $(".fs-dep"), ret = $(".fs-ret"), retWrap = $(".fs-ret-wrap");
+    const from = $(".fs-from"), to = $(".fs-to");
+
+    // ---- ids: labels have to point at real fields, and a page can hold more
+    //      than one of these (a program page has the widget, /flights has it
+    //      too if it is ever embedded twice)
+    [["from", from], ["to", to],
+     ["dep", root.querySelector('[data-role="dep"]')], ["ret", root.querySelector('[data-role="ret"]')],
+     ["pax", $(".fs-pax")],
+     ["name", $(".fs-name")], ["email", $(".fs-email")], ["handle", $(".fs-handle")],
+     ["notes", $(".fs-notes")]].forEach(([key, el]) => {
+      const id = `fs${idx}-${key}`;
+      el.id = id;
+      const lab = $(`.fs-${key}-lab`);
+      if (lab) lab.setAttribute("for", id);
+    });
+    root.querySelectorAll(".fs-ac").forEach((wrap) => {
+      const input = wrap.querySelector(".fs-air");
+      const list = wrap.querySelector(".fs-list");
+      list.id = `${input.id}-list`;
+      input.setAttribute("aria-controls", list.id);
+    });
+
+    // ---- dates. US order and US separators for every visitor, and a calendar
+    //      we draw ourselves, because the native control obeys the browser's
+    //      locale and there is no markup that overrides it.
+    const views = { dep: root.querySelector('[data-role="dep"]'), ret: root.querySelector('[data-role="ret"]') };
+    const isos = { dep, ret };
+    const cals = {
+      dep: views.dep.closest(".fs-date").querySelector(".fs-cal"),
+      ret: views.ret.closest(".fs-date").querySelector(".fs-cal"),
+    };
+    const MONTHS = T.months;
+    // Locales supply Sunday-first names and a week start; rotating here means
+    // a locale never has to remember to reorder its own array to match.
+    const WS = Number(T.weekStart) || 0;
+    const DOW = T.dow.slice(WS).concat(T.dow.slice(0, WS));
+    // Day-first in most of Europe, month-first in the US, and the separator
+    // moves with it: 20.11.2026 in German, 11/20/2026 in English.
+    const DMY = T.dateOrder === "dmy";
+    const SEP = T.dateSep || "/";
+    const pad = (n) => String(n).padStart(2, "0");
+    const toView = (iso) => {
+      if (!iso) return "";
+      const [y, m, d] = [iso.slice(0, 4), iso.slice(5, 7), iso.slice(8, 10)];
+      return (DMY ? [d, m, y] : [m, d, y]).join(SEP);
+    };
+    const fromView = (str) => {
+      const m = str.match(/^(\d{2}).(\d{2}).(\d{4})$/);
+      if (!m) return "";
+      const [, a, b, yyyy] = m;
+      const mm = DMY ? b : a, dd = DMY ? a : b;
+      const d = new Date(Date.UTC(+yyyy, +mm - 1, +dd));
+      // rejects the 31st of February rather than silently rolling it into March
+      return d.getUTCMonth() + 1 === +mm && d.getUTCDate() === +dd ? `${yyyy}-${mm}-${dd}` : "";
+    };
+    // the floor for each field: nothing in the past, and no return before the
+    // outbound — the same rule the native min attribute used to carry
+    const floor = (role) => (role === "ret" && isos.dep.value ? isos.dep.value : today());
+
+    let calMonth = {};
+    function drawCal(role) {
+      const cal = cals[role];
+      const min = floor(role);
+      const cur = isos[role].value;
+      const base = calMonth[role] || cur || min;
+      const y = +base.slice(0, 4), m = +base.slice(5, 7) - 1;
+      const first = new Date(Date.UTC(y, m, 1));
+      const days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      let html = `<div class="fs-cal-top">
+        <button type="button" class="fs-cal-nav" data-step="-1" aria-label="${T.prevMonth}">‹</button>
+        <b>${MONTHS[m]} ${y}</b>
+        <button type="button" class="fs-cal-nav" data-step="1" aria-label="${T.nextMonth}">›</button>
+      </div><div class="fs-cal-grid">${DOW.map((d) => `<span class="fs-cal-dow">${d}</span>`).join("")}`;
+      // leading blanks measured from the locale's own first day of the week
+      for (let i = 0; i < (first.getUTCDay() - WS + 7) % 7; i++) html += "<span></span>";
+      for (let d = 1; d <= days; d++) {
+        const iso = `${y}-${pad(m + 1)}-${pad(d)}`;
+        const off = iso < min;
+        html += `<button type="button" class="fs-cal-d${iso === cur ? " on" : ""}" data-iso="${iso}"${off ? " disabled" : ""}>${d}</button>`;
+      }
+      cal.innerHTML = html + "</div>";
+      calMonth[role] = `${y}-${pad(m + 1)}-01`;
+    }
+
+    function openCal(role) {
+      Object.values(cals).forEach((c) => { c.hidden = true; });
+      drawCal(role);
+      cals[role].hidden = false;
+    }
+
+    // A return that now sits before the outbound is cleared rather than silently
+    // corrected to a date nobody chose. This lives on its own because BOTH ways
+    // of setting a date have to run it — picking from the calendar and typing.
+    // It did not, and typing a later departure left "Dec 25 – Nov 30" standing
+    // in the brief we would have been sent.
+    function enforceOrder() {
+      if (isos.dep.value && isos.ret.value && isos.ret.value < isos.dep.value) {
+        isos.ret.value = ""; views.ret.value = "";
+      }
+    }
+
+    function setDate(role, iso) {
+      isos[role].value = iso;
+      views[role].value = toView(iso);
+      enforceOrder();
+    }
+
+    Object.entries(views).forEach(([role, view]) => {
+      view.addEventListener("focus", () => openCal(role));
+      view.addEventListener("input", () => {
+        // type digits, get the slashes for free
+        let v = view.value.replace(/\D/g, "").slice(0, 8);
+        if (v.length > 4) v = `${v.slice(0, 2)}${SEP}${v.slice(2, 4)}${SEP}${v.slice(4)}`;
+        else if (v.length > 2) v = `${v.slice(0, 2)}${SEP}${v.slice(2)}`;
+        view.value = v;
+        const iso = fromView(v);
+        if (iso) {
+          isos[role].value = iso < floor(role) ? "" : iso;
+          calMonth[role] = iso;
+          enforceOrder();
+          drawCal(role);
+        } else if (v === "") {
+          isos[role].value = "";
+        }
+      });
+      view.addEventListener("blur", () => {
+        setTimeout(() => { cals[role].hidden = true; }, 150);
+        // an unparseable or out-of-range entry does not linger looking valid
+        if (!isos[role].value) view.value = "";
+        else view.value = toView(isos[role].value);
+      });
+      view.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") { cals[role].hidden = true; view.blur(); }
+      });
+      cals[role].addEventListener("mousedown", (e) => {
+        const nav = e.target.closest(".fs-cal-nav");
+        const day = e.target.closest(".fs-cal-d");
+        if (!nav && !day) return;
+        e.preventDefault();
+        if (nav) {
+          const [y, m] = calMonth[role].split("-").map(Number);
+          const d = new Date(Date.UTC(y, m - 1 + Number(nav.dataset.step), 1));
+          calMonth[role] = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-01`;
+          drawCal(role);
+          return;
+        }
+        setDate(role, day.dataset.iso);
+        cals[role].hidden = true;
+        if (role === "dep" && !isos.ret.value && trip === "return") views.ret.focus();
+      });
+    });
+
+    // ---- trip type
+    let trip = "return";
+    root.querySelectorAll("[data-trip]").forEach((b) => {
+      b.addEventListener("click", () => {
+        trip = b.dataset.trip;
+        root.querySelectorAll("[data-trip]").forEach((o) => {
+          const on = o === b;
+          o.classList.toggle("on", on);
+          o.setAttribute("aria-checked", String(on));
+        });
+        retWrap.hidden = trip === "oneway";
+        if (trip === "oneway") { ret.value = ""; root.querySelector('[data-role="ret"]').value = ""; }
+      });
+    });
+
+    // ---- cabin
+    let cabin = "business";
+    root.querySelectorAll("[data-cabin]").forEach((b) => {
+      b.addEventListener("click", () => {
+        cabin = b.dataset.cabin;
+        root.querySelectorAll("[data-cabin]").forEach((o) => {
+          const on = o === b;
+          o.classList.toggle("on", on);
+          o.setAttribute("aria-checked", String(on));
+        });
+      });
+    });
+
+    // ---- swap
+    $(".fs-swap").addEventListener("click", () => {
+      const t = from.value; from.value = to.value; to.value = t;
+    });
+
+    // ---- airport comboboxes
+    root.querySelectorAll(".fs-ac").forEach((wrap) => {
+      const input = wrap.querySelector(".fs-air");
+      const list = wrap.querySelector(".fs-list");
+      let items = [], active = -1;
+
+      const close = () => {
+        list.hidden = true;
+        list.innerHTML = "";
+        input.setAttribute("aria-expanded", "false");
+        input.removeAttribute("aria-activedescendant");
+        active = -1;
+      };
+
+      const choose = (i) => {
+        if (!items[i]) return;
+        input.value = labelFor(items[i]);
+        close();
+      };
+
+      const paint = () => {
+        list.innerHTML = "";
+        items.forEach((a, i) => {
+          const li = document.createElement("li");
+          li.id = `${input.id}-o${i}`;
+          // setAttribute, not the .role property: ARIA reflection is too new
+          // in Firefox and Safari to be what decides whether this is announced
+          li.setAttribute("role", "option");
+          li.className = "fs-opt" + (i === active ? " on" : "");
+          li.setAttribute("aria-selected", String(i === active));
+          li.innerHTML = `<b>${a[0]}</b><span>${a[1]}${a[3] ? " " + a[3] : ""}</span><em>${a[2]}</em>`;
+          li.addEventListener("mousedown", (e) => { e.preventDefault(); choose(i); });
+          list.appendChild(li);
+        });
+        list.hidden = items.length === 0;
+        input.setAttribute("aria-expanded", String(items.length > 0));
+        if (active >= 0) input.setAttribute("aria-activedescendant", `${input.id}-o${active}`);
+        else input.removeAttribute("aria-activedescendant");
+      };
+
+      input.addEventListener("focus", loadAirports);
+      input.addEventListener("input", async () => {
+        items = search(await loadAirports(), input.value);
+        active = -1;
+        paint();
+      });
+      input.addEventListener("keydown", (e) => {
+        if (list.hidden) return;
+        if (e.key === "ArrowDown") { e.preventDefault(); active = Math.min(active + 1, items.length - 1); paint(); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); active = Math.max(active - 1, 0); paint(); }
+        else if (e.key === "Enter" && active >= 0) { e.preventDefault(); choose(active); }
+        else if (e.key === "Escape") close();
+      });
+      input.addEventListener("blur", () => setTimeout(close, 120));
+    });
+
+    // ---- the brief, in one place, for the recap and the hidden fields
+    function brief() {
+      const oneway = trip === "oneway";
+      const route = `${from.value.trim()} ${oneway ? "→" : "⇄"} ${to.value.trim()}`;
+      let dates = fmtDate(dep.value);
+      if (!oneway && ret.value) dates += " – " + fmtDate(ret.value);
+      if ($(".fs-flexbox").checked) dates += " " + T.flexTag;
+      const pax = $(".fs-pax").value;
+      return { route, dates, cabin: CABIN[cabin], pax };
+    }
+
+    function paintRecap() {
+      const b = brief();
+      $(".fs-recap-route").textContent = b.route;
+      $(".fs-recap-meta").textContent = `${b.dates} · ${b.cabin} · ${fmtPax(b.pax)}`;
+      $(".fs-f-route").value = b.route;
+      $(".fs-f-dates").value = b.dates;
+      $(".fs-f-cabin").value = b.cabin;
+      $(".fs-f-pax").value = b.pax;
+    }
+
+    function step(n) {
+      root.querySelectorAll(".fs-step").forEach((s) => { s.hidden = s.dataset.step !== String(n); });
+      root.querySelectorAll(".fs-dots li").forEach((el) => {
+        el.classList.toggle("on", Number(el.dataset.dot) <= n);
+      });
+    }
+
+    // ---- step 1 → 2. No page navigation: the answer to "where do I put my
+    //      email" is right where the visitor already is.
+    // An empty field marks itself and takes focus. A sentence underneath
+    // explaining which three fields are needed said nothing the three empty
+    // boxes above it were not already saying.
+    $(".fs-go").addEventListener("click", () => {
+      const needed = [from, to, views.dep];
+      const empty = needed.filter((el) => !el.value.trim());
+      needed.forEach((el) => el.classList.toggle("fs-miss", !el.value.trim()));
+      if (empty.length) { empty[0].focus(); return; }
+      paintRecap();
+      step(2);
+      $(".fs-name").focus({ preventScroll: true });
+    });
+
+    // the mark clears the moment the field is being answered
+    [from, to, views.dep].forEach((el) =>
+      el.addEventListener("input", () => el.classList.remove("fs-miss")));
+
+    $(".fs-back").addEventListener("click", () => step(1));
+
+    // ---- submit: same contract as the order form
+    const form = $(".fs-form");
+    const msg = $(".fs-msg");
+    const btn = $(".fs-submit");
+
+    function showFallback(text) {
+      msg.textContent = text + " ";
+      const a = document.createElement("a");
+      a.href = root.dataset.contact || "/contact";
+      a.textContent = T.contactCta;
+      a.style.fontWeight = "600";
+      a.style.textDecoration = "underline";
+      msg.appendChild(a);
+      msg.className = "form-msg fs-msg err";
+      msg.hidden = false;
+    }
+
+    // The enquiry as a letter: the trip first, then who's asking, then the
+    // free-text notes as their own paragraph. Field names like
+    // "from_program_page" never reach the draft.
+    function mailIt(inbox) {
+      const fd = new FormData(form);
+      const g = (k) => String(fd.get(k) || "").trim();
+      const name = g("name");
+      window.bfmMail({
+        inbox,
+        subject: T.mailSubject + (g("route") ? ": " + g("route") : ""),
+        hello: T.mailHello,
+        intro: T.mailIntro,
+        groups: [
+          { title: T.mailTrip, rows: [
+            [T.mailRoute, g("route")],
+            [T.mailDates, g("dates")],
+            [T.cabinLabel, g("cabin")],
+            [T.pax, g("travellers")],
+            [T.mailProgram, g("from_program_page")],
+          ] },
+          { title: T.mailWho, rows: [
+            [T.name, name],
+            [T.email, g("email")],
+            [T.handle, g("contact_handle")],
+          ] },
+          { title: T.mailElse, text: g("notes") },
+        ],
+        trimmable: g("notes"),
+        closing: T.mailClosing,
+        thanks: T.mailThanks,
+        name,
+        foot: T.mailFoot,
+      });
+      msg.textContent = T.mailOpened;
+      msg.className = "form-msg fs-msg ok";
+      msg.hidden = false;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      paintRecap();
+      if (!root.dataset.key) {
+        if (root.dataset.inbox) { mailIt(root.dataset.inbox); return; }
+        showFallback($(".fs-fallback").value);
+        return;
+      }
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = T.sending; msg.hidden = true;
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const out = await res.json();
+        if (out.success) {
+          msg.textContent = T.ok;
+          msg.className = "form-msg fs-msg ok";
+          form.reset();
+        } else { throw new Error(out.message); }
+      } catch {
+        msg.textContent = T.errGeneric;
+        msg.className = "form-msg fs-msg err";
+      } finally {
+        btn.disabled = false; btn.textContent = label; msg.hidden = false;
+      }
+    });
+
+    // ---- deep link: /flights?from=…&to=…&depart=… still prefills, for links
+    //      sent to a specific person. Only the first widget on a page takes it.
+    if (idx === 0 && location.search) {
+      const q = new URLSearchParams(location.search);
+      if (q.get("from")) from.value = q.get("from");
+      if (q.get("to")) to.value = q.get("to");
+      if (q.get("depart")) setDate("dep", q.get("depart"));
+      if (q.get("return")) setDate("ret", q.get("return"));
+      if (q.get("pax")) $(".fs-pax").value = q.get("pax");
+      if (q.get("flexible")) $(".fs-flexbox").checked = true;
+      // click rather than set: the handlers above own that state
+      if (q.get("trip") === "oneway") root.querySelector('[data-trip="oneway"]').click();
+      const c = root.querySelector(`[data-cabin="${q.get("cabin")}"]`);
+      if (c && !c.classList.contains("on")) c.click();
+    }
+  });
+</script>

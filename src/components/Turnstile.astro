@@ -1,0 +1,42 @@
+---
+/**
+ * Cloudflare Turnstile challenge for the enquiry forms.
+ *
+ * Why this exists: the pages are built to rank on commercial terms, and a
+ * ranking form gets scraped. The forms already carry a honeypot and submit
+ * through fetch rather than a native POST, which turns away the naive half of
+ * that traffic. What neither stops is the deliberate case, because the
+ * Web3Forms access key sits in the page source: anyone can read it and POST
+ * straight to the API, skipping the honeypot, the JavaScript and this widget
+ * together.
+ *
+ * So the widget is only half the fix. The other half is switching captcha
+ * verification ON in the Web3Forms dashboard, which makes the API reject any
+ * submission without a valid token no matter where it came from. Turnstile is
+ * the free, no-interaction option and needs no cookie banner.
+ *
+ * Renders nothing at all until a sitekey is set, so it ships inert and the
+ * forms behave exactly as they do now.
+ *
+ * The token rides along automatically: Turnstile writes a hidden
+ * `cf-turnstile-response` input into the surrounding form, and every form here
+ * serialises with `Object.fromEntries(new FormData(form))`.
+ */
+import { turnstileKey } from "../lib/site";
+---
+{turnstileKey && (
+  <>
+    <div class="cf-turnstile" data-sitekey={turnstileKey} data-appearance="interaction-only" data-size="flexible" style="margin-top:14px"></div>
+    <script is:inline>
+      // One page can hold more than one form; load the API once.
+      if (!document.getElementById("cf-turnstile-api")) {
+        const s = document.createElement("script");
+        s.id = "cf-turnstile-api";
+        s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        s.async = true;
+        s.defer = true;
+        document.head.appendChild(s);
+      }
+    </script>
+  </>
+)}

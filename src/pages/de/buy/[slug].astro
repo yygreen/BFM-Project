@@ -1,0 +1,381 @@
+---
+// German program landing pages — generated only for entries carrying an
+// i18n.de block, so opening a language market stays data entry.
+//
+// German is the roster's strongest localisation case by a distance: "miles and
+// more meilen kaufen" runs 1,000/mo at KD 15, "meilen kaufen" 590 at KD 20 and
+// "lufthansa meilen kaufen" 260 at KD 12, which is the softest competitive
+// field of any buy-miles term in any language checked, English included. The
+// de database covers Germany alone, so Austria and Switzerland sit on top.
+//
+// Same honesty rules as everywhere else: an unverified rate stays marked
+// approximate, an unconfirmed delivery window is not asserted at all, and
+// payment stays off-site.
+//
+// v1 scope, as with Arabic: header and footer chrome stay English, and the
+// quote request lands in the same inbox as every other one.
+import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import QuoteWidget from "../../../components/QuoteWidget.astro";
+import SavingsTool from "../../../components/SavingsTool.astro";
+import TrustStrip from "../../../components/TrustStrip.astro";
+import FlightSearch from "../../../components/FlightSearch.astro";
+import { getCollection } from "astro:content";
+import { EN_FLAG } from "../../../lib/locales";
+import { realReviews, yearsTrading } from "../../../lib/site";
+import { usd, per1000, costOf } from "../../../lib/money";
+import { fxFor, fxDate, moneyTpl } from "../../../lib/fx";
+import { LOCALES } from "../../../lib/locales";
+import { CALC } from "../../../lib/calc-locales";
+import { FLIGHTS, FLIGHT_SECTION } from "../../../lib/flight-locales";
+
+const FSEC = FLIGHT_SECTION.de;
+const rev = realReviews[0];
+const years = yearsTrading();
+
+// Euro figures are a reading aid, never the charged amount: payment is in
+// dollars, and the label says so every time a euro appears. The rate is the
+// ECB's daily reference rate, refreshed before each build and dated on the
+// page so a visitor can check it.
+// The wording lives in the locale registry alongside every other market's,
+// so all seven say the same thing about billing in dollars.
+const DE_FX = LOCALES.de.fx!;
+const fx = fxFor(DE_FX.currency);
+const deStamp = fx?.date ? fxDate(fx.date, "de-DE") : "";
+
+// The widget's German strings live in the locale registry (shared with the
+// localized calculator); this page only adds the live euro-conversion fields,
+// which are per-build and can't live in a static registry.
+const DE_WIDGET = {
+  ...LOCALES.de.widget,
+  fxRate: fx?.rate ?? null,
+  fxMoney: moneyTpl(DE_FX.currency),
+  fxNote: fx ? DE_FX.note.replaceAll("{d}", deStamp) : "",
+};
+
+const DE_SAVINGS = {
+  presetsAria: "Beispiele für Prämienflüge",
+  milesLabel: "Meilen für die Prämie",
+  fareLabel: fx ? "Gefundener Flugpreis (€)" : "Gefundener Flugpreis ($)",
+  farePh: "z. B. 2500",
+  cash: "Barpreis",
+  vs: "vs.",
+  atOurRate: "Gekauft zu {rate}¢ pro Meile",
+  emptyBoth: "Trag Meilen und Barpreis ein, dann rechnen wir es aus.",
+  emptyFare: "Das kosten dich die Meilen. Trag den regulären Flugpreis ein und wir zeigen dir, welche Option günstiger ist.",
+  cta: "Dafür ein Angebot →",
+  win: "Klarer Vorteil für Meilen: Dieser Flug bewertet eine Meile mit {seat}¢ gegenüber unseren {rate}¢. Der Kauf spart {saving} ({pct}% gegenüber dem Barpreis).",
+  ok: "Meilen liegen vorn: {saving} günstiger als der Barpreis. Kein Erdrutsch, aber eine echte Ersparnis.",
+  payCash: "Ehrlich? Zahl hier lieber bar. Bei {fare} bewertet dieser Flug eine Meile mit {seat}¢ und liegt damit unter unseren {rate}¢. Meilen zu kaufen würde dich Geld kosten.",
+  numLocale: "de-DE",
+  fxRate: fx?.rate ?? null,
+  fxMoney: moneyTpl(DE_FX.currency),
+  fxFoot: fx ? DE_FX.foot.replaceAll("{d}", deStamp) : "",
+};
+
+
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return airlines
+    .filter((a) => a.i18n?.de)
+    .map((a) => ({ params: { slug: a.slug }, props: { a, t: a.i18n.de, airlines } }));
+}
+
+const { a, t, airlines } = Astro.props;
+const verified = a.priceVerified;
+const DE = "de-DE";
+// German decimal comma: 1.9¢ is "1,9 Cent" to this reader
+const rateDe = a.pricePerMile.toLocaleString(DE);
+// a German compound hyphenates right through the name: "Miles-&-More-Konto"
+const progDe = a.program.replace(/ /g, "-");
+
+// The English page prices each sweet spot at our rate; the German page did
+// not, which quietly dropped the strongest number in the section. The uses are
+// authored in the same order as the sweet spots, so the nth use takes the nth
+// spot's mile count.
+const spotMiles = (a.sweetSpots ?? []).map((sp) => sp.miles ?? null);
+const useCost = (miles: number) =>
+  LOCALES.de.page.useCost
+    .replace("{miles}", miles.toLocaleString(DE))
+    .replace("{cost}", (verified ? "" : "~") + usd(costOf(miles, a.pricePerMile), DE));
+
+// Related programs, but only ones that exist in German — an internal link
+// out of the language is worse than no link. The block appears on its own as
+// the German roster grows.
+const related = a.related
+  .map((slug) => airlines.find((x) => x.slug === slug))
+  .filter((x) => x?.i18n?.de);
+
+// Structured data was the real omission in v1: it has no language problem,
+// and this page is built to rank. Product carries the German name and
+// description, FAQPage carries the German answers, and the price is still
+// withheld until the rate is confirmed.
+// Every language this program exists in, not only English.
+const alternates = [
+  { hreflang: "en", slug: `buy/${a.slug}` },
+  ...Object.keys(a.i18n ?? {})
+    .filter((loc) => loc !== "de")
+    .map((loc) => ({ hreflang: LOCALES[loc]?.htmlLang ?? loc, slug: `${loc}/buy/${a.slug}` })),
+];
+
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${a.airline} ${a.program}`,
+    description: t.metaDescription,
+    brand: { "@type": "Brand", name: a.airline },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      availability: a.inStock ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability",
+      ...(verified && {
+        price: per1000(a.pricePerMile),
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: per1000(a.pricePerMile),
+          priceCurrency: "USD",
+          referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
+        },
+      }),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: "de",
+    mainEntity: t.faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+<Base
+  title={`${t.metaTitle} | buyflightmiles`}
+  description={t.metaDescription}
+  slug={`de/buy/${a.slug}`}
+  lang="de"
+  alternates={alternates}
+  jsonld={jsonld}
+>
+  <div lang="de">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid top">
+          <div>
+            <Breadcrumbs items={[
+              { label: "Start", href: "/" },
+              { label: "Programme", href: "/#programs" },
+              { label: `${a.airline} ${a.program}` },
+            ]} />
+            <span class="kicker">{a.alliance}</span>
+            <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">
+              <span class="lang-flag" aria-hidden="true">{EN_FLAG}</span>English
+            </a>
+            <h1>{t.heroHeadline}</h1>
+            <p class="sub">{t.heroSub}</p>
+            {/* No button pair — the widget sits beside this column and IS the
+                hero's action, so a "get a quote" button jumped to something
+                already on screen and read as doing nothing. Same reasoning,
+                same fix as the English hero: a quiet link to the one page the
+                hero doesn't show, the full calculator. */}
+            <p class="hero-more">
+              <a href={`/de/calculator/${a.slug}`}>{CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}</a>
+            </p>
+            {/* the English page's row, translated: rating, turnaround, track
+                record, each with the same fallback when its figure isn't
+                confirmed. Nothing extra — a fact that exists only in one
+                language is a different page, not a translation. */}
+            <div class="spec">
+              {rev ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <b>{rev.rating.toLocaleString(DE)}/{rev.outOf}</b>&nbsp;auf {rev.platform}
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Kostenloses, unverbindliches Angebot
+                </span>
+              )}
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Lieferung in <b>{a.delivery.replace("Within ", "").replace("hours", "Stunden")}</b>
+              </span>
+              {years !== null ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                  <b>{years}+ Jahre</b>&nbsp;am Markt
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  Preis vor der Zahlung bestätigt
+                </span>
+              )}
+            </div>
+          </div>
+          <div class="hero-art">
+            <div class="hero-calc" id="quote">
+              <QuoteWidget
+                defaultSlug={a.slug}
+                locked
+                heading="Was kosten deine Meilen?"
+                sub="Menge eingeben, Preis sehen, Angebot anfordern."
+                labels={DE_WIDGET}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Section for section, this is the English page: best uses with the
+        worth-it tool beside them, then the three steps, then the trust block.
+        The price table that used to sit here belonged to /calculator, which
+        has no German edition — a section the original doesn't have is a
+        different page, not a translation. */}
+    <section class="section wash-cool" id="uses">
+      <div class="container">
+        <div class="section-head">
+          <h2>Wofür sich {a.program} am meisten lohnt</h2>
+          <p>Finde heraus, wo deine Meilen am meisten wert sind und wann Barzahlen die bessere Wahl ist.</p>
+        </div>
+        <div class="value-split">
+          <div class="value-lad">
+            {t.uses && t.uses.length > 0 && (
+              <div class="vtier">
+                <div class="vtier-head">
+                  <span class="vchip v1">Bester Wert</span>
+                  <span class="vtier-note">Die Prämien, für die sich der Kauf lohnt</span>
+                </div>
+                <div class="uses">
+                  {t.uses.map((u, i) => (
+                    <div class="use">
+                      <h4>{u.title}</h4>
+                      {spotMiles[i] && <div class="use-cost">{useCost(spotMiles[i]!)}</div>}
+                      <p>{u.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <div class="value-tool">
+            {/* "Meilenrechner" is what German speakers call this: 320/mo at
+                KD 25, and the page never used the word. It names the tool
+                honestly, so it goes in the heading and the anchor rather than
+                being sprinkled through the copy. */}
+            <div class="worth-sub" id="meilenrechner">
+              <h3>Meilenrechner: schlägt der Meilenkauf den Barpreis?</h3>
+              <p>Trag den Preis aus deiner Flugsuche ein. Wir zeigen dir sofort, ob sich Meilen lohnen oder du besser direkt bezahlst.</p>
+            </div>
+            <SavingsTool
+              program={a.program}
+              rate={a.pricePerMile}
+              verified={verified}
+              presets={(a.sweetSpots ?? []).filter((sp) => sp.miles).map((sp) => ({ title: sp.title, miles: sp.miles }))}
+              labels={DE_SAVINGS}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="container">
+        <div class="section-head">
+          <h2>Vom Angebot bis auf dein {progDe}-Konto</h2>
+        </div>
+        <div class="steps ministeps">
+          {t.steps.map((st, i) => (
+            <div class="step">
+              <div class="n">0{i + 1}</div>
+              <h4>{st.title}</h4>
+              <p>{st.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* The second product, and the one the translated pages never carried: an
+        award seat found and booked. Placed exactly where the English page puts
+        it, after the process and before trust, so someone still pricing miles
+        has passed the whole miles argument before meeting it. The heading
+        recommends the cheaper route first, as the English one does.
+
+        moreLink is off because /flights is English only, and there is no
+        localized page to send a reader of this one to yet. */}
+    <section class="section wash-warm" id="flights">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">{FSEC.kicker}</span>
+          <h2>{FSEC.h2}</h2>
+          <p>{FSEC.p}</p>
+        </div>
+        <FlightSearch
+          program={`${a.airline} — ${a.program}`}
+          heading={FSEC.cardHead}
+          sub={FSEC.cardSub}
+          moreLink={false}
+          labels={FLIGHTS["de"]}
+        />
+      </div>
+    </section>
+
+    <section class="section wash-warm">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Warum uns vertrauen</span>
+          <h2>Jede {progDe}-Bestellung ist abgesichert</h2>
+        </div>
+        <TrustStrip labels={LOCALES.de.trust} />
+      </div>
+    </section>
+
+    <section class="section tinted">
+      <div class="container">
+        <div class="section-head">
+          <h2>{a.airline} Meilen kaufen: deine Fragen</h2>
+        </div>
+        {/* the English component's markup exactly: .faq-body was a class the
+            stylesheet has never had, so the answers rendered with no padding
+            and the summary lost its + marker */}
+        <div class="faqx-list">
+          {t.faq.map((f, i) => (
+            <details class="faq" open={i === 0}>
+              <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+              <div class="ans">{f.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="ctaband">
+          <div>
+            <h3>Bereit für dein Angebot?</h3>
+            <p>Erst der Preis, dann die Zahlung. Auf dieser Website wird nichts abgebucht.</p>
+          </div>
+          <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
+        </div>
+        {/* The German roster is one program today, so the sibling links are
+            usually empty and this row used to disappear with them, leaving the
+            page with no internal exit at all. The calculator link always
+            renders; the label only when there is more than one thing behind it. */}
+        <div class="related related-inline">
+          {related.length > 0 && <span class="related-lab">Weitere Programme</span>}
+          {related.map((r) => <a href={`/de/buy/${r!.slug}`}>{r!.airline} {r!.program}</a>)}
+          <a href={`/de/calculator/${a.slug}`}>
+            {CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>

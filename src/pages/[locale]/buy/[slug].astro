@@ -1,0 +1,389 @@
+---
+// Localized program landing pages, one route for every language.
+//
+// Generated only for entries carrying an i18n block, so adding a language
+// market is data entry: an entry in src/lib/locales.ts for the chrome, and an
+// i18n.<locale> block per program for the marketing copy. The old WordPress
+// site ranks with /qatar-airways-ar; this is that surface, generalized.
+//
+// Held to the same honesty rules as the English pages: no invented fares,
+// payment stays off-site, unverified claims don't render.
+//
+// v1 scope, deliberately: the header and footer chrome stays English and the
+// CTA leads to the English quote flow. The page content is in the language.
+//
+// German is excluded here because it has its own richer route file. See the
+// `bespoke` flag in the registry.
+import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import QuoteWidget from "../../../components/QuoteWidget.astro";
+import SavingsTool from "../../../components/SavingsTool.astro";
+import TrustStrip from "../../../components/TrustStrip.astro";
+import FlightSearch from "../../../components/FlightSearch.astro";
+import { getCollection } from "astro:content";
+import { realReviews, yearsTrading } from "../../../lib/site";
+import { usd, costOf, per1000 } from "../../../lib/money";
+import { LOCALES, GENERIC_LOCALES, EN_FLAG } from "../../../lib/locales";
+import { CALC } from "../../../lib/calc-locales";
+import { FLIGHTS, FLIGHT_SECTION } from "../../../lib/flight-locales";
+import { fxFor, fxDate, moneyTpl, moneySymbol } from "../../../lib/fx";
+
+const rev = realReviews[0];
+const years = yearsTrading();
+
+export async function getStaticPaths() {
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return GENERIC_LOCALES.flatMap((locale) =>
+    airlines
+      .filter((a) => a.i18n?.[locale])
+      .map((a) => ({
+        params: { locale, slug: a.slug },
+        // the whole roster travels so the page can link to its siblings —
+        // without it these pages had no way out except back to English
+        props: { a, t: a.i18n[locale], locale, airlines },
+      })),
+  );
+}
+
+const { a, t, locale, airlines } = Astro.props;
+const L = LOCALES[locale];
+const FSEC = FLIGHT_SECTION[locale];
+const P = L.page;
+// Delivery reads "Within 48 hours" in the data; the localized page needs the
+// number without the English preposition, since each language puts its own
+// wording in `deliveredIn`.
+// "Within 48 hours" in the data becomes "48 <unit>" in the page's language.
+// Leaving it English was the one place a translated hero still read as one.
+const deliveryValue = a.delivery.replace("Within ", "").replace(/\bhours?\b/, L.page.hours);
+// lang/hreflang can differ from the URL segment, e.g. /zh-tw/ tagged zh-TW
+const htmlLang = L.htmlLang ?? locale;
+
+// Prices are charged in dollars; the local figure beside them is a reading
+// aid. It renders only when we hold a rate, and it always names its source
+// and, where the source has one, its date. A program may override the
+// locale's currency: the Arabic pages sell into Qatar and the UAE.
+const currency = t.currency ?? L.fx?.currency ?? null;
+const fx = currency ? fxFor(currency) : null;
+const showFx = Boolean(L.fx && fx);
+const stamp = fx?.date ? fxDate(fx.date, L.numLocale) : "";
+const fill = (s: string) => s.replaceAll("{d}", stamp);
+
+const widget = {
+  ...L.widget,
+  ...(showFx
+    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxNote: fill(t.fxNote ?? L.fx!.note) }
+    : {}),
+};
+// The savings tool asks for a cash fare, so its input has to say which
+// currency it wants. Without a rate it keeps asking for dollars.
+const savings = {
+  ...L.savings,
+  ...(L.savings.fareLabel
+    ? { fareLabel: L.savings.fareLabel.replace("{cur}", showFx ? moneySymbol(currency!) : "$") }
+    : {}),
+  ...(showFx
+    ? { fxRate: fx!.rate, fxMoney: moneyTpl(currency!), fxFoot: fill(t.fxFoot ?? L.fx!.foot) }
+    : {}),
+};
+
+// Only siblings that exist in THIS language: a link out of the language is
+// worse than no link. Without this the translated pages had no internal exit
+// at all, which is what left them orphaned in the crawl.
+const related = a.related
+  .map((slug) => airlines.find((x) => x.slug === slug))
+  .filter((x) => x?.i18n?.[locale]);
+
+// Structured data has no language problem and these pages are built to rank,
+// so they now carry the same Product markup as the English page plus FAQPage
+// built from the translated answers. The price is still withheld until the
+// rate is confirmed, exactly as everywhere else.
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: /miles$/i.test(a.program) ? `${a.airline} ${a.program}` : `${a.airline} ${a.program} miles`,
+    description: t.metaDescription,
+    brand: { "@type": "Brand", name: a.airline },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      availability: a.inStock ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability",
+      ...(a.priceVerified && {
+        price: per1000(a.pricePerMile),
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: per1000(a.pricePerMile),
+          priceCurrency: "USD",
+          referenceQuantity: { "@type": "QuantitativeValue", value: 1000, unitText: "miles" },
+        },
+      }),
+    },
+  },
+  ...(t.faq?.length
+    ? [{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        inLanguage: htmlLang,
+        mainEntity: t.faq.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }]
+    : []),
+];
+
+// Every language this program exists in, not only English. A translated page
+// that pointed at English alone hid its own siblings from search.
+const alternates = [
+  { hreflang: "en", slug: `buy/${a.slug}` },
+  ...Object.keys(a.i18n ?? {})
+    .filter((loc) => loc !== locale)
+    .map((loc) => ({ hreflang: LOCALES[loc]?.htmlLang ?? loc, slug: `${loc}/buy/${a.slug}` })),
+];
+
+// The English page prices each sweet spot at our rate. That line is a number
+// and a currency, so it translates with a template rather than a rewrite, and
+// it was the one part of the value ladder these pages had no version of. The
+// translated uses are authored in the same order as the sweet spots, so the
+// nth use takes the nth spot's mile count; anything beyond that prices nothing.
+const money = (n: number) => usd(n, L.numLocale);
+const spotMiles = (a.sweetSpots ?? []).map((s) => s.miles ?? null);
+const useCost = (miles: number) =>
+  L.page.useCost
+    .replace("{miles}", miles.toLocaleString(L.numLocale))
+    .replace("{cost}", (a.priceVerified ? "" : "~") + money(costOf(miles, a.pricePerMile)));
+---
+<Base
+  title={t.metaTitle}
+  description={t.metaDescription}
+  slug={`${locale}/buy/${a.slug}`}
+  lang={htmlLang}
+  alternates={alternates}
+  jsonld={jsonld}
+>
+  <div dir={L.dir} lang={htmlLang}>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid top">
+          <div>
+            <Breadcrumbs rtl={L.dir === "rtl"} items={[
+              { label: P.home, href: "/" },
+              { label: P.programs, href: "/#programs" },
+              { label: t.heroHeadline },
+            ]} />
+            <span class="kicker">{a.alliance}</span>
+            <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">
+              <span class="lang-flag" aria-hidden="true">{EN_FLAG}</span>English
+            </a>
+            <h1>{t.heroHeadline}</h1>
+            <p class="sub">{t.heroSub}</p>
+            {/* No button pair — the widget sits beside this column and IS the
+                hero's action, so a "get a quote" button jumped to something
+                already on screen and read as doing nothing. Same reasoning,
+                same fix as the English hero: a quiet link to the one page the
+                hero doesn't show, the localized calculator. */}
+            <p class="hero-more">
+              <a href={`/${locale}/calculator/${a.slug}`}>{CALC[locale].seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}</a>
+            </p>
+            <!-- the same three slots as the English hero, each falling back to
+                 an always-true claim when its figure isn't confirmed, so the
+                 row never invents a number in any language -->
+            <div class="spec">
+              {rev ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="#F5A623" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <b>{rev.rating}/{rev.outOf}</b>&nbsp;{P.on} {rev.platform}
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  {P.freeQuote}
+                </span>
+              )}
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                {P.deliveredIn} <b>{deliveryValue}</b>
+              </span>
+              {years !== null ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                  <b>{years}+</b>&nbsp;{P.yearsIn}
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  {P.ratePreConfirmed}
+                </span>
+              )}
+            </div>
+          </div>
+          <div class="hero-art">
+            <div class="hero-calc" id="quote">
+              <QuoteWidget defaultSlug={a.slug} locked heading={P.quoteHeading} sub={P.quoteSub} labels={widget} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>{P.howItWorks}</h2>
+        </div>
+        <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+          {t.steps.map((s, i) => (
+            <div class="step">
+              <div class="n">0{i + 1}</div>
+              <h4>{s.title}</h4>
+              <p>{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* The value section, mirroring the English page: the redemptions worth
+        buying for, and beside them the tool that tests any of it against a
+        real fare. This was missing from every translated page, which left
+        them the marketing without the one thing that argues for the price. */}
+    {t.uses && t.uses.length > 0 && (
+      <section class="section wash-cool" id="uses">
+        <div class="container">
+          <div class="section-head">
+            <h2>{P.bestUses}</h2>
+            <p>{P.bestUsesSub}</p>
+          </div>
+          <div class="value-split">
+            <div class="value-lad">
+              <div class="vtier">
+                <div class="vtier-head">
+                  <span class="vchip v1">{P.greatValue}</span>
+                  <span class="vtier-note">{P.greatValueNote}</span>
+                </div>
+                <div class="uses">
+                  {t.uses.map((u, i) => (
+                    <div class="use">
+                      <h4>{u.title}</h4>
+                      {spotMiles[i] && <div class="use-cost">{useCost(spotMiles[i]!)}</div>}
+                      <p>{u.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div class="value-tool">
+              <div class="worth-sub" id="worth">
+                <h3>{P.worthHead}</h3>
+                <p>{P.worthSub}</p>
+              </div>
+              <SavingsTool
+                program={a.program}
+                rate={a.pricePerMile}
+                verified={a.priceVerified}
+                labels={savings}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    {t.points && t.points.length > 0 && (
+      <section class="section wash-cool">
+        <div class="container">
+          <div class="section-head">
+            <h2>{P.whyUs}</h2>
+          </div>
+          <div class="vgood">
+            {t.points.map((p) => <div class="vitem">{p}</div>)}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* The second product, and the one the translated pages never carried: an
+        award seat found and booked. Placed exactly where the English page puts
+        it, after the process and before trust, so someone still pricing miles
+        has passed the whole miles argument before meeting it. The heading
+        recommends the cheaper route first, as the English one does.
+
+        moreLink is off because /flights is English only, and there is no
+        localized page to send a reader of this one to yet. */}
+    <section class="section wash-warm" id="flights">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">{FSEC.kicker}</span>
+          <h2>{FSEC.h2}</h2>
+          <p>{FSEC.p}</p>
+        </div>
+        <FlightSearch
+          program={`${a.airline} — ${a.program}`}
+          heading={FSEC.cardHead}
+          sub={FSEC.cardSub}
+          moreLink={false}
+          labels={FLIGHTS[locale]}
+        />
+      </div>
+    </section>
+
+    {/* Trust is the page's whole argument in a market where buyers are
+        scam-wary, and the English page has carried this band since v1. Every
+        figure in it renders only when it's confirmed, so the translation
+        cannot introduce a claim the English page doesn't make. */}
+    <section class="section wash-warm">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">{P.whyTrust}</span>
+          <h2>{P.orderProtected.replace("{program}", a.program)}</h2>
+        </div>
+        <TrustStrip labels={L.trust} />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>{P.faq}</h2>
+        </div>
+        {/* the site's own accordion markup. This used to be a hand-rolled
+            .faq-item with inline styles, so the answers had no padding and
+            the summary had no + marker — the same bug the German page fixed */}
+        <div class="faqx-list">
+          {t.faq.map((f, i) => (
+            <details class="faq" open={i === 0}>
+              <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+              <div class="ans">{f.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section wash-cool">
+      <div class="container">
+        <div class="ctaband">
+          <div>
+            <h3>{P.ctaHead}</h3>
+            <p>{P.ctaSub}</p>
+          </div>
+          <a class="btn btn-primary" href="#quote">{t.ctaLabel}</a>
+        </div>
+        {/* The row renders even with no siblings, because the calculator link
+            is the only in-language way off this page and most markets still
+            hold a single program. The label appears only when there is
+            actually more than one program behind it. */}
+        <div class="related related-inline">
+          {related.length > 0 && <span class="related-lab">{P.related}</span>}
+          {related.map((r) => (
+            <a href={`/${locale}/buy/${r!.slug}`}>{r!.airline} {r!.program}</a>
+          ))}
+          <a href={`/${locale}/calculator/${a.slug}`}>
+            {CALC[locale].seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>

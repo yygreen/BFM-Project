@@ -1,0 +1,156 @@
+---
+// The sticky contact dock, bottom right of every page.
+//
+// Why it exists: this is a four-figure purchase from a vendor the buyer has
+// never used, in a category they have been warned is full of scams. The single
+// question that decides the sale is "is there a person behind this site", and
+// the answer was previously a phone number in the footer. Every competitor
+// selling at this price point (business-class.com runs four numbers on one
+// page) keeps a reachable human pinned to the viewport instead.
+//
+// Collapsed it is one dark pill: the number, tappable straight into a call,
+// plus a caret that opens the rest. That split is deliberate — on a phone the
+// highest-value action is dialling, and it should not cost a menu first.
+//
+// Everything it publishes comes from site.json's verified contact block, so
+// an unconfirmed channel is absent rather than wrong, and the whole dock
+// disappears if contact.verified is ever turned off. The support-hours line
+// above the number is the same deal: it renders the client's real hours or
+// nothing at all. No "24/7" until someone confirms it is true.
+//
+// <details> carries the open/closed state, so the panel works with no JS at
+// all. The script only adds what markup cannot: outside-click, Escape, and
+// the close button (hidden until JS is present, so it is never a dead control).
+//
+// ENGLISH ON EVERY PAGE, the translated ones included, and on purpose: the
+// people on the other end of this phone and this WhatsApp speak English. A
+// dock inviting someone to talk in Spanish or Arabic is a support-language
+// claim the business cannot honour — the same kind of implied promise the
+// verified flags exist to keep off this site. (It is not an SEO concern:
+// page language is judged on main content, and a fixed widget is
+// boilerplate.) If multilingual support ever becomes real, localizing this
+// is a strings-only change.
+import { site, officialChannels, live } from "../lib/site";
+
+const t: Record<string, string> = {
+  lab: "Talk to us",
+  title: "Talk to a real person",
+  sub: "Ask about rates, delivery or payment before you buy.",
+  optQuote: "I want to buy miles",
+  optOrder: "Question about an order",
+  ordiv: "or",
+  call: "Call us",
+  callSub: "Talk it through before you pay",
+  chat: "Chat on WhatsApp",
+  chatSub: "Send us a message",
+  close: "Close",
+  more: "More ways to reach us",
+  waPrefill: "Hi, I have a question about buying miles.",
+};
+
+const ways = officialChannels();
+const phone = ways.find((c) => c.kind === "phone");
+const chat = ways.find((c) => c.kind === "whatsapp");
+const wa = chat ? `${chat.href}?text=${encodeURIComponent(t.waPrefill)}` : null;
+
+// The client's stated support hours, once confirmed. Until then the pill
+// carries a plain invitation rather than a coverage claim we cannot stand up.
+const hours = live(site.trust.supportHours) ? String(site.trust.supportHours.value) : null;
+const label = hours ?? t.lab;
+
+// Localized pages live under /{locale}/buy/*; the two panel destinations are
+// English-only pages, so they are linked as they are rather than to a route
+// that does not exist.
+const show = Boolean(phone || chat);
+---
+
+{show && (
+  <div class="dock" id="dock" dir="ltr" lang="en">
+    <div class="dock-bar">
+      {phone ? (
+        <a class="dock-tel" href={phone.href}>
+          <span class="dock-lab">{label}</span>
+          <b>{phone.value}</b>
+        </a>
+      ) : (
+        <a class="dock-tel" href={wa} target="_blank" rel="noopener">
+          <span class="dock-lab">{label}</span>
+          <b>{chat.value}</b>
+        </a>
+      )}
+      <details class="dock-d" id="dock-d">
+        <summary class="dock-more" aria-label={t.more}>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+
+        <div class="dock-panel">
+          <button class="dock-x" type="button" aria-label={t.close}>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+
+          <p class="dock-h">{t.title}</p>
+          <p class="dock-s">{t.sub}</p>
+
+          <a class="dock-opt" href="/request">
+            <span>{t.optQuote}</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <a class="dock-opt" href="/contact">
+            <span>{t.optOrder}</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+
+          <p class="dock-or"><span>{t.ordiv}</span></p>
+
+          {phone && (
+            <a class="dock-ch" href={phone.href}>
+              <span class="dock-ic">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <span class="dock-ct">
+                <b>{phone.value}</b>
+                <span>{t.callSub}</span>
+              </span>
+            </a>
+          )}
+
+          {chat && (
+            <a class="dock-ch wa" href={wa} target="_blank" rel="noopener">
+              <span class="dock-ic">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.2-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg>
+              </span>
+              <span class="dock-ct">
+                <b>{t.chat}</b>
+                <span>{t.chatSub}</span>
+              </span>
+            </a>
+          )}
+        </div>
+      </details>
+    </div>
+  </div>
+)}
+
+{show && (
+  <script is:inline>
+    (function () {
+      var dock = document.getElementById("dock");
+      var d = document.getElementById("dock-d");
+      if (!dock || !d) return;
+      // Marks the dock as scripted: the close button is styled out until this
+      // runs, so a no-JS visitor never meets a button that does nothing.
+      dock.classList.add("js");
+      var x = dock.querySelector(".dock-x");
+      if (x) x.addEventListener("click", function () { d.open = false; });
+      document.addEventListener("click", function (e) {
+        if (d.open && !d.contains(e.target)) d.open = false;
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && d.open) {
+          d.open = false;
+          d.querySelector("summary").focus();
+        }
+      });
+    })();
+  </script>
+)}

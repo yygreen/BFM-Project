@@ -1,0 +1,158 @@
+---
+// Branded program picker — the carrier listbox, extracted so more than one
+// page can use it. A native <select> stays offscreen as the value holder and
+// the form field, and the listbox below is only presentation; that keeps form
+// submission, validation and change events working exactly as a select does.
+//
+// Keyboard behaviour matches a native select: arrows, Home/End, Enter, Space,
+// Escape, Tab and type-ahead on the airline name.
+//
+// The quote widget still carries its own copy of this pattern (it predates the
+// extraction and is wired into that widget's pricing); migrating it here is a
+// tidy-up for when the widget is next touched.
+import { getCollection } from "astro:content";
+
+interface Props {
+  id: string;           // prefix for every generated id, so two can coexist
+  name: string;         // the submitted field name
+  value?: string;       // selected slug
+  labelId?: string;
+  required?: boolean;
+}
+const { id, name, value, labelId, required = false } = Astro.props;
+
+const programs = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline))
+  .map((a) => ({
+    slug: a.slug,
+    label: `${a.airline} — ${a.program}`,
+    airline: a.airline,
+    program: a.program,
+    code: a.code,
+    color: a.color,
+    logo: a.logo ?? null,
+    rate: a.pricePerMile,
+    verified: a.priceVerified,
+  }));
+
+const start = programs.find((p) => p.slug === value) ?? programs[0];
+---
+<select id={`${id}-native`} name={name} class="sr-only" tabindex="-1" aria-hidden="true" required={required}>
+  {programs.map((p) => <option value={p.slug} selected={p.slug === start.slug}>{p.label}</option>)}
+</select>
+
+<div class="csel" id={`${id}-csel`}>
+  <button type="button" class="csel-btn" id={`${id}-btn`}
+    aria-haspopup="listbox" aria-expanded="false"
+    aria-labelledby={labelId ? `${labelId} ${id}-btn` : `${id}-btn`}>
+    <span class={`csel-code${start.logo ? " csel-code-logo" : ""}`} id={`${id}-code`} style={`--c:${start.color}`}>
+      {start.logo ? <img src={start.logo} alt="" /> : start.code}
+    </span>
+    <span class="csel-txt">
+      <span class="csel-air" id={`${id}-air`}>{start.airline}</span>
+      <span class="csel-prog" id={`${id}-prog`}>{start.program}</span>
+    </span>
+    <svg class="csel-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <ul class="csel-list" id={`${id}-list`} role="listbox" aria-labelledby={labelId} hidden>
+    {programs.map((p) => (
+      <li class="csel-opt" role="option" id={`${id}-opt-${p.slug}`} data-value={p.slug}
+          data-airline={p.airline} data-program={p.program} data-code={p.code}
+          data-color={p.color} data-logo={p.logo ?? ""}
+          aria-selected={p.slug === start.slug ? "true" : "false"}>
+        <span class={`csel-code${p.logo ? " csel-code-logo" : ""}`} style={`--c:${p.color}`}>
+          {p.logo ? <img src={p.logo} alt="" /> : p.code}
+        </span>
+        <span class="csel-txt">
+          <span class="csel-air">{p.airline}</span>
+          <span class="csel-prog">{p.program}</span>
+        </span>
+        <span class="csel-price">{p.verified ? "" : "~"}{p.rate}¢</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script is:inline define:vars={{ id }}>
+  (function () {
+    const sel = document.getElementById(id + "-native");
+    const wrap = document.getElementById(id + "-csel");
+    const btn = document.getElementById(id + "-btn");
+    const list = document.getElementById(id + "-list");
+    if (!sel || !wrap || !btn || !list) return;
+    const opts = Array.from(list.querySelectorAll(".csel-opt"));
+    let active = Math.max(0, opts.findIndex((o) => o.dataset.value === sel.value));
+
+    function paint() {
+      const o = opts.find((x) => x.dataset.value === sel.value) || opts[0];
+      document.getElementById(id + "-air").textContent = o.dataset.airline;
+      document.getElementById(id + "-prog").textContent = o.dataset.program;
+      const code = document.getElementById(id + "-code");
+      code.innerHTML = "";
+      code.classList.toggle("csel-code-logo", !!o.dataset.logo);
+      if (o.dataset.logo) {
+        const img = document.createElement("img");
+        img.src = o.dataset.logo; img.alt = "";
+        code.appendChild(img);
+      } else {
+        code.textContent = o.dataset.code;
+      }
+      code.style.setProperty("--c", o.dataset.color);
+      opts.forEach((x) => x.setAttribute("aria-selected", String(x.dataset.value === sel.value)));
+    }
+    function highlight(i) {
+      active = (i + opts.length) % opts.length;
+      opts.forEach((o, n) => o.classList.toggle("on", n === active));
+      btn.setAttribute("aria-activedescendant", opts[active].id);
+      opts[active].scrollIntoView({ block: "nearest" });
+    }
+    const isOpen = () => !list.hidden;
+    function open() {
+      list.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+      highlight(Math.max(0, opts.findIndex((o) => o.dataset.value === sel.value)));
+    }
+    function close() {
+      list.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+      btn.removeAttribute("aria-activedescendant");
+    }
+    function choose(i) {
+      sel.value = opts[i].dataset.value;
+      sel.dispatchEvent(new Event("change", { bubbles: true }));
+      paint();
+      close();
+      btn.focus({ preventScroll: true });
+    }
+
+    btn.addEventListener("click", () => (isOpen() ? close() : open()));
+    opts.forEach((o, i) => {
+      o.addEventListener("click", () => choose(i));
+      o.addEventListener("mousemove", () => highlight(i));
+    });
+    btn.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        if (!isOpen()) return open();
+        highlight(active + (e.key === "ArrowDown" ? 1 : -1));
+      } else if (e.key === "Home" && isOpen()) { e.preventDefault(); highlight(0); }
+      else if (e.key === "End" && isOpen()) { e.preventDefault(); highlight(opts.length - 1); }
+      else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        isOpen() ? choose(active) : open();
+      } else if (e.key === "Escape" && isOpen()) { e.preventDefault(); close(); }
+      else if (e.key === "Tab" && isOpen()) close();
+      else if (/^[a-z0-9]$/i.test(e.key)) {
+        const from = isOpen() ? active + 1 : 0;
+        const order = opts.map((_, n) => (from + n) % opts.length);
+        const hit = order.find((n) => opts[n].dataset.airline.toLowerCase().startsWith(e.key.toLowerCase()));
+        if (hit !== undefined) { if (!isOpen()) open(); highlight(hit); }
+      }
+    });
+    document.addEventListener("click", (e) => { if (isOpen() && !wrap.contains(e.target)) close(); });
+
+    paint();
+    sel.addEventListener("change", paint);
+  })();
+</script>
