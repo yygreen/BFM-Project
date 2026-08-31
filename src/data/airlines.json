@@ -96,7 +96,67 @@
         "text": "SkyMiles number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "i18n": {
+      "de": {
+        "metaTitle": "Delta Meilen kaufen | SkyMiles aufstocken",
+        "metaDescription": "SkyMiles kaufen und Delta One über den Atlantik einlösen. 1,95 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "SkyMiles kaufen und Delta One einlösen.",
+        "heroSub": "Stock dein SkyMiles-Konto auf und flieg im Flachbett über den Atlantik. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes SkyMiles-Konto. Die Prämie buchst du danach direkt bei Delta, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Delta One nach Europa",
+            "desc": "Flachbett-Business über den Atlantik. In den Flash Sales ist das schon für rund 115.000 Meilen einfach zu haben gewesen."
+          },
+          {
+            "title": "Virgin Atlantic und Air France-KLM",
+            "desc": "SkyMiles buchen auch Partnermaschinen, was mehr von Europa und darüber hinaus erreichbar macht."
+          },
+          {
+            "title": "Keine Umbuchungs- und Stornogebühren",
+            "desc": "Prämien außerhalb von Delta Basic lassen sich kostenlos ändern und stornieren, die Meilen kommen zurück aufs Konto."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten SkyMiles?",
+            "a": "1,95 Cent pro Meile, also 19,50 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 24 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein SkyMiles-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich SkyMiles am meisten?",
+            "a": "Für Delta One in den Flash Sales: Delta preist Prämien dynamisch, und die regelmäßigen Aktionen sind der Moment, in dem ein aufgestocktes Konto wirklich arbeitet. Dazu kommen kostenlose Änderung und Storno außerhalb von Delta Basic."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "united-mileageplus",
@@ -196,7 +256,67 @@
         "text": "MileagePlus number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "i18n": {
+      "de": {
+        "metaTitle": "United Meilen kaufen | MileagePlus aufstocken",
+        "metaDescription": "MileagePlus Meilen kaufen für Star-Alliance-Business ohne Treibstoffzuschläge. 2 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "MileagePlus Meilen kaufen und die Star Alliance buchen.",
+        "heroSub": "Stock dein MileagePlus-Konto auf und flieg Lufthansa, SWISS oder Polaris in Business, ohne Treibstoffzuschläge auf Partnerprämien. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes MileagePlus-Konto. Die Prämie buchst du danach direkt bei United, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Star-Alliance-Business nach Europa",
+            "desc": "Lufthansa, SWISS oder Turkish auf dem Partner-Saver-Level ab 80.000 Meilen einfach. United hat das Level 2025 von 88.000 gesenkt."
+          },
+          {
+            "title": "Polaris nach Europa und Asien",
+            "desc": "Uniteds Flachbett-Kabine Polaris gehört auf der Langstrecke zu den Stärken des Programms."
+          },
+          {
+            "title": "Keine Treibstoffzuschläge",
+            "desc": "United reicht auf Partnerprämien keine Zuschläge weiter, auch nicht bei Lufthansa oder ANA. Das hält den Baranteil klein."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten MileagePlus-Meilen?",
+            "a": "2 Cent pro Meile, also 20 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 72 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein MileagePlus-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich MileagePlus-Meilen am meisten?",
+            "a": "Für Star-Alliance-Business ohne Treibstoffzuschläge: dieselbe Lufthansa-Prämie kostet über MileagePlus oft hunderte Dollar weniger an Gebühren als über europäische Programme. Partnerprämien behalten feste Level, während United selbst dynamisch preist."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "american-aadvantage",
@@ -390,7 +510,67 @@
         "text": "KrisFlyer number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "i18n": {
+      "de": {
+        "metaTitle": "Singapore Airlines Meilen kaufen | KrisFlyer",
+        "metaDescription": "KrisFlyer Meilen kaufen für Singapore Suites und Business. 2,2 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "KrisFlyer Meilen kaufen und die Suites einlösen.",
+        "heroSub": "Stock dein KrisFlyer-Konto auf und löse Singapores eigene Premiumkabinen ein. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes KrisFlyer-Konto. Die Prämie buchst du danach direkt bei Singapore Airlines, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Business Saver, Singapur nach London",
+            "desc": "Einfach ab 108.500 Meilen auf der aktuellen Saver-Tabelle, in einer der meistgelobten Business-Kabinen überhaupt."
+          },
+          {
+            "title": "Suites und Business bei Singapore",
+            "desc": "KrisFlyer ist der einzige verlässliche Weg, Singapores eigene Premiumkabinen mit Meilen zu buchen."
+          },
+          {
+            "title": "Star-Alliance-Partner",
+            "desc": "Partnerprämien quer durch die Allianz erweitern die Reichweite des Kontos."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten KrisFlyer-Meilen?",
+            "a": "2,2 Cent pro Meile, also 22 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 72 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein KrisFlyer-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen KrisFlyer-Meilen?",
+            "a": "Zum Ende des 36. Monats nach dem Sammeln, Tranche für Tranche und unabhängig von Kontoaktivität. Eine kostenpflichtige Verlängerung um sechs Monate wird angeboten. Kauf also mit Blick auf eine konkrete Buchung."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "qatar-avios",
@@ -1635,6 +1815,64 @@
             "desc": "معظم المشترين لا يشترون قيمة التذكرة كاملة، بل الفارق الناقص فقط."
           }
         ]
+      },
+      "de": {
+        "metaTitle": "Emirates Meilen kaufen | Skywards aufstocken",
+        "metaDescription": "Skywards Meilen kaufen und dein Emirates-Konto für Business und First aufstocken. Preis vor der Zahlung fest, Meilen aufs eigene Konto, Buchung direkt bei Emirates.",
+        "heroHeadline": "Skywards Meilen kaufen und im A380 vorne sitzen.",
+        "heroSub": "Stock dein Skywards-Konto auf und löse Business oder First bei Emirates ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Skywards-Konto. Die Prämie buchst du danach direkt bei Emirates, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Emirates First im A380",
+            "desc": "Dusche und Bordbar haben diese Kabine berühmt gemacht, und Skywards ist der Weg hinein. Die Barpreise dafür sind enorm."
+          },
+          {
+            "title": "Business Saver, New York nach Mailand",
+            "desc": "Emirates' Transatlantikstrecke mit fünfter Freiheit, einfach ab 59.000 Meilen auf der aktuellen Tabelle."
+          },
+          {
+            "title": "Upgrades mit Meilen",
+            "desc": "Skywards wertet ein bezahltes Ticket in die nächste Kabine auf, oft der stärkste Einsatz pro Meile im Programm."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Skywards-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Braucht ihr mein Skywards-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen Skywards-Meilen?",
+            "a": "Drei Jahre nach dem Sammeln, zum Ende deines Geburtstagsmonats, unabhängig von Kontoaktivität. Kauf also mit Blick auf eine konkrete Buchung, nicht auf Vorrat."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
       }
     },
     "faqExtras": [
@@ -1785,6 +2023,64 @@
           }
         ],
         "ctaLabel": "Teklif iste",
+        "reviewed": false
+      },
+      "de": {
+        "metaTitle": "Turkish Airlines Meilen kaufen | Miles&Smiles",
+        "metaDescription": "Miles&Smiles Meilen kaufen für Business nach Istanbul und günstige Star-Alliance-Prämien. Preis vor der Zahlung fest, Meilen aufs eigene Konto.",
+        "heroHeadline": "Miles&Smiles Meilen kaufen und günstig Business fliegen.",
+        "heroSub": "Stock dein Miles&Smiles-Konto auf und löse eine der günstigsten Business-Tabellen der Star Alliance ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Miles&Smiles-Konto. Die Prämie buchst du danach direkt bei Turkish Airlines, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Business nach Istanbul",
+            "desc": "Nonstop aus Nordamerika ab 65.000 Meilen einfach auf dem Aktionslevel, mit dem berühmten Catering an Bord."
+          },
+          {
+            "title": "Günstige Star-Alliance-Prämien",
+            "desc": "Miles&Smiles preist Partnerprämien unter dem, was die meisten Star-Alliance-Programme für dieselben Sitze verlangen."
+          },
+          {
+            "title": "Von Istanbul in alle Welt",
+            "desc": "Turkish fliegt in mehr Länder als jede andere Airline, ein Programm deckt also Strecken ab, an die andere nicht herankommen."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Miles&Smiles-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Braucht ihr mein Miles&Smiles-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen Miles&Smiles-Meilen?",
+            "a": "Zum Ende des dritten Kalenderjahres nach dem Sammeln, unabhängig von Kontoaktivität. Eine kostenpflichtige Verlängerung wird angeboten. Spät im Jahr gesammelte Meilen haben spürbar weniger Laufzeit, kauf also mit Blick auf die Buchung."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
         "reviewed": false
       }
     },
@@ -1943,6 +2239,64 @@
             "desc": "أغلب الطلبات تكمل الفارق الناقص للحجز، لا قيمة التذكرة كاملة."
           }
         ]
+      },
+      "de": {
+        "metaTitle": "Etihad Meilen kaufen | Etihad Guest aufstocken",
+        "metaDescription": "Etihad Guest Meilen kaufen für First Apartments und Business. Preis vor der Zahlung fest, Meilen aufs eigene Konto, Buchung direkt bei Etihad.",
+        "heroHeadline": "Etihad Guest Meilen kaufen und die Apartments einlösen.",
+        "heroSub": "Stock dein Etihad-Guest-Konto auf und löse First oder Business bei Etihad ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Etihad-Guest-Konto. Die Prämie buchst du danach direkt bei Etihad, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "First und Business bei Etihad",
+            "desc": "Etihads Premiumkabinen, auf A380-Strecken samt First Apartments, kosten in Meilen weit weniger als ihre Barpreise."
+          },
+          {
+            "title": "Partnerprämien",
+            "desc": "Etihad Guest bucht über 25 Partner quer durch die Allianzen, von Oneworld-Airlines bis zu unabhängigen."
+          },
+          {
+            "title": "Jeder Sitz ist buchbar",
+            "desc": "Seit Ende 2025 lässt sich jeder verkäufliche Sitz mit Meilen kaufen. Am weitesten kommen Meilen mit Saver-Verfügbarkeit oder Nebensaison-Terminen."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Etihad-Guest-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Braucht ihr mein Etihad-Guest-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen Etihad-Guest-Meilen?",
+            "a": "Nach 18 Monaten ohne qualifizierenden Flug bei Etihad oder einem Partner. Käufe und Transfers verlängern die Frist nicht mehr, nur Fliegen. Kauf also zeitnah zur geplanten Einlösung."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
       }
     },
     "faqExtras": [
@@ -2282,6 +2636,64 @@
           }
         ],
         "ctaLabel": "Demander un devis",
+        "reviewed": false
+      },
+      "de": {
+        "metaTitle": "Flying Blue Meilen kaufen | Air France & KLM",
+        "metaDescription": "Flying Blue Meilen kaufen für Business bei Air France und KLM. 1,95 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "Flying Blue Meilen kaufen, mit Air France und KLM vorne fliegen.",
+        "heroSub": "Ein Konto für Air France und KLM. Stock deine Flying-Blue-Meilen auf und löse Business nach Paris oder Amsterdam ein. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Flying Blue-Konto. Die Prämie buchst du danach direkt bei Air France oder KLM, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Air France und KLM in Business",
+            "desc": "Business nach Paris oder Amsterdam ab 60.000 Meilen, einfach. Die Ab-Preise sind Untergrenzen, gefragte Termine kosten mehr."
+          },
+          {
+            "title": "Promo Rewards",
+            "desc": "Jeden Monat eine Liste rabattierter Prämien, 25 Prozent günstiger und teils mehr. Aufgestockte Meilen lassen dich zugreifen, solange die Liste läuft."
+          },
+          {
+            "title": "SkyTeam aus einem Konto",
+            "desc": "Flying Blue bucht auch Delta, Kenya Airways, Vietnam Airlines und den Rest von SkyTeam."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Flying-Blue-Meilen?",
+            "a": "1,95 Cent pro Meile, also 19,50 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 24 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein Flying-Blue-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich Flying-Blue-Meilen am meisten?",
+            "a": "Für Business bei Air France und KLM ab 60.000 Meilen einfach, und für die monatlichen Promo Rewards, die dieselben Prämien noch einmal deutlich verbilligen. Ein aufgestocktes Konto lässt dich zugreifen, solange ein Promo-Fenster offen ist."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
         "reviewed": false
       }
     },

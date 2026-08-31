@@ -452,11 +452,15 @@ Status as of 12 August 2026.
    native-reviewed**, which is nine of the launch blockers' worth of risk
    sitting behind copy I wrote.
 
-   **German is the market to widen, not deepen (§3b).** German-language demand
-   exists for eight programs and we serve one. Seven `i18n.de` blocks in
-   `airlines.json` would cover Emirates, Flying Blue, Delta, United, Etihad,
-   KrisFlyer and Turkish, with no template work at all. Re-pull in the `de`
-   database first: the 330/mo total is a `us` figure and understates it.
+   ~~**German is the market to widen, not deepen (§3b).**~~ **Widened
+   (31 August).** Seven `i18n.de` blocks now cover Emirates, Flying Blue,
+   Delta, United, Etihad, KrisFlyer and Turkish alongside Lufthansa — eight
+   German program pages and eight German calculators, all generated with no
+   template work. The `de`-database re-pull is still owed (blocked on Semrush
+   units; the 330/mo total remains a `us` floor), and the seven new blocks are
+   unreviewed: the native-review debt rises to eighteen entries plus the
+   static Spanish currency page. One native German review session now covers
+   half the site's translated surface in one sitting.
 
 6. ~~**Source the airline direct-buy benchmark**~~ **done for five programs,
    published on three.** The savings figure was suppressed site-wide for want
