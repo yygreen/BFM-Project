@@ -21,6 +21,11 @@
 
   --radius:12px; --radius-card:18px; --radius-pill:999px;
 
+  /* the one easing for anything that MOVES (lifts, carets, press scale):
+     a strong ease-out with front-loaded motion, so feedback reads instantly.
+     Colour and shadow fades keep plain `ease` — they aren't movement. */
+  --ease-out:cubic-bezier(.23,1,.32,1);
+
   --shadow-sm:0 1px 2px rgba(16,18,43,.05), 0 1px 3px rgba(16,18,43,.05);
   --shadow:0 8px 24px rgba(37,64,255,.08), 0 2px 8px rgba(16,18,43,.05);
   --shadow-lg:0 26px 60px rgba(37,64,255,.16), 0 8px 20px rgba(16,18,43,.08);
@@ -140,7 +145,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .section-head p { color:var(--text-2); font-size:16.5px; margin:14px 0 0; }
 
 /* ---- buttons ---- */
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; font-family:var(--display); font-weight:700; font-size:15px; border-radius:var(--radius-pill); padding:13px 26px; cursor:pointer; border:2px solid transparent; text-align:center; transition:transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; font-family:var(--display); font-weight:700; font-size:15px; border-radius:var(--radius-pill); padding:13px 26px; cursor:pointer; border:2px solid transparent; text-align:center; transition:transform .15s var(--ease-out), box-shadow .15s ease, background .15s ease, border-color .15s ease; }
 .btn-primary { background:var(--cobalt); color:#fff; box-shadow:0 6px 16px rgba(37,64,255,.28); }
 .btn-primary:hover { background:var(--cobalt-2); transform:translateY(-2px); box-shadow:0 10px 24px rgba(37,64,255,.34); }
 .btn-secondary { background:var(--surface); color:var(--cobalt); border-color:var(--cobalt-line); }
@@ -148,6 +153,10 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .btn-ghost { background:transparent; color:var(--cobalt); }
 .btn-ghost:hover { background:var(--cobalt-tint); }
 .btn:focus-visible { outline:3px solid var(--cobalt); outline-offset:3px; }
+/* press feedback: the interface confirms the click under the pointer. 0.96
+   exactly — deeper reads exaggerated. Same specificity as the hover lifts,
+   later in the file, so it wins while the button is held. */
+.btn:active { transform:scale(.96); }
 
 /* ---- hero ---- */
 /* `clip` rather than `hidden`: both contain the decorative blobs, but hidden
@@ -231,7 +240,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 
 /* ---- program grid ---- */
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:18px; }
-.gcard { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px; display:block; box-shadow:var(--shadow-sm); transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+.gcard { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px; display:block; box-shadow:var(--shadow-sm); transition:border-color .18s ease, transform .18s var(--ease-out), box-shadow .18s ease; }
 .gcard:hover { border-color:var(--cobalt-line); transform:translateY(-4px); box-shadow:var(--shadow); }
 .gcard .top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
 .gcard .pname { font-family:var(--display); font-weight:800; font-size:19px; }
@@ -322,7 +331,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .statband .sb b small { font-size:.5em; color:var(--text-3); font-weight:600; }
 /* the rating card: stars sit above the score so it still reads as a review
    rather than another counted figure */
-.statband a.sb { transition:border-color .18s ease, transform .18s ease; }
+.statband a.sb { transition:border-color .18s ease, transform .18s var(--ease-out); }
 .statband a.sb:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
 /* scoped past `.statband .sb span`, which would otherwise grey the stars out.
    The slot renders on every card — empty on the counters — so the figures
@@ -627,14 +636,14 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }
-.related a { font-size:14px; font-weight:600; border:1px solid var(--line-2); border-radius:var(--radius-pill); padding:9px 16px; color:var(--text-2); background:var(--surface); box-shadow:var(--shadow-sm); transition:border-color .15s ease, color .15s ease, transform .15s ease; }
+.related a { font-size:14px; font-weight:600; border:1px solid var(--line-2); border-radius:var(--radius-pill); padding:9px 16px; color:var(--text-2); background:var(--surface); box-shadow:var(--shadow-sm); transition:border-color .15s ease, color .15s ease, transform .15s var(--ease-out); }
 .related a:hover { border-color:var(--cobalt); color:var(--cobalt); transform:translateY(-2px); }
 
 /* ---- feature / use cards ---- */
 .uses { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; }
 /* two cards read better a touch wider than the four-up grid allows */
 .uses-2 { grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
-.use { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:24px; box-shadow:var(--shadow-sm); transition:transform .18s ease, box-shadow .18s ease; }
+.use { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:24px; box-shadow:var(--shadow-sm); transition:transform .18s var(--ease-out), box-shadow .18s ease; }
 .use:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
 .use h4 { font-weight:800; font-size:17px; margin-bottom:7px; }
 .use p { color:var(--text-2); font-size:14.5px; line-height:1.6; }
@@ -727,7 +736,12 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .calc-cta { width:100%; margin-top:16px; }
 
 @media (prefers-reduced-motion: reduce) {
-  * { transition:none !important; scroll-behavior:auto !important; }
+  /* Movement goes, feedback stays. Motion sensitivity is about things that
+     MOVE — transforms and smooth scrolling — while a 150ms colour or opacity
+     fade is comprehension, not motion. Forcing transition-property strips
+     transform from every authored list without touching the rest. */
+  * { scroll-behavior:auto !important;
+      transition-property:color, background-color, border-color, box-shadow, opacity !important; }
 }
 
 /* ---- Programs dropdown (nav) ---------------------------------------- */
@@ -736,13 +750,13 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
   font-size:14.5px; color:var(--text-2); font-weight:500; }
 .dd summary::-webkit-details-marker { display:none; }
 .dd summary:hover, .dd[open] summary { color:var(--cobalt); }
-.dd .dd-c { transition:transform .18s ease; opacity:.6; }
+.dd .dd-c { transition:transform .18s var(--ease-out); opacity:.6; }
 .dd[open] .dd-c { transform:rotate(180deg); }
 .dd summary:focus-visible { outline:2px solid var(--cobalt); outline-offset:3px; border-radius:4px; }
 
 .dd-panel { position:absolute; top:calc(100% + 14px); left:50%; transform:translateX(-50%);
   width:min(560px, calc(100vw - 32px)); background:#fff; border:1px solid var(--line);
-  border-radius:16px; box-shadow:0 18px 44px rgba(16,20,50,.14); padding:10px; z-index:60; }
+  border-radius:20px; box-shadow:0 18px 44px rgba(16,20,50,.14); padding:10px; z-index:60; }
 .dd-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
 .dd-item { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px; }
 .dd-item:hover { background:var(--cobalt-tint); }
@@ -831,7 +845,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 /* post cards */
 .postlist { display:grid; gap:16px; }
 .postcard { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
-  overflow:hidden; transition:border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
+  overflow:hidden; transition:border-color .16s ease, transform .16s var(--ease-out), box-shadow .16s ease; }
 .postcard:hover { border-color:var(--cobalt-line); transform:translateY(-2px); box-shadow:0 12px 30px rgba(16,20,50,.08); }
 .postcard .pc-art { display:block; overflow:hidden; background:var(--raised); }
 .postcard .pc-body { padding:20px 22px 22px; }
@@ -857,6 +871,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 
 /* generated hero art */
 .posthero, .posthero-img { display:block; width:100%; }
+/* every photo edge gets the same quiet ring: pure black at 10% (never a
+   tinted neutral, which reads as dirt on the edge), drawn just inside the
+   image so it hugs the corner radius and never shifts layout */
+.posthero-img { outline:1px solid rgba(0,0,0,.1); outline-offset:-1px; }
 .posthero.wide, .posthero-img.wide { aspect-ratio:5/2; object-fit:cover; }
 .posthero.card, .posthero-img.card { height:100%; min-height:150px; object-fit:cover; }
 .posthero-wrap { border-radius:var(--radius-card); overflow:hidden; border:1px solid var(--line); margin-bottom:38px; }
@@ -986,7 +1004,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .post-nav { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:44px; }
 @media (max-width:620px){ .post-nav { grid-template-columns:1fr; } }
 .pn { display:block; padding:16px 18px; border:1px solid var(--line); border-radius:14px;
-  background:var(--surface); transition:border-color .16s ease, transform .16s ease; }
+  background:var(--surface); transition:border-color .16s ease, transform .16s var(--ease-out); }
 .pn:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
 .pn.next { text-align:right; }
 .pn-lab { display:block; font-family:var(--mono); font-size:11px; color:var(--text-3); margin-bottom:5px; }
@@ -1176,14 +1194,14 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .csel-air { font-size:14px; font-weight:600; color:var(--text-1); white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis; }
 .csel-prog { font-size:11.5px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.csel-chev { margin-left:auto; flex:0 0 auto; color:var(--text-3); transition:transform .18s ease; }
+.csel-chev { margin-left:auto; flex:0 0 auto; color:var(--text-3); transition:transform .18s var(--ease-out); }
 .csel-btn[aria-expanded="true"] .csel-chev { transform:rotate(180deg); }
 
 .csel-list { position:absolute; z-index:70; top:calc(100% + 6px); left:0; right:0; margin:0; padding:6px;
   list-style:none; background:var(--surface); border:1px solid var(--line);
   border-radius:14px; box-shadow:0 18px 44px rgba(16,20,50,.16); max-height:290px; overflow-y:auto; }
 .csel-list[hidden] { display:none; }
-.csel-opt { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; }
+.csel-opt { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; cursor:pointer; }
 .csel-opt[aria-selected="true"] { background:var(--raised); }
 .csel-opt.on { background:var(--cobalt-tint); }
 .csel-price { margin-left:auto; font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt); }
@@ -1407,7 +1425,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   border-end-end-radius:var(--radius-pill); transition:background .15s ease, color .15s ease; }
 .dock-more::-webkit-details-marker { display:none; }
 .dock-more:hover { background:rgba(255,255,255,.1); color:#fff; }
-.dock-more svg { transition:transform .18s ease; }
+.dock-more svg { transition:transform .18s var(--ease-out); }
 .dock-d[open] .dock-more svg { transform:rotate(180deg); }
 
 /* Plain white with a cobalt hairline: the brand shows in the border, the rows
@@ -1415,10 +1433,13 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .dock-panel { position:absolute; right:0; bottom:calc(100% + 12px); width:336px;
   max-width:calc(100vw - 32px); padding:20px 18px 18px; background:var(--surface);
   border:1px solid var(--cobalt-line); border-radius:var(--radius-card); box-shadow:var(--shadow-lg);
-  display:flex; flex-direction:column; gap:9px; animation:dockIn .16s ease-out; }
-@keyframes dockIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-@media (prefers-reduced-motion:reduce){ .dock-panel { animation:none; } .dock-more svg { transition:none; } }
-.dock-x { display:none; position:absolute; top:12px; inset-inline-end:12px; width:28px; height:28px;
+  display:flex; flex-direction:column; gap:9px;
+  transition:opacity .16s var(--ease-out), transform .16s var(--ease-out); }
+/* the entrance is a transition from @starting-style rather than a keyframe,
+   so rapid open/close retargets mid-flight instead of restarting from zero,
+   and a browser without support simply skips the entrance */
+@starting-style { .dock-panel { opacity:0; transform:translateY(6px); } }
+.dock-x { display:none; position:absolute; top:9px; inset-inline-end:9px; width:34px; height:34px;
   align-items:center; justify-content:center; border:0; border-radius:50%; cursor:pointer;
   background:var(--raised); color:var(--text-2); }
 .dock.js .dock-x { display:flex; }
@@ -1508,9 +1529,22 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
      aligns the logo inside it and lines every name up on one edge. */
   .aw-logo { flex:0 0 108px; width:108px; display:flex; align-items:center; }
   .aw-item + .aw-item { margin-top:10px; }
-  .aw-sell { transition:border-color .18s ease, transform .18s ease; }
+  .aw-sell { transition:border-color .18s ease, transform .18s var(--ease-out); }
   .aw-sell:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
   .aw-txt { display:block; min-width:0; }
   .aw-txt b { display:block; font-family:var(--display); font-size:15.5px; color:var(--text-1); }
   .aw-txt span { display:block; font-size:13px; color:var(--text-3); margin-top:2px; }
   .aw-foot { margin:12px 0 0; font-size:13px; color:var(--text-3); line-height:1.6; }
+
+/* Touch screens fire :hover on tap and it sticks until the next tap lands
+   somewhere else, so anything a finger pressed stayed levitated. The lifts
+   are pointer feedback; on coarse pointers they come off. Colour and border
+   hover feedback stays — it reads as selection, not motion — and :active
+   keeps the press scale, hence the :not(:active). */
+@media (hover:none), (pointer:coarse) {
+  .btn-primary:hover:not(:active), .btn-secondary:hover:not(:active),
+  .feature-card .btn:hover:not(:active), .gcard:hover:not(:active),
+  .statband a.sb:hover:not(:active), .related a:hover:not(:active),
+  .use:hover:not(:active), .postcard:hover:not(:active),
+  .pn:hover:not(:active), .aw-sell:hover:not(:active) { transform:none; }
+}
