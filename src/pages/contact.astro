@@ -11,6 +11,7 @@
 import Base from "../layouts/Base.astro";
 import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Confirmation from "../components/Confirmation.astro";
 import EnquiryMail from "../components/EnquiryMail.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
@@ -89,6 +90,18 @@ const waHref = whatsapp.replace(/\D/g, "");
               Nothing is charged on this site. We never ask for your loyalty account password.
             </p>
           </form>
+
+          <Confirmation
+            id="contact-confirm"
+            title="Message received."
+            fast={false}
+            checking="A person reads it. The same people who price and move the miles answer the questions, so you get real numbers rather than a holding reply."
+            deciding="If your question leads to an order, you get a firm quote first. Nothing is paid until you approve it, and payment never happens on this website."
+          >
+            <dl class="confirm-echo" slot="echo">
+              <div><dt>Topic</dt><dd id="cc-topic"></dd></div>
+            </dl>
+          </Confirmation>
         </div>
 
         <aside class="contact-side">
@@ -199,14 +212,22 @@ const waHref = whatsapp.replace(/\D/g, "");
           });
           const data = await res.json();
           if (data.success) {
-            msg.textContent = "Message sent. We'll come back to you shortly.";
-            msg.className = "form-msg ok"; form.reset();
+            // swap the form for the confirmation panel; focus moves with it
+            // so the change is announced instead of orphaning the cursor
+            document.getElementById("cc-topic").textContent =
+              document.getElementById("c-topic").value;
+            const panel = document.getElementById("contact-confirm");
+            form.hidden = true;
+            panel.hidden = false;
+            panel.focus();
+            return;
           } else { throw new Error(data.message); }
         } catch {
           msg.textContent = "Something went wrong sending this — please try again.";
           msg.className = "form-msg err";
         } finally {
-          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+          btn.disabled = false; btn.textContent = label;
+          if (!form.hidden) msg.hidden = false;
         }
       });
     })();

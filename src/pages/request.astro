@@ -9,6 +9,7 @@ import Base from "../layouts/Base.astro";
 import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ContactChannels from "../components/ContactChannels.astro";
+import Confirmation from "../components/Confirmation.astro";
 import EnquiryMail from "../components/EnquiryMail.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
@@ -58,6 +59,16 @@ const notWired = orderEmail
           Not about a specific program? <a href="/contact" style="color:var(--cobalt);font-weight:600">Contact us</a> instead.
         </p>
       </form>
+
+      <Confirmation
+        id="request-confirm"
+        checking="A person checks live availability for the program you named and prices your exact request. Unlisted doesn't mean unavailable."
+      >
+        <dl class="confirm-echo" slot="echo">
+          <div><dt>Program</dt><dd id="rc-program"></dd></div>
+          <div id="rc-miles-row" hidden><dt>Miles</dt><dd id="rc-miles"></dd></div>
+        </dl>
+      </Confirmation>
     </div>
   </section>
 
@@ -131,14 +142,31 @@ const notWired = orderEmail
           });
           const data = await res.json();
           if (data.success) {
-            msg.textContent = "Request sent. We'll come back with availability and a firm rate.";
-            msg.className = "form-msg ok"; form.reset();
+            // The form's work is done — swap it for the confirmation panel,
+            // echoing back what was asked so the record survives the send.
+            // Focus moves to the panel (tabindex="-1") so the change is
+            // announced rather than leaving focus on a vanished button.
+            const panel = document.getElementById("request-confirm");
+            const prog = document.getElementById("req-program").value.trim();
+            const miles = parseInt(document.getElementById("req-miles").value, 10);
+            document.getElementById("rc-program").textContent = prog || "—";
+            if (miles) {
+              document.getElementById("rc-miles").textContent = miles.toLocaleString("en-US");
+              document.getElementById("rc-miles-row").hidden = false;
+            }
+            form.hidden = true;
+            panel.hidden = false;
+            panel.focus({ preventScroll: false });
+            return;
           } else { throw new Error(data.message); }
         } catch {
           msg.textContent = "Something went wrong sending this — please try again.";
           msg.className = "form-msg err";
         } finally {
-          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+          btn.disabled = false; btn.textContent = label;
+          // when the confirmation replaced the form there is no message to
+          // show — unhiding the empty element would paint a blank green box
+          if (!form.hidden) msg.hidden = false;
         }
       });
     })();

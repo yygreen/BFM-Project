@@ -706,6 +706,43 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .form-msg.ok { background:var(--ok-tint); color:#0A7D5A; }
 .form-msg.err { background:var(--danger-tint); color:var(--danger); }
 
+/* ---- post-enquiry confirmation ----
+   Replaces the form after a successful send (Confirmation.astro and the
+   quote widget's done step share this anatomy). Entrance mirrors the dock
+   panel's: present state, not celebration. */
+.confirm, .qw-done-panel { outline:none; }
+@supports (transition-behavior: allow-discrete) {
+  .confirm:not([hidden]), .qw-done-panel:not([hidden]) {
+    transition:opacity .3s var(--ease-out), transform .3s var(--ease-out);
+    @starting-style { opacity:0; transform:translateY(6px); }
+  }
+}
+.confirm-art { display:block; width:96px; height:auto; overflow:visible; margin-bottom:14px; }
+.cf-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
+.cf-ring { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
+.cf-dot  { fill:var(--coral); }
+.cf-dest { fill:none; stroke:var(--cobalt); stroke-width:5; }
+.confirm-title { font-size:24px; margin:0 0 6px; }
+.confirm-k { font-family:var(--display); font-weight:700; font-size:13px; letter-spacing:0.02em; text-transform:uppercase; color:var(--text-2); margin:22px 0 10px; }
+.confirm-steps { margin:0; padding:0; list-style:none; counter-reset:cf; max-width:560px; }
+.confirm-steps li { position:relative; counter-increment:cf; padding:0 0 14px 40px; color:var(--text-2); font-size:14.5px; }
+.confirm-steps li:last-child { padding-bottom:0; }
+.confirm-steps li::before {
+  content:counter(cf, decimal-leading-zero);
+  position:absolute; left:0; top:1px;
+  font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--cobalt);
+  background:var(--cobalt-tint); border-radius:var(--radius-pill); padding:2px 8px;
+}
+.confirm-echo { display:flex; flex-wrap:wrap; gap:8px 22px; margin:14px 0 0; padding:14px 16px; background:var(--raised); border:1px solid var(--line-2); border-radius:var(--radius); }
+.confirm-echo > div { display:flex; flex-direction:column; gap:2px; }
+/* the display:flex above would beat the UA's [hidden] rule, un-hiding the
+   optional rows (delivery, miles) that the script reveals only when filled */
+.confirm-echo > div[hidden] { display:none; }
+.confirm-echo dt { font-size:12px; color:var(--text-3); }
+.confirm-echo dd { margin:0; font-family:var(--mono); font-size:14px; font-weight:600; color:var(--ink); }
+.confirm-fast { margin:20px 0 0; font-size:14.5px; color:var(--text-2); }
+.confirm-fast a { color:var(--cobalt); font-weight:600; }
+
 /* ---- two-column helper ---- */
 .cols { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
 @media (max-width:640px){ .cols { grid-template-columns:1fr; } }

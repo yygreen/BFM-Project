@@ -11,7 +11,7 @@
 import { getCollection } from "astro:content";
 import Turnstile from "./Turnstile.astro";
 import EnquiryMail from "./EnquiryMail.astro";
-import { site, quoteFormReady, directBuyRate, directBuySource, mailtoInbox } from "../lib/site";
+import { site, quoteFormReady, directBuyRate, directBuySource, mailtoInbox, officialChannels } from "../lib/site";
 
 const {
   defaultSlug = null,
@@ -98,6 +98,20 @@ const EN = {
   mailThanks: "Thanks,",
   mailFoot: "Sent from buyflightmiles.com. Nothing has been charged.",
   mailOpened: "Your email app should open with the whole message written out. Read it over and send it, and we'll take it from there.",
+  // The done step. The moment after sending is the peak-anxiety moment of
+  // the whole visit, so the panel answers the buyer's questions (who saw
+  // this, who replies, from where, what am I committed to) rather than the
+  // software's (did the POST work). {email} renders only while the inbox is
+  // verified; no reply-time promise ships until supportHours is.
+  doneTitle: "Request received.",
+  doneNext: "What happens now",
+  doneCheck: "We check live availability for your program and confirm your exact rate.",
+  doneReplyFrom: "A personal reply lands in your inbox, from {email}. Quiet for a while? Check your spam folder. First replies sometimes land there.",
+  doneReply: "A personal reply lands in your inbox. Quiet for a while? Check your spam folder. First replies sometimes land there.",
+  doneDecide: "You decide. Nothing is paid until you approve the quote, and payment never happens on this website.",
+  doneFast: "Rather talk it through?",
+  doneCall: "Call {v}",
+  doneWa: "WhatsApp us",
 };
 const L = { ...EN, ...labels };
 // 1.9 is "1,9" to a German reader — the rate chips follow the page language
@@ -144,6 +158,15 @@ const orderEmail = site.contact.orderEmail;
 const notWired = labels.notWired ?? (orderEmail
   ? `Quote requests aren't connected yet — please email ${orderEmail} and we'll price it for you.`
   : "Quote requests aren't connected yet. Send it through the contact page and we'll price it for you.");
+
+// The done step's verified facts: the reply address and the instant channels
+// render through the same officialChannels() gate as the footer, so an
+// unconfirmed handle never ships from here either.
+const channels = officialChannels();
+const chEmail = channels.find((c) => c.kind === "email");
+const chPhone = channels.find((c) => c.kind === "phone");
+const chWa = channels.find((c) => c.kind === "whatsapp");
+const doneReplyLine = chEmail ? L.doneReplyFrom.replace("{email}", chEmail.value) : L.doneReply;
 ---
 <div class="qw" data-key={accessKey ? "1" : ""} data-inbox={mailtoInbox}>
   <script type="application/json" set:html={JSON.stringify(locked ? [start] : data)} class="qw-data"></script>
@@ -303,6 +326,40 @@ const notWired = labels.notWired ?? (orderEmail
       <a class="qw-order" id="qw-order" href="/order">{L.orderInstead}</a>
       <p class="qw-foot">{L.foot}</p>
     </form>
+  </div>
+
+  <!-- STEP 3 — received. Shown by the submit handler on a successful send;
+       the echo is filled from the hidden fields before the form resets, so
+       the sender keeps a record of exactly what was asked. -->
+  <div class="qw-step qw-done-panel" data-step="3" hidden tabindex="-1">
+    <svg class="confirm-art" viewBox="0 0 84 28" role="img" aria-label="The route arriving at its destination">
+      <path class="cf-line" d="M1.25 14H62" />
+      <circle class="cf-ring" cx="11.25" cy="14" r="7" />
+      <circle class="cf-dot" cx="11.25" cy="14" r="3.2" />
+      <circle class="cf-dest" cx="70" cy="14" r="7.25" />
+      <circle class="cf-dot" cx="70" cy="14" r="3.2" />
+    </svg>
+    <h3 class="confirm-title qw-done-title">{L.doneTitle}</h3>
+    <dl class="confirm-echo">
+      <div><dt>{L.program}</dt><dd id="qw-d-prog"></dd></div>
+      <div><dt>{L.milesLabel}</dt><dd id="qw-d-miles"></dd></div>
+      <div><dt>{L.est}</dt><dd id="qw-d-est"></dd></div>
+      <div id="qw-d-del-row" hidden><dt>{L.delivery}</dt><dd id="qw-d-del"></dd></div>
+    </dl>
+    <p class="confirm-k">{L.doneNext}</p>
+    <ol class="confirm-steps">
+      <li>{L.doneCheck}</li>
+      <li>{doneReplyLine}</li>
+      <li>{L.doneDecide}</li>
+    </ol>
+    {(chPhone || chWa) && (
+      <p class="confirm-fast">
+        {L.doneFast}{" "}
+        {chPhone && <a href={chPhone.href}>{L.doneCall.replace("{v}", chPhone.value)}</a>}
+        {chPhone && chWa && <span aria-hidden="true"> · </span>}
+        {chWa && <a href={chWa.href} target="_blank" rel="noopener">{L.doneWa}</a>}
+      </p>
+    )}
   </div>
 </div>
 <EnquiryMail />
@@ -695,18 +752,33 @@ const notWired = labels.notWired ?? (orderEmail
         });
         const json = await res.json();
         if (json.success) {
+          // fill the echo from the hidden fields BEFORE the reset clears
+          // them, then swap to the done step. show(3) also lights both
+          // progress dots; focus moves to the panel so the change is
+          // announced instead of leaving focus on a button that is gone.
+          $("qw-d-prog").textContent = $("qw-f-program").value;
+          $("qw-d-miles").textContent =
+            (parseInt($("qw-f-miles").value, 10) || 0).toLocaleString(LOC);
+          $("qw-d-est").textContent = $("qw-f-estimate").value;
+          const del = $("qw-f-delivery").value;
+          if (del && del !== "—") {
+            $("qw-d-del").textContent = del;
+            $("qw-d-del-row").hidden = false;
+          }
           form.reset();
-          msg.textContent = T.ok;
-          msg.className = "form-msg ok";
+          show(3);
+          root.querySelector(".qw-done-panel").focus({ preventScroll: true });
         } else {
           msg.textContent = json.message || T.errGeneric;
           msg.className = "form-msg err";
+          msg.hidden = false;
         }
       } catch (err) {
         msg.textContent = T.errNetwork;
         msg.className = "form-msg err";
+        msg.hidden = false;
       } finally {
-        msg.hidden = false; btn.disabled = false; btn.textContent = label;
+        btn.disabled = false; btn.textContent = label;
       }
     });
 

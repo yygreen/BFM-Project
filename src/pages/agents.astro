@@ -4,6 +4,7 @@ import Turnstile from "../components/Turnstile.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import Emblem from "../components/Emblem.astro";
 import { getCollection } from "astro:content";
+import Confirmation from "../components/Confirmation.astro";
 import EnquiryMail from "../components/EnquiryMail.astro";
 import { site, agentFormReady, paymentSentence, realReviews, mailtoInbox } from "../lib/site";
 
@@ -274,6 +275,18 @@ const jsonld = {
         <button type="submit" class="btn btn-primary" id="partner-submit" style="width:100%;margin-top:14px">Submit application</button>
         <p class="form-msg" id="partner-msg" hidden></p>
       </form>
+
+      <Confirmation
+        id="partner-confirm"
+        title="Application received."
+        checking="A person reviews your volumes and the programs you work, and sets up pricing that fits them."
+        deciding="No commitment either way. Partner terms come to you in writing first, and your client never sees us."
+      >
+        <dl class="confirm-echo" slot="echo">
+          <div><dt>Agency</dt><dd id="pc-agency"></dd></div>
+          <div id="pc-volume-row" hidden><dt>Monthly volume</dt><dd id="pc-volume"></dd></div>
+        </dl>
+      </Confirmation>
     </div>
   </section>
 
@@ -342,9 +355,18 @@ const jsonld = {
           });
           const json = await res.json();
           if (json.success) {
-            form.reset();
-            msg.textContent = "Thanks, your application is in. We'll be in touch shortly.";
-            msg.className = "form-msg ok";
+            // echo before the swap, while the fields still hold their values
+            document.getElementById("pc-agency").textContent =
+              document.getElementById("agency").value.trim() || "—";
+            const vol = document.getElementById("volume").value;
+            if (vol) {
+              document.getElementById("pc-volume").textContent = vol;
+              document.getElementById("pc-volume-row").hidden = false;
+            }
+            const panel = document.getElementById("partner-confirm");
+            form.hidden = true;
+            panel.hidden = false;
+            panel.focus();
           } else {
             msg.textContent = json.message || "Something went wrong. Please email us instead.";
             msg.className = "form-msg err";
@@ -353,7 +375,7 @@ const jsonld = {
           msg.textContent = "Network error. Please try again, or email us directly.";
           msg.className = "form-msg err";
         } finally {
-          msg.hidden = false;
+          if (!form.hidden) msg.hidden = false;
           btn.disabled = false;
           btn.textContent = label;
         }
