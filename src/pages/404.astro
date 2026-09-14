@@ -28,19 +28,35 @@ const programs = (await getCollection("airlines"))
 >
   <section class="section nf">
     <div class="container">
-      <svg class="nf-art" viewBox="0 0 640 150" role="img" aria-label="A route arriving at its destination, with one dashed spur that dead-ends at a 404 marker">
+      <!-- Full container width: the viewBox is drawn at ~page width rather
+           than scaled up from a smaller one, so the stroke weights render at
+           the same optical size as the step art's route. Below 720px this
+           drawing would shrink to a hairline with an unreadable marker, so a
+           compact variant drawn for phone width takes over there. -->
+      <svg class="nf-art nf-art-wide" viewBox="0 0 1160 170" role="img" aria-label="A route arriving at its destination, with one dashed spur that dead-ends at a 404 marker">
         <!-- the route, still on course: level line onto the logo's ring -->
-        <path class="nf-line" d="M1.25 40H610" />
-        <circle class="nf-ring" cx="11.25" cy="40" r="10" />
-        <circle class="nf-dot" cx="11.25" cy="40" r="4.5" />
-        <circle class="nf-ring" cx="240" cy="40" r="10" />
-        <circle class="nf-dot" cx="240" cy="40" r="4.5" />
-        <circle class="nf-dest" cx="620" cy="40" r="7.25" />
+        <path class="nf-line" d="M1.25 44H1140" />
+        <circle class="nf-ring" cx="11.25" cy="44" r="10" />
+        <circle class="nf-dot" cx="11.25" cy="44" r="4.5" />
+        <circle class="nf-ring" cx="430" cy="44" r="10" />
+        <circle class="nf-dot" cx="430" cy="44" r="4.5" />
+        <circle class="nf-dest" cx="1150" cy="44" r="7.25" />
         <!-- the spur: leaves the route at the second waypoint, dashed like a
              tether because it was never a scheduled leg, and stops dead -->
-        <path class="nf-spur" d="M240 52C240 86 300 84 330 96S368 122 368 122" />
-        <circle class="nf-x" cx="374" cy="126" r="4.5" />
-        <text class="nf-tag" x="392" y="131">404</text>
+        <path class="nf-spur" d="M430 56C430 96 520 94 566 108S624 138 624 138" />
+        <circle class="nf-x" cx="631" cy="142" r="4.5" />
+        <text class="nf-tag" x="650" y="147">404</text>
+      </svg>
+      <svg class="nf-art nf-art-compact" viewBox="0 0 360 130" role="img" aria-label="A route arriving at its destination, with one dashed spur that dead-ends at a 404 marker">
+        <path class="nf-line" d="M1.25 32H336" />
+        <circle class="nf-ring" cx="11.25" cy="32" r="10" />
+        <circle class="nf-dot" cx="11.25" cy="32" r="4.5" />
+        <circle class="nf-ring" cx="130" cy="32" r="10" />
+        <circle class="nf-dot" cx="130" cy="32" r="4.5" />
+        <circle class="nf-dest" cx="346" cy="32" r="7.25" />
+        <path class="nf-spur" d="M130 44C130 72 170 70 192 80S218 100 218 100" />
+        <circle class="nf-x" cx="224" cy="104" r="4.5" />
+        <text class="nf-tag" x="240" y="109">404</text>
       </svg>
 
       <span class="kicker">404</span>
@@ -71,7 +87,12 @@ const programs = (await getCollection("airlines"))
 
 <style>
   .nf { text-align:left; }
-  .nf-art { display:block; width:100%; max-width:640px; height:auto; overflow:visible; margin:8px 0 34px; }
+  .nf-art { display:block; width:100%; height:auto; overflow:visible; margin:8px 0 34px; }
+  .nf-art-compact { display:none; }
+  @media (max-width:720px){
+    .nf-art-wide { display:none; }
+    .nf-art-compact { display:block; }
+  }
   .nf-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
   .nf-ring { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
   .nf-dot  { fill:var(--coral); }
@@ -80,9 +101,9 @@ const programs = (await getCollection("airlines"))
   .nf-x    { fill:none; stroke:var(--coral); stroke-width:2.5; }
   .nf-tag  { font-family:var(--mono); font-size:13px; font-weight:600; fill:var(--coral); }
 
-  .nf-sub { max-width:560px; }
+  .nf-sub { max-width:none; }
   .nf-h2 { font-size:20px; margin:44px 0 16px; }
-  .nf-pills { display:flex; flex-wrap:wrap; gap:8px; max-width:760px; }
+  .nf-pills { display:flex; flex-wrap:wrap; gap:8px; }
   .nf-pill {
     display:inline-flex; align-items:center;
     font-family:var(--display); font-weight:600; font-size:13.5px;
@@ -92,6 +113,6 @@ const programs = (await getCollection("airlines"))
     transition:border-color .15s ease, background .15s ease;
   }
   .nf-pill:hover { border-color:var(--cobalt); background:var(--cobalt-tint); }
-  .nf-more { margin-top:28px; color:var(--text-2); max-width:560px; }
+  .nf-more { margin-top:28px; color:var(--text-2); }
   .nf-more a { color:var(--cobalt); }
 </style>
