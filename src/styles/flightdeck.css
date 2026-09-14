@@ -881,7 +881,10 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 
 /* post cards */
 .postlist { display:grid; gap:16px; }
-.postcard { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
+/* position:relative anchors the title link's stretched ::after below, which
+   makes the ENTIRE card the click target — before it, only the image and the
+   title were links, and the "Read →" affordance was a dead span */
+.postcard { position:relative; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
   overflow:hidden; transition:border-color .16s ease, transform .16s var(--ease-out), box-shadow .16s ease; }
 .postcard:hover { border-color:var(--cobalt-line); transform:translateY(-2px); box-shadow:0 12px 30px rgba(16,20,50,.08); }
 .postcard .pc-art { display:block; overflow:hidden; background:var(--raised); }
@@ -889,6 +892,9 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .postcard h3 { font-size:19px; letter-spacing:-.015em; margin:0 0 8px; }
 .postcard h3 a { color:var(--text-1); }
 .postcard:hover h3 a { color:var(--cobalt); }
+.postcard h3 a::after { content:""; position:absolute; inset:0; }
+/* the category badge links elsewhere, so it rides above the stretched link */
+.postcard .badge-cat { position:relative; z-index:1; }
 .postcard p { color:var(--text-2); font-size:14.5px; line-height:1.6; margin:0 0 12px; }
 .pc-more { font-size:13.5px; font-weight:700; color:var(--cobalt); font-family:var(--display); }
 .pc-top { display:flex; align-items:center; gap:10px; margin-bottom:11px; flex-wrap:wrap; }
