@@ -42,33 +42,37 @@ const programs = (await getCollection("airlines"))
         <circle class="nf-dot" cx="430" cy="44" r="4.5" />
         <circle class="nf-dest" cx="1150" cy="44" r="7.25" />
         <!-- the spur: leaves the route at the second waypoint, dashed like a
-             tether because it was never a scheduled leg, and stops dead -->
-        <path class="nf-spur" d="M430 56C430 96 520 94 566 108S624 138 624 138" />
-        <circle class="nf-x" cx="631" cy="142" r="4.5" />
-        <text class="nf-tag" x="650" y="147">404</text>
+             tether because it was never a scheduled leg, and dead-ends on the
+             page's centreline, directly above the centred headline below -->
+        <path class="nf-spur" d="M430 56C430 96 500 92 526 104S553 132 553 134" />
+        <circle class="nf-x" cx="559" cy="140" r="4.5" />
+        <text class="nf-tag" x="578" y="145">404</text>
       </svg>
       <svg class="nf-art nf-art-compact" viewBox="0 0 360 130" role="img" aria-label="A route arriving at its destination, with one dashed spur that dead-ends at a 404 marker">
         <path class="nf-line" d="M1.25 32H336" />
         <circle class="nf-ring" cx="11.25" cy="32" r="10" />
         <circle class="nf-dot" cx="11.25" cy="32" r="4.5" />
-        <circle class="nf-ring" cx="130" cy="32" r="10" />
-        <circle class="nf-dot" cx="130" cy="32" r="4.5" />
+        <circle class="nf-ring" cx="95" cy="32" r="10" />
+        <circle class="nf-dot" cx="95" cy="32" r="4.5" />
         <circle class="nf-dest" cx="346" cy="32" r="7.25" />
-        <path class="nf-spur" d="M130 44C130 72 170 70 192 80S218 100 218 100" />
-        <circle class="nf-x" cx="224" cy="104" r="4.5" />
-        <text class="nf-tag" x="240" y="109">404</text>
+        <path class="nf-spur" d="M95 44C95 72 135 70 148 78S158 92 158 94" />
+        <circle class="nf-x" cx="162" cy="100" r="4.5" />
+        <text class="nf-tag" x="177" y="105">404</text>
       </svg>
 
-      <span class="kicker">404</span>
-      <h1>This one's off the route.</h1>
-      <p class="sub nf-sub">
-        The page you're after isn't here. The address may have a typo, or it
-        belongs to an older version of this site. The rest of the site is
-        still on course, and everything worth reaching is one tap below.
-      </p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="/">Back to the homepage</a>
-        <a class="btn btn-secondary" href="/#programs">View live pricing</a>
+      <!-- centred under the spur's 404 marker; the drawing carries the
+           status code, so no kicker pill repeats it -->
+      <div class="nf-intro">
+        <h1>This one's off the route.</h1>
+        <p class="sub nf-sub">
+          The page you're after isn't here. The address may have a typo, or it
+          belongs to an older version of this site. The rest of the site is
+          still on course, and everything worth reaching is one tap below.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/">Back to the homepage</a>
+          <a class="btn btn-secondary" href="/#programs">View live pricing</a>
+        </div>
       </div>
 
       <h2 class="nf-h2">Looking for a program?</h2>
@@ -101,7 +105,9 @@ const programs = (await getCollection("airlines"))
   .nf-x    { fill:none; stroke:var(--coral); stroke-width:2.5; }
   .nf-tag  { font-family:var(--mono); font-size:13px; font-weight:600; fill:var(--coral); }
 
-  .nf-sub { max-width:none; }
+  .nf-intro { text-align:center; }
+  .nf-intro .cta-row { justify-content:center; }
+  .nf-sub { max-width:640px; margin-left:auto; margin-right:auto; }
   .nf-h2 { font-size:20px; margin:44px 0 16px; }
   .nf-pills { display:flex; flex-wrap:wrap; gap:8px; }
   .nf-pill {
