@@ -106,7 +106,9 @@ const programs = (await getCollection("airlines"))
   .nf-tag  { font-family:var(--mono); font-size:13px; font-weight:600; fill:var(--coral); }
 
   .nf-intro { text-align:center; }
-  .nf-intro .cta-row { justify-content:center; }
+  /* the stylesheet only lays out .cta-row inside .hero; out here the row
+     needs its own flex and gap or the two pills sit flush together */
+  .nf-intro .cta-row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
   .nf-sub { max-width:640px; margin-left:auto; margin-right:auto; }
   .nf-h2 { font-size:20px; margin:44px 0 16px; }
   .nf-pills { display:flex; flex-wrap:wrap; gap:8px; }
