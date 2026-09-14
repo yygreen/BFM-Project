@@ -1,0 +1,97 @@
+---
+// The not-found page. Vercel serves dist/404.html with a real 404 status for
+// any URL that matches neither a page nor a redirect, so this is the screen
+// an old WordPress link lands on when it misses the redirect map — the worst
+// possible moment to show a hosting company's error card on a site whose
+// whole pitch is trust.
+//
+// Drawn in the brand's route language: the main line still runs level and
+// arrives on the destination ring — the site is on course — while a dashed
+// coral spur branches off and dead-ends at the 404 marker, which is where
+// the visitor is standing. The way back is the same line.
+//
+// The program pills exist for the lost-link case specifically: someone who
+// followed a stale URL to a program page can usually see their airline in
+// this list and recover in one tap, instead of restarting from the homepage.
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const programs = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+---
+<Base
+  title="Page not found | buyflightmiles"
+  description="That page isn't here. The programs, pricing and blog all are."
+  slug="404"
+  robots="noindex"
+>
+  <section class="section nf">
+    <div class="container">
+      <svg class="nf-art" viewBox="0 0 640 150" role="img" aria-label="A route arriving at its destination, with one dashed spur that dead-ends at a 404 marker">
+        <!-- the route, still on course: level line onto the logo's ring -->
+        <path class="nf-line" d="M1.25 40H610" />
+        <circle class="nf-ring" cx="11.25" cy="40" r="10" />
+        <circle class="nf-dot" cx="11.25" cy="40" r="4.5" />
+        <circle class="nf-ring" cx="240" cy="40" r="10" />
+        <circle class="nf-dot" cx="240" cy="40" r="4.5" />
+        <circle class="nf-dest" cx="620" cy="40" r="7.25" />
+        <!-- the spur: leaves the route at the second waypoint, dashed like a
+             tether because it was never a scheduled leg, and stops dead -->
+        <path class="nf-spur" d="M240 52C240 86 300 84 330 96S368 122 368 122" />
+        <circle class="nf-x" cx="374" cy="126" r="4.5" />
+        <text class="nf-tag" x="392" y="131">404</text>
+      </svg>
+
+      <span class="kicker">404</span>
+      <h1>This one's off the route.</h1>
+      <p class="sub nf-sub">
+        The page you're after isn't here. The address may have a typo, or it
+        belongs to an older version of this site. The rest of the site is
+        still on course, and everything worth reaching is one tap below.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/">Back to the homepage</a>
+        <a class="btn btn-secondary" href="/#programs">View live pricing</a>
+      </div>
+
+      <h2 class="nf-h2">Looking for a program?</h2>
+      <nav class="nf-pills" aria-label="All programs">
+        {programs.map((p) => (
+          <a class="nf-pill" href={`/buy/${p.slug}`}>{p.airline}</a>
+        ))}
+      </nav>
+
+      {/* one line on purpose: Astro collapses the whitespace between text
+          and a link that starts a new source line, gluing the words together */}
+      <p class="nf-more">Or head for the <a href="/blog">blog</a>, the <a href="/faq">questions people ask</a>, or <a href="/request">ask us for a quote</a>. If a page moved, we can point you straight at it: <a href="/contact">talk to us</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { text-align:left; }
+  .nf-art { display:block; width:100%; max-width:640px; height:auto; overflow:visible; margin:8px 0 34px; }
+  .nf-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
+  .nf-ring { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
+  .nf-dot  { fill:var(--coral); }
+  .nf-dest { fill:none; stroke:var(--cobalt); stroke-width:5.5; }
+  .nf-spur { fill:none; stroke:var(--coral); stroke-width:2.5; stroke-linecap:round; stroke-dasharray:1 7; }
+  .nf-x    { fill:none; stroke:var(--coral); stroke-width:2.5; }
+  .nf-tag  { font-family:var(--mono); font-size:13px; font-weight:600; fill:var(--coral); }
+
+  .nf-sub { max-width:560px; }
+  .nf-h2 { font-size:20px; margin:44px 0 16px; }
+  .nf-pills { display:flex; flex-wrap:wrap; gap:8px; max-width:760px; }
+  .nf-pill {
+    display:inline-flex; align-items:center;
+    font-family:var(--display); font-weight:600; font-size:13.5px;
+    color:var(--text-1); text-decoration:none;
+    background:var(--raised); border:1px solid var(--line-2);
+    border-radius:var(--radius-pill); padding:7px 14px;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .nf-pill:hover { border-color:var(--cobalt); background:var(--cobalt-tint); }
+  .nf-more { margin-top:28px; color:var(--text-2); max-width:560px; }
+  .nf-more a { color:var(--cobalt); }
+</style>
