@@ -1,0 +1,50 @@
+# Daily rebuild so the converted figures on the localized pages stay current.
+#
+# Every localized page shows its own market's currency beside the dollar
+# price: euros on /de and /fr, lira on /tr, pesos on /es, dollars on /zh-tw
+# and /zh-hk, and the pegged Gulf currencies on /ar. The rates are fetched
+# during the build (scripts/fetch-fx.mjs, wired as npm's prebuild), so this
+# workflow commits nothing. It asks the host to build again, which picks up
+# that day's rates.
+#
+# SETUP: add a repository secret named VERCEL_DEPLOY_HOOK holding a Deploy Hook
+# URL from Vercel (Project → Settings → Git → Deploy Hooks). Without it the job
+# skips the rebuild rather than failing, so the workflow can sit in the repo
+# unconfigured. The staleness check below still runs either way.
+#
+# Timing: the ECB publishes once per working day at about 16:00 CET, and
+# exchangerate-api rolls over near 00:00 UTC, so 16:30 UTC is after both in
+# winter and summer alike. A weekend run re-publishes Friday's ECB rate, which
+# is what the ECB itself serves.
+name: Refresh FX rates
+
+on:
+  schedule:
+    - cron: "30 16 * * *" # 16:30 UTC, after the ECB's daily publication
+  workflow_dispatch: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger a rebuild
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "VERCEL_DEPLOY_HOOK is not set — nothing to rebuild."
+            exit 0
+          fi
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$HOOK")
+          echo "Deploy hook responded $code"
+          [ "$code" -ge 200 ] && [ "$code" -lt 300 ]
+
+      # The fetcher never fails a build on purpose, which means a dead feed is
+      # invisible: the pages keep showing the last good rate under its true,
+      # ageing date. This is the alarm for that.
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the rates are current
+        run: node scripts/fetch-fx.mjs --check

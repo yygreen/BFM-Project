@@ -1,0 +1,28 @@
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; box-sizing:border-box; }
+  body { width:1200px; height:630px; overflow:hidden; position:relative;
+         background:linear-gradient(180deg, #F5F6FF 0%, #FBFBFF 62%, #FFFFFF 100%);
+         font-family:Inter, system-ui, sans-serif; }
+  /* oversized route motif, the mark's own grammar at card scale: a faint
+     solid arc breaking into dots toward a ring, sweeping the lower right */
+  svg.route { position:absolute; right:56px; bottom:48px; width:430px; height:auto; opacity:.13; }
+  .in { position:absolute; left:96px; top:0; height:100%; display:flex; flex-direction:column; justify-content:center; gap:38px; }
+  .in img { width:620px; height:auto; display:block; }
+  .tag { font-size:30px; font-weight:500; color:#494D6B; letter-spacing:-0.01em; max-width:700px; line-height:1.4; }
+  .dom { position:absolute; left:100px; bottom:56px; font-size:23px; font-weight:600; color:#2540FF; letter-spacing:0.01em; }
+</style>
+<svg class="route" viewBox="0 0 110 100" fill="none" aria-hidden="true">
+  <path d="M4 94C26 92 52 82 72 60" stroke="#2540FF" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="79" cy="51" r="3.8" fill="#FF5C3A"/>
+  <circle cx="86" cy="42" r="3.8" fill="#FF5C3A"/>
+  <circle cx="92" cy="32" r="3.8" fill="#FF5C3A"/>
+  <circle cx="99" cy="19" r="7.5" stroke="#2540FF" stroke-width="6"/>
+</svg>
+<div class="in">
+  <img src="../../public/logo.svg" alt="">
+  <div class="tag">Buy airline miles for premium-cabin redemptions. Your exact rate confirmed before you pay.</div>
+</div>
+<div class="dom">buyflightmiles.com</div>

@@ -1,0 +1,173 @@
+---
+const base = (Astro.site ?? new URL("https://www.buyflightmiles.com")).origin;
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import PostHero from "../../components/PostHero.astro";
+import PostCard from "../../components/PostCard.astro";
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import { getCollection, render } from "astro:content";
+import { getPosts, categorySlug, formatDate, readingTime } from "../../lib/blog";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, airlines, posts } }));
+}
+
+const { post, airlines, posts } = Astro.props;
+const { Content, headings } = await render(post);
+const d = post.data;
+
+const mins = readingTime(post.body);
+
+// Table of contents from the post's own h2s. Only worth rendering when the
+// piece is actually long enough to need one.
+const toc = headings.filter((h) => h.depth === 2);
+const showToc = toc.length >= 3;
+
+// Chronological neighbours (posts[] is newest-first).
+const idx = posts.findIndex((p) => p.id === post.id);
+const newer = idx > 0 ? posts[idx - 1] : null;
+const older = idx < posts.length - 1 ? posts[idx + 1] : null;
+
+// `programs` are validated as strings by the schema; check they actually
+// resolve here so a typo'd slug surfaces at build time rather than as a 404.
+const linked = d.programs.map((slug) => {
+  const hit = airlines.find((a) => a.slug === slug);
+  if (!hit) {
+    throw new Error(
+      `blog/${post.id}.md: programs contains "${slug}", which is not a slug in airlines.json`
+    );
+  }
+  return hit;
+});
+
+// Prefer posts in the same category, then fall back to recent.
+const others = posts.filter((p) => p.id !== post.id);
+const more = [
+  ...others.filter((p) => p.data.category === d.category),
+  ...others.filter((p) => p.data.category !== d.category),
+].slice(0, 2);
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  ...(d.updated && { dateModified: d.updated.toISOString() }),
+  articleSection: d.category,
+  author: { "@type": "Organization", name: "buyflightmiles" },
+  publisher: { "@type": "Organization", name: "buyflightmiles" },
+  mainEntityOfPage: `${base}/blog/${post.id}`,
+  ...(d.source && { citation: d.source }),
+  ...(d.image && { image: `${base}${d.image}` }),
+};
+---
+<Base
+  title={`${d.title} | buyflightmiles`}
+  description={d.description}
+  slug={`blog/${post.id}`}
+  jsonld={jsonld}
+  {...(d.image
+    ? { ogImage: d.image, ogImageAlt: d.imageAlt ?? d.title, ogImageWidth: 1376, ogImageHeight: 768 }
+    : {})}
+>
+  <article class="section" style="padding-top:32px">
+    <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Blog", href: "/blog" },
+        { label: d.category, href: `/blog/category/${categorySlug(d.category)}` },
+        { label: d.title },
+      ]} />
+
+      <header class="posthead">
+        <div class="pc-top">
+          <a class="badge badge-cat" href={`/blog/category/${categorySlug(d.category)}`}>{d.category}</a>
+          <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
+          {d.updated && <span class="upd">Updated {formatDate(d.updated)}</span>}
+          <span class="upd">{mins} min read</span>
+        </div>
+        <h1>{d.title}</h1>
+        <p class="post-sub">{d.description}</p>
+      </header>
+
+      <div class="posthero-wrap">
+        <PostHero slug={post.id} category={d.category} title={d.title} image={d.image} imageAlt={d.imageAlt} variant="wide" />
+      </div>
+
+      <div class="blog-layout">
+        <div class="blog-main">
+          {showToc && (
+            <nav class="toc" aria-label="On this page">
+              <h4>On this page</h4>
+              <ol>
+                {toc.map((h) => (
+                  <li><a href={`#${h.slug}`}>{h.text}</a></li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
+          <div class="prose">
+            <Content />
+          </div>
+
+          {d.source && (
+            <p class="post-source">
+              Source: <a href={d.source} rel="nofollow noopener" target="_blank">{d.sourceLabel || d.source}</a>
+            </p>
+          )}
+
+          {linked.length > 0 && (
+            <section class="post-programs">
+              <h4>Programs mentioned</h4>
+              <div class="related">
+                {linked.map((a) => (
+                  <a href={`/buy/${a.slug}`}>
+                    {a.airline} {a.program} · {a.priceVerified ? "" : "~"}{a.pricePerMile}¢
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section class="post-cta">
+            <h4>Need miles for a specific booking?</h4>
+            <p>Tell us the program and the amount, and we'll confirm your exact rate and delivery before you pay anything.</p>
+            <a class="btn btn-primary" href="/#quote">Request a quote</a>
+          </section>
+
+          {(newer || older) && (
+            <nav class="post-nav" aria-label="More posts">
+              {older ? (
+                <a class="pn prev" href={`/blog/${older.id}`}>
+                  <span class="pn-lab">← Previous</span>
+                  <span class="pn-t">{older.data.title}</span>
+                </a>
+              ) : <span />}
+              {newer && (
+                <a class="pn next" href={`/blog/${newer.id}`}>
+                  <span class="pn-lab">Next →</span>
+                  <span class="pn-t">{newer.data.title}</span>
+                </a>
+              )}
+            </nav>
+          )}
+
+          {more.length > 0 && (
+            <section class="post-more">
+              <h4>More reading</h4>
+              <div class="postlist">
+                {more.map((p) => <PostCard post={p} />)}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <BlogSidebar currentSlug={post.id} currentCategory={d.category} defaultSlug={d.programs[0] ?? null} />
+      </div>
+    </div>
+  </article>
+</Base>

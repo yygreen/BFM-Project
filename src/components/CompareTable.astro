@@ -1,18 +1,82 @@
 ---
-const { program = "miles", pricePerMile = 1.9 } = Astro.props;
-const per25k = Math.round(pricePerMile * 10 * 25); // $ for 25,000 miles
+// "Us vs. buying direct". Every figure in the right-hand column is a claim
+// about what the AIRLINE charges, so the comparison only renders against a
+// sourced rate (airlines.json → directBuyCents, else site.json → benchmark).
+//
+// Without one we don't guess — but we don't show a bare sentence either.
+// The fallback states what the buyer actually gets here, using only figures
+// that come from the data, and is explicit that the comparison itself lands
+// on the quote.
+import { directBuyRate, site } from "../lib/site";
+import { usd, costOf } from "../lib/money";
+
+const {
+  program = "miles",
+  pricePerMile = 1.9,
+  priceVerified = false,
+  delivery = "",
+  directBuyCents = null,
+  min = 25000,
+  max = 500000,
+} = Astro.props;
+
+const direct = directBuyRate(directBuyCents);
+const per25k = usd(costOf(25000, pricePerMile));
+const direct25k = direct ? usd(costOf(25000, direct)) : null;
+const approx = priceVerified ? "" : "~";
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+// On the homepage `program` is already the word "miles" — don't say "miles miles".
+const subject = program.toLowerCase() === "miles" ? "miles" : `${program} miles`;
 ---
-<div class="twrap">
-  <table class="cmp">
-    <thead>
-      <tr><th></th><th>buyflightmiles</th><th>Airline direct</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Price / mile</td><td>{pricePerMile}¢</td><td>~4.0¢+</td></tr>
-      <tr><td>25,000 miles</td><td>${per25k.toLocaleString("en-US")}</td><td>$1,000+</td></tr>
-      <tr><td>Delivery</td><td>Within 24 hrs</td><td>Instant, at 2× the cost</td></tr>
-      <tr><td>Purchase cap</td><td>Up to 500,000</td><td>Often capped low</td></tr>
-      <tr><td>Support</td><td>Human, 24/7</td><td>Call center</td></tr>
-    </tbody>
-  </table>
-</div>
+{direct ? (
+  <div class="twrap">
+    <table class="cmp">
+      <thead>
+        <tr><th></th><th>buyflightmiles</th><th>Airline direct</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Price / mile</td><td>{approx}{pricePerMile}¢</td><td>{direct}¢</td></tr>
+        <tr>
+          <td>25,000 miles</td>
+          <td>{approx}{per25k}</td>
+          <td>{direct25k}</td>
+        </tr>
+        {delivery && <tr><td>Delivery</td><td>{delivery.replace("Within ", "")}</td><td>Instant, at a premium</td></tr>}
+        <tr><td>Purchase cap</td><td>Up to {fmt(max)}</td><td>Often capped low</td></tr>
+      </tbody>
+    </table>
+    {site.benchmark.source && <p class="cmp-src">Airline pricing: {site.benchmark.source}</p>}
+  </div>
+) : (
+  <div class="cmp-alt">
+    <div class="cmp-facts">
+      <div class="cf">
+        <span class="cf-k">Your rate</span>
+        <b class="cf-v">{approx}{pricePerMile}¢<small>/ mile</small></b>
+        <span class="cf-n">≈ {approx}{per25k} for 25,000</span>
+      </div>
+      <div class="cf">
+        <span class="cf-k">Minimum</span>
+        <b class="cf-v">{fmt(min)}</b>
+        <span class="cf-n">miles per order</span>
+      </div>
+      <div class="cf">
+        <span class="cf-k">Maximum</span>
+        <b class="cf-v">{fmt(max)}</b>
+        <span class="cf-n">in a single order</span>
+      </div>
+      <div class="cf">
+        <span class="cf-k">Delivery</span>
+        <b class="cf-v">{delivery ? delivery.replace("Within ", "") : "On quote"}</b>
+        <span class="cf-n">into your own account</span>
+      </div>
+    </div>
+    <p class="cmp-note">
+      Airlines set their own price for {subject}, and it moves with their promotions.
+      Quoting a figure we can't stand behind would help nobody, so we put the airline's
+      current price next to yours <b>on the quote itself</b> — the difference is in front
+      of you while you still have the choice.
+    </p>
+  </div>
+)}

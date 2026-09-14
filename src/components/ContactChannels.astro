@@ -1,0 +1,36 @@
+---
+// The escape hatch under a form: WhatsApp, phone, email as one quiet line.
+//
+// A form is the right primary path — it structures the brief and carries the
+// hidden fields — but for a purchase this size, part of the audience won't
+// type into a black box before they've heard a human on the other end.
+// business-class.com runs four phone numbers on one page for exactly this
+// reason. The channels render from site.json's verified contact block only,
+// so an empty or unconfirmed channel simply doesn't appear.
+//
+// This is a row of exits placed under the submit button, deliberately quieter
+// than it: the form converts best, the channels catch who the form would lose.
+import { site } from "../lib/site";
+
+const { context = "an order" } = Astro.props;
+
+const c = site.contact.verified ? site.contact : null;
+const wa = c?.whatsapp ? "https://wa.me/" + c.whatsapp.replace(/\D/g, "") + "?text=" + encodeURIComponent(`Hi — I have a question about ${context}.`) : null;
+const tel = c?.phone ? "tel:+1" + c.phone.replace(/\D/g, "") : null;
+const mail = c?.orderEmail ? `mailto:${c.orderEmail}?subject=${encodeURIComponent("Question before ordering — buyflightmiles")}` : null;
+const channels = [
+  wa && { href: wa, label: "WhatsApp", value: c.whatsapp, ext: true },
+  tel && { href: tel, label: "Call", value: c.phone },
+  mail && { href: mail, label: "Email", value: c.orderEmail },
+].filter(Boolean);
+---
+{channels.length > 0 && (
+  <p class="chanrow">
+    <span>Rather talk it through first?</span>
+    {channels.map((ch) => (
+      <a href={ch.href} target={ch.ext ? "_blank" : undefined} rel={ch.ext ? "noopener" : undefined}>
+        {ch.label} <b>{ch.value}</b>
+      </a>
+    ))}
+  </p>
+)}

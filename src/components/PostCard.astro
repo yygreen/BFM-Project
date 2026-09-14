@@ -1,0 +1,30 @@
+---
+import PostHero from "./PostHero.astro";
+import { categorySlug, formatDate } from "../lib/blog";
+
+// One post teaser. `lead` renders the larger featured treatment used for the
+// top story on /blog; everything else uses the compact row.
+const { post, lead = false } = Astro.props;
+const d = post.data;
+---
+<article class={`postcard${lead ? " lead" : ""}`}>
+  <a class="pc-art" href={`/blog/${post.id}`} tabindex="-1" aria-hidden="true">
+    <PostHero
+      slug={post.id}
+      category={d.category}
+      title={d.title}
+      image={d.image}
+      imageAlt={d.imageAlt}
+      variant={lead ? "wide" : "card"}
+    />
+  </a>
+  <div class="pc-body">
+    <div class="pc-top">
+      <a class="badge badge-cat" href={`/blog/category/${categorySlug(d.category)}`}>{d.category}</a>
+      <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
+    </div>
+    <h3><a href={`/blog/${post.id}`}>{d.title}</a></h3>
+    <p>{d.description}</p>
+    <span class="pc-more">Read →</span>
+  </div>
+</article>

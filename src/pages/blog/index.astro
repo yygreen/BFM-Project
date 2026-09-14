@@ -1,0 +1,105 @@
+---
+const base = (Astro.site ?? new URL("https://www.buyflightmiles.com")).origin;
+import Base from "../../layouts/Base.astro";
+import PostCard from "../../components/PostCard.astro";
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import { getPosts, getCategoryCounts, categorySlug } from "../../lib/blog";
+
+const posts = await getPosts();
+const categories = await getCategoryCounts();
+
+// A post flagged `featured` leads; otherwise the newest does.
+const lead = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p.id !== lead?.id);
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "buyflightmiles blog",
+  description: "Program news, devaluations and guides for buying airline miles.",
+  url: `${base}/blog`,
+};
+---
+<Base
+  title="Miles News & Guides | buyflightmiles"
+  description="Program news, devaluations, sweet spots and practical guides for buying airline miles, written for people booking premium cabins."
+  slug="blog"
+  jsonld={jsonld}
+>
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Blog</span>
+        <h1>Miles news &amp; guides</h1>
+        <p>Program changes, devaluations and how-to guides, with the sources so you can check them.</p>
+      </div>
+
+      {categories.length > 0 && (
+        <nav class="cat-bar" aria-label="Post categories">
+          <span class="cat-chip on">All<span class="n">{posts.length}</span></span>
+          {categories.map((c) => (
+            <a class="cat-chip" href={`/blog/category/${c.slug}`}>{c.name}<span class="n">{c.count}</span></a>
+          ))}
+        </nav>
+      )}
+
+      {posts.length === 0 ? (
+        <p class="cmp-empty">No posts yet. Check back shortly.</p>
+      ) : (
+        <div class="blog-layout">
+          <div class="blog-main">
+            <div class="blog-search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="post-search" type="search" placeholder="Search posts…" aria-label="Search posts" autocomplete="off" />
+            </div>
+            <p class="search-none" id="search-none" hidden>No posts match that search.</p>
+
+            <div id="post-results">
+              {lead && (
+                <div class="post-slot" data-title={lead.data.title.toLowerCase()} data-desc={lead.data.description.toLowerCase()} data-cat={lead.data.category.toLowerCase()}>
+                  <PostCard post={lead} lead={true} />
+                </div>
+              )}
+              {rest.length > 0 && (
+                <div class="postlist">
+                  {rest.map((p) => (
+                    <div class="post-slot" data-title={p.data.title.toLowerCase()} data-desc={p.data.description.toLowerCase()} data-cat={p.data.category.toLowerCase()}>
+                      <PostCard post={p} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <BlogSidebar />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <script is:inline>
+    // Progressive filter over the already-rendered cards: no index to fetch,
+    // and the full list is in the HTML for crawlers whether or not JS runs.
+    (function () {
+      const input = document.getElementById("post-search");
+      if (!input) return;
+      const slots = Array.from(document.querySelectorAll(".post-slot"));
+      const none = document.getElementById("search-none");
+
+      input.addEventListener("input", function () {
+        const q = input.value.trim().toLowerCase();
+        let shown = 0;
+        slots.forEach((s) => {
+          const hit =
+            !q ||
+            s.dataset.title.includes(q) ||
+            s.dataset.desc.includes(q) ||
+            s.dataset.cat.includes(q);
+          s.hidden = !hit;
+          if (hit) shown++;
+        });
+        none.hidden = shown > 0;
+      });
+    })();
+  </script>
+</Base>

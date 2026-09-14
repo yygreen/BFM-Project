@@ -1,27 +1,76 @@
 ---
+const base = (Astro.site ?? new URL("https://www.buyflightmiles.com")).origin;
 import Base from "../layouts/Base.astro";
 import TrustStrip from "../components/TrustStrip.astro";
-import CompareTable from "../components/CompareTable.astro";
+import Trustpilot from "../components/Trustpilot.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
+import QuoteWidget from "../components/QuoteWidget.astro";
+import StepArt from "../components/StepArt.astro";
+import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
+import { site, live, realTestimonials, realReviews, flightSavings, flightSavingsHtml } from "../lib/site";
+import { rateFixed } from "../lib/money";
 
+// alphabetical by carrier, matching the nav dropdown and the quote widget's
+// selector — the grid is a lookup wall, and one site shouldn't have two orders
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
-  .sort((a, b) => a.order - b.order);
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+
+// Hero stats: only figures we can stand behind. Windows differ by program,
+// so the hero says "fast" and each program page states its own number;
+// rating/completion appear once the client verifies them.
+//
+// `fastest` is the shortest CONFIRMED window — sorted by hours, since the
+// roster is ordered alphabetically and first-in-list is not fastest.
+const fastest = airlines
+  .filter((a) => a.deliveryVerified)
+  .map((a) => a.delivery.replace("Within ", ""))
+  .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))[0];
+
+const savings = flightSavings();
+const savingsHtml = flightSavingsHtml();
+
+const heroStats = [
+  { n: "Fast", l: "delivery" },
+  { n: String(airlines.length), l: "programs" },
+  live(site.trust.completionRate) ? { n: `${site.trust.completionRate.value}%`, l: "completion" } : null,
+].filter(Boolean);
+
+// The rating closes the hero stat row — it's the strongest trust signal we
+// have and it was sitting below the fold. Driven by reviews[] (the same source
+// as the badge in the trust section) rather than the separate trust.rating
+// field, so a published rating can never disagree with itself across the page.
+const heroReview = realReviews[0] ?? null;
+const stars = heroReview ? Math.round(heroReview.rating) : 0;
+const starsOut = heroReview ? Math.round(heroReview.outOf) : 0;
+
+const heroSub = site.guarantee.verified
+  ? `Buy the miles you're short across every major program — secure transfer, delivered fast, and your payment protected until the miles arrive. The seat you actually want, finally within reach.`
+  : "Buy the miles you're short across every major program — secure transfer, delivered fast, and your exact rate confirmed before you pay. The seat you actually want, finally within reach.";
+
+// Meta description mirrors the on-page rules: no guarantee claim until it's
+// confirmed, and the delivery window comes from real verified data.
+const metaDescription = [
+  "Buy airline miles at a fraction of the price.",
+  "Delta, United, American, Singapore and more — secure transfer,",
+  fastest ? `delivered within ${fastest.toLowerCase()},` : "delivered fast,",
+  site.guarantee.verified ? `${site.guarantee.shortLabel} on every order.` : "your exact rate confirmed before you pay.",
+].join(" ");
 
 const jsonld = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "buyflightmiles",
-  url: "https://buyflightmiles.com",
+  url: base,
   description: "Buy airline miles for premium-cabin redemptions. Secure transfer, fast delivery.",
 };
 ---
 <Base
   title="Buy Airline Miles | Fast, Secure Delivery | buyflightmiles"
-  description="Buy airline miles at a fraction of the price. Delta, United, American, Singapore and more — secure transfer, delivered within 24 hours, delivery guaranteed."
+  description={metaDescription}
   jsonld={jsonld}
 >
   <!-- HERO -->
@@ -32,37 +81,83 @@ const jsonld = {
       <div class="hero-grid">
         <div>
           <span class="kicker">Miles, delivered within hours</span>
-          <h1>Business class is <span class="hl">closer</span> than you think.</h1>
-          <p class="sub">Buy the miles you're short across every major program — secure transfer, delivered fast, and backed by a delivery guarantee. The seat you actually want, finally within reach.</p>
+          <!-- The keyword leads and the hook follows: the h1 was carrying the
+               promise but not the phrase people search, while the title tag
+               carried the phrase. Now they agree. -->
+          <h1><span class="hl">Buy airline miles</span> and fly business class for less.</h1>
+          <p class="sub">{heroSub}</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#programs">View live pricing</a>
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
-          <div class="spec">
-            <span><b>24h</b> delivery</span><span class="dot"></span>
-            <span><b>99.9%</b> completion</span><span class="dot"></span>
-            <span><b>4.8/5</b> rated</span>
-          </div>
+          {heroStats.length > 0 && (
+            <div class="spec">
+              {heroStats.map((s, i) => (
+                <>
+                  {i > 0 && <span class="dot"></span>}
+                  <span><b>{s.n}</b> {s.l}</span>
+                </>
+              ))}
+              {heroReview && (
+                <span class="spec-revwrap">
+                  <span class="dot"></span>
+                  <a
+                    class="spec-rev"
+                    href={heroReview.url || undefined}
+                    rel="nofollow noopener"
+                    target={heroReview.url ? "_blank" : undefined}
+                  >
+                    <span class="spec-stars">
+                      {"★".repeat(stars)}<span class="spec-stars-dim">{"★".repeat(Math.max(0, starsOut - stars))}</span>
+                    </span>
+                    <b>{heroReview.rating}</b>
+                    <span class="spec-rev-plat">on {heroReview.platform}</span>
+                  </a>
+                </span>
+              )}
+            </div>
+          )}
         </div>
         <div class="hero-art">
-          <div class="feature-card">
-            <div class="fc-top">
-              <span class="fc-badge">Featured · lowest price</span>
-              <span class="fc-badge">In stock</span>
-            </div>
-            <p class="fc-name">Singapore KrisFlyer</p>
-            <p class="fc-air">Star Alliance · Suites &amp; Business</p>
-            <div class="fc-price">1.8¢ <small>/ mile</small></div>
-            <p class="fc-alt">≈ $18 per 1,000 miles · delivered within 24h</p>
-            <a class="btn" href="/buy/krisflyer">Buy KrisFlyer</a>
+          <div class="hero-calc" id="quote">
+            <QuoteWidget />
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">How it works</span>
+        <h2>Three steps to the seat</h2>
+        {/* Says the shape of the arrangement rather than previewing the three
+            cards below it. The old line ("no software to learn") answered an
+            objection nobody buying miles has, and hinting that someone else
+            makes you learn a tool is not an argument we can stand behind. */}
+        <p>We top up the loyalty account you already have. You stay in control of it and the booking throughout.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <StepArt step="choose" />
+          <div class="n">Step 01</div><h4>Choose</h4><p>Pick your program and how many miles you need. We come back with a firm price, free and with no obligation to take it.</p>
+        </div>
+        <div class="step">
+          <StepArt step="pay" />
+          <div class="n">Step 02</div><h4>Pay</h4><p>Approve the quote and pay off-site. Nothing is ever charged on this website, and we confirm by email once the transfer is on its way.</p>
+        </div>
+        <div class="step">
+          <StepArt step="fly" />
+          <div class="n">Step 03</div><h4>Fly</h4><p>Miles land in the account you already hold{fastest ? `, usually within ${fastest.toLowerCase()}` : ""}. You book directly with the airline, in your own name.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PROGRAMS -->
-  <section class="section" id="programs">
+  <section class="section tinted" id="programs">
     <div class="container">
       <div class="section-head">
         <span class="kicker">Programs</span>
@@ -73,90 +168,113 @@ const jsonld = {
         {airlines.map((a) => (
           <a class="gcard" href={`/buy/${a.slug}`}>
             <div class="top">
-              <Emblem code={a.code} color={a.color} size={46} />
+              <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={46} />
               {a.inStock
                 ? <span class="badge badge-ok">In stock</span>
                 : <span class="badge badge-warn">Limited</span>}
             </div>
-            <div class="pname">{a.program}</div>
-            <div class="plabel">{a.airline}</div>
-            <div class="price" style="margin-top:14px">{a.pricePerMile}¢ <small>/ mile</small></div>
-            <div class="meta"><span>{a.delivery.replace("Within ", "")}</span><span>{a.alliance}</span></div>
+            <!-- airline leads: the grid sorts A-Z by carrier, and the headline
+                 must be the thing the sort is on or the order reads as random -->
+            <div class="pname">{a.airline}</div>
+            <div class="plabel">{a.program}</div>
+            <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{rateFixed(a.pricePerMile)}¢ <small>/ mile</small></div>
+            <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
+            {/* The whole tile is a link, but nothing said so — while the two
+                "ask" tiles in the same grid both carry a call to action, so
+                half the grid read as clickable and half didn't.
+
+                "Buy miles" is the site's own verb for this step — the nav says
+                Buy, the URL is /buy/, and the card on the program page says
+                the same. Earlier drafts said "see pricing", which promised the
+                rate already printed two lines above, then "price your amount",
+                which described the calculator rather than the errand. */}
+            <span class="gcta">Buy miles →</span>
           </a>
         ))}
+        <!-- catch-all for programs we don't list — a request, not a promise:
+             availability gets confirmed in the quote, never asserted here -->
+        <a class="gcard gcard-ask" href="/request">
+          <div class="pname">Can't find your program?</div>
+          <p class="askp">Not listed doesn't mean not available. Tell us the program and amount, and we'll check it and quote you.</p>
+          <span class="askcta">Ask for a quote →</span>
+        </a>
+        <!-- The trade route out of a retail grid. Agents were reaching /agents
+             only through the nav, which is the one place a visitor scanning
+             prices isn't looking. Claims here are the ones /agents already
+             makes; the volume threshold stays off it until confirmed. -->
+        <a class="gcard gcard-ask gcard-partner" href="/agents">
+          <span class="ask-tag">For agents &amp; brokers</span>
+          <div class="pname">Booking for clients?</div>
+          <p class="askp">Volume pricing on miles and on business or first class seats. Your client never sees us.</p>
+          <span class="askcta">See partner access →</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="section tinted" id="how">
+  <!-- AWARD FLIGHTS — the second thing we sell, placed after the roster
+       because it answers the visitor the roster just lost: the one who wants
+       the trip and doesn't want to work out which program opens it. -->
+  <section class="section wash-warm" id="flights">
     <div class="container">
       <div class="section-head">
-        <span class="kicker">How it works</span>
-        <h2>Three steps to your miles</h2>
-        <p>Simple, secure, and fast — most transfers complete within a day.</p>
+        <span class="kicker">Business &amp; first class</span>
+        <h2>Let us do the hunting</h2>
+        {savings && (
+          <p class="fs-save" set:html={savingsHtml} />
+        )}
+        <p>
+          Working out which program opens which route is the fiddly part, and we do it
+          all day. Give us the route and the dates, and we'll come back with a seat at
+          the front of the plane and what it costs.
+        </p>
       </div>
-      <div class="steps">
-        <div class="step">
-          <span class="step-art a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7 8h10M7 12h7M7 16h4"/></svg></span>
-          <div class="n">Step 01</div><h4>Select &amp; enter</h4><p>Pick the program, the amount, and your loyalty account number.</p>
-        </div>
-        <div class="step">
-          <span class="step-art b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M2 10h20M6 15h4"/></svg></span>
-          <div class="n">Step 02</div><h4>Confirm &amp; pay</h4><p>Complete your order through our secure, off-site payment flow.</p>
-        </div>
-        <div class="step">
-          <span class="step-art c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 15l16-4-1-4-5 1-6-6-2 1 3 6-5 1z"/></svg></span>
-          <div class="n">Step 03</div><h4>Miles land</h4><p>They post to your account, usually within 24 hours. You're ready to book.</p>
-        </div>
-      </div>
+      <FlightSearch />
     </div>
   </section>
 
-  <!-- TRUST -->
+  <!-- TRUST + THE MATH — one section: what backs the order, then the numbers -->
   <section class="section" id="trust">
     <div class="container">
       <div class="section-head">
         <span class="kicker">Why trust us</span>
-        <h2>Built for buyers who've been burned</h2>
-        <p>Buying miles should feel as safe as any purchase. Here's what backs every order.</p>
+        <h2>What backs every order</h2>
+        <p>Miles or a finished ticket, the handling is the same and the risk sits with us. Here's exactly how your order works.</p>
       </div>
+
       <TrustStrip />
+      <Trustpilot />
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section tinted">
-    <div class="container">
-      <div class="section-head center">
-        <span class="kicker">In their words</span>
-        <h2>Travellers who booked the seat they wanted</h2>
-        <p>Real people, real redemptions — and miles that landed exactly when we said.</p>
+  <!-- TESTIMONIALS — hidden until real, client-verified quotes exist -->
+  {realTestimonials.length > 0 && (
+    <section class="section tinted">
+      <div class="container">
+        <div class="section-head center">
+          <span class="kicker">In their words</span>
+          <h2>Travellers who booked the seat they wanted</h2>
+          <p>Real people, real redemptions — and miles that landed exactly when we said.</p>
+        </div>
+        <Testimonials />
       </div>
-      <Testimonials />
-    </div>
-  </section>
+    </section>
+  )}
 
-  <!-- COMPARE -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">The math</span>
-        <h2>Us vs. buying direct</h2>
-        <p>Airlines sell their own miles at a steep markup. Here's the difference.</p>
-      </div>
-      <CompareTable program="miles" pricePerMile={1.8} />
-    </div>
-  </section>
 
   <!-- FAQ -->
   <section class="section tinted" id="faq">
-    <div class="container" style="max-width:800px">
-      <div class="section-head center">
+    <div class="container">
+      <div class="section-head">
         <span class="kicker">Good to know</span>
-        <h2>Questions, answered</h2>
+        <h2>Questions about buying airline miles</h2>
       </div>
-      <Faq delivery="24 hours" />
+      <!-- the full set, and its FAQPage markup, live on /faq — the homepage
+           shows the first few and sends the rest there -->
+      <Faq delivery="24 hours" limit={5} jsonld={false} />
+      <p style="margin-top:22px">
+        <a class="btn btn-secondary" href="/faq">Read all questions</a>
+      </p>
     </div>
   </section>
 </Base>

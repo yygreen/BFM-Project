@@ -1,0 +1,95 @@
+---
+// Composes a real email, not a field dump.
+//
+// Every form on this site can fall back to the visitor's own mail client when
+// no Web3Forms key is configured. That fallback used to serialise FormData
+// straight out — "Contact handle: @lennart", "From program page: eva-air" —
+// which arrives looking like a debug log, in a market where the buyer is
+// already scam-wary and the first message they send us is also the first
+// impression they get back. It also leaked field names the visitor never saw
+// and dropped raw numbers (80000) where the page had shown 80,000.
+//
+// This writes the letter instead: a greeting, one sentence saying what is
+// wanted, the facts in labelled groups using the SAME labels the form showed,
+// a closing line, and the visitor's own name signed off. Nothing is invented —
+// every value comes from a field they filled in, and the "nothing has been
+// charged" footer is the same promise the page makes.
+//
+// Exposed as one global because the form scripts are `is:inline` (they read
+// data-* attributes and locale JSON at parse time, so they can't be modules
+// and can't import). The guard makes it safe for two widgets on one page.
+---
+<script is:inline>
+  if (!window.bfmMail) {
+    window.bfmMail = (function () {
+      // A mailto: URL is passed to the OS, and Windows truncates the command
+      // line around 2,000 characters. Rather than let a long note silently
+      // vanish, trim it and say so IN the draft, where the visitor can see the
+      // gap and paste the rest before sending.
+      const LIMIT = 1800;
+
+      function clean(v) {
+        return v == null ? "" : String(v).trim();
+      }
+
+      // "80000" was never what the page showed. Values that are purely a
+      // number get the page's own grouping; everything else passes through.
+      function value(v, numLocale) {
+        const s = clean(v);
+        if (/^\d{4,}$/.test(s)) return Number(s).toLocaleString(numLocale || "en-US");
+        return s;
+      }
+
+      // Form labels carry the required marker; an email doesn't need it.
+      function label(s) {
+        return clean(s).replace(/\s*\*$/, "").replace(/\s*:$/, "");
+      }
+
+      function build(o) {
+        const lines = [];
+        if (o.hello) lines.push(o.hello, "");
+        if (o.intro) lines.push(o.intro, "");
+        for (const group of o.groups || []) {
+          // A free-text answer is a paragraph, not a field: it goes under its
+          // heading on its own lines, the way the visitor typed it.
+          if (group.text !== undefined) {
+            if (!clean(group.text)) continue;
+            if (group.title) lines.push(group.title);
+            lines.push(clean(group.text), "");
+            continue;
+          }
+          const rows = (group.rows || []).filter((r) => clean(r[1]) !== "");
+          if (!rows.length) continue;
+          if (group.title) lines.push(group.title);
+          for (const [k, v] of rows) lines.push(label(k) + ": " + value(v, o.numLocale));
+          lines.push("");
+        }
+        if (o.closing) lines.push(o.closing, "");
+        if (o.thanks) lines.push(o.thanks);
+        if (o.name) lines.push(clean(o.name));
+        if (o.foot) lines.push("", o.foot);
+        return lines.join("\n").replace(/\n{3,}/g, "\n\n");
+      }
+
+      return function send(o) {
+        let body = build(o);
+        // Only the free-text note can realistically overrun, so that is what
+        // gets trimmed — the facts we need to quote from are never dropped.
+        if (encodeURIComponent(body).length > LIMIT * 3 && o.trimmable) {
+          const cut = clean(o.trimmable);
+          if (cut) {
+            const room = Math.max(200, cut.length - (body.length - LIMIT));
+            body = body.replace(cut, cut.slice(0, room).trim() + "\n\n[shortened by the mail link — please paste the rest before sending]");
+          }
+        }
+        // handing the draft to the OS is the one step nothing can observe
+        // afterwards, so the last composed letter stays readable here
+        send.last = { subject: o.subject, body };
+        window.location.href =
+          "mailto:" + o.inbox +
+          "?subject=" + encodeURIComponent(o.subject) +
+          "&body=" + encodeURIComponent(body);
+      };
+    })();
+  }
+</script>

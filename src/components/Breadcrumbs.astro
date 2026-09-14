@@ -1,0 +1,29 @@
+---
+// Breadcrumb trail + BreadcrumbList JSON-LD. The last item is the current
+// page and renders unlinked. Pass rtl on Arabic pages so the separator
+// chevrons point the direction of travel.
+interface Item { label: string; href?: string }
+interface Props { items: Item[]; rtl?: boolean }
+const { items, rtl = false } = Astro.props;
+
+const site = Astro.site ?? new URL("https://www.buyflightmiles.com");
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((it, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: it.label,
+    ...(it.href && { item: new URL(it.href, site).href }),
+  })),
+};
+---
+<nav class="crumbs" aria-label="Breadcrumb">
+  {items.map((it, i) => (
+    <>
+      {i > 0 && <span class="crumbs-sep" aria-hidden="true">{rtl ? "‹" : "›"}</span>}
+      {it.href ? <a href={it.href}>{it.label}</a> : <span aria-current="page">{it.label}</span>}
+    </>
+  ))}
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonld)} />

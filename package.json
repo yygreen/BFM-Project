@@ -5,10 +5,16 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/fetch-fx.mjs",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check:launch": "node scripts/launch-check.mjs",
+    "postbuild": "node scripts/check-redirects.mjs",
+    "audit:capture": "node scripts/migration-audit.mjs --capture",
+    "audit:verify": "node scripts/migration-audit.mjs --verify"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.0.7"
   }

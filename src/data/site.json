@@ -1,0 +1,119 @@
+{
+  "payments": {
+    "methods": [
+      "USDT",
+      "Bank wire",
+      "Cash"
+    ],
+    "usdtNetworks": [],
+    "minOrderUsd": null,
+    "cardAnswer": "",
+    "verified": false
+  },
+  "contact": {
+    "orderEmail": "info@buyflightmiles.com",
+    "agentEmail": "",
+    "web3formsKeyQuote": "",
+    "web3formsKeyAgents": "",
+    "turnstileSiteKey": "",
+    "whatsapp": "+1 908 718 1082",
+    "telegram": "",
+    "verified": true,
+    "phone": "855-345-3500"
+  },
+  "guarantee": {
+    "shortLabel": "escrow protection",
+    "summary": "Your payment is held until the miles land in your account.",
+    "policy": "Payment is held in escrow and released only when the miles arrive in your account within the quoted window. If they don't arrive, you're refunded in full.",
+    "verified": false,
+    "placeholder": false
+  },
+  "verification": {
+    "summary": "Before the full transfer we send a small test amount and ask you to confirm the exact figure that landed and when.",
+    "why": "It proves the account is yours without ever asking for a password, and it means nobody can have miles delivered into an account they only know the number of.",
+    "verified": false
+  },
+  "delivery": {
+    "howItWorks": "",
+    "verified": false
+  },
+  "partner": {
+    "qualifyText": "",
+    "verified": false
+  },
+  "benchmark": {
+    "directBuyCents": null,
+    "source": "",
+    "verified": false
+  },
+  "trust": {
+    "rating": {
+      "value": null,
+      "outOf": 5,
+      "source": "",
+      "reviewCount": null,
+      "verified": false
+    },
+    "transfersCompleted": {
+      "value": 10000,
+      "verified": true,
+      "placeholder": true
+    },
+    "milesDelivered": {
+      "value": 500000000,
+      "verified": true,
+      "placeholder": true
+    },
+    "completionRate": {
+      "value": 99.9,
+      "verified": false,
+      "placeholder": false
+    },
+    "accountLocks": {
+      "value": null,
+      "verified": false
+    },
+    "supportHours": {
+      "value": "",
+      "verified": false
+    },
+    "foundedYear": {
+      "value": 2016,
+      "verified": true,
+      "placeholder": true
+    }
+  },
+  "reviews": [
+    {
+      "platform": "Trustpilot",
+      "rating": 4.8,
+      "outOf": 5,
+      "count": 49,
+      "url": "https://www.trustpilot.com/review/buyflightmiles.com",
+      "verified": true,
+      "placeholder": true
+    },
+    {
+      "platform": "Google",
+      "rating": 2.6,
+      "outOf": 5,
+      "count": 41,
+      "url": "https://www.google.com/maps",
+      "verified": false,
+      "placeholder": false
+    }
+  ],
+  "trustpilot": {
+    "businessUnitId": "",
+    "templateId": "",
+    "domain": "",
+    "locale": "en-US",
+    "heightPx": 130,
+    "verified": false
+  },
+  "testimonials": [],
+  "flights": {
+    "savingsClaim": "Save up to 25% and more compared to the cash fare",
+    "verified": true
+  }
+}

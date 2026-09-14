@@ -1,0 +1,51 @@
+---
+// Calculator hub — the parent for the per-program calculator pages and the
+// landing for the head term "airline miles calculator".
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Emblem from "../../components/Emblem.astro";
+import { getCollection } from "astro:content";
+
+const airlines = (await getCollection("airlines"))
+  .map((e) => ({ slug: e.id, ...e.data }))
+  .sort((a, b) => a.airline.localeCompare(b.airline));
+---
+<Base
+  title="Airline Miles Calculator | Every Major Program | buyflightmiles"
+  description={`Calculate what airline miles are worth and what they cost to buy, for ${airlines.length} loyalty programs. Live rates, exact price confirmed before you pay.`}
+  slug="calculator"
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Calculators" },
+      ]} />
+      <div class="section-head">
+        <span class="kicker">Calculators</span>
+        <h1>Airline miles calculators</h1>
+        <p>
+          One per program, all running the same two live calculations: what the miles cost
+          to buy at our rate, and whether buying them beats the cash fare you found. Pick your
+          program.
+        </p>
+      </div>
+      <div class="grid">
+        {airlines.map((a) => (
+          <a class="gcard" href={`/calculator/${a.slug}`}>
+            <div class="top">
+              <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={46} />
+            </div>
+            <div class="pname">{a.airline}</div>
+            <div class="plabel">{a.program.replace(/\s*\(.*\)$/, "")} calculator</div>
+            <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{a.pricePerMile}¢ <small>/ mile</small></div>
+          </a>
+        ))}
+      </div>
+      <p class="cmp-note" style="margin-top:26px">
+        Figures marked with a tilde are indicative until confirmed in your quote — the quote
+        is always the binding number. Nothing is charged on this site.
+      </p>
+    </div>
+  </section>
+</Base>

@@ -7,23 +7,156 @@
     "alliance": "SkyTeam",
     "code": "DL",
     "color": "#9A1C33",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
-    "min": 25000,
+    "pricePerMile": 1.95,
+    "priceVerified": true,
+    "directBuy": {
+      "cents": 3.76,
+      "source": "Delta list price, 3.5¢ plus 7.5% US excise tax",
+      "checked": "August 2026",
+      "verified": true
+    },
+    "min": 50000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
-    "deliveryVerified": false,
-    "inStock": true,
-    "heroHeadline": "Buy Delta SkyMiles with precision.",
-    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within the day.",
+    "deliveryVerified": true,
+    "inStock": false,
+    "heroHeadline": "Buy Delta miles with precision.",
+    "heroHighlight": "Delta miles",
+    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within 24 hours.",
     "metaTitle": "Buy Delta SkyMiles | Fast, Secure Delivery | buyflightmiles",
-    "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, backed by our delivery guarantee.",
-    "related": ["ana", "eva-air"],
+    "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, your exact price confirmed before you pay.",
+    "related": [
+      "ana-mileage-club",
+      "eva-air-miles"
+    ],
     "sweetSpots": [
-      { "title": "Delta One to Europe", "desc": "Lie-flat business across the Atlantic, often for far less than the cash fare." },
-      { "title": "Virgin Atlantic & Air France-KLM", "desc": "Use SkyMiles on partner metal to reach more of Europe and beyond." },
-      { "title": "No change or cancellation fees", "desc": "Flexibility that makes SkyMiles useful for last-minute and shifting plans." }
-    ]
+      {
+        "title": "Delta One to Europe",
+        "desc": "Lie-flat business across the Atlantic; flash sales have dropped it to around 115,000 miles one way."
+      },
+      {
+        "title": "Virgin Atlantic & Air France-KLM",
+        "desc": "Use SkyMiles on partner metal to reach more of Europe and beyond."
+      },
+      {
+        "title": "No change or cancellation fees",
+        "desc": "Awards outside Delta Basic change and cancel free, with the miles redeposited."
+      }
+    ],
+    "logo": "/logos/delta-skymiles.svg",
+    "logoAlt": "Delta Air Lines logo",
+    "faqExtras": [
+      {
+        "q": "Does Delta publish an award chart?",
+        "a": "No. Delta removed its award chart in 2015 and every award, on Delta and on partners, prices dynamically with demand. The flash sales are where the value is: Delta One to Europe has dropped to around 115,000 miles one way in recent sales, against standard pricing that often runs far higher. When a sale lands on your route, price the shortfall with the calculator above."
+      },
+      {
+        "q": "Can I upgrade a Delta flight with miles?",
+        "a": "Yes. Delta offers mileage upgrades on paid Delta tickets during booking and afterwards in My Trips, priced dynamically per flight. Delta Basic fares are excluded and eligibility varies by route, so check that your ticket shows an upgrade offer first, then buy the miles the offer asks for."
+      },
+      {
+        "q": "Do Delta SkyMiles expire?",
+        "a": "No. SkyMiles never expire, with no activity requirement, for as long as your account stays open and in good standing. They're safe to hold between trips; with dynamic pricing, when you spend matters more than when you buy."
+      },
+      {
+        "q": "Are there blackout dates on Delta awards?",
+        "a": "No. If Delta sells a seat for cash it can be booked with miles, and award tickets other than Delta Basic change or cancel free with the miles redeposited. What moves is the price, which follows demand, so flexible dates buy the same seat for far fewer miles."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The flash sales are the program",
+        "text": "Standard Delta One pricing to Europe can run 170,000 to 360,000 miles one way, and periodic SkyMiles sales have dropped the same cabin to around 115,000. A top-up makes the most sense while a sale is live on your route."
+      },
+      {
+        "title": "No close-in or cancellation fees",
+        "text": "Award tickets outside Delta Basic change and cancel free with miles redeposited, and there are no close-in booking fees."
+      },
+      {
+        "title": "Card holders pay less on Delta metal",
+        "text": "Most Delta SkyMiles Amex cards take an automatic 15% off the mileage price of Delta-operated awards. It never applies to partner bookings."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "Never. No activity requirement while the account stays open"
+      },
+      {
+        "label": "Book with",
+        "text": "Delta + SkyTeam (Air France, KLM, Korean Air) plus Virgin Atlantic and LATAM"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Dynamic mileage offers on paid Delta tickets, Delta Basic excluded"
+      },
+      {
+        "label": "What we need",
+        "text": "SkyMiles number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026",
+    "i18n": {
+      "de": {
+        "metaTitle": "Delta Meilen kaufen | SkyMiles aufstocken",
+        "metaDescription": "SkyMiles kaufen und Delta One über den Atlantik einlösen. 1,95 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "SkyMiles kaufen und Delta One einlösen.",
+        "heroSub": "Stock dein SkyMiles-Konto auf und flieg im Flachbett über den Atlantik. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes SkyMiles-Konto. Die Prämie buchst du danach direkt bei Delta, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Delta One nach Europa",
+            "desc": "Flachbett-Business über den Atlantik. In den Flash Sales ist das schon für rund 115.000 Meilen einfach zu haben gewesen."
+          },
+          {
+            "title": "Virgin Atlantic und Air France-KLM",
+            "desc": "SkyMiles buchen auch Partnermaschinen, was mehr von Europa und darüber hinaus erreichbar macht."
+          },
+          {
+            "title": "Keine Umbuchungs- und Stornogebühren",
+            "desc": "Prämien außerhalb von Delta Basic lassen sich kostenlos ändern und stornieren, die Meilen kommen zurück aufs Konto."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten SkyMiles?",
+            "a": "1,95 Cent pro Meile, also 19,50 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 24 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein SkyMiles-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich SkyMiles am meisten?",
+            "a": "Für Delta One in den Flash Sales: Delta preist Prämien dynamisch, und die regelmäßigen Aktionen sind der Moment, in dem ein aufgestocktes Konto wirklich arbeitet. Dazu kommen kostenlose Änderung und Storno außerhalb von Delta Basic."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "united-mileageplus",
@@ -33,23 +166,157 @@
     "alliance": "Star Alliance",
     "code": "UA",
     "color": "#1A3E7E",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
-    "min": 25000,
+    "pricePerMile": 2,
+    "priceVerified": true,
+    "directBuy": {
+      "cents": 3.76,
+      "source": "United list price, 3.5¢ plus 7.5% US excise tax",
+      "checked": "August 2026",
+      "verified": true
+    },
+    "min": 80000,
     "max": 500000,
-    "delivery": "Within 24 hours",
-    "deliveryVerified": false,
+    "limitsVerified": true,
+    "delivery": "Within 72 hours",
+    "deliveryVerified": true,
     "inStock": true,
-    "heroHeadline": "Buy United MileagePlus miles.",
+    "heroHeadline": "Buy United miles for MileagePlus.",
+    "heroHighlight": "United miles",
     "heroSub": "Close the gap on a Polaris redemption. Buy the MileagePlus miles you need at a fraction of the price, delivered fast.",
-    "metaTitle": "Buy United MileagePlus Miles | Secure Delivery | buyflightmiles",
-    "metaDescription": "Buy United MileagePlus miles at a fraction of the price. Secure, guaranteed transfer delivered within 24 hours.",
-    "related": ["ana", "krisflyer"],
+    "metaTitle": "Buy United Miles | MileagePlus Top-Ups | buyflightmiles",
+    "metaDescription": "Buy United MileagePlus miles at a fraction of the price. Secure transfer delivered within 72 hours, your exact rate confirmed before you pay.",
+    "related": [
+      "ana-mileage-club",
+      "singapore-krisflyer"
+    ],
     "sweetSpots": [
-      { "title": "Polaris business to Europe & Asia", "desc": "United's lie-flat Polaris cabin is a standout on long-haul routes." },
-      { "title": "Star Alliance partners", "desc": "Book ANA, Lufthansa, Swiss and more premium cabins with your miles." },
-      { "title": "Excursionist Perk", "desc": "Add a free one-way inside a round-trip award for extra value." }
-    ]
+      {
+        "title": "Star Alliance business to Europe",
+        "miles": 80000,
+        "desc": "Lufthansa, SWISS or Turkish at the partner saver level, one way; United cut it from 88,000 in 2025."
+      },
+      {
+        "title": "Polaris business to Europe & Asia",
+        "desc": "United's lie-flat Polaris cabin is a standout on long-haul routes."
+      },
+      {
+        "title": "No fuel surcharges",
+        "desc": "United never passes carrier surcharges on partner awards, Lufthansa and ANA included, which keeps the cash side small."
+      }
+    ],
+    "logo": "/logos/united-mileageplus.svg",
+    "logoAlt": "United Airlines logo",
+    "faqExtras": [
+      {
+        "q": "Does United publish an award chart?",
+        "a": "Not since 2019, but Star Alliance partner awards still hold near-fixed saver levels, and United actually cut them in 2025: business to Europe on Lufthansa, SWISS or Turkish runs 80,000 miles one way, down from 88,000. United's own flights price dynamically. Find your route's level, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Can I upgrade a United flight with miles?",
+        "a": "Yes. Upgrade awards apply to eligible paid United tickets and have priced dynamically since late 2025; members without status typically add a cash co-pay, and Basic Economy fares are excluded. Check the upgrade offer on your reservation first, then buy the miles it asks for."
+      },
+      {
+        "q": "Do United miles expire?",
+        "a": "No. MileagePlus miles haven't expired since 2019, with no activity requirement while your account stays open."
+      },
+      {
+        "q": "Does United charge fuel surcharges on awards?",
+        "a": "No, on no partner. United never passes carrier surcharges on award bookings, Lufthansa and ANA included, which can keep several hundred dollars off the cash side of a partner business award compared with programs that do."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Partner awards kept their levels",
+        "text": "United metal prices dynamically, but Star Alliance saver awards sit at near-fixed levels, and the 2025 change moved Europe business down to 80,000, a rare cut."
+      },
+      {
+        "title": "The Excursionist Perk is gone",
+        "text": "The free one-way inside a round-trip award ended for new bookings in August 2025. Older tickets keep it, but any voluntary change reprices without it."
+      },
+      {
+        "title": "JetBlue joined the map",
+        "text": "The Blue Sky partnership made JetBlue bookable with MileagePlus miles from October 2025, alongside Aer Lingus and Virgin Australia outside the alliance."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "Never. No activity requirement while the account stays open"
+      },
+      {
+        "label": "Book with",
+        "text": "United + Star Alliance (Lufthansa, ANA, SWISS) plus Aer Lingus and JetBlue"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Dynamic upgrade awards on paid tickets, Basic Economy excluded"
+      },
+      {
+        "label": "What we need",
+        "text": "MileagePlus number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026",
+    "i18n": {
+      "de": {
+        "metaTitle": "United Meilen kaufen | MileagePlus aufstocken",
+        "metaDescription": "MileagePlus Meilen kaufen für Star-Alliance-Business ohne Treibstoffzuschläge. 2 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "MileagePlus Meilen kaufen und die Star Alliance buchen.",
+        "heroSub": "Stock dein MileagePlus-Konto auf und flieg Lufthansa, SWISS oder Polaris in Business, ohne Treibstoffzuschläge auf Partnerprämien. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes MileagePlus-Konto. Die Prämie buchst du danach direkt bei United, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Star-Alliance-Business nach Europa",
+            "desc": "Lufthansa, SWISS oder Turkish auf dem Partner-Saver-Level ab 80.000 Meilen einfach. United hat das Level 2025 von 88.000 gesenkt."
+          },
+          {
+            "title": "Polaris nach Europa und Asien",
+            "desc": "Uniteds Flachbett-Kabine Polaris gehört auf der Langstrecke zu den Stärken des Programms."
+          },
+          {
+            "title": "Keine Treibstoffzuschläge",
+            "desc": "United reicht auf Partnerprämien keine Zuschläge weiter, auch nicht bei Lufthansa oder ANA. Das hält den Baranteil klein."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten MileagePlus-Meilen?",
+            "a": "2 Cent pro Meile, also 20 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 72 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein MileagePlus-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich MileagePlus-Meilen am meisten?",
+            "a": "Für Star-Alliance-Business ohne Treibstoffzuschläge: dieselbe Lufthansa-Prämie kostet über MileagePlus oft hunderte Dollar weniger an Gebühren als über europäische Programme. Partnerprämien behalten feste Level, während United selbst dynamisch preist."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "american-aadvantage",
@@ -61,129 +328,769 @@
     "color": "#0B5CA5",
     "pricePerMile": 1.9,
     "priceVerified": false,
-    "min": 25000,
+    "min": 50000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy American AAdvantage miles.",
+    "heroHeadline": "Buy American Airlines miles for AAdvantage.",
+    "heroHighlight": "American Airlines miles",
     "heroSub": "Top up AAdvantage and unlock Flagship business for less. Secure transfer, delivered to your account within the day.",
-    "metaTitle": "Buy American AAdvantage Miles | Secure Delivery | buyflightmiles",
+    "metaTitle": "Buy American Airlines Miles | AA AAdvantage | buyflightmiles",
     "metaDescription": "Buy American Airlines AAdvantage miles at a fraction of the price. Secure, guaranteed delivery within 24 hours.",
-    "related": ["qatar-avios", "ba-avios"],
+    "related": [
+      "qatar-avios",
+      "british-airways-avios"
+    ],
     "sweetSpots": [
-      { "title": "Flagship Business", "desc": "American's premium long-haul cabin to Europe and Asia at saver rates." },
-      { "title": "Qatar Qsuite & Japan Airlines", "desc": "AAdvantage unlocks some of the best partner business class in the world." },
-      { "title": "Partner award value", "desc": "Web-only partner pricing can beat buying those miles elsewhere." }
-    ]
+      {
+        "title": "Business to Europe on the partner chart",
+        "miles": 57500,
+        "desc": "One way at the published saver level on oneworld carriers like Finnair and Iberia."
+      },
+      {
+        "title": "Flagship Business",
+        "desc": "American's premium long-haul cabin to Europe and Asia; Web Special fares sometimes dip below saver levels."
+      },
+      {
+        "title": "Qatar Qsuite & Japan Airlines",
+        "desc": "AAdvantage unlocks some of the best partner business class in the world."
+      }
+    ],
+    "logo": "/logos/american-aadvantage.svg",
+    "logoAlt": "American Airlines logo",
+    "faqExtras": [
+      {
+        "q": "Does American publish an award chart?",
+        "a": "For partners, yes, and it's the last one among the US majors: oneworld partner awards follow a published region chart, with business to Europe at 57,500 miles one way on carriers like Finnair and Iberia. American's own flights price dynamically, with Web Specials that sometimes dip below saver. Find your award's level, then price the exact shortfall with the calculator above."
+      },
+      {
+        "q": "Can I upgrade an American Airlines flight with miles?",
+        "a": "Yes, through dynamically priced upgrade offers shown on your reservation after ticketing; the old fixed chart of miles plus co-pay retired in August 2025. Basic Economy, award tickets and codeshares are excluded. Check that your flight shows an offer first, then buy the miles it needs."
+      },
+      {
+        "q": "Do AAdvantage miles expire?",
+        "a": "After 24 months without activity, and American is the only big US program where that's still true. Any earning or redemption on American or any AAdvantage partner resets the clock for the full balance, cardholders and members under 21 are exempt, and expired miles can be reactivated for a fee. One small partner transaction every two years keeps everything alive."
+      },
+      {
+        "q": "Do American awards have fuel surcharges?",
+        "a": "Only on British Airways and some Iberia flights, where they can add hundreds of dollars. Qatar, Japan Airlines, Cathay Pacific and the rest of the partner roster carry modest taxes only, a real advantage over booking the same seats through other programs."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The last partner chart standing",
+        "text": "American is the only US major still publishing a partner award chart, which makes budgeting a top-up unusually predictable: the chart says the number, the calculator prices it."
+      },
+      {
+        "title": "Web Specials undercut saver",
+        "text": "Dynamic Web Special awards on American's own flights regularly drop below chart levels, though they typically can't be changed."
+      },
+      {
+        "title": "The 24-month clock has an easy reset",
+        "text": "AAdvantage miles lapse after 24 idle months, and any single partner transaction, however small, resets the whole balance."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "24 months of inactivity; any earn or redemption resets the full balance"
+      },
+      {
+        "label": "Book with",
+        "text": "American + Oneworld (Qatar, JAL, Cathay, BA) plus Etihad and more"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Dynamic upgrade offers on paid tickets, Basic Economy excluded"
+      },
+      {
+        "label": "What we need",
+        "text": "AAdvantage number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
   },
   {
-    "id": "krisflyer",
+    "id": "singapore-krisflyer",
     "order": 4,
     "program": "KrisFlyer",
     "airline": "Singapore Airlines",
     "alliance": "Star Alliance",
     "code": "SQ",
     "color": "#1B2A5B",
-    "pricePerMile": 1.8,
+    "pricePerMile": 2.2,
     "priceVerified": true,
-    "min": 25000,
+    "directBuy": {
+      "cents": 5,
+      "source": "Singapore Airlines top-up price, about US$40 per 1,000 miles",
+      "checked": "August 2026",
+      "verified": true
+    },
+    "min": 80000,
     "max": 500000,
-    "delivery": "Within 24 hours",
+    "limitsVerified": true,
+    "delivery": "Within 72 hours",
     "deliveryVerified": true,
     "inStock": true,
-    "heroHeadline": "Buy Singapore KrisFlyer miles.",
+    "heroHeadline": "Buy KrisFlyer miles for Singapore Airlines.",
+    "heroHighlight": "KrisFlyer miles",
     "heroSub": "Fly Singapore Suites and Business on one of the world's best airlines. Buy the KrisFlyer miles you're short, delivered fast.",
     "metaTitle": "Buy Singapore KrisFlyer Miles | buyflightmiles",
-    "metaDescription": "Buy Singapore Airlines KrisFlyer miles from 1.8¢. Secure transfer, delivered within 24 hours, delivery guaranteed.",
-    "related": ["ana", "eva-air"],
+    "metaDescription": "Buy Singapore Airlines KrisFlyer miles at 2.2¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
+    "related": [
+      "ana-mileage-club",
+      "eva-air-miles"
+    ],
     "sweetSpots": [
-      { "title": "Singapore Suites & Business", "desc": "KrisFlyer is the only way to book Singapore's own premium cabins with miles." },
-      { "title": "Saver awards worldwide", "desc": "Strong value to Europe, Asia and the US on Singapore metal." },
-      { "title": "Star Alliance partners", "desc": "Extend your reach with partner redemptions across the alliance." }
-    ]
+      {
+        "title": "Business Saver, Singapore to London",
+        "miles": 108500,
+        "desc": "One way on the current Saver chart, in one of the most praised business cabins flying."
+      },
+      {
+        "title": "Singapore Suites & Business",
+        "desc": "KrisFlyer is the only reliable way to book Singapore's own premium cabins with miles."
+      },
+      {
+        "title": "Star Alliance partners",
+        "desc": "Extend your reach with partner redemptions across the alliance."
+      }
+    ],
+    "logo": "/logos/krisflyer.svg",
+    "logoAlt": "Singapore Airlines logo",
+    "faqExtras": [
+      {
+        "q": "Does KrisFlyer publish an award chart?",
+        "a": "Yes, two tiers: Saver, capacity-controlled at the lowest rates, and Advantage, pricier with far better availability. Business Saver from Singapore to London is 108,500 miles one way on the current chart. A dynamic Access award type arrived in late 2025 that can book any seat on sale, at rates that rarely beat Saver. Treat Saver as the benchmark and price your shortfall with the calculator above."
+      },
+      {
+        "q": "Do KrisFlyer miles expire?",
+        "a": "Yes, and the rule is hard: each batch expires 36 months after it was earned, and account activity doesn't extend it. A one-time paid extension of six months exists per batch, twelve for elites. Buy for an award you can name, book it, and expiry never matters."
+      },
+      {
+        "q": "Can I upgrade a Singapore Airlines flight with miles?",
+        "a": "Yes, from a dedicated upgrade chart, one cabin up, but only from eligible booking classes: Economy Standard and Flexi qualify, Economy Lite and Value don't. Check your fare class first, then buy the miles the upgrade chart asks for."
+      },
+      {
+        "q": "Can I book Singapore Suites with KrisFlyer miles?",
+        "a": "Yes, and KrisFlyer is essentially the only way in: Singapore Airlines holds its long-haul First, Suites and much of its Business Saver space back from partner programs. If the seat you want is on Singapore metal, these are the miles that book it."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The waitlist still exists",
+        "text": "Saver and Advantage awards on Singapore's own flights can be waitlisted with the full miles balance in account; the list closes inside 14 days of departure and cleared seats give about 72 hours to ticket. Partner flights can't be waitlisted."
+      },
+      {
+        "title": "36 months, batch by batch",
+        "text": "Each month's earned miles expire on their own 36-month clock regardless of account activity, so large balances need burning or extending on schedule."
+      },
+      {
+        "title": "Access awards are convenience, Saver is value",
+        "text": "The dynamic Access type introduced in late 2025 books any commercial seat but rarely beats the Saver chart on price."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months per batch, hard; one-time paid extension only"
+      },
+      {
+        "label": "Book with",
+        "text": "Singapore Airlines + Star Alliance plus Alaska and Virgin Australia"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Upgrade chart, one cabin; Standard and Flexi economy fares only"
+      },
+      {
+        "label": "What we need",
+        "text": "KrisFlyer number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026",
+    "i18n": {
+      "de": {
+        "metaTitle": "Singapore Airlines Meilen kaufen | KrisFlyer",
+        "metaDescription": "KrisFlyer Meilen kaufen für Singapore Suites und Business. 2,2 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "KrisFlyer Meilen kaufen und die Suites einlösen.",
+        "heroSub": "Stock dein KrisFlyer-Konto auf und löse Singapores eigene Premiumkabinen ein. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes KrisFlyer-Konto. Die Prämie buchst du danach direkt bei Singapore Airlines, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Business Saver, Singapur nach London",
+            "desc": "Einfach ab 108.500 Meilen auf der aktuellen Saver-Tabelle, in einer der meistgelobten Business-Kabinen überhaupt."
+          },
+          {
+            "title": "Suites und Business bei Singapore",
+            "desc": "KrisFlyer ist der einzige verlässliche Weg, Singapores eigene Premiumkabinen mit Meilen zu buchen."
+          },
+          {
+            "title": "Star-Alliance-Partner",
+            "desc": "Partnerprämien quer durch die Allianz erweitern die Reichweite des Kontos."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten KrisFlyer-Meilen?",
+            "a": "2,2 Cent pro Meile, also 22 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 72 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein KrisFlyer-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen KrisFlyer-Meilen?",
+            "a": "Zum Ende des 36. Monats nach dem Sammeln, Tranche für Tranche und unabhängig von Kontoaktivität. Eine kostenpflichtige Verlängerung um sechs Monate wird angeboten. Kauf also mit Blick auf eine konkrete Buchung."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    }
   },
   {
     "id": "qatar-avios",
     "order": 5,
     "program": "Avios (Privilege Club)",
+    "accountLabel": "Privilege Club membership number",
     "airline": "Qatar Airways",
     "alliance": "Oneworld",
     "code": "QR",
     "color": "#5C0632",
     "pricePerMile": 1.8,
     "priceVerified": true,
-    "min": 25000,
+    "min": 10000,
     "max": 500000,
+    "limitsVerified": true,
     "delivery": "Within 24 hours",
     "deliveryVerified": true,
     "inStock": true,
-    "heroHeadline": "Buy Qatar Airways Avios.",
+    "heroHeadline": "Buy Qatar Avios and fly Qsuite.",
+    "heroHighlight": "Qatar Avios",
     "heroSub": "Book Qsuite — one of the best business classes in the sky — for less. Buy Qatar Avios and complete your redemption within the day.",
     "metaTitle": "Buy Qatar Airways Avios | Qsuite Redemptions | buyflightmiles",
     "metaDescription": "Buy Qatar Airways Avios from 1.8¢ and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
-    "related": ["ba-avios", "american-aadvantage"],
+    "related": [
+      "iberia-avios",
+      "british-airways-avios",
+      "american-aadvantage"
+    ],
     "sweetSpots": [
-      { "title": "Qsuite business class", "desc": "One of the best business classes flying — bookable with Qatar Avios." },
-      { "title": "Short-haul & partner awards", "desc": "Efficient pricing on Oneworld partners and regional routes." },
-      { "title": "Off-peak savings", "desc": "Select dates price lower, stretching your Avios further." }
-    ]
+      {
+        "title": "Qsuite to Doha",
+        "miles": 70000,
+        "desc": "The business class other airlines get measured against: a door, a double bed if you want one, dine on demand. One-way from the US East Coast typically prices from around 70,000 Avios."
+      },
+      {
+        "title": "Onward to the Maldives and Southeast Asia",
+        "desc": "Doha is a one-stop hub to the Indian Ocean and half of Asia, so a single award often covers the whole honeymoon leg. Availability is best booked early and midweek."
+      },
+      {
+        "title": "Oneworld partner awards",
+        "desc": "Avios also book American, British Airways, Cathay Pacific, Japan Airlines and the rest of Oneworld when Qatar's own cabins are sold out."
+      }
+    ],
+    "logo": "/logos/qatar-avios.svg",
+    "logoAlt": "Qatar Airways logo",
+    "valueBands": {
+      "excellent": [
+        "Qsuite long-haul business, especially US routes to Doha and onward connections",
+        "Premium cabins to the Maldives, Seychelles and Southeast Asia via Doha"
+      ],
+      "good": [
+        "Long-haul economy when cash fares run high",
+        "Short Oneworld partner hops at off-peak pricing"
+      ],
+      "skip": [
+        "Economy seats you could buy cheaply with cash",
+        "Any itinerary where the taxes and fees at checkout approach the cash fare"
+      ]
+    },
+    "quirks": [
+      {
+        "title": "QMiles don't exist any more",
+        "text": "Qatar retired QMiles in 2022 and moved Privilege Club onto Avios. Older guides still talk about QMiles; every balance was converted, and Avios is the only currency you'll deal with today."
+      },
+      {
+        "title": "Your Avios aren't locked to Qatar",
+        "text": "Link Privilege Club with British Airways, Iberia or Finnair and Avios move between them 1:1, instantly, in both directions. Worth comparing our BA rate before you buy: the cheaper of the two funds the same redemption."
+      },
+      {
+        "title": "The miles are only part of the price",
+        "text": "Award bookings add taxes, fees and carrier charges in cash at checkout. On most Qatar redemptions they're reasonable, but check the full total before you top up. We quote the miles; the airline bills the extras."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months of no activity; any earn or spend resets the balance"
+      },
+      {
+        "label": "Book with",
+        "text": "Qatar Airways + Oneworld (AA, BA, Cathay, JAL and more)"
+      },
+      {
+        "label": "Transfers in",
+        "text": "1:1 instant from linked BA, Iberia and Finnair accounts"
+      },
+      {
+        "label": "What we need",
+        "text": "Privilege Club number and account name. Never your password"
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Is Avios the same as QMiles?",
+        "a": "Yes. Qatar Airways retired QMiles in 2022 and converted every balance to Avios, the same currency British Airways, Iberia and Finnair use. Anything you read about QMiles applies to Avios now."
+      },
+      {
+        "q": "Can I move Qatar Avios to British Airways?",
+        "a": "Yes. Link your Privilege Club and BA Executive Club accounts and Avios transfer 1:1, instantly, in both directions. That also means it's worth comparing our Qatar and BA rates and buying whichever is cheaper."
+      },
+      {
+        "q": "Do Qatar Avios expire?",
+        "a": "After 36 months without any account activity. A single earn or spend of any size resets the clock on the entire balance."
+      }
+    ],
+    "factsChecked": "August 2026",
+    "i18n": {
+      "ar": {
+        "metaTitle": "شراء أفيوس الخطوط الجوية القطرية (نادي الامتياز) بسعر 1.8 سنت",
+        "metaDescription": "اشترِ أفيوس نادي الامتياز من الخطوط الجوية القطرية بسعر 1.8 سنت للميل. نؤكد سعرك النهائي قبل الدفع، وتصل الأميال إلى حسابك خلال 24 ساعة.",
+        "heroHeadline": "اشترِ أفيوس الخطوط الجوية القطرية",
+        "heroSub": "عزّز رصيدك في نادي الامتياز واحجز مقاعد كيو سويت بجزء من السعر النقدي. نؤكد لك السعر النهائي قبل أن تدفع، وتصل الأميال خلال 24 ساعة.",
+        "steps": [
+          {
+            "title": "اختر الكمية",
+            "text": "حدّد عدد الأميال التي تحتاجها لحجزك."
+          },
+          {
+            "title": "اطلب عرض السعر",
+            "text": "أرسل الطلب ونؤكد لك السعر النهائي قبل أي دفع."
+          },
+          {
+            "title": "ادفع خارج الموقع",
+            "text": "لا يُحصَّل أي مبلغ على هذا الموقع — الدفع يتم بعد موافقتك على العرض."
+          },
+          {
+            "title": "تصل الأميال",
+            "text": "تُضاف الأميال إلى حساب نادي الامتياز خلال 24 ساعة."
+          }
+        ],
+        "points": [
+          "السعر 1.8 سنت لكل ميل، ويُؤكَّد قبل الدفع",
+          "التسليم إلى حساب نادي الامتياز خلال 24 ساعة",
+          "لا نطلب كلمة المرور أبداً — رقم العضوية واسم الحساب فقط",
+          "أفيوس قطر تُستخدم أيضاً للحجز على شركات تحالف ون وورلد"
+        ],
+        "faq": [
+          {
+            "q": "كم تكلفة شراء أفيوس الخطوط القطرية؟",
+            "a": "السعر الحالي 1.8 سنت لكل ميل، أي نحو 18 دولاراً لكل 1,000 أفيوس. نؤكد لك السعر النهائي في عرض السعر قبل أي دفع."
+          },
+          {
+            "q": "متى تصل الأميال إلى حسابي؟",
+            "a": "خلال 24 ساعة من إتمام الدفع في معظم الطلبات."
+          },
+          {
+            "q": "ما الذي تحتاجونه مني؟",
+            "a": "رقم عضويتك في نادي الامتياز واسم الحساب فقط. لن نطلب كلمة المرور أبداً."
+          }
+        ],
+        "ctaLabel": "اطلب عرض السعر",
+        "reviewed": false,
+        "flag": "🇶🇦",
+        "currency": "QAR",
+        "uses": [
+          {
+            "title": "كيو سويت إلى الدوحة",
+            "desc": "درجة رجال الأعمال التي تُقاس بها الشركات الأخرى: باب خاص، وسرير مزدوج إن أردت، وخدمة طعام عند الطلب. الرحلة من الساحل الشرقي الأمريكي تبدأ عادةً من نحو 70,000 أفيوس."
+          },
+          {
+            "title": "المتابعة إلى المالديف وجنوب شرق آسيا",
+            "desc": "الدوحة محطة واحدة إلى المحيط الهندي ونصف آسيا، فتغطي مكافأة واحدة الرحلة كاملة غالباً. الحجز المبكر ومنتصف الأسبوع يعطيان أفضل توفر."
+          },
+          {
+            "title": "مكافآت شركاء ون وورلد",
+            "desc": "الأفيوس تحجز أيضاً على أمريكان وبريتيش إيرويز وكاثي باسيفيك واليابانية وبقية تحالف ون وورلد."
+          }
+        ]
+      }
+    }
   },
   {
-    "id": "ana",
+    "id": "ana-mileage-club",
     "order": 6,
     "program": "Mileage Club",
+    "accountLabel": "ANA Mileage Club number",
     "airline": "ANA",
     "alliance": "Star Alliance",
     "code": "NH",
     "color": "#13448F",
     "pricePerMile": 1.9,
     "priceVerified": true,
-    "min": 25000,
+    "min": 50000,
     "max": 500000,
+    "limitsVerified": false,
     "delivery": "Within 72 hours",
     "deliveryVerified": true,
-    "inStock": true,
-    "heroHeadline": "Buy ANA Mileage Club miles.",
+    "inStock": false,
+    "heroHeadline": "Buy ANA miles for Mileage Club.",
+    "heroHighlight": "ANA miles",
     "heroSub": "ANA's award chart is one of the best-value routes to first and business class. Buy the miles you need, delivered securely.",
     "metaTitle": "Buy ANA Mileage Club Miles | buyflightmiles",
-    "metaDescription": "Buy ANA Mileage Club miles from 1.9¢. Secure transfer, delivered within 72 hours, backed by our delivery guarantee.",
-    "related": ["krisflyer", "united-mileageplus"],
+    "metaDescription": "Buy ANA Mileage Club miles from 1.9¢. Secure transfer, delivered within 72 hours, your exact price confirmed before you pay.",
+    "related": [
+      "singapore-krisflyer",
+      "united-mileageplus"
+    ],
     "sweetSpots": [
-      { "title": "Round-the-world business", "desc": "ANA's round-the-world award is one of the best-value premium tickets in miles." },
-      { "title": "Business to Japan & Europe", "desc": "Low rates on ANA metal make long-haul business attainable." },
-      { "title": "Star Alliance partners", "desc": "Book premium cabins across the alliance with Mileage Club miles." }
-    ]
+      {
+        "title": "Business to North America",
+        "miles": 65000,
+        "desc": "Tokyo to the US one way at the Regular season chart rate; Low season drops to 50,000."
+      },
+      {
+        "title": "Business to Japan & Europe",
+        "desc": "Low chart rates on ANA metal make long-haul business attainable."
+      },
+      {
+        "title": "Star Alliance partners",
+        "desc": "Book premium cabins across the alliance with Mileage Club miles."
+      }
+    ],
+    "logo": "/logos/ana.svg",
+    "logoAlt": "ANA logo",
+    "faqExtras": [
+      {
+        "q": "Does ANA publish an award chart?",
+        "a": "Yes, one of the last fixed charts among the majors, with Low, Regular and High seasons. Business class Tokyo to North America runs 50,000 to 82,500 miles one way depending on season, 65,000 at Regular, and since June 2025 one-way awards book at half the round-trip rate. Find your season and route, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Do ANA miles expire?",
+        "a": "36 months after earning, hard, with no activity reset. The practical answer is to buy for a booking you're ready to make: miles that arrive and get spent never meet the deadline."
+      },
+      {
+        "q": "Can I upgrade an ANA flight with miles?",
+        "a": "Yes. Upgrade awards move eligible paid fares one cabin up: booking classes Y, B, M and U qualify, plus H on trips starting outside Japan, and there's no direct economy-to-First jump. Check your fare class, then buy the miles the upgrade needs."
+      },
+      {
+        "q": "Can I book one-way awards with ANA miles?",
+        "a": "Yes, since June 2025, at exactly half the round-trip price. The old round-trip-only rule is gone, which finally makes topping up for a single long-haul leg practical. The round-the-world award retired in the same overhaul."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The season calendar moves the price",
+        "text": "The same seat swings up to about 65% in miles between Low and High season on ANA's published calendar; Low and Regular dates are where the chart's reputation for value lives."
+      },
+      {
+        "title": "One-ways are new, the RTW award is gone",
+        "text": "The June 2025 overhaul introduced one-way awards at half the round-trip rate and eliminated the famous round-the-world chart in the same stroke."
+      },
+      {
+        "title": "Still a fixed chart in 2026",
+        "text": "ANA has kept published charts while most rivals went dynamic, so the number you budget against is the number you pay, season permitting."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months from earning, hard; no activity reset"
+      },
+      {
+        "label": "Book with",
+        "text": "ANA + Star Alliance (United, Lufthansa, Singapore) and select partners"
+      },
+      {
+        "label": "Upgrades",
+        "text": "One cabin up on Y, B, M and U fares; H qualifies ex-Japan"
+      },
+      {
+        "label": "What we need",
+        "text": "ANA Mileage Club number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
   },
   {
-    "id": "ba-avios",
+    "id": "british-airways-avios",
     "order": 7,
-    "program": "Avios (Executive Club)",
+    "program": "Avios (The British Airways Club)",
+    "accountLabel": "British Airways Club membership number",
     "airline": "British Airways",
     "alliance": "Oneworld",
     "code": "BA",
     "color": "#1D4E89",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
-    "min": 25000,
+    "pricePerMile": 1.75,
+    "priceVerified": true,
+    "min": 80000,
     "max": 500000,
+    "limitsVerified": true,
     "delivery": "Within 24 hours",
-    "deliveryVerified": false,
+    "deliveryVerified": true,
     "inStock": true,
-    "heroHeadline": "Buy British Airways Avios.",
+    "heroHeadline": "Buy Avios for British Airways.",
+    "heroHighlight": "Avios",
     "heroSub": "Great for short-haul sweet spots and premium long-haul. Buy the Avios you're short and book the seat you want.",
     "metaTitle": "Buy British Airways Avios | buyflightmiles",
     "metaDescription": "Buy British Airways Avios at a fraction of the price. Secure, guaranteed transfer delivered fast.",
-    "related": ["qatar-avios", "american-aadvantage"],
+    "related": [
+      "iberia-avios",
+      "qatar-avios",
+      "american-aadvantage"
+    ],
     "sweetSpots": [
-      { "title": "Reward Flight Saver (short-haul)", "desc": "Low Avios and capped fees make short hops excellent value." },
-      { "title": "Off-peak Club World", "desc": "Long-haul business for fewer Avios on off-peak dates." },
-      { "title": "Oneworld partners", "desc": "Qatar, Japan Airlines and Cathay open up with Avios." }
-    ]
+      {
+        "title": "Off-peak Club World",
+        "miles": 88000,
+        "desc": "London to New York one way at the off-peak level on the current chart."
+      },
+      {
+        "title": "Reward Flight Saver (short-haul)",
+        "desc": "Low Avios and capped fees make short hops excellent value."
+      },
+      {
+        "title": "Oneworld partners",
+        "desc": "Qatar, Japan Airlines and Cathay open up with Avios, usually with far lower fees than BA's own long-haul flights."
+      }
+    ],
+    "logo": "/logos/british-airways-avios.svg",
+    "logoAlt": "British Airways logo",
+    "faqExtras": [
+      {
+        "q": "Does British Airways publish an award chart?",
+        "a": "Yes, by distance, with peak and off-peak dates on BA's own flights. Club World business from London to New York is 88,000 Avios off-peak one way after the December 2025 changes, and short-haul starts around 4,000 Avios. Find your route's band, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Can I upgrade a British Airways flight with Avios?",
+        "a": "Yes, one cabin up, subject to reward availability, and every fare qualifies except the cheapest economy classes (Q, O and G) and package fares. The classic move is Premium Economy to Club World, which any Premium Economy fare can make."
+      },
+      {
+        "q": "Do Avios expire?",
+        "a": "Only after 36 months of total inactivity, and any single earn, spend, purchase or share resets the whole balance. Lapsed Avios can even be reinstated within about three months. In practice, an account that books anything stays alive indefinitely."
+      },
+      {
+        "q": "What happened to the Executive Club?",
+        "a": "It was renamed: since April 2025 the programme is The British Airways Club. Your Avios, your membership number and the distance-based award pricing all carried over, and this page's rate and delivery window refer to that same account."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "BA metal carries the fees",
+        "text": "BA's own long-haul awards add heavy carrier surcharges, around $410 one way transatlantic after the December 2025 rise. The same Avios on Qatar, Iberia or Aer Lingus attract far lower fees."
+      },
+      {
+        "title": "Avios move between programs",
+        "text": "Balances transfer 1:1 and instantly between BA, Iberia, Qatar Airways Privilege Club, Finnair and Aer Lingus, so Avios bought here can be spent from whichever program prices your award best."
+      },
+      {
+        "title": "Short-haul is the other sweet spot",
+        "text": "Distance pricing makes short oneworld hops and BA's own Reward Flight Saver seats, from about 4,000 Avios with capped fees, some of the cheapest awards anywhere."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months of inactivity; any activity resets the balance"
+      },
+      {
+        "label": "Book with",
+        "text": "British Airways + Oneworld (Qatar, JAL, Cathay, Iberia) and Aer Lingus"
+      },
+      {
+        "label": "Upgrades",
+        "text": "One cabin with Avios; cheapest economy fares excluded"
+      },
+      {
+        "label": "What we need",
+        "text": "British Airways Club membership number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
   },
   {
-    "id": "eva-air",
+    "id": "iberia-avios",
     "order": 8,
+    "program": "Avios (Iberia Club)",
+    "airline": "Iberia",
+    "alliance": "Oneworld",
+    "code": "IB",
+    "color": "#DA1C2D",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 24 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "accountLabel": "Iberia Club membership number",
+    "heroHeadline": "Buy Avios for Iberia.",
+    "heroHighlight": "Avios",
+    "heroSub": "The same Avios as British Airways and Qatar, spent from the programme that charges less to fly the Atlantic. Buy the shortfall and book the seat.",
+    "metaTitle": "Buy Iberia Avios | Iberia Club | buyflightmiles",
+    "metaDescription": "Buy Iberia Avios and book Iberia's own transatlantic business class with low surcharges. Quoted before you pay, delivered into your own Iberia Club account.",
+    "related": [
+      "british-airways-avios",
+      "qatar-avios"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Madrid to North America in business",
+        "miles": 40500,
+        "desc": "Iberia's own metal from Madrid is one of the cheapest ways across the Atlantic in a flat bed, and the cash surcharges are a fraction of what British Airways adds on the same route. Off-peak one way; peak dates price higher."
+      },
+      {
+        "title": "Short hops inside Spain",
+        "desc": "Distance pricing makes domestic and short European segments some of the least expensive awards anywhere in the Avios world."
+      },
+      {
+        "title": "Oneworld partner awards",
+        "desc": "American, British Airways, Qatar, Japan Airlines and the rest of Oneworld are all bookable from an Iberia Club balance."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The programme has been renamed twice",
+        "text": "Iberia Plus became Club Iberia Plus in April 2025 and is now Iberia Club. Your Avios, your membership number and your balance carried across every rename. Older guides still say Iberia Plus, and they mean this programme."
+      },
+      {
+        "title": "This is where the low fees live",
+        "text": "Avios are one currency across British Airways, Iberia, Qatar, Finnair, Aer Lingus, Vueling and Loganair, but each programme sets its own cash surcharges. Iberia's are consistently among the lowest on transatlantic awards, which is why buyers move Avios here to spend them."
+      },
+      {
+        "title": "A transfer doesn't reset Iberia's clock",
+        "text": "Iberia's terms don't count an Avios transfer, in or out, as account activity — so moving a balance here keeps the BA or Qatar side alive and leaves the Iberia clock running. An earn or a redemption, of any size, is what resets Iberia's 36 months."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months of inactivity; any earning or spending resets it"
+      },
+      {
+        "label": "Currency",
+        "text": "Avios, shared 1:1 with British Airways, Qatar, Finnair, Aer Lingus, Vueling and Loganair"
+      },
+      {
+        "label": "Award pricing",
+        "text": "Distance based, with off-peak and peak dates"
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Is Iberia Club the same as Iberia Plus?",
+        "a": "Yes. Iberia Plus was renamed Club Iberia Plus in April 2025 and then Iberia Club. It is one programme with one balance, and anything written about Iberia Plus applies to it. This page's rate and delivery window refer to that same account."
+      },
+      {
+        "q": "Can I move Iberia Avios to British Airways?",
+        "a": "Yes, 1:1. British Airways Club, Iberia Club, Aer Lingus AerClub, Vueling Club and Loganair Loyalty transfer between each other as often as you like, and Qatar Airways Privilege Club and Finnair Plus are transferable too. It is worth comparing our Iberia and British Airways rates before you buy, since the cheaper one funds the same redemption."
+      },
+      {
+        "q": "Do Iberia Avios expire?",
+        "a": "After 36 months without earning or spending on the account. Any earn or redemption resets that, but an Avios transfer in or out does not count as activity under Iberia's terms — unlike at British Airways and Qatar, where it does. Keep an Iberia balance alive with an earn or a redemption, however small."
+      },
+      {
+        "q": "Why buy Iberia Avios rather than British Airways Avios?",
+        "a": "Because of what you pay in cash at the end. The Avios are identical and move 1:1, but each programme sets its own surcharges, and Iberia's are consistently lower on transatlantic awards flown on Iberia's own aircraft. If you are booking from Madrid, that difference is usually larger than any difference in what the Avios cost."
+      }
+    ],
+    "factsChecked": "August 2026",
+    "logo": "/logos/iberia-avios.svg",
+    "logoAlt": "Iberia logo",
+    "i18n": {
+      "es": {
+        "metaTitle": "Comprar Avios de Iberia | Iberia Club | buyflightmiles",
+        "metaDescription": "Compra Avios para tu cuenta de Iberia Club a una fracción del precio. Confirmamos tu precio exacto antes de que pagues y los Avios llegan a tu propia cuenta.",
+        "heroHeadline": "Comprar Avios para Iberia",
+        "heroSub": "Los mismos Avios que British Airways y Qatar, gastados desde el programa que cobra menos recargos para cruzar el Atlántico. Compra los que te faltan y reserva tu plaza.",
+        "steps": [
+          {
+            "title": "Elige la cantidad",
+            "text": "Indica cuántos Avios te faltan para tu reserva."
+          },
+          {
+            "title": "Pide tu cotización",
+            "text": "Envía la solicitud y confirmamos tu precio exacto y el plazo de entrega antes de pagar nada."
+          },
+          {
+            "title": "Llegan los Avios",
+            "text": "El pago se hace fuera de este sitio una vez que aceptas, y los Avios se transfieren a tu cuenta de Iberia Club."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Madrid a Norteamérica en business",
+            "desc": "El propio metal de Iberia desde Madrid es una de las formas más baratas de cruzar el Atlántico en cama plana, y los recargos son una fracción de lo que British Airways añade en la misma ruta. Ida en fechas valle; las fechas punta cuestan más."
+          },
+          {
+            "title": "Vuelos cortos dentro de España",
+            "desc": "El precio por distancia hace que los trayectos nacionales y europeos cortos estén entre los premios más baratos de todo el mundo Avios."
+          },
+          {
+            "title": "Premios con socios Oneworld",
+            "desc": "American, British Airways, Qatar, Japan Airlines y el resto de Oneworld se reservan desde un saldo de Iberia Club."
+          }
+        ],
+        "faq": [
+          {
+            "q": "¿Iberia Club es lo mismo que Iberia Plus?",
+            "a": "Sí. Iberia Plus pasó a llamarse Club Iberia Plus en abril de 2025 y después Iberia Club. Es un solo programa con un solo saldo, y todo lo escrito sobre Iberia Plus se aplica igual. El precio y el plazo de esta página se refieren a esa misma cuenta."
+          },
+          {
+            "q": "¿Puedo mover mis Avios de Iberia a British Airways?",
+            "a": "Sí, 1:1. Iberia Club, British Airways Club, Aer Lingus AerClub, Vueling Club y Loganair Loyalty se transfieren entre sí cuantas veces quieras, y Qatar Airways Privilege Club y Finnair Plus también. Conviene comparar nuestros precios de Iberia y de British Airways antes de comprar: el más barato financia el mismo premio."
+          },
+          {
+            "q": "¿Caducan los Avios de Iberia?",
+            "a": "A los 36 meses sin ganar ni gastar en la cuenta. Cualquier acumulación o canje reinicia el contador, pero una transferencia de Avios no cuenta como actividad según las condiciones de Iberia, a diferencia de British Airways y Qatar. Mantén viva la cuenta con una acumulación o un canje, por pequeño que sea."
+          },
+          {
+            "q": "¿Tengo que dar mi contraseña?",
+            "a": "No. Una transferencia solo necesita tu número de socio y el nombre de la cuenta. Nunca pedimos tu contraseña."
+          },
+          {
+            "q": "¿El pago se hace en este sitio?",
+            "a": "No. Aquí no se cobra nada. El pago se realiza fuera del sitio una vez que aceptas la cotización, y antes te confirmamos por escrito el precio exacto y el plazo de entrega."
+          }
+        ],
+        "ctaLabel": "Pedir cotización",
+        "flag": "🇪🇸",
+        "currency": "EUR",
+        "reviewed": false,
+        "fxNote": "≈ {v} al cambio del BCE del {d} · el cobro es en dólares",
+        "fxFoot": "Los importes en euros se convierten al tipo de referencia del BCE del {d}. El cobro se hace en dólares estadounidenses."
+      }
+    }
+  },
+  {
+    "id": "eva-air-miles",
+    "order": 9,
     "program": "Infinity MileageLands",
     "airline": "EVA Air",
     "alliance": "Star Alliance",
@@ -191,20 +1098,2039 @@
     "color": "#1E6B54",
     "pricePerMile": 1.95,
     "priceVerified": true,
-    "min": 25000,
+    "min": 50000,
     "max": 500000,
+    "limitsVerified": true,
     "delivery": "Within 48 hours",
     "deliveryVerified": true,
     "inStock": true,
-    "heroHeadline": "Buy EVA Air miles.",
+    "heroHeadline": "Buy EVA Air miles for Infinity MileageLands.",
+    "heroHighlight": "EVA Air miles",
     "heroSub": "EVA's Royal Laurel business class is a standout. Buy Infinity MileageLands miles and lock in your redemption for less.",
     "metaTitle": "Buy EVA Air Infinity MileageLands Miles | buyflightmiles",
-    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95¢. Secure transfer, delivered within 48 hours, delivery guaranteed.",
-    "related": ["krisflyer", "ana"],
+    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95¢. Secure transfer, delivered within 48 hours, your exact rate confirmed before you pay.",
+    "related": [
+      "singapore-krisflyer",
+      "ana-mileage-club"
+    ],
     "sweetSpots": [
-      { "title": "Royal Laurel business", "desc": "EVA's acclaimed business class to Asia at reasonable rates." },
-      { "title": "Taipei hub connections", "desc": "Great onward connectivity across Asia via TPE." },
-      { "title": "Star Alliance partners", "desc": "Use Infinity MileageLands miles on alliance partners too." }
+      {
+        "title": "Royal Laurel business, Taipei to the US West Coast",
+        "desc": "EVA's acclaimed business class, one way on the current award chart.",
+        "miles": 75000
+      },
+      {
+        "title": "Taipei hub connections",
+        "desc": "Great onward connectivity across Asia via TPE."
+      },
+      {
+        "title": "Star Alliance partners",
+        "desc": "Use Infinity MileageLands miles on alliance partners too."
+      }
+    ],
+    "logo": "/logos/eva-air.svg",
+    "logoAlt": "EVA Air logo",
+    "i18n": {
+      "zh-tw": {
+        "metaTitle": "購買長榮航空哩程 | 無限萬哩遊 | buyflightmiles",
+        "metaDescription": "以優惠價格購買長榮航空無限萬哩遊哩程。付款前確認你的確切價格，哩程直接存入你自己的帳戶。",
+        "heroHeadline": "購買長榮航空哩程",
+        "heroSub": "距離桂冠艙只差幾千哩？補足差額就好。哩程存入你原本就有的帳戶，訂位由你自己完成。",
+        "steps": [
+          {
+            "title": "選擇數量",
+            "text": "輸入你這趟訂位還差多少哩程。"
+          },
+          {
+            "title": "索取報價",
+            "text": "送出需求，我們確認你的確切價格與入帳時間。"
+          },
+          {
+            "title": "哩程入帳",
+            "text": "你同意後在站外付款，哩程隨即轉入你的帳戶。"
+          }
+        ],
+        "uses": [
+          {
+            "title": "桂冠艙飛歐美",
+            "desc": "長榮的桂冠艙是這個計畫最值得的用法，長程商務艙也是一哩買來最划算的地方。"
+          },
+          {
+            "title": "星空聯盟夥伴",
+            "desc": "無限萬哩遊也能訂星空聯盟其他航空，航網遠比長榮自家航線大。"
+          },
+          {
+            "title": "補足差額",
+            "desc": "多數人不是買整張票的哩程，只買差的那一段。"
+          }
+        ],
+        "faq": [
+          {
+            "q": "哩程多久會入帳？",
+            "a": "入帳時間會在報價中明確說明。時間依計畫而異，我們不會憑感覺估算。"
+          },
+          {
+            "q": "需要提供帳戶密碼嗎？",
+            "a": "不需要。轉入哩程只需要你的會員編號與帳戶姓名，我們從不索取密碼。"
+          },
+          {
+            "q": "會在這個網站付款嗎？",
+            "a": "不會。本網站不收取任何款項。你同意報價後，付款在站外完成。"
+          },
+          {
+            "q": "誰來訂機票？",
+            "a": "你自己。哩程存入你本人的帳戶，你直接向航空公司以自己的名字訂位。"
+          }
+        ],
+        "ctaLabel": "索取報價",
+        "reviewed": false
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does EVA Air publish an award chart?",
+        "a": "Yes, two: a zone-based award chart for EVA Air and UNI Air flights, and a separate chart for Star Alliance partners. On the current EVA chart, business class between North America and Asia runs 75,000 to 80,000 miles one way, and short intra-Asia business starts around 25,000. Find your award on the chart, then price the exact shortfall with the calculator above."
+      },
+      {
+        "q": "Can I upgrade an EVA Air flight with miles?",
+        "a": "Yes. Upgrade awards move a paid Economy ticket to Premium Economy or business, and Premium Economy up to business, but only from eligible fare classes — Standard and Up fares qualify, deep-discount economy usually doesn't. Upgrades are requested through EVA's site in advance, never at check-in. Check your ticket's fare class first, then buy the miles the upgrade needs."
+      },
+      {
+        "q": "Do EVA Air miles expire?",
+        "a": "After 36 months. There's a free extension built in: redeem any award miles and fly EVA or UNI Air internationally in the twelve months before expiry, and your unexpired miles extend 36 months from that travel date. Miles that do lapse can be reinstated for a fee within six months."
+      },
+      {
+        "q": "What is Infinity MileageLands?",
+        "a": "EVA Air's mileage program — the loyalty currency you earn flying EVA, UNI Air and Star Alliance partners, and the account your purchased miles land in. The name trips people up; the miles work like any major program's, and this page's rate, limits and delivery window all refer to it."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Upgrades check your fare class first",
+        "text": "An upgrade award only attaches to eligible paid fares — Standard and Up classes. Deep-discount economy tickets usually can't be upgraded at any mileage price, so confirm the fare class before buying miles for an upgrade."
+      },
+      {
+        "title": "The 36-month clock has a free reset",
+        "text": "Miles expire at 36 months, but redeeming award miles plus one EVA or UNI international flight in the final twelve months extends everything unexpired by another 36 from the travel date. Lapsed miles are reinstatable for a fee within six months."
+      },
+      {
+        "title": "Two award charts, not one",
+        "text": "EVA and UNI Air awards price from a zone-based chart; Star Alliance partner awards price from a separate one. The same route can cost differently depending on whose metal you book, which is worth checking before you size a top-up."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months; award redemption + an EVA/UNI international flight extends unexpired miles"
+      },
+      {
+        "label": "Book with",
+        "text": "EVA Air, UNI Air + Star Alliance (United, ANA, Singapore and more)"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Economy and Premium Economy move up one cabin, eligible fare classes only"
+      },
+      {
+        "label": "What we need",
+        "text": "Infinity MileageLands number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "southwest-rapid-rewards",
+    "order": 10,
+    "program": "Rapid Rewards",
+    "airline": "Southwest Airlines",
+    "alliance": "Independent",
+    "code": "WN",
+    "color": "#304CB2",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Southwest points for Rapid Rewards.",
+    "heroHighlight": "Southwest points",
+    "heroSub": "Short of points for the flight you want? Buy the gap and book straight through Southwest, with every seat bookable and no blackout dates.",
+    "metaTitle": "Buy Southwest Points | Rapid Rewards | buyflightmiles",
+    "metaDescription": "Buy Southwest Rapid Rewards points to top up your balance. Secure transfer into your own account, with your exact rate confirmed before you pay.",
+    "related": [
+      "jetblue-trueblue",
+      "alaska-atmos-rewards",
+      "delta-skymiles"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Every seat is bookable",
+        "desc": "Rapid Rewards has no blackout dates; if a fare is for sale, points can book it, so a top-up always has somewhere to go."
+      },
+      {
+        "title": "Refundable bookings",
+        "desc": "Points bookings can be cancelled back to your account, which makes buying for a specific trip far less risky than most programs."
+      },
+      {
+        "title": "Companion Pass holders",
+        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only, which doubles what a top-up is worth."
+      }
+    ],
+    "logo": "/logos/southwest-rapid-rewards.svg",
+    "logoAlt": "Southwest Airlines logo",
+    "faqExtras": [
+      {
+        "q": "Does Southwest have an award chart?",
+        "a": "No. Points price off the cash fare, and since March 2025 the exact conversion floats by flight, typically between 1.1 and 1.5 cents per point. A cheap cash fare means a cheap award and every seat on sale is bookable. Price your shortfall with the calculator above and compare it against the fare."
+      },
+      {
+        "q": "Do Rapid Rewards points expire?",
+        "a": "No. Southwest ended expiry in 2019 and there's no activity requirement. One caveat: a very long dormant account can itself be closed, taking the balance with it, so logging in occasionally is worthwhile."
+      },
+      {
+        "q": "Can I upgrade a Southwest flight with points?",
+        "a": "There's no premium cabin to upgrade into. Since assigned seating arrived in January 2026, Extra Legroom rows are sold for cash or bundled into higher fares, and points can simply book those higher fare bundles directly."
+      },
+      {
+        "q": "Does the Companion Pass work on points bookings?",
+        "a": "Yes. If you hold a Companion Pass, your companion flies for taxes and fees on award tickets too, which doubles what every point in your account is worth for two travellers."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The conversion floats per flight",
+        "text": "Since March 2025 the same fare can price anywhere from about 1.1 to 1.5 cents per point depending on the flight; points no longer convert at one fixed rate."
+      },
+      {
+        "title": "Awards cost almost no cash",
+        "text": "Domestic points bookings add only the $5.60 security fee each way, and cancelled award points redeposit instantly with no fee."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "Never. No activity requirement while the account stays open"
+      },
+      {
+        "label": "Book with",
+        "text": "Southwest's own network; first partner redemptions announced for 2026"
+      },
+      {
+        "label": "Upgrades",
+        "text": "No premium cabin. Points book higher fare bundles instead"
+      },
+      {
+        "label": "What we need",
+        "text": "Rapid Rewards number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "alaska-atmos-rewards",
+    "order": 11,
+    "program": "Atmos Rewards",
+    "airline": "Alaska Airlines",
+    "alliance": "Oneworld",
+    "code": "AS",
+    "color": "#01426A",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Atmos Rewards points for Alaska and Hawaiian.",
+    "heroHighlight": "Atmos Rewards points",
+    "heroSub": "One balance now covers both airlines: Oneworld partners in premium cabins, island hops, and the mainland run to Honolulu. A small top-up often unlocks a far bigger seat.",
+    "metaTitle": "Buy Alaska Miles | Atmos Rewards | buyflightmiles",
+    "metaDescription": "Buy Atmos Rewards points, the combined Alaska and Hawaiian program, for Oneworld partner redemptions in business and first. Exact rate confirmed before you pay.",
+    "related": [
+      "american-aadvantage",
+      "qatar-avios",
+      "british-airways-avios"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Oneworld partner awards",
+        "desc": "Atmos Rewards books a wide set of Oneworld carriers, so points bought here reach cabins Alaska and Hawaiian don't fly themselves."
+      },
+      {
+        "title": "Long-haul premium cabins",
+        "desc": "The program is best known for business and first-class partner redemptions rather than domestic economy — that's where a top-up earns its keep."
+      },
+      {
+        "title": "Hawaii, both directions",
+        "desc": "The old HawaiianMiles territory lives here now: neighbour-island hops and west-coast departures to Honolulu, in economy or the premium cabin."
+      },
+      {
+        "title": "Stopovers on award tickets",
+        "desc": "The program has historically allowed a stopover on one-way awards, which turns a single redemption into two destinations."
+      }
+    ],
+    "logo": "/logos/alaska-atmos-rewards.svg",
+    "logoAlt": "Alaska Airlines logo",
+    "quirks": [
+      {
+        "title": "One program, three former names",
+        "text": "Alaska renamed Mileage Plan to Atmos Rewards in August 2025 and folded HawaiianMiles into it that October, at 1:1 with elite status matched. Same account, same currency — guides that say Mileage Plan or HawaiianMiles are describing this balance."
+      },
+      {
+        "title": "Points do not expire, but an idle account can lock",
+        "text": "Alaska removed expiry in April 2023 and the rebrand kept that policy. An account with no earning or redeeming for 24 months can be frozen for security, which a phone call reverses, and closed after three years."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Program today",
+        "text": "Atmos Rewards — Mileage Plan renamed in August 2025, HawaiianMiles merged in that October."
+      },
+      {
+        "label": "Covers",
+        "text": "Alaska Airlines and Hawaiian Airlines, one balance across both."
+      },
+      {
+        "label": "Alliance",
+        "text": "Oneworld. Alaska was already a member; Hawaiian joined in April 2026."
+      },
+      {
+        "label": "Award pricing",
+        "text": "Distance-based award charts rather than a flat regional table."
+      },
+      {
+        "label": "Expiry",
+        "text": "Points do not expire. An account inactive for 24 months can be frozen."
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Is Alaska Mileage Plan still called Mileage Plan?",
+        "a": "It was renamed Atmos Rewards in August 2025. It is one balance under either name, so miles bought for Mileage Plan land in the same account."
+      },
+      {
+        "q": "Do HawaiianMiles still exist?",
+        "a": "Not under that name. HawaiianMiles converted into Atmos Rewards on 1 October 2025 at 1:1, and elite status carried across automatically. The balance is intact under the combined program, and that is what a top-up adds to."
+      },
+      {
+        "q": "Do Atmos Rewards points expire?",
+        "a": "No. Alaska dropped expiry in April 2023 and kept the policy through the rebrand. An account with no activity for 24 months can be frozen for security and closed after three years, so any earning or redeeming keeps it open."
+      }
+    ],
+    "factsChecked": "August 2026",
+    "ownAirlines": [
+      {
+        "name": "Alaska Airlines",
+        "code": "AS"
+      },
+      {
+        "name": "Hawaiian Airlines",
+        "code": "HA"
+      }
     ]
+  },
+  {
+    "id": "jetblue-trueblue",
+    "order": 12,
+    "program": "TrueBlue",
+    "airline": "JetBlue",
+    "alliance": "Independent",
+    "code": "B6",
+    "color": "#003876",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy JetBlue points for TrueBlue.",
+    "heroHighlight": "JetBlue points",
+    "heroSub": "Top up for Mint transcontinental seats or a family booking — points post to your own account and book directly with JetBlue.",
+    "metaTitle": "Buy JetBlue Points | TrueBlue | buyflightmiles",
+    "metaDescription": "Buy JetBlue TrueBlue points to complete a booking, including Mint. Secure transfer into your own account, exact rate confirmed before you pay.",
+    "related": [
+      "southwest-rapid-rewards",
+      "delta-skymiles",
+      "american-aadvantage"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Mint transcontinental",
+        "desc": "JetBlue's premium transcon product is the headline use for TrueBlue points, and usually the reason people are short in the first place."
+      },
+      {
+        "title": "No blackout dates",
+        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points; a top-up is never stranded."
+      },
+      {
+        "title": "Points pooling",
+        "desc": "Balances can be shared within a family pool, so topping up one account can complete a booking for the whole group."
+      }
+    ],
+    "logo": "/logos/jetblue-trueblue.svg",
+    "logoAlt": "JetBlue logo",
+    "faqExtras": [
+      {
+        "q": "Does JetBlue have an award chart?",
+        "a": "No, and that's the appeal: TrueBlue prices awards straight off the cash fare, at a fairly consistent 1.3 to 1.5 cents per point on JetBlue's own flights, with no blackout dates. Whatever the fare search shows, the points price tracks it. Price your shortfall with the calculator above and compare it against the fare."
+      },
+      {
+        "q": "Can I upgrade to Mint with points?",
+        "a": "No. JetBlue doesn't sell Mint upgrades for points; upgrade paths on a paid ticket are cash offers or bidding. The points route into Mint is booking it outright as an award, which is exactly what a top-up is usually for."
+      },
+      {
+        "q": "Do TrueBlue points expire?",
+        "a": "Never, with no activity requirement while your account stays open."
+      },
+      {
+        "q": "Can I pool TrueBlue points with family?",
+        "a": "Yes. Up to seven people can share one points pool, no family relation required, which is rare among US programs. Topping up one member's balance can complete a booking for the whole group."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Revenue pricing cuts both ways",
+        "text": "Award cost tracks the cash fare, so cheap fares mean cheap awards and every seat on sale is bookable, but there are no outsized premium-cabin bargains on JetBlue metal."
+      },
+      {
+        "title": "The partner map moved in 2026",
+        "text": "United became bookable through the Blue Sky partnership in late 2025 and China Airlines arrived in April 2026, while Japan Airlines redemptions ended in March 2026."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "Never. No activity requirement while the account stays open"
+      },
+      {
+        "label": "Book with",
+        "text": "JetBlue + partners including Qatar, Etihad, Condor and United"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Not with points. Mint is booked outright as an award instead"
+      },
+      {
+        "label": "What we need",
+        "text": "TrueBlue number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "frontier-miles",
+    "order": 13,
+    "program": "Frontier Miles",
+    "airline": "Frontier Airlines",
+    "alliance": "Independent",
+    "code": "F9",
+    "color": "#046A38",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Frontier miles and book direct.",
+    "heroHighlight": "Frontier miles",
+    "heroSub": "Complete a domestic booking without paying the walk-up fare. Miles transfer into your own account and book directly with Frontier.",
+    "metaTitle": "Buy Frontier Miles | buyflightmiles",
+    "metaDescription": "Buy Frontier Miles to top up your balance for domestic routes. Secure transfer into the account you already hold, exact rate confirmed before you pay.",
+    "related": [
+      "southwest-rapid-rewards",
+      "jetblue-trueblue",
+      "united-mileageplus"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Domestic short-haul",
+        "miles": 5000,
+        "desc": "Value awards from 5,000 miles one way on off-peak domestic routes, where Frontier's network is built to fly."
+      },
+      {
+        "title": "Last-minute gaps",
+        "desc": "When a cash fare has spiked close to departure, completing the booking with miles is usually the cheaper route."
+      }
+    ],
+    "logo": "/logos/frontier-miles.svg",
+    "logoAlt": "Frontier Airlines logo",
+    "faqExtras": [
+      {
+        "q": "Does Frontier have an award chart?",
+        "a": "Yes, tiered by availability: Value awards from 5,000 miles for a domestic one-way on off-peak flights, Standard from around 20,000 when Value space is gone, and a Last Seat tier reserved for elite members. Off-peak flexibility is where miles stretch furthest. Price your top-up with the calculator above."
+      },
+      {
+        "q": "Do Frontier miles expire?",
+        "a": "After 12 months without earning, the shortest window of any major US program, and redemptions don't reset it. Any earning activity restarts the clock, and Frontier World Mastercard holders' miles don't expire while the card is open. Plan to book soon after topping up."
+      },
+      {
+        "q": "Are there fees on Frontier award bookings?",
+        "a": "Yes, unless you book early: the redemption fee is waived 180 or more days out, and otherwise runs about $15 to $75 depending on how close to departure you book. Taxes apply on top, as on any award."
+      },
+      {
+        "q": "Can I use Frontier miles for seats and bags?",
+        "a": "Yes. Since 2025, miles also buy seat upgrades, bags and priority boarding on paid tickets, starting around 2,000 miles. Frontier's First Class cabin is rolling out through 2026; a published miles price for those seats hasn't landed yet."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The 12-month clock is the catch",
+        "text": "Miles lapse a year after your last earning, and spending doesn't reset it. Frontier World Mastercard holders are exempt while the card stays open."
+      },
+      {
+        "title": "Book 180+ days out to skip the fee",
+        "text": "Award bookings carry a redemption fee of roughly $15 to $75 inside 180 days of departure; outside it, the fee is waived entirely."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "12 months from last earning; earning resets it, redemptions don't"
+      },
+      {
+        "label": "Book with",
+        "text": "Frontier's own network only"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Miles buy seat upgrades, bags and boarding from about 2,000 miles"
+      },
+      {
+        "label": "What we need",
+        "text": "Frontier Miles number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "air-canada-aeroplan",
+    "order": 14,
+    "program": "Aeroplan",
+    "airline": "Air Canada",
+    "alliance": "Star Alliance",
+    "code": "AC",
+    "color": "#D8232A",
+    "pricePerMile": 1.8,
+    "priceVerified": true,
+    "directBuy": {
+      "cents": 2.67,
+      "source": "Air Canada list price, CAD $0.0375 per point",
+      "checked": "August 2026",
+      "verified": false,
+      "note": "Correct at list, but Aeroplan ran a 110% bonus to about 1.27¢ US in 2026, below our 1.8¢. Withheld until the comparison holds through a promotion."
+    },
+    "min": 80000,
+    "max": 500000,
+    "limitsVerified": true,
+    "delivery": "Within 72 hours",
+    "deliveryVerified": true,
+    "inStock": true,
+    "heroHeadline": "Buy Aeroplan points for Air Canada.",
+    "heroHighlight": "Aeroplan points",
+    "heroSub": "Top up Aeroplan and book Star Alliance partners across the network. Quoted first, delivered into the account you already hold.",
+    "metaTitle": "Buy Aeroplan Points | Air Canada | buyflightmiles",
+    "metaDescription": "Buy Air Canada Aeroplan points at a fair per-mile rate. Your exact price confirmed before you pay, delivered straight into your Aeroplan account.",
+    "related": [
+      "united-mileageplus",
+      "ana-mileage-club",
+      "singapore-krisflyer"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Business to Europe",
+        "miles": 60000,
+        "desc": "One way in the shortest Atlantic band, bookable on Star Alliance and 45+ partner airlines; most US pairs price at 75,000."
+      },
+      {
+        "title": "Stopovers on awards",
+        "desc": "Add a stopover of up to 45 days to a one-way partner award for a flat 5,000 points, turning one redemption into two visits."
+      },
+      {
+        "title": "No fuel surcharges",
+        "desc": "Aeroplan doesn't add carrier fuel surcharges on partner awards; the only extra is a fixed partner booking fee of about $39."
+      }
+    ],
+    "logo": "/logos/aeroplan.svg",
+    "logoAlt": "Air Canada logo",
+    "faqExtras": [
+      {
+        "q": "Does Aeroplan publish an award chart?",
+        "a": "Yes, distance-based, for partner awards; Air Canada's own flights price dynamically within published ranges. Business across the Atlantic starts at 60,000 points one way in the shortest band, and most US to Europe pairs sit at 75,000 after the June 2026 chart changes. Find your route's band, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Do Aeroplan points expire?",
+        "a": "Expiry is paused until November 29, 2026. An 18-month inactivity rule returns the next day, and it looks back retroactively: accounts with no activity in the previous 18 months lose their balance when it resumes. Any single earn or redemption resets the clock, so an account that books a flight after topping up is automatically safe."
+      },
+      {
+        "q": "Can I upgrade an Air Canada flight with points?",
+        "a": "Not with points directly. Air Canada upgrades run on eUpgrade credits, a separate currency earned through elite status. What points do instead is book the premium cabin outright, which is what the calculator above prices."
+      },
+      {
+        "q": "Can I add a stopover on an Aeroplan award?",
+        "a": "Yes, up to 45 days, for a flat 5,000 points on a one-way international award. Two cities on one redemption is one of Aeroplan's signature tricks, and it works on partner bookings too."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The expiry restart is a hard deadline",
+        "text": "When the inactivity rule resumes on November 30, 2026, the 18-month lookback is retroactive; dormant accounts get zeroed rather than a fresh clock. Any one earn or redemption before then protects the balance."
+      },
+      {
+        "title": "June 2026 moved the chart",
+        "text": "The June 1, 2026 changes raised 32 award levels, premium cabins hardest: most US to Europe business moved from 70,000 to 75,000, and North America to Asia business from 87,500 to 102,500 in the long band."
+      },
+      {
+        "title": "No fuel surcharges, one flat fee",
+        "text": "Partner awards carry zero carrier surcharges; the only extra is a fixed booking fee of about $39 plus taxes."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "Paused to Nov 30, 2026; then 18 months of inactivity, any activity resets"
+      },
+      {
+        "label": "Book with",
+        "text": "Air Canada + Star Alliance plus 45+ airlines including Emirates and Etihad"
+      },
+      {
+        "label": "Upgrades",
+        "text": "eUpgrade credits only, earned with status. Points book the cabin outright"
+      },
+      {
+        "label": "What we need",
+        "text": "Aeroplan number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "emirates-skywards",
+    "order": 15,
+    "program": "Skywards",
+    "airline": "Emirates",
+    "alliance": "Independent",
+    "code": "EK",
+    "color": "#D71920",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Emirates miles for Skywards.",
+    "heroHighlight": "Emirates miles",
+    "heroSub": "The A380 shower is a miles purchase away. Top up Skywards for Emirates first and business, quoted before you pay a cent.",
+    "metaTitle": "Buy Emirates Skywards Miles | buyflightmiles",
+    "metaDescription": "Buy Emirates Skywards miles for first and business class redemptions. Exact rate confirmed in your quote, delivered to your Skywards account.",
+    "related": [
+      "etihad-guest",
+      "qatar-avios",
+      "turkish-miles-smiles"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Business Saver, New York to Milan",
+        "miles": 59000,
+        "desc": "Emirates' fifth-freedom transatlantic leg, one way at the Saver level on the current chart."
+      },
+      {
+        "title": "Emirates First on the A380",
+        "desc": "The onboard shower and bar made this cabin famous, and Skywards is the way in; cash fares for it are eye-watering."
+      },
+      {
+        "title": "Upgrades with miles",
+        "desc": "Skywards can upgrade a paid ticket to the next cabin, often the strongest per-mile use in the program."
+      }
+    ],
+    "logo": "/logos/emirates-skywards.svg",
+    "logoAlt": "Emirates logo",
+    "i18n": {
+      "ar": {
+        "metaTitle": "شراء أميال سكاي واردز طيران الإمارات | السعر يُؤكَّد قبل الدفع",
+        "metaDescription": "اشترِ أميال سكاي واردز من طيران الإمارات بسعر يقارب 1.9 سنت للميل لحجز الدرجة الأولى ودرجة رجال الأعمال. نؤكد السعر النهائي وموعد التسليم في عرض السعر قبل أي دفع.",
+        "heroHeadline": "اشترِ أميال سكاي واردز طيران الإمارات",
+        "heroSub": "عزّز رصيدك في سكاي واردز واحجز درجة رجال الأعمال أو الدرجة الأولى على طيران الإمارات بجزء من سعرها النقدي. نرسل لك عرض سعر يؤكد السعر النهائي وموعد التسليم قبل أن تدفع.",
+        "steps": [
+          {
+            "title": "اختر الكمية",
+            "text": "حدّد عدد الأميال التي تحتاجها لحجزك."
+          },
+          {
+            "title": "اطلب عرض السعر",
+            "text": "أرسل الطلب ونؤكد لك السعر النهائي وموعد التسليم قبل أي دفع."
+          },
+          {
+            "title": "ادفع خارج الموقع",
+            "text": "لا يُحصَّل أي مبلغ على هذا الموقع — الدفع يتم بعد موافقتك على العرض."
+          },
+          {
+            "title": "تصل الأميال",
+            "text": "تُضاف الأميال إلى حساب سكاي واردز الخاص بك في الموعد المؤكد في عرض السعر."
+          }
+        ],
+        "points": [
+          "السعر التقريبي 1.9 سنت لكل ميل، ويُؤكَّد السعر النهائي قبل الدفع",
+          "التسليم إلى حسابك في سكاي واردز، وموعده يُؤكَّد في عرض السعر",
+          "لا نطلب كلمة المرور أبداً — رقم العضوية واسم الحساب فقط",
+          "أميال سكاي واردز تُستخدم للترقيات ولحجز الدرجة الأولى ودرجة رجال الأعمال على طيران الإمارات وفلاي دبي"
+        ],
+        "faq": [
+          {
+            "q": "كم تكلفة شراء أميال سكاي واردز؟",
+            "a": "السعر التقريبي 1.9 سنت لكل ميل، أي نحو 19 دولاراً لكل 1,000 ميل. نؤكد لك السعر النهائي في عرض السعر قبل أي دفع."
+          },
+          {
+            "q": "متى تصل الأميال إلى حسابي؟",
+            "a": "نؤكد موعد التسليم في عرض السعر قبل الدفع، وتصل الأميال إلى حساب سكاي واردز الخاص بك ضمن ذلك الموعد."
+          },
+          {
+            "q": "ما الذي تحتاجونه مني؟",
+            "a": "رقم عضويتك في سكاي واردز واسم الحساب فقط. لن نطلب كلمة المرور أبداً."
+          }
+        ],
+        "ctaLabel": "اطلب عرض السعر",
+        "reviewed": false,
+        "flag": "🇦🇪",
+        "uses": [
+          {
+            "title": "درجة رجال الأعمال إلى دبي",
+            "desc": "مقاعد الطيران الإماراتية على A380 من أشهر المقاعد في السماء، وهي أفضل ما تُصرف فيه أميال سكاي واردز."
+          },
+          {
+            "title": "المتابعة إلى آسيا وأفريقيا",
+            "desc": "دبي محطة واحدة إلى شبكة واسعة، فتصل مكافأة واحدة إلى وجهات يصعب الوصول إليها مباشرة."
+          },
+          {
+            "title": "إكمال الرصيد",
+            "desc": "معظم المشترين لا يشترون قيمة التذكرة كاملة، بل الفارق الناقص فقط."
+          }
+        ]
+      },
+      "de": {
+        "metaTitle": "Emirates Meilen kaufen | Skywards aufstocken",
+        "metaDescription": "Skywards Meilen kaufen und dein Emirates-Konto für Business und First aufstocken. Preis vor der Zahlung fest, Meilen aufs eigene Konto, Buchung direkt bei Emirates.",
+        "heroHeadline": "Skywards Meilen kaufen und im A380 vorne sitzen.",
+        "heroSub": "Stock dein Skywards-Konto auf und löse Business oder First bei Emirates ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Skywards-Konto. Die Prämie buchst du danach direkt bei Emirates, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Emirates First im A380",
+            "desc": "Dusche und Bordbar haben diese Kabine berühmt gemacht, und Skywards ist der Weg hinein. Die Barpreise dafür sind enorm."
+          },
+          {
+            "title": "Business Saver, New York nach Mailand",
+            "desc": "Emirates' Transatlantikstrecke mit fünfter Freiheit, einfach ab 59.000 Meilen auf der aktuellen Tabelle."
+          },
+          {
+            "title": "Upgrades mit Meilen",
+            "desc": "Skywards wertet ein bezahltes Ticket in die nächste Kabine auf, oft der stärkste Einsatz pro Meile im Programm."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Skywards-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Braucht ihr mein Skywards-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen Skywards-Meilen?",
+            "a": "Drei Jahre nach dem Sammeln, zum Ende deines Geburtstagsmonats, unabhängig von Kontoaktivität. Kauf also mit Blick auf eine konkrete Buchung, nicht auf Vorrat."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does Emirates publish an award chart?",
+        "a": "Yes. Classic Rewards price from a fixed chart in two tiers: Saver, capacity-controlled at the lowest rates, and Flex with wide availability for more miles. Since the May 2026 changes, one-way business Saver awards book at half the round-trip rate; the New York to Milan fifth-freedom leg is 59,000 miles one way. Find your award, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Can I upgrade an Emirates flight with miles?",
+        "a": "Yes, and upgrades are one of the program's main uses. Eligibility follows your fare: Flex and Flex Plus fares upgrade any time up to six hours before departure, Saver fares only at online check-in, and Special fares can't be upgraded at all. Check your fare brand first, then buy the miles the upgrade asks for."
+      },
+      {
+        "q": "Do Skywards miles expire?",
+        "a": "Three years from earning, removed at the end of your birthday month in the expiry year, so real validity runs three to nearly four years. Expiring miles can be extended twelve months for a fee, and lapsed miles reinstated within six months at $20 per 1,000. An eligible Skywards credit card or Platinum tier stops expiry entirely."
+      },
+      {
+        "q": "Can I use Skywards miles on other airlines?",
+        "a": "Yes, on around 20 partners: flydubai is fully integrated, and Qantas, United, JetBlue and Japan Airlines are among the redemption partners on a distance-based chart. Emirates belongs to no alliance, so the partner list is the map."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "One-way Business Saver is new",
+        "text": "Until May 2026 one-way business awards priced at the Flex level; they now book at half the round-trip Saver rate, even as most premium awards rose about 15% in the same change."
+      },
+      {
+        "title": "Expiry follows your birthday",
+        "text": "Miles expire at the end of your birth month in the year they turn three, so actual validity runs three to nearly four years depending on timing."
+      },
+      {
+        "title": "A card freezes the clock",
+        "text": "Holding an eligible Skywards co-brand credit card in good standing, or Platinum tier, stops miles expiring entirely."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "3 years, to the end of your birthday month; extendable for a fee"
+      },
+      {
+        "label": "Book with",
+        "text": "Emirates + flydubai, Qantas, United, JetBlue and ~20 partners"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Flex fares any time, Saver at online check-in, Special never"
+      },
+      {
+        "label": "What we need",
+        "text": "Skywards number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "turkish-miles-smiles",
+    "order": 16,
+    "program": "Miles&Smiles",
+    "airline": "Turkish Airlines",
+    "alliance": "Star Alliance",
+    "code": "TK",
+    "color": "#C90019",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Turkish Airlines miles for Miles&Smiles.",
+    "heroHighlight": "Turkish Airlines miles",
+    "heroSub": "Some of the cheapest Star Alliance award pricing in the sky, and Istanbul connects to more countries than any other hub. Quoted first, always.",
+    "metaTitle": "Buy Turkish Airlines Miles | Miles&Smiles | buyflightmiles",
+    "metaDescription": "Buy Turkish Airlines Miles&Smiles at a fair rate, confirmed before you pay. Delivered into your own Miles&Smiles account.",
+    "related": [
+      "united-mileageplus",
+      "lufthansa-miles-more",
+      "air-canada-aeroplan"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Business to Istanbul",
+        "miles": 65000,
+        "desc": "Nonstop from North America at the promotional level, one way, with the airline's famous catering on board."
+      },
+      {
+        "title": "Bargain Star Alliance awards",
+        "desc": "Miles&Smiles prices partner awards below what most Star Alliance programs charge for the same seats."
+      },
+      {
+        "title": "Istanbul to everywhere",
+        "desc": "Turkish flies to more countries than any other airline, so one program covers routes others can't touch."
+      }
+    ],
+    "logo": "/logos/turkish-miles-smiles.svg",
+    "logoAlt": "Turkish Airlines logo",
+    "i18n": {
+      "tr": {
+        "metaTitle": "Miles&Smiles Mil Satın Al | Uygun Fiyat | buyflightmiles",
+        "metaDescription": "Türk Hava Yolları Miles&Smiles milleri satın alın. Net fiyatınızı ödemeden önce onaylıyoruz ve miller kendi hesabınıza aktarılır.",
+        "heroHeadline": "Miles&Smiles mil satın alın",
+        "heroSub": "Business koltuğa birkaç bin mil kaldıysa aradaki farkı tamamlayın. Miller zaten sahip olduğunuz hesaba geçer, bileti kendiniz alırsınız.",
+        "steps": [
+          {
+            "title": "Miktarı seçin",
+            "text": "Rezervasyonunuz için kaç mil gerektiğini girin."
+          },
+          {
+            "title": "Teklif isteyin",
+            "text": "Talebi gönderin, net fiyatınızı ve teslim süresini onaylayalım."
+          },
+          {
+            "title": "Miller hesabınızda",
+            "text": "Onaydan sonra ödeme site dışında yapılır, miller hesabınıza aktarılır."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Star Alliance ödül biletleri",
+            "desc": "Miles&Smiles, Star Alliance ağındaki uzun mesafeli business koltuklar için sık sık en uygun seçenektir."
+          },
+          {
+            "title": "İstanbul aktarmalı Avrupa ve Asya",
+            "desc": "THY'nin geniş ağı sayesinde tek ödül biletiyle iki kıtaya ulaşabilirsiniz."
+          },
+          {
+            "title": "Eksik mili tamamlamak",
+            "desc": "Çoğu alıcı tüm bileti değil, sadece eksik kalan mili satın alır."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Miller ne kadar sürede hesabıma geçer?",
+            "a": "Teslim süresini teklifinizde net olarak belirtiyoruz. Süre programa göre değişir ve tahmin yürütmüyoruz."
+          },
+          {
+            "q": "Hesap şifremi vermem gerekiyor mu?",
+            "a": "Hayır. Aktarım için yalnızca üyelik numaranız ve hesaptaki isim yeterli. Şifrenizi hiçbir zaman istemiyoruz."
+          },
+          {
+            "q": "Ödeme bu sitede mi yapılıyor?",
+            "a": "Hayır. Bu sitede hiçbir tahsilat yapılmaz. Teklifi onayladıktan sonra ödeme site dışında tamamlanır."
+          },
+          {
+            "q": "Bileti kim alıyor?",
+            "a": "Siz. Miller kendi hesabınıza geçer ve rezervasyonu doğrudan havayolu üzerinden kendiniz yaparsınız."
+          }
+        ],
+        "ctaLabel": "Teklif iste",
+        "reviewed": false
+      },
+      "de": {
+        "metaTitle": "Turkish Airlines Meilen kaufen | Miles&Smiles",
+        "metaDescription": "Miles&Smiles Meilen kaufen für Business nach Istanbul und günstige Star-Alliance-Prämien. Preis vor der Zahlung fest, Meilen aufs eigene Konto.",
+        "heroHeadline": "Miles&Smiles Meilen kaufen und günstig Business fliegen.",
+        "heroSub": "Stock dein Miles&Smiles-Konto auf und löse eine der günstigsten Business-Tabellen der Star Alliance ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Miles&Smiles-Konto. Die Prämie buchst du danach direkt bei Turkish Airlines, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Business nach Istanbul",
+            "desc": "Nonstop aus Nordamerika ab 65.000 Meilen einfach auf dem Aktionslevel, mit dem berühmten Catering an Bord."
+          },
+          {
+            "title": "Günstige Star-Alliance-Prämien",
+            "desc": "Miles&Smiles preist Partnerprämien unter dem, was die meisten Star-Alliance-Programme für dieselben Sitze verlangen."
+          },
+          {
+            "title": "Von Istanbul in alle Welt",
+            "desc": "Turkish fliegt in mehr Länder als jede andere Airline, ein Programm deckt also Strecken ab, an die andere nicht herankommen."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Miles&Smiles-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Braucht ihr mein Miles&Smiles-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen Miles&Smiles-Meilen?",
+            "a": "Zum Ende des dritten Kalenderjahres nach dem Sammeln, unabhängig von Kontoaktivität. Eine kostenpflichtige Verlängerung wird angeboten. Spät im Jahr gesammelte Meilen haben spürbar weniger Laufzeit, kauf also mit Blick auf die Buchung."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does Miles&Smiles publish an award chart?",
+        "a": "Yes, region-based. The headline rate is nonstop business between North America and Istanbul for 65,000 miles one way at the promotional level, one of the lowest transatlantic business prices on any chart; Star Alliance partner business to Europe runs 85,000 to 90,000. Expect roughly $200 to $250 in carrier surcharges each way on Turkish's own flights. Find your route, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Do Miles&Smiles miles expire?",
+        "a": "Yes, on a calendar cliff: everything earned in one year expires together on December 31 three years later, and account activity doesn't reset it. Expiring miles can be extended for a fee of about $20 per 1,000. Buy for a booking you're ready to make and the deadline never comes into play."
+      },
+      {
+        "q": "Can I upgrade a Turkish Airlines flight with miles?",
+        "a": "Yes, on Turkish-operated flights, requestable from 355 days to 24 hours before departure, and the upgraded seat comes with the higher cabin's baggage and lounge access. Economy tickets need the higher fare classes, Y or B, to qualify, so check your fare class before buying the miles."
+      },
+      {
+        "q": "Can I book Star Alliance flights with Miles&Smiles?",
+        "a": "Yes, the full alliance: United, Lufthansa, Singapore, ANA and the rest price from a region chart. Turkish's own network reaches more countries than any other airline, so the on-chart map is unusually large."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The cheapest nonstop transatlantic business chart",
+        "text": "65,000 miles one way to Istanbul at the promotional level is the standout, with the trade-off of roughly $200 to $250 in carrier surcharges each way on Turkish metal."
+      },
+      {
+        "title": "A calendar-year expiry cliff",
+        "text": "All miles earned in one year expire together on December 31 three years later, Turkey time, and no activity resets it; balances can vanish overnight."
+      },
+      {
+        "title": "The 2024 restructure set the current chart",
+        "text": "February 2024 raised many awards sharply with no notice; today's rates, 65,000 to Istanbul included, are what survived, so treat published levels as change-prone."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "Dec 31, three years after the earning year; no activity reset"
+      },
+      {
+        "label": "Book with",
+        "text": "Turkish + Star Alliance (United, Lufthansa, Singapore, ANA)"
+      },
+      {
+        "label": "Upgrades",
+        "text": "On Turkish flights; economy needs Y or B fare classes"
+      },
+      {
+        "label": "What we need",
+        "text": "Miles&Smiles number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "etihad-guest",
+    "order": 17,
+    "program": "Etihad Guest",
+    "airline": "Etihad Airways",
+    "alliance": "Independent",
+    "code": "EY",
+    "color": "#BD8B13",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Etihad miles for Etihad Guest.",
+    "heroHighlight": "Etihad miles",
+    "heroSub": "Abu Dhabi's flag carrier, apartments in the sky included. Top up Etihad Guest with your exact rate confirmed before payment.",
+    "metaTitle": "Buy Etihad Guest Miles | buyflightmiles",
+    "metaDescription": "Buy Etihad Guest miles for first and business redemptions. Quoted before you pay, delivered into your own Etihad Guest account.",
+    "related": [
+      "emirates-skywards",
+      "qatar-avios",
+      "british-airways-avios"
+    ],
+    "sweetSpots": [
+      {
+        "title": "First and business on Etihad",
+        "desc": "Etihad's premium cabins, First Apartments included on A380 routes, price far below their cash fares in miles."
+      },
+      {
+        "title": "Partner awards",
+        "desc": "Etihad Guest books 25+ partners across alliances, from Oneworld carriers to independents."
+      },
+      {
+        "title": "Every seat is bookable",
+        "desc": "Since late 2025 any seat on sale can be bought with miles; pairing a top-up with Saver space or off-peak dates stretches it furthest."
+      }
+    ],
+    "logo": "/logos/etihad-guest.svg",
+    "logoAlt": "Etihad Airways logo",
+    "i18n": {
+      "ar": {
+        "metaTitle": "شراء أميال ضيف الاتحاد | السعر يُؤكَّد قبل الدفع",
+        "metaDescription": "اشترِ أميال ضيف الاتحاد من الاتحاد للطيران بسعر يقارب 1.9 سنت للميل لحجز الدرجة الأولى ودرجة رجال الأعمال. نؤكد السعر النهائي وموعد التسليم في عرض السعر قبل أي دفع.",
+        "heroHeadline": "اشترِ أميال ضيف الاتحاد",
+        "heroSub": "عزّز رصيدك في ضيف الاتحاد واحجز درجة رجال الأعمال أو الدرجة الأولى على الاتحاد للطيران بجزء من سعرها النقدي. نرسل لك عرض سعر يؤكد السعر النهائي وموعد التسليم قبل أن تدفع.",
+        "steps": [
+          {
+            "title": "اختر الكمية",
+            "text": "حدّد عدد الأميال التي تحتاجها لحجزك."
+          },
+          {
+            "title": "اطلب عرض السعر",
+            "text": "أرسل الطلب ونؤكد لك السعر النهائي وموعد التسليم قبل أي دفع."
+          },
+          {
+            "title": "ادفع خارج الموقع",
+            "text": "لا يُحصَّل أي مبلغ على هذا الموقع — الدفع يتم بعد موافقتك على العرض."
+          },
+          {
+            "title": "تصل الأميال",
+            "text": "تُضاف الأميال إلى حساب ضيف الاتحاد الخاص بك في الموعد المؤكد في عرض السعر."
+          }
+        ],
+        "points": [
+          "السعر التقريبي 1.9 سنت لكل ميل، ويُؤكَّد السعر النهائي قبل الدفع",
+          "التسليم إلى حسابك في ضيف الاتحاد، وموعده يُؤكَّد في عرض السعر",
+          "لا نطلب كلمة المرور أبداً — رقم العضوية واسم الحساب فقط",
+          "أميال ضيف الاتحاد تُستخدم على الاتحاد للطيران وعلى شركائها من مختلف التحالفات"
+        ],
+        "faq": [
+          {
+            "q": "كم تكلفة شراء أميال ضيف الاتحاد؟",
+            "a": "السعر التقريبي 1.9 سنت لكل ميل، أي نحو 19 دولاراً لكل 1,000 ميل. نؤكد لك السعر النهائي في عرض السعر قبل أي دفع."
+          },
+          {
+            "q": "متى تصل الأميال إلى حسابي؟",
+            "a": "نؤكد موعد التسليم في عرض السعر قبل الدفع، وتصل الأميال إلى حساب ضيف الاتحاد الخاص بك ضمن ذلك الموعد."
+          },
+          {
+            "q": "ما الذي تحتاجونه مني؟",
+            "a": "رقم عضويتك في ضيف الاتحاد واسم الحساب فقط. لن نطلب كلمة المرور أبداً."
+          }
+        ],
+        "ctaLabel": "اطلب عرض السعر",
+        "reviewed": false,
+        "flag": "🇦🇪",
+        "uses": [
+          {
+            "title": "درجة رجال الأعمال إلى أبوظبي",
+            "desc": "مقصورة الأعمال لدى الاتحاد من أفضل ما تُصرف فيه أميال الاتحاد جيست على الرحلات الطويلة."
+          },
+          {
+            "title": "شبكة الشركاء",
+            "desc": "أميال الاتحاد جيست تحجز على شركاء الاتحاد أيضاً، وليس على رحلاتها وحدها."
+          },
+          {
+            "title": "إكمال الرصيد",
+            "desc": "أغلب الطلبات تكمل الفارق الناقص للحجز، لا قيمة التذكرة كاملة."
+          }
+        ]
+      },
+      "de": {
+        "metaTitle": "Etihad Meilen kaufen | Etihad Guest aufstocken",
+        "metaDescription": "Etihad Guest Meilen kaufen für First Apartments und Business. Preis vor der Zahlung fest, Meilen aufs eigene Konto, Buchung direkt bei Etihad.",
+        "heroHeadline": "Etihad Guest Meilen kaufen und die Apartments einlösen.",
+        "heroSub": "Stock dein Etihad-Guest-Konto auf und löse First oder Business bei Etihad ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Etihad-Guest-Konto. Die Prämie buchst du danach direkt bei Etihad, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "First und Business bei Etihad",
+            "desc": "Etihads Premiumkabinen, auf A380-Strecken samt First Apartments, kosten in Meilen weit weniger als ihre Barpreise."
+          },
+          {
+            "title": "Partnerprämien",
+            "desc": "Etihad Guest bucht über 25 Partner quer durch die Allianzen, von Oneworld-Airlines bis zu unabhängigen."
+          },
+          {
+            "title": "Jeder Sitz ist buchbar",
+            "desc": "Seit Ende 2025 lässt sich jeder verkäufliche Sitz mit Meilen kaufen. Am weitesten kommen Meilen mit Saver-Verfügbarkeit oder Nebensaison-Terminen."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Etihad-Guest-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Braucht ihr mein Etihad-Guest-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Verfallen Etihad-Guest-Meilen?",
+            "a": "Nach 18 Monaten ohne qualifizierenden Flug bei Etihad oder einem Partner. Käufe und Transfers verlängern die Frist nicht mehr, nur Fliegen. Kauf also zeitnah zur geplanten Einlösung."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does Etihad publish an award chart?",
+        "a": "Partly. Capacity-controlled Saver Awards follow distance-band from-prices, and since late 2025 every seat on every Etihad flight is bookable with miles at dynamic rates tied to the cash fare. Long-haul Saver space is tight; when it's gone, US to Abu Dhabi business commonly prices around 110,000 to 120,000 miles one way at the flexible levels. Check your dates, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Do Etihad Guest miles expire?",
+        "a": "After 18 months, and since 2024 only flying resets the clock: a qualifying flight on Etihad or a partner extends everything, while purchases and transfers don't. Platinum members are exempt. Plan the trip inside that window and the rule takes care of itself."
+      },
+      {
+        "q": "Can I upgrade an Etihad flight with miles?",
+        "a": "Yes, one cabin up on Etihad-operated flights, with the miles price set by your original fare class; deep-discount fares and Saver award tickets aren't eligible. Etihad also runs upgrade bidding payable in miles or cash. Check your fare's conditions first, then buy the miles the upgrade needs."
+      },
+      {
+        "q": "Can I use Etihad Guest miles on partner airlines?",
+        "a": "Yes, on 25+ partners including American, ANA, Air France-KLM and Virgin Australia, though most partner awards book by phone; only American and Virgin Australia book online. Etihad belongs to no alliance, so the partner list defines the map."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Only flying stops the clock",
+        "text": "Since 2024, purchases and transfers no longer reset the 18-month expiry; one qualifying flight on Etihad or a partner extends the whole balance."
+      },
+      {
+        "title": "Every seat became bookable in late 2025",
+        "text": "When Saver space is closed, any commercial seat can still be bought with miles at dynamic rates, and the flexible levels even earn partial tier miles; value at those levels varies widely."
+      },
+      {
+        "title": "Most partners book by phone",
+        "text": "Of the 25+ redemption partners, only American and Virgin Australia are bookable online; the rest go through the service centre."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "18 months; only a qualifying flight resets it"
+      },
+      {
+        "label": "Book with",
+        "text": "Etihad + 25 partners (American, ANA, AF-KLM); most by phone"
+      },
+      {
+        "label": "Upgrades",
+        "text": "One cabin on eligible paid fares; price follows fare class"
+      },
+      {
+        "label": "What we need",
+        "text": "Etihad Guest number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "lufthansa-miles-more",
+    "order": 18,
+    "program": "Miles & More",
+    "airline": "Lufthansa",
+    "alliance": "Star Alliance",
+    "code": "LH",
+    "color": "#05164D",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Lufthansa miles for Miles & More.",
+    "heroHighlight": "Lufthansa miles",
+    "heroSub": "The surest route into Lufthansa First. Top up Miles & More with the rate confirmed before you pay anything.",
+    "metaTitle": "Buy Lufthansa Miles | Miles & More | buyflightmiles",
+    "metaDescription": "Buy Lufthansa Miles & More for first and business class awards. Exact rate confirmed in your quote, delivered to your own account.",
+    "related": [
+      "turkish-miles-smiles",
+      "united-mileageplus",
+      "air-canada-aeroplan"
+    ],
+    "ownAirlines": [
+      {
+        "name": "Lufthansa",
+        "code": "LH"
+      },
+      {
+        "name": "SWISS",
+        "code": "LX"
+      },
+      {
+        "name": "Austrian Airlines",
+        "code": "OS"
+      },
+      {
+        "name": "Brussels Airlines",
+        "code": "SN"
+      }
+    ],
+    "sweetSpots": [
+      {
+        "title": "Lufthansa First Class",
+        "desc": "Lufthansa releases first class awards to partners only at the last minute; Miles & More members see that space far earlier, which makes this the program to hold for it."
+      },
+      {
+        "title": "Lufthansa Group in one account",
+        "desc": "Lufthansa, Swiss, Austrian and Brussels Airlines all earn and burn from the same balance."
+      },
+      {
+        "title": "Star Alliance breadth",
+        "desc": "The full alliance is bookable, with solid availability on the group's own European network."
+      }
+    ],
+    "logo": "/logos/lufthansa-miles-more.svg",
+    "logoAlt": "Lufthansa logo",
+    "i18n": {
+      "de": {
+        "metaTitle": "Lufthansa Meilen kaufen | Miles & More aufstocken",
+        "metaDescription": "Miles & More Meilen kaufen und dein Konto für Business und First aufstocken. Preis vor der Zahlung fest, Meilen aufs eigene Konto. Meilenrechner für den Vergleich mit dem Barpreis.",
+        "heroHeadline": "Miles & More Meilen kaufen und vorne fliegen.",
+        "heroSub": "Stock dein Miles-&-More-Konto auf und löse Business oder First ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Miles-&-More-Konto. Die Prämie buchst du danach direkt bei Lufthansa, auf deinen Namen."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Miles-&-More-Meilen?",
+            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+          },
+          {
+            "q": "Braucht ihr mein Miles-&-More-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich Miles-&-More-Meilen am meisten?",
+            "a": "Für Langstrecke in Business und First. Lufthansa gibt First-Class-Prämienplätze an Partnerprogramme erst kurz vor Abflug frei, Miles-&-More-Mitglieder sehen diese Plätze deutlich früher. Lufthansa, Swiss, Austrian und Brussels Airlines buchen aus demselben Meilenkonto."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false,
+        "uses": [
+          {
+            "title": "Lufthansa First Class",
+            "desc": "Lufthansa gibt Prämienplätze in der First an Partnerprogramme erst kurz vor Abflug frei. Miles-&-More-Mitglieder sehen diese Plätze deutlich früher, und genau dafür lohnt sich dieses Programm."
+          },
+          {
+            "title": "Die Lufthansa Group aus einem Konto",
+            "desc": "Lufthansa, Swiss, Austrian und Brussels Airlines sammeln und buchen aus demselben Meilenkonto."
+          },
+          {
+            "title": "Star Alliance in voller Breite",
+            "desc": "Die gesamte Allianz ist buchbar, mit solider Verfügbarkeit im europäischen Netz der Gruppe."
+          }
+        ]
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does Miles & More publish an award chart?",
+        "a": "For Star Alliance partners, yes: Europe to North America business is 125,000 miles round trip on the current chart. Lufthansa's own flights moved to dynamic pricing in June 2025, tracking cash fares, which swings from occasional bargains to well above the chart. Price your target with the calculator above."
+      },
+      {
+        "q": "Do Miles & More miles expire?",
+        "a": "36 months after crediting, at the end of that quarter. Status holders from Frequent Traveller up are exempt, as are eligible co-brand cardholders with regular card activity. Miles bought for a named booking are spent long before the clock matters."
+      },
+      {
+        "q": "Can I upgrade a Lufthansa flight with miles?",
+        "a": "Yes, and the rules loosened: upgrade awards now work from all paid booking classes, with cheaper fares costing more miles to upgrade; long-haul economy to business typically runs about 30,000 to 70,000 miles. Award tickets can't be upgraded."
+      },
+      {
+        "q": "Are there surcharges on Miles & More awards?",
+        "a": "On Lufthansa Group flights, yes, and they're heavy: a transatlantic business award can carry fees near $1,000. Star Alliance partner bookings and the monthly Mileage Bargains change that math, so where you point the miles matters as much as how many you hold."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Own-metal surcharges are the catch",
+        "text": "Lufthansa Group awards carry some of the heaviest carrier surcharges in the industry, reported near $1,000 on transatlantic business; partner bookings price from the chart with less pain."
+      },
+      {
+        "title": "Mileage Bargains rotate monthly",
+        "text": "Steeply discounted round-trip awards, business to and from Europe included, publish monthly and can undercut the standard chart substantially for flexible dates."
+      },
+      {
+        "title": "Dynamic pricing cuts both ways",
+        "text": "Since June 2025, Lufthansa-metal awards track cash fare buckets: transatlantic business one-ways have appeared near 10,000 miles plus fees, and can also price far above the old chart. The fixed chart now reliably applies to partner metal only."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "36 months, end of quarter; status holders and active cardholders exempt"
+      },
+      {
+        "label": "Book with",
+        "text": "Lufthansa Group (SWISS, Austrian, Brussels) + Star Alliance"
+      },
+      {
+        "label": "Upgrades",
+        "text": "From any paid booking class; cheaper fares need more miles"
+      },
+      {
+        "label": "What we need",
+        "text": "Miles & More number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "air-france-flying-blue",
+    "order": 19,
+    "program": "Flying Blue",
+    "airline": "Air France-KLM",
+    "alliance": "SkyTeam",
+    "code": "AF",
+    "color": "#002157",
+    "pricePerMile": 1.95,
+    "priceVerified": true,
+    "directBuy": {
+      "cents": 3.17,
+      "source": "Air France-KLM list price",
+      "checked": "August 2026",
+      "verified": false,
+      "note": "Correct at list, but Flying Blue ran an 80% bonus to 1.69¢ in 2026, below our 1.95¢. Withheld until the comparison holds through a promotion."
+    },
+    "min": 49000,
+    "max": 500000,
+    "limitsVerified": true,
+    "delivery": "Within 24 hours",
+    "deliveryVerified": true,
+    "inStock": true,
+    "heroHeadline": "Buy Flying Blue miles for Air France and KLM.",
+    "heroHighlight": "Flying Blue miles",
+    "heroSub": "Air France and KLM premium cabins, plus the whole of SkyTeam, on one balance. Quoted first, delivered within 24 hours.",
+    "metaTitle": "Buy Flying Blue Miles | Air France-KLM | buyflightmiles",
+    "metaDescription": "Buy Air France-KLM Flying Blue miles at 1.95¢ per mile. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
+    "related": [
+      "delta-skymiles",
+      "singapore-krisflyer",
+      "qatar-avios"
+    ],
+    "ownAirlines": [
+      {
+        "name": "Air France",
+        "code": "AF"
+      },
+      {
+        "name": "KLM",
+        "code": "KL"
+      }
+    ],
+    "sweetSpots": [
+      {
+        "title": "Air France and KLM up front",
+        "miles": 60000,
+        "desc": "Business to Paris or Amsterdam from the 60,000-mile floor, one way; Promo Rewards cut it further."
+      },
+      {
+        "title": "Promo Rewards",
+        "desc": "A monthly list of discounted awards at 25% off, sometimes more, and topped-up miles let you pounce while the list is live."
+      },
+      {
+        "title": "SkyTeam in one balance",
+        "desc": "Flying Blue also books Delta, Kenya Airways, Vietnam Airlines and the rest of SkyTeam."
+      }
+    ],
+    "logo": "/logos/flying-blue.svg",
+    "logoAlt": "Air France logo",
+    "i18n": {
+      "fr": {
+        "metaTitle": "Acheter des Miles Flying Blue | Air France-KLM | buyflightmiles",
+        "metaDescription": "Achetez des miles Flying Blue Air France-KLM à prix réduit. Nous confirmons votre tarif exact avant tout paiement et les miles arrivent sur votre propre compte.",
+        "heroHeadline": "Acheter des miles Flying Blue",
+        "heroSub": "Il vous manque quelques milliers de miles pour une place en Business ? Complétez la différence. Les miles arrivent sur le compte que vous détenez déjà et vous réservez vous-même.",
+        "steps": [
+          {
+            "title": "Choisissez le montant",
+            "text": "Indiquez combien de miles il vous manque pour votre réservation."
+          },
+          {
+            "title": "Demandez le devis",
+            "text": "Envoyez la demande, nous confirmons votre tarif exact et le délai."
+          },
+          {
+            "title": "Les miles arrivent",
+            "text": "Le paiement se fait hors du site après votre accord, puis les miles sont transférés."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Promo Rewards",
+            "desc": "Flying Blue met chaque mois certaines destinations à prix réduit, souvent la meilleure valeur du programme."
+          },
+          {
+            "title": "Business vers l'Afrique et l'Asie",
+            "desc": "Les hubs de Paris et d'Amsterdam ouvrent un large réseau long-courrier en cabine avant."
+          },
+          {
+            "title": "Compléter un solde",
+            "desc": "La plupart des acheteurs ne prennent pas le billet entier, seulement les miles qui manquent."
+          }
+        ],
+        "faq": [
+          {
+            "q": "En combien de temps les miles arrivent-ils ?",
+            "a": "Le délai est confirmé dans votre devis. Il varie selon le programme et nous ne l'estimons pas au hasard."
+          },
+          {
+            "q": "Dois-je donner mon mot de passe ?",
+            "a": "Non. Un transfert nécessite seulement votre numéro d'adhérent et le nom du titulaire. Nous ne demandons jamais votre mot de passe."
+          },
+          {
+            "q": "Le paiement se fait-il sur ce site ?",
+            "a": "Non. Rien n'est débité ici. Le paiement se règle hors du site une fois le devis accepté."
+          },
+          {
+            "q": "Qui réserve le billet ?",
+            "a": "Vous. Les miles arrivent sur votre propre compte et vous réservez directement auprès de la compagnie, à votre nom."
+          }
+        ],
+        "ctaLabel": "Demander un devis",
+        "reviewed": false
+      },
+      "de": {
+        "metaTitle": "Flying Blue Meilen kaufen | Air France & KLM",
+        "metaDescription": "Flying Blue Meilen kaufen für Business bei Air France und KLM. 1,95 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "Flying Blue Meilen kaufen, mit Air France und KLM vorne fliegen.",
+        "heroSub": "Ein Konto für Air France und KLM. Stock deine Flying-Blue-Meilen auf und löse Business nach Paris oder Amsterdam ein. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "steps": [
+          {
+            "title": "Anfragen",
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+          },
+          {
+            "title": "Freigeben und zahlen",
+            "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
+          },
+          {
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes Flying Blue-Konto. Die Prämie buchst du danach direkt bei Air France oder KLM, auf deinen Namen."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Air France und KLM in Business",
+            "desc": "Business nach Paris oder Amsterdam ab 60.000 Meilen, einfach. Die Ab-Preise sind Untergrenzen, gefragte Termine kosten mehr."
+          },
+          {
+            "title": "Promo Rewards",
+            "desc": "Jeden Monat eine Liste rabattierter Prämien, 25 Prozent günstiger und teils mehr. Aufgestockte Meilen lassen dich zugreifen, solange die Liste läuft."
+          },
+          {
+            "title": "SkyTeam aus einem Konto",
+            "desc": "Flying Blue bucht auch Delta, Kenya Airways, Vietnam Airlines und den Rest von SkyTeam."
+          }
+        ],
+        "faq": [
+          {
+            "q": "Was kosten Flying-Blue-Meilen?",
+            "a": "1,95 Cent pro Meile, also 19,50 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 24 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+          },
+          {
+            "q": "Braucht ihr mein Flying-Blue-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+          },
+          {
+            "q": "Welche Zahlungswege akzeptiert ihr?",
+            "a": "Die akzeptierten Zahlungswege nennen wir dir zusammen mit dem Angebot. Die Zahlung läuft grundsätzlich außerhalb dieser Website."
+          },
+          {
+            "q": "Wofür lohnen sich Flying-Blue-Meilen am meisten?",
+            "a": "Für Business bei Air France und KLM ab 60.000 Meilen einfach, und für die monatlichen Promo Rewards, die dieselben Prämien noch einmal deutlich verbilligen. Ein aufgestocktes Konto lässt dich zugreifen, solange ein Promo-Fenster offen ist."
+          }
+        ],
+        "ctaLabel": "Angebot anfordern",
+        "reviewed": false
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does Flying Blue publish an award chart?",
+        "a": "No, pricing is dynamic with published from-rates: transatlantic business starts at 60,000 miles one way and economy around 25,000, with monthly Promo Rewards cutting selected routes by 25%, business from about 45,000. The floors aren't on every flight, so check your dates, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Do Flying Blue miles expire?",
+        "a": "The rule relaxed in May 2026: the whole balance stays alive for 24 months from your last earning activity, and any qualifying earn resets all of it. Elite members and co-brand cardholders are exempt entirely."
+      },
+      {
+        "q": "Can I upgrade an Air France or KLM flight with miles?",
+        "a": "Yes, dynamically priced and requestable online up to about 24 hours before departure, with the cheapest promo fares excluded. When an upgrade offer shows on your booking, the calculator above prices the miles it needs."
+      },
+      {
+        "q": "What are Promo Rewards?",
+        "a": "Flying Blue's signature deal: on the first of each month a list of discounted routes goes live at 25% off, sometimes more, and business to Europe has appeared from around 45,000 miles one way. When your route lands on the list, a top-up compounds the discount."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "From-prices are floors",
+        "text": "The 60,000-mile business floor is separate inventory; on peak dates dynamic pricing can run several times higher, so the advertised minimum is a best case worth hunting, on flexible dates."
+      },
+      {
+        "title": "Promo Rewards run monthly",
+        "text": "A fresh 25%-off list lands on the first of each month, bookable within the month for travel windows further out."
+      },
+      {
+        "title": "Expiry went from strict to easy in 2026",
+        "text": "Since May 2026 any qualifying earn extends the entire balance 24 months, and elites and cardholders are exempt; before that, only select activities counted."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "24 months from last earning; any qualifying earn resets the full balance"
+      },
+      {
+        "label": "Book with",
+        "text": "Air France, KLM + SkyTeam (Delta, Virgin Atlantic, Korean Air) and Etihad"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Dynamic miles upgrades on AF and KLM; cheapest fares excluded"
+      },
+      {
+        "label": "What we need",
+        "text": "Flying Blue number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "avianca-lifemiles",
+    "order": 20,
+    "program": "LifeMiles",
+    "airline": "Avianca",
+    "alliance": "Star Alliance",
+    "code": "AV",
+    "color": "#E30613",
+    "pricePerMile": 1.95,
+    "priceVerified": true,
+    "min": 49000,
+    "max": 500000,
+    "limitsVerified": true,
+    "delivery": "Within 24 hours",
+    "deliveryVerified": true,
+    "inStock": true,
+    "heroHeadline": "Buy LifeMiles for Avianca.",
+    "heroHighlight": "LifeMiles",
+    "heroSub": "The Star Alliance workhorse, famous for partner awards without fuel surcharges. Buy the LifeMiles you're short, quoted before you pay.",
+    "metaTitle": "Buy Avianca LifeMiles | Star Alliance Awards | buyflightmiles",
+    "metaDescription": "Buy Avianca LifeMiles at 1.95¢ per mile for Star Alliance awards without fuel surcharges. Delivered within 24 hours, rate confirmed before you pay.",
+    "related": [
+      "united-mileageplus",
+      "lufthansa-miles-more",
+      "turkish-miles-smiles"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Business to Europe",
+        "miles": 70000,
+        "desc": "One way on Star Alliance partners at the standard zone price; some routes dip lower."
+      },
+      {
+        "title": "No fuel surcharges",
+        "desc": "LifeMiles doesn't pass on carrier surcharges on partner awards, which keeps the cash side of a Lufthansa or ANA booking small."
+      },
+      {
+        "title": "Mixed-cabin pricing",
+        "desc": "LifeMiles prices each segment's cabin separately, so a partly-business itinerary costs fewer miles than all-business pricing elsewhere."
+      }
+    ],
+    "logo": "/logos/lifemiles.svg",
+    "logoAlt": "Avianca logo",
+    "i18n": {
+      "es": {
+        "metaTitle": "Comprar Millas LifeMiles | Avianca | buyflightmiles",
+        "metaDescription": "Compra millas LifeMiles de Avianca a una fracción del precio. Confirmamos tu precio exacto antes de que pagues y las millas llegan a tu propia cuenta.",
+        "heroHeadline": "Comprar millas LifeMiles",
+        "heroSub": "¿Te faltan unos miles de millas para el pasaje que quieres? Completa la diferencia. Las millas llegan a la cuenta que ya tienes y tú haces la reserva.",
+        "steps": [
+          {
+            "title": "Elige la cantidad",
+            "text": "Indica cuántas millas te faltan para tu reserva."
+          },
+          {
+            "title": "Pide la cotización",
+            "text": "Envía la solicitud y confirmamos tu precio exacto y el tiempo de entrega."
+          },
+          {
+            "title": "Las millas llegan",
+            "text": "El pago se hace fuera del sitio después de que aceptes, y luego transferimos las millas."
+          }
+        ],
+        "uses": [
+          {
+            "title": "Star Alliance sin recargos",
+            "desc": "LifeMiles cobra pocas tasas en los premios de socios, así que el precio final suele ser más limpio que en otros programas."
+          },
+          {
+            "title": "Business a Europa y Norteamérica",
+            "desc": "Los vuelos largos en cabina ejecutiva son donde una milla comprada rinde más."
+          },
+          {
+            "title": "Completar un saldo",
+            "desc": "La mayoría no compra el pasaje entero, solo las millas que le faltan."
+          }
+        ],
+        "faq": [
+          {
+            "q": "¿En cuánto tiempo llegan las millas?",
+            "a": "El tiempo de entrega se confirma en tu cotización. Depende del programa y no lo estimamos a la ligera."
+          },
+          {
+            "q": "¿Tengo que dar mi contraseña?",
+            "a": "No. Una transferencia solo necesita tu número de socio y el nombre de la cuenta. Nunca pedimos tu contraseña."
+          },
+          {
+            "q": "¿El pago se hace en este sitio?",
+            "a": "No. Aquí no se cobra nada. El pago se realiza fuera del sitio una vez que aceptas la cotización."
+          },
+          {
+            "q": "¿Quién hace la reserva?",
+            "a": "Tú. Las millas llegan a tu propia cuenta y reservas directamente con la aerolínea, a tu nombre."
+          }
+        ],
+        "ctaLabel": "Pedir cotización",
+        "reviewed": false
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does LifeMiles publish an award chart?",
+        "a": "There's a zone-based chart underneath, unpublished but stable enough to plan with: US to Europe business on Star Alliance partners is 70,000 miles one way standard, with route-level variation either side; New York to Zurich has gone for 55,000. Price your route on lifemiles.com, then price the shortfall with the calculator above."
+      },
+      {
+        "q": "Do LifeMiles expire?",
+        "a": "After 12 months without any earning; redemptions don't reset the clock, but any accrual, however small, extends the whole balance another year, and cardholders and elites get 24 months. Buy for a booking you're ready to make and the clock never runs out."
+      },
+      {
+        "q": "Can I upgrade an Avianca flight with miles?",
+        "a": "Yes, on Avianca-operated flights for paid tickets in eligible fare classes; award tickets can't be upgraded. For partner flights the play is booking the premium cabin outright, which the calculator above prices."
+      },
+      {
+        "q": "Do LifeMiles awards have fuel surcharges?",
+        "a": "No, on no partner: you pay government taxes only, which keeps several hundred dollars off a Lufthansa or ANA business award that surcharge-heavy programs would add. Most Star Alliance partner awards also book online at lifemiles.com, which is rare for a program with this kind of chart."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Taxes only, on every partner",
+        "text": "No carrier surcharges pass through on any partner redemption, which makes LifeMiles one of the cheapest cash-side ways onto Lufthansa and ANA metal."
+      },
+      {
+        "title": "The expiry clock is strict",
+        "text": "12 months without earning wipes the balance, and spending doesn't reset it; any small accrual does, and cardholders and elites get 24 months."
+      },
+      {
+        "title": "Devaluations arrive unannounced",
+        "text": "The August 2024 and February 2025 changes both landed with zero notice, which argues for buying close to a planned redemption rather than stockpiling."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "12 months without earning; any accrual resets, redemptions don't"
+      },
+      {
+        "label": "Book with",
+        "text": "Avianca + Star Alliance (United, Lufthansa, ANA), mostly online"
+      },
+      {
+        "label": "Upgrades",
+        "text": "Paid Avianca tickets in eligible fare classes only"
+      },
+      {
+        "label": "What we need",
+        "text": "LifeMiles number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "cathay-pacific-asia-miles",
+    "order": 21,
+    "program": "Asia Miles",
+    "airline": "Cathay Pacific",
+    "alliance": "Oneworld",
+    "code": "CX",
+    "color": "#006564",
+    "pricePerMile": 1.95,
+    "priceVerified": true,
+    "min": 80000,
+    "max": 500000,
+    "limitsVerified": true,
+    "delivery": "Within 72 hours",
+    "deliveryVerified": true,
+    "inStock": true,
+    "heroHeadline": "Buy Asia Miles for Cathay Pacific.",
+    "heroHighlight": "Asia Miles",
+    "heroSub": "Cathay's business class to Asia for a fraction of the fare. Top up Asia Miles and book Cathay Pacific or its Oneworld partners.",
+    "metaTitle": "Buy Cathay Pacific Asia Miles | buyflightmiles",
+    "metaDescription": "Buy Cathay Pacific Asia Miles at 1.95¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
+    "related": [
+      "qatar-avios",
+      "british-airways-avios",
+      "emirates-skywards"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Cathay business and first",
+        "miles": 88000,
+        "desc": "Long-haul business one way on the current chart, Hong Kong to London or the US West Coast."
+      },
+      {
+        "title": "Oneworld partner awards",
+        "desc": "Asia Miles also books JAL, Qantas, British Airways and the rest of Oneworld."
+      },
+      {
+        "title": "Stopovers and open jaws",
+        "desc": "The multi-carrier award chart allows stopovers and open-jaw routings, so one award can cover two cities."
+      }
+    ],
+    "logo": "/logos/asia-miles.svg",
+    "logoAlt": "Cathay Pacific logo",
+    "i18n": {
+      "zh-hk": {
+        "metaTitle": "購買國泰亞洲萬里通里數 | buyflightmiles",
+        "metaDescription": "以優惠價購買國泰航空亞洲萬里通里數。付款前確認你嘅確實價格，里數直接存入你自己嘅帳戶。",
+        "heroHeadline": "購買亞洲萬里通里數",
+        "heroSub": "差幾千里數就換到商務艙？補返個差額就得。里數入你原本就有嘅帳戶，訂位由你自己做。",
+        "steps": [
+          {
+            "title": "揀數量",
+            "text": "輸入你今次訂位仲差幾多里數。"
+          },
+          {
+            "title": "索取報價",
+            "text": "交低需求，我哋確認你嘅確實價格同入賬時間。"
+          },
+          {
+            "title": "里數入賬",
+            "text": "你同意之後喺站外付款，里數就會轉入你嘅帳戶。"
+          }
+        ],
+        "uses": [
+          {
+            "title": "國泰商務艙長途航線",
+            "desc": "長途前艙係亞洲萬里通最抵嘅用法，一里數買返嚟嘅價值最高。"
+          },
+          {
+            "title": "寰宇一家夥伴",
+            "desc": "里數同樣可以訂寰宇一家其他航空，航網遠大過國泰自己嘅航線。"
+          },
+          {
+            "title": "補足差額",
+            "desc": "大部分人唔係買成張票嘅里數，淨係買爭嗰段。"
+          }
+        ],
+        "faq": [
+          {
+            "q": "里數幾耐會入賬？",
+            "a": "入賬時間會喺報價中列明。時間視乎計劃而定，我哋唔會亂估。"
+          },
+          {
+            "q": "需唔需要俾密碼？",
+            "a": "唔需要。轉里數只需要你嘅會員號碼同帳戶姓名，我哋從來唔會索取密碼。"
+          },
+          {
+            "q": "係咪喺呢個網站付款？",
+            "a": "唔係。本網站唔會收取任何款項。你同意報價之後，付款喺站外完成。"
+          },
+          {
+            "q": "邊個訂機票？",
+            "a": "你自己。里數入你本人嘅帳戶，你直接用自己個名向航空公司訂位。"
+          }
+        ],
+        "ctaLabel": "索取報價",
+        "reviewed": false
+      }
+    },
+    "faqExtras": [
+      {
+        "q": "Does Cathay publish an award chart?",
+        "a": "Yes, distance-based. Long-haul business, Hong Kong to London or the US West Coast, is 88,000 miles one way on the current chart, with separate charts for partner awards and a oneworld multi-carrier chart for trips on several airlines. Find your award's band, then price the exact shortfall with the calculator above."
+      },
+      {
+        "q": "Do Asia Miles expire?",
+        "a": "Only with total inactivity: the balance lapses 18 months after your last earn or redemption, and any single transaction resets all of it for another 18. An account that books an award after topping up is safe by construction."
+      },
+      {
+        "q": "Can I upgrade a Cathay Pacific flight with miles?",
+        "a": "Yes, one cabin up, from eligible fare classes; the cheapest economy buckets and most non-Cathay-operated flights are excluded. Check your ticket's fare class first, then buy the miles the upgrade needs."
+      },
+      {
+        "q": "What is Asia Miles now?",
+        "a": "The mileage currency of Cathay, the programme that replaced the Marco Polo Club and standalone Asia Miles in 2022. Your miles live in your Cathay membership account and work like any major program's; this page's rate, limits and delivery window all refer to it."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "Surcharges depend on whose metal you book",
+        "text": "Cathay's own award flights carry meaningful carrier surcharges, around $200 per long-haul segment, while the same miles on partners like Finnair and Qantas price without them."
+      },
+      {
+        "title": "One programme, two old names",
+        "text": "Marco Polo Club and Asia Miles merged into 'Cathay' in 2022; Asia Miles survives as the currency, so older guides describe the same account under different names."
+      },
+      {
+        "title": "The multi-carrier chart is a quiet weapon",
+        "text": "A separate cumulative-distance chart prices trips on two or more oneworld carriers, with stopovers and open jaws allowed; it usually takes manual distance math and a phone call."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Expiry",
+        "text": "18 months from last activity; any earn or redemption resets the balance"
+      },
+      {
+        "label": "Book with",
+        "text": "Cathay Pacific + Oneworld (JAL, Qantas, BA, American) and more"
+      },
+      {
+        "label": "Upgrades",
+        "text": "One cabin up from eligible fare classes; cheapest economy excluded"
+      },
+      {
+        "label": "What we need",
+        "text": "Cathay membership number and account name. Never your password"
+      }
+    ],
+    "factsChecked": "August 2026"
+  },
+  {
+    "id": "qantas-frequent-flyer",
+    "order": 22,
+    "program": "Frequent Flyer",
+    "airline": "Qantas",
+    "alliance": "Oneworld",
+    "code": "QF",
+    "color": "#E40000",
+    "pricePerMile": 1.9,
+    "priceVerified": false,
+    "min": 50000,
+    "max": 500000,
+    "limitsVerified": false,
+    "delivery": "Within 48 hours",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Qantas Points for Classic Rewards.",
+    "heroHighlight": "Qantas Points",
+    "heroSub": "Top up for a fixed-price Classic Reward instead of paying the cash fare — Qantas' own long-haul cabins, Oneworld partners, and Emirates through the partnership.",
+    "metaTitle": "Buy Qantas Points | Qantas Frequent Flyer | buyflightmiles",
+    "metaDescription": "Buy Qantas Frequent Flyer points for Classic Reward bookings on Qantas, Oneworld partners and Emirates. Secure transfer, exact rate confirmed before you pay.",
+    "related": [
+      "british-airways-avios",
+      "cathay-pacific-asia-miles",
+      "emirates-skywards"
+    ],
+    "sweetSpots": [
+      {
+        "title": "Classic Rewards on Qantas long-haul",
+        "desc": "Fixed-price awards in premium cabins on Qantas' own network. The seats are limited, but when one is open the points price sits well under the cash fare."
+      },
+      {
+        "title": "Oneworld partner awards",
+        "desc": "Qantas is a founding Oneworld member, so Frequent Flyer points reach Cathay Pacific, Qatar Airways, JAL and the rest of the alliance as Classic Rewards."
+      },
+      {
+        "title": "Emirates through the partnership",
+        "desc": "The long-standing Qantas-Emirates partnership makes Emirates one of the most useful non-alliance redemptions in the program."
+      }
+    ],
+    "quirks": [
+      {
+        "title": "The 18-month activity clock",
+        "text": "Qantas Points lapse after 18 months with no earning or redeeming on the account, and any activity resets the clock. Qantas emails at 12 months dormant and again 45 days before expiry, so plan to book inside that window."
+      },
+      {
+        "title": "Classic is the price worth buying for",
+        "text": "Classic Rewards are the fixed-price awards; Classic Plus follows the cash fare and is Qantas-only, so the same points buy far less there. Check Classic availability for your route before topping up."
+      }
+    ],
+    "mechanics": [
+      {
+        "label": "Alliance",
+        "text": "Oneworld, plus the separate Emirates partnership."
+      },
+      {
+        "label": "Award pricing",
+        "text": "Fixed Classic Reward tables by distance, alongside fare-linked Classic Plus on Qantas' own flights."
+      },
+      {
+        "label": "Expiry",
+        "text": "Points lapse after 18 months without earning or redeeming activity."
+      }
+    ],
+    "faqExtras": [
+      {
+        "q": "Do Qantas Points expire?",
+        "a": "Yes — after 18 months without earning or redeeming on the account. Any eligible activity resets the clock, and Qantas warns by email at 12 months dormant and again 45 days out, so a topped-up balance should be booked inside that window."
+      },
+      {
+        "q": "What can I book with Qantas Points?",
+        "a": "Classic Rewards are the value play: fixed points prices on Qantas, Jetstar, Oneworld carriers and partners including Emirates. Classic Plus opens far more seats but follows the cash fare and only covers Qantas' own flights, so the per-point value is much lower."
+      },
+      {
+        "q": "Are there fees on Qantas award bookings?",
+        "a": "Yes. Carrier charges apply on top of the points price and are heaviest on Qantas' own long-haul premium cabins; partner bookings often carry lower charges. The taxes and charges are shown before you confirm the booking."
+      }
+    ],
+    "factsChecked": "August 2026",
+    "logo": "/logos/qantas-frequent-flyer.svg",
+    "logoAlt": "Qantas logo"
   }
 ]
