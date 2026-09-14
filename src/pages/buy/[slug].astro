@@ -93,6 +93,8 @@ const jsonld = {
   slug={`buy/${a.slug}`}
   jsonld={jsonld}
   alternates={Object.keys(a.i18n ?? {}).map((loc) => ({ hreflang: LOCALES[loc]?.htmlLang ?? loc, slug: `${loc}/buy/${a.slug}` }))}
+  ogImage={`/og/buy/${a.slug}.png`}
+  ogImageAlt={`${a.airline} ${a.program} miles at buyflightmiles`}
 >
   <!-- HERO -->
   <section class="hero">

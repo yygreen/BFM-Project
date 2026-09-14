@@ -69,9 +69,11 @@ const jsonld = {
   description={d.description}
   slug={`blog/${post.id}`}
   jsonld={jsonld}
-  {...(d.image
+  {...(d.image && !d.image.endsWith(".svg")
     ? { ogImage: d.image, ogImageAlt: d.imageAlt ?? d.title, ogImageWidth: 1376, ogImageHeight: 768 }
-    : {})}
+    : /* no raster hero (none, or an SVG scrapers won't rasterise): the
+         prebuild-generated card carries the title instead */
+      { ogImage: `/og/blog/${post.id}.png`, ogImageAlt: d.title })}
 >
   <article class="section" style="padding-top:32px">
     <div class="container">
