@@ -5,8 +5,9 @@
 // Qatar Privilege Club, Finnair, Aer Lingus, Vueling and Loganair, moving 1:1
 // between them, and the two questions a buyer has are independent:
 //
-//   where do I buy it cheapest?   →  BA 1.75¢ but 80,000 minimum
-//                                    Qatar 1.8¢ but 10,000 minimum
+//   where do I buy it cheapest?   →  whichever confirmed rate the data ranks
+//                                    first (Sep 2026 sheet: Qatar 1.5¢ from a
+//                                    10,000 minimum, cheapest AND lowest-min)
 //   where do I spend it best?     →  BA metal carries ~$410 of surcharges one
 //                                    way transatlantic; the same Avios on
 //                                    Qatar, Iberia or Aer Lingus do not
@@ -77,10 +78,20 @@ const lowestMin = [...priced].sort((x, y) => x.min - y.min)[0];
 // The amount above which the cheaper rate is actually orderable. Below it the
 // low-minimum program is the only one that can take the order at all.
 const switchAt = cheapest.min;
+// The September 2026 price sheet made Qatar both the cheapest confirmed rate
+// AND the lowest minimum. When one programme holds both there is no trade-off
+// left to explain: the two-row rule collapses to a single recommendation, and
+// the saving is measured against the next-cheapest confirmed rate instead of
+// the hardcoded BA/Qatar pair. Both branches stay, because the next price
+// sheet can split the crown again without an edit here.
+const dominant = cheapest.slug === lowestMin.slug;
+const runnerUp = priced.find((s) => s.slug !== cheapest.slug) ?? null;
 // A worked example at a round number both programs accept, so the saving is a
 // real subtraction rather than a percentage.
 const example = 100000;
-const saving = costOf(example, qr.pricePerMile) - costOf(example, ba.pricePerMile);
+const saving = dominant && runnerUp
+  ? costOf(example, runnerUp.pricePerMile) - costOf(example, cheapest.pricePerMile)
+  : costOf(example, qr.pricePerMile) - costOf(example, ba.pricePerMile);
 
 const posts = (await getPosts())
   .filter((p) => p.data.programs.some((s) => s === "british-airways-avios" || s === "qatar-avios"))
@@ -122,7 +133,9 @@ const faqs = [
   },
   {
     q: "Which should I buy, BA or Qatar Avios?",
-    a: `Under ${switchAt.toLocaleString("en-US")} Avios, ${lowestMin.airline} is the only confirmed rate that can take the order: its minimum is ${lowestMin.min.toLocaleString("en-US")} against ${cheapest.min.toLocaleString("en-US")}. At ${switchAt.toLocaleString("en-US")} or more, ${cheapest.airline} is cheaper per Avios. Either way they are the same Avios once delivered, so buy whichever fits your amount and move them if you want to spend elsewhere.`,
+    a: dominant
+      ? `Right now ${cheapest.airline} holds both the cheapest confirmed rate (${rateFixed(cheapest.pricePerMile)}¢) and the lowest minimum (${cheapest.min.toLocaleString("en-US")} Avios), so it is the default answer at any amount. They are the same Avios once delivered: buy through ${cheapest.airline} and move them 1:1 if you want to book from ${runnerUp ? runnerUp.airline : "another programme"} instead.`
+      : `Under ${switchAt.toLocaleString("en-US")} Avios, ${lowestMin.airline} is the only confirmed rate that can take the order: its minimum is ${lowestMin.min.toLocaleString("en-US")} against ${cheapest.min.toLocaleString("en-US")}. At ${switchAt.toLocaleString("en-US")} or more, ${cheapest.airline} is cheaper per Avios. Either way they are the same Avios once delivered, so buy whichever fits your amount and move them if you want to spend elsewhere.`,
   },
   {
     q: "Can I move Avios to Iberia or Finnair?",
@@ -209,16 +222,25 @@ const jsonldFaq = {
     </div>
   </section>
 
-  <!-- WHICH ONE — the page's whole reason to exist. Two verified rates and
-       two verified minimums, and the answer flips at one number. -->
+  <!-- WHICH ONE — the page's whole reason to exist. When rate and minimum
+       trade off, the answer flips at one number; when one programme holds
+       both crowns (the dominant branch), it collapses to a recommendation. -->
   <section class="section wash-cool" id="which">
     <div class="container">
       <div class="section-head">
         <h2>Same Avios, {skus.length} ways to buy it</h2>
-        <p>
-          The cheapest confirmed rate isn't always available to you: it carries the higher
-          minimum order. That is the decision, and it turns at {switchAt.toLocaleString("en-US")} Avios.
-        </p>
+        {dominant ? (
+          <p>
+            Right now one programme holds both the cheapest confirmed rate and the lowest
+            minimum, which makes the choice simple. The cards show what the same Avios cost
+            everywhere we sell them.
+          </p>
+        ) : (
+          <p>
+            The cheapest confirmed rate isn't always available to you: it carries the higher
+            minimum order. That is the decision, and it turns at {switchAt.toLocaleString("en-US")} Avios.
+          </p>
+        )}
       </div>
 
       <div class="avios-split" style={`--n:${skus.length}`}>
@@ -257,20 +279,33 @@ const jsonldFaq = {
       <!-- The rule, stated once, in the order a buyer meets it. Both halves
            come from limitsVerified / priceVerified data. -->
       <div class="avios-rule">
-        <div class="ar-row">
-          <span class="ar-k">Under {switchAt.toLocaleString("en-US")}</span>
-          <span class="ar-v">
-            <b>{lowestMin.airline}</b> — the only confirmed rate that takes an order this small,
-            from {lowestMin.min.toLocaleString("en-US")} Avios.
-          </span>
-        </div>
-        <div class="ar-row">
-          <span class="ar-k">{switchAt.toLocaleString("en-US")} and up</span>
-          <span class="ar-v">
-            <b>{cheapest.airline}</b> — cheaper per Avios. On {example.toLocaleString("en-US")} that is
-            {" "}{usd(saving)} less than the same Avios bought through {qr.airline}.
-          </span>
-        </div>
+        {dominant ? (
+          <div class="ar-row">
+            <span class="ar-k">Any amount from {cheapest.min.toLocaleString("en-US")}</span>
+            <span class="ar-v">
+              <b>{cheapest.airline}</b>: the cheapest confirmed rate and the lowest minimum
+              at once. On {example.toLocaleString("en-US")} that is {usd(saving)} less than the
+              same Avios bought through {runnerUp ? runnerUp.airline : "the next programme"}.
+            </span>
+          </div>
+        ) : (
+          <>
+            <div class="ar-row">
+              <span class="ar-k">Under {switchAt.toLocaleString("en-US")}</span>
+              <span class="ar-v">
+                <b>{lowestMin.airline}</b> — the only confirmed rate that takes an order this small,
+                from {lowestMin.min.toLocaleString("en-US")} Avios.
+              </span>
+            </div>
+            <div class="ar-row">
+              <span class="ar-k">{switchAt.toLocaleString("en-US")} and up</span>
+              <span class="ar-v">
+                <b>{cheapest.airline}</b> — cheaper per Avios. On {example.toLocaleString("en-US")} that is
+                {" "}{usd(saving)} less than the same Avios bought through {qr.airline}.
+              </span>
+            </div>
+          </>
+        )}
       </div>
       <p class="avios-note">
         They are the same Avios once delivered. Buy whichever fits your amount, then move them

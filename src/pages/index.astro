@@ -12,6 +12,7 @@ import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
 import { site, live, realTestimonials, realReviews, flightSavings, flightSavingsHtml } from "../lib/site";
 import { rateFixed } from "../lib/money";
+import { deliveryHours } from "../lib/delivery";
 
 // alphabetical by carrier, matching the nav dropdown and the quote widget's
 // selector — the grid is a lookup wall, and one site shouldn't have two orders
@@ -23,12 +24,16 @@ const airlines = (await getCollection("airlines"))
 // so the hero says "fast" and each program page states its own number;
 // rating/completion appear once the client verifies them.
 //
-// `fastest` is the shortest CONFIRMED window — sorted by hours, since the
-// roster is ordered alphabetically and first-in-list is not fastest.
+// `fastest` is the shortest CONFIRMED window among programs that can
+// actually be ordered — sorted by real duration, since the roster is ordered
+// alphabetically and the data mixes "24 hours" with "3 business days"
+// (parseInt would rank the days ahead of the hours). inStock matters: after
+// the Sep 2026 sheet the only hour-window programs are out of stock, and a
+// speed claim resting on a program nobody can order is not a claim we make.
 const fastest = airlines
-  .filter((a) => a.deliveryVerified)
-  .map((a) => a.delivery.replace("Within ", ""))
-  .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))[0];
+  .filter((a) => a.deliveryVerified && a.inStock)
+  .sort((a, b) => deliveryHours(a.delivery) - deliveryHours(b.delivery))
+  .map((a) => a.delivery.replace("Within ", ""))[0];
 
 const savings = flightSavings();
 const savingsHtml = flightSavingsHtml();
@@ -80,7 +85,10 @@ const jsonld = {
     <div class="container">
       <div class="hero-grid">
         <div>
-          <span class="kicker">Miles, delivered within hours</span>
+          {/* the kicker is a delivery claim like any other: it states the
+              fastest in-stock confirmed window instead of a hardcoded
+              "within hours" that the data may not back */}
+          <span class="kicker">{fastest ? `Miles, delivered within ${fastest.toLowerCase()}` : "Miles, delivered fast"}</span>
           <!-- The keyword leads and the hook follows: the h1 was carrying the
                promise but not the phrase people search, while the title tag
                carried the phrase. Now they agree. -->
@@ -271,7 +279,9 @@ const jsonld = {
       </div>
       <!-- the full set, and its FAQPage markup, live on /faq — the homepage
            shows the first few and sends the rest there -->
-      <Faq delivery="24 hours" limit={5} jsonld={false} />
+      {/* the fastest CONFIRMED window, not a hardcoded 24 hours — the answer
+          this feeds is a delivery claim, and it must follow the data */}
+      <Faq delivery={fastest ?? "a few business days"} limit={5} jsonld={false} />
       <p style="margin-top:22px">
         <a class="btn btn-secondary" href="/faq">Read all questions</a>
       </p>

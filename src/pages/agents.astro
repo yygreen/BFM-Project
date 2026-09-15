@@ -7,6 +7,7 @@ import { getCollection } from "astro:content";
 import Confirmation from "../components/Confirmation.astro";
 import EnquiryMail from "../components/EnquiryMail.astro";
 import { site, agentFormReady, paymentSentence, realReviews, mailtoInbox } from "../lib/site";
+import { deliveryHours } from "../lib/delivery";
 
 const rev = realReviews[0] ?? null;
 const stars = rev ? Math.round(rev.rating) : 0;
@@ -49,9 +50,12 @@ const partnerPayAnswer = pay
     ].filter(Boolean).join(" ")
   : "We'll confirm accepted methods and any partner terms when we set up your account. Payment is always handled off this site.";
 
-// fastest confirmed delivery window, rather than a hardcoded claim
+// fastest confirmed delivery window, rather than a hardcoded claim — sorted
+// by real duration, since roster order is not delivery order and the data
+// mixes hour and business-day windows
 const fastestWindow = airlines
-  .filter((a) => a.deliveryVerified)
+  .filter((a) => a.deliveryVerified && a.inStock)
+  .sort((a, b) => deliveryHours(a.delivery) - deliveryHours(b.delivery))
   .map((a) => a.delivery.replace("Within ", ""))[0];
 
 const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2540FF" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>';

@@ -50,8 +50,16 @@ const priced = skus.filter((a) => a.priceVerified && a.limitsVerified);
 const cheapest = priced[0];
 const lowestMin = [...priced].sort((x, y) => x.min - y.min)[0];
 const switchAt = cheapest.min;
+// Same dominant-programme branch as the English page: when one programme is
+// both the cheapest confirmed rate and the lowest minimum, the trade-off
+// narrative collapses to a recommendation and the saving compares against
+// the next-cheapest confirmed rate.
+const dominant = cheapest.slug === lowestMin.slug;
+const runnerUp = priced.find((s) => s.slug !== cheapest.slug) ?? null;
 const example = 100000;
-const saving = costOf(example, qr.pricePerMile) - costOf(example, ba.pricePerMile);
+const saving = dominant && runnerUp
+  ? costOf(example, runnerUp.pricePerMile) - costOf(example, cheapest.pricePerMile)
+  : costOf(example, qr.pricePerMile) - costOf(example, ba.pricePerMile);
 
 // Euros as a reading aid beside the dollar prices, ECB-sourced and dated.
 // The dollar figure stays the price; every converted figure says so.
@@ -106,7 +114,9 @@ const faqs = [
   },
   {
     q: "¿Cuáles me conviene comprar?",
-    a: `Por debajo de ${n(switchAt)} Avios, ${lowestMin.airline} es la única tarifa confirmada que puede aceptar el pedido: su mínimo es ${n(lowestMin.min)} frente a ${n(cheapest.min)}. A partir de ${n(switchAt)}, ${cheapest.airline} sale más barato por Avios. En cualquier caso son los mismos Avios una vez entregados: compra el que encaje con tu cantidad y muévelos después al programa desde el que quieras reservar.`,
+    a: dominant
+      ? `Ahora mismo ${cheapest.airline} tiene a la vez la tarifa confirmada más barata (${rateFixed(cheapest.pricePerMile)}¢) y el pedido mínimo más bajo (${n(cheapest.min)} Avios), así que es la respuesta por defecto para cualquier cantidad. Son los mismos Avios una vez entregados: compra a través de ${cheapest.airline} y muévelos 1:1 si quieres reservar desde ${runnerUp ? runnerUp.airline : "otro programa"}.`
+      : `Por debajo de ${n(switchAt)} Avios, ${lowestMin.airline} es la única tarifa confirmada que puede aceptar el pedido: su mínimo es ${n(lowestMin.min)} frente a ${n(cheapest.min)}. A partir de ${n(switchAt)}, ${cheapest.airline} sale más barato por Avios. En cualquier caso son los mismos Avios una vez entregados: compra el que encaje con tu cantidad y muévelos después al programa desde el que quieras reservar.`,
   },
   {
     q: "¿Puedo mover los Avios a Iberia o a Finnair?",
@@ -170,7 +180,7 @@ const jsonldFaq = {
             </span>
             <span class="spec-it">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Entrega en <b>{ba.delivery.replace("Within ", "").replace("hours", "horas")}</b>
+              Entrega en <b>{ba.delivery.replace("Within ", "").replace("business days", "días hábiles").replace("hours", "horas")}</b>
             </span>
             <span class="spec-it">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 5h18"/><polyline points="7 23 3 19 7 15"/><path d="M21 19H3"/></svg>
@@ -198,10 +208,18 @@ const jsonldFaq = {
     <div class="container">
       <div class="section-head">
         <h2>Los mismos Avios, {skus.length} formas de comprarlos</h2>
-        <p>
-          La tarifa confirmada más barata no siempre está a tu alcance: lleva el pedido mínimo
-          más alto. Esa es la decisión, y cambia en {n(switchAt)} Avios.
-        </p>
+        {dominant ? (
+          <p>
+            Ahora mismo un solo programa tiene a la vez la tarifa confirmada más barata y el
+            pedido mínimo más bajo, así que la elección es sencilla. Las tarjetas muestran lo
+            que cuestan los mismos Avios en cada programa donde los vendemos.
+          </p>
+        ) : (
+          <p>
+            La tarifa confirmada más barata no siempre está a tu alcance: lleva el pedido mínimo
+            más alto. Esa es la decisión, y cambia en {n(switchAt)} Avios.
+          </p>
+        )}
       </div>
 
       <div class="avios-split" style={`--n:${skus.length}`}>
@@ -221,7 +239,7 @@ const jsonldFaq = {
             <div class="rows">
               <div class="r"><span>Pedido mínimo</span><b>{n(s.min)}</b></div>
               <div class="r"><span>Máximo</span><b>{n(s.max)}</b></div>
-              <div class="r"><span>Entrega</span><b>{s.deliveryVerified ? s.delivery.replace("Within ", "").replace("hours", "horas") : "con la cotización"}</b></div>
+              <div class="r"><span>Entrega</span><b>{s.deliveryVerified ? s.delivery.replace("Within ", "").replace("business days", "días hábiles").replace("hours", "horas") : "con la cotización"}</b></div>
               <div class="r"><span>{n(example)} Avios</span><b>{s.priceVerified ? "" : "~"}{usd(costOf(example, s.pricePerMile))}</b></div>
             </div>
             {s.i18n?.es
@@ -232,20 +250,33 @@ const jsonldFaq = {
       </div>
 
       <div class="avios-rule">
-        <div class="ar-row">
-          <span class="ar-k">Menos de {n(switchAt)}</span>
-          <span class="ar-v">
-            <b>{lowestMin.airline}</b>: la única tarifa confirmada que acepta un pedido así,
-            desde {n(lowestMin.min)} Avios.
-          </span>
-        </div>
-        <div class="ar-row">
-          <span class="ar-k">{n(switchAt)} o más</span>
-          <span class="ar-v">
-            <b>{cheapest.airline}</b>: más barato por Avios. En {n(example)} son
-            {" "}{usd(saving)}{eur(saving) ? ` (≈ ${eur(saving)})` : ""} menos que los mismos Avios comprados a través de {qr.airline}.
-          </span>
-        </div>
+        {dominant ? (
+          <div class="ar-row">
+            <span class="ar-k">Cualquier cantidad desde {n(cheapest.min)}</span>
+            <span class="ar-v">
+              <b>{cheapest.airline}</b>: la tarifa confirmada más barata y el mínimo más bajo
+              a la vez. En {n(example)} son {usd(saving)}{eur(saving) ? ` (≈ ${eur(saving)})` : ""} menos
+              que los mismos Avios comprados a través de {runnerUp ? runnerUp.airline : "otro programa"}.
+            </span>
+          </div>
+        ) : (
+          <>
+            <div class="ar-row">
+              <span class="ar-k">Menos de {n(switchAt)}</span>
+              <span class="ar-v">
+                <b>{lowestMin.airline}</b>: la única tarifa confirmada que acepta un pedido así,
+                desde {n(lowestMin.min)} Avios.
+              </span>
+            </div>
+            <div class="ar-row">
+              <span class="ar-k">{n(switchAt)} o más</span>
+              <span class="ar-v">
+                <b>{cheapest.airline}</b>: más barato por Avios. En {n(example)} son
+                {" "}{usd(saving)}{eur(saving) ? ` (≈ ${eur(saving)})` : ""} menos que los mismos Avios comprados a través de {qr.airline}.
+              </span>
+            </div>
+          </>
+        )}
       </div>
       <p class="avios-note">
         Una vez entregados son los mismos Avios. Compra el que encaje con tu cantidad y muévelos

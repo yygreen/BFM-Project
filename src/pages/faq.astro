@@ -10,6 +10,7 @@
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Faq from "../components/Faq.astro";
+import { deliveryHours } from "../lib/delivery";
 import { getCollection } from "astro:content";
 import { site, live, quoteFormReady } from "../lib/site";
 
@@ -18,9 +19,11 @@ const airlines = (await getCollection("airlines"))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 const verified = airlines.filter((a) => a.priceVerified);
 const cheapest = [...verified].sort((a, b) => a.pricePerMile - b.pricePerMile)[0];
+// in-stock as well as verified: the only hour-window programs are currently
+// out of stock, and a speed claim can't rest on a program nobody can order
 const fastest = [...airlines]
-  .filter((a) => a.deliveryVerified)
-  .sort((a, b) => parseInt(a.delivery.replace("Within ", ""), 10) - parseInt(b.delivery.replace("Within ", ""), 10))[0];
+  .filter((a) => a.deliveryVerified && a.inStock)
+  .sort((a, b) => deliveryHours(a.delivery) - deliveryHours(b.delivery))[0];
 
 // The rate range is derived, so this answer can never drift from the data.
 const rates = verified.map((a) => a.pricePerMile).sort((a, b) => a - b);

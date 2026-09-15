@@ -204,7 +204,7 @@ const jsonld = [
               )}
               <span class="spec-it">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Lieferung in <b>{a.delivery.replace("Within ", "").replace("hours", "Stunden")}</b>
+                Lieferung in <b>{a.delivery.replace("Within ", "").replace("business days", "Werktagen").replace("hours", "Stunden")}</b>
               </span>
               {years !== null ? (
                 <span class="spec-it">

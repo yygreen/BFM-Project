@@ -69,6 +69,8 @@ export type LocaleChrome = {
     on: string;
     /** "48 hours" is data; each language supplies its own unit */
     hours: string;
+    /** same for "3 business days", the unit the Sep 2026 price sheet uses */
+    bizDays: string;
     /** the value section, which was missing from these pages entirely */
     bestUsesSub: string;
     greatValue: string;
@@ -134,6 +136,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "السعر يُؤكَّد قبل الدفع",
       on: "على",
       hours: "ساعة",
+      bizDays: "أيام عمل",
       bestUsesSub: "أين تمنحك هذه الأميال أفضل قيمة، ومتى يكون الدفع نقداً أفضل. جرّب أي منها مقابل سعر حقيقي.",
       greatValue: "قيمة ممتازة",
       greatValueNote: "الحجوزات التي تستحق شراء الأميال من أجلها",
@@ -151,6 +154,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} ساعة",
+      dDays: "{n} أيام عمل",
       milesLabel: "الأميال",
       program: "البرنامج",
       howMany: "كم عدد الأميال؟",
@@ -255,6 +259,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       freeQuote: "Kostenloses, unverbindliches Angebot", deliveredIn: "Lieferung in",
       yearsIn: "am Markt", ratePreConfirmed: "Preis vor Zahlung bestätigt", on: "auf",
       hours: "Stunden",
+      bizDays: "Werktage",
       bestUsesSub: "Wo diese Meilen am meisten wert sind und wann bar besser ist.",
       greatValue: "Sehr guter Wert",
       greatValueNote: "Die Einlösungen, für die sich Meilenkauf lohnt",
@@ -325,6 +330,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       saveVs: "Ersparnis gegenüber dem Direktkauf: {v}¢",
       d24: "innerhalb von 24 Stunden",
       dHours: "{n} Stunden",
+      dDays: "{n} Werktage",
       milesLabel: "Meilen",
       numLocale: "de-DE",
       notWired: "Angebotsanfragen sind noch nicht angebunden. Schreib uns direkt, wir kalkulieren deinen Preis.",
@@ -375,6 +381,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "Precio confirmado antes de pagar",
       on: "en",
       hours: "horas",
+      bizDays: "días hábiles",
       bestUsesSub: "Dónde rinden más estas millas y cuándo conviene pagar en efectivo. Ponlo a prueba contra una tarifa real.",
       greatValue: "Gran valor",
       greatValueNote: "Los canjes por los que vale la pena comprar millas",
@@ -392,6 +399,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} horas",
+      dDays: "{n} días hábiles",
       milesLabel: "Millas",
       program: "Programa",
       howMany: "¿Cuántas millas?",
@@ -501,6 +509,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "Fiyat ödemeden önce onaylanır",
       on: "üzerinden",
       hours: "saat",
+      bizDays: "iş günü",
       bestUsesSub: "Bu miller nerede en çok değer kazanır ve ne zaman nakit ödemek daha iyidir. Gerçek bir ücretle test edin.",
       greatValue: "Yüksek değer",
       greatValueNote: "Mil satın almaya değer kullanımlar",
@@ -518,6 +527,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} saat",
+      dDays: "{n} iş günü",
       milesLabel: "Mil",
       program: "Program",
       howMany: "Kaç mil?",
@@ -627,6 +637,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "Tarif confirmé avant paiement",
       on: "sur",
       hours: "heures",
+      bizDays: "jours ouvrés",
       bestUsesSub: "Là où ces miles valent le plus, et quand il vaut mieux payer en espèces. Testez-le contre un vrai tarif.",
       greatValue: "Excellente valeur",
       greatValueNote: "Les primes qui justifient d'acheter des miles",
@@ -644,6 +655,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} heures",
+      dDays: "{n} jours ouvrés",
       milesLabel: "Miles",
       program: "Programme",
       howMany: "Combien de miles ?",
@@ -754,6 +766,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "付款前確認價格",
       on: "於",
       hours: "小時",
+      bizDays: "個工作天",
       bestUsesSub: "這些哩程在哪裡最划算，以及什麼時候該直接付現。用真實票價試算看看。",
       greatValue: "非常划算",
       greatValueNote: "值得為它買哩程的兌換",
@@ -771,6 +784,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} 小時",
+      dDays: "{n} 個工作天",
       milesLabel: "哩程",
       program: "航空計畫",
       howMany: "需要多少哩程？",
@@ -881,6 +895,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
       ratePreConfirmed: "付款前確認價格",
       on: "於",
       hours: "小時",
+      bizDays: "個工作日",
       bestUsesSub: "呢啲里數喺邊度最抵，同幾時應該直接俾現金。用真實票價試吓。",
       greatValue: "非常抵",
       greatValueNote: "值得為佢買里數嘅兌換",
@@ -898,6 +913,7 @@ export const LOCALES: Record<string, LocaleChrome> = {
     },
     widget: {
       dHours: "{n} 小時",
+      dDays: "{n} 個工作日",
       milesLabel: "里數",
       program: "飛行常客計劃",
       howMany: "需要幾多里數？",
