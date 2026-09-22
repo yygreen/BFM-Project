@@ -190,7 +190,7 @@ const jsonld = {
             {/* flights-only programs sell the seat, never a per-mile rate:
                 printing one here would be the exact claim their page disowns */}
             {a.fulfilment === "flights" ? (
-              <div class="price price-svc">{a.alliance === "Independent" ? "Flights" : "Award flights"} <small>in your name</small></div>
+              <div class="price price-svc">Flights <small>in your name</small></div>
             ) : (
               <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{rateFixed(a.pricePerMile)}¢ <small>/ mile</small></div>
             )}
