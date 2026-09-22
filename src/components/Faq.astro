@@ -39,9 +39,13 @@ const {
   // honest "we don't, and here's why" answer under the searched question is
   // exactly the content a flights-only page ranks on.
   fulfilment = "miles",
+  // whether the flights-only offer includes a premium cabin — false for the
+  // economy low-cost carriers, so their answers don't promise a first seat
+  flightsPremium = true,
   jsonld = true,
 } = Astro.props;
 const flightsOnly = fulfilment === "flights";
+const seatPhrase = flightsPremium ? "business or first class award seat" : "seat";
 
 const window = delivery.replace("Within ", "");
 const subject = airline ? `${airline} miles` : "airline miles";
@@ -56,7 +60,7 @@ const costAnswer = flightsOnly
 
 // ---- can you ----------------------------------------------------------
 const canAnswer = flightsOnly
-  ? `Plenty of sites will say yes. In practice ${program ?? "these"} miles are difficult to source at trustworthy scale, which is why we don't offer them: a cheap balance that gets ${airline ? `a ${program} account` : "an account"} flagged is no bargain. What we offer is the same outcome with less risk: the business or first class award seat itself, booked with ${airline ?? "the airline"} and ticketed in your own name. We are not affiliated with any airline or loyalty program.`
+  ? `Plenty of sites will say yes. In practice ${program ?? "these"} miles are difficult to source at trustworthy scale, which is why we don't offer them: a cheap balance that gets ${airline ? `a ${program} account` : "an account"} flagged is no bargain. What we offer is the same outcome with less risk: the ${seatPhrase} itself, booked with ${airline ?? "the airline"} and ticketed in your own name. We are not affiliated with any airline or loyalty program.`
   : `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty program.`;
 
 // ---- delivery ---------------------------------------------------------

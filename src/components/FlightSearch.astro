@@ -42,6 +42,11 @@ const {
   moreHref = "/flights",
   // Where the not-wired fallback sends people.
   contactHref = "/contact",
+  // Whether to show the Business/First/Either cabin selector. Off for
+  // economy-only carriers (the low-cost flights-only programs), where a
+  // premium-cabin choice would be a seat that doesn't exist; the enquiry
+  // then simply carries no cabin and a person reads the flight.
+  cabins = true,
 } = Astro.props;
 
 const EN = {
@@ -126,7 +131,7 @@ const notWired = labels.notWired ?? (orderEmail
   ? `Enquiries aren't connected yet — please email ${orderEmail} with your route and dates and we'll pick it up from there.`
   : "Enquiries aren't connected yet. Send your route and dates through the contact page and we'll pick it up from there.");
 ---
-<div class="fsearch" data-program={program ?? ""} data-inbox={mailtoInbox} data-key={accessKey ? "1" : ""} data-contact={contactHref}>
+<div class="fsearch" data-program={program ?? ""} data-inbox={mailtoInbox} data-key={accessKey ? "1" : ""} data-contact={contactHref} data-cabins={cabins ? "1" : "0"}>
   <!-- The client script is bundled once for the whole site, so the strings
        travel per widget in the DOM rather than baked into the bundle. Same
        contract as the quote widget's .qw-l10n blob. -->
@@ -204,12 +209,14 @@ const notWired = labels.notWired ?? (orderEmail
       </div>
     </div>
 
-    <div class="fs-cabin" role="radiogroup" aria-label={L.cabinLabel}>
-      <span class="fs-lab">{L.cabinLabel}</span>
-      <button type="button" class="fs-pill on" data-cabin="business" role="radio" aria-checked="true">{L.cabinBusiness}</button>
-      <button type="button" class="fs-pill" data-cabin="first" role="radio" aria-checked="false">{L.cabinFirst}</button>
-      <button type="button" class="fs-pill" data-cabin="either" role="radio" aria-checked="false">{L.cabinEither}</button>
-    </div>
+    {cabins && (
+      <div class="fs-cabin" role="radiogroup" aria-label={L.cabinLabel}>
+        <span class="fs-lab">{L.cabinLabel}</span>
+        <button type="button" class="fs-pill on" data-cabin="business" role="radio" aria-checked="true">{L.cabinBusiness}</button>
+        <button type="button" class="fs-pill" data-cabin="first" role="radio" aria-checked="false">{L.cabinFirst}</button>
+        <button type="button" class="fs-pill" data-cabin="either" role="radio" aria-checked="false">{L.cabinEither}</button>
+      </div>
+    )}
 
     <!-- Flexibility is the single biggest lever on whether award space exists
          at all, so it is asked here rather than discovered over three emails. -->
@@ -493,8 +500,9 @@ const notWired = labels.notWired ?? (orderEmail
       });
     });
 
-    // ---- cabin
-    let cabin = "business";
+    // ---- cabin. Absent on economy-only carriers, where the brief carries no
+    // cabin at all rather than defaulting to a business seat that isn't sold.
+    let cabin = root.dataset.cabins === "0" ? "" : "business";
     root.querySelectorAll("[data-cabin]").forEach((b) => {
       b.addEventListener("click", () => {
         cabin = b.dataset.cabin;
@@ -575,13 +583,13 @@ const notWired = labels.notWired ?? (orderEmail
       if (!oneway && ret.value) dates += " – " + fmtDate(ret.value);
       if ($(".fs-flexbox").checked) dates += " " + T.flexTag;
       const pax = $(".fs-pax").value;
-      return { route, dates, cabin: CABIN[cabin], pax };
+      return { route, dates, cabin: cabin ? CABIN[cabin] : "", pax };
     }
 
     function paintRecap() {
       const b = brief();
       $(".fs-recap-route").textContent = b.route;
-      $(".fs-recap-meta").textContent = `${b.dates} · ${b.cabin} · ${fmtPax(b.pax)}`;
+      $(".fs-recap-meta").textContent = [b.dates, b.cabin, fmtPax(b.pax)].filter(Boolean).join(" · ");
       $(".fs-f-route").value = b.route;
       $(".fs-f-dates").value = b.dates;
       $(".fs-f-cabin").value = b.cabin;
@@ -649,7 +657,7 @@ const notWired = labels.notWired ?? (orderEmail
           { title: T.mailTrip, rows: [
             [T.mailRoute, g("route")],
             [T.mailDates, g("dates")],
-            [T.cabinLabel, g("cabin")],
+            ...(g("cabin") ? [[T.cabinLabel, g("cabin")]] : []),
             [T.pax, g("travellers")],
             [T.mailProgram, g("from_program_page")],
           ] },

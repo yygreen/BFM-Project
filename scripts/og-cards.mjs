@@ -101,8 +101,8 @@ for (const a of airlines) {
     // card included — the card sells the seat, like the page does
     flightsOnly
       ? h("div", { display: "flex", alignItems: "center", gap: 28 },
-          text("Award flights, in your name", { fontFamily: "Jakarta", fontWeight: 800, fontSize: 52, color: C.ink, lineHeight: 1, letterSpacing: "-0.02em" }),
-          pill("Business & first class"))
+          text(a.alliance === "Independent" ? "Flights booked in your name" : "Award flights, in your name", { fontFamily: "Jakarta", fontWeight: 800, fontSize: 52, color: C.ink, lineHeight: 1, letterSpacing: "-0.02em" }),
+          pill(a.alliance === "Independent" ? "The flight you want" : "Business & first class"))
       : h("div", { display: "flex", alignItems: "center", gap: 28 },
           h("div", { display: "flex", alignItems: "flex-end", gap: 12 },
             text(rate, { fontFamily: "Plex Mono", fontWeight: 600, fontSize: 82, color: C.ink, lineHeight: 1, letterSpacing: "-0.06em" }),

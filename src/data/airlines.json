@@ -759,11 +759,11 @@
     "delivery": "Within 72 hours",
     "deliveryVerified": true,
     "inStock": false,
-    "heroHeadline": "Buy ANA miles for Mileage Club.",
+    "heroHeadline": "ANA miles are hard to buy. The seat isn't.",
     "heroHighlight": "ANA miles",
-    "heroSub": "ANA's award chart is one of the best-value routes to first and business class. Buy the miles you need, delivered securely.",
+    "heroSub": "The honest answer about buying ANA Mileage Club miles: we can't source them at a standard worth standing behind, so we don't sell them. What we do instead is find and book your ANA business or first class award, ticketed by the airline in your own name, at a firm all-in price.",
     "metaTitle": "Buy ANA Mileage Club Miles | buyflightmiles",
-    "metaDescription": "Buy ANA Mileage Club miles from 1.9¢. Secure transfer, delivered within 72 hours, your exact price confirmed before you pay.",
+    "metaDescription": "ANA Mileage Club miles are hard to buy safely, so we don't sell them. We book the ANA business or first award seat instead, ticketed in your name, at a firm price you approve before paying.",
     "related": [
       "singapore-krisflyer",
       "united-mileageplus"
@@ -835,7 +835,8 @@
         "text": "ANA Mileage Club number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "british-airways-avios",
@@ -1254,11 +1255,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy Southwest points for Rapid Rewards.",
+    "heroHeadline": "Southwest points are hard to buy. The seat isn't.",
     "heroHighlight": "Southwest points",
-    "heroSub": "Short of points for the flight you want? Buy the gap and book straight through Southwest, with every seat bookable and no blackout dates.",
+    "heroSub": "The honest answer about buying Rapid Rewards points: the supply is thin, and because Southwest prices seats in points at a near-fixed rate, buying them saves you almost nothing. So we don't sell them. Tell us the flight you want and we'll book it in your own name at a firm price.",
     "metaTitle": "Buy Southwest Points | Rapid Rewards | buyflightmiles",
-    "metaDescription": "Buy Southwest Rapid Rewards points to top up your balance. Secure transfer into your own account, with your exact rate confirmed before you pay.",
+    "metaDescription": "Rapid Rewards points are hard to buy and buying them saves little, so we don't sell them. Tell us the Southwest flight you want and we book it in your name at a firm price.",
     "related": [
       "jetblue-trueblue",
       "alaska-atmos-rewards",
@@ -1326,7 +1327,8 @@
         "text": "Rapid Rewards number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "alaska-atmos-rewards",
@@ -1448,11 +1450,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy JetBlue points for TrueBlue.",
+    "heroHeadline": "JetBlue points are hard to buy. The seat isn't.",
     "heroHighlight": "JetBlue points",
-    "heroSub": "Top up for Mint transcontinental seats or a family booking — points post to your own account and book directly with JetBlue.",
+    "heroSub": "The honest answer about buying TrueBlue points: supply is thin and TrueBlue prices seats at a near-fixed rate, so buying points saves little. We don't sell them. Tell us the flight, Mint included, and we'll book it in your own name at a firm price.",
     "metaTitle": "Buy JetBlue Points | TrueBlue | buyflightmiles",
-    "metaDescription": "Buy JetBlue TrueBlue points to complete a booking, including Mint. Secure transfer into your own account, exact rate confirmed before you pay.",
+    "metaDescription": "TrueBlue points are hard to buy and save little when you do, so we don't sell them. Tell us the JetBlue flight, Mint included, and we book it in your name at a firm price.",
     "related": [
       "southwest-rapid-rewards",
       "delta-skymiles",
@@ -1520,7 +1522,8 @@
         "text": "TrueBlue number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "frontier-miles",
@@ -1538,11 +1541,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy Frontier miles and book direct.",
+    "heroHeadline": "Frontier miles are hard to buy. The seat isn't.",
     "heroHighlight": "Frontier miles",
-    "heroSub": "Complete a domestic booking without paying the walk-up fare. Miles transfer into your own account and book directly with Frontier.",
+    "heroSub": "The honest answer about buying Frontier Miles: the supply is thin and the miles are worth little more than the cash fare, so buying them rarely pays. We don't sell them. Tell us the flight you want and we'll book it in your own name at a firm price.",
     "metaTitle": "Buy Frontier Miles | buyflightmiles",
-    "metaDescription": "Buy Frontier Miles to top up your balance for domestic routes. Secure transfer into the account you already hold, exact rate confirmed before you pay.",
+    "metaDescription": "Frontier Miles are hard to buy and rarely beat the cash fare, so we don't sell them. Tell us the Frontier flight you want and we book it in your name at a firm price.",
     "related": [
       "southwest-rapid-rewards",
       "jetblue-trueblue",
@@ -1607,7 +1610,8 @@
         "text": "Frontier Miles number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "air-canada-aeroplan",

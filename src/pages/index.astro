@@ -190,11 +190,11 @@ const jsonld = {
             {/* flights-only programs sell the seat, never a per-mile rate:
                 printing one here would be the exact claim their page disowns */}
             {a.fulfilment === "flights" ? (
-              <div class="price" style="margin-top:14px">Award flights <small>in your name</small></div>
+              <div class="price" style="margin-top:14px">{a.alliance === "Independent" ? "Flights" : "Award flights"} <small>in your name</small></div>
             ) : (
               <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{rateFixed(a.pricePerMile)}¢ <small>/ mile</small></div>
             )}
-            <div class="meta"><span>{a.fulfilment === "flights" ? "business & first" : a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
+            <div class="meta"><span>{a.fulfilment === "flights" ? (a.alliance === "Independent" ? "booked for you" : "business & first") : a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
             {/* The whole tile is a link, but nothing said so — while the two
                 "ask" tiles in the same grid both carry a call to action, so
                 half the grid read as clickable and half didn't.

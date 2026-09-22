@@ -44,6 +44,14 @@ const verified = a.priceVerified;
 // instead — booked with the airline, ticketed in the buyer's own name. No
 // per-mile rate, no delivery window and no miles calculator may render here.
 const flightsOnly = a.fulfilment === "flights";
+// A flights-only page may or may not sell a premium cabin. Alliance carriers
+// (ANA, Lufthansa) have a real business/first award to book; the Independent
+// low-cost carriers here (Southwest, JetBlue, Frontier) are economy or near
+// it, so their copy must not promise a first-class seat that doesn't exist.
+// Derived from alliance rather than a new flag — it's exactly right for the
+// current set, and an Independent premium carrier later is a one-line fix.
+const flightsPremium = flightsOnly && a.alliance !== "Independent";
+const seatWord = flightsPremium ? "business or first class seat" : "seat";
 // program name without any parenthetical — "Avios (Privilege Club)" reads
 // fine as a title but turns copy like "price your … order" into a mouthful
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
@@ -203,7 +211,8 @@ const jsonld = flightsOnly ? jsonldFlights : {
               <FlightSearch
                 program={`${a.airline} — ${a.program}`}
                 heading={`Where do you want to fly ${a.airline}?`}
-                sub="Business or first class, quoted as one firm all-in price."
+                sub={flightsPremium ? "Business or first class, quoted as one firm all-in price." : "The flight you want, quoted as one firm all-in price."}
+                cabins={flightsPremium}
               />
             ) : (
               <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${progMiles} cost?`} sub="Price it, then request your free, no-obligation quote. We confirm your exact rate before you pay." />
@@ -222,7 +231,7 @@ const jsonld = flightsOnly ? jsonldFlights : {
       <div class="section-head">
         <h2>Best ways to use {a.program}</h2>
         {flightsOnly ? (
-          <p>The awards this program is famous for. These are exactly the seats we find and book, ticketed in your name.</p>
+          <p>{flightsPremium ? "The awards this program is famous for. These are exactly the seats we find and book, ticketed in your name." : "What these points are good for. These are the flights we find and book, ticketed in your name."}</p>
         ) : (
           <p>Where these miles stretch furthest, and when to keep your cash. Test any of it against a real fare on the right.</p>
         )}
@@ -236,7 +245,7 @@ const jsonld = flightsOnly ? jsonldFlights : {
         <div class="vtier">
           <div class="vtier-head">
             <span class="vchip v1">Great value</span>
-            <span class="vtier-note">The redemptions worth buying miles for</span>
+            <span class="vtier-note">{flightsOnly ? "The awards worth flying this program for" : "The redemptions worth buying miles for"}</span>
           </div>
           <div class="uses">
             {a.sweetSpots.map((s) => (
@@ -347,10 +356,11 @@ const jsonld = flightsOnly ? jsonldFlights : {
           </p>
           <p>
             So this page offers the other route to the same seat. You tell us the route and
-            dates, we find the {a.airline} award and book it, and the airline issues the ticket
-            in your own name. One firm price, confirmed before you pay anything, and your own
-            loyalty account is never involved. If you specifically need miles in your account,
-            <a href="/request"> tell us anyway</a> and we'll say honestly whether we can help.
+            dates, we find the {a.airline} {flightsPremium ? "award" : "flight"} and book it, and
+            the airline issues the ticket in your own name. One firm price, confirmed before you
+            pay anything, and your own loyalty account is never involved. If you specifically need
+            miles in your account, <a href="/request"> tell us anyway</a> and we'll say honestly
+            whether we can help.
           </p>
         </div>
       </div>
@@ -406,7 +416,7 @@ const jsonld = flightsOnly ? jsonldFlights : {
           program's own extras, which puts it fourth overall, straight after
           the price, availability and delivery basics the component always
           asks first. */}
-      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} fulfilment={a.fulfilment}
+      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} fulfilment={a.fulfilment} flightsPremium={flightsPremium}
         extras={coversMany(a)
           ? [{
               q: `Which airlines can I fly with ${a.program} miles?`,
@@ -427,7 +437,7 @@ const jsonld = flightsOnly ? jsonldFlights : {
       <div class="ctaband">
         {flightsOnly ? (
           <div>
-            <h3>Ready to fly {a.airline} up front?</h3>
+            <h3>{flightsPremium ? `Ready to fly ${a.airline} up front?` : `Ready to book your ${a.airline} flight?`}</h3>
             <p>Route and dates in, one firm all-in price back. Nothing is charged on this site.</p>
           </div>
         ) : (

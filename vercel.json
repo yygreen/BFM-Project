@@ -72,7 +72,7 @@
     },
     {
       "source": "/ana-miles-calculator",
-      "destination": "/calculator/ana-mileage-club",
+      "destination": "/buy/ana-mileage-club",
       "permanent": true
     },
     {
@@ -313,6 +313,26 @@
     {
       "source": "/de/calculator/lufthansa-miles-more",
       "destination": "/de/buy/lufthansa-miles-more",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/ana-mileage-club",
+      "destination": "/buy/ana-mileage-club",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/southwest-rapid-rewards",
+      "destination": "/buy/southwest-rapid-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/jetblue-trueblue",
+      "destination": "/buy/jetblue-trueblue",
+      "permanent": true
+    },
+    {
+      "source": "/calculator/frontier-miles",
+      "destination": "/buy/frontier-miles",
       "permanent": true
     }
   ]
