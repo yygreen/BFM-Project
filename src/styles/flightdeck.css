@@ -649,9 +649,10 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .gcard-ask:hover { border-color:var(--cobalt); }
 /* the partner card sits beside it and must not read as a second retail tile:
    a different accent and a tag, so the trade route is legible at a glance */
-/* a defined light border, solid not dashed: the faint coral-tint dashes read
-   as barely-there against the tinted fill, so the card edge went undefined */
-.gcard-partner { border:1px solid var(--line-strong); background:color-mix(in srgb, var(--coral-tint) 26%, transparent); }
+/* keeps the dashed light border from .gcard-ask (same as the "Can't find your
+   program?" card) rather than the coral-tint dashes, which read as barely
+   there; only the coral fill and hover set it apart as the trade route */
+.gcard-partner { background:color-mix(in srgb, var(--coral-tint) 26%, transparent); }
 .gcard-partner:hover { border-color:var(--coral); }
 .gcard-partner .askcta { color:var(--coral-2); }
 .ask-tag { align-self:flex-start; font-family:var(--display); font-weight:700; font-size:11px;
@@ -1109,6 +1110,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   letter-spacing:-.02em; color:var(--text-1); }
 .hc-sub { display:block; font-size:13.5px; color:var(--text-3); margin-top:4px; }
 .hero-calc .calc { padding:0; background:transparent; border:0; box-shadow:none; }
+/* the flights-only hero drops FlightSearch straight into .hero-calc, which is
+   already a card; strip the widget's own card so it reads as one box, not a
+   box in a box (same treatment .calc gets above) */
+.hero-calc .fsearch { padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; }
 .hero-calc .calc-out { grid-template-columns:1fr; gap:14px; }
 .hero-calc .calc-cost { font-size:clamp(30px,4.4vw,40px); }
 
