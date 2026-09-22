@@ -34,25 +34,37 @@ const {
   // it in both places puts two near-identical Q&As into two FAQPage blocks on
   // one site, where they compete rather than compound.
   omit = [],
+  // "flights" swaps the four answers that assume we sell this program's
+  // miles. The questions KEEP the buy-miles wording people search — the
+  // honest "we don't, and here's why" answer under the searched question is
+  // exactly the content a flights-only page ranks on.
+  fulfilment = "miles",
   jsonld = true,
 } = Astro.props;
+const flightsOnly = fulfilment === "flights";
 
 const window = delivery.replace("Within ", "");
 const subject = airline ? `${airline} miles` : "airline miles";
 const approx = priceVerified ? "" : "about ";
 
 // ---- cost -------------------------------------------------------------
-const costAnswer = pricePerMile
+const costAnswer = flightsOnly
+  ? `We don't sell ${subject} right now: ${program ?? "this program"} is one of the few we can't source at a standard worth standing behind. What we price instead is the finished seat. Tell us the route and dates, and your quote is one firm all-in dollar figure for the ticket, confirmed before any payment is made.`
+  : pricePerMile
   ? `Buying ${subject} here costs ${approx}${pricePerMile}¢ per mile — ${approx}${usd(per1000(pricePerMile))} per 1,000 miles. ${priceVerified ? "That rate is confirmed" : "That rate is indicative and we confirm the exact figure"} on your quote, before any payment is made. Use the calculator on this page to price the amount you actually need; the quote itself is free and no-obligation.`
   : "It depends on the program — each has its own per-mile rate, shown on its page. Price the amount you need with the calculator and we'll confirm the exact figure on your quote, before any payment is made. The quote is free and no-obligation.";
 
 // ---- can you ----------------------------------------------------------
-const canAnswer = `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty program.`;
+const canAnswer = flightsOnly
+  ? `Plenty of sites will say yes. In practice ${program ?? "these"} miles are difficult to source at trustworthy scale, which is why we don't offer them: a cheap balance that gets ${airline ? `a ${program} account` : "an account"} flagged is no bargain. What we offer is the same outcome with less risk: the business or first class award seat itself, booked with ${airline ?? "the airline"} and ticketed in your own name. We are not affiliated with any airline or loyalty program.`
+  : `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty program.`;
 
 // ---- delivery ---------------------------------------------------------
-const deliveryAnswer = site.delivery.verified && site.delivery.howItWorks
-  ? site.delivery.howItWorks
-  : `Most transfers land in your account within ${window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.`;
+const deliveryAnswer = flightsOnly
+  ? `There's no miles transfer on ${program ?? "these"} orders. Once you approve the quote we book the award, and ${airline ?? "the airline"} issues the ticket in your name. Your confirmation carries a booking reference you can verify with the airline directly.`
+  : site.delivery.verified && site.delivery.howItWorks
+    ? site.delivery.howItWorks
+    : `Most transfers land in your account within ${window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.`;
 
 // ---- worth it ---------------------------------------------------------
 const worthAnswer = `It depends on what you're booking. Buying miles makes sense when you're short of a specific redemption and the miles cost less than the cash fare — a premium-cabin seat is the usual case. It rarely makes sense to buy speculatively, without a booking in mind. Confirm the award seat is available first, then buy the shortfall.`;
@@ -95,15 +107,17 @@ const faqs = [
   ...extras.map((e) => ({ q: e.q, a: e.a })),
   ...(omit.includes("worth") ? [] : [{ q: "Is buying airline miles worth it?", a: worthAnswer }]),
   { q: "What payment methods do you accept?", a: paymentAnswer },
-  ...(site.guarantee.verified && site.guarantee.policy
+  ...(site.guarantee.verified && site.guarantee.policy && !flightsOnly
     ? [{ q: "What if my miles don't arrive?", a: site.guarantee.policy }]
     : []),
   { q: "Is this legitimate?", a: legitAnswer },
-  { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it." },
+  flightsOnly
+    ? { q: `Will this affect my ${program ?? "loyalty"} account?`, a: `Your account isn't involved at all, and that's the point. The ticket is booked and issued in your own name, so there is no transfer into your account and nothing for the program to question.` }
+    : { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it." },
   // Account-control check. Suppressed until the client confirms the process is
   // real — it is the answer to "what stops someone having miles sent into an
   // account that isn't theirs", which is worth nothing if we don't do it.
-  ...(site.verification.verified
+  ...(site.verification.verified && !flightsOnly
     ? [{ q: "How do you know the account is really mine?", a: `${site.verification.summary} ${site.verification.why}` }]
     : []),
 ];

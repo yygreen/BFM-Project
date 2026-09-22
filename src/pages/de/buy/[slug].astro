@@ -83,6 +83,11 @@ export async function getStaticPaths() {
 
 const { a, t, airlines } = Astro.props;
 const verified = a.priceVerified;
+// Same branch as the English template: flights-only programs sell the
+// booked seat, never a per-mile rate. Their German data (heroSub, steps,
+// faq) is already written for the flights story; this flag removes every
+// surface that would price miles we don't sell.
+const flightsOnly = a.fulfilment === "flights";
 const DE = "de-DE";
 // German decimal comma: 1.9¢ is "1,9 Cent" to this reader
 const rateDe = a.pricePerMile.toLocaleString(DE);
@@ -119,7 +124,17 @@ const alternates = [
 ];
 
 const jsonld = [
-  {
+  flightsOnly
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: `${a.airline} award flight booking`,
+        serviceType: "Award flight booking",
+        description: t.metaDescription,
+        provider: { "@type": "Organization", name: "buyflightmiles" },
+        areaServed: "Worldwide",
+      }
+    : {
     "@context": "https://schema.org",
     "@type": "Product",
     name: `${a.airline} ${a.program}`,
@@ -183,9 +198,11 @@ const jsonld = [
                 already on screen and read as doing nothing. Same reasoning,
                 same fix as the English hero: a quiet link to the one page the
                 hero doesn't show, the full calculator. */}
-            <p class="hero-more">
-              <a href={`/de/calculator/${a.slug}`}>{CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}</a>
-            </p>
+            {!flightsOnly && (
+              <p class="hero-more">
+                <a href={`/de/calculator/${a.slug}`}>{CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}</a>
+              </p>
+            )}
             {/* the English page's row, translated: rating, turnaround, track
                 record, each with the same fallback when its figure isn't
                 confirmed. Nothing extra — a fact that exists only in one
@@ -202,10 +219,17 @@ const jsonld = [
                   Kostenloses, unverbindliches Angebot
                 </span>
               )}
-              <span class="spec-it">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Lieferung in <b>{a.delivery.replace("Within ", "").replace("business days", "Werktagen").replace("hours", "Stunden")}</b>
-              </span>
+              {flightsOnly ? (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Ticket auf <b>deinen Namen</b>
+                </span>
+              ) : (
+                <span class="spec-it">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Lieferung in <b>{a.delivery.replace("Within ", "").replace("business days", "Werktagen").replace("hours", "Stunden")}</b>
+                </span>
+              )}
               {years !== null ? (
                 <span class="spec-it">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
@@ -221,13 +245,23 @@ const jsonld = [
           </div>
           <div class="hero-art">
             <div class="hero-calc" id="quote">
-              <QuoteWidget
-                defaultSlug={a.slug}
-                locked
-                heading="Was kosten deine Meilen?"
-                sub="Menge eingeben, Preis sehen, Angebot anfordern."
-                labels={DE_WIDGET}
-              />
+              {flightsOnly ? (
+                <FlightSearch
+                  program={`${a.airline} — ${a.program}`}
+                  heading={FSEC.cardHead}
+                  sub={FSEC.cardSub}
+                  moreLink={false}
+                  labels={FLIGHTS["de"]}
+                />
+              ) : (
+                <QuoteWidget
+                  defaultSlug={a.slug}
+                  locked
+                  heading="Was kosten deine Meilen?"
+                  sub="Menge eingeben, Preis sehen, Angebot anfordern."
+                  labels={DE_WIDGET}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -243,9 +277,13 @@ const jsonld = [
       <div class="container">
         <div class="section-head">
           <h2>Wofür sich {a.program} am meisten lohnt</h2>
-          <p>Finde heraus, wo deine Meilen am meisten wert sind und wann Barzahlen die bessere Wahl ist.</p>
+          {flightsOnly ? (
+            <p>Die Prämien, für die dieses Programm berühmt ist. Genau diese Sitze finden und buchen wir, mit Ticket auf deinen Namen.</p>
+          ) : (
+            <p>Finde heraus, wo deine Meilen am meisten wert sind und wann Barzahlen die bessere Wahl ist.</p>
+          )}
         </div>
-        <div class="value-split">
+        <div class={flightsOnly ? "value-solo" : "value-split"}>
           <div class="value-lad">
             {t.uses && t.uses.length > 0 && (
               <div class="vtier">
@@ -257,7 +295,9 @@ const jsonld = [
                   {t.uses.map((u, i) => (
                     <div class="use">
                       <h4>{u.title}</h4>
-                      {spotMiles[i] && <div class="use-cost">{useCost(spotMiles[i]!)}</div>}
+                      {spotMiles[i] && (flightsOnly
+                        ? <div class="use-cost">ab {spotMiles[i]!.toLocaleString(DE)} Meilen zum Award-Tarif</div>
+                        : <div class="use-cost">{useCost(spotMiles[i]!)}</div>)}
                       <p>{u.desc}</p>
                     </div>
                   ))}
@@ -265,6 +305,7 @@ const jsonld = [
               </div>
             )}
           </div>
+          {!flightsOnly && (
           <div class="value-tool">
             {/* "Meilenrechner" is what German speakers call this: 320/mo at
                 KD 25, and the page never used the word. It names the tool
@@ -282,6 +323,7 @@ const jsonld = [
               labels={DE_SAVINGS}
             />
           </div>
+          )}
         </div>
       </div>
     </section>
@@ -289,7 +331,7 @@ const jsonld = [
     <section class="section" id="how">
       <div class="container">
         <div class="section-head">
-          <h2>Vom Angebot bis auf dein {progDe}-Konto</h2>
+          <h2>{flightsOnly ? `Von der Route zum ${a.airline}-Ticket auf deinen Namen` : `Vom Angebot bis auf dein ${progDe}-Konto`}</h2>
         </div>
         <div class="steps ministeps">
           {t.steps.map((st, i) => (
@@ -311,22 +353,51 @@ const jsonld = [
 
         moreLink is off because /flights is English only, and there is no
         localized page to send a reader of this one to yet. */}
-    <section class="section wash-warm" id="flights">
-      <div class="container">
-        <div class="section-head">
-          <span class="kicker">{FSEC.kicker}</span>
-          <h2>{FSEC.h2}</h2>
-          <p>{FSEC.p}</p>
+    {flightsOnly ? (
+      /* the straight answer, mirroring the English page's #why section:
+         the content this page ranks on. Our own sourcing judgement, so it
+         renders unconditionally. */
+      <section class="section wash-warm" id="why">
+        <div class="container">
+          <div class="section-head">
+            <span class="kicker">Die ehrliche Antwort</span>
+            <h2>Warum wir keine {a.program} Meilen verkaufen</h2>
+          </div>
+          <div class="whynot">
+            <p>
+              Manche Programme lassen sich seriös und in Menge beschaffen. {a.program} gehört im
+              Moment nicht dazu: Das Angebot ist dünn, und genau da entstehen die Horrorgeschichten.
+              Ein billiges Guthaben, das dein Konto in eine Prüfung oder Sperrung führt, ist kein
+              Schnäppchen, und wer etwas anderes behauptet, preist dein Risiko ein, nicht seins.
+            </p>
+            <p>
+              Deshalb bietet diese Seite den anderen Weg zum selben Sitz. Du nennst Route und Daten,
+              wir finden und buchen den {a.airline}-Award, und die Airline stellt das Ticket auf
+              deinen Namen aus. Ein Festpreis, bestätigt bevor du zahlst, und dein eigenes Konto
+              bleibt komplett außen vor. Wenn du wirklich Meilen im Konto brauchst,
+              <a href="/request"> frag uns trotzdem</a>, und wir sagen dir ehrlich, ob wir helfen können.
+            </p>
+          </div>
         </div>
-        <FlightSearch
-          program={`${a.airline} — ${a.program}`}
-          heading={FSEC.cardHead}
-          sub={FSEC.cardSub}
-          moreLink={false}
-          labels={FLIGHTS["de"]}
-        />
-      </div>
-    </section>
+      </section>
+    ) : (
+      <section class="section wash-warm" id="flights">
+        <div class="container">
+          <div class="section-head">
+            <span class="kicker">{FSEC.kicker}</span>
+            <h2>{FSEC.h2}</h2>
+            <p>{FSEC.p}</p>
+          </div>
+          <FlightSearch
+            program={`${a.airline} — ${a.program}`}
+            heading={FSEC.cardHead}
+            sub={FSEC.cardSub}
+            moreLink={false}
+            labels={FLIGHTS["de"]}
+          />
+        </div>
+      </section>
+    )}
 
     <section class="section wash-warm">
       <div class="container">
@@ -373,9 +444,11 @@ const jsonld = [
         <div class="related related-inline">
           {related.length > 0 && <span class="related-lab">Weitere Programme</span>}
           {related.map((r) => <a href={`/de/buy/${r!.slug}`}>{r!.airline} {r!.program}</a>)}
-          <a href={`/de/calculator/${a.slug}`}>
-            {CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}
-          </a>
+          {!flightsOnly && (
+            <a href={`/de/calculator/${a.slug}`}>
+              {CALC.de.seeMath.replaceAll("{program}", a.program.replace(/\s*\(.*\)$/, ""))}
+            </a>
+          )}
         </div>
       </div>
     </section>

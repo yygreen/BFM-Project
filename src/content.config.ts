@@ -147,6 +147,18 @@ const airlines = defineCollection({
 
       delivery: z.string().min(1),
       deliveryVerified: z.boolean().default(false),
+      // What we can actually deliver for this program. "miles" is the default
+      // storefront: a top-up into the buyer's own account. "flights" is the
+      // honest fallback for programs whose miles the client cannot source at
+      // a standard worth standing behind (his words: "difficult to source to
+      // a point where selling only flights to the clients directly") — the
+      // page still targets the buy-miles query, says plainly that we don't
+      // sell these miles and why, and offers the award seat itself instead:
+      // booked with the airline, ticketed in the buyer's own name, priced as
+      // a firm all-in quote. Flags ripple everywhere a per-mile rate would
+      // otherwise leak: the quote widget roster, the order flow, the
+      // calculator routes, the homepage card, the OG card and the FAQ.
+      fulfilment: z.enum(["miles", "flights"]).default("miles"),
 
       inStock: z.boolean(),
 

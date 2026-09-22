@@ -121,6 +121,9 @@ const rateStr = (n) => n.toLocaleString(L.numLocale);
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
+  // flights-only programs never enter the miles selector: quoting a per-mile
+  // rate for miles we don't sell is the claim their own pages disown
+  .filter((a) => a.fulfilment !== "flights")
   .filter((a) => !only || only.includes(a.slug))
   // alphabetical by carrier, matching the nav dropdown — a visitor scanning
   // for their airline shouldn't meet two different orders on one page

@@ -38,6 +38,12 @@ export async function getStaticPaths() {
 const { a, airlines, posts } = Astro.props;
 const per1000 = per1000Of(a.pricePerMile);
 const verified = a.priceVerified;
+// Flights-only programs (fulfilment: "flights"): the client can't source
+// these miles at a standard worth standing behind, so the page keeps
+// targeting the buy-miles query, says so plainly, and sells the award seat
+// instead — booked with the airline, ticketed in the buyer's own name. No
+// per-mile rate, no delivery window and no miles calculator may render here.
+const flightsOnly = a.fulfilment === "flights";
 // program name without any parenthetical — "Avios (Privilege Club)" reads
 // fine as a title but turns copy like "price your … order" into a mouthful
 const progShort = a.program.replace(/\s*\(.*\)$/, "");
@@ -63,9 +69,22 @@ const related = a.related
   .map((slug) => airlines.find((x) => x.slug === slug))
   .filter(Boolean);
 
+// Flights-only pages sell a booking service, not a miles product — a
+// Product with a miles offer would be structured data for a thing the page
+// says, in its own copy, that we do not sell.
+const jsonldFlights = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: `${a.airline} award flight booking`,
+  serviceType: "Award flight booking",
+  description: a.metaDescription,
+  provider: { "@type": "Organization", name: "buyflightmiles" },
+  areaServed: "Worldwide",
+};
+
 // Only publish a firm price in structured data once it's confirmed —
 // unverified programs advertise availability + a quote path instead.
-const jsonld = {
+const jsonld = flightsOnly ? jsonldFlights : {
   "@context": "https://schema.org",
   "@type": "Product",
   name: /miles$/i.test(a.program) ? `${a.airline} ${a.program}` : `${a.airline} ${a.program} miles`,
@@ -131,9 +150,11 @@ const jsonld = {
               "Ready to order?" link, and the calculator keeps a quiet one
               here: it serves the visitor who wants the arithmetic before the
               price, at a seventh of the vertical cost of a button. */}
-          <p class="hero-more">
-            <a href={`/calculator/${a.slug}`}>See the full {progShort} math</a>
-          </p>
+          {!flightsOnly && (
+            <p class="hero-more">
+              <a href={`/calculator/${a.slug}`}>See the full {progShort} math</a>
+            </p>
+          )}
           <!-- social proof row: rating, turnaround, track record. Each slot
                falls back to an always-true claim when its figure isn't
                confirmed, so the row converts without ever inventing a number. -->
@@ -152,10 +173,17 @@ const jsonld = {
             <!-- the window shows for every program; the 14 unverified ones
                  are already check:launch blockers, so this is a staged claim
                  the client confirms, not a silent invention -->
-            <span class="spec-it">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Delivered in <b>{a.delivery.replace("Within ", "")}</b>
-            </span>
+            {flightsOnly ? (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Ticketed in <b>your own name</b>
+              </span>
+            ) : (
+              <span class="spec-it">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Delivered in <b>{a.delivery.replace("Within ", "")}</b>
+              </span>
+            )}
             {years !== null ? (
               <span class="spec-it">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
@@ -171,7 +199,15 @@ const jsonld = {
         </div>
         <div class="hero-art">
           <div class="hero-calc" id="quote">
-            <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${progMiles} cost?`} sub="Price it, then request your free, no-obligation quote. We confirm your exact rate before you pay." />
+            {flightsOnly ? (
+              <FlightSearch
+                program={`${a.airline} — ${a.program}`}
+                heading={`Where do you want to fly ${a.airline}?`}
+                sub="Business or first class, quoted as one firm all-in price."
+              />
+            ) : (
+              <QuoteWidget defaultSlug={a.slug} locked heading={`What will ${progMiles} cost?`} sub="Price it, then request your free, no-obligation quote. We confirm your exact rate before you pay." />
+            )}
           </div>
         </div>
       </div>
@@ -185,9 +221,13 @@ const jsonld = {
     <div class="container">
       <div class="section-head">
         <h2>Best ways to use {a.program}</h2>
-        <p>Where these miles stretch furthest, and when to keep your cash. Test any of it against a real fare on the right.</p>
+        {flightsOnly ? (
+          <p>The awards this program is famous for. These are exactly the seats we find and book, ticketed in your name.</p>
+        ) : (
+          <p>Where these miles stretch furthest, and when to keep your cash. Test any of it against a real fare on the right.</p>
+        )}
       </div>
-      <div class="value-split">
+      <div class={flightsOnly ? "value-solo" : "value-split"}>
       <div class="value-lad">
       {a.sweetSpots && a.sweetSpots.length > 0 && (
       <>
@@ -202,11 +242,13 @@ const jsonld = {
             {a.sweetSpots.map((s) => (
               <div class="use">
                 <h4>{s.title}</h4>
-                {s.miles && (
+                {s.miles && (flightsOnly ? (
+                  <div class="use-cost">from {s.miles.toLocaleString("en-US")} miles at award rates</div>
+                ) : (
                   <div class="use-cost">
                     from {s.miles.toLocaleString("en-US")} miles · {verified ? "" : "~"}{usd(costOf(s.miles, a.pricePerMile))} at our rate
                   </div>
-                )}
+                ))}
                 <p>{s.desc}</p>
               </div>
             ))}
@@ -235,17 +277,19 @@ const jsonld = {
       </>
       )}
       </div>
-      <div class="value-tool">
-        <div class="worth-sub" id="worth">
-          <h3>Does buying {progShort} beat the cash fare?</h3>
-          <p>Paste the price from your flight search and see which side wins.</p>
+      {!flightsOnly && (
+        <div class="value-tool">
+          <div class="worth-sub" id="worth">
+            <h3>Does buying {progShort} beat the cash fare?</h3>
+            <p>Paste the price from your flight search and see which side wins.</p>
+          </div>
+          <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
+          <p class="tool-more">
+            Just want the arithmetic? The <a href={`/calculator/${a.slug}`}>{progShort} miles calculator</a> has
+            order sizes, break-evens and the math spelled out.
+          </p>
         </div>
-        <SavingsTool program={a.program} rate={a.pricePerMile} verified={a.priceVerified} presets={a.sweetSpots.filter((x) => x.miles).map((x) => ({ title: x.title, miles: x.miles }))} />
-        <p class="tool-more">
-          Just want the arithmetic? The <a href={`/calculator/${a.slug}`}>{progShort} miles calculator</a> has
-          order sizes, break-evens and the math spelled out.
-        </p>
-      </div>
+      )}
       </div>
     </div>
   </section>
@@ -257,15 +301,23 @@ const jsonld = {
   <section class="section" id="how">
     <div class="container">
       <div class="section-head">
-        <h2>From quote to {progShort} in your account</h2>
+        <h2>{flightsOnly ? `From route to a ${a.airline} ticket in your name` : `From quote to ${progShort} in your account`}</h2>
       </div>
       <!-- the same three beats, same names, as the homepage's "Three steps to
            the seat" — one story told twice, not two competing processes -->
-      <div class="steps ministeps">
-        <div class="step"><div class="n">01</div><h4>Choose</h4><p>Price your amount in the calculator above. We confirm your exact rate and delivery in the quote.</p></div>
-        <div class="step"><div class="n">02</div><h4>Pay</h4><p>Off-site, after you approve the quote. Nothing is ever charged on this website.</p></div>
-        <div class="step"><div class="n">03</div><h4>Fly</h4><p>{a.deliveryVerified ? `Miles land in your own ${progShort} account, ${a.delivery.toLowerCase()} — then book the seat.` : `Miles land in your own ${progShort} account on the window your quote confirms — then book the seat.`}</p></div>
-      </div>
+      {flightsOnly ? (
+        <div class="steps ministeps">
+          <div class="step"><div class="n">01</div><h4>Choose</h4><p>Tell us the route, dates and cabin above. We come back with a firm all-in price for the seat, free and with no obligation.</p></div>
+          <div class="step"><div class="n">02</div><h4>Pay</h4><p>Off-site, after you approve the quote. Nothing is ever charged on this website.</p></div>
+          <div class="step"><div class="n">03</div><h4>Fly</h4><p>We book the award and {a.airline} issues the ticket in your own name, with a booking reference you can verify with the airline directly.</p></div>
+        </div>
+      ) : (
+        <div class="steps ministeps">
+          <div class="step"><div class="n">01</div><h4>Choose</h4><p>Price your amount in the calculator above. We confirm your exact rate and delivery in the quote.</p></div>
+          <div class="step"><div class="n">02</div><h4>Pay</h4><p>Off-site, after you approve the quote. Nothing is ever charged on this website.</p></div>
+          <div class="step"><div class="n">03</div><h4>Fly</h4><p>{a.deliveryVerified ? `Miles land in your own ${progShort} account, ${a.delivery.toLowerCase()} — then book the seat.` : `Miles land in your own ${progShort} account on the window your quote confirms — then book the seat.`}</p></div>
+        </div>
+      )}
     </div>
   </section>
 
@@ -275,27 +327,57 @@ const jsonld = {
       and it looked it. The FAQ entry below carries the same fact in the place
       someone actually asks the question. */}
 
-  <!-- The other way to solve the same trip. It sits after the process, not
+  {flightsOnly ? (
+    /* The content that earns the ranking: the straight answer to the query
+       this page targets. The claim is ours to make (the shop's own sourcing
+       judgement), not a client stat, so it renders unconditionally. */
+    <section class="section wash-warm" id="why">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">The straight answer</span>
+          <h2>Why we don't sell {a.program} miles</h2>
+        </div>
+        <div class="whynot">
+          <p>
+            Some programs' miles can be sourced at scale from balances their owners genuinely
+            want to sell. {a.program} is not one of them right now: the supply that exists is
+            thin, and thin supply is where the horror stories come from. A cheap balance that
+            gets a {progShort} account audited, frozen or emptied is not a bargain, and a seller
+            who pretends otherwise is pricing in your risk, not theirs.
+          </p>
+          <p>
+            So this page offers the other route to the same seat. You tell us the route and
+            dates, we find the {a.airline} award and book it, and the airline issues the ticket
+            in your own name. One firm price, confirmed before you pay anything, and your own
+            loyalty account is never involved. If you specifically need miles in your account,
+            <a href="/request"> tell us anyway</a> and we'll say honestly whether we can help.
+          </p>
+        </div>
+      </div>
+    </section>
+  ) : (
+    /* The other way to solve the same trip. It sits after the process, not
        beside the widget: someone still pricing miles shouldn't be pulled off
        that decision, but someone who has read to here and is put off by the
-       work of finding award space now has a second door. -->
-  <section class="section wash-warm" id="flights">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">Or skip the search</span>
-        <h2>Would you rather we found the seat?</h2>
-        <p>
-          Buying the shortfall and booking it yourself is usually cheaper, and that's what
-          the calculator above is for. If you'd rather hand over the whole thing, tell us
-          the route and dates and we'll come back with what's bookable in business or first,
-          and what it costs.
-        </p>
+       work of finding award space now has a second door. */
+    <section class="section wash-warm" id="flights">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Or skip the search</span>
+          <h2>Would you rather we found the seat?</h2>
+          <p>
+            Buying the shortfall and booking it yourself is usually cheaper, and that's what
+            the calculator above is for. If you'd rather hand over the whole thing, tell us
+            the route and dates and we'll come back with what's bookable in business or first,
+            and what it costs.
+          </p>
+        </div>
+        {/* the readable program name, not the slug: it travels into the enquiry
+            email, where "eva-air-miles" reads as a debug value */}
+        <FlightSearch program={`${a.airline} — ${a.program}`} />
       </div>
-      {/* the readable program name, not the slug: it travels into the enquiry
-          email, where "eva-air-miles" reads as a debug value */}
-      <FlightSearch program={`${a.airline} — ${a.program}`} />
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- No "worth knowing" section. The quirks and mechanics it rendered are
        program background, and background belongs in a post that can give it
@@ -308,7 +390,7 @@ const jsonld = {
     <div class="container">
       <div class="section-head">
         <span class="kicker">Why trust us</span>
-        <h2>Every {a.program} order is protected</h2>
+        <h2>{flightsOnly ? `Every ${a.airline} booking is protected` : `Every ${a.program} order is protected`}</h2>
       </div>
       <TrustStrip />
     </div>
@@ -324,11 +406,13 @@ const jsonld = {
           program's own extras, which puts it fourth overall, straight after
           the price, availability and delivery basics the component always
           asks first. */}
-      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified}
+      <Faq delivery={a.delivery} airline={a.airline} program={a.program} pricePerMile={a.pricePerMile} priceVerified={a.priceVerified} fulfilment={a.fulfilment}
         extras={coversMany(a)
           ? [{
               q: `Which airlines can I fly with ${a.program} miles?`,
-              a: `${coversSentence(a)} all run on ${a.program}, so miles bought here work across every one of them from the same account — there is nothing to transfer between them. ${a.alliance} partners are bookable too, as partner awards.`,
+              a: flightsOnly
+                ? `${coversSentence(a)} all run on ${a.program}, so an award booked through the program can fly any of them, and ${a.alliance} partners too. When we book your seat, the whole group is in play.`
+                : `${coversSentence(a)} all run on ${a.program}, so miles bought here work across every one of them from the same account — there is nothing to transfer between them. ${a.alliance} partners are bookable too, as partner awards.`,
             }, ...a.faqExtras]
           : a.faqExtras}
         omit={["worth"]} />
@@ -341,11 +425,18 @@ const jsonld = {
   <section class="section wash-cool">
     <div class="container">
       <div class="ctaband">
-        <div>
-          <h3>Ready to price your {progShort} order?</h3>
-          <p>Free, no-obligation quote first, miles delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
-        </div>
-        <a class="btn btn-primary" href="#quote">{verified ? `Price ${progShort} now` : "Request a live quote"}</a>
+        {flightsOnly ? (
+          <div>
+            <h3>Ready to fly {a.airline} up front?</h3>
+            <p>Route and dates in, one firm all-in price back. Nothing is charged on this site.</p>
+          </div>
+        ) : (
+          <div>
+            <h3>Ready to price your {progShort} order?</h3>
+            <p>Free, no-obligation quote first, miles delivered {a.delivery.toLowerCase()}. Nothing is charged on this site.</p>
+          </div>
+        )}
+        <a class="btn btn-primary" href="#quote">{flightsOnly ? "Plan the flight" : verified ? `Price ${progShort} now` : "Request a live quote"}</a>
       </div>
       {related.length > 0 && (
         <div class="related related-inline">
@@ -359,9 +450,9 @@ const jsonld = {
             <a href="/buy/avios">Compare every Avios rate →</a>
           )}
           {related.map((r) => (
-            <a href={`/buy/${r.slug}`}>{r.airline} {r.program} · {r.pricePerMile}¢</a>
+            <a href={`/buy/${r.slug}`}>{r.airline} {r.program}{r.fulfilment === "flights" ? " · flights" : ` · ${r.pricePerMile}¢`}</a>
           ))}
-          <a href={`/calculator/${a.slug}`}>{progShort} calculator</a>
+          {!flightsOnly && <a href={`/calculator/${a.slug}`}>{progShort} calculator</a>}
           <a href="/request">Another program? Ask us →</a>
           <a href="/contact">Questions? Contact us →</a>
         </div>

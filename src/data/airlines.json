@@ -2367,11 +2367,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy Lufthansa miles for Miles & More.",
+    "heroHeadline": "Lufthansa miles are hard to buy. The seat isn't.",
     "heroHighlight": "Lufthansa miles",
-    "heroSub": "The surest route into Lufthansa First. Top up Miles & More with the rate confirmed before you pay anything.",
+    "heroSub": "The honest answer about buying Miles & More miles: we can't source them at a standard worth standing behind, so we don't sell them. What we do instead is find and book your Lufthansa First or Business award, ticketed by the airline in your own name, at a firm all-in price.",
     "metaTitle": "Buy Lufthansa Miles | Miles & More | buyflightmiles",
-    "metaDescription": "Buy Lufthansa Miles & More for first and business class awards. Exact rate confirmed in your quote, delivered to your own account.",
+    "metaDescription": "Lufthansa Miles & More miles are hard to buy safely, so we don't sell them. We book the First or Business award seat instead, ticketed in your name, at a firm price you approve before paying.",
     "related": [
       "turkish-miles-smiles",
       "united-mileageplus",
@@ -2413,36 +2413,36 @@
     "logoAlt": "Lufthansa logo",
     "i18n": {
       "de": {
-        "metaTitle": "Lufthansa Meilen kaufen | Miles & More aufstocken",
-        "metaDescription": "Miles & More Meilen kaufen und dein Konto für Business und First aufstocken. Preis vor der Zahlung fest, Meilen aufs eigene Konto. Meilenrechner für den Vergleich mit dem Barpreis.",
-        "heroHeadline": "Miles & More Meilen kaufen und vorne fliegen.",
-        "heroSub": "Stock dein Miles-&-More-Konto auf und löse Business oder First ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "metaTitle": "Lufthansa Meilen kaufen | Der ehrliche Weg zum Sitz",
+        "metaDescription": "Miles & More Meilen sind kaum seriös zu kaufen, deshalb verkaufen wir sie nicht. Stattdessen buchen wir dir den First- oder Business-Award direkt: Ticket auf deinen Namen, Festpreis vor der Zahlung.",
+        "heroHeadline": "Miles & More Meilen kaufen? Wir buchen dir gleich den Sitz.",
+        "heroSub": "Die ehrliche Antwort zum Meilenkauf bei Miles & More: Wir können diese Meilen nicht in einer Qualität beschaffen, hinter der wir stehen, also verkaufen wir sie nicht. Stattdessen finden und buchen wir deinen Lufthansa-Award in First oder Business. Das Ticket stellt die Airline auf deinen Namen aus, den Festpreis bestätigst du vor der Zahlung.",
         "steps": [
           {
             "title": "Anfragen",
-            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+            "text": "Du nennst Route, Daten und Kabine. Wir kommen mit einem festen Gesamtpreis zurück. Kostenlos und ohne Kaufzwang."
           },
           {
             "title": "Freigeben und zahlen",
             "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
           },
           {
-            "title": "Meilen erhalten",
-            "text": "Die Meilen gehen auf dein bestehendes Miles-&-More-Konto. Die Prämie buchst du danach direkt bei Lufthansa, auf deinen Namen."
+            "title": "Fliegen",
+            "text": "Wir buchen den Award, und Lufthansa stellt das Ticket auf deinen Namen aus. Die Buchungsnummer prüfst du direkt bei der Airline."
           }
         ],
         "faq": [
           {
             "q": "Was kosten Miles-&-More-Meilen?",
-            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "Wir verkaufen Miles-&-More-Meilen derzeit nicht: Sie sind kaum in einer Qualität zu beschaffen, hinter der wir stehen würden. Was wir stattdessen anbieten, ist der fertige Sitz. Du nennst Route und Daten, und das Angebot ist ein fester Gesamtpreis in US-Dollar für das Ticket, bestätigt bevor du zahlst."
           },
           {
-            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+            "q": "Wie läuft die Buchung ab?",
+            "a": "Es gibt keine Meilenübertragung. Nach deiner Freigabe buchen wir den Award, und Lufthansa stellt das Ticket auf deinen Namen aus. Du bekommst die Bestätigung mit einer Buchungsnummer, die du direkt bei der Airline prüfen kannst."
           },
           {
-            "q": "Braucht ihr mein Miles-&-More-Passwort?",
-            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+            "q": "Ist mein Miles-&-More-Konto beteiligt?",
+            "a": "Nein, und genau das ist der Punkt: Es wird nichts in dein Konto übertragen. Das Ticket wird auf deinen Namen ausgestellt, dein Konto bleibt komplett außen vor, und nach einem Passwort fragen wir ohnehin nie."
           },
           {
             "q": "Welche Zahlungswege akzeptiert ihr?",
@@ -2453,7 +2453,7 @@
             "a": "Für Langstrecke in Business und First. Lufthansa gibt First-Class-Prämienplätze an Partnerprogramme erst kurz vor Abflug frei, Miles-&-More-Mitglieder sehen diese Plätze deutlich früher. Lufthansa, Swiss, Austrian und Brussels Airlines buchen aus demselben Meilenkonto."
           }
         ],
-        "ctaLabel": "Angebot anfordern",
+        "ctaLabel": "Flug anfragen",
         "reviewed": false,
         "uses": [
           {
@@ -2521,7 +2521,8 @@
         "text": "Miles & More number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "air-france-flying-blue",

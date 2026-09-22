@@ -30,6 +30,9 @@ export async function getStaticPaths() {
   return Object.keys(LOCALES).flatMap((locale) =>
     airlines
       .filter((a) => a.i18n?.[locale])
+      // same rule as the English calculator: no per-mile page for a program
+      // whose miles we don't sell; the old URL 301s to the program page
+      .filter((a) => a.fulfilment !== "flights")
       .map((a) => ({ params: { locale, slug: a.slug }, props: { a, t: a.i18n[locale], locale } })),
   );
 }

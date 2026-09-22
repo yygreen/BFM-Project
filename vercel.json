@@ -304,6 +304,16 @@
       "source": "/calculator/hawaiian-miles",
       "destination": "/calculator/alaska-atmos-rewards",
       "permanent": true
+    },
+    {
+      "source": "/calculator/lufthansa-miles-more",
+      "destination": "/buy/lufthansa-miles-more",
+      "permanent": true
+    },
+    {
+      "source": "/de/calculator/lufthansa-miles-more",
+      "destination": "/de/buy/lufthansa-miles-more",
+      "permanent": true
     }
   ]
 }

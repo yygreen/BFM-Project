@@ -743,6 +743,15 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .confirm-fast { margin:20px 0 0; font-size:14.5px; color:var(--text-2); }
 .confirm-fast a { color:var(--cobalt); font-weight:600; }
 
+/* ---- flights-only program pages ----
+   value-solo replaces value-split when the savings tool column is gone;
+   whynot is the "why we don't sell these miles" prose band. */
+.value-solo { display:block; }
+.whynot { max-width:720px; }
+.whynot p { color:var(--text-2); font-size:15.5px; line-height:1.7; margin:0 0 16px; }
+.whynot p:last-child { margin-bottom:0; }
+.whynot a { color:var(--cobalt); font-weight:600; }
+
 /* ---- two-column helper ---- */
 .cols { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
 @media (max-width:640px){ .cols { grid-template-columns:1fr; } }

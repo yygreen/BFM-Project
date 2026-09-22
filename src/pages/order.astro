@@ -24,6 +24,9 @@ import { site, quoteFormReady, paymentSentence, mailtoInbox } from "../lib/site"
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
+  // no miles order can be placed on a flights-only program; those pages
+  // route to the flight configurator instead
+  .filter((a) => a.fulfilment !== "flights")
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
 // the client-side script needs rate, limits and delivery per program

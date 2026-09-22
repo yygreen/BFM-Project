@@ -83,8 +83,12 @@ mkdirSync("public/og/buy", { recursive: true });
 mkdirSync("public/og/blog", { recursive: true });
 
 for (const a of airlines) {
+  const flightsOnly = a.fulfilment === "flights";
   const rate = `${a.priceVerified ? "" : "~"}${a.pricePerMile.toLocaleString("en-US")}¢`;
   const nameSize = a.program.length > 18 ? 56 : 68;
+  const pill = (label) =>
+    h("div", { display: "flex", background: C.cobaltTint, color: C.cobalt, fontSize: 24, fontFamily: "Jakarta", fontWeight: 800, padding: "10px 24px", borderRadius: 99 },
+      text(label, {}));
   const card = shell(
     wordmark(),
     h("div", { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 48 },
@@ -93,15 +97,17 @@ for (const a of airlines) {
         text(a.airline, { fontSize: 32, color: C.text2 })),
       h("div", { width: 150, height: 150, borderRadius: 36, background: a.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 },
         text(a.code, { fontFamily: "Jakarta", fontWeight: 800, fontSize: 52, color: "#FFFFFF", letterSpacing: "0.02em" }))),
-    h("div", { display: "flex", alignItems: "center", gap: 28 },
-      h("div", { display: "flex", alignItems: "flex-end", gap: 12 },
-        text(rate, { fontFamily: "Plex Mono", fontWeight: 600, fontSize: 82, color: C.ink, lineHeight: 1, letterSpacing: "-0.06em" }),
-        text("per mile", { fontSize: 28, color: C.text2, paddingBottom: 8 })),
-      a.deliveryVerified
-        ? h("div", { display: "flex", background: C.cobaltTint, color: C.cobalt, fontSize: 24, fontFamily: "Jakarta", fontWeight: 800, padding: "10px 24px", borderRadius: 99 },
-            text(`Delivered ${a.delivery.toLowerCase()}`, {}))
-        : h("div", { display: "flex", background: C.cobaltTint, color: C.cobalt, fontSize: 24, fontFamily: "Jakarta", fontWeight: 800, padding: "10px 24px", borderRadius: 99 },
-            text("Exact rate confirmed before you pay", {}))),
+    // flights-only programs never show a per-mile rate anywhere, the share
+    // card included — the card sells the seat, like the page does
+    flightsOnly
+      ? h("div", { display: "flex", alignItems: "center", gap: 28 },
+          text("Award flights, in your name", { fontFamily: "Jakarta", fontWeight: 800, fontSize: 52, color: C.ink, lineHeight: 1, letterSpacing: "-0.02em" }),
+          pill("Business & first class"))
+      : h("div", { display: "flex", alignItems: "center", gap: 28 },
+          h("div", { display: "flex", alignItems: "flex-end", gap: 12 },
+            text(rate, { fontFamily: "Plex Mono", fontWeight: 600, fontSize: 82, color: C.ink, lineHeight: 1, letterSpacing: "-0.06em" }),
+            text("per mile", { fontSize: 28, color: C.text2, paddingBottom: 8 })),
+          pill(a.deliveryVerified ? `Delivered ${a.delivery.toLowerCase()}` : "Exact rate confirmed before you pay")),
     route(),
   );
   await render(card, `public/og/buy/${a.id}.png`);
