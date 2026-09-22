@@ -79,7 +79,7 @@ spent, and there is no transfer fee stacked on a per-mile price.
 
 Two things worth saying plainly:
 
-- **Our minimum order on MileagePlus is 80,000 miles**, the highest on our
+- **Our minimum order on MileagePlus is 100,000 miles**, the highest on our
   roster. For a small top-up we are simply the wrong tool, and pooling or the
   official transfer is the right one.
 - **United prices its own flights dynamically**, so what the miles are worth

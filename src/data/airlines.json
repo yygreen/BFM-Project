@@ -174,7 +174,7 @@
       "checked": "August 2026",
       "verified": true
     },
-    "min": 80000,
+    "min": 100000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 7 business days",
@@ -330,7 +330,7 @@
     "priceVerified": true,
     "min": 50000,
     "max": 500000,
-    "limitsVerified": false,
+    "limitsVerified": true,
     "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
@@ -420,7 +420,7 @@
     "alliance": "Star Alliance",
     "code": "SQ",
     "color": "#1B2A5B",
-    "pricePerMile": 1.7,
+    "pricePerMile": 1.8,
     "priceVerified": true,
     "directBuy": {
       "cents": 5,
@@ -428,7 +428,7 @@
       "checked": "August 2026",
       "verified": true
     },
-    "min": 80000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
@@ -438,7 +438,7 @@
     "heroHighlight": "KrisFlyer miles",
     "heroSub": "Fly Singapore Suites and Business on one of the world's best airlines. Buy the KrisFlyer miles you're short, delivered fast.",
     "metaTitle": "Buy Singapore KrisFlyer Miles | buyflightmiles",
-    "metaDescription": "Buy Singapore Airlines KrisFlyer miles at 1.7¢ per mile. Secure transfer, delivered within 3 business days, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy Singapore Airlines KrisFlyer miles at 1.8¢ per mile. Secure transfer, delivered within 3 business days, your exact rate confirmed before you pay.",
     "related": [
       "ana-mileage-club",
       "eva-air-miles"
@@ -514,7 +514,7 @@
     "i18n": {
       "de": {
         "metaTitle": "Singapore Airlines Meilen kaufen | KrisFlyer",
-        "metaDescription": "KrisFlyer Meilen kaufen für Singapore Suites und Business. 1,7 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "metaDescription": "KrisFlyer Meilen kaufen für Singapore Suites und Business. 1,8 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
         "heroHeadline": "KrisFlyer Meilen kaufen und die Suites einlösen.",
         "heroSub": "Stock dein KrisFlyer-Konto auf und löse Singapores eigene Premiumkabinen ein. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
         "steps": [
@@ -548,7 +548,7 @@
         "faq": [
           {
             "q": "Was kosten KrisFlyer-Meilen?",
-            "a": "1,7 Cent pro Meile, also 17 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "1,8 Cent pro Meile, also 18 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
@@ -848,7 +848,7 @@
     "color": "#1D4E89",
     "pricePerMile": 1.7,
     "priceVerified": true,
-    "min": 80000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
@@ -1096,7 +1096,7 @@
     "alliance": "Star Alliance",
     "code": "BR",
     "color": "#1E6B54",
-    "pricePerMile": 1.7,
+    "pricePerMile": 1.8,
     "priceVerified": true,
     "min": 50000,
     "max": 500000,
@@ -1108,7 +1108,7 @@
     "heroHighlight": "EVA Air miles",
     "heroSub": "EVA's Royal Laurel business class is a standout. Buy Infinity MileageLands miles and lock in your redemption for less.",
     "metaTitle": "Buy EVA Air Infinity MileageLands Miles | buyflightmiles",
-    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.7¢. Secure transfer, delivered within 7 business days, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.8¢. Secure transfer, delivered within 7 business days, your exact rate confirmed before you pay.",
     "related": [
       "singapore-krisflyer",
       "ana-mileage-club"
@@ -1340,7 +1340,7 @@
     "priceVerified": true,
     "min": 50000,
     "max": 500000,
-    "limitsVerified": false,
+    "limitsVerified": true,
     "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
@@ -1626,7 +1626,7 @@
       "verified": false,
       "note": "Correct at list, but Aeroplan ran a 110% bonus to about 1.27¢ US in 2026, below our 1.7¢. Withheld until the comparison holds through a promotion."
     },
-    "min": 80000,
+    "min": 100000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
@@ -1723,7 +1723,7 @@
     "priceVerified": true,
     "min": 50000,
     "max": 500000,
-    "limitsVerified": false,
+    "limitsVerified": true,
     "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
@@ -1939,7 +1939,7 @@
     "priceVerified": true,
     "min": 50000,
     "max": 500000,
-    "limitsVerified": false,
+    "limitsVerified": true,
     "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
@@ -2146,9 +2146,9 @@
     "color": "#BD8B13",
     "pricePerMile": 1.9,
     "priceVerified": true,
-    "min": 50000,
+    "min": 100000,
     "max": 500000,
-    "limitsVerified": false,
+    "limitsVerified": true,
     "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
@@ -2540,7 +2540,7 @@
       "verified": false,
       "note": "Correct at list, but Flying Blue ran an 80% bonus to 1.69¢ in 2026, below our 1.7¢. Withheld until the comparison holds through a promotion."
     },
-    "min": 49000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
@@ -2759,7 +2759,7 @@
     "color": "#E30613",
     "pricePerMile": 1.7,
     "priceVerified": true,
-    "min": 49000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
@@ -2910,7 +2910,7 @@
     "color": "#006564",
     "pricePerMile": 1.7,
     "priceVerified": true,
-    "min": 80000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
