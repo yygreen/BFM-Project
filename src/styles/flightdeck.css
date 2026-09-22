@@ -251,8 +251,16 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
    price size wraps it to three lines — this sizes it to sit on one row. The
    .price.price-svc double-class outweighs the narrow-width .gcard .price
    override further down, so it holds at every breakpoint. */
-.gcard .price.price-svc { font-family:var(--display); font-size:14.5px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+.gcard .price.price-svc { font-family:var(--display); font-size:14.5px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; margin-top:14px; }
 .gcard .price.price-svc small { font-size:12.5px; }
+/* The rate on a miles card is tall enough to sit flush above the divider; the
+   short flights label left a gap there. Above the phone breakpoint (where the
+   divider row exists), drop meta's auto-margin onto the label so it bottom-
+   aligns to the divider exactly like the rate does. */
+@media (min-width:561px){
+  .grid > .gcard:has(.price-svc) .meta { margin-top:0; }
+  .grid > .gcard .price.price-svc { margin-top:auto; }
+}
 /* logo-led coverage grid: the homepage card with the commercial detail
    stripped, since this list is about breadth rather than price */
 /* Explicit column counts rather than auto-fill: the "not listed?" tile has to
