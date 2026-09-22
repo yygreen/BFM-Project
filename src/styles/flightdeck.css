@@ -247,6 +247,12 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard .plabel { font-size:13px; color:var(--text-3); margin-top:2px; }
 .gcard .price { font-family:var(--mono); font-size:28px; font-weight:600; color:var(--cobalt); }
 .gcard .price small { font-size:13px; color:var(--text-3); font-weight:400; font-family:var(--sans); }
+/* flights-only cards carry a text label, not a short rate, so the 28px mono
+   price size wraps it to three lines — this sizes it to sit on one row. The
+   .price.price-svc double-class outweighs the narrow-width .gcard .price
+   override further down, so it holds at every breakpoint. */
+.gcard .price.price-svc { font-family:var(--display); font-size:14.5px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+.gcard .price.price-svc small { font-size:12.5px; }
 /* logo-led coverage grid: the homepage card with the commercial detail
    stripped, since this list is about breadth rather than price */
 /* Explicit column counts rather than auto-fill: the "not listed?" tile has to
@@ -747,7 +753,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
    value-solo replaces value-split when the savings tool column is gone;
    whynot is the "why we don't sell these miles" prose band. */
 .value-solo { display:block; }
-.whynot { max-width:720px; }
+.whynot { max-width:none; }
 .whynot p { color:var(--text-2); font-size:15.5px; line-height:1.7; margin:0 0 16px; }
 .whynot p:last-child { margin-bottom:0; }
 .whynot a { color:var(--cobalt); font-weight:600; }
