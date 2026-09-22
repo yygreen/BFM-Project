@@ -655,6 +655,9 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .ask-tag { align-self:flex-start; font-family:var(--display); font-weight:700; font-size:11px;
   letter-spacing:.05em; text-transform:uppercase; color:var(--coral-2);
   background:var(--coral-tint); padding:5px 11px; border-radius:var(--radius-pill); }
+/* the broker cards span two grid tracks; auto-fill clamps the span down to
+   the single column that exists at phone width, so no mobile override needed */
+.gcard-wide { grid-column:span 2; }
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }

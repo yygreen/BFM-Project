@@ -194,7 +194,7 @@ const jsonld = {
              only through the nav, which is the one place a visitor scanning
              prices isn't looking. Claims here are the ones /agents already
              makes; the volume threshold stays off it until confirmed. -->
-        <a class="gcard gcard-ask gcard-partner" href="/agents">
+        <a class="gcard gcard-ask gcard-partner gcard-wide" href="/agents">
           <span class="ask-tag">For agents &amp; brokers</span>
           <div class="pname">Booking for clients?</div>
           <p class="askp">Volume pricing on miles and on business or first class seats. Your client never sees us.</p>
@@ -216,6 +216,22 @@ const jsonld = {
           </div>
           <div class="grid">
             {flightsPrograms.map((a) => <ProgramCard a={a} />)}
+            {/* the overview: /flights books a seat on ANY program here, the
+                ones we sell miles for included, so it belongs at the end of
+                this band as the "or any of them" catch-all */}
+            <a class="gcard gcard-ask" href="/flights">
+              <div class="pname">Want the seat, not the miles?</div>
+              <p class="askp">We book business and first awards across every program on this page — the ones we sell miles for included. Give us the route and dates.</p>
+              <span class="askcta">See how flight booking works →</span>
+            </a>
+            {/* the trade route for flights, spanning two tracks like the miles
+                band's partner card */}
+            <a class="gcard gcard-ask gcard-partner gcard-wide" href="/agents">
+              <span class="ask-tag">For agents &amp; brokers</span>
+              <div class="pname">Flight booking at volume</div>
+              <p class="askp">Premium award seats sourced and ticketed for your clients, at trade rates. Your client never sees us.</p>
+              <span class="askcta">See partner access →</span>
+            </a>
           </div>
         </div>
       )}
