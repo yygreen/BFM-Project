@@ -649,7 +649,9 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .gcard-ask:hover { border-color:var(--cobalt); }
 /* the partner card sits beside it and must not read as a second retail tile:
    a different accent and a tag, so the trade route is legible at a glance */
-.gcard-partner { border-color:var(--coral-tint); background:color-mix(in srgb, var(--coral-tint) 26%, transparent); }
+/* a defined light border, solid not dashed: the faint coral-tint dashes read
+   as barely-there against the tinted fill, so the card edge went undefined */
+.gcard-partner { border:1px solid var(--line-strong); background:color-mix(in srgb, var(--coral-tint) 26%, transparent); }
 .gcard-partner:hover { border-color:var(--coral); }
 .gcard-partner .askcta { color:var(--coral-2); }
 .ask-tag { align-self:flex-start; font-family:var(--display); font-weight:700; font-size:11px;
