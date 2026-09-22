@@ -6,6 +6,7 @@ import Trustpilot from "../components/Trustpilot.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
+import ProgramCard from "../components/ProgramCard.astro";
 import QuoteWidget from "../components/QuoteWidget.astro";
 import StepArt from "../components/StepArt.astro";
 import FlightSearch from "../components/FlightSearch.astro";
@@ -19,6 +20,14 @@ import { deliveryHours } from "../lib/delivery";
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
+
+// The grid is two products, not one. Miles programs are the pricing wall — a
+// rate on every card, meant to be compared. Flights-only programs (the ones
+// whose miles we can't source safely) sell a booked seat and carry no rate,
+// so they get their own labeled band below rather than leaving gaps in the
+// price comparison. Both stay A-Z within their group.
+const milesPrograms = airlines.filter((a) => a.fulfilment !== "flights");
+const flightsPrograms = airlines.filter((a) => a.fulfilment === "flights");
 
 // Hero stats: only figures we can stand behind. Windows differ by program,
 // so the hero says "fast" and each program page states its own number;
@@ -170,43 +179,10 @@ const jsonld = {
       <div class="section-head">
         <span class="kicker">Programs</span>
         <h2>Choose your program</h2>
-        <p>Live, transparent pricing across every program we cover. Each links to full details and delivery times.</p>
+        <p>Live, transparent pricing across every program we sell miles for. Each links to full details and delivery times.</p>
       </div>
       <div class="grid">
-        {airlines.map((a) => (
-          <a class="gcard" href={`/buy/${a.slug}`}>
-            <div class="top">
-              <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={46} />
-              {a.fulfilment === "flights"
-                ? <span class="badge badge-ok">Bookable</span>
-                : a.inStock
-                  ? <span class="badge badge-ok">In stock</span>
-                  : <span class="badge badge-warn">Limited</span>}
-            </div>
-            <!-- airline leads: the grid sorts A-Z by carrier, and the headline
-                 must be the thing the sort is on or the order reads as random -->
-            <div class="pname">{a.airline}</div>
-            <div class="plabel">{a.program}</div>
-            {/* flights-only programs sell the seat, never a per-mile rate:
-                printing one here would be the exact claim their page disowns */}
-            {a.fulfilment === "flights" ? (
-              <div class="price price-svc">Flights <small>in your name</small></div>
-            ) : (
-              <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{rateFixed(a.pricePerMile)}¢ <small>/ mile</small></div>
-            )}
-            <div class="meta"><span>{a.fulfilment === "flights" ? (a.alliance === "Independent" ? "booked for you" : "business & first") : a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
-            {/* The whole tile is a link, but nothing said so — while the two
-                "ask" tiles in the same grid both carry a call to action, so
-                half the grid read as clickable and half didn't.
-
-                "Buy miles" is the site's own verb for this step — the nav says
-                Buy, the URL is /buy/, and the card on the program page says
-                the same. Earlier drafts said "see pricing", which promised the
-                rate already printed two lines above, then "price your amount",
-                which described the calculator rather than the errand. */}
-            <span class="gcta">{a.fulfilment === "flights" ? "Book the flight →" : "Buy miles →"}</span>
-          </a>
-        ))}
+        {milesPrograms.map((a) => <ProgramCard a={a} />)}
         <!-- catch-all for programs we don't list — a request, not a promise:
              availability gets confirmed in the quote, never asserted here -->
         <a class="gcard gcard-ask" href="/request">
@@ -225,6 +201,24 @@ const jsonld = {
           <span class="askcta">See partner access →</span>
         </a>
       </div>
+
+      {/* The programs we can't source miles for at a standard worth standing
+          behind. Split into their own band so the pricing wall above stays a
+          clean rate comparison, and so the honest "we book these as flights"
+          model reads as a deliberate second offering rather than cards with a
+          missing price. */}
+      {flightsPrograms.length > 0 && (
+        <div class="prog-split">
+          <div class="section-head">
+            <span class="kicker">Flown, not sold</span>
+            <h3>Some programs we book as flights</h3>
+            <p>These miles are hard to buy safely, so we don't. Tell us the trip and we book the award seat itself, ticketed in your own name.</p>
+          </div>
+          <div class="grid">
+            {flightsPrograms.map((a) => <ProgramCard a={a} />)}
+          </div>
+        </div>
+      )}
     </div>
   </section>
 
