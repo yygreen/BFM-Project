@@ -160,6 +160,14 @@ const airlines = defineCollection({
       // calculator routes, the homepage card, the OG card and the FAQ.
       fulfilment: z.enum(["miles", "flights"]).default("miles"),
 
+      // Miles that can only be sold into a new account. The client can't
+      // transfer them into the buyer's existing balance, so the order is
+      // delivered as a ready account with the miles already in it, handed
+      // over to the buyer. Every surface that would otherwise say "miles land
+      // in your own account" reads this flag instead: card, program page,
+      // quote widget and FAQ.
+      readyAccount: z.boolean().default(false),
+
       inStock: z.boolean(),
 
       heroHeadline: z.string().min(1),

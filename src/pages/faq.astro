@@ -21,6 +21,12 @@ const airlines = (await getCollection("airlines"))
 // flights-only program shows no rate, so it never sets the range.
 const sold = airlines.filter((a) => a.fulfilment !== "flights");
 const verified = sold.filter((a) => a.priceVerified);
+// Programs sold only into a new account arrive as a ready account instead of
+// a transfer; the account answers name them, read from the data.
+const readyNames = sold.filter((a) => a.readyAccount).map((a) => `${a.airline} ${a.program}`);
+const readyList = readyNames.length > 1
+  ? `${readyNames.slice(0, -1).join(", ")} and ${readyNames[readyNames.length - 1]}`
+  : readyNames[0] ?? "";
 const cheapest = [...verified].sort((a, b) => a.pricePerMile - b.pricePerMile)[0];
 // in-stock as well as verified: the only hour-window programs are currently
 // out of stock, and a speed claim can't rest on a program nobody can order
@@ -51,7 +57,7 @@ const extras = [
   },
   {
     q: "Do I need to open a new account?",
-    a: "No. The miles are transferred into the loyalty account you already hold, and you book the award yourself, directly with the airline. The reservation is in your name and stays under your control. We are not affiliated with any airline or loyalty program.",
+    a: `No. The miles are transferred into the loyalty account you already hold, and you book the award yourself, directly with the airline. The reservation is in your name and stays under your control.${readyList ? ` The exception is ${readyList}: those can only be sold into a new account, so we hand over a ready account with the miles already in it, and you don't need to open anything yourself.` : ""} We are not affiliated with any airline or loyalty program.`,
   },
   {
     q: "Are taxes and carrier surcharges included?",

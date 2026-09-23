@@ -40,6 +40,8 @@ const EN = {
   delivery: "Delivery",
   onQuote: "On quote",
   note: "Indicative rate — request a quote and we'll confirm your exact price.",
+  // programs sold only into a new account; {program} is the program name
+  readyNote: "Delivered as a ready {program} account, with the miles already in it.",
   continue: "Continue →",
   back: "← Change program",
   milesUnit: "miles",
@@ -140,6 +142,7 @@ const data = airlines.map((a) => ({
   rate: a.pricePerMile,
   verified: a.priceVerified,
   delivery: a.deliveryVerified ? a.delivery.replace("Within ", "") : "",
+  ready: Boolean(a.readyAccount),
   min: a.min,
   max: a.max,
   direct: directBuyRate(a.directBuy),
@@ -271,6 +274,7 @@ const doneReplyLine = chEmail ? L.doneReplyFrom.replace("{email}", chEmail.value
     </div>
 
     <p class="qw-note" id="qw-note" hidden>{L.note}</p>
+    <p class="qw-note qw-ready" id="qw-ready" hidden></p>
     <button type="button" class="btn btn-primary qw-cta" id="qw-next">{L.continue}</button>
   </div>
 
@@ -523,6 +527,9 @@ const doneReplyLine = chEmail ? L.doneReplyFrom.replace("{email}", chEmail.value
               ? fmt(T.dDays, { n: days })
               : c.delivery;
       $("qw-note").hidden = c.verified;
+      const readyEl = $("qw-ready");
+      readyEl.hidden = !c.ready;
+      if (c.ready) readyEl.textContent = fmt(T.readyNote, { program: c.program });
 
       // savings only against a sourced airline rate
       const saveRow = $("qw-save-row");

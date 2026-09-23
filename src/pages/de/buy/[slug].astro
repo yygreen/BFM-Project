@@ -227,7 +227,7 @@ const jsonld = [
               ) : (
                 <span class="spec-it">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  Lieferung in <b>{a.delivery.replace("Within ", "").replace("business days", "Werktagen").replace("hours", "Stunden")}</b>
+                  {a.readyAccount ? "Fertiges Konto in " : "Lieferung in "}<b>{a.delivery.replace("Within ", "").replace("business days", "Werktagen").replace("hours", "Stunden")}</b>
                 </span>
               )}
               {years !== null ? (
@@ -331,7 +331,7 @@ const jsonld = [
     <section class="section" id="how">
       <div class="container">
         <div class="section-head">
-          <h2>{flightsOnly ? `Von der Route zum ${a.airline}-Ticket auf deinen Namen` : `Vom Angebot bis auf dein ${progDe}-Konto`}</h2>
+          <h2>{flightsOnly ? `Von der Route zum ${a.airline}-Ticket auf deinen Namen` : a.readyAccount ? `Vom Angebot zum fertigen ${progDe}-Konto` : `Vom Angebot bis auf dein ${progDe}-Konto`}</h2>
         </div>
         <div class="steps ministeps">
           {t.steps.map((st, i) => (

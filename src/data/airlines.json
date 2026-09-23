@@ -336,9 +336,9 @@
     "inStock": true,
     "heroHeadline": "Buy American Airlines miles for AAdvantage.",
     "heroHighlight": "American Airlines miles",
-    "heroSub": "Top up AAdvantage and unlock Flagship business for less. Secure transfer, delivered to your account within the day.",
+    "heroSub": "Unlock Flagship business for less. AAdvantage miles come as a ready account with the miles already in it, delivered within 3 business days.",
     "metaTitle": "Buy American Airlines Miles | AA AAdvantage | buyflightmiles",
-    "metaDescription": "Buy American Airlines AAdvantage miles at 1.7¢ per mile. Secure transfer, delivered within 3 business days, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy American Airlines AAdvantage miles at 1.7¢ per mile, delivered as a ready AAdvantage account within 3 business days. Exact rate confirmed before you pay.",
     "related": [
       "qatar-avios",
       "british-airways-avios"
@@ -381,7 +381,7 @@
     "quirks": [
       {
         "title": "The last partner chart standing",
-        "text": "American is the only US major still publishing a partner award chart, which makes budgeting a top-up unusually predictable: the chart says the number, the calculator prices it."
+        "text": "American is the only US major still publishing a partner award chart, which makes budgeting a purchase unusually predictable: the chart says the number, the calculator prices it."
       },
       {
         "title": "Web Specials undercut saver",
@@ -407,10 +407,11 @@
       },
       {
         "label": "What we need",
-        "text": "AAdvantage number and account name. Never your password"
+        "text": "Nothing from your own account: we hand over a ready AAdvantage account"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "readyAccount": true
   },
   {
     "id": "singapore-krisflyer",
@@ -1733,9 +1734,9 @@
     "inStock": true,
     "heroHeadline": "Buy Emirates miles for Skywards.",
     "heroHighlight": "Emirates miles",
-    "heroSub": "The A380 shower is a miles purchase away. Top up Skywards for Emirates first and business, quoted before you pay a cent.",
+    "heroSub": "The A380 shower is a miles purchase away. Skywards miles come as a ready account with the miles already in it, for Emirates first and business, quoted before you pay a cent.",
     "metaTitle": "Buy Emirates Skywards Miles | buyflightmiles",
-    "metaDescription": "Buy Emirates Skywards miles for first and business class redemptions. Exact rate confirmed in your quote, delivered to your Skywards account.",
+    "metaDescription": "Buy Emirates Skywards miles for first and business class redemptions, delivered as a ready Skywards account with the miles in it. Exact rate confirmed in your quote.",
     "related": [
       "etihad-guest",
       "qatar-avios",
@@ -1763,7 +1764,7 @@
         "metaTitle": "شراء أميال سكاي واردز طيران الإمارات | السعر يُؤكَّد قبل الدفع",
         "metaDescription": "اشترِ أميال سكاي واردز من طيران الإمارات بسعر يقارب 1.9 سنت للميل لحجز الدرجة الأولى ودرجة رجال الأعمال. نؤكد السعر النهائي وموعد التسليم في عرض السعر قبل أي دفع.",
         "heroHeadline": "اشترِ أميال سكاي واردز طيران الإمارات",
-        "heroSub": "عزّز رصيدك في سكاي واردز واحجز درجة رجال الأعمال أو الدرجة الأولى على طيران الإمارات بجزء من سعرها النقدي. نرسل لك عرض سعر يؤكد السعر النهائي وموعد التسليم قبل أن تدفع.",
+        "heroSub": "احجز درجة رجال الأعمال أو الدرجة الأولى على طيران الإمارات بجزء من سعرها النقدي. تصلك أميال سكاي واردز في حساب جاهز فيه الأميال مسبقاً. نرسل لك عرض سعر يؤكد السعر النهائي وموعد التسليم قبل أن تدفع.",
         "steps": [
           {
             "title": "اختر الكمية",
@@ -1778,13 +1779,13 @@
             "text": "لا يُحصَّل أي مبلغ على هذا الموقع — الدفع يتم بعد موافقتك على العرض."
           },
           {
-            "title": "تصل الأميال",
-            "text": "تُضاف الأميال إلى حساب سكاي واردز الخاص بك في الموعد المؤكد في عرض السعر."
+            "title": "تستلم الحساب",
+            "text": "نسلّمك حساب سكاي واردز جاهزاً فيه الأميال، في الموعد المؤكد في عرض السعر."
           }
         ],
         "points": [
           "السعر التقريبي 1.9 سنت لكل ميل، ويُؤكَّد السعر النهائي قبل الدفع",
-          "التسليم إلى حسابك في سكاي واردز، وموعده يُؤكَّد في عرض السعر",
+          "التسليم في حساب سكاي واردز جاهز، وموعده يُؤكَّد في عرض السعر",
           "لا نطلب كلمة المرور أبداً — رقم العضوية واسم الحساب فقط",
           "أميال سكاي واردز تُستخدم للترقيات ولحجز الدرجة الأولى ودرجة رجال الأعمال على طيران الإمارات وفلاي دبي"
         ],
@@ -1794,12 +1795,12 @@
             "a": "السعر التقريبي 1.9 سنت لكل ميل، أي نحو 19 دولاراً لكل 1,000 ميل. نؤكد لك السعر النهائي في عرض السعر قبل أي دفع."
           },
           {
-            "q": "متى تصل الأميال إلى حسابي؟",
-            "a": "نؤكد موعد التسليم في عرض السعر قبل الدفع، وتصل الأميال إلى حساب سكاي واردز الخاص بك ضمن ذلك الموعد."
+            "q": "متى أستلم الحساب؟",
+            "a": "نؤكد موعد التسليم في عرض السعر قبل الدفع، ونسلّمك حساب سكاي واردز الجاهز والأميال فيه ضمن ذلك الموعد."
           },
           {
             "q": "ما الذي تحتاجونه مني؟",
-            "a": "رقم عضويتك في سكاي واردز واسم الحساب فقط. لن نطلب كلمة المرور أبداً."
+            "a": "لا نحتاج أي بيانات من حسابك الخاص. أميال سكاي واردز تُباع فقط في حساب جاهز نسلّمه لك والأميال فيه، ولن نطلب كلمة مرور حسابك أبداً."
           }
         ],
         "ctaLabel": "اطلب عرض السعر",
@@ -1821,10 +1822,10 @@
         ]
       },
       "de": {
-        "metaTitle": "Emirates Meilen kaufen | Skywards aufstocken",
-        "metaDescription": "Skywards Meilen kaufen und dein Emirates-Konto für Business und First aufstocken. Preis vor der Zahlung fest, Meilen aufs eigene Konto, Buchung direkt bei Emirates.",
+        "metaTitle": "Emirates Meilen kaufen | Skywards als fertiges Konto",
+        "metaDescription": "Skywards Meilen kaufen für Business und First bei Emirates, geliefert als fertiges Skywards-Konto mit den Meilen darauf. Preis vor der Zahlung fest, Buchung direkt bei Emirates.",
         "heroHeadline": "Skywards Meilen kaufen und im A380 vorne sitzen.",
-        "heroSub": "Stock dein Skywards-Konto auf und löse Business oder First bei Emirates ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "heroSub": "Business oder First bei Emirates einlösen, zu einem Bruchteil des Barpreises. Skywards-Meilen kommen als fertiges Konto, auf dem die Meilen schon liegen. Preis pro Meile und Lieferzeitraum nennen wir dir, bevor du zahlst.",
         "steps": [
           {
             "title": "Anfragen",
@@ -1836,7 +1837,7 @@
           },
           {
             "title": "Meilen erhalten",
-            "text": "Die Meilen gehen auf dein bestehendes Skywards-Konto. Die Prämie buchst du danach direkt bei Emirates, auf deinen Namen."
+            "text": "Du bekommst ein fertiges Skywards-Konto, auf dem die Meilen schon liegen. Von dort buchst du die Prämie direkt bei Emirates."
           }
         ],
         "uses": [
@@ -1859,12 +1860,12 @@
             "a": "1,9 Cent pro Meile, also 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
-            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "q": "Wie lange dauert es, bis ich das Konto bekomme?",
             "a": "In der Regel innerhalb von 3 Werktagen. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
-            "q": "Braucht ihr mein Skywards-Passwort?",
-            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+            "q": "Braucht ihr Zugang zu meinem Skywards-Konto?",
+            "a": "Nein. Skywards-Meilen verkaufen wir nur als fertiges Konto: Du bekommst ein Skywards-Konto, auf dem die Meilen schon liegen. Dein eigenes Konto bleibt komplett außen vor, und nach Kontodaten oder Passwörtern fragen wir nie."
           },
           {
             "q": "Welche Zahlungswege akzeptiert ihr?",
@@ -1926,10 +1927,11 @@
       },
       {
         "label": "What we need",
-        "text": "Skywards number and account name. Never your password"
+        "text": "Nothing from your own account: we hand over a ready Skywards account"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "readyAccount": true
   },
   {
     "id": "turkish-miles-smiles",

@@ -1178,6 +1178,8 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .qw-src[hidden] { display:none; }
 .qw-note { color:var(--text-3); font-size:12.5px; margin:12px 0 0; }
 .qw-note[hidden] { display:none; }
+/* ready-account programs: a fact about the order, not a caveat, so a shade darker */
+.qw-ready { color:var(--text-2); }
 .qw-cta { width:100%; margin-top:16px; }
 
 .qw-recap { background:var(--cobalt-tint); border:1px solid var(--cobalt-line);

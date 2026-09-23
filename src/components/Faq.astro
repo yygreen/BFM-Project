@@ -17,6 +17,7 @@
 // Emits FAQPage JSON-LD so the answers are eligible for rich results.
 import { site, live, paymentSentence } from "../lib/site";
 import { usd, per1000 } from "../lib/money";
+import { getCollection } from "astro:content";
 
 const {
   delivery = "24 hours",
@@ -42,9 +43,27 @@ const {
   // whether the flights-only offer includes a premium cabin — false for the
   // economy low-cost carriers, so their answers don't promise a first seat
   flightsPremium = true,
+  // Sold only into a new account: the order arrives as a ready account with
+  // the miles already in it, so the answers that say "into the account you
+  // already hold" switch to the handover.
+  readyAccount = false,
   jsonld = true,
 } = Astro.props;
 const flightsOnly = fulfilment === "flights";
+const ready = readyAccount && !flightsOnly;
+// The general FAQ (no airline) names the ready-account programs as the
+// exception, read from the data so the list can't drift.
+const readyNames = airline
+  ? []
+  : (await getCollection("airlines"))
+      .filter((e) => e.data.readyAccount && e.data.fulfilment !== "flights")
+      .map((e) => `${e.data.airline} ${e.data.program}`);
+const readyList = readyNames.length > 1
+  ? `${readyNames.slice(0, -1).join(", ")} and ${readyNames[readyNames.length - 1]}`
+  : readyNames[0] ?? "";
+const readyAside = readyList
+  ? ` The exception is ${readyList}: those are sold only into a new account, so they arrive as a ready account with the miles already in it, which we hand over to you.`
+  : "";
 const seatPhrase = flightsPremium ? "business or first class award seat" : "seat";
 
 const window = delivery.replace("Within ", "");
@@ -61,11 +80,15 @@ const costAnswer = flightsOnly
 // ---- can you ----------------------------------------------------------
 const canAnswer = flightsOnly
   ? `Plenty of sites will say yes. In practice ${program ?? "these"} miles are difficult to source at trustworthy scale, which is why we don't offer them: a cheap balance that gets ${airline ? `a ${program} account` : "an account"} flagged is no bargain. What we offer is the same outcome with less risk: the ${seatPhrase} itself, booked with ${airline ?? "the airline"} and ticketed in your own name. We are not affiliated with any airline or loyalty program.`
-  : `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation. We are not affiliated with any airline or loyalty program.`;
+  : ready
+  ? `Yes, with one difference from most programs: ${program} miles can only be sold into a new account. So they come as a ready ${program} account with the miles already in it, which we hand over to you, and you book the award from there. Your own account isn't involved. We are not affiliated with any airline or loyalty program.`
+  : `Yes. ${airline ? `${airline} miles are` : "Miles are"} transferred into the loyalty account you already hold, and you book directly with the airline afterwards. You don't open anything new, and you keep control of the reservation.${readyAside} We are not affiliated with any airline or loyalty program.`;
 
 // ---- delivery ---------------------------------------------------------
 const deliveryAnswer = flightsOnly
   ? `There's no miles transfer on ${program ?? "these"} orders. Once you approve the quote we book the award, and ${airline ?? "the airline"} issues the ticket in your name. Your confirmation carries a booking reference you can verify with the airline directly.`
+  : ready
+  ? `${program} orders arrive as a ready account: within ${window} of your approved quote we hand over a ${program} account with the miles already in it. The exact window is confirmed on your quote.`
   : site.delivery.verified && site.delivery.howItWorks
     ? site.delivery.howItWorks
     : `Most transfers land in your account within ${window}. The exact window is shown on each program's page, and you'll get confirmation the moment the transfer completes.`;
@@ -98,7 +121,9 @@ const legitAnswer = [
   "Yes.",
   proof ? proof + "." : "",
   site.guarantee.verified ? site.guarantee.summary : "",
-  "You get a firm quote confirming your exact rate and delivery window before any payment is made, and the miles go into an account you already control.",
+  ready
+    ? "You get a firm quote confirming your exact rate and delivery window before any payment is made, and the miles arrive in a ready account handed over to you."
+    : "You get a firm quote confirming your exact rate and delivery window before any payment is made, and the miles go into an account you already control.",
 ].filter(Boolean).join(" ");
 
 // ---- assembled --------------------------------------------------------
@@ -117,11 +142,13 @@ const faqs = [
   { q: "Is this legitimate?", a: legitAnswer },
   flightsOnly
     ? { q: `Will this affect my ${program ?? "loyalty"} account?`, a: `Your account isn't involved at all, and that's the point. The ticket is booked and issued in your own name, so there is no transfer into your account and nothing for the program to question.` }
+    : ready
+    ? { q: `Will this affect my own ${program} account?`, a: `No. Your existing account isn't involved: the miles come in a separate, ready ${program} account that we hand over, so nothing is transferred into yours.` }
     : { q: "Will buying miles affect my account?", a: "We handle every transfer carefully to protect your account. If you have questions about a specific program, reach out before ordering and we'll walk you through it." },
   // Account-control check. Suppressed until the client confirms the process is
   // real — it is the answer to "what stops someone having miles sent into an
   // account that isn't theirs", which is worth nothing if we don't do it.
-  ...(site.verification.verified && !flightsOnly
+  ...(site.verification.verified && !flightsOnly && !ready
     ? [{ q: "How do you know the account is really mine?", a: `${site.verification.summary} ${site.verification.why}` }]
     : []),
 ];
