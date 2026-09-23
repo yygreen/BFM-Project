@@ -257,16 +257,12 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
    .price.price-svc double-class outweighs the narrow-width .gcard .price
    override further down, so it holds at every breakpoint. */
 /* Sized to match the airline name (.pname) in the same card, with "in your
-   name" as the small qualifier the way "/ mile" sits beside the rate. */
+   name" as the small qualifier the way "/ mile" sits beside the rate. The 14px
+   top margin mirrors the miles rate's own 14px, so the label sits the same
+   distance below the program name in every card — a fixed gap, not one that
+   grows with the card's free space. The .meta divider still bottom-aligns via
+   `.grid > .gcard .meta`, exactly like a miles card. */
 .gcard .price.price-svc { font-family:var(--display); font-size:19px; font-weight:800; letter-spacing:-0.01em; margin-top:14px; }
-/* The rate on a miles card is tall enough to sit flush above the divider; the
-   short flights label left a gap there. Above the phone breakpoint (where the
-   divider row exists), drop meta's auto-margin onto the label so it bottom-
-   aligns to the divider exactly like the rate does. */
-@media (min-width:561px){
-  .grid > .gcard:has(.price-svc) .meta { margin-top:0; }
-  .grid > .gcard .price.price-svc { margin-top:auto; }
-}
 /* logo-led coverage grid: the homepage card with the commercial detail
    stripped, since this list is about breadth rather than price */
 /* Explicit column counts rather than auto-fill: the "not listed?" tile has to
