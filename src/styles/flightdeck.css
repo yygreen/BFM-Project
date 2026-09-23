@@ -170,7 +170,9 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .hero-grid { display:grid; grid-template-columns:1.05fr 0.95fr; gap:clamp(28px,4vw,56px); align-items:center; }
 /* product pages: text column and widget start at the same height */
 .hero-grid.top { align-items:start; }
-@media (max-width:860px){ .hero-grid { grid-template-columns:1fr; } }
+/* minmax(0,1fr), not 1fr: a 1fr track grows to its widest child's
+   min-content, so one element that can't wrap would widen the whole page */
+@media (max-width:860px){ .hero-grid { grid-template-columns:minmax(0,1fr); } }
 .hero h1 { font-weight:800; font-size:clamp(34px,5.6vw,56px); line-height:0.99; margin:18px 0 18px; letter-spacing:-0.04em; }
 .hero h1 .hl { color:var(--cobalt); }
 .hero .sub { color:var(--text-2); font-size:18.5px; line-height:1.6; max-width:40ch; margin:0 0 28px; }
@@ -191,19 +193,21 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .hero .spec-rev { display:inline-flex; align-items:center; gap:7px; }
 .hero .spec-rev:hover .spec-rev-plat { color:var(--text-2); }
 .spec-stars { color:#F5A623; font-size:13px; letter-spacing:1px; line-height:1; }
-/* phones: the three hero proofs hold one line instead of breaking onto two.
-   Tighter type and gaps, smaller stars, and "on" dropped from "on Trustpilot".
-   nowrap is safe: measured to fit from 320px up (see the 360px step below). */
+/* phones: the homepage's three hero proofs hold one line instead of breaking
+   onto two. Tighter type and gaps, smaller stars, "on" dropped from "on
+   Trustpilot". Scoped to .spec-home: the program pages' hero line is longer
+   and must keep wrapping, or it widens the page past the screen.
+   nowrap is safe here: measured to fit from 320px up. */
 @media (max-width:560px){
-  .hero .spec { flex-wrap:nowrap; white-space:nowrap; gap:0 14px; font-size:13px; }
-  .hero .spec-revwrap { gap:14px; }
-  .hero .spec-rev { gap:5px; }
-  .hero .spec-stars { font-size:11px; letter-spacing:0; }
-  .hero .spec-on { display:none; }
+  .hero .spec-home { flex-wrap:nowrap; white-space:nowrap; gap:0 14px; font-size:13px; }
+  .hero .spec-home .spec-revwrap { gap:14px; }
+  .hero .spec-home .spec-rev { gap:5px; }
+  .hero .spec-home .spec-stars { font-size:11px; letter-spacing:0; }
+  .hero .spec-home .spec-on { display:none; }
 }
 @media (max-width:360px){
-  .hero .spec, .hero .spec-revwrap { gap:0 10px; font-size:12px; }
-  .hero .spec-stars { font-size:10px; }
+  .hero .spec-home, .hero .spec-home .spec-revwrap { gap:0 10px; font-size:12px; }
+  .hero .spec-home .spec-stars { font-size:10px; }
 }
 .spec-stars-dim { color:var(--line-2); }
 .spec-rev-plat { color:var(--text-3); }
@@ -335,9 +339,9 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
   .gcard .meta { display:none; }
 }
 /* The homepage program grids become a price list on phones: one row per
-   program — logo · airline + program on one line · rate — about 11 per
-   screen instead of 3. Status shows only when it says something (an amber
-   dot for Limited), and the whole row is the link, so the CTA line goes.
+   program — logo · airline + program on one line · rate — about 13 per
+   screen instead of 3. No status badges in the list (the program page shows
+   stock), and the whole row is the link, so the CTA line goes.
    The catch-all and broker cards after the programs stay cards. */
 @media (max-width:560px){
   .prog-list { display:flex; flex-direction:column; gap:0; }
@@ -352,8 +356,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
   .prog-list .top { display:contents; }
   .prog-list .emblem-logo { height:21px !important; width:52px; }
   .prog-list .emblem:not(.emblem-logo), .prog-list .emblem svg { width:30px !important; height:30px !important; }
-  .prog-list .top .badge { grid-column:3; grid-row:1; font-size:0; gap:0; padding:0; background:none; }
-  .prog-list .top .badge-ok { display:none; }
+  .prog-list .top .badge { display:none; }
   .prog-list .pnames { grid-column:2; grid-row:1; display:flex; align-items:baseline; gap:6px; min-width:0;
     white-space:nowrap; }
   /* the program name gives way; the airline never shrinks, and only clamps
@@ -964,7 +967,11 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 /* ---- Blog ------------------------------------------------------------ */
 .blog-layout { display:grid; grid-template-columns:minmax(0,1fr) 296px; gap:44px; align-items:start; }
 .blog-main { min-width:0; }
-@media (max-width:940px){ .blog-layout { grid-template-columns:1fr; gap:52px; } }
+/* minmax(0,1fr) so a long unbreakable item can't widen the post past the screen */
+@media (max-width:940px){ .blog-layout { grid-template-columns:minmax(0,1fr); gap:52px; } }
+/* the "Programs mentioned" chips carry full program names ("British Airways
+   Avios (The British Airways Club) · 1.7¢"); on a phone they must wrap */
+@media (max-width:560px){ .post-programs .related a { white-space:normal; max-width:100%; } }
 
 /* category chips */
 .cat-bar { display:flex; flex-wrap:wrap; gap:8px; margin:-16px 0 30px; }
@@ -1027,7 +1034,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 /* the quote card is the sticky element, not the whole column — everything
    above it scrolls away with the article, the conversion card pins */
 .side-quote { position:sticky; top:92px; }
-.side-quote .qw-controls { grid-template-columns:1fr; }
+.side-quote .qw-controls { grid-template-columns:minmax(0,1fr); }
 @media (max-width:940px){ .blog-side { position:static; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); } }
 .side-box { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:20px; }
 .side-box h4 { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-3);
@@ -1218,8 +1225,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .qw-dots li.on { background:var(--cobalt); }
 
 .qw-step[hidden] { display:none; }
-.qw-controls { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-@media (max-width:520px){ .qw-controls { grid-template-columns:1fr; } }
+/* minmax(0,…): a plain 1fr track grows to its widest child's min-content,
+   so the program picker would push the widget past a narrow sidebar */
+.qw-controls { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }
+@media (max-width:520px){ .qw-controls { grid-template-columns:minmax(0,1fr); } }
 
 .qw-out { display:grid; grid-template-columns:1fr; gap:14px; background:var(--raised);
   border-radius:14px; padding:16px 18px; margin-top:16px; }
