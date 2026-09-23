@@ -316,16 +316,6 @@
       "permanent": true
     },
     {
-      "source": "/calculator/delta-skymiles",
-      "destination": "/buy/delta-skymiles",
-      "permanent": true
-    },
-    {
-      "source": "/de/calculator/delta-skymiles",
-      "destination": "/de/buy/delta-skymiles",
-      "permanent": true
-    },
-    {
       "source": "/calculator/ana-mileage-club",
       "destination": "/buy/ana-mileage-club",
       "permanent": true

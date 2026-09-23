@@ -20,16 +20,17 @@ const done = [];
 // no delivery window and no order limits (its page books the seat instead),
 // so those fields never render and aren't a launch input.
 //
-// Iberia and Qantas aren't on the client's Sep 2026 sheet. By agency decision
-// they stay listed on indicative (~) figures for now, so they're a reminder
-// rather than a blocker. Remove a slug here once its figures are confirmed.
-const DEFERRED = ["iberia-avios", "qantas-frequent-flyer"];
+// Kept on indicative (~) figures by agency decision, Sep 2026, so they're a
+// reminder rather than a blocker: Iberia and Qantas aren't on the client's
+// sheet, and Delta's row there is empty but it stays a miles program on its
+// August-audit figures. Remove a slug here once its figures are confirmed.
+const DEFERRED = ["delta-skymiles", "iberia-avios", "qantas-frequent-flyer"];
 const sold = airlines.filter((a) => a.fulfilment !== "flights" && !DEFERRED.includes(a.id));
 const deferred = airlines.filter((a) => DEFERRED.includes(a.id) && !(a.priceVerified && a.deliveryVerified && a.limitsVerified));
 if (deferred.length)
   optional.push([
     "1",
-    `Kept on indicative figures (not on the client's sheet): ${deferred.map((a) => a.program).join(", ")}. Their pages show a ~ rate and "confirmed on your quote"`,
+    `Kept on indicative figures pending the client: ${deferred.map((a) => a.program).join(", ")}. Their pages show a ~ rate and "confirmed on your quote"`,
     "src/data/airlines.json → pricePerMile, delivery, min, max and the three verified flags, once the client supplies them",
   ]);
 const unpriced = sold.filter((a) => !a.priceVerified);

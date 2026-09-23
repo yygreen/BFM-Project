@@ -20,12 +20,12 @@
     "limitsVerified": false,
     "delivery": "Within 24 hours",
     "deliveryVerified": false,
-    "inStock": true,
-    "heroHeadline": "Buy Delta miles, or let us book the seat.",
-    "heroHighlight": "Buy Delta miles",
-    "heroSub": "The honest answer about buying Delta SkyMiles: we can't source them at a standard worth standing behind, so we don't sell them. What we do instead is find and book your Delta One or First Class award, ticketed by the airline in your own name, at a firm all-in price.",
-    "metaTitle": "Buy Delta Miles | SkyMiles | buyflightmiles",
-    "metaDescription": "Delta SkyMiles are hard to buy safely, so we don't sell them. We book the Delta One or First Class award instead, ticketed in your name, at a firm price you approve before paying.",
+    "inStock": false,
+    "heroHeadline": "Buy Delta miles with precision.",
+    "heroHighlight": "Delta miles",
+    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within 24 hours.",
+    "metaTitle": "Buy Delta SkyMiles | Fast, Secure Delivery | buyflightmiles",
+    "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, your exact price confirmed before you pay.",
     "related": [
       "ana-mileage-club",
       "eva-air-miles"
@@ -49,15 +49,15 @@
     "faqExtras": [
       {
         "q": "Does Delta publish an award chart?",
-        "a": "No. Delta removed its award chart in 2015 and every award, on Delta and on partners, prices dynamically with demand. The flash sales are where the value is: Delta One to Europe has dropped to around 115,000 miles one way in recent sales, against standard pricing that often runs far higher. When a sale lands on your route, send it to us and we'll book the award while the price holds."
+        "a": "No. Delta removed its award chart in 2015 and every award, on Delta and on partners, prices dynamically with demand. The flash sales are where the value is: Delta One to Europe has dropped to around 115,000 miles one way in recent sales, against standard pricing that often runs far higher. When a sale lands on your route, price the shortfall with the calculator above."
       },
       {
         "q": "Can I upgrade a Delta flight with miles?",
-        "a": "Yes. Delta offers mileage upgrades on paid Delta tickets during booking and afterwards in My Trips, priced dynamically per flight. Delta Basic fares are excluded and eligibility varies by route, so check that your ticket shows an upgrade offer first. Upgrades come out of your own SkyMiles balance; what we book is the award seat itself."
+        "a": "Yes. Delta offers mileage upgrades on paid Delta tickets during booking and afterwards in My Trips, priced dynamically per flight. Delta Basic fares are excluded and eligibility varies by route, so check that your ticket shows an upgrade offer first, then buy the miles the offer asks for."
       },
       {
         "q": "Do Delta SkyMiles expire?",
-        "a": "No. SkyMiles never expire, with no activity requirement, for as long as your account stays open and in good standing. They're safe to hold between trips; with dynamic pricing, when you spend matters more than how long you hold them."
+        "a": "No. SkyMiles never expire, with no activity requirement, for as long as your account stays open and in good standing. They're safe to hold between trips; with dynamic pricing, when you spend matters more than when you buy."
       },
       {
         "q": "Are there blackout dates on Delta awards?",
@@ -67,7 +67,7 @@
     "quirks": [
       {
         "title": "The flash sales are the program",
-        "text": "Standard Delta One pricing to Europe can run 170,000 to 360,000 miles one way, and periodic SkyMiles sales have dropped the same cabin to around 115,000. A sale on your route is the moment to book."
+        "text": "Standard Delta One pricing to Europe can run 170,000 to 360,000 miles one way, and periodic SkyMiles sales have dropped the same cabin to around 115,000. A top-up makes the most sense while a sale is live on your route."
       },
       {
         "title": "No close-in or cancellation fees",
@@ -99,22 +99,22 @@
     "factsChecked": "August 2026",
     "i18n": {
       "de": {
-        "metaTitle": "Delta Meilen kaufen | Der ehrliche Weg zum Sitz",
-        "metaDescription": "Delta SkyMiles sind kaum seriös zu kaufen, deshalb verkaufen wir sie nicht. Stattdessen buchen wir dir den Delta-One- oder First-Class-Award direkt: Ticket auf deinen Namen, Festpreis vor der Zahlung.",
-        "heroHeadline": "Delta Meilen kaufen? Wir buchen dir gleich den Sitz.",
-        "heroSub": "Die ehrliche Antwort zum Meilenkauf bei Delta SkyMiles: Wir können diese Meilen nicht in einer Qualität beschaffen, hinter der wir stehen, also verkaufen wir sie nicht. Stattdessen finden und buchen wir deinen Delta-Sitz. Das Ticket stellt die Airline auf deinen Namen aus, den Festpreis bestätigst du vor der Zahlung.",
+        "metaTitle": "Delta Meilen kaufen | SkyMiles aufstocken",
+        "metaDescription": "SkyMiles kaufen und Delta One über den Atlantik einlösen. 1,95 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "heroHeadline": "SkyMiles kaufen und Delta One einlösen.",
+        "heroSub": "Stock dein SkyMiles-Konto auf und flieg im Flachbett über den Atlantik. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
         "steps": [
           {
             "title": "Anfragen",
-            "text": "Du nennst Route, Daten und Kabine. Wir kommen mit einem festen Gesamtpreis zurück. Kostenlos und ohne Kaufzwang."
+            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
           },
           {
             "title": "Freigeben und zahlen",
             "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
           },
           {
-            "title": "Fliegen",
-            "text": "Wir buchen den Award, und Delta stellt das Ticket auf deinen Namen aus. Die Buchungsnummer prüfst du direkt bei der Airline."
+            "title": "Meilen erhalten",
+            "text": "Die Meilen gehen auf dein bestehendes SkyMiles-Konto. Die Prämie buchst du danach direkt bei Delta, auf deinen Namen."
           }
         ],
         "uses": [
@@ -134,15 +134,15 @@
         "faq": [
           {
             "q": "Was kosten SkyMiles?",
-            "a": "Wir verkaufen SkyMiles derzeit nicht: Sie sind kaum in einer Qualität zu beschaffen, hinter der wir stehen würden. Was wir stattdessen anbieten, ist der fertige Sitz. Du nennst Route und Daten, und das Angebot ist ein fester Gesamtpreis in US-Dollar für das Ticket, bestätigt bevor du zahlst."
+            "a": "1,95 Cent pro Meile, also 19,50 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
-            "q": "Wie läuft die Buchung ab?",
-            "a": "Es gibt keine Meilenübertragung. Nach deiner Freigabe buchen wir den Award, und Delta stellt das Ticket auf deinen Namen aus. Du bekommst die Bestätigung mit einer Buchungsnummer, die du direkt bei der Airline prüfen kannst."
+            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
+            "a": "In der Regel innerhalb von 24 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
-            "q": "Ist mein SkyMiles-Konto beteiligt?",
-            "a": "Nein, und genau das ist der Punkt: Es wird nichts in dein Konto übertragen. Das Ticket wird auf deinen Namen ausgestellt, dein Konto bleibt komplett außen vor, und nach einem Passwort fragen wir ohnehin nie."
+            "q": "Braucht ihr mein SkyMiles-Passwort?",
+            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
           },
           {
             "q": "Welche Zahlungswege akzeptiert ihr?",
@@ -150,14 +150,13 @@
           },
           {
             "q": "Wofür lohnen sich SkyMiles am meisten?",
-            "a": "Für Delta One in den Flash Sales: Delta preist Prämien dynamisch, und die regelmäßigen Aktionen sind der Moment, in dem sich ein Award wirklich lohnt. Dazu kommen kostenlose Änderung und Storno außerhalb von Delta Basic."
+            "a": "Für Delta One in den Flash Sales: Delta preist Prämien dynamisch, und die regelmäßigen Aktionen sind der Moment, in dem ein aufgestocktes Konto wirklich arbeitet. Dazu kommen kostenlose Änderung und Storno außerhalb von Delta Basic."
           }
         ],
-        "ctaLabel": "Flug anfragen",
+        "ctaLabel": "Angebot anfordern",
         "reviewed": false
       }
-    },
-    "fulfilment": "flights"
+    }
   },
   {
     "id": "united-mileageplus",
