@@ -659,6 +659,56 @@
       "source": "/calculator/frontier-miles/",
       "destination": "/buy/frontier-miles",
       "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/buy",
+      "destination": "/#programs",
+      "permanent": true
+    },
+    {
+      "source": "/buy/",
+      "destination": "/#programs",
+      "permanent": true
+    },
+    {
+      "source": "/blog/category",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/category/",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(de|ar|es|fr|tr|zh-hk|zh-tw)",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(de|ar|es|fr|tr|zh-hk|zh-tw)/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(de|ar|es|fr|tr|zh-hk|zh-tw)/buy",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(de|ar|es|fr|tr|zh-hk|zh-tw)/buy/",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
