@@ -22,7 +22,7 @@ const EN = {
   // shared truth is that they end up holding it themselves, which is also the
   // answer to the fear that brings people to this page.
   milesIn: "Yours, in your own name",
-  milesInCap: "Miles land in the account you already hold; tickets are issued in the traveller's own name. You deal with the airline direct, and payment is handled off this site, so nothing sensitive is stored here",
+  milesInCap: "Miles land in an account you control, your own or a ready account we hand over; tickets are issued in the traveller's own name. You deal with the airline direct, and payment is handled off this site, so nothing sensitive is stored here",
   milesDelivered: "miles delivered",
   transfers: "transfers completed",
   programsCovered: "programs covered",
@@ -137,7 +137,7 @@ const specs = [
 </div>
 
 {bandStats.length > 0 && (
-  <div class="statband">
+  <div class={`statband${bandStats.length % 2 ? " sb-odd" : ""}`} style={`--sbn:${bandStats.length}`}>
     {bandStats.map((s) => {
       const Tag = s.href ? "a" : "div";
       return (

@@ -186,9 +186,88 @@ const hreflangs = alternates.length
         <a class="btn btn-primary nav-cta" href="/#programs"
           ><span class="cta-long">View pricing</span><span class="cta-short">Pricing</span></a
         >
+        {/* Phones and tablets: the links above collapse into this button and
+            the overlay below it. Two bars that slide together, then turn into
+            an X (see .menu-btn in flightdeck.css). */}
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu">
+          <span class="menu-ln" aria-hidden="true"></span>
+          <span class="menu-ln" aria-hidden="true"></span>
+        </button>
       </nav>
     </div>
   </header>
+
+  {/* Mobile menu. Outside the header on purpose: the header's backdrop-filter
+      makes it the containing block for fixed children, which would clip a
+      fixed overlay to the header's own height. `inert` keeps it out of the tab
+      order and the accessibility tree while closed. */}
+  <div class="mnav" id="mnav" inert>
+    <div class="mnav-scroll">
+      <div class="container mnav-in">
+        <nav class="mnav-main" aria-label="Menu">
+          <a class="mnav-i" style="--i:0" href="/#programs">Programs &amp; pricing</a>
+          <a class="mnav-i" style="--i:1" href="/flights">Book a flight</a>
+          <a class="mnav-i" style="--i:2" href="/agents">For agents</a>
+          <a class="mnav-i" style="--i:3" href="/blog">Blog</a>
+          <a class="mnav-i" style="--i:4" href="/faq">FAQ</a>
+          <a class="mnav-i" style="--i:5" href="/contact">Contact</a>
+        </nav>
+        <div class="mnav-sec mnav-i" style="--i:6">
+          <span class="mnav-lab">Programs</span>
+          <div class="mnav-progs">
+            {programs.map((p) => (
+              <a href={`/buy/${p.slug}`}>
+                <span class="mnav-air">{p.airline}</span>
+                <span class="mnav-prog">{p.program}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div class="mnav-foot mnav-i" style="--i:7">
+          {headerPhone && (
+            <a class="mnav-tel" href={headerPhone.href}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <b>{headerPhone.value}</b>
+            </a>
+          )}
+          <a class="btn btn-primary mnav-cta" href="/#programs">View pricing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // Mobile menu: open/close, Escape, focus kept inside, page scroll locked.
+    // State lives on <html data-menu="open"> so CSS drives every animation.
+    (() => {
+      const btn = document.querySelector(".menu-btn");
+      const menu = document.getElementById("mnav");
+      if (!btn || !menu) return;
+      const root = document.documentElement;
+      const focusables = () => [btn, ...menu.querySelectorAll("a[href], button")];
+      const setOpen = (open, { restoreFocus = true } = {}) => {
+        root.dataset.menu = open ? "open" : "";
+        btn.setAttribute("aria-expanded", String(open));
+        btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        menu.inert = !open;
+        if (open) menu.querySelector(".mnav-i")?.focus({ preventScroll: true });
+        else if (restoreFocus) btn.focus({ preventScroll: true });
+      };
+      btn.addEventListener("click", () => setOpen(root.dataset.menu !== "open"));
+      // any link closes it, which matters for same-page anchors like /#programs
+      menu.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false, { restoreFocus: false }); });
+      document.addEventListener("keydown", (e) => {
+        if (root.dataset.menu !== "open") return;
+        if (e.key === "Escape") { e.preventDefault(); setOpen(false); return; }
+        if (e.key !== "Tab") return;
+        const f = focusables(), first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+      // rotating to desktop width with the menu open would leave the page locked
+      matchMedia("(min-width: 861px)").addEventListener("change", (m) => { if (m.matches && root.dataset.menu === "open") setOpen(false, { restoreFocus: false }); });
+    })();
+  </script>
 
   <script is:inline>
     // Thousands separators inside the amount fields: 80,000 rather than 80000.

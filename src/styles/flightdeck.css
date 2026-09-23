@@ -340,7 +340,11 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .spec-strip .dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.4); }
 
 /* big-number stat band, below the process tiles it backs up */
-.statband { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-top:18px; }
+/* --sbn is the tile count (TrustStrip.astro): one row on desktop, two-up below
+   760px. An odd count lets the rating span the last row on phones instead of
+   orphaning a tile; an even count stays a clean grid (4 tiles = 2 x 2). */
+.statband { display:grid; grid-template-columns:repeat(var(--sbn,4),1fr); gap:14px; margin-top:18px; }
+@media (max-width:760px){ .statband { grid-template-columns:1fr 1fr; } }
 .statband .sb { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:20px 22px; text-align:center; }
 .statband .sb b { display:block; font-family:var(--mono); font-weight:600; font-size:clamp(26px,3vw,34px); line-height:1.1; color:var(--cobalt); font-variant-numeric:tabular-nums; }
 .statband .sb span { display:block; font-size:13px; color:var(--text-3); margin-top:5px; }
@@ -355,8 +359,8 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .statband .sb .sb-stars { display:block; color:#F5A623; font-size:14px; letter-spacing:1px;
   line-height:1; height:14px; margin:0 0 7px; }
 .statband .sb .sb-dim { color:var(--line-2); }
-/* two-up on phones leaves the fifth card orphaned — the rating spans instead */
-@media (max-width:560px){ .statband .sb-rev { grid-column:1 / -1; } }
+/* only with an odd count: two-up would orphan the last card, so the rating spans */
+@media (max-width:760px){ .statband.sb-odd .sb-rev { grid-column:1 / -1; } }
 
 /* ---- icon tiles / steps ---- */
 .step-art { width:66px; height:66px; border-radius:18px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; box-shadow:var(--shadow-sm); }
@@ -652,9 +656,13 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .ask-tag { align-self:flex-start; font-family:var(--display); font-weight:700; font-size:11px;
   letter-spacing:.05em; text-transform:uppercase; color:var(--coral-2);
   background:var(--coral-tint); padding:5px 11px; border-radius:var(--radius-pill); }
-/* the broker cards span two grid tracks; auto-fill clamps the span down to
-   the single column that exists at phone width, so no mobile override needed */
+/* the broker cards span two grid tracks. Where the grid only has one column
+   (viewports under ~565px), `span 2` would create an implicit second column
+   and push the whole grid wider than the screen, so there they span the
+   single existing track instead. 600px covers the switch with margin: between
+   565 and 600 the grid has two columns, where 1 / -1 is the same two tracks. */
 .gcard-wide { grid-column:span 2; }
+@media (max-width:600px){ .gcard-wide { grid-column:1 / -1; } }
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
 .related-lab { font-size:13px; font-weight:600; color:var(--text-2); margin-right:5px; }
@@ -1627,4 +1635,91 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   .statband a.sb:hover:not(:active), .related a:hover:not(:active),
   .use:hover:not(:active), .postcard:hover:not(:active),
   .pn:hover:not(:active), .aw-sell:hover:not(:active) { transform:none; }
+}
+
+/* ---- Mobile menu (≤860px) --------------------------------------------
+   State is <html data-menu="open">, set by the inline script in Base.astro.
+   Motion follows the design-engineering rules: the bars slide together, then
+   turn (a two-stage morph on the in-out curve), the sheet drops in on the
+   drawer curve, links stagger 40ms apart, and closing is quicker and quieter
+   than opening. Only transform/translate/rotate and opacity animate. */
+:root {
+  --ease-io: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+.menu-btn { display:none; position:relative; flex:none; width:44px; height:44px; padding:0;
+  border:1px solid var(--line); border-radius:var(--radius-pill); background:var(--surface);
+  box-shadow:var(--shadow-sm); cursor:pointer; -webkit-tap-highlight-color:transparent;
+  transition:scale 160ms var(--ease-out), border-color 180ms ease; }
+.menu-btn:active { scale:0.96; }
+.menu-btn:focus-visible { outline:2px solid var(--cobalt); outline-offset:2px; }
+.menu-ln { position:absolute; left:50%; top:50%; width:18px; height:2px; margin:-1px 0 0 -9px;
+  border-radius:2px; background:var(--text-1);
+  /* closing: turn back first, then separate */
+  transition:rotate 170ms var(--ease-io), translate 170ms var(--ease-io) 130ms; }
+.menu-ln:nth-child(1) { translate:0 -3.5px; }
+.menu-ln:nth-child(2) { translate:0 3.5px; }
+html[data-menu="open"] .menu-ln { translate:0 0;
+  /* opening: come together first, then turn into the X */
+  transition:translate 170ms var(--ease-io), rotate 170ms var(--ease-io) 130ms; }
+html[data-menu="open"] .menu-ln:nth-child(1) { rotate:45deg; }
+html[data-menu="open"] .menu-ln:nth-child(2) { rotate:-45deg; }
+@media (hover:hover) and (pointer:fine) { .menu-btn:hover { border-color:var(--cobalt-line); } }
+
+/* the sheet sits under the sticky header (z 50), so the X stays in place */
+.mnav { display:none; position:fixed; inset:var(--hdr-h) 0 0 0; z-index:45; background:var(--page);
+  visibility:hidden; opacity:0; transform:translateY(-8px);
+  transition:opacity 160ms var(--ease-out), transform 160ms var(--ease-out), visibility 0s linear 160ms; }
+html[data-menu="open"] .mnav { visibility:visible; opacity:1; transform:none;
+  transition:opacity 240ms var(--ease-out), transform 420ms var(--ease-drawer), visibility 0s; }
+html[data-menu="open"], html[data-menu="open"] body { overflow:hidden; }
+.mnav-scroll { height:100%; overflow-y:auto; overscroll-behavior:contain;
+  padding-bottom:calc(32px + env(safe-area-inset-bottom, 0px)); }
+.mnav-in { padding-top:8px; }
+
+.mnav-i { opacity:0; translate:0 8px;
+  transition:opacity 140ms var(--ease-out), translate 140ms var(--ease-out); }
+html[data-menu="open"] .mnav-i { opacity:1; translate:0 0;
+  transition:opacity 280ms var(--ease-out) calc(60ms + var(--i, 0) * 40ms),
+             translate 420ms var(--ease-drawer) calc(60ms + var(--i, 0) * 40ms); }
+
+.mnav-main { display:flex; flex-direction:column; }
+.mnav-main a { display:flex; align-items:center; justify-content:space-between; min-height:44px;
+  padding:14px 2px; border-bottom:1px solid var(--line); font-family:var(--display);
+  font-size:25px; font-weight:700; letter-spacing:-0.02em; color:var(--text-1); }
+.mnav-main a::after { content:""; flex:none; width:8px; height:8px; margin-right:6px;
+  border-top:2px solid var(--text-3); border-right:2px solid var(--text-3); rotate:45deg; }
+.mnav-main a:active { color:var(--cobalt); }
+
+.mnav-sec { margin-top:30px; }
+.mnav-lab { font-family:var(--display); font-size:12px; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--text-3); }
+.mnav-progs { display:grid; grid-template-columns:1fr 1fr; gap:2px 18px; margin-top:10px; }
+.mnav-progs a { display:flex; flex-direction:column; justify-content:center; min-height:44px; padding:6px 0; }
+.mnav-air { font-size:14.5px; font-weight:600; color:var(--text-1); line-height:1.3; }
+.mnav-prog { font-size:12.5px; color:var(--text-3); line-height:1.3; }
+@media (hover:hover) and (pointer:fine) { .mnav-progs a:hover .mnav-air { color:var(--cobalt); } }
+
+.mnav-foot { display:flex; flex-direction:column; gap:10px; margin-top:30px; }
+.mnav-tel { display:flex; align-items:center; justify-content:center; gap:10px; min-height:50px;
+  border:1px solid var(--line); border-radius:var(--radius-pill); background:var(--surface);
+  color:var(--text-1); box-shadow:var(--shadow-sm); }
+.mnav-tel svg { width:16px; height:16px; color:var(--cobalt); }
+.mnav-tel b { font-family:var(--mono); font-weight:600; font-size:15px; }
+.mnav-cta { display:flex; justify-content:center; align-items:center; min-height:50px; width:100%; }
+
+/* the corner dock would float over the sheet */
+html[data-menu="open"] .dock { opacity:0; visibility:hidden; transition:opacity 140ms var(--ease-out), visibility 0s linear 140ms; }
+
+@media (max-width:860px) {
+  .menu-btn { display:block; }
+  .mnav { display:block; }
+  .nav > .dd, .nav > a.link, .nav > .nav-tel { display:none; }
+  .nav { gap:10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mnav, html[data-menu="open"] .mnav { transform:none; }
+  .mnav-i, html[data-menu="open"] .mnav-i { translate:none; transition:opacity 150ms ease-out; }
+  .menu-ln, html[data-menu="open"] .menu-ln { transition:none; }
 }
