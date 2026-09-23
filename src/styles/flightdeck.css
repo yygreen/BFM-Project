@@ -1240,6 +1240,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 /* ---- brand lockup ---------------------------------------------------- */
 .logo { display:inline-flex; align-items:center; gap:9px; }
 .logo img { display:block; }
+/* the header link wraps the image exactly. As an inline box it took its height
+   from the text line (30.8px round a 23px logo) and the image hung from the
+   top of it, about 4px above the centre line the nav buttons share. */
+.site-header .brand { display:flex; align-items:center; }
 /* the shrink is for the crowded header bar only — the footer has room, so
    its logo keeps its full size on phones */
 @media (max-width:660px){ .site-header .logo img { height:26px; width:auto; } }
