@@ -12,7 +12,7 @@
     "directBuy": {
       "cents": 3.76,
       "source": "Delta list price, 3.5¢ plus 7.5% US excise tax",
-      "checked": "August 2026",
+      "checked": "September 2026",
       "verified": true
     },
     "min": 50000,
@@ -171,8 +171,8 @@
     "directBuy": {
       "cents": 3.76,
       "source": "United list price, 3.5¢ plus 7.5% US excise tax",
-      "checked": "August 2026",
-      "verified": true
+      "checked": "September 2026",
+      "verified": false
     },
     "min": 100000,
     "max": 500000,
@@ -424,9 +424,9 @@
     "pricePerMile": 1.8,
     "priceVerified": true,
     "directBuy": {
-      "cents": 5,
-      "source": "Singapore Airlines top-up price, about US$40 per 1,000 miles",
-      "checked": "August 2026",
+      "cents": 4,
+      "source": "Singapore Airlines top-up price, US$0.04 per mile, sold only to complete an award",
+      "checked": "September 2026",
       "verified": true
     },
     "min": 50000,
