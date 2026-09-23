@@ -191,6 +191,20 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .hero .spec-rev { display:inline-flex; align-items:center; gap:7px; }
 .hero .spec-rev:hover .spec-rev-plat { color:var(--text-2); }
 .spec-stars { color:#F5A623; font-size:13px; letter-spacing:1px; line-height:1; }
+/* phones: the three hero proofs hold one line instead of breaking onto two.
+   Tighter type and gaps, smaller stars, and "on" dropped from "on Trustpilot".
+   nowrap is safe: measured to fit from 320px up (see the 360px step below). */
+@media (max-width:560px){
+  .hero .spec { flex-wrap:nowrap; white-space:nowrap; gap:0 14px; font-size:13px; }
+  .hero .spec-revwrap { gap:14px; }
+  .hero .spec-rev { gap:5px; }
+  .hero .spec-stars { font-size:11px; letter-spacing:0; }
+  .hero .spec-on { display:none; }
+}
+@media (max-width:360px){
+  .hero .spec, .hero .spec-revwrap { gap:0 10px; font-size:12px; }
+  .hero .spec-stars { font-size:10px; }
+}
 .spec-stars-dim { color:var(--line-2); }
 .spec-rev-plat { color:var(--text-3); }
 .blob { position:absolute; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none; }
@@ -1697,15 +1711,8 @@ html[data-menu="open"] .mnav-i { opacity:1; translate:0 0;
   border-top:2px solid var(--text-3); border-right:2px solid var(--text-3); rotate:45deg; }
 .mnav-main a:active { color:var(--cobalt); }
 
-.mnav-sec { margin-top:30px; }
-.mnav-lab { font-family:var(--display); font-size:12px; font-weight:700; letter-spacing:.06em;
-  text-transform:uppercase; color:var(--text-3); }
-.mnav-progs { display:grid; grid-template-columns:1fr 1fr; gap:0 18px; margin-top:6px; }
-.mnav-progs a { display:flex; align-items:center; min-height:44px; }
-.mnav-air { font-size:15px; font-weight:600; color:var(--text-1); line-height:1.3; }
-@media (hover:hover) and (pointer:fine) { .mnav-progs a:hover .mnav-air { color:var(--cobalt); } }
 
-.mnav-foot { display:flex; flex-direction:column; gap:10px; margin-top:30px; }
+.mnav-foot { display:flex; flex-direction:column; gap:10px; margin-top:28px; }
 .mnav-tel { display:flex; align-items:center; justify-content:center; gap:10px; min-height:50px;
   border:1px solid var(--line); border-radius:var(--radius-pill); background:var(--surface);
   color:var(--text-1); box-shadow:var(--shadow-sm); }
