@@ -1941,7 +1941,7 @@
     "color": "#C90019",
     "pricePerMile": 1.7,
     "priceVerified": true,
-    "min": 50000,
+    "min": 10000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
@@ -2545,7 +2545,7 @@
       "verified": false,
       "note": "Correct at list, but Flying Blue ran an 80% bonus to 1.69¢ in 2026, below our 1.7¢. Withheld until the comparison holds through a promotion."
     },
-    "min": 50000,
+    "min": 10000,
     "max": 500000,
     "limitsVerified": true,
     "delivery": "Within 3 business days",
