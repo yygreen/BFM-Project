@@ -1672,7 +1672,13 @@ html[data-menu="open"] .menu-ln:nth-child(2) { rotate:-45deg; }
   transition:opacity 160ms var(--ease-out), transform 160ms var(--ease-out), visibility 0s linear 160ms; }
 html[data-menu="open"] .mnav { visibility:visible; opacity:1; transform:none;
   transition:opacity 240ms var(--ease-out), transform 420ms var(--ease-drawer), visibility 0s; }
-html[data-menu="open"], html[data-menu="open"] body { overflow:hidden; }
+/* lock the page by clipping the root only. Clipping <body> as well turns it
+   into its own scroll container, and the sticky header then sticks to body
+   instead of the viewport, sliding off-screen whenever the page was scrolled */
+html[data-menu="open"] { overflow:hidden; }
+/* the header is translucent over the page; over the open sheet that lets the
+   page underneath ghost through, so it goes solid while the menu is open */
+html[data-menu="open"] .site-header { background:var(--page); }
 .mnav-scroll { height:100%; overflow-y:auto; overscroll-behavior:contain;
   padding-bottom:calc(32px + env(safe-area-inset-bottom, 0px)); }
 .mnav-in { padding-top:8px; }
@@ -1694,10 +1700,9 @@ html[data-menu="open"] .mnav-i { opacity:1; translate:0 0;
 .mnav-sec { margin-top:30px; }
 .mnav-lab { font-family:var(--display); font-size:12px; font-weight:700; letter-spacing:.06em;
   text-transform:uppercase; color:var(--text-3); }
-.mnav-progs { display:grid; grid-template-columns:1fr 1fr; gap:2px 18px; margin-top:10px; }
-.mnav-progs a { display:flex; flex-direction:column; justify-content:center; min-height:44px; padding:6px 0; }
-.mnav-air { font-size:14.5px; font-weight:600; color:var(--text-1); line-height:1.3; }
-.mnav-prog { font-size:12.5px; color:var(--text-3); line-height:1.3; }
+.mnav-progs { display:grid; grid-template-columns:1fr 1fr; gap:0 18px; margin-top:6px; }
+.mnav-progs a { display:flex; align-items:center; min-height:44px; }
+.mnav-air { font-size:15px; font-weight:600; color:var(--text-1); line-height:1.3; }
 @media (hover:hover) and (pointer:fine) { .mnav-progs a:hover .mnav-air { color:var(--cobalt); } }
 
 .mnav-foot { display:flex; flex-direction:column; gap:10px; margin-top:30px; }
