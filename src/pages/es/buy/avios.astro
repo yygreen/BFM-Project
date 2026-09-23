@@ -379,7 +379,7 @@ const jsonldFaq = {
       <div class="faqx-list">
         {faqs.map((f, i) => (
           <details class="faq" open={i === 0}>
-            <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+            <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"><i></i></span></summary>
             <div class="ans">{f.a}</div>
           </details>
         ))}
