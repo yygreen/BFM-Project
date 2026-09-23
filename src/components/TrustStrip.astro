@@ -44,8 +44,10 @@ const programCount = all.length;
 const years = yearsTrading();
 
 // compact big-number formatting for the stat band: 500000000 → "500M"
+// Millions and up abbreviate (250M); anything smaller prints in full (5,000),
+// which reads as a count rather than a rounded marketing figure.
 const fmtBig = (n) =>
-  n >= 1e9 ? `${+(n / 1e9).toFixed(1)}B` : n >= 1e6 ? `${Math.round(n / 1e6)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}k` : `${n}`;
+  n >= 1e9 ? `${+(n / 1e9).toFixed(1)}B` : n >= 1e6 ? `${Math.round(n / 1e6)}M` : n.toLocaleString("en-US");
 
 // headline stat band — the scale figures buyers compare vendors on. The two
 // client-supplied ones render only when live (or staged as placeholders); the

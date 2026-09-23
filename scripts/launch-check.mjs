@@ -16,8 +16,12 @@ const optional = [];
 const done = [];
 
 // ── Agenda 1 — pricing, min/max, delivery ────────────────────────────
-const unpriced = airlines.filter((a) => !a.priceVerified);
-const undelivered = airlines.filter((a) => !a.deliveryVerified);
+// Only programs we sell miles for. A flights-only program shows no rate,
+// no delivery window and no order limits (its page books the seat instead),
+// so those fields never render and aren't a launch input.
+const sold = airlines.filter((a) => a.fulfilment !== "flights");
+const unpriced = sold.filter((a) => !a.priceVerified);
+const undelivered = sold.filter((a) => !a.deliveryVerified);
 if (unpriced.length) {
   blocking.push([
     "1",
@@ -35,16 +39,16 @@ if (undelivered.length) {
 } else done.push(["1", "All delivery windows verified"]);
 
 // Order limits are their own fact — priceVerified covers the per-mile rate,
-// not how small or large an order we'll take. Nine programs carry limits read
-// off the client's own store; the rest share a default that is not a policy.
-const unlimited = airlines.filter((a) => !a.limitsVerified);
+// not how small or large an order we'll take. Confirmed limits come from the
+// client's price sheet; anything else sits on a default that is not a policy.
+const unlimited = sold.filter((a) => !a.limitsVerified);
 if (unlimited.length) {
   const n = (v) => v.toLocaleString("en-US");
   const defaults = [...new Set(unlimited.map((a) => `${n(a.min)}/${n(a.max)}`))];
   blocking.push([
     "1",
     `Order min/max unconfirmed for ${unlimited.length} program(s) — and the widget now ENFORCES them: an amount outside the range cannot be submitted. Every wrong figure here turns away a real order`,
-    `src/data/airlines.json → min, max, then limitsVerified: true. These ${unlimited.length} currently sit on an unconfirmed ${defaults.join(" / ")}; the other ${airlines.length - unlimited.length} are sourced from the live store`,
+    `src/data/airlines.json → min, max, then limitsVerified: true. These ${unlimited.length} currently sit on an unconfirmed ${defaults.join(" / ")}; the other ${sold.length - unlimited.length} are confirmed`,
   ]);
 } else done.push(["1", "All order limits verified"]);
 
@@ -183,13 +187,9 @@ if (!tp.verified || !tp.businessUnitId || !tp.templateId) {
   ]);
 } else done.push(["12", "Trustpilot TrustBox live"]);
 
-if (!site.trust.foundedYear.verified || site.trust.foundedYear.value === null) {
-  optional.push([
-    "12",
-    "Founding year unconfirmed — the years-trading tile is suppressed",
-    "src/data/site.json → trust.foundedYear — the cheapest credible trust signal, and undisputable once true",
-  ]);
-} else done.push(["12", `Trading since ${site.trust.foundedYear.value}${site.trust.foundedYear.placeholder ? " (PLACEHOLDER)" : ""}`]);
+// The years-trading tile is off by choice, so an empty founding year is
+// not an outstanding item; it's reported only once one is set.
+if (site.trust.foundedYear.verified && site.trust.foundedYear.value !== null) done.push(["12", `Trading since ${site.trust.foundedYear.value}${site.trust.foundedYear.placeholder ? " (PLACEHOLDER)" : ""}`]);
 
 const stats = Object.entries(site.trust).filter(([k, s]) => k !== "foundedYear" && (!s.verified || s.value === null || s.value === ""));
 if (stats.length) {

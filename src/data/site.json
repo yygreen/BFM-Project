@@ -55,14 +55,14 @@
       "verified": false
     },
     "transfersCompleted": {
-      "value": 10000,
+      "value": 5000,
       "verified": true,
-      "placeholder": true
+      "placeholder": false
     },
     "milesDelivered": {
-      "value": 500000000,
+      "value": 250000000,
       "verified": true,
-      "placeholder": true
+      "placeholder": false
     },
     "completionRate": {
       "value": 99.9,
@@ -78,9 +78,9 @@
       "verified": false
     },
     "foundedYear": {
-      "value": 2016,
-      "verified": true,
-      "placeholder": true
+      "value": null,
+      "verified": false,
+      "placeholder": false
     }
   },
   "reviews": [

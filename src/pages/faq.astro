@@ -17,11 +17,14 @@ import { site, live, quoteFormReady } from "../lib/site";
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
-const verified = airlines.filter((a) => a.priceVerified);
+// Rates and delivery claims come from programs we sell miles for; a
+// flights-only program shows no rate, so it never sets the range.
+const sold = airlines.filter((a) => a.fulfilment !== "flights");
+const verified = sold.filter((a) => a.priceVerified);
 const cheapest = [...verified].sort((a, b) => a.pricePerMile - b.pricePerMile)[0];
 // in-stock as well as verified: the only hour-window programs are currently
 // out of stock, and a speed claim can't rest on a program nobody can order
-const fastest = [...airlines]
+const fastest = [...sold]
   .filter((a) => a.deliveryVerified && a.inStock)
   .sort((a, b) => deliveryHours(a.delivery) - deliveryHours(b.delivery))[0];
 

@@ -128,7 +128,9 @@ const jsonld = {
               <div class="related">
                 {linked.map((a) => (
                   <a href={`/buy/${a.slug}`}>
-                    {a.airline} {a.program} · {a.priceVerified ? "" : "~"}{a.pricePerMile}¢
+                    {a.airline} {a.program} · {a.fulfilment === "flights"
+                      ? "flights in your name"
+                      : `${a.priceVerified ? "" : "~"}${a.pricePerMile}¢`}
                   </a>
                 ))}
               </div>

@@ -54,7 +54,7 @@ const partnerPayAnswer = pay
 // by real duration, since roster order is not delivery order and the data
 // mixes hour and business-day windows
 const fastestWindow = airlines
-  .filter((a) => a.deliveryVerified && a.inStock)
+  .filter((a) => a.fulfilment !== "flights" && a.deliveryVerified && a.inStock)
   .sort((a, b) => deliveryHours(a.delivery) - deliveryHours(b.delivery))
   .map((a) => a.delivery.replace("Within ", ""))[0];
 

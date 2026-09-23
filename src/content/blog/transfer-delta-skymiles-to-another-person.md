@@ -58,31 +58,25 @@ of your own future travel. Almost every guide to this question quotes the fee
 and stops there, which makes transferring look cheaper than it is whenever both
 parties would have used the miles anyway.
 
-## When buying into their account is the better trade
+## When their account is short
 
 The case the fee table cannot solve: **their account is short and yours is not
 overflowing.** They need 70,000 miles, you hold 40,000, and handing yours over
 produces two accounts that both fall short.
 
-Buying miles straight into the account that needs them fixes it from the correct
-side. Your balance stays intact, the miles land where the booking will happen,
-and no transfer fee sits on top.
+We don't sell SkyMiles, so topping up their account isn't something we do. What
+we do instead skips the balance altogether: send us the route and dates, and we
+book the Delta One or First Class award ourselves, ticketed by Delta in the
+traveller's own name. Nothing leaves your account, no transfer fee applies, and
+the all-in price is fixed before anything is paid.
 
-Two limits worth stating plainly:
+One thing worth knowing first: **Delta prices awards dynamically**, so the same
+seat can cost wildly different amounts week to week. A flash sale on the route is
+the moment to ask.
 
-- **Our minimum order is 50,000 miles.** If the shortfall is 3,000, we are not
-  the answer and Delta's own transfer is, expensive as it looks per mile at that
-  size. We would rather tell you that than sell you fourteen times what you
-  need.
-- **Delta prices awards dynamically**, so the miles are worth whatever the cash
-  fare says on the day. The
-  [SkyMiles calculator](/calculator/delta-skymiles) prices an amount against a
-  real fare and tells you when paying cash beats using miles at all. It says
-  that often enough on Delta that we trust it.
-
-The live rate and delivery window are on the
-[Delta SkyMiles page](/buy/delta-skymiles). Your exact cost is confirmed before
-anything is agreed, and nothing is charged on this site.
+How it works is on the [Delta SkyMiles page](/buy/delta-skymiles). Your exact
+price is confirmed before anything is agreed, and nothing is charged on this
+site.
 
 ## The one thing not to do
 

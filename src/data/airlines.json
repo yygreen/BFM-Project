@@ -8,7 +8,7 @@
     "code": "DL",
     "color": "#9A1C33",
     "pricePerMile": 1.95,
-    "priceVerified": true,
+    "priceVerified": false,
     "directBuy": {
       "cents": 3.76,
       "source": "Delta list price, 3.5¢ plus 7.5% US excise tax",
@@ -19,13 +19,13 @@
     "max": 500000,
     "limitsVerified": false,
     "delivery": "Within 24 hours",
-    "deliveryVerified": true,
-    "inStock": false,
-    "heroHeadline": "Buy Delta miles with precision.",
-    "heroHighlight": "Delta miles",
-    "heroSub": "Top up your SkyMiles and fly Delta One for a fraction of the cash fare — delivered to your account, securely, within 24 hours.",
-    "metaTitle": "Buy Delta SkyMiles | Fast, Secure Delivery | buyflightmiles",
-    "metaDescription": "Buy Delta SkyMiles at a fraction of the airline's price. Secure transfer, delivered within 24 hours, your exact price confirmed before you pay.",
+    "deliveryVerified": false,
+    "inStock": true,
+    "heroHeadline": "Buy Delta miles, or let us book the seat.",
+    "heroHighlight": "Buy Delta miles",
+    "heroSub": "The honest answer about buying Delta SkyMiles: we can't source them at a standard worth standing behind, so we don't sell them. What we do instead is find and book your Delta One or First Class award, ticketed by the airline in your own name, at a firm all-in price.",
+    "metaTitle": "Buy Delta Miles | SkyMiles | buyflightmiles",
+    "metaDescription": "Delta SkyMiles are hard to buy safely, so we don't sell them. We book the Delta One or First Class award instead, ticketed in your name, at a firm price you approve before paying.",
     "related": [
       "ana-mileage-club",
       "eva-air-miles"
@@ -49,15 +49,15 @@
     "faqExtras": [
       {
         "q": "Does Delta publish an award chart?",
-        "a": "No. Delta removed its award chart in 2015 and every award, on Delta and on partners, prices dynamically with demand. The flash sales are where the value is: Delta One to Europe has dropped to around 115,000 miles one way in recent sales, against standard pricing that often runs far higher. When a sale lands on your route, price the shortfall with the calculator above."
+        "a": "No. Delta removed its award chart in 2015 and every award, on Delta and on partners, prices dynamically with demand. The flash sales are where the value is: Delta One to Europe has dropped to around 115,000 miles one way in recent sales, against standard pricing that often runs far higher. When a sale lands on your route, send it to us and we'll book the award while the price holds."
       },
       {
         "q": "Can I upgrade a Delta flight with miles?",
-        "a": "Yes. Delta offers mileage upgrades on paid Delta tickets during booking and afterwards in My Trips, priced dynamically per flight. Delta Basic fares are excluded and eligibility varies by route, so check that your ticket shows an upgrade offer first, then buy the miles the offer asks for."
+        "a": "Yes. Delta offers mileage upgrades on paid Delta tickets during booking and afterwards in My Trips, priced dynamically per flight. Delta Basic fares are excluded and eligibility varies by route, so check that your ticket shows an upgrade offer first. Upgrades come out of your own SkyMiles balance; what we book is the award seat itself."
       },
       {
         "q": "Do Delta SkyMiles expire?",
-        "a": "No. SkyMiles never expire, with no activity requirement, for as long as your account stays open and in good standing. They're safe to hold between trips; with dynamic pricing, when you spend matters more than when you buy."
+        "a": "No. SkyMiles never expire, with no activity requirement, for as long as your account stays open and in good standing. They're safe to hold between trips; with dynamic pricing, when you spend matters more than how long you hold them."
       },
       {
         "q": "Are there blackout dates on Delta awards?",
@@ -67,7 +67,7 @@
     "quirks": [
       {
         "title": "The flash sales are the program",
-        "text": "Standard Delta One pricing to Europe can run 170,000 to 360,000 miles one way, and periodic SkyMiles sales have dropped the same cabin to around 115,000. A top-up makes the most sense while a sale is live on your route."
+        "text": "Standard Delta One pricing to Europe can run 170,000 to 360,000 miles one way, and periodic SkyMiles sales have dropped the same cabin to around 115,000. A sale on your route is the moment to book."
       },
       {
         "title": "No close-in or cancellation fees",
@@ -99,22 +99,22 @@
     "factsChecked": "August 2026",
     "i18n": {
       "de": {
-        "metaTitle": "Delta Meilen kaufen | SkyMiles aufstocken",
-        "metaDescription": "SkyMiles kaufen und Delta One über den Atlantik einlösen. 1,95 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
-        "heroHeadline": "SkyMiles kaufen und Delta One einlösen.",
-        "heroSub": "Stock dein SkyMiles-Konto auf und flieg im Flachbett über den Atlantik. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
+        "metaTitle": "Delta Meilen kaufen | Der ehrliche Weg zum Sitz",
+        "metaDescription": "Delta SkyMiles sind kaum seriös zu kaufen, deshalb verkaufen wir sie nicht. Stattdessen buchen wir dir den Delta-One- oder First-Class-Award direkt: Ticket auf deinen Namen, Festpreis vor der Zahlung.",
+        "heroHeadline": "Delta Meilen kaufen? Wir buchen dir gleich den Sitz.",
+        "heroSub": "Die ehrliche Antwort zum Meilenkauf bei Delta SkyMiles: Wir können diese Meilen nicht in einer Qualität beschaffen, hinter der wir stehen, also verkaufen wir sie nicht. Stattdessen finden und buchen wir deinen Delta-Sitz. Das Ticket stellt die Airline auf deinen Namen aus, den Festpreis bestätigst du vor der Zahlung.",
         "steps": [
           {
             "title": "Anfragen",
-            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+            "text": "Du nennst Route, Daten und Kabine. Wir kommen mit einem festen Gesamtpreis zurück. Kostenlos und ohne Kaufzwang."
           },
           {
             "title": "Freigeben und zahlen",
             "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
           },
           {
-            "title": "Meilen erhalten",
-            "text": "Die Meilen gehen auf dein bestehendes SkyMiles-Konto. Die Prämie buchst du danach direkt bei Delta, auf deinen Namen."
+            "title": "Fliegen",
+            "text": "Wir buchen den Award, und Delta stellt das Ticket auf deinen Namen aus. Die Buchungsnummer prüfst du direkt bei der Airline."
           }
         ],
         "uses": [
@@ -134,15 +134,15 @@
         "faq": [
           {
             "q": "Was kosten SkyMiles?",
-            "a": "1,95 Cent pro Meile, also 19,50 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "Wir verkaufen SkyMiles derzeit nicht: Sie sind kaum in einer Qualität zu beschaffen, hinter der wir stehen würden. Was wir stattdessen anbieten, ist der fertige Sitz. Du nennst Route und Daten, und das Angebot ist ein fester Gesamtpreis in US-Dollar für das Ticket, bestätigt bevor du zahlst."
           },
           {
-            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "In der Regel innerhalb von 24 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+            "q": "Wie läuft die Buchung ab?",
+            "a": "Es gibt keine Meilenübertragung. Nach deiner Freigabe buchen wir den Award, und Delta stellt das Ticket auf deinen Namen aus. Du bekommst die Bestätigung mit einer Buchungsnummer, die du direkt bei der Airline prüfen kannst."
           },
           {
-            "q": "Braucht ihr mein SkyMiles-Passwort?",
-            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+            "q": "Ist mein SkyMiles-Konto beteiligt?",
+            "a": "Nein, und genau das ist der Punkt: Es wird nichts in dein Konto übertragen. Das Ticket wird auf deinen Namen ausgestellt, dein Konto bleibt komplett außen vor, und nach einem Passwort fragen wir ohnehin nie."
           },
           {
             "q": "Welche Zahlungswege akzeptiert ihr?",
@@ -150,13 +150,14 @@
           },
           {
             "q": "Wofür lohnen sich SkyMiles am meisten?",
-            "a": "Für Delta One in den Flash Sales: Delta preist Prämien dynamisch, und die regelmäßigen Aktionen sind der Moment, in dem ein aufgestocktes Konto wirklich arbeitet. Dazu kommen kostenlose Änderung und Storno außerhalb von Delta Basic."
+            "a": "Für Delta One in den Flash Sales: Delta preist Prämien dynamisch, und die regelmäßigen Aktionen sind der Moment, in dem sich ein Award wirklich lohnt. Dazu kommen kostenlose Änderung und Storno außerhalb von Delta Basic."
           }
         ],
-        "ctaLabel": "Angebot anfordern",
+        "ctaLabel": "Flug anfragen",
         "reviewed": false
       }
-    }
+    },
+    "fulfilment": "flights"
   },
   {
     "id": "united-mileageplus",
@@ -788,7 +789,7 @@
     "faqExtras": [
       {
         "q": "Does ANA publish an award chart?",
-        "a": "Yes, one of the last fixed charts among the majors, with Low, Regular and High seasons. Business class Tokyo to North America runs 50,000 to 82,500 miles one way depending on season, 65,000 at Regular, and since June 2025 one-way awards book at half the round-trip rate. Find your season and route, then price the shortfall with the calculator above."
+        "a": "Yes, one of the last fixed charts among the majors, with Low, Regular and High seasons. Business class Tokyo to North America runs 50,000 to 82,500 miles one way depending on season, 65,000 at Regular, and since June 2025 one-way awards book at half the round-trip rate. Find your season and route, then send them to us and we'll price the award."
       },
       {
         "q": "Do ANA miles expire?",
@@ -796,7 +797,7 @@
       },
       {
         "q": "Can I upgrade an ANA flight with miles?",
-        "a": "Yes. Upgrade awards move eligible paid fares one cabin up: booking classes Y, B, M and U qualify, plus H on trips starting outside Japan, and there's no direct economy-to-First jump. Check your fare class, then buy the miles the upgrade needs."
+        "a": "Yes. Upgrade awards move eligible paid fares one cabin up: booking classes Y, B, M and U qualify, plus H on trips starting outside Japan, and there's no direct economy-to-First jump. Check your fare class first. Upgrades come out of your own Mileage Club balance; what we book is the award seat itself."
       },
       {
         "q": "Can I book one-way awards with ANA miles?",
@@ -1268,7 +1269,7 @@
     "sweetSpots": [
       {
         "title": "Every seat is bookable",
-        "desc": "Rapid Rewards has no blackout dates; if a fare is for sale, points can book it, so a top-up always has somewhere to go."
+        "desc": "Rapid Rewards has no blackout dates; if a fare is for sale, points can book it, so there is always a seat to book."
       },
       {
         "title": "Refundable bookings",
@@ -1276,7 +1277,7 @@
       },
       {
         "title": "Companion Pass holders",
-        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only, which doubles what a top-up is worth."
+        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only, which doubles what every award is worth."
       }
     ],
     "logo": "/logos/southwest-rapid-rewards.svg",
@@ -1284,7 +1285,7 @@
     "faqExtras": [
       {
         "q": "Does Southwest have an award chart?",
-        "a": "No. Points price off the cash fare, and since March 2025 the exact conversion floats by flight, typically between 1.1 and 1.5 cents per point. A cheap cash fare means a cheap award and every seat on sale is bookable. Price your shortfall with the calculator above and compare it against the fare."
+        "a": "No. Points price off the cash fare, and since March 2025 the exact conversion floats by flight, typically between 1.1 and 1.5 cents per point. A cheap cash fare means a cheap award and every seat on sale is bookable. Send us the route and we'll price the award against the fare."
       },
       {
         "q": "Do Rapid Rewards points expire?",
@@ -1467,7 +1468,7 @@
       },
       {
         "title": "No blackout dates",
-        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points; a top-up is never stranded."
+        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points; there is always an award to book."
       },
       {
         "title": "Points pooling",
@@ -1479,11 +1480,11 @@
     "faqExtras": [
       {
         "q": "Does JetBlue have an award chart?",
-        "a": "No, and that's the appeal: TrueBlue prices awards straight off the cash fare, at a fairly consistent 1.3 to 1.5 cents per point on JetBlue's own flights, with no blackout dates. Whatever the fare search shows, the points price tracks it. Price your shortfall with the calculator above and compare it against the fare."
+        "a": "No, and that's the appeal: TrueBlue prices awards straight off the cash fare, at a fairly consistent 1.3 to 1.5 cents per point on JetBlue's own flights, with no blackout dates. Whatever the fare search shows, the points price tracks it. Send us the route and we'll price the award against the fare."
       },
       {
         "q": "Can I upgrade to Mint with points?",
-        "a": "No. JetBlue doesn't sell Mint upgrades for points; upgrade paths on a paid ticket are cash offers or bidding. The points route into Mint is booking it outright as an award, which is exactly what a top-up is usually for."
+        "a": "No. JetBlue doesn't sell Mint upgrades for points; upgrade paths on a paid ticket are cash offers or bidding. The points route into Mint is booking it outright as an award, which is exactly what we book."
       },
       {
         "q": "Do TrueBlue points expire?",
@@ -1567,7 +1568,7 @@
     "faqExtras": [
       {
         "q": "Does Frontier have an award chart?",
-        "a": "Yes, tiered by availability: Value awards from 5,000 miles for a domestic one-way on off-peak flights, Standard from around 20,000 when Value space is gone, and a Last Seat tier reserved for elite members. Off-peak flexibility is where miles stretch furthest. Price your top-up with the calculator above."
+        "a": "Yes, tiered by availability: Value awards from 5,000 miles for a domestic one-way on off-peak flights, Standard from around 20,000 when Value space is gone, and a Last Seat tier reserved for elite members. Off-peak flexibility is where miles stretch furthest. Send us your dates and we'll price the award."
       },
       {
         "q": "Do Frontier miles expire?",
@@ -2478,7 +2479,7 @@
     "faqExtras": [
       {
         "q": "Does Miles & More publish an award chart?",
-        "a": "For Star Alliance partners, yes: Europe to North America business is 125,000 miles round trip on the current chart. Lufthansa's own flights moved to dynamic pricing in June 2025, tracking cash fares, which swings from occasional bargains to well above the chart. Price your target with the calculator above."
+        "a": "For Star Alliance partners, yes: Europe to North America business is 125,000 miles round trip on the current chart. Lufthansa's own flights moved to dynamic pricing in June 2025, tracking cash fares, which swings from occasional bargains to well above the chart. Send us the route and we'll price the award."
       },
       {
         "q": "Do Miles & More miles expire?",
