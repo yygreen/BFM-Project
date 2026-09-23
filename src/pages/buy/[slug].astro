@@ -135,7 +135,6 @@ const jsonld = flightsOnly ? jsonldFlights : {
             { label: "Programs", href: "/#programs" },
             { label: `${a.airline} ${progShort}` },
           ]} />
-          <span class="kicker">{a.alliance}</span>
           {/* one toggle per translation the entry carries, so a new market
               needs no edit here — only the locale's own name below */}
           {Object.keys(a.i18n ?? {}).map((loc) => (
