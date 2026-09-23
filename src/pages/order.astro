@@ -422,10 +422,13 @@ const methods = site.payments.verified ? site.payments.methods : [];
         const label = btn.textContent;
         btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
         try {
+          // the inbox should read "60,000", not "60000": someone quotes from it
+          const payload = Object.fromEntries(new FormData(form));
+          if (Number(payload.miles)) payload.miles = Number(payload.miles).toLocaleString("en-US");
           const res = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            body: JSON.stringify(payload),
           });
           const out = await res.json();
           if (out.success) {
