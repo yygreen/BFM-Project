@@ -11,6 +11,7 @@
 import { getCollection } from "astro:content";
 import Turnstile from "./Turnstile.astro";
 import EnquiryMail from "./EnquiryMail.astro";
+import ConfirmRoute from "./ConfirmRoute.astro";
 import { site, quoteFormReady, directBuyRate, directBuySource, mailtoInbox, officialChannels } from "../lib/site";
 
 const {
@@ -341,13 +342,7 @@ const doneReplyLine = chEmail ? L.doneReplyFrom.replace("{email}", chEmail.value
        the echo is filled from the hidden fields before the form resets, so
        the sender keeps a record of exactly what was asked. -->
   <div class="qw-step qw-done-panel" data-step="3" hidden tabindex="-1">
-    <svg class="confirm-art" viewBox="0 0 84 28" role="img" aria-label="The route arriving at its destination">
-      <path class="cf-line" d="M1.25 14H62" />
-      <circle class="cf-ring" cx="11.25" cy="14" r="7" />
-      <circle class="cf-dot" cx="11.25" cy="14" r="3.2" />
-      <circle class="cf-dest" cx="70" cy="14" r="7.25" />
-      <circle class="cf-dot" cx="70" cy="14" r="3.2" />
-    </svg>
+    <ConfirmRoute />
     <h3 class="confirm-title qw-done-title">{L.doneTitle}</h3>
     <dl class="confirm-echo">
       <div><dt>{L.program}</dt><dd id="qw-d-prog"></dd></div>

@@ -1,0 +1,13 @@
+---
+// The origin → destination mark at the top of every "request received" panel
+// (Confirmation.astro and the quote widget's done step). Built from spans, not
+// a fixed-viewBox SVG, so the route stretches to the panel's full width while
+// the two stops stay the same size. It plays once each time the panel is
+// un-hidden: the route draws out with the coral dot on its leading edge, and
+// the destination lands when it arrives. Reduced motion shows the end state.
+---
+<div class="cf-route" role="img" aria-label="The route arriving at its destination">
+  <span class="cf-a"></span>
+  <span class="cf-track"><span class="cf-fill"></span></span>
+  <span class="cf-b"></span>
+</div>

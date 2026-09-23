@@ -832,11 +832,43 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
     @starting-style { opacity:0; transform:translateY(6px); }
   }
 }
-.confirm-art { display:block; width:96px; height:auto; overflow:visible; margin-bottom:14px; }
-.cf-line { fill:none; stroke:var(--cobalt); stroke-width:2.5; stroke-linecap:round; }
-.cf-ring { fill:none; stroke:var(--cobalt-line); stroke-width:2.5; }
-.cf-dot  { fill:var(--coral); }
-.cf-dest { fill:none; stroke:var(--cobalt); stroke-width:5; }
+/* the route mark (ConfirmRoute.astro): full panel width, stops at fixed size.
+   Sequence, once per reveal: the route draws across with the coral dot on its
+   leading edge (the dashed track underneath is the planned route), the dot
+   hands off, and the destination ring lands with its own dot. */
+.cf-route { display:flex; align-items:center; width:100%; height:24px; margin-bottom:16px; }
+.cf-a, .cf-b { position:relative; flex:none; border-radius:50%; }
+.cf-a { width:19px; height:19px; border:2.5px solid var(--cobalt-line); }
+.cf-b { width:24px; height:24px; border:5px solid var(--cobalt);
+  animation:cf-land 380ms var(--ease-out) 1000ms both; }
+.cf-a::after, .cf-b::after {
+  content:""; position:absolute; left:50%; top:50%; width:7px; height:7px;
+  margin:-3.5px 0 0 -3.5px; border-radius:50%; background:var(--coral);
+}
+.cf-b::after { animation:cf-pop 260ms var(--ease-out) 1180ms both; }
+.cf-track { position:relative; flex:1; height:10px; overflow:hidden; margin:0 -1px; }
+.cf-track::before {
+  content:""; position:absolute; left:0; right:0; top:50%; height:2px; margin-top:-1px;
+  background:repeating-linear-gradient(90deg, var(--cobalt-line) 0 6px, transparent 6px 12px);
+}
+.cf-fill { position:absolute; inset:0; animation:cf-draw 1000ms var(--ease-io) 150ms both; }
+.cf-fill::before {
+  content:""; position:absolute; left:0; right:0; top:50%; height:2.5px; margin-top:-1.25px;
+  background:var(--cobalt); border-radius:2px;
+}
+.cf-fill::after {
+  content:""; position:absolute; right:1px; top:50%; width:7px; height:7px; margin-top:-3.5px;
+  border-radius:50%; background:var(--coral);
+  animation:cf-handoff 120ms ease-out 1150ms both;
+}
+@keyframes cf-draw { from { transform:translateX(-100%); } to { transform:none; } }
+@keyframes cf-handoff { to { opacity:0; } }
+@keyframes cf-land { from { opacity:0; transform:scale(.5); } to { opacity:1; transform:none; } }
+@keyframes cf-pop { from { transform:scale(0); } to { transform:none; } }
+@media (prefers-reduced-motion: reduce) {
+  .cf-b, .cf-b::after, .cf-fill { animation:none; }
+  .cf-fill::after { animation:none; opacity:0; }
+}
 .confirm-title { font-size:24px; margin:0 0 6px; }
 .confirm-k { font-family:var(--display); font-weight:700; font-size:13px; letter-spacing:0.02em; text-transform:uppercase; color:var(--text-2); margin:22px 0 10px; }
 .confirm-steps { margin:0; padding:0; list-style:none; counter-reset:cf; max-width:560px; }

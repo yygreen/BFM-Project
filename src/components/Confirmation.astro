@@ -18,6 +18,7 @@
 // swap is announced to a screen reader instead of leaving focus on a button
 // that no longer exists.
 import { site, live, officialChannels } from "../lib/site";
+import ConfirmRoute from "./ConfirmRoute.astro";
 
 interface Props {
   /** DOM id the page's submit handler targets */
@@ -50,13 +51,7 @@ const replyLine = email
 const hours = live(site.trust.supportHours) ? site.trust.supportHours.value : null;
 ---
 <div class="confirm" id={id} hidden tabindex="-1">
-  <svg class="confirm-art" viewBox="0 0 84 28" role="img" aria-label="The route arriving at its destination">
-    <path class="cf-line" d="M1.25 14H62" />
-    <circle class="cf-ring" cx="11.25" cy="14" r="7" />
-    <circle class="cf-dot" cx="11.25" cy="14" r="3.2" />
-    <circle class="cf-dest" cx="70" cy="14" r="7.25" />
-    <circle class="cf-dot" cx="70" cy="14" r="3.2" />
-  </svg>
+  <ConfirmRoute />
   <h2 class="confirm-title">{title}</h2>
   <slot name="echo" />
   <p class="confirm-k">What happens now</p>
