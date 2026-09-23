@@ -163,7 +163,9 @@ if (!site.partner.verified || !site.partner.qualifyText) {
 
 // ── Airline direct-buy benchmark (agency can source this, not the client) ──
 const noBenchmark = !site.benchmark.verified || site.benchmark.directBuyCents === null;
-const perProgram = airlines.filter((a) => a.directBuyCents != null).length;
+// per-program comparisons live on airlines.json → directBuy { cents, source,
+// verified }; only verified ones render, so only those count here
+const perProgram = airlines.filter((a) => a.directBuy?.verified && a.directBuy.cents != null).length;
 if (noBenchmark && perProgram === 0) {
   optional.push([
     "—",
