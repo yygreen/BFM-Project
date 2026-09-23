@@ -181,7 +181,7 @@ const jsonld = {
         <h2>Choose your program</h2>
         <p>Live, transparent pricing across every program we sell miles for. Each links to full details and delivery times.</p>
       </div>
-      <div class="grid">
+      <div class="grid prog-list">
         {milesPrograms.map((a) => <ProgramCard a={a} />)}
         <!-- catch-all for programs we don't list — a request, not a promise:
              availability gets confirmed in the quote, never asserted here -->
@@ -214,7 +214,7 @@ const jsonld = {
             <h3>Some programs we book as flights</h3>
             <p>These miles are hard to buy safely, so we don't. Tell us the trip and we book the award seat itself, ticketed in your own name.</p>
           </div>
-          <div class="grid">
+          <div class="grid prog-list">
             {flightsPrograms.map((a) => <ProgramCard a={a} />)}
             {/* the overview: /flights books a seat on ANY program here, the
                 ones we sell miles for included, so it belongs at the end of

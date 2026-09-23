@@ -264,7 +264,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard .top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
 .gcard .pname { font-family:var(--display); font-weight:800; font-size:19px; }
 .gcard .plabel { font-size:13px; color:var(--text-3); margin-top:2px; }
-.gcard .price { font-family:var(--mono); font-size:28px; font-weight:600; color:var(--cobalt); }
+.gcard .price { font-family:var(--mono); font-size:28px; font-weight:600; color:var(--cobalt); margin-top:14px; }
 .gcard .price small { font-size:13px; color:var(--text-3); font-weight:400; font-family:var(--sans); }
 /* flights-only cards carry a text label, not a short rate, so the 28px mono
    price size wraps it to three lines — this sizes it to sit on one row. The
@@ -333,6 +333,48 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
   .gcard .pname { font-size:17px; }
   .gcard .price { font-size:21px; }
   .gcard .meta { display:none; }
+}
+/* The homepage program grids become a price list on phones: one row per
+   program — logo · airline + program on one line · rate — about 11 per
+   screen instead of 3. Status shows only when it says something (an amber
+   dot for Limited), and the whole row is the link, so the CTA line goes.
+   The catch-all and broker cards after the programs stay cards. */
+@media (max-width:560px){
+  .prog-list { display:flex; flex-direction:column; gap:0; }
+  .prog-list > .gcard:not(.gcard-ask) { display:grid; grid-template-columns:52px minmax(0,1fr) auto auto;
+    align-items:center; column-gap:10px; min-height:56px; padding:10px 14px;
+    border-radius:0; border-width:0 1px 1px; box-shadow:none; }
+  .prog-list > .gcard:not(.gcard-ask):first-child { border-top-width:1px;
+    border-radius:var(--radius-card) var(--radius-card) 0 0; }
+  .prog-list > .gcard:not(.gcard-ask):has(+ .gcard-ask) { border-radius:0 0 var(--radius-card) var(--radius-card); }
+  .prog-list > .gcard:not(.gcard-ask):hover { transform:none; box-shadow:none; }
+  .prog-list > .gcard:not(.gcard-ask):active { background:var(--raised); }
+  .prog-list .top { display:contents; }
+  .prog-list .emblem-logo { height:21px !important; width:52px; }
+  .prog-list .emblem:not(.emblem-logo), .prog-list .emblem svg { width:30px !important; height:30px !important; }
+  .prog-list .top .badge { grid-column:3; grid-row:1; font-size:0; gap:0; padding:0; background:none; }
+  .prog-list .top .badge-ok { display:none; }
+  .prog-list .pnames { grid-column:2; grid-row:1; display:flex; align-items:baseline; gap:6px; min-width:0;
+    white-space:nowrap; }
+  /* the program name gives way; the airline never shrinks, and only clamps
+     (with an ellipsis) if it alone is wider than the row. A small shrink
+     weight on it is not enough: even a sub-pixel squeeze triggers the
+     ellipsis and swallows the last letters of the airline's name. */
+  .prog-list .pname { flex:0 0 auto; max-width:100%; overflow:hidden; text-overflow:ellipsis; font-size:15px; }
+  .prog-list .plabel { flex:0 1 auto; margin:0; font-size:14px; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  .prog-list .pready { display:none; }
+  .prog-list .price, .prog-list .price.price-svc { grid-column:4; grid-row:1; margin:0; font-size:15.5px;
+    font-variant-numeric:tabular-nums; }
+  .prog-list .price small { display:none; }
+  .prog-list .gcta { display:none; }
+  .prog-list > .gcard-ask { margin-top:12px; }
+}
+@media (max-width:370px){
+  .prog-list > .gcard:not(.gcard-ask) { grid-template-columns:44px minmax(0,1fr) auto auto; column-gap:8px; padding:10px 12px; }
+  .prog-list .emblem-logo { width:44px; height:18px !important; }
+  .prog-list .pname { font-size:14px; }
+  .prog-list .plabel { font-size:13px; }
+  .prog-list .price, .prog-list .price.price-svc { font-size:14.5px; }
 }
 /* the separator dots read as stray bullets once the stats wrap on phones */
 @media (max-width:660px){ .hero .spec .dot { display:none; } }
