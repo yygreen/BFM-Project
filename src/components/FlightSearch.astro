@@ -697,6 +697,7 @@ const notWired = labels.notWired ?? (orderEmail
         });
         const out = await res.json();
         if (out.success) {
+          window.bfmTrack?.("generate_lead", { form: "flights" });
           msg.textContent = T.ok;
           msg.className = "form-msg fs-msg ok";
           form.reset();

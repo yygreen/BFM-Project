@@ -116,6 +116,35 @@ const hreflangs = alternates.length
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+
+  <!-- GA4 (site.json → analytics). bfmTrack is always defined so the forms
+       can report a lead unconditionally; off the production hosts it's a
+       no-op and nothing loads. Consent mode: in the EEA, UK and Switzerland
+       analytics storage defaults to denied, so GA sends cookieless pings and
+       no banner is needed; elsewhere it runs normally. No ads storage
+       anywhere: the site runs no ads. -->
+  {siteData.analytics.ga4Id && (
+    <script is:inline define:vars={{ gaId: siteData.analytics.ga4Id, gaHosts: siteData.analytics.hosts }}>
+      window.bfmTrack = function () {};
+      if (gaHosts.indexOf(location.hostname) !== -1) {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        var noAds = { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" };
+        gtag("consent", "default", Object.assign({ analytics_storage: "denied", region: [
+          "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU",
+          "MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"
+        ] }, noAds));
+        gtag("consent", "default", Object.assign({ analytics_storage: "granted" }, noAds));
+        gtag("js", new Date());
+        gtag("config", gaId);
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + gaId;
+        document.head.appendChild(s);
+        window.bfmTrack = function (name, params) { gtag("event", name, params || {}); };
+      }
+    </script>
+  )}
 </head>
 <body>
   <header class="site-header">

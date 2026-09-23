@@ -164,6 +164,14 @@ const schema = z.object({
       verified: z.boolean(),
     })
   ),
+
+  // GA4, carried over from the WordPress site so reporting continues in the
+  // same property. It fires only on the listed production hosts: preview
+  // deployments and local builds would otherwise pollute the numbers.
+  analytics: z.object({
+    ga4Id: z.string().regex(/^(G-[A-Z0-9]+)?$/, 'a GA4 measurement ID ("G-…") or ""'),
+    hosts: z.array(z.string().min(1)),
+  }),
 });
 
 const parsed = schema.safeParse(raw);

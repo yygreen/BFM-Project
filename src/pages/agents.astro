@@ -363,6 +363,7 @@ const jsonld = {
           });
           const json = await res.json();
           if (json.success) {
+            window.bfmTrack?.("generate_lead", { form: "agents" });
             // echo before the swap, while the fields still hold their values
             document.getElementById("pc-agency").textContent =
               document.getElementById("agency").value.trim() || "—";

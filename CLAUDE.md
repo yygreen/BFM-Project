@@ -110,7 +110,9 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 Everything the **client** must confirm lives in exactly two data files, never in components:
 
 - `src/data/airlines.json` — per-program pricing, min/max, delivery windows
-- `src/data/site.json` — payment methods, enquiry inboxes + Web3Forms keys, guarantee text, trust stats, testimonials (validated by `src/lib/site.ts`)
+- `src/data/site.json` — payment methods, enquiry inboxes + Web3Forms keys, guarantee text, trust stats, testimonials, the GA4 ID (validated by `src/lib/site.ts`)
+
+GA4 (`G-PH6Y2KB7QV`, the same property as the WordPress site) loads only on the hosts in `site.json → analytics.hosts`, so previews never report. EEA/UK/CH visitors get consent-mode "denied" (cookieless, no banner). Every successful form send fires `generate_lead` with `{ form }` via `window.bfmTrack`; mark it as a key event in GA4. The old site's GTM container (`GTM-TLG7S24`: a dead Universal Analytics tag and FullStory) was deliberately not carried over.
 
 Both use **`verified` flags, and a claim renders only when its flag is `true`.** Unverified
 content is *suppressed, not faked* — an unconfirmed rating doesn't ship as a placeholder

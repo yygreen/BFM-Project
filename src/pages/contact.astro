@@ -211,6 +211,7 @@ const waHref = whatsapp.replace(/\D/g, "");
           });
           const data = await res.json();
           if (data.success) {
+            window.bfmTrack?.("generate_lead", { form: "contact" });
             // swap the form for the confirmation panel; focus moves with it
             // so the change is announced instead of orphaning the cursor
             document.getElementById("cc-topic").textContent =

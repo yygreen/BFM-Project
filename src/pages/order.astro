@@ -429,6 +429,7 @@ const methods = site.payments.verified ? site.payments.methods : [];
           });
           const out = await res.json();
           if (out.success) {
+            window.bfmTrack?.("generate_lead", { form: "order" });
             msg.textContent = "Request received. We'll confirm your exact rate and delivery window, then send payment details. Nothing has been charged.";
             msg.className = "form-msg ok";
             form.reset();

@@ -762,6 +762,7 @@ const doneReplyLine = chEmail ? L.doneReplyFrom.replace("{email}", chEmail.value
         });
         const json = await res.json();
         if (json.success) {
+          window.bfmTrack?.("generate_lead", { form: "quote" });
           // fill the echo from the hidden fields BEFORE the reset clears
           // them, then swap to the done step. show(3) also lights both
           // progress dots; focus moves to the panel so the change is

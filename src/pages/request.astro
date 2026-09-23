@@ -141,6 +141,7 @@ const notWired = orderEmail
           });
           const data = await res.json();
           if (data.success) {
+            window.bfmTrack?.("generate_lead", { form: "request" });
             // The form's work is done — swap it for the confirmation panel,
             // echoing back what was asked so the record survives the send.
             // Focus moves to the panel (tabindex="-1") so the change is

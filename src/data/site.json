@@ -112,6 +112,10 @@
     "verified": false
   },
   "testimonials": [],
+  "analytics": {
+    "ga4Id": "G-PH6Y2KB7QV",
+    "hosts": ["www.buyflightmiles.com", "buyflightmiles.com"]
+  },
   "flights": {
     "savingsClaim": "Save up to 25% and more compared to the cash fare",
     "verified": true
