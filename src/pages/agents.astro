@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Turnstile from "../components/Turnstile.astro";
 import TrustStrip from "../components/TrustStrip.astro";
 import Emblem from "../components/Emblem.astro";
@@ -88,6 +89,10 @@ const jsonld = {
     <div class="container">
       <div class="hero-grid">
         <div>
+          <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "For agents" },
+          ]} />
           <span class="kicker">For agents &amp; brokers</span>
           <h1>Wholesale miles and award tickets for <span class="hl">travel agents</span>.</h1>
           <p class="sub">Partner pricing, dependable delivery, and the business or first class seat your client wants, found and booked. Your clients get the trip and never see us.</p>
