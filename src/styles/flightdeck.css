@@ -4,13 +4,12 @@
    primary, warm coral accent, rounded grotesk display.
    ============================================================ */
 :root {
-  /* Type scale. Every font-size on the site is one of these: eight fixed
+  /* Type scale. Every font-size on the site is one of these: seven fixed
      steps for UI and body text, one for the big product prices, and four
      fluid sizes for display headings and headline figures. Relative sizes
      (em) inside a component are fine; a new px value is not. */
-  --fs-2xs:11px;   /* micro labels, badges, kickers */
-  --fs-xs:12.5px;  /* captions, meta, fine print */
-  --fs-sm:14px;    /* secondary copy, card text, controls */
+  --fs-2xs:12px;   /* uppercase labels, badges, kickers; the floor */
+  --fs-sm:14px;    /* secondary copy, captions, meta, card text, controls */
   --fs-md:16px;    /* body copy, lead lines */
   --fs-lg:18px;    /* card titles, small headings */
   --fs-xl:20px;    /* sub-headings */
@@ -115,7 +114,7 @@ img, svg { max-width:100%; }
    (Email clears its value by 60px, WhatsApp by 4), and a fixed gutter wide
    enough for WhatsApp wraps the email address */
 .foot-contact a { margin-bottom:14px; line-height:1.4; }
-.foot-contact a span { display:block; color:#7B80A8; font-size:var(--fs-xs); }
+.foot-contact a span { display:block; color:#7B80A8; font-size:var(--fs-sm); }
 .foot-contact a:hover span { color:#9AA0C8; }
 /* the page, under the channels it lists — a destination rather than a way to
    reach us, so it sits apart from the label/value rows above it */
@@ -128,7 +127,7 @@ img, svg { max-width:100%; }
 .foot-programs { margin-top:38px; padding-top:26px; border-top:1px solid #262946; }
 .foot-proglist { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px 26px; }
 .foot-proglist a { margin-bottom:0; line-height:1.35; }
-.foot-proglist a span { display:block; color:#7B80A8; font-size:var(--fs-xs); }
+.foot-proglist a span { display:block; color:#7B80A8; font-size:var(--fs-sm); }
 .foot-proglist a:hover span { color:#C4C8E6; }
 /* phones: two columns, and the carrier alone — 21 stacked rows with a
    sub-line each is most of a screen of footer */
@@ -136,14 +135,14 @@ img, svg { max-width:100%; }
   .foot-proglist { grid-template-columns:1fr 1fr; gap:9px 18px; }
   .foot-proglist a span { display:none; }
 }
-.site-footer h5 { font-family:var(--display); font-size:var(--fs-xs); letter-spacing:0; color:#9AA0C8; margin:0 0 14px; font-weight:700; }
+.site-footer h5 { font-family:var(--display); font-size:var(--fs-sm); letter-spacing:0; color:#9AA0C8; margin:0 0 14px; font-weight:700; }
 .site-footer a { display:block; color:#C4C8E6; font-size:var(--fs-sm); margin-bottom:9px; }
 .site-footer a:hover { color:#fff; }
-.site-footer .fine { color:#7B80A8; font-size:var(--fs-xs); margin-top:30px; border-top:1px solid #262946; padding-top:22px; }
+.site-footer .fine { color:#7B80A8; font-size:var(--fs-sm); margin-top:30px; border-top:1px solid #262946; padding-top:22px; }
 
 /* ---- headings / type ---- */
 h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; color:var(--text-1); }
-.kicker { display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-weight:700; font-size:var(--fs-xs); letter-spacing:0.02em; text-transform:uppercase; color:var(--cobalt); background:var(--cobalt-tint); padding:6px 14px; border-radius:var(--radius-pill); }
+.kicker { display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-weight:700; font-size:var(--fs-2xs); letter-spacing:0.02em; text-transform:uppercase; color:var(--cobalt); background:var(--cobalt-tint); padding:6px 14px; border-radius:var(--radius-pill); }
 .section { padding:clamp(44px,6vw,72px) 0; }
 .section.tinted { background:var(--raised); }
 /* the washes are full-bleed bands, so they carry their own padding — never
@@ -211,21 +210,21 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .hero .spec-revwrap { display:inline-flex; align-items:center; gap:20px; }
 .hero .spec-rev { display:inline-flex; align-items:center; gap:7px; }
 .hero .spec-rev:hover .spec-rev-plat { color:var(--text-2); }
-.spec-stars { color:#F5A623; font-size:var(--fs-xs); letter-spacing:1px; line-height:1; }
+.spec-stars { color:#F5A623; font-size:var(--fs-sm); letter-spacing:1px; line-height:1; }
 /* phones: the homepage's three hero proofs hold one line instead of breaking
    onto two. Tighter type and gaps, smaller stars, "on" dropped from "on
    Trustpilot". Scoped to .spec-home: the program pages' hero line is longer
    and must keep wrapping, or it widens the page past the screen.
    nowrap is safe here: measured to fit from 320px up. */
 @media (max-width:560px){
-  .hero .spec-home { flex-wrap:nowrap; white-space:nowrap; gap:0 14px; font-size:var(--fs-xs); }
+  .hero .spec-home { flex-wrap:nowrap; white-space:nowrap; gap:0 14px; font-size:var(--fs-2xs); }
   .hero .spec-home .spec-revwrap { gap:14px; }
   .hero .spec-home .spec-rev { gap:5px; }
   .hero .spec-home .spec-stars { font-size:var(--fs-2xs); letter-spacing:0; }
   .hero .spec-home .spec-on { display:none; }
 }
 @media (max-width:360px){
-  .hero .spec-home, .hero .spec-home .spec-revwrap { gap:0 10px; font-size:var(--fs-xs); }
+  .hero .spec-home, .hero .spec-home .spec-revwrap { gap:0 10px; font-size:var(--fs-2xs); }
   .hero .spec-home .spec-stars { font-size:var(--fs-2xs); }
 }
 .spec-stars-dim { color:var(--line-2); }
@@ -246,7 +245,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .feature-card .btn:hover { background:#F0F1FF; transform:translateY(-2px); }
 .chip-float { position:absolute; z-index:2; background:#fff; color:var(--ink); border-radius:var(--radius-pill); box-shadow:var(--shadow); padding:10px 16px 10px 12px; display:flex; align-items:center; gap:10px; font-weight:700; font-size:var(--fs-sm); }
 .chip-float .ci { width:32px; height:32px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
-.chip-float small { display:block; font-weight:500; color:var(--text-3); font-size:var(--fs-xs); }
+.chip-float small { display:block; font-weight:500; color:var(--text-3); font-size:var(--fs-sm); }
 .chip-float.tl { top:-18px; left:-20px; }
 @media (max-width:860px){ .chip-float.tl { left:8px; } }
 
@@ -257,9 +256,9 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 /* ---- pricing card ---- */
 .pcard { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:26px; box-shadow:var(--shadow); }
 .pcard .top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
-.pcard .plabel { font-size:var(--fs-xs); font-weight:500; color:var(--text-3); margin:0 0 4px; }
+.pcard .plabel { font-size:var(--fs-sm); font-weight:500; color:var(--text-3); margin:0 0 4px; }
 .pcard .pname { font-family:var(--display); font-weight:800; font-size:var(--fs-2xl); }
-.badge { font-size:var(--fs-xs); font-weight:700; padding:6px 12px; border-radius:var(--radius-pill); white-space:nowrap; display:inline-flex; align-items:center; gap:6px; }
+.badge { font-size:var(--fs-2xs); font-weight:700; padding:6px 12px; border-radius:var(--radius-pill); white-space:nowrap; display:inline-flex; align-items:center; gap:6px; }
 .badge-ok { background:var(--ok-tint); color:var(--ok-ink); }
 .badge-ok::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--ok); }
 .badge-warn { background:var(--warn-tint); color:var(--warn); }
@@ -267,13 +266,13 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .pcard .price { display:flex; align-items:baseline; gap:6px; margin:8px 0 2px; }
 .pcard .price .num { font-family:var(--mono); font-size:var(--fs-price); font-weight:600; color:var(--cobalt); line-height:1; letter-spacing:-0.02em; }
 .pcard .price .unit { font-size:var(--fs-sm); color:var(--text-3); }
-.pcard .alt { font-size:var(--fs-xs); color:var(--text-3); margin:0 0 18px; }
+.pcard .alt { font-size:var(--fs-sm); color:var(--text-3); margin:0 0 18px; }
 .pcard .rows { border-top:1px solid var(--line); margin-bottom:20px; }
 .pcard .rows .r { display:flex; justify-content:space-between; font-size:var(--fs-sm); padding:11px 0; border-bottom:1px solid var(--line); }
 .pcard .rows .r span { color:var(--text-3); }
 .pcard .rows .r b { color:var(--ink); font-weight:600; font-family:var(--mono); }
 .pcard .btn { width:100%; }
-.pcard .foot { font-size:var(--fs-xs); color:var(--text-3); text-align:center; margin:14px 0 0; }
+.pcard .foot { font-size:var(--fs-sm); color:var(--text-3); text-align:center; margin:14px 0 0; }
 
 /* ---- program grid ---- */
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:18px; }
@@ -286,9 +285,15 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .gcard:hover { border-color:var(--cobalt-line); transform:translateY(-4px); box-shadow:var(--shadow); }
 .gcard .top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
 .gcard .pname { font-family:var(--display); font-weight:800; font-size:var(--fs-xl); }
-.gcard .plabel { font-size:var(--fs-xs); color:var(--text-3); margin-top:2px; }
+.gcard .plabel { font-size:var(--fs-sm); color:var(--text-3); margin-top:2px; }
+/* program cards sit in grid rows of equal height; the name block takes the
+   spare height so a two-line program name ("Avios (The British Airways
+   Club)") doesn't push that card's price below its neighbours'. The phone
+   list overrides the display with its own grid. */
+.gcard:has(> .pnames) { display:flex; flex-direction:column; }
+.gcard > .pnames { flex:1 0 auto; }
 .gcard .price { font-family:var(--mono); font-size:var(--fs-3xl); font-weight:600; color:var(--cobalt); margin-top:14px; }
-.gcard .price small { font-size:var(--fs-xs); color:var(--text-3); font-weight:400; font-family:var(--sans); }
+.gcard .price small { font-size:var(--fs-sm); color:var(--text-3); font-weight:400; font-family:var(--sans); }
 /* flights-only cards carry a text label, not a short rate, so the 28px mono
    price size wraps it to three lines — this sizes it to sit on one row. The
    .price.price-svc double-class outweighs the narrow-width .gcard .price
@@ -329,12 +334,12 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
    every other card in it. The column floor and this size are set together so
    the longest label on the roster still clears it */
 .gcard-mini .pname { font-size:var(--fs-sm); margin-top:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.gcard-mini .plabel { font-size:var(--fs-xs); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.gcard-mini .plabel { font-size:var(--fs-sm); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 /* The saving against the airline's own list price, where one is sourced.
    Deliberately not a status colour: green and amber mean in stock and
    limited on this very card, and a price comparison is a claim rather than a
    state. The percentage carries the emphasis instead of the hue. */
-.gcard .meta { font-size:var(--fs-xs); color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
+.gcard .meta { font-size:var(--fs-sm); color:var(--text-3); margin-top:12px; display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:12px; }
 /* Only some cards carry the comparison line, so without this the detail row
    and the call to action sit at a different height on every card in a row.
    The grid already stretches each card to its row; pushing the footer down
@@ -395,7 +400,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
   .prog-list > .gcard:not(.gcard-ask) { grid-template-columns:44px minmax(0,1fr) auto auto; column-gap:8px; padding:10px 12px; }
   .prog-list .emblem-logo { width:44px; height:18px !important; }
   .prog-list .pname { font-size:var(--fs-sm); }
-  .prog-list .plabel { font-size:var(--fs-xs); }
+  .prog-list .plabel { font-size:var(--fs-2xs); }
   .prog-list .price, .prog-list .price.price-svc { font-size:var(--fs-sm); }
 }
 /* the separator dots read as stray bullets once the stats wrap on phones */
@@ -408,11 +413,11 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 @media (max-width:860px){ .trust-grid { grid-template-columns:1fr 1fr; } }
 @media (max-width:520px){ .trust-grid { grid-template-columns:1fr; } }
 .tbox { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px; box-shadow:var(--shadow-sm); }
-.tbox .lab { font-size:var(--fs-xs); font-weight:600; color:var(--text-3); margin:0 0 10px; }
+.tbox .lab { font-size:var(--fs-sm); font-weight:600; color:var(--text-3); margin:0 0 10px; }
 .stars { color:var(--coral); font-size:var(--fs-xl); letter-spacing:2px; }
 .tbox .big { font-family:var(--mono); font-size:var(--fs-2xl); font-weight:600; color:var(--cobalt); }
-.tbox .cap { font-size:var(--fs-xs); color:var(--text-3); margin-top:3px; }
-.chip-row { display:flex; align-items:center; gap:9px; color:var(--ink); font-size:var(--fs-sm); font-weight:600; }
+.tbox .cap { font-size:var(--fs-sm); color:var(--text-3); margin-top:3px; }
+.chip-row { display:flex; align-items:center; gap:9px; color:var(--ink); font-size:var(--fs-md); font-weight:600; }
 .spec-strip { display:flex; flex-wrap:wrap; gap:12px 22px; font-size:var(--fs-sm); color:#C4C8E6; background:linear-gradient(120deg,var(--cobalt),#4a2fff); border-radius:var(--radius-card); padding:20px 24px; align-items:center; }
 .spec-strip b { color:#fff; font-weight:700; font-family:var(--mono); }
 .spec-strip .dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.4); }
@@ -425,7 +430,7 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 @media (max-width:760px){ .statband { grid-template-columns:1fr 1fr; } }
 .statband .sb { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); padding:20px 22px; text-align:center; }
 .statband .sb b { display:block; font-family:var(--mono); font-weight:600; font-size:var(--fs-num); line-height:1.1; color:var(--cobalt); font-variant-numeric:tabular-nums; }
-.statband .sb span { display:block; font-size:var(--fs-xs); color:var(--text-3); margin-top:5px; }
+.statband .sb span { display:block; font-size:var(--fs-sm); color:var(--text-3); margin-top:5px; }
 .statband .sb b small { font-size:.5em; color:var(--text-3); font-weight:600; }
 /* the rating card: stars sit above the score so it still reads as a review
    rather than another counted figure */
@@ -453,12 +458,12 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .csel-fixed .csel-price { margin-left:auto; font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--text-2); }
 
 /* ---- product page: sweet-spot cost line, value bands, quirks + facts ---- */
-.use-cost { font-family:var(--mono); font-size:var(--fs-xs); font-weight:600; color:var(--cobalt); margin-bottom:8px; }
+.use-cost { font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--cobalt); margin-bottom:8px; }
 /* value tiers — descending visual weight is the hierarchy: white priced
    cards, then flat bordered items, then one muted line */
 .vtier + .vtier { margin-top:30px; }
 .vtier-head { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:14px; }
-.vchip { font-family:var(--display); font-weight:700; font-size:var(--fs-xs); letter-spacing:.04em; text-transform:uppercase; padding:6px 14px; border-radius:var(--radius-pill); }
+.vchip { font-family:var(--display); font-weight:700; font-size:var(--fs-2xs); letter-spacing:.04em; text-transform:uppercase; padding:6px 14px; border-radius:var(--radius-pill); }
 .vchip.v1 { background:var(--cobalt); color:#fff; }
 .vchip.v2 { background:var(--cobalt-tint); color:var(--cobalt); }
 .vchip.v3 { background:var(--raised); color:var(--text-3); }
@@ -475,31 +480,31 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 .quirk h4 { font-weight:800; font-size:var(--fs-lg); margin-bottom:6px; }
 .quirk p { color:var(--text-2); font-size:var(--fs-sm); line-height:1.65; max-width:58ch; }
 .facts { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:22px 24px; box-shadow:var(--shadow-sm); }
-.facts .lab { font-size:var(--fs-xs); font-weight:600; color:var(--text-3); margin:0 0 6px; }
+.facts .lab { font-size:var(--fs-sm); font-weight:600; color:var(--text-3); margin:0 0 6px; }
 .facts .row { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid var(--line); font-size:var(--fs-sm); }
 .facts .row:last-of-type { border-bottom:0; }
 .facts .row span { color:var(--text-3); white-space:nowrap; }
 .facts .row b { color:var(--text-1); font-weight:600; text-align:right; }
-.facts .cap { font-size:var(--fs-xs); color:var(--text-3); margin:10px 0 0; line-height:1.5; }
+.facts .cap { font-size:var(--fs-sm); color:var(--text-3); margin:10px 0 0; line-height:1.5; }
 
 /* ---- savings tool: the visitor's fare vs our rate ---- */
 .stool, .sfl { background:var(--surface); border:1px solid var(--line-2); border-radius:var(--radius-card); box-shadow:var(--shadow); overflow:hidden; }
 .stool-in { padding:24px 26px 20px; }
 .stool-presets { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
-.stool-chip { font-family:var(--sans); font-size:var(--fs-xs); font-weight:600; color:var(--text-2); background:var(--raised); border:1px solid transparent; border-radius:var(--radius-pill); padding:7px 14px; cursor:pointer; }
+.stool-chip { font-family:var(--sans); font-size:var(--fs-sm); font-weight:600; color:var(--text-2); background:var(--raised); border:1px solid transparent; border-radius:var(--radius-pill); padding:7px 14px; cursor:pointer; }
 .stool-chip:hover { color:var(--cobalt); }
 .stool-chip.on { color:var(--cobalt); background:var(--cobalt-tint); border-color:var(--cobalt-line); }
 .stool-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 @media (max-width:560px){ .stool-fields { grid-template-columns:1fr; } }
-.stool-fields label { display:block; font-size:var(--fs-xs); font-weight:600; color:var(--text-2); margin-bottom:7px; }
+.stool-fields label { display:block; font-size:var(--fs-sm); font-weight:600; color:var(--text-2); margin-bottom:7px; }
 /* doubled selector so this outranks the later `.field input` surface rule */
 .stool .stool-fields input { width:100%; padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--radius); font-family:var(--mono); font-size:var(--fs-md); background:var(--raised); color:var(--text-1); }
 .stool-fields input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
 .stool-out, .sfl-out { border-top:1px solid var(--line-2); padding:22px 26px; }
 .stool-cols { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.stool-col .k { display:block; font-size:var(--fs-xs); color:var(--text-2); margin-bottom:3px; }
+.stool-col .k { display:block; font-size:var(--fs-sm); color:var(--text-2); margin-bottom:3px; }
 .stool-col b { font-family:var(--mono); font-size:var(--fs-2xl); font-weight:600; color:var(--text-1); font-variant-numeric:tabular-nums; }
-.stool-col.vs { font-family:var(--display); font-weight:700; font-size:var(--fs-xs); color:var(--text-3); text-transform:uppercase; }
+.stool-col.vs { font-family:var(--display); font-weight:700; font-size:var(--fs-2xs); color:var(--text-3); text-transform:uppercase; }
 /* min-height reserves the usual three verdict lines up front — triggering the
    tool must not change the card's height (it can be sticky-stuck mid-section,
    and Safari doesn't re-clamp a sticky element that grows in place) */
@@ -563,14 +568,14 @@ table.cmp tr:last-child td { border-bottom:none; }
   .steps { gap:16px; }
   .step .n { font-size:var(--fs-2xs); margin-bottom:6px; }
   .step h4 { font-size:var(--fs-md); }
-  .step p { font-size:var(--fs-xs); line-height:1.5; }
+  .step p { font-size:var(--fs-sm); line-height:1.5; }
 }
 @media (max-width:520px){
   .steps { gap:11px; }
   .step h4 { font-size:var(--fs-md); margin-bottom:5px; }
-  .step p { font-size:var(--fs-xs); }
+  .step p { font-size:var(--fs-sm); }
 }
-.step .n { font-family:var(--mono); font-size:var(--fs-xs); font-weight:600; color:var(--coral); margin-bottom:12px; letter-spacing:0.04em; }
+.step .n { font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--coral); margin-bottom:12px; letter-spacing:0.04em; }
 .step h4 { font-weight:800; font-size:var(--fs-lg); margin-bottom:7px; }
 .step p { color:var(--text-2); font-size:var(--fs-sm); line-height:1.6; }
 
@@ -619,7 +624,7 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 
 /* ---- related ---- */
 /* breadcrumb trail — quiet, single line, sits above the page's first heading */
-.crumbs { display:flex; align-items:center; flex-wrap:wrap; gap:7px; font-size:var(--fs-xs); color:var(--text-3); margin-bottom:20px; }
+.crumbs { display:flex; align-items:center; flex-wrap:wrap; gap:7px; font-size:var(--fs-sm); color:var(--text-3); margin-bottom:20px; }
 .crumbs a { color:var(--text-3); }
 .crumbs a:hover { color:var(--cobalt); }
 .crumbs [aria-current] { color:var(--text-2); font-weight:500; }
@@ -636,7 +641,7 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
   color:var(--text-3); padding:10px 14px; background:var(--surface); border:1px solid var(--line);
   border-radius:var(--radius-pill); }
 .ostep-nav li b { display:grid; place-items:center; width:22px; height:22px; border-radius:50%;
-  background:var(--raised); color:var(--text-3); font-family:var(--mono); font-size:var(--fs-xs); flex:0 0 auto; }
+  background:var(--raised); color:var(--text-3); font-family:var(--mono); font-size:var(--fs-sm); flex:0 0 auto; }
 .ostep-nav li.on { color:var(--ink); border-color:var(--cobalt-line); }
 .ostep-nav li.on b { background:var(--cobalt); color:#fff; }
 .ostep-nav li span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -653,7 +658,7 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
   color:var(--text-2); padding:5px 0; }
 .osum-row b { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600; }
 .osum-final { background:var(--surface); border:1px solid var(--line-2); }
-.ohint { font-size:var(--fs-xs); color:var(--text-3); line-height:1.6; margin:10px 0 0; }
+.ohint { font-size:var(--fs-sm); color:var(--text-3); line-height:1.6; margin:10px 0 0; }
 .onote { font-size:var(--fs-sm); color:var(--text-2); line-height:1.65; margin:0 0 18px;
   background:var(--raised); border-radius:var(--radius); padding:13px 16px; }
 .onote b { color:var(--ink); }
@@ -678,7 +683,7 @@ summary:focus-visible { outline:3px solid var(--cobalt); outline-offset:-3px; }
 .cway:last-child { border-bottom:none; padding-bottom:0; }
 .cway svg { width:18px; height:18px; color:var(--cobalt); flex:0 0 auto; }
 .cway span { display:flex; flex-direction:column; font-size:var(--fs-sm); color:var(--text-2); min-width:0; word-break:break-word; }
-.cway span b { font-size:var(--fs-xs); color:var(--text-3); font-weight:600; }
+.cway span b { font-size:var(--fs-sm); color:var(--text-3); font-weight:600; }
 .cway:hover span { color:var(--cobalt); }
 .cway-none { font-size:var(--fs-sm); color:var(--text-3); margin:0; line-height:1.6; }
 .cside-p { font-size:var(--fs-sm); color:var(--text-2); line-height:1.65; margin:0 0 12px; }
@@ -714,7 +719,7 @@ table.cmp.be thead th:nth-child(2) { background:none; color:inherit; }
 table.cmp.be td:nth-child(2) { background:none; color:var(--text-1); font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; }
 table.cmp.be thead th:nth-child(3) { background:var(--cobalt-tint); color:var(--cobalt); }
 table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); font-weight:700; font-family:var(--mono); font-variant-numeric:tabular-nums; }
-.be-approx { color:var(--text-3); font-size:var(--fs-xs); }
+.be-approx { color:var(--text-3); font-size:var(--fs-sm); }
 /* a named row is a real chart price, not an archetype — the coral waypoint
    marks it, and its award name reads in ink rather than the muted grey */
 .be-named td:first-child { color:var(--text-1); font-weight:600; }
@@ -733,7 +738,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 /* small pill linking a page to its language counterpart, beside the kicker */
 /* leads its line now that the hero kicker is gone; spacing sits after it so
    a second language toggle still gets a gap */
-.lang-toggle { display:inline-block; margin-inline-end:8px; font-size:var(--fs-xs); font-weight:600;
+.lang-toggle { display:inline-block; margin-inline-end:8px; font-size:var(--fs-sm); font-weight:600;
   color:var(--cobalt); background:var(--surface); border:1px solid var(--cobalt-line);
   border-radius:var(--radius-pill); padding:5px 13px; vertical-align:middle; }
 .lang-toggle:hover { border-color:var(--cobalt); }
@@ -767,7 +772,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 @media (max-width:600px){ .gcard-wide { grid-column:1 / -1; } }
 /* related pills inside the closing CTA band, on one baseline with a label */
 .related-inline { margin-top:30px; padding-top:24px; border-top:1px solid var(--cobalt-line); align-items:center; }
-.related-lab { font-size:var(--fs-xs); font-weight:600; color:var(--text-2); margin-right:5px; }
+.related-lab { font-size:var(--fs-sm); font-weight:600; color:var(--text-2); margin-right:5px; }
 .related a { font-size:var(--fs-sm); font-weight:600; border:1px solid var(--line-2); border-radius:var(--radius-pill); padding:9px 16px; color:var(--text-2); background:var(--surface); box-shadow:var(--shadow-sm); transition:border-color .15s ease, color .15s ease, transform .15s var(--ease-out); }
 .related a:hover { border-color:var(--cobalt); color:var(--cobalt); transform:translateY(-2px); }
 
@@ -790,7 +795,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 .testi .avatar.g { background:var(--coral); }
 .testi .avatar.d { background:var(--ok); }
 .testi .name { font-weight:700; font-size:var(--fs-sm); color:var(--ink); }
-.testi .role { font-size:var(--fs-xs); color:var(--text-3); }
+.testi .role { font-size:var(--fs-sm); color:var(--text-3); }
 
 /* ---- checklist ---- */
 .checklist { list-style:none; margin:0; padding:0; }
@@ -887,14 +892,14 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
   .cf-fill::after { animation:none; opacity:0; }
 }
 .confirm-title { font-size:var(--fs-2xl); margin:0 0 6px; }
-.confirm-k { font-family:var(--display); font-weight:700; font-size:var(--fs-xs); letter-spacing:0.02em; text-transform:uppercase; color:var(--text-2); margin:22px 0 10px; }
+.confirm-k { font-family:var(--display); font-weight:700; font-size:var(--fs-2xs); letter-spacing:0.02em; text-transform:uppercase; color:var(--text-2); margin:22px 0 10px; }
 .confirm-steps { margin:0; padding:0; list-style:none; counter-reset:cf; max-width:560px; }
 .confirm-steps li { position:relative; counter-increment:cf; padding:0 0 14px 40px; color:var(--text-2); font-size:var(--fs-sm); }
 .confirm-steps li:last-child { padding-bottom:0; }
 .confirm-steps li::before {
   content:counter(cf, decimal-leading-zero);
   position:absolute; left:0; top:1px;
-  font-family:var(--mono); font-size:var(--fs-xs); font-weight:600; color:var(--cobalt);
+  font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--cobalt);
   background:var(--cobalt-tint); border-radius:var(--radius-pill); padding:2px 8px;
 }
 .confirm-echo { display:flex; flex-wrap:wrap; gap:8px 22px; margin:14px 0 0; padding:14px 16px; background:var(--raised); border:1px solid var(--line-2); border-radius:var(--radius); }
@@ -902,7 +907,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 /* the display:flex above would beat the UA's [hidden] rule, un-hiding the
    optional rows (delivery, miles) that the script reveals only when filled */
 .confirm-echo > div[hidden] { display:none; }
-.confirm-echo dt { font-size:var(--fs-xs); color:var(--text-3); }
+.confirm-echo dt { font-size:var(--fs-sm); color:var(--text-3); }
 .confirm-echo dd { margin:0; font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--ink); }
 .confirm-fast { margin:20px 0 0; font-size:var(--fs-sm); color:var(--text-2); }
 .confirm-fast a { color:var(--cobalt); font-weight:600; }
@@ -929,9 +934,9 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 @media (max-width:520px){ .calc-controls { grid-template-columns:1fr; } }
 .calc-out { display:grid; grid-template-columns:1.05fr 1fr; gap:22px; align-items:center; background:var(--raised); border-radius:var(--radius); padding:20px 22px; }
 @media (max-width:560px){ .calc-out { grid-template-columns:1fr; } }
-.calc-lab { font-size:var(--fs-xs); color:var(--text-3); }
+.calc-lab { font-size:var(--fs-sm); color:var(--text-3); }
 .calc-cost { font-family:var(--mono); font-weight:600; font-size:var(--fs-num); color:var(--cobalt); line-height:1; margin:4px 0 3px; letter-spacing:-.02em; }
-.calc-sub { font-size:var(--fs-xs); color:var(--text-3); }
+.calc-sub { font-size:var(--fs-sm); color:var(--text-3); }
 .calc-side { display:flex; flex-direction:column; gap:9px; }
 /* separators sit on the TOP edge so hiding the last row (unsourced savings)
    never leaves a dangling rule under the one above it */
@@ -939,10 +944,10 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 /* author display: rules beat the UA [hidden] rule — restore it explicitly */
 .calc-stat[hidden] { display:none; }
 .calc-stat:first-child { border-top:none; padding-top:0; }
-.calc-stat .k { color:var(--text-3); font-size:var(--fs-xs); }
+.calc-stat .k { color:var(--text-3); font-size:var(--fs-sm); }
 .calc-stat b { font-family:var(--mono); color:var(--ink); font-weight:600; }
 .calc-save b { color:var(--coral); }
-.calc-note { font-size:var(--fs-xs); color:var(--coral); margin:12px 0 0; }
+.calc-note { font-size:var(--fs-sm); color:var(--coral); margin:12px 0 0; }
 .calc-cta { width:100%; margin-top:16px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -987,7 +992,7 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
   overflow:hidden; text-overflow:ellipsis; }
 .dd-prog { font-size:var(--fs-2xs); color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .dd-all { display:block; margin-top:6px; padding:10px; text-align:center; border-top:1px solid var(--line);
-  font-size:var(--fs-xs); font-weight:600; color:var(--cobalt); }
+  font-size:var(--fs-sm); font-weight:600; color:var(--cobalt); }
 /* the invitation filling the roster's empty last cell: same row shape as a
    program so the grid stays even, dashed and cobalt so it reads as an
    action rather than a carrier someone might have missed */
@@ -1024,8 +1029,8 @@ table.cmp.be td:nth-child(3) { background:var(--cobalt-tint); color:var(--ink); 
 @media (max-width:400px){
   .brand { font-size:var(--fs-md); }
   .nav { gap:10px; }
-  .dd summary { font-size:var(--fs-xs); }
-  .nav-cta { font-size:var(--fs-xs); padding:8px 12px; }
+  .dd summary { font-size:var(--fs-sm); }
+  .nav-cta { font-size:var(--fs-sm); padding:8px 12px; }
 }
 /* Below ~355px the two dropdowns and the CTA can't share a line without the
    page scrolling sideways. Drop the CTA rather than the navigation: the
@@ -1112,7 +1117,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .side-quote .qw-controls { grid-template-columns:minmax(0,1fr); }
 @media (max-width:940px){ .blog-side { position:static; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); } }
 .side-box { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:20px; }
-.side-box h4 { font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.07em; color:var(--text-3);
+.side-box h4 { font-size:var(--fs-2xs); text-transform:uppercase; letter-spacing:.07em; color:var(--text-3);
   margin:0 0 14px; font-family:var(--display); }
 .side-box ul { list-style:none; margin:0; padding:0; }
 .side-cats a { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:7px 0;
@@ -1127,10 +1132,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .side-progs .pc { width:26px; height:26px; flex:0 0 auto; border-radius:7px; display:grid; place-items:center;
   background:color-mix(in srgb, var(--c) 13%, #fff); color:var(--c); font-family:var(--mono); font-size:var(--fs-2xs); font-weight:600; }
 .side-progs .t { font-size:var(--fs-sm); color:var(--text-2); font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.side-progs .p { margin-left:auto; font-family:var(--mono); font-size:var(--fs-xs); font-weight:600; color:var(--cobalt); }
+.side-progs .p { margin-left:auto; font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--cobalt); }
 .side-progs a:hover .t { color:var(--cobalt); }
 .side-all { display:block; margin-top:12px; padding-top:12px; border-top:1px solid var(--line);
-  font-size:var(--fs-xs); font-weight:600; color:var(--cobalt); }
+  font-size:var(--fs-sm); font-weight:600; color:var(--cobalt); }
 .side-cta { background:var(--cobalt-tint); border-color:var(--cobalt-line); }
 .side-cta h4 { color:var(--cobalt); text-transform:none; letter-spacing:-.01em; font-size:var(--fs-md); }
 .side-cta p { font-size:var(--fs-sm); color:var(--text-2); line-height:1.55; margin:0 0 15px; }
@@ -1169,7 +1174,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 @media (max-width:640px) {
   .prose table { display:block; overflow-x:auto; }
 }
-.prose table thead th { font-family:var(--display); font-weight:800; font-size:var(--fs-xs); color:var(--text-1);
+.prose table thead th { font-family:var(--display); font-weight:800; font-size:var(--fs-sm); color:var(--text-1);
   background:var(--raised); white-space:nowrap; }
 .prose table td:first-child { color:var(--text-1); font-weight:600; }
 .prose table tr:last-child td { border-bottom:none; }
@@ -1177,7 +1182,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .post-source { margin-top:32px; padding:14px 16px; background:var(--raised); border-radius:12px; font-size:var(--fs-sm); }
 .post-source a { color:var(--cobalt); }
 .post-programs, .post-more { margin-top:44px; }
-.post-programs h4, .post-more h4 { font-size:var(--fs-xs); color:var(--text-3); text-transform:uppercase;
+.post-programs h4, .post-more h4 { font-size:var(--fs-2xs); color:var(--text-3); text-transform:uppercase;
   letter-spacing:.07em; margin:0 0 14px; font-family:var(--display); }
 .post-cta { margin-top:44px; padding:28px; background:var(--cobalt-tint); border-radius:var(--radius-card); text-align:center; }
 .post-cta h4 { font-size:var(--fs-xl); color:var(--text-1); margin:0 0 8px; letter-spacing:-.015em; }
@@ -1261,11 +1266,11 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .cmp-alt { display:grid; gap:22px; }
 .cmp-facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
 .cf { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:18px 20px; }
-.cf-k { display:block; font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.06em;
+.cf-k { display:block; font-size:var(--fs-2xs); text-transform:uppercase; letter-spacing:.06em;
   color:var(--text-3); font-family:var(--display); font-weight:700; margin-bottom:8px; }
 .cf-v { display:block; font-family:var(--mono); font-size:var(--fs-2xl); font-weight:600; color:var(--cobalt); line-height:1.1; }
-.cf-v small { font-family:var(--sans); font-size:var(--fs-xs); color:var(--text-3); font-weight:400; margin-left:4px; }
-.cf-n { display:block; font-size:var(--fs-xs); color:var(--text-3); margin-top:6px; }
+.cf-v small { font-family:var(--sans); font-size:var(--fs-sm); color:var(--text-3); font-weight:400; margin-left:4px; }
+.cf-n { display:block; font-size:var(--fs-sm); color:var(--text-3); margin-top:6px; }
 .cmp-note { color:var(--text-2); font-size:var(--fs-md); line-height:1.7; margin:0; }
 .cmp-note b { color:var(--text-1); font-weight:600; }
 
@@ -1285,9 +1290,9 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   padding:14px 16px; margin:4px 0 16px; }
 .qf-est[hidden] { display:none; }
 .qf-est-main { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
-.qf-est-k { font-size:var(--fs-xs); font-weight:600; color:var(--text-2); }
+.qf-est-k { font-size:var(--fs-sm); font-weight:600; color:var(--text-2); }
 .qf-est-v { font-family:var(--mono); font-size:var(--fs-2xl); font-weight:600; color:var(--cobalt); }
-.qf-est-n { display:block; font-size:var(--fs-xs); color:var(--text-3); margin-top:6px; line-height:1.5; }
+.qf-est-n { display:block; font-size:var(--fs-sm); color:var(--text-3); margin-top:6px; line-height:1.5; }
 
 /* ---- two-step quote widget ------------------------------------------- */
 .qw { display:block; }
@@ -1307,16 +1312,16 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 
 .qw-out { display:grid; grid-template-columns:1fr; gap:14px; background:var(--raised);
   border-radius:14px; padding:16px 18px; margin-top:16px; }
-.qw-k { font-size:var(--fs-xs); color:var(--text-3); }
+.qw-k { font-size:var(--fs-sm); color:var(--text-3); }
 .qw-cost { font-family:var(--mono); font-weight:600; color:var(--cobalt);
   font-size:var(--fs-num); line-height:1.05; margin:2px 0; }
-.qw-per { font-size:var(--fs-xs); color:var(--text-3); }
+.qw-per { font-size:var(--fs-sm); color:var(--text-3); }
 .qw-side { display:grid; gap:0; }
 .qw-row { display:flex; justify-content:space-between; align-items:baseline; gap:12px;
   font-size:var(--fs-sm); border-top:1px solid var(--line); padding-top:8px; margin-top:8px; }
 .qw-row:first-child { border-top:none; padding-top:0; margin-top:0; }
 .qw-row[hidden] { display:none; }
-.qw-row span { color:var(--text-3); font-size:var(--fs-xs); }
+.qw-row span { color:var(--text-3); font-size:var(--fs-sm); }
 .qw-row b { font-family:var(--mono); color:var(--ink); font-weight:600; }
 /* a saving against a sourced airline price reads as a positive result, so it
    takes the green; it only renders when that price is verified and dated */
@@ -1325,7 +1330,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
    so it carries where the price came from and when it was checked */
 .qw-src { color:var(--text-3); font-size:var(--fs-2xs); line-height:1.45; margin:6px 0 0; }
 .qw-src[hidden] { display:none; }
-.qw-note { color:var(--text-3); font-size:var(--fs-xs); margin:12px 0 0; }
+.qw-note { color:var(--text-3); font-size:var(--fs-sm); margin:12px 0 0; }
 .qw-note[hidden] { display:none; }
 /* ready-account programs: a fact about the order, not a caveat, so a shade darker */
 .qw-ready { color:var(--text-2); }
@@ -1334,7 +1339,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .qw-recap { background:var(--cobalt-tint); border:1px solid var(--cobalt-line);
   border-radius:14px; padding:14px 16px; margin-bottom:16px; }
 .qw-back { background:none; border:0; padding:0; cursor:pointer; font-family:var(--sans);
-  font-size:var(--fs-xs); font-weight:600; color:var(--cobalt); margin-bottom:10px; }
+  font-size:var(--fs-sm); font-weight:600; color:var(--cobalt); margin-bottom:10px; }
 .qw-back:hover { text-decoration:underline; }
 /* Grid, not wrapping flex: the price used to drop onto a second line as soon as
    the program name + amount + total outgrew the row, so the recap changed
@@ -1345,9 +1350,9 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .qw-recap-row { display:grid; grid-template-columns:minmax(0,1fr) auto auto;
   align-items:center; gap:12px; }
 .qw-recap-prog { font-size:var(--fs-sm); font-weight:600; color:var(--text-1); min-width:0; }
-.qw-recap-edit { display:inline-flex; align-items:center; gap:6px; font-size:var(--fs-xs); color:var(--text-3); }
+.qw-recap-edit { display:inline-flex; align-items:center; gap:6px; font-size:var(--fs-sm); color:var(--text-3); }
 .qw-recap-edit input { width:92px; padding:6px 9px; border:1px solid var(--line-2); border-radius:9px;
-  font-family:var(--mono); font-size:var(--fs-xs); background:#fff; color:var(--text-1); }
+  font-family:var(--mono); font-size:var(--fs-sm); background:#fff; color:var(--text-1); }
 .qw-recap-edit input:focus { outline:2px solid var(--cobalt); outline-offset:1px; }
 /* tabular figures so the total doesn't jitter sideways as digits are typed */
 .qw-recap-cost { justify-self:end; white-space:nowrap; font-variant-numeric:tabular-nums;
@@ -1359,10 +1364,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   .qw-recap-row { grid-template-columns:auto 1fr; }
   .qw-recap-prog { grid-column:1 / -1; }
 }
-.qw-foot { text-align:center; font-size:var(--fs-xs); color:var(--text-3); margin:12px 0 0; }
+.qw-foot { text-align:center; font-size:var(--fs-sm); color:var(--text-3); margin:12px 0 0; }
 
 /* small helper line under a form field */
-.field-help { display:block; font-size:var(--fs-xs); line-height:1.5; color:var(--text-3); margin-top:6px; }
+.field-help { display:block; font-size:var(--fs-sm); line-height:1.5; color:var(--text-3); margin-top:6px; }
 /* amber, not red: an amount outside the program's range is a correction to
    make, not an error the visitor has committed */
 .field-help.warn { color:var(--warn); font-weight:600; }
@@ -1381,7 +1386,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .qw-amt input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
 .qw-lim { position:absolute; inset-inline-end:8px; top:50%; transform:translateY(-50%);
   background:var(--raised); border:0; border-radius:var(--radius-pill); padding:5px 11px;
-  font-family:var(--mono); font-size:var(--fs-xs); font-weight:600; color:var(--text-3);
+  font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--text-3);
   white-space:nowrap; cursor:default; transition:background .15s ease, color .15s ease; }
 /* amber, not red: an amount outside the program's range is a correction to
    make, not an error the visitor has committed */
@@ -1404,7 +1409,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .rev-dim { color:var(--line-2); }
 .rev-num { font-family:var(--mono); font-weight:600; font-size:var(--fs-sm); color:var(--text-1); }
 .rev-num small { color:var(--text-3); font-weight:400; }
-.rev-plat { font-size:var(--fs-xs); color:var(--text-3); }
+.rev-plat { font-size:var(--fs-sm); color:var(--text-3); }
 
 /* ---- custom program dropdown --------------------------------------- */
 /* a native <select> can't style its option list, so the select is kept
@@ -1433,7 +1438,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .csel-opt { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; cursor:pointer; }
 .csel-opt[aria-selected="true"] { background:var(--raised); }
 .csel-opt.on { background:var(--cobalt-tint); }
-.csel-price { margin-left:auto; font-family:var(--mono); font-size:var(--fs-xs); font-weight:600; color:var(--cobalt); }
+.csel-price { margin-left:auto; font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--cobalt); }
 
 /* ---- carrier logos ---------------------------------------------------
    These are wordmarks: wide and of wildly varying aspect ratio. Constrain
@@ -1459,8 +1464,8 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 
 /* conversion aid under a price: deliberately quiet and always dated, because
    the dollar figure is the price and this is only a reading aid */
-.qw-fx { display:block; margin-top:6px; font-size:var(--fs-xs); line-height:1.45; color:var(--text-3); }
-.stool-fx { margin:10px 0 0; font-size:var(--fs-xs); line-height:1.45; color:var(--text-3); }
+.qw-fx { display:block; margin-top:6px; font-size:var(--fs-sm); line-height:1.45; color:var(--text-3); }
+.stool-fx { margin:10px 0 0; font-size:var(--fs-sm); line-height:1.45; color:var(--text-3); }
 
 /* quiet hero link where a button pair used to sit — the widget is the action */
 .hero-more { margin:22px 0 0; font-size:var(--fs-sm); }
@@ -1494,7 +1499,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fsearch { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card);
   padding:clamp(20px,2.6vw,28px); box-shadow:var(--shadow); }
 .fs-trip { display:flex; gap:8px; margin-bottom:16px; }
-.fs-pill { font-family:var(--display); font-weight:700; font-size:var(--fs-xs); color:var(--text-2);
+.fs-pill { font-family:var(--display); font-weight:700; font-size:var(--fs-sm); color:var(--text-2);
   background:var(--raised); border:1.5px solid transparent; border-radius:var(--radius-pill);
   padding:8px 16px; cursor:pointer; transition:background .15s ease, color .15s ease, border-color .15s ease; }
 .fs-pill:hover { border-color:var(--line-2); }
@@ -1518,16 +1523,16 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   list-style:none; background:var(--surface); border:1px solid var(--line-2);
   border-radius:var(--radius); box-shadow:var(--shadow-lg); max-height:288px; overflow-y:auto; }
 .fs-opt { display:flex; align-items:baseline; gap:10px; padding:9px 11px; border-radius:9px; cursor:pointer; font-size:var(--fs-sm); }
-.fs-opt b { font-family:var(--mono); font-size:var(--fs-xs); color:var(--cobalt); flex:none; width:34px; }
+.fs-opt b { font-family:var(--mono); font-size:var(--fs-sm); color:var(--cobalt); flex:none; width:34px; }
 .fs-opt span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.fs-opt em { font-style:normal; font-size:var(--fs-xs); color:var(--text-3); flex:none; }
+.fs-opt em { font-style:normal; font-size:var(--fs-sm); color:var(--text-3); flex:none; }
 .fs-opt.on, .fs-opt:hover { background:var(--cobalt-tint); }
 .fs-cabin { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
 .fs-cabin .fs-lab { margin:0 4px 0 0; }
 .fs-flex { display:flex; align-items:center; gap:9px; font-size:var(--fs-sm); color:var(--text-2); margin-bottom:18px; cursor:pointer; }
 .fs-flex input { width:16px; height:16px; accent-color:var(--cobalt); }
 .fs-go { width:100%; }
-.fs-note { margin:12px 0 0; font-size:var(--fs-xs); line-height:1.55; color:var(--text-3);
+.fs-note { margin:12px 0 0; font-size:var(--fs-sm); line-height:1.55; color:var(--text-3);
   text-align:center; text-wrap:balance; }
 .fs-note a { white-space:nowrap; }
 @media (max-width:620px){
@@ -1543,10 +1548,10 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-recap { background:var(--raised); border:1px solid var(--line); border-radius:var(--radius);
   padding:14px 16px; margin-bottom:18px; position:relative; }
 .fs-back { display:inline-block; background:none; border:0; padding:0; margin-bottom:8px; cursor:pointer;
-  font-family:var(--display); font-weight:700; font-size:var(--fs-xs); color:var(--cobalt); }
+  font-family:var(--display); font-weight:700; font-size:var(--fs-sm); color:var(--cobalt); }
 .fs-back:hover { text-decoration:underline; }
 .fs-recap-route { font-family:var(--display); font-weight:800; font-size:var(--fs-md); line-height:1.35; }
-.fs-recap-meta { font-size:var(--fs-xs); color:var(--text-2); margin-top:4px; }
+.fs-recap-meta { font-size:var(--fs-sm); color:var(--text-2); margin-top:4px; }
 .fs-when-2 { margin-bottom:14px; }
 .fs-form textarea { min-height:88px; }
 .fs-submit { width:100%; }
@@ -1572,7 +1577,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .fs-cal-dow { display:grid; place-items:center; height:26px; font-size:var(--fs-2xs); font-weight:700;
   color:var(--text-3); text-transform:uppercase; }
 .fs-cal-d { height:32px; border:0; border-radius:8px; background:none; cursor:pointer;
-  font-family:var(--mono); font-size:var(--fs-xs); color:var(--ink); }
+  font-family:var(--mono); font-size:var(--fs-sm); color:var(--ink); }
 .fs-cal-d:hover:not(:disabled) { background:var(--cobalt-tint); color:var(--cobalt); }
 .fs-cal-d:disabled { color:var(--mist); cursor:default; }
 .fs-cal-d.on { background:var(--cobalt); color:#fff; font-weight:700; }
@@ -1592,9 +1597,9 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 /* the channel row under a submit: exits for whoever the form would lose,
    deliberately quieter than the button above it */
 .chanrow { display:flex; flex-wrap:wrap; justify-content:center; align-items:baseline;
-  gap:6px 18px; margin:14px 0 0; font-size:var(--fs-xs); color:var(--text-3); text-align:center; }
+  gap:6px 18px; margin:14px 0 0; font-size:var(--fs-sm); color:var(--text-3); text-align:center; }
 .chanrow a { color:var(--text-2); white-space:nowrap; text-decoration:none; }
-.chanrow a b { font-family:var(--mono); font-weight:600; font-size:var(--fs-xs); color:var(--cobalt); }
+.chanrow a b { font-family:var(--mono); font-weight:600; font-size:var(--fs-sm); color:var(--cobalt); }
 .chanrow a:hover b { text-decoration:underline; }
 
 /* Two links under the programme roster: the full grid, and the currency page.
@@ -1675,14 +1680,14 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .dock-x:hover { background:var(--line-2); color:var(--text-1); }
 .dock-h { margin:0; padding-inline-end:26px; font-family:var(--display); font-size:var(--fs-md);
   font-weight:800; color:var(--text-1); letter-spacing:-.01em; }
-.dock-s { margin:0 0 4px; font-size:var(--fs-xs); line-height:1.45; color:var(--text-2); }
+.dock-s { margin:0 0 4px; font-size:var(--fs-sm); line-height:1.45; color:var(--text-2); }
 .dock-opt { display:flex; align-items:center; justify-content:space-between; gap:10px;
   padding:12px 16px; border-radius:var(--radius-pill); background:var(--raised);
   font-size:var(--fs-sm); font-weight:650; color:var(--text-1); transition:background .15s ease, color .15s ease; }
 .dock-opt:hover { background:var(--cobalt-tint); color:var(--cobalt); }
 .dock-opt svg { flex:none; color:var(--text-3); }
 .dock-opt:hover svg { color:var(--cobalt); }
-.dock-or { display:flex; align-items:center; gap:10px; margin:3px 0; font-size:var(--fs-xs); color:var(--text-3); }
+.dock-or { display:flex; align-items:center; gap:10px; margin:3px 0; font-size:var(--fs-sm); color:var(--text-3); }
 /* Same coral run as the pill's divider and the calculator's leaders. */
 .dock-or::before, .dock-or::after { content:""; flex:1;
   border-top:2px dotted color-mix(in srgb, var(--coral) 46%, transparent); }
@@ -1695,7 +1700,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
 .dock-ct { display:flex; flex-direction:column; gap:1px; min-width:0; }
 .dock-ct b { font-size:var(--fs-sm); font-weight:700; color:var(--text-1); }
 .dock-ch:not(.wa) .dock-ct b { font-family:var(--mono); font-size:var(--fs-sm); letter-spacing:.01em; }
-.dock-ct span { font-size:var(--fs-xs); color:var(--text-2); }
+.dock-ct span { font-size:var(--fs-sm); color:var(--text-2); }
 /* The arrow is direction, not decoration: it has to point the way the text
    reads. Everything else flips on its own from dir on the dock. */
 .dock[dir="rtl"] .dock-opt svg { transform:scaleX(-1); }
@@ -1745,7 +1750,7 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   .ar-k { font-family:var(--mono); font-size:var(--fs-sm); font-weight:600; color:var(--cobalt); }
   .ar-v { font-size:var(--fs-md); line-height:1.6; color:var(--text-2); }
   .ar-v b { color:var(--text-1); font-weight:700; }
-  .avios-note { margin:14px 0 0; font-size:var(--fs-xs); color:var(--text-3); line-height:1.6; }
+  .avios-note { margin:14px 0 0; font-size:var(--fs-sm); color:var(--text-3); line-height:1.6; }
 
   /* what we sell on the left, where it can go on the right */
   .avios-web { display:grid; grid-template-columns:1fr 1fr; gap:clamp(18px,2.5vw,32px); align-items:start; }
@@ -1764,8 +1769,8 @@ a.badge-cat:hover { background:var(--cobalt); color:#fff; }
   .aw-sell:hover { border-color:var(--cobalt-line); transform:translateY(-2px); }
   .aw-txt { display:block; min-width:0; }
   .aw-txt b { display:block; font-family:var(--display); font-size:var(--fs-md); color:var(--text-1); }
-  .aw-txt span { display:block; font-size:var(--fs-xs); color:var(--text-3); margin-top:2px; }
-  .aw-foot { margin:12px 0 0; font-size:var(--fs-xs); color:var(--text-3); line-height:1.6; }
+  .aw-txt span { display:block; font-size:var(--fs-sm); color:var(--text-3); margin-top:2px; }
+  .aw-foot { margin:12px 0 0; font-size:var(--fs-sm); color:var(--text-3); line-height:1.6; }
 
 /* Touch screens fire :hover on tap and it sticks until the next tap lands
    somewhere else, so anything a finger pressed stayed levitated. The lifts

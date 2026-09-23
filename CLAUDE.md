@@ -79,7 +79,7 @@ Register: **trustworthy but friendly**. Warm paper neutrals, navy + azure (`--ac
 
 All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never hardcode hex values.**
 
-**Type scale.** Every `font-size` is a `--fs-*` token: `2xs` 11 · `xs` 12.5 · `sm` 14 · `md` 16 · `lg` 18 · `xl` 20 · `2xl` 24 · `3xl` 28 · `price` 48, plus fluid `d1` (hero h1), `d2` (section h2), `d3` (h3) and `num` (headline figures). It replaced 45 ad-hoc sizes (Sep 2026). Pick the nearest step; never add a px or clamp size. `em` inside a component is fine.
+**Type scale.** Every `font-size` is a `--fs-*` token: `2xs` 12 (uppercase labels, badges; the floor) · `sm` 14 · `md` 16 · `lg` 18 · `xl` 20 · `2xl` 24 · `3xl` 28 · `price` 48, plus fluid `d1` (hero h1), `d2` (section h2), `d3` (h3) and `num` (headline figures). It replaced 45 ad-hoc sizes (Sep 2026). There is deliberately no step between 12 and 14: 12.5px grey text proved too small, so captions and meta are 14. Pick the nearest step; never add a px or clamp size. `em` inside a component is fine.
 
 > Note: the file is still named `flightdeck.css` and some class names carry the old name — that's fine, only the visual direction changed.
 
