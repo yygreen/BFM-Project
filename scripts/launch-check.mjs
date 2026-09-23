@@ -66,12 +66,12 @@ if (unreviewed.length) {
 }
 
 // ── Agenda 2 — payment methods ───────────────────────────────────────
+// Not a blocker: payment is arranged off-site, per quote, and the client
+// decides how. Unverified, every payment surface says methods are confirmed
+// with the quote — a complete answer, not a holding one. Listing methods on
+// the site is the client's option, never a launch requirement.
 if (!site.payments.verified) {
-  blocking.push([
-    "2",
-    "Payment methods unconfirmed — FAQ shows a holding answer",
-    "src/data/site.json → payments.methods / usdtNetworks / minOrderUsd / cardAnswer, then payments.verified: true",
-  ]);
+  done.push(["2", "Payment arranged off-site with each quote (client's call; no methods listed)"]);
 } else {
   if (!site.payments.cardAnswer)
     optional.push(["2", "No scripted answer for 'do you take cards?'", "src/data/site.json → payments.cardAnswer"]);

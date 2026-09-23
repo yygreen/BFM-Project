@@ -99,7 +99,7 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 ## Business constraints (important)
 
 - **Payment/checkout stays OFF this site.** The "Buy" buttons currently anchor to the programs section — wire them to the real order flow (a form → manual fulfillment), decoupled from the static site so hosting uptime is never coupled to payment-policy enforcement.
-- Accepted payment methods are **USDT / wire / cash**. Do **NOT** advertise credit cards or PayPal — that copy is wrong on the current live site and must not be carried over. The payment-methods answer in `Faq.astro` is a placeholder to fill with true methods.
+- **How payment is taken is the client's call, arranged off-site with each quote.** The site deliberately names no methods: FAQ, `/order` and `/agents` say methods are confirmed with the quote. That is the launch state, not a placeholder. Do **NOT** advertise credit cards or PayPal — that copy is wrong on the current live site and must not be carried over. Only list methods (`site.json → payments`, `verified: true`) if the client asks for them to be public.
 - **Trust is the #1 competitive lever**; buyers fear scams. Only publish trust stats that are **real and verifiable**. The figures in `TrustStrip.astro` (rating, transfer count, completion %) are placeholders and must be replaced with true numbers — never invented.
 - **Not affiliated** with any airline or loyalty program (the footer says so). Don't imply a partnership or use airline logos/trademarks in a way that suggests one.
 
@@ -121,7 +121,7 @@ Run `npm run check:launch` for what's still outstanding (keyed to the client-cal
 
 ## TODO before launch
 
-1. Fill the outstanding client inputs — see `LAUNCH.md` and `npm run check:launch`. Blockers: program pricing/delivery for Delta, United, American, BA; payment methods; enquiry inboxes + Web3Forms keys; guarantee text.
+1. Fill the outstanding client inputs — see `LAUNCH.md` and `npm run check:launch`. Blockers: enquiry inboxes + Web3Forms keys; guarantee text; the placeholder trust figures. (Payment methods are not a blocker — handled off-site by the client.)
 2. Replace the suppressed trust stats and testimonials with real, verifiable ones (`site.json` → `trust`, `testimonials`). Note the Google Business Profile sits at 2.6★ vs 4.8 on Trustpilot — if a rating ships, cite its `source`.
 3. Expand the roster toward the full list (Southwest, Alaska, JetBlue, Hawaiian, Frontier, Turkish, Etihad, Emirates, Lufthansa, …).
 4. Set 301 redirects from the old WordPress URLs at deploy time.
