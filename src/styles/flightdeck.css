@@ -191,6 +191,11 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
 @media (max-width:860px){ .hero-grid { grid-template-columns:minmax(0,1fr); } }
 .hero h1 { font-weight:800; font-size:var(--fs-d1); line-height:0.99; margin:18px 0 18px; letter-spacing:-0.04em; }
 .hero h1 .hl { color:var(--cobalt); }
+/* 0.99 leading is tuned for the 56px desktop size. At the 34px phone size it
+   lets one line's descenders (Buy, fly) crowd the next line's ascenders, so
+   small screens get a little more air. Tracking stays at -0.04em: loosening
+   it pushed the homepage headline to three lines with "less." alone. */
+@media (max-width:560px){ .hero h1 { line-height:1.08; } }
 .hero .sub { color:var(--text-2); font-size:var(--fs-lg); line-height:1.6; max-width:40ch; margin:0 0 28px; }
 .hero .cta-row { display:flex; gap:12px; flex-wrap:wrap; }
 /* the stat row is not hero-only — scoping its sizing to .hero left the icons
