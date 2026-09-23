@@ -119,7 +119,10 @@ Until verified, the FAQ shows: *"We'll confirm the accepted payment methods when
 **Both forms are inert until this is done** — they refuse to submit and show a fallback
 pointing at the email address instead. No enquiry can silently vanish.
 
-### Agenda 4 — Guarantee + delivery wording → `site.json` → `guarantee`, `delivery`
+### Agenda 4 — Guarantee + delivery wording → `site.json` → `guarantee`, `delivery` (optional)
+
+**Not a launch blocker** (decided Sep 2026). With `guarantee.verified: false` the site makes
+no guarantee claim anywhere, which is honest. Fill this in only when the client confirms one.
 
 ```jsonc
 "guarantee": {

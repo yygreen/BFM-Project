@@ -121,7 +121,7 @@ Run `npm run check:launch` for what's still outstanding (keyed to the client-cal
 
 ## TODO before launch
 
-1. Fill the outstanding client inputs — see `LAUNCH.md` and `npm run check:launch`. Blockers: enquiry inboxes + Web3Forms keys; guarantee text; the placeholder trust figures. (Payment methods are not a blocker — handled off-site by the client.)
-2. Replace the suppressed trust stats and testimonials with real, verifiable ones (`site.json` → `trust`, `testimonials`). Note the Google Business Profile sits at 2.6★ vs 4.8 on Trustpilot — if a rating ships, cite its `source`.
+1. Fill the outstanding client inputs — see `LAUNCH.md` and `npm run check:launch`. Blockers: the Web3Forms key(s); native review of the translated pages. Not blockers by decision: payment methods (handled off-site by the client), guarantee text, and Iberia/Qantas figures (kept on indicative ~ rates for now).
+2. Replace the suppressed trust stats and testimonials with real, verifiable ones (`site.json` → `trust`, `testimonials`). Confirmed so far: 250M+ miles delivered, 5,000+ transfers, Trustpilot 4.8★ from 49 reviews (checked 23 Sep 2026; it is a static figure until the TrustBox IDs are set, see `site.json → trustpilot`). The Google Business Profile sits at 2.6★ and is not shown.
 3. Expand the roster toward the full list (Southwest, Alaska, JetBlue, Hawaiian, Frontier, Turkish, Etihad, Emirates, Lufthansa, …).
 4. Set 301 redirects from the old WordPress URLs at deploy time.

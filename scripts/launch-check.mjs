@@ -19,7 +19,19 @@ const done = [];
 // Only programs we sell miles for. A flights-only program shows no rate,
 // no delivery window and no order limits (its page books the seat instead),
 // so those fields never render and aren't a launch input.
-const sold = airlines.filter((a) => a.fulfilment !== "flights");
+//
+// Iberia and Qantas aren't on the client's Sep 2026 sheet. By agency decision
+// they stay listed on indicative (~) figures for now, so they're a reminder
+// rather than a blocker. Remove a slug here once its figures are confirmed.
+const DEFERRED = ["iberia-avios", "qantas-frequent-flyer"];
+const sold = airlines.filter((a) => a.fulfilment !== "flights" && !DEFERRED.includes(a.id));
+const deferred = airlines.filter((a) => DEFERRED.includes(a.id) && !(a.priceVerified && a.deliveryVerified && a.limitsVerified));
+if (deferred.length)
+  optional.push([
+    "1",
+    `Kept on indicative figures (not on the client's sheet): ${deferred.map((a) => a.program).join(", ")}. Their pages show a ~ rate and "confirmed on your quote"`,
+    "src/data/airlines.json → pricePerMile, delivery, min, max and the three verified flags, once the client supplies them",
+  ]);
 const unpriced = sold.filter((a) => !a.priceVerified);
 const undelivered = sold.filter((a) => !a.deliveryVerified);
 if (unpriced.length) {
@@ -121,10 +133,12 @@ if (!site.verification.verified)
 else done.push(["4", "Account-control check published"]);
 
 // ── Agenda 4 — guarantee + delivery transparency ─────────────────────
+// Not a launch blocker (agency decision, Sep 2026): the site makes no
+// guarantee claim until one is confirmed, which is honest without it.
 if (!site.guarantee.verified) {
-  blocking.push([
+  optional.push([
     "4",
-    "Guarantee text unconfirmed — guarantee tile, FAQ entry and hero clause are all suppressed",
+    "No guarantee published — guarantee tile, FAQ entry and hero clause are suppressed",
     "src/data/site.json → guarantee.summary + guarantee.policy, then guarantee.verified: true",
   ]);
 } else done.push(["4", `Guarantee published${site.guarantee.placeholder ? " (PLACEHOLDER)" : ""}`]);
