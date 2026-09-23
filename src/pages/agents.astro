@@ -356,6 +356,11 @@ const jsonld = {
         msg.hidden = true;
         try {
           const data = Object.fromEntries(new FormData(form));
+          // an optional field left blank is left out, not mailed as an empty label
+          for (const k in data) if (data[k] === "") delete data[k];
+          // Web3Forms labels the email from the field name; "iata" would read "Iata"
+          if (data.iata) data["IATA number"] = data.iata;
+          delete data.iata;
           const res = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },

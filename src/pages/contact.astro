@@ -204,10 +204,13 @@ const waHref = whatsapp.replace(/\D/g, "");
         const label = btn.textContent;
         btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
         try {
+          const payload = Object.fromEntries(new FormData(form));
+          // an optional field left blank is left out, not mailed as an empty label
+          for (const k in payload) if (payload[k] === "") delete payload[k];
           const res = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            body: JSON.stringify(payload),
           });
           const data = await res.json();
           if (data.success) {

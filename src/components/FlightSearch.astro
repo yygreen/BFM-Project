@@ -690,10 +690,13 @@ const notWired = labels.notWired ?? (orderEmail
       const label = btn.textContent;
       btn.disabled = true; btn.textContent = T.sending; msg.hidden = true;
       try {
+        const payload = Object.fromEntries(new FormData(form));
+        // an optional field left blank is left out, not mailed as an empty label
+        for (const k in payload) if (payload[k] === "") delete payload[k];
         const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          body: JSON.stringify(payload),
         });
         const out = await res.json();
         if (out.success) {
