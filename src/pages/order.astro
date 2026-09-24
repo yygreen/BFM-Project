@@ -24,6 +24,9 @@ import { site, quoteFormReady, paymentSentence, mailtoInbox } from "../lib/site"
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
+  // no miles order can be placed on a flights-only program; those pages
+  // route to the flight configurator instead
+  .filter((a) => a.fulfilment !== "flights")
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
 // the client-side script needs rate, limits and delivery per program
@@ -62,7 +65,6 @@ const methods = site.payments.verified ? site.payments.methods : [];
         { label: "Order" },
       ]} />
       <div class="section-head">
-        <span class="kicker">Order</span>
         <h1>Place your order</h1>
         <p>
           Three short steps. We reply with a firm quote confirming your exact rate and
@@ -420,13 +422,19 @@ const methods = site.payments.verified ? site.payments.methods : [];
         const label = btn.textContent;
         btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
         try {
+          // the inbox should read "60,000", not "60000": someone quotes from it
+          const payload = Object.fromEntries(new FormData(form));
+          // an optional field left blank is left out, not mailed as an empty label
+          for (const k in payload) if (payload[k] === "") delete payload[k];
+          if (Number(payload.miles)) payload.miles = Number(payload.miles).toLocaleString("en-US");
           const res = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            body: JSON.stringify(payload),
           });
           const out = await res.json();
           if (out.success) {
+            window.bfmTrack?.("generate_lead", { form: "order" });
             msg.textContent = "Request received. We'll confirm your exact rate and delivery window, then send payment details. Nothing has been charged.";
             msg.className = "form-msg ok";
             form.reset();

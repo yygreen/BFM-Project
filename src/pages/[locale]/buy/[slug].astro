@@ -54,7 +54,10 @@ const P = L.page;
 // wording in `deliveredIn`.
 // "Within 48 hours" in the data becomes "48 <unit>" in the page's language.
 // Leaving it English was the one place a translated hero still read as one.
-const deliveryValue = a.delivery.replace("Within ", "").replace(/\bhours?\b/, L.page.hours);
+const deliveryValue = a.delivery
+  .replace("Within ", "")
+  .replace(/\bbusiness days?\b/, L.page.bizDays)
+  .replace(/\bhours?\b/, L.page.hours);
 // lang/hreflang can differ from the URL segment, e.g. /zh-tw/ tagged zh-TW
 const htmlLang = L.htmlLang ?? locale;
 
@@ -161,6 +164,8 @@ const useCost = (miles: number) =>
   lang={htmlLang}
   alternates={alternates}
   jsonld={jsonld}
+  ogImage={`/og/buy/${a.slug}.png`}
+  ogImageAlt={`${a.airline} ${a.program} miles at buyflightmiles`}
 >
   <div dir={L.dir} lang={htmlLang}>
     <section class="hero">
@@ -172,7 +177,6 @@ const useCost = (miles: number) =>
               { label: P.programs, href: "/#programs" },
               { label: t.heroHeadline },
             ]} />
-            <span class="kicker">{a.alliance}</span>
             <a class="lang-toggle" href={`/buy/${a.slug}`} lang="en" hreflang="en">
               <span class="lang-flag" aria-hidden="true">{EN_FLAG}</span>English
             </a>
@@ -353,7 +357,7 @@ const useCost = (miles: number) =>
         <div class="faqx-list">
           {t.faq.map((f, i) => (
             <details class="faq" open={i === 0}>
-              <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+              <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"><i></i></span></summary>
               <div class="ans">{f.a}</div>
             </details>
           ))}

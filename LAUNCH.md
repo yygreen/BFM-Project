@@ -82,7 +82,12 @@ Until flipped, those pages still go live — showing a `~` indicative rate, a "R
 quote" CTA, and **no price in the Product JSON-LD**. Also re-confirm the four audited rates
 (KrisFlyer 1.8 / Qatar 1.8 / ANA 1.9 / EVA 1.95) are still current.
 
-### Agenda 2 — Payment methods → `site.json` → `payments`
+### Agenda 2 — Payment methods → `site.json` → `payments` (optional)
+
+**Not a launch blocker.** Payment is handled off-site and the client decides how, per order.
+With `verified: false` (the default) the FAQ, `/order` and `/agents` all say methods are
+confirmed with the quote and that payment never happens on this site — that is the
+intended launch state. Only fill this in if the client later wants methods listed publicly:
 
 ```jsonc
 "payments": {
@@ -96,7 +101,7 @@ quote" CTA, and **no price in the Product JSON-LD**. Also re-confirm the four au
 
 ⚠️ **Never add cards or PayPal unless the client explicitly confirms them.** The old WordPress
 site advertised both incorrectly and that copy was deliberately not carried over.
-Until verified, the FAQ shows: *"We'll confirm the accepted payment methods when we send your quote."*
+Until verified, the FAQ shows: *"We'll confirm the accepted payment methods when we send your quote. Payment is always handled off this site."*
 
 ### Agenda 3 — Where enquiries land → `site.json` → `contact`
 
@@ -114,7 +119,10 @@ Until verified, the FAQ shows: *"We'll confirm the accepted payment methods when
 **Both forms are inert until this is done** — they refuse to submit and show a fallback
 pointing at the email address instead. No enquiry can silently vanish.
 
-### Agenda 4 — Guarantee + delivery wording → `site.json` → `guarantee`, `delivery`
+### Agenda 4 — Guarantee + delivery wording → `site.json` → `guarantee`, `delivery` (optional)
+
+**Not a launch blocker** (decided Sep 2026). With `guarantee.verified: false` the site makes
+no guarantee claim anywhere, which is honest. Fill this in only when the client confirms one.
 
 ```jsonc
 "guarantee": {

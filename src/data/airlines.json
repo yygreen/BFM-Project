@@ -8,18 +8,18 @@
     "code": "DL",
     "color": "#9A1C33",
     "pricePerMile": 1.95,
-    "priceVerified": true,
+    "priceVerified": false,
     "directBuy": {
       "cents": 3.76,
       "source": "Delta list price, 3.5¢ plus 7.5% US excise tax",
-      "checked": "August 2026",
+      "checked": "September 2026",
       "verified": true
     },
     "min": 50000,
     "max": 500000,
     "limitsVerified": false,
     "delivery": "Within 24 hours",
-    "deliveryVerified": true,
+    "deliveryVerified": false,
     "inStock": false,
     "heroHeadline": "Buy Delta miles with precision.",
     "heroHighlight": "Delta miles",
@@ -166,25 +166,25 @@
     "alliance": "Star Alliance",
     "code": "UA",
     "color": "#1A3E7E",
-    "pricePerMile": 2,
+    "pricePerMile": 1.9,
     "priceVerified": true,
     "directBuy": {
       "cents": 3.76,
       "source": "United list price, 3.5¢ plus 7.5% US excise tax",
-      "checked": "August 2026",
-      "verified": true
+      "checked": "September 2026",
+      "verified": false
     },
-    "min": 80000,
+    "min": 100000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 72 hours",
+    "delivery": "Within 7 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy United miles for MileagePlus.",
     "heroHighlight": "United miles",
     "heroSub": "Close the gap on a Polaris redemption. Buy the MileagePlus miles you need at a fraction of the price, delivered fast.",
     "metaTitle": "Buy United Miles | MileagePlus Top-Ups | buyflightmiles",
-    "metaDescription": "Buy United MileagePlus miles at a fraction of the price. Secure transfer delivered within 72 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy United MileagePlus miles at 1.9¢ per mile for Star Alliance awards without fuel surcharges. Delivered within 7 business days, rate confirmed before you pay.",
     "related": [
       "ana-mileage-club",
       "singapore-krisflyer"
@@ -260,7 +260,7 @@
     "i18n": {
       "de": {
         "metaTitle": "United Meilen kaufen | MileagePlus aufstocken",
-        "metaDescription": "MileagePlus Meilen kaufen für Star-Alliance-Business ohne Treibstoffzuschläge. 2 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "metaDescription": "MileagePlus Meilen kaufen für Star-Alliance-Business ohne Treibstoffzuschläge. 1,9 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
         "heroHeadline": "MileagePlus Meilen kaufen und die Star Alliance buchen.",
         "heroSub": "Stock dein MileagePlus-Konto auf und flieg Lufthansa, SWISS oder Polaris in Business, ohne Treibstoffzuschläge auf Partnerprämien. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
         "steps": [
@@ -294,11 +294,11 @@
         "faq": [
           {
             "q": "Was kosten MileagePlus-Meilen?",
-            "a": "2 Cent pro Meile, also 20 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "1,9 Cent pro Meile, also 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "In der Regel innerhalb von 72 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+            "a": "In der Regel innerhalb von 7 Werktagen. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Braucht ihr mein MileagePlus-Passwort?",
@@ -326,19 +326,19 @@
     "alliance": "Oneworld",
     "code": "AA",
     "color": "#0B5CA5",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
+    "pricePerMile": 1.7,
+    "priceVerified": true,
     "min": 50000,
     "max": 500000,
-    "limitsVerified": false,
-    "delivery": "Within 24 hours",
-    "deliveryVerified": false,
+    "limitsVerified": true,
+    "delivery": "Within 3 business days",
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy American Airlines miles for AAdvantage.",
     "heroHighlight": "American Airlines miles",
-    "heroSub": "Top up AAdvantage and unlock Flagship business for less. Secure transfer, delivered to your account within the day.",
+    "heroSub": "Unlock Flagship business for less. AAdvantage miles come as a ready account with the miles already in it, delivered within 3 business days.",
     "metaTitle": "Buy American Airlines Miles | AA AAdvantage | buyflightmiles",
-    "metaDescription": "Buy American Airlines AAdvantage miles at a fraction of the price. Secure, guaranteed delivery within 24 hours.",
+    "metaDescription": "Buy American Airlines AAdvantage miles at 1.7¢ per mile, delivered as a ready AAdvantage account within 3 business days. Exact rate confirmed before you pay.",
     "related": [
       "qatar-avios",
       "british-airways-avios"
@@ -381,7 +381,7 @@
     "quirks": [
       {
         "title": "The last partner chart standing",
-        "text": "American is the only US major still publishing a partner award chart, which makes budgeting a top-up unusually predictable: the chart says the number, the calculator prices it."
+        "text": "American is the only US major still publishing a partner award chart, which makes budgeting a purchase unusually predictable: the chart says the number, the calculator prices it."
       },
       {
         "title": "Web Specials undercut saver",
@@ -407,10 +407,11 @@
       },
       {
         "label": "What we need",
-        "text": "AAdvantage number and account name. Never your password"
+        "text": "Nothing from your own account: we hand over a ready AAdvantage account"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "readyAccount": true
   },
   {
     "id": "singapore-krisflyer",
@@ -420,25 +421,25 @@
     "alliance": "Star Alliance",
     "code": "SQ",
     "color": "#1B2A5B",
-    "pricePerMile": 2.2,
+    "pricePerMile": 1.8,
     "priceVerified": true,
     "directBuy": {
-      "cents": 5,
-      "source": "Singapore Airlines top-up price, about US$40 per 1,000 miles",
-      "checked": "August 2026",
+      "cents": 4,
+      "source": "Singapore Airlines top-up price, US$0.04 per mile, sold only to complete an award",
+      "checked": "September 2026",
       "verified": true
     },
-    "min": 80000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 72 hours",
+    "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy KrisFlyer miles for Singapore Airlines.",
     "heroHighlight": "KrisFlyer miles",
     "heroSub": "Fly Singapore Suites and Business on one of the world's best airlines. Buy the KrisFlyer miles you're short, delivered fast.",
     "metaTitle": "Buy Singapore KrisFlyer Miles | buyflightmiles",
-    "metaDescription": "Buy Singapore Airlines KrisFlyer miles at 2.2¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy Singapore Airlines KrisFlyer miles at 1.8¢ per mile. Secure transfer, delivered within 3 business days, your exact rate confirmed before you pay.",
     "related": [
       "ana-mileage-club",
       "eva-air-miles"
@@ -514,7 +515,7 @@
     "i18n": {
       "de": {
         "metaTitle": "Singapore Airlines Meilen kaufen | KrisFlyer",
-        "metaDescription": "KrisFlyer Meilen kaufen für Singapore Suites und Business. 2,2 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "metaDescription": "KrisFlyer Meilen kaufen für Singapore Suites und Business. 1,8 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
         "heroHeadline": "KrisFlyer Meilen kaufen und die Suites einlösen.",
         "heroSub": "Stock dein KrisFlyer-Konto auf und löse Singapores eigene Premiumkabinen ein. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
         "steps": [
@@ -548,11 +549,11 @@
         "faq": [
           {
             "q": "Was kosten KrisFlyer-Meilen?",
-            "a": "2,2 Cent pro Meile, also 22 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "1,8 Cent pro Meile, also 18 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "In der Regel innerhalb von 72 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+            "a": "In der Regel innerhalb von 3 Werktagen. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Braucht ihr mein KrisFlyer-Passwort?",
@@ -581,19 +582,19 @@
     "alliance": "Oneworld",
     "code": "QR",
     "color": "#5C0632",
-    "pricePerMile": 1.8,
+    "pricePerMile": 1.5,
     "priceVerified": true,
     "min": 10000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 24 hours",
+    "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Qatar Avios and fly Qsuite.",
     "heroHighlight": "Qatar Avios",
     "heroSub": "Book Qsuite — one of the best business classes in the sky — for less. Buy Qatar Avios and complete your redemption within the day.",
     "metaTitle": "Buy Qatar Airways Avios | Qsuite Redemptions | buyflightmiles",
-    "metaDescription": "Buy Qatar Airways Avios from 1.8¢ and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 24 hours.",
+    "metaDescription": "Buy Qatar Airways Avios from 1.5¢ and book Qsuite for a fraction of the fare. Secure, guaranteed delivery within 3 business days.",
     "related": [
       "iberia-avios",
       "british-airways-avios",
@@ -759,11 +760,11 @@
     "delivery": "Within 72 hours",
     "deliveryVerified": true,
     "inStock": false,
-    "heroHeadline": "Buy ANA miles for Mileage Club.",
-    "heroHighlight": "ANA miles",
-    "heroSub": "ANA's award chart is one of the best-value routes to first and business class. Buy the miles you need, delivered securely.",
+    "heroHeadline": "Buy ANA miles, or let us book the seat.",
+    "heroHighlight": "Buy ANA miles",
+    "heroSub": "The honest answer about buying ANA Mileage Club miles: we can't source them at a standard worth standing behind, so we don't sell them. What we do instead is find and book your ANA business or first class award, ticketed by the airline in your own name, at a firm all-in price.",
     "metaTitle": "Buy ANA Mileage Club Miles | buyflightmiles",
-    "metaDescription": "Buy ANA Mileage Club miles from 1.9¢. Secure transfer, delivered within 72 hours, your exact price confirmed before you pay.",
+    "metaDescription": "ANA Mileage Club miles are hard to buy safely, so we don't sell them. We book the ANA business or first award seat instead, ticketed in your name, at a firm price you approve before paying.",
     "related": [
       "singapore-krisflyer",
       "united-mileageplus"
@@ -788,7 +789,7 @@
     "faqExtras": [
       {
         "q": "Does ANA publish an award chart?",
-        "a": "Yes, one of the last fixed charts among the majors, with Low, Regular and High seasons. Business class Tokyo to North America runs 50,000 to 82,500 miles one way depending on season, 65,000 at Regular, and since June 2025 one-way awards book at half the round-trip rate. Find your season and route, then price the shortfall with the calculator above."
+        "a": "Yes, one of the last fixed charts among the majors, with Low, Regular and High seasons. Business class Tokyo to North America runs 50,000 to 82,500 miles one way depending on season, 65,000 at Regular, and since June 2025 one-way awards book at half the round-trip rate. Find your season and route, then send them to us and we'll price the award."
       },
       {
         "q": "Do ANA miles expire?",
@@ -796,7 +797,7 @@
       },
       {
         "q": "Can I upgrade an ANA flight with miles?",
-        "a": "Yes. Upgrade awards move eligible paid fares one cabin up: booking classes Y, B, M and U qualify, plus H on trips starting outside Japan, and there's no direct economy-to-First jump. Check your fare class, then buy the miles the upgrade needs."
+        "a": "Yes. Upgrade awards move eligible paid fares one cabin up: booking classes Y, B, M and U qualify, plus H on trips starting outside Japan, and there's no direct economy-to-First jump. Check your fare class first. Upgrades come out of your own Mileage Club balance; what we book is the award seat itself."
       },
       {
         "q": "Can I book one-way awards with ANA miles?",
@@ -835,7 +836,8 @@
         "text": "ANA Mileage Club number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "british-airways-avios",
@@ -846,12 +848,12 @@
     "alliance": "Oneworld",
     "code": "BA",
     "color": "#1D4E89",
-    "pricePerMile": 1.75,
+    "pricePerMile": 1.7,
     "priceVerified": true,
-    "min": 80000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 24 hours",
+    "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Avios for British Airways.",
@@ -1096,19 +1098,19 @@
     "alliance": "Star Alliance",
     "code": "BR",
     "color": "#1E6B54",
-    "pricePerMile": 1.95,
+    "pricePerMile": 1.8,
     "priceVerified": true,
     "min": 50000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 48 hours",
+    "delivery": "Within 7 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy EVA Air miles for Infinity MileageLands.",
     "heroHighlight": "EVA Air miles",
     "heroSub": "EVA's Royal Laurel business class is a standout. Buy Infinity MileageLands miles and lock in your redemption for less.",
     "metaTitle": "Buy EVA Air Infinity MileageLands Miles | buyflightmiles",
-    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.95¢. Secure transfer, delivered within 48 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy EVA Air Infinity MileageLands miles from 1.8¢. Secure transfer, delivered within 7 business days, your exact rate confirmed before you pay.",
     "related": [
       "singapore-krisflyer",
       "ana-mileage-club"
@@ -1254,11 +1256,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy Southwest points for Rapid Rewards.",
-    "heroHighlight": "Southwest points",
-    "heroSub": "Short of points for the flight you want? Buy the gap and book straight through Southwest, with every seat bookable and no blackout dates.",
+    "heroHeadline": "Buy Southwest points, or let us book the flight.",
+    "heroHighlight": "Buy Southwest points",
+    "heroSub": "The honest answer about buying Rapid Rewards points: the supply is thin, and because Southwest prices seats in points at a near-fixed rate, buying them saves you almost nothing. So we don't sell them. Tell us the flight you want and we'll book it in your own name at a firm price.",
     "metaTitle": "Buy Southwest Points | Rapid Rewards | buyflightmiles",
-    "metaDescription": "Buy Southwest Rapid Rewards points to top up your balance. Secure transfer into your own account, with your exact rate confirmed before you pay.",
+    "metaDescription": "Rapid Rewards points are hard to buy and buying them saves little, so we don't sell them. Tell us the Southwest flight you want and we book it in your name at a firm price.",
     "related": [
       "jetblue-trueblue",
       "alaska-atmos-rewards",
@@ -1267,7 +1269,7 @@
     "sweetSpots": [
       {
         "title": "Every seat is bookable",
-        "desc": "Rapid Rewards has no blackout dates; if a fare is for sale, points can book it, so a top-up always has somewhere to go."
+        "desc": "Rapid Rewards has no blackout dates; if a fare is for sale, points can book it, so there is always a seat to book."
       },
       {
         "title": "Refundable bookings",
@@ -1275,7 +1277,7 @@
       },
       {
         "title": "Companion Pass holders",
-        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only, which doubles what a top-up is worth."
+        "desc": "If you hold a Companion Pass, every points booking carries a second traveller for taxes only, which doubles what every award is worth."
       }
     ],
     "logo": "/logos/southwest-rapid-rewards.svg",
@@ -1283,7 +1285,7 @@
     "faqExtras": [
       {
         "q": "Does Southwest have an award chart?",
-        "a": "No. Points price off the cash fare, and since March 2025 the exact conversion floats by flight, typically between 1.1 and 1.5 cents per point. A cheap cash fare means a cheap award and every seat on sale is bookable. Price your shortfall with the calculator above and compare it against the fare."
+        "a": "No. Points price off the cash fare, and since March 2025 the exact conversion floats by flight, typically between 1.1 and 1.5 cents per point. A cheap cash fare means a cheap award and every seat on sale is bookable. Send us the route and we'll price the award against the fare."
       },
       {
         "q": "Do Rapid Rewards points expire?",
@@ -1326,7 +1328,8 @@
         "text": "Rapid Rewards number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "alaska-atmos-rewards",
@@ -1336,13 +1339,13 @@
     "alliance": "Oneworld",
     "code": "AS",
     "color": "#01426A",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
+    "pricePerMile": 2,
+    "priceVerified": true,
     "min": 50000,
     "max": 500000,
-    "limitsVerified": false,
-    "delivery": "Within 48 hours",
-    "deliveryVerified": false,
+    "limitsVerified": true,
+    "delivery": "Within 3 business days",
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Atmos Rewards points for Alaska and Hawaiian.",
     "heroHighlight": "Atmos Rewards points",
@@ -1448,11 +1451,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy JetBlue points for TrueBlue.",
-    "heroHighlight": "JetBlue points",
-    "heroSub": "Top up for Mint transcontinental seats or a family booking — points post to your own account and book directly with JetBlue.",
+    "heroHeadline": "Buy JetBlue points, or let us book the flight.",
+    "heroHighlight": "Buy JetBlue points",
+    "heroSub": "The honest answer about buying TrueBlue points: supply is thin and TrueBlue prices seats at a near-fixed rate, so buying points saves little. We don't sell them. Tell us the flight, Mint included, and we'll book it in your own name at a firm price.",
     "metaTitle": "Buy JetBlue Points | TrueBlue | buyflightmiles",
-    "metaDescription": "Buy JetBlue TrueBlue points to complete a booking, including Mint. Secure transfer into your own account, exact rate confirmed before you pay.",
+    "metaDescription": "TrueBlue points are hard to buy and save little when you do, so we don't sell them. Tell us the JetBlue flight, Mint included, and we book it in your name at a firm price.",
     "related": [
       "southwest-rapid-rewards",
       "delta-skymiles",
@@ -1465,7 +1468,7 @@
       },
       {
         "title": "No blackout dates",
-        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points; a top-up is never stranded."
+        "desc": "TrueBlue prices awards off the cash fare, so any available seat can be booked with points; there is always an award to book."
       },
       {
         "title": "Points pooling",
@@ -1477,11 +1480,11 @@
     "faqExtras": [
       {
         "q": "Does JetBlue have an award chart?",
-        "a": "No, and that's the appeal: TrueBlue prices awards straight off the cash fare, at a fairly consistent 1.3 to 1.5 cents per point on JetBlue's own flights, with no blackout dates. Whatever the fare search shows, the points price tracks it. Price your shortfall with the calculator above and compare it against the fare."
+        "a": "No, and that's the appeal: TrueBlue prices awards straight off the cash fare, at a fairly consistent 1.3 to 1.5 cents per point on JetBlue's own flights, with no blackout dates. Whatever the fare search shows, the points price tracks it. Send us the route and we'll price the award against the fare."
       },
       {
         "q": "Can I upgrade to Mint with points?",
-        "a": "No. JetBlue doesn't sell Mint upgrades for points; upgrade paths on a paid ticket are cash offers or bidding. The points route into Mint is booking it outright as an award, which is exactly what a top-up is usually for."
+        "a": "No. JetBlue doesn't sell Mint upgrades for points; upgrade paths on a paid ticket are cash offers or bidding. The points route into Mint is booking it outright as an award, which is exactly what we book."
       },
       {
         "q": "Do TrueBlue points expire?",
@@ -1520,7 +1523,8 @@
         "text": "TrueBlue number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "frontier-miles",
@@ -1538,11 +1542,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy Frontier miles and book direct.",
-    "heroHighlight": "Frontier miles",
-    "heroSub": "Complete a domestic booking without paying the walk-up fare. Miles transfer into your own account and book directly with Frontier.",
+    "heroHeadline": "Buy Frontier miles, or let us book the flight.",
+    "heroHighlight": "Buy Frontier miles",
+    "heroSub": "The honest answer about buying Frontier Miles: the supply is thin and the miles are worth little more than the cash fare, so buying them rarely pays. We don't sell them. Tell us the flight you want and we'll book it in your own name at a firm price.",
     "metaTitle": "Buy Frontier Miles | buyflightmiles",
-    "metaDescription": "Buy Frontier Miles to top up your balance for domestic routes. Secure transfer into the account you already hold, exact rate confirmed before you pay.",
+    "metaDescription": "Frontier Miles are hard to buy and rarely beat the cash fare, so we don't sell them. Tell us the Frontier flight you want and we book it in your name at a firm price.",
     "related": [
       "southwest-rapid-rewards",
       "jetblue-trueblue",
@@ -1564,7 +1568,7 @@
     "faqExtras": [
       {
         "q": "Does Frontier have an award chart?",
-        "a": "Yes, tiered by availability: Value awards from 5,000 miles for a domestic one-way on off-peak flights, Standard from around 20,000 when Value space is gone, and a Last Seat tier reserved for elite members. Off-peak flexibility is where miles stretch furthest. Price your top-up with the calculator above."
+        "a": "Yes, tiered by availability: Value awards from 5,000 miles for a domestic one-way on off-peak flights, Standard from around 20,000 when Value space is gone, and a Last Seat tier reserved for elite members. Off-peak flexibility is where miles stretch furthest. Send us your dates and we'll price the award."
       },
       {
         "q": "Do Frontier miles expire?",
@@ -1607,7 +1611,8 @@
         "text": "Frontier Miles number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "air-canada-aeroplan",
@@ -1617,19 +1622,19 @@
     "alliance": "Star Alliance",
     "code": "AC",
     "color": "#D8232A",
-    "pricePerMile": 1.8,
+    "pricePerMile": 1.7,
     "priceVerified": true,
     "directBuy": {
       "cents": 2.67,
       "source": "Air Canada list price, CAD $0.0375 per point",
       "checked": "August 2026",
       "verified": false,
-      "note": "Correct at list, but Aeroplan ran a 110% bonus to about 1.27¢ US in 2026, below our 1.8¢. Withheld until the comparison holds through a promotion."
+      "note": "Correct at list, but Aeroplan ran a 110% bonus to about 1.27¢ US in 2026, below our 1.7¢. Withheld until the comparison holds through a promotion."
     },
-    "min": 80000,
+    "min": 100000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 72 hours",
+    "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Aeroplan points for Air Canada.",
@@ -1720,18 +1725,18 @@
     "code": "EK",
     "color": "#D71920",
     "pricePerMile": 1.9,
-    "priceVerified": false,
+    "priceVerified": true,
     "min": 50000,
     "max": 500000,
-    "limitsVerified": false,
-    "delivery": "Within 48 hours",
-    "deliveryVerified": false,
+    "limitsVerified": true,
+    "delivery": "Within 3 business days",
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Emirates miles for Skywards.",
     "heroHighlight": "Emirates miles",
-    "heroSub": "The A380 shower is a miles purchase away. Top up Skywards for Emirates first and business, quoted before you pay a cent.",
+    "heroSub": "The A380 shower is a miles purchase away. Skywards miles come as a ready account with the miles already in it, for Emirates first and business, quoted before you pay a cent.",
     "metaTitle": "Buy Emirates Skywards Miles | buyflightmiles",
-    "metaDescription": "Buy Emirates Skywards miles for first and business class redemptions. Exact rate confirmed in your quote, delivered to your Skywards account.",
+    "metaDescription": "Buy Emirates Skywards miles for first and business class redemptions, delivered as a ready Skywards account with the miles in it. Exact rate confirmed in your quote.",
     "related": [
       "etihad-guest",
       "qatar-avios",
@@ -1759,7 +1764,7 @@
         "metaTitle": "شراء أميال سكاي واردز طيران الإمارات | السعر يُؤكَّد قبل الدفع",
         "metaDescription": "اشترِ أميال سكاي واردز من طيران الإمارات بسعر يقارب 1.9 سنت للميل لحجز الدرجة الأولى ودرجة رجال الأعمال. نؤكد السعر النهائي وموعد التسليم في عرض السعر قبل أي دفع.",
         "heroHeadline": "اشترِ أميال سكاي واردز طيران الإمارات",
-        "heroSub": "عزّز رصيدك في سكاي واردز واحجز درجة رجال الأعمال أو الدرجة الأولى على طيران الإمارات بجزء من سعرها النقدي. نرسل لك عرض سعر يؤكد السعر النهائي وموعد التسليم قبل أن تدفع.",
+        "heroSub": "احجز درجة رجال الأعمال أو الدرجة الأولى على طيران الإمارات بجزء من سعرها النقدي. تصلك أميال سكاي واردز في حساب جاهز فيه الأميال مسبقاً. نرسل لك عرض سعر يؤكد السعر النهائي وموعد التسليم قبل أن تدفع.",
         "steps": [
           {
             "title": "اختر الكمية",
@@ -1774,13 +1779,13 @@
             "text": "لا يُحصَّل أي مبلغ على هذا الموقع — الدفع يتم بعد موافقتك على العرض."
           },
           {
-            "title": "تصل الأميال",
-            "text": "تُضاف الأميال إلى حساب سكاي واردز الخاص بك في الموعد المؤكد في عرض السعر."
+            "title": "تستلم الحساب",
+            "text": "نسلّمك حساب سكاي واردز جاهزاً فيه الأميال، في الموعد المؤكد في عرض السعر."
           }
         ],
         "points": [
           "السعر التقريبي 1.9 سنت لكل ميل، ويُؤكَّد السعر النهائي قبل الدفع",
-          "التسليم إلى حسابك في سكاي واردز، وموعده يُؤكَّد في عرض السعر",
+          "التسليم في حساب سكاي واردز جاهز، وموعده يُؤكَّد في عرض السعر",
           "لا نطلب كلمة المرور أبداً — رقم العضوية واسم الحساب فقط",
           "أميال سكاي واردز تُستخدم للترقيات ولحجز الدرجة الأولى ودرجة رجال الأعمال على طيران الإمارات وفلاي دبي"
         ],
@@ -1790,12 +1795,12 @@
             "a": "السعر التقريبي 1.9 سنت لكل ميل، أي نحو 19 دولاراً لكل 1,000 ميل. نؤكد لك السعر النهائي في عرض السعر قبل أي دفع."
           },
           {
-            "q": "متى تصل الأميال إلى حسابي؟",
-            "a": "نؤكد موعد التسليم في عرض السعر قبل الدفع، وتصل الأميال إلى حساب سكاي واردز الخاص بك ضمن ذلك الموعد."
+            "q": "متى أستلم الحساب؟",
+            "a": "نؤكد موعد التسليم في عرض السعر قبل الدفع، ونسلّمك حساب سكاي واردز الجاهز والأميال فيه ضمن ذلك الموعد."
           },
           {
             "q": "ما الذي تحتاجونه مني؟",
-            "a": "رقم عضويتك في سكاي واردز واسم الحساب فقط. لن نطلب كلمة المرور أبداً."
+            "a": "لا نحتاج أي بيانات من حسابك الخاص. أميال سكاي واردز تُباع فقط في حساب جاهز نسلّمه لك والأميال فيه، ولن نطلب كلمة مرور حسابك أبداً."
           }
         ],
         "ctaLabel": "اطلب عرض السعر",
@@ -1817,10 +1822,10 @@
         ]
       },
       "de": {
-        "metaTitle": "Emirates Meilen kaufen | Skywards aufstocken",
-        "metaDescription": "Skywards Meilen kaufen und dein Emirates-Konto für Business und First aufstocken. Preis vor der Zahlung fest, Meilen aufs eigene Konto, Buchung direkt bei Emirates.",
+        "metaTitle": "Emirates Meilen kaufen | Skywards als fertiges Konto",
+        "metaDescription": "Skywards Meilen kaufen für Business und First bei Emirates, geliefert als fertiges Skywards-Konto mit den Meilen darauf. Preis vor der Zahlung fest, Buchung direkt bei Emirates.",
         "heroHeadline": "Skywards Meilen kaufen und im A380 vorne sitzen.",
-        "heroSub": "Stock dein Skywards-Konto auf und löse Business oder First bei Emirates ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "heroSub": "Business oder First bei Emirates einlösen, zu einem Bruchteil des Barpreises. Skywards-Meilen kommen als fertiges Konto, auf dem die Meilen schon liegen. Preis pro Meile und Lieferzeitraum nennen wir dir, bevor du zahlst.",
         "steps": [
           {
             "title": "Anfragen",
@@ -1832,7 +1837,7 @@
           },
           {
             "title": "Meilen erhalten",
-            "text": "Die Meilen gehen auf dein bestehendes Skywards-Konto. Die Prämie buchst du danach direkt bei Emirates, auf deinen Namen."
+            "text": "Du bekommst ein fertiges Skywards-Konto, auf dem die Meilen schon liegen. Von dort buchst du die Prämie direkt bei Emirates."
           }
         ],
         "uses": [
@@ -1852,15 +1857,15 @@
         "faq": [
           {
             "q": "Was kosten Skywards-Meilen?",
-            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "1,9 Cent pro Meile, also 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
-            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+            "q": "Wie lange dauert es, bis ich das Konto bekomme?",
+            "a": "In der Regel innerhalb von 3 Werktagen. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
-            "q": "Braucht ihr mein Skywards-Passwort?",
-            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+            "q": "Braucht ihr Zugang zu meinem Skywards-Konto?",
+            "a": "Nein. Skywards-Meilen verkaufen wir nur als fertiges Konto: Du bekommst ein Skywards-Konto, auf dem die Meilen schon liegen. Dein eigenes Konto bleibt komplett außen vor, und nach Kontodaten oder Passwörtern fragen wir nie."
           },
           {
             "q": "Welche Zahlungswege akzeptiert ihr?",
@@ -1922,10 +1927,11 @@
       },
       {
         "label": "What we need",
-        "text": "Skywards number and account name. Never your password"
+        "text": "Nothing from your own account: we hand over a ready Skywards account"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "readyAccount": true
   },
   {
     "id": "turkish-miles-smiles",
@@ -1935,13 +1941,13 @@
     "alliance": "Star Alliance",
     "code": "TK",
     "color": "#C90019",
-    "pricePerMile": 1.9,
-    "priceVerified": false,
-    "min": 50000,
+    "pricePerMile": 1.7,
+    "priceVerified": true,
+    "min": 10000,
     "max": 500000,
-    "limitsVerified": false,
-    "delivery": "Within 48 hours",
-    "deliveryVerified": false,
+    "limitsVerified": true,
+    "delivery": "Within 3 business days",
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Turkish Airlines miles for Miles&Smiles.",
     "heroHighlight": "Turkish Airlines miles",
@@ -2061,11 +2067,11 @@
         "faq": [
           {
             "q": "Was kosten Miles&Smiles-Meilen?",
-            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "1,7 Cent pro Meile, also 17 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+            "a": "In der Regel innerhalb von 3 Werktagen. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Braucht ihr mein Miles&Smiles-Passwort?",
@@ -2145,12 +2151,12 @@
     "code": "EY",
     "color": "#BD8B13",
     "pricePerMile": 1.9,
-    "priceVerified": false,
-    "min": 50000,
+    "priceVerified": true,
+    "min": 100000,
     "max": 500000,
-    "limitsVerified": false,
-    "delivery": "Within 48 hours",
-    "deliveryVerified": false,
+    "limitsVerified": true,
+    "delivery": "Within 3 business days",
+    "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Etihad miles for Etihad Guest.",
     "heroHighlight": "Etihad miles",
@@ -2276,11 +2282,11 @@
         "faq": [
           {
             "q": "Was kosten Etihad-Guest-Meilen?",
-            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "1,9 Cent pro Meile, also 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+            "a": "In der Regel innerhalb von 3 Werktagen. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Braucht ihr mein Etihad-Guest-Passwort?",
@@ -2367,11 +2373,11 @@
     "delivery": "Within 48 hours",
     "deliveryVerified": false,
     "inStock": true,
-    "heroHeadline": "Buy Lufthansa miles for Miles & More.",
-    "heroHighlight": "Lufthansa miles",
-    "heroSub": "The surest route into Lufthansa First. Top up Miles & More with the rate confirmed before you pay anything.",
+    "heroHeadline": "Buy Lufthansa miles, or let us book the seat.",
+    "heroHighlight": "Buy Lufthansa miles",
+    "heroSub": "The honest answer about buying Miles & More miles: we can't source them at a standard worth standing behind, so we don't sell them. What we do instead is find and book your Lufthansa First or Business award, ticketed by the airline in your own name, at a firm all-in price.",
     "metaTitle": "Buy Lufthansa Miles | Miles & More | buyflightmiles",
-    "metaDescription": "Buy Lufthansa Miles & More for first and business class awards. Exact rate confirmed in your quote, delivered to your own account.",
+    "metaDescription": "Lufthansa Miles & More miles are hard to buy safely, so we don't sell them. We book the First or Business award seat instead, ticketed in your name, at a firm price you approve before paying.",
     "related": [
       "turkish-miles-smiles",
       "united-mileageplus",
@@ -2413,36 +2419,36 @@
     "logoAlt": "Lufthansa logo",
     "i18n": {
       "de": {
-        "metaTitle": "Lufthansa Meilen kaufen | Miles & More aufstocken",
-        "metaDescription": "Miles & More Meilen kaufen und dein Konto für Business und First aufstocken. Preis vor der Zahlung fest, Meilen aufs eigene Konto. Meilenrechner für den Vergleich mit dem Barpreis.",
-        "heroHeadline": "Miles & More Meilen kaufen und vorne fliegen.",
-        "heroSub": "Stock dein Miles-&-More-Konto auf und löse Business oder First ein. Wir nennen dir den Preis pro Meile und den Lieferzeitraum, bevor du zahlst.",
+        "metaTitle": "Lufthansa Meilen kaufen | Der ehrliche Weg zum Sitz",
+        "metaDescription": "Miles & More Meilen sind kaum seriös zu kaufen, deshalb verkaufen wir sie nicht. Stattdessen buchen wir dir den First- oder Business-Award direkt: Ticket auf deinen Namen, Festpreis vor der Zahlung.",
+        "heroHeadline": "Miles & More Meilen kaufen? Wir buchen dir gleich den Sitz.",
+        "heroSub": "Die ehrliche Antwort zum Meilenkauf bei Miles & More: Wir können diese Meilen nicht in einer Qualität beschaffen, hinter der wir stehen, also verkaufen wir sie nicht. Stattdessen finden und buchen wir deinen Lufthansa-Sitz. Das Ticket stellt die Airline auf deinen Namen aus, den Festpreis bestätigst du vor der Zahlung.",
         "steps": [
           {
             "title": "Anfragen",
-            "text": "Du wählst die gewünschte Menge und bekommst ein festes Preisangebot. Kostenlos und ohne Kaufzwang."
+            "text": "Du nennst Route, Daten und Kabine. Wir kommen mit einem festen Gesamtpreis zurück. Kostenlos und ohne Kaufzwang."
           },
           {
             "title": "Freigeben und zahlen",
             "text": "Nach deiner Freigabe zahlst du außerhalb dieser Website. Auf buyflightmiles wird nichts abgebucht."
           },
           {
-            "title": "Meilen erhalten",
-            "text": "Die Meilen gehen auf dein bestehendes Miles-&-More-Konto. Die Prämie buchst du danach direkt bei Lufthansa, auf deinen Namen."
+            "title": "Fliegen",
+            "text": "Wir buchen den Award, und Lufthansa stellt das Ticket auf deinen Namen aus. Die Buchungsnummer prüfst du direkt bei der Airline."
           }
         ],
         "faq": [
           {
             "q": "Was kosten Miles-&-More-Meilen?",
-            "a": "Der Richtwert liegt bei etwa 1,9 Cent pro Meile, also rund 19 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den genauen Wert für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "Wir verkaufen Miles-&-More-Meilen derzeit nicht: Sie sind kaum in einer Qualität zu beschaffen, hinter der wir stehen würden. Was wir stattdessen anbieten, ist der fertige Sitz. Du nennst Route und Daten, und das Angebot ist ein fester Gesamtpreis in US-Dollar für das Ticket, bestätigt bevor du zahlst."
           },
           {
-            "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "Den Lieferzeitraum nennen wir verbindlich in deinem Angebot. Er hängt vom Programm und von der Menge ab, deshalb versprechen wir hier keine pauschale Zahl."
+            "q": "Wie läuft die Buchung ab?",
+            "a": "Es gibt keine Meilenübertragung. Nach deiner Freigabe buchen wir den Award, und Lufthansa stellt das Ticket auf deinen Namen aus. Du bekommst die Bestätigung mit einer Buchungsnummer, die du direkt bei der Airline prüfen kannst."
           },
           {
-            "q": "Braucht ihr mein Miles-&-More-Passwort?",
-            "a": "Nein. Für die Übertragung genügen deine Kontonummer und der Name, der im Konto hinterlegt ist. Nach dem Passwort fragen wir nie, und die Kontodaten brauchen wir erst, wenn du das Angebot angenommen hast."
+            "q": "Ist mein Miles-&-More-Konto beteiligt?",
+            "a": "Nein, und genau das ist der Punkt: Es wird nichts in dein Konto übertragen. Das Ticket wird auf deinen Namen ausgestellt, dein Konto bleibt komplett außen vor, und nach einem Passwort fragen wir ohnehin nie."
           },
           {
             "q": "Welche Zahlungswege akzeptiert ihr?",
@@ -2453,7 +2459,7 @@
             "a": "Für Langstrecke in Business und First. Lufthansa gibt First-Class-Prämienplätze an Partnerprogramme erst kurz vor Abflug frei, Miles-&-More-Mitglieder sehen diese Plätze deutlich früher. Lufthansa, Swiss, Austrian und Brussels Airlines buchen aus demselben Meilenkonto."
           }
         ],
-        "ctaLabel": "Angebot anfordern",
+        "ctaLabel": "Flug anfragen",
         "reviewed": false,
         "uses": [
           {
@@ -2474,7 +2480,7 @@
     "faqExtras": [
       {
         "q": "Does Miles & More publish an award chart?",
-        "a": "For Star Alliance partners, yes: Europe to North America business is 125,000 miles round trip on the current chart. Lufthansa's own flights moved to dynamic pricing in June 2025, tracking cash fares, which swings from occasional bargains to well above the chart. Price your target with the calculator above."
+        "a": "For Star Alliance partners, yes: Europe to North America business is 125,000 miles round trip on the current chart. Lufthansa's own flights moved to dynamic pricing in June 2025, tracking cash fares, which swings from occasional bargains to well above the chart. Send us the route and we'll price the award."
       },
       {
         "q": "Do Miles & More miles expire?",
@@ -2521,7 +2527,8 @@
         "text": "Miles & More number and account name. Never your password"
       }
     ],
-    "factsChecked": "August 2026"
+    "factsChecked": "August 2026",
+    "fulfilment": "flights"
   },
   {
     "id": "air-france-flying-blue",
@@ -2531,26 +2538,26 @@
     "alliance": "SkyTeam",
     "code": "AF",
     "color": "#002157",
-    "pricePerMile": 1.95,
+    "pricePerMile": 1.7,
     "priceVerified": true,
     "directBuy": {
       "cents": 3.17,
       "source": "Air France-KLM list price",
       "checked": "August 2026",
       "verified": false,
-      "note": "Correct at list, but Flying Blue ran an 80% bonus to 1.69¢ in 2026, below our 1.95¢. Withheld until the comparison holds through a promotion."
+      "note": "Correct at list, but Flying Blue ran an 80% bonus to 1.69¢ in 2026, below our 1.7¢. Withheld until the comparison holds through a promotion."
     },
-    "min": 49000,
+    "min": 10000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 24 hours",
+    "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Flying Blue miles for Air France and KLM.",
     "heroHighlight": "Flying Blue miles",
-    "heroSub": "Air France and KLM premium cabins, plus the whole of SkyTeam, on one balance. Quoted first, delivered within 24 hours.",
+    "heroSub": "Air France and KLM premium cabins, plus the whole of SkyTeam, on one balance. Quoted first, delivered within 3 business days.",
     "metaTitle": "Buy Flying Blue Miles | Air France-KLM | buyflightmiles",
-    "metaDescription": "Buy Air France-KLM Flying Blue miles at 1.95¢ per mile. Secure transfer, delivered within 24 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy Air France-KLM Flying Blue miles at 1.7¢ per mile. Secure transfer, delivered within 3 business days, your exact rate confirmed before you pay.",
     "related": [
       "delta-skymiles",
       "singapore-krisflyer",
@@ -2640,7 +2647,7 @@
       },
       "de": {
         "metaTitle": "Flying Blue Meilen kaufen | Air France & KLM",
-        "metaDescription": "Flying Blue Meilen kaufen für Business bei Air France und KLM. 1,95 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
+        "metaDescription": "Flying Blue Meilen kaufen für Business bei Air France und KLM. 1,7 Cent pro Meile, Preis vor der Zahlung bestätigt, Meilen aufs eigene Konto.",
         "heroHeadline": "Flying Blue Meilen kaufen, mit Air France und KLM vorne fliegen.",
         "heroSub": "Ein Konto für Air France und KLM. Stock deine Flying-Blue-Meilen auf und löse Business nach Paris oder Amsterdam ein. Preis und Lieferzeitraum stehen fest, bevor du zahlst.",
         "steps": [
@@ -2674,11 +2681,11 @@
         "faq": [
           {
             "q": "Was kosten Flying-Blue-Meilen?",
-            "a": "1,95 Cent pro Meile, also 19,50 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
+            "a": "1,7 Cent pro Meile, also 17 US-Dollar je 1.000 Meilen. Alle Preise auf dieser Seite sind in US-Dollar. Den Endpreis für deine Menge bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Wie lange dauert es, bis die Meilen im Konto sind?",
-            "a": "In der Regel innerhalb von 24 Stunden. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
+            "a": "In der Regel innerhalb von 3 Werktagen. Den verbindlichen Zeitraum für deine Bestellung bestätigen wir im Angebot, bevor du zahlst."
           },
           {
             "q": "Braucht ihr mein Flying-Blue-Passwort?",
@@ -2757,19 +2764,19 @@
     "alliance": "Star Alliance",
     "code": "AV",
     "color": "#E30613",
-    "pricePerMile": 1.95,
+    "pricePerMile": 1.7,
     "priceVerified": true,
-    "min": 49000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 24 hours",
+    "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy LifeMiles for Avianca.",
     "heroHighlight": "LifeMiles",
     "heroSub": "The Star Alliance workhorse, famous for partner awards without fuel surcharges. Buy the LifeMiles you're short, quoted before you pay.",
     "metaTitle": "Buy Avianca LifeMiles | Star Alliance Awards | buyflightmiles",
-    "metaDescription": "Buy Avianca LifeMiles at 1.95¢ per mile for Star Alliance awards without fuel surcharges. Delivered within 24 hours, rate confirmed before you pay.",
+    "metaDescription": "Buy Avianca LifeMiles at 1.7¢ per mile for Star Alliance awards without fuel surcharges. Delivered within 3 business days, rate confirmed before you pay.",
     "related": [
       "united-mileageplus",
       "lufthansa-miles-more",
@@ -2908,19 +2915,19 @@
     "alliance": "Oneworld",
     "code": "CX",
     "color": "#006564",
-    "pricePerMile": 1.95,
+    "pricePerMile": 1.7,
     "priceVerified": true,
-    "min": 80000,
+    "min": 50000,
     "max": 500000,
     "limitsVerified": true,
-    "delivery": "Within 72 hours",
+    "delivery": "Within 3 business days",
     "deliveryVerified": true,
     "inStock": true,
     "heroHeadline": "Buy Asia Miles for Cathay Pacific.",
     "heroHighlight": "Asia Miles",
     "heroSub": "Cathay's business class to Asia for a fraction of the fare. Top up Asia Miles and book Cathay Pacific or its Oneworld partners.",
     "metaTitle": "Buy Cathay Pacific Asia Miles | buyflightmiles",
-    "metaDescription": "Buy Cathay Pacific Asia Miles at 1.95¢ per mile. Secure transfer, delivered within 72 hours, your exact rate confirmed before you pay.",
+    "metaDescription": "Buy Cathay Pacific Asia Miles at 1.7¢ per mile. Secure transfer, delivered within 3 business days, your exact rate confirmed before you pay.",
     "related": [
       "qatar-avios",
       "british-airways-avios",

@@ -10,17 +10,29 @@
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Faq from "../components/Faq.astro";
+import { deliveryHours } from "../lib/delivery";
 import { getCollection } from "astro:content";
 import { site, live, quoteFormReady } from "../lib/site";
 
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
-const verified = airlines.filter((a) => a.priceVerified);
+// Rates and delivery claims come from programs we sell miles for; a
+// flights-only program shows no rate, so it never sets the range.
+const sold = airlines.filter((a) => a.fulfilment !== "flights");
+const verified = sold.filter((a) => a.priceVerified);
+// Programs sold only into a new account arrive as a ready account instead of
+// a transfer; the account answers name them, read from the data.
+const readyNames = sold.filter((a) => a.readyAccount).map((a) => `${a.airline} ${a.program}`);
+const readyList = readyNames.length > 1
+  ? `${readyNames.slice(0, -1).join(", ")} and ${readyNames[readyNames.length - 1]}`
+  : readyNames[0] ?? "";
 const cheapest = [...verified].sort((a, b) => a.pricePerMile - b.pricePerMile)[0];
-const fastest = [...airlines]
-  .filter((a) => a.deliveryVerified)
-  .sort((a, b) => parseInt(a.delivery.replace("Within ", ""), 10) - parseInt(b.delivery.replace("Within ", ""), 10))[0];
+// in-stock as well as verified: the only hour-window programs are currently
+// out of stock, and a speed claim can't rest on a program nobody can order
+const fastest = [...sold]
+  .filter((a) => a.deliveryVerified && a.inStock)
+  .sort((a, b) => deliveryHours(a.delivery) - deliveryHours(b.delivery))[0];
 
 // The rate range is derived, so this answer can never drift from the data.
 const rates = verified.map((a) => a.pricePerMile).sort((a, b) => a - b);
@@ -45,7 +57,7 @@ const extras = [
   },
   {
     q: "Do I need to open a new account?",
-    a: "No. The miles are transferred into the loyalty account you already hold, and you book the award yourself, directly with the airline. The reservation is in your name and stays under your control. We are not affiliated with any airline or loyalty program.",
+    a: `No. The miles are transferred into the loyalty account you already hold, and you book the award yourself, directly with the airline. The reservation is in your name and stays under your control.${readyList ? ` The exception is ${readyList}: those can only be sold into a new account, so we hand over a ready account with the miles already in it, and you don't need to open anything yourself.` : ""} We are not affiliated with any airline or loyalty program.`,
   },
   {
     q: "Are taxes and carrier surcharges included?",
@@ -99,7 +111,6 @@ const extras = [
         { label: "FAQ" },
       ]} />
       <div class="section-head">
-        <span class="kicker">FAQ</span>
         <h1>Buying airline miles, answered</h1>
         <p>
           The questions people actually ask before a first order. If yours isn't
@@ -109,18 +120,18 @@ const extras = [
       <div class="spec" style="margin-top:0">
         <span class="spec-it">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          <b>{airlines.length}</b>&nbsp;programs
+          <b>{airlines.length}</b>&nbsp;Programs
         </span>
         {cheapest && (
           <span class="spec-it">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            from <b>{cheapest.pricePerMile}¢</b>&nbsp;per mile
+            From <b>{cheapest.pricePerMile}¢</b>&nbsp;per mile
           </span>
         )}
         {fastest && (
           <span class="spec-it">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            delivery from <b>{fastest.delivery.replace("Within ", "")}</b>
+            Delivery from <b>{fastest.delivery.replace("Within ", "")}</b>
           </span>
         )}
       </div>

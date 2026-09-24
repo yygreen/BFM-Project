@@ -16,8 +16,25 @@ const optional = [];
 const done = [];
 
 // ── Agenda 1 — pricing, min/max, delivery ────────────────────────────
-const unpriced = airlines.filter((a) => !a.priceVerified);
-const undelivered = airlines.filter((a) => !a.deliveryVerified);
+// Only programs we sell miles for. A flights-only program shows no rate,
+// no delivery window and no order limits (its page books the seat instead),
+// so those fields never render and aren't a launch input.
+//
+// Kept on indicative (~) figures by agency decision, Sep 2026, so they're a
+// reminder rather than a blocker: Iberia and Qantas aren't on the client's
+// sheet, and Delta's row there is empty but it stays a miles program on its
+// August-audit figures. Remove a slug here once its figures are confirmed.
+const DEFERRED = ["delta-skymiles", "iberia-avios", "qantas-frequent-flyer"];
+const sold = airlines.filter((a) => a.fulfilment !== "flights" && !DEFERRED.includes(a.id));
+const deferred = airlines.filter((a) => DEFERRED.includes(a.id) && !(a.priceVerified && a.deliveryVerified && a.limitsVerified));
+if (deferred.length)
+  optional.push([
+    "1",
+    `Kept on indicative figures pending the client: ${deferred.map((a) => a.program).join(", ")}. Their pages show a ~ rate and "confirmed on your quote"`,
+    "src/data/airlines.json → pricePerMile, delivery, min, max and the three verified flags, once the client supplies them",
+  ]);
+const unpriced = sold.filter((a) => !a.priceVerified);
+const undelivered = sold.filter((a) => !a.deliveryVerified);
 if (unpriced.length) {
   blocking.push([
     "1",
@@ -35,16 +52,16 @@ if (undelivered.length) {
 } else done.push(["1", "All delivery windows verified"]);
 
 // Order limits are their own fact — priceVerified covers the per-mile rate,
-// not how small or large an order we'll take. Nine programs carry limits read
-// off the client's own store; the rest share a default that is not a policy.
-const unlimited = airlines.filter((a) => !a.limitsVerified);
+// not how small or large an order we'll take. Confirmed limits come from the
+// client's price sheet; anything else sits on a default that is not a policy.
+const unlimited = sold.filter((a) => !a.limitsVerified);
 if (unlimited.length) {
   const n = (v) => v.toLocaleString("en-US");
   const defaults = [...new Set(unlimited.map((a) => `${n(a.min)}/${n(a.max)}`))];
   blocking.push([
     "1",
     `Order min/max unconfirmed for ${unlimited.length} program(s) — and the widget now ENFORCES them: an amount outside the range cannot be submitted. Every wrong figure here turns away a real order`,
-    `src/data/airlines.json → min, max, then limitsVerified: true. These ${unlimited.length} currently sit on an unconfirmed ${defaults.join(" / ")}; the other ${airlines.length - unlimited.length} are sourced from the live store`,
+    `src/data/airlines.json → min, max, then limitsVerified: true. These ${unlimited.length} currently sit on an unconfirmed ${defaults.join(" / ")}; the other ${sold.length - unlimited.length} are confirmed`,
   ]);
 } else done.push(["1", "All order limits verified"]);
 
@@ -66,12 +83,12 @@ if (unreviewed.length) {
 }
 
 // ── Agenda 2 — payment methods ───────────────────────────────────────
+// Not a blocker: payment is arranged off-site, per quote, and the client
+// decides how. Unverified, every payment surface says methods are confirmed
+// with the quote — a complete answer, not a holding one. Listing methods on
+// the site is the client's option, never a launch requirement.
 if (!site.payments.verified) {
-  blocking.push([
-    "2",
-    "Payment methods unconfirmed — FAQ shows a holding answer",
-    "src/data/site.json → payments.methods / usdtNetworks / minOrderUsd / cardAnswer, then payments.verified: true",
-  ]);
+  done.push(["2", "Payment arranged off-site with each quote (client's call; no methods listed)"]);
 } else {
   if (!site.payments.cardAnswer)
     optional.push(["2", "No scripted answer for 'do you take cards?'", "src/data/site.json → payments.cardAnswer"]);
@@ -117,10 +134,12 @@ if (!site.verification.verified)
 else done.push(["4", "Account-control check published"]);
 
 // ── Agenda 4 — guarantee + delivery transparency ─────────────────────
+// Not a launch blocker (agency decision, Sep 2026): the site makes no
+// guarantee claim until one is confirmed, which is honest without it.
 if (!site.guarantee.verified) {
-  blocking.push([
+  optional.push([
     "4",
-    "Guarantee text unconfirmed — guarantee tile, FAQ entry and hero clause are all suppressed",
+    "No guarantee published — guarantee tile, FAQ entry and hero clause are suppressed",
     "src/data/site.json → guarantee.summary + guarantee.policy, then guarantee.verified: true",
   ]);
 } else done.push(["4", `Guarantee published${site.guarantee.placeholder ? " (PLACEHOLDER)" : ""}`]);
@@ -144,7 +163,9 @@ if (!site.partner.verified || !site.partner.qualifyText) {
 
 // ── Airline direct-buy benchmark (agency can source this, not the client) ──
 const noBenchmark = !site.benchmark.verified || site.benchmark.directBuyCents === null;
-const perProgram = airlines.filter((a) => a.directBuyCents != null).length;
+// per-program comparisons live on airlines.json → directBuy { cents, source,
+// verified }; only verified ones render, so only those count here
+const perProgram = airlines.filter((a) => a.directBuy?.verified && a.directBuy.cents != null).length;
 if (noBenchmark && perProgram === 0) {
   optional.push([
     "—",
@@ -183,13 +204,9 @@ if (!tp.verified || !tp.businessUnitId || !tp.templateId) {
   ]);
 } else done.push(["12", "Trustpilot TrustBox live"]);
 
-if (!site.trust.foundedYear.verified || site.trust.foundedYear.value === null) {
-  optional.push([
-    "12",
-    "Founding year unconfirmed — the years-trading tile is suppressed",
-    "src/data/site.json → trust.foundedYear — the cheapest credible trust signal, and undisputable once true",
-  ]);
-} else done.push(["12", `Trading since ${site.trust.foundedYear.value}${site.trust.foundedYear.placeholder ? " (PLACEHOLDER)" : ""}`]);
+// The years-trading tile is off by choice, so an empty founding year is
+// not an outstanding item; it's reported only once one is set.
+if (site.trust.foundedYear.verified && site.trust.foundedYear.value !== null) done.push(["12", `Trading since ${site.trust.foundedYear.value}${site.trust.foundedYear.placeholder ? " (PLACEHOLDER)" : ""}`]);
 
 const stats = Object.entries(site.trust).filter(([k, s]) => k !== "foundedYear" && (!s.verified || s.value === null || s.value === ""));
 if (stats.length) {

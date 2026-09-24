@@ -79,6 +79,8 @@ Register: **trustworthy but friendly**. Warm paper neutrals, navy + azure (`--ac
 
 All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never hardcode hex values.**
 
+**Type scale.** Every `font-size` is a `--fs-*` token, one job each: `2xs` 12 (uppercase labels, badges; the floor) · `sm` 14 (secondary copy, captions, meta) · `md` 16 (body) · `lg` 18 (lead paragraphs) · `xl` 20 (card titles, article h3) · `2xl` 24 (article h2, card prices), plus fluid `d1` (hero h1), `d2` (section h2), `d3` (h3) and `num` (every big price and total). It replaced 45 ad-hoc sizes (Sep 2026). There is deliberately no step between 12 and 14: 12.5px grey text proved too small, so captions and meta are 14. Pick the nearest step; never add a px or clamp size. `em` inside a component is fine. Small labels above a value are regular weight; the value carries the emphasis.
+
 > Note: the file is still named `flightdeck.css` and some class names carry the old name — that's fine, only the visual direction changed.
 
 ## SEO conventions
@@ -93,13 +95,15 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 
 - Data lives in `src/data/airlines.json` (one entry per program, keyed by `id` = slug) and is validated by the Zod schema in `src/content.config.ts`. Templates read it via `getCollection("airlines")` and map `{ slug: e.id, ...e.data }`; entries are sorted by the `order` field.
 - `pricePerMile` is in **cents**. The `$ per 1,000` figure is **derived** (`× 10`) in templates — don't store both.
-- Real pricing audited from the client's live store widget (Aug 2026): Qatar 1.8 (24h), Aeroplan 1.8 (72h), BA 1.75 (24h), Delta 1.95 (24h, out of stock), ANA 1.9 (72h, out of stock), KrisFlyer 2.2 (72h), United 2.0 (72h), EVA 1.95 (48h), Flying Blue 1.95 (24h), LifeMiles 1.95 (24h), Asia Miles 1.95 (72h). These have `priceVerified: true` / `deliveryVerified: true`.
-- **`priceVerified` / `deliveryVerified` replace the old `// PLACEHOLDER` comments.** Anything `false` (American plus the ten expansion programs) needs a **real, confirmed value before launch** — then flip the flag to `true`.
+- Real pricing from the client's own sheet (Sep 2026), superseding the Aug 2026 store-widget audit: Qatar 1.5, Aeroplan / Flying Blue / American / Avianca / BA / Asia Miles / Turkish 1.7, EVA / KrisFlyer 1.8, Emirates / Etihad / United 1.9, Atmos (Alaska) 2. Delivery is stated in **business days** ("Within 3 business days"; EVA and United "Within 7"). All of these have `priceVerified: true` / `deliveryVerified: true`. **The site matches that sheet**: a program whose row is empty (ANA, Frontier, JetBlue, Lufthansa, Southwest) is `fulfilment: "flights"` — its page ranks for "buy X miles" but books the award seat instead, and shows no rate. The one exception is **Delta**: its row is empty too, but by agency decision it stays a miles program on its August-audit 1.95¢ / 24h, marked unverified (renders as ~1.95¢). `src/lib/delivery.ts → deliveryHours()` makes hour and business-day windows sortable together — use it for any "fastest window" logic.
+- **`readyAccount: true`** (Emirates, American) marks miles the client can only sell into a new account: the order is delivered as a **ready account** with the miles already in it, handed over to the buyer. The card, program page, quote widget and FAQ all say so; never write "miles land in your own account" copy for these programs.
+- Minimum order is 10,000 miles for Qatar, Turkish and Air France/KLM (client, Sep 2026).
+- **`priceVerified` / `deliveryVerified` replace the old `// PLACEHOLDER` comments.** They only matter for programs we sell miles for; `check:launch` ignores them on flights-only programs. Iberia and Qantas are not on the client's sheet at all; they and Delta stay on indicative figures (listed in `DEFERRED` in `scripts/launch-check.mjs`) until the client confirms them.
 
 ## Business constraints (important)
 
 - **Payment/checkout stays OFF this site.** The "Buy" buttons currently anchor to the programs section — wire them to the real order flow (a form → manual fulfillment), decoupled from the static site so hosting uptime is never coupled to payment-policy enforcement.
-- Accepted payment methods are **USDT / wire / cash**. Do **NOT** advertise credit cards or PayPal — that copy is wrong on the current live site and must not be carried over. The payment-methods answer in `Faq.astro` is a placeholder to fill with true methods.
+- **How payment is taken is the client's call, arranged off-site with each quote.** The site deliberately names no methods: FAQ, `/order` and `/agents` say methods are confirmed with the quote. That is the launch state, not a placeholder. Do **NOT** advertise credit cards or PayPal — that copy is wrong on the current live site and must not be carried over. Only list methods (`site.json → payments`, `verified: true`) if the client asks for them to be public.
 - **Trust is the #1 competitive lever**; buyers fear scams. Only publish trust stats that are **real and verifiable**. The figures in `TrustStrip.astro` (rating, transfer count, completion %) are placeholders and must be replaced with true numbers — never invented.
 - **Not affiliated** with any airline or loyalty program (the footer says so). Don't imply a partnership or use airline logos/trademarks in a way that suggests one.
 
@@ -108,7 +112,9 @@ All design tokens live in `:root` in `flightdeck.css`. **Reuse tokens; never har
 Everything the **client** must confirm lives in exactly two data files, never in components:
 
 - `src/data/airlines.json` — per-program pricing, min/max, delivery windows
-- `src/data/site.json` — payment methods, enquiry inboxes + Web3Forms keys, guarantee text, trust stats, testimonials (validated by `src/lib/site.ts`)
+- `src/data/site.json` — payment methods, enquiry inboxes + Web3Forms keys, guarantee text, trust stats, testimonials, the GA4 ID (validated by `src/lib/site.ts`)
+
+GA4 (`G-PH6Y2KB7QV`, the same property as the WordPress site) loads only on the hosts in `site.json → analytics.hosts`, so previews never report. EEA/UK/CH visitors get consent-mode "denied" (cookieless, no banner). Every successful form send fires `generate_lead` with `{ form }` via `window.bfmTrack`; mark it as a key event in GA4. The old site's GTM container (`GTM-TLG7S24`: a dead Universal Analytics tag and FullStory) was deliberately not carried over.
 
 Both use **`verified` flags, and a claim renders only when its flag is `true`.** Unverified
 content is *suppressed, not faked* — an unconfirmed rating doesn't ship as a placeholder
@@ -121,7 +127,7 @@ Run `npm run check:launch` for what's still outstanding (keyed to the client-cal
 
 ## TODO before launch
 
-1. Fill the outstanding client inputs — see `LAUNCH.md` and `npm run check:launch`. Blockers: program pricing/delivery for Delta, United, American, BA; payment methods; enquiry inboxes + Web3Forms keys; guarantee text.
-2. Replace the suppressed trust stats and testimonials with real, verifiable ones (`site.json` → `trust`, `testimonials`). Note the Google Business Profile sits at 2.6★ vs 4.8 on Trustpilot — if a rating ships, cite its `source`.
+1. Fill the outstanding client inputs — see `LAUNCH.md` and `npm run check:launch`. Blockers: the Web3Forms key(s); native review of the translated pages. Not blockers by decision: payment methods (handled off-site by the client), guarantee text, and Delta/Iberia/Qantas figures (kept on indicative ~ rates for now).
+2. Replace the suppressed trust stats and testimonials with real, verifiable ones (`site.json` → `trust`, `testimonials`). Confirmed so far: 250M+ miles delivered, 5,000+ transfers, Trustpilot 4.8★ from 49 reviews (checked 23 Sep 2026; it is a static figure until the TrustBox IDs are set, see `site.json → trustpilot`). The Google Business Profile sits at 2.6★ and is not shown.
 3. Expand the roster toward the full list (Southwest, Alaska, JetBlue, Hawaiian, Frontier, Turkish, Etihad, Emirates, Lufthansa, …).
 4. Set 301 redirects from the old WordPress URLs at deploy time.

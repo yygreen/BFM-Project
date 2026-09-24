@@ -32,7 +32,6 @@ const h = Object.fromEntries(sections.map((s) => [s.id, s.title]));
         { label: "Privacy policy" },
       ]} />
       <div class="section-head">
-        <span class="kicker">Legal</span>
         <h1>Privacy policy</h1>
         <p>Last updated August 2026.</p>
       </div>
@@ -62,15 +61,20 @@ const h = Object.fromEntries(sections.map((s) => [s.id, s.title]));
 
         <h2 id="cookies">{h["cookies"]}</h2>
         <p>
-          This is a static site. It sets no advertising or cross-site tracking cookies. Our hosting
+          This is a static site. It sets no advertising cookies and runs no ads. We use
+          <b>Google Analytics</b> to count visits and see which pages and forms are used, so we
+          can improve them. For visitors in the EU, EEA, UK and Switzerland it runs without
+          analytics cookies, sending only cookieless signals that are used for aggregate counts; elsewhere it sets
+          first-party analytics cookies. We don't send Google the contents of any form. Our hosting
           provider records standard server logs (IP address, browser, pages requested) to serve and
           secure the site.
         </p>
 
         <h2 id="third-parties">{h["third-parties"]}</h2>
         <p>
-          Form submissions pass through <b>Web3Forms</b>, which delivers them to our inbox, and
-          our hosting provider serves the pages. Naming them is the point: you should be able to
+          Form submissions pass through <b>Web3Forms</b>, which delivers them to our inbox,
+          <b>Google Analytics</b> measures visits as described above, and our hosting provider
+          serves the pages. Naming them is the point: you should be able to
           see who handles a message before you send it. Pages link out to airline and program
           websites, whose own policies apply once you're there.
         </p>

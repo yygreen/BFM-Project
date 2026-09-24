@@ -147,6 +147,26 @@ const airlines = defineCollection({
 
       delivery: z.string().min(1),
       deliveryVerified: z.boolean().default(false),
+      // What we can actually deliver for this program. "miles" is the default
+      // storefront: a top-up into the buyer's own account. "flights" is the
+      // honest fallback for programs whose miles the client cannot source at
+      // a standard worth standing behind (his words: "difficult to source to
+      // a point where selling only flights to the clients directly") — the
+      // page still targets the buy-miles query, says plainly that we don't
+      // sell these miles and why, and offers the award seat itself instead:
+      // booked with the airline, ticketed in the buyer's own name, priced as
+      // a firm all-in quote. Flags ripple everywhere a per-mile rate would
+      // otherwise leak: the quote widget roster, the order flow, the
+      // calculator routes, the homepage card, the OG card and the FAQ.
+      fulfilment: z.enum(["miles", "flights"]).default("miles"),
+
+      // Miles that can only be sold into a new account. The client can't
+      // transfer them into the buyer's existing balance, so the order is
+      // delivered as a ready account with the miles already in it, handed
+      // over to the buyer. Every surface that would otherwise say "miles land
+      // in your own account" reads this flag instead: card, program page,
+      // quote widget and FAQ.
+      readyAccount: z.boolean().default(false),
 
       inStock: z.boolean(),
 

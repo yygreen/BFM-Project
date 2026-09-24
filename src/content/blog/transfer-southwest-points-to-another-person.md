@@ -1,6 +1,6 @@
 ---
 title: "How to Transfer Southwest Points to Another Person (and the Free Way)"
-description: "Southwest charges 1 cent per point to move Rapid Rewards points between accounts, capped at 60,000 a year. What it costs, the free alternative most people miss, and when buying beats both."
+description: "Southwest charges 1 cent per point to move Rapid Rewards points between accounts, capped at 60,000 a year. What it costs, the free alternative, and what to do when their account is short."
 date: 2026-08-12
 category: "Transfers"
 programs: ["southwest-rapid-rewards"]
@@ -53,30 +53,24 @@ That matters most when both people are going to fly anyway. If your points were
 going to be spent on your own trip, transferring them does not save the
 household anything, it just moves which of you pays cash later.
 
-## When buying into their account is the better trade
+## When their account is short
 
 There is one situation where none of the above helps: **the destination account
 is short, and yours is not overflowing.** The other person needs 60,000 points
 for a booking, you have 25,000, and giving away yours leaves two accounts that
 each cannot book anything.
 
-Buying points straight into the account that needs them solves it from the
-right side. Nothing leaves your balance, the points land where the booking will
-be made, and there is no transfer fee layered on top of a per-point price.
+We don't sell Rapid Rewards points, so topping up their account isn't something
+we do. What we do instead skips the balance altogether: send us the route and
+dates, and we book the Southwest flight as an award ourselves, ticketed in the
+traveller's own name. Nothing leaves your account, no transfer fee applies, and
+the all-in price is fixed before anything is paid.
 
-Two honest limits before you consider it:
+Worth knowing first: **Southwest points are revenue-linked**, so an award costs
+roughly what the cash fare does. When the fare is simply cheap, paying cash is
+often the better trade, and we would rather say so.
 
-- **Our minimum order is 50,000 points.** If the gap is 4,000 points, we are not
-  your answer and the official transfer is. That is a genuinely better deal at
-  that size, and we would rather say so than sell you something oversized.
-- **Southwest points are revenue-linked**, so their redemption value is fairly
-  stable and fairly modest. The
-  [Southwest points calculator](/calculator/southwest-rapid-rewards) prices an
-  amount against a real cash fare and will tell you when paying cash for the
-  ticket is simply the better trade. On Southwest it says that more often than
-  on most programs, and we would rather you saw it.
-
-Current rates and delivery windows are on the
+How it works is on the
 [Southwest Rapid Rewards page](/buy/southwest-rapid-rewards). Your exact price
 is confirmed before anything is agreed, and nothing is charged on this site.
 

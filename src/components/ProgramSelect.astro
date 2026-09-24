@@ -23,6 +23,9 @@ const { id, name, value, labelId, required = false } = Astro.props;
 
 const programs = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
+  // flights-only programs sell a booked seat, not a miles order — they carry
+  // no per-mile rate, so they must never appear in this order-flow selector
+  .filter((a) => a.fulfilment !== "flights")
   .sort((a, b) => a.airline.localeCompare(b.airline))
   .map((a) => ({
     slug: a.slug,

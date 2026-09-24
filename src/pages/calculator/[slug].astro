@@ -19,7 +19,11 @@ import { LOCALES } from "../../lib/locales";
 
 export async function getStaticPaths() {
   const airlines = (await getCollection("airlines")).map((e) => ({ slug: e.id, ...e.data }));
-  return airlines.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+  // a flights-only program has no per-mile arithmetic to calculate; its old
+  // calculator URL 301s to the program page in vercel.json
+  return airlines
+    .filter((a) => a.fulfilment !== "flights")
+    .map((a) => ({ params: { slug: a.slug }, props: { a } }));
 }
 
 const { a } = Astro.props;
@@ -128,7 +132,6 @@ const faqJsonLd = {
             { label: "Calculators", href: "/calculator" },
             { label: `${a.airline} ${progShort}` },
           ]} />
-          <span class="kicker">Calculator</span>
           <h1>How much are {a.airline} miles worth?</h1>
           <p class="sub">
             A mile is worth what its redemption saves you: divide the cash fare by the miles
@@ -311,7 +314,7 @@ const faqJsonLd = {
       <div class="faqx-list">
         {faqs.map((f) => (
           <details class="faq" open={f.open}>
-            <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"></span></summary>
+            <summary><span class="faq-q">{f.q}</span><span class="faq-mk" aria-hidden="true"><i></i></span></summary>
             <div class="ans">{f.a}</div>
           </details>
         ))}

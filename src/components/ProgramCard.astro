@@ -1,0 +1,37 @@
+---
+// One program tile for the homepage grid. Extracted so the miles wall and the
+// flights-only band render the identical card without duplicating its markup.
+// A flights-only program shows no per-mile rate (its page disowns the claim),
+// a "Bookable" badge, and the "Flights in your name" label at rate size.
+import Emblem from "./Emblem.astro";
+import { rateFixed } from "../lib/money";
+const { a } = Astro.props;
+const flights = a.fulfilment === "flights";
+---
+<a class="gcard" href={`/buy/${a.slug}`}>
+  <div class="top">
+    <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={46} />
+    {flights
+      ? <span class="badge badge-ok">Bookable</span>
+      : a.inStock
+        ? <span class="badge badge-ok">In stock</span>
+        : <span class="badge badge-warn">Limited</span>}
+  </div>
+  <!-- airline leads: the grid sorts A-Z by carrier, and the headline
+       must be the thing the sort is on or the order reads as random -->
+  <!-- .pnames groups airline + program so a phone can set them on one line
+       ("Cathay Pacific Asia Miles"); on wider screens it stacks as before -->
+  <div class="pnames">
+    <div class="pname">{a.airline}</div>
+    <!-- a ready-account program says so on the card, on the line it already
+         has, so the buyer knows before clicking and the rates stay aligned -->
+    <div class="plabel">{a.program}{a.readyAccount && <span class="pready"> · ready account</span>}</div>
+  </div>
+  {flights ? (
+    <div class="price price-svc">Flights <small>in your name</small></div>
+  ) : (
+    <div class="price">{a.priceVerified ? "" : "~"}{rateFixed(a.pricePerMile)}¢ <small>/ mile</small></div>
+  )}
+  <div class="meta"><span>{flights ? (a.alliance === "Independent" ? "booked for you" : "business & first") : a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
+  <span class="gcta">{flights ? "Book the flight →" : "Buy miles →"}</span>
+</a>

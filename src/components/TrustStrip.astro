@@ -22,7 +22,7 @@ const EN = {
   // shared truth is that they end up holding it themselves, which is also the
   // answer to the fear that brings people to this page.
   milesIn: "Yours, in your own name",
-  milesInCap: "Miles land in the account you already hold; tickets are issued in the traveller's own name. You deal with the airline direct, and payment is handled off this site, so nothing sensitive is stored here",
+  milesInCap: "Miles land in an account you control, your own or a ready account we hand over; tickets are issued in the traveller's own name. You deal with the airline direct, and payment is handled off this site, so nothing sensitive is stored here",
   milesDelivered: "miles delivered",
   transfers: "transfers completed",
   programsCovered: "programs covered",
@@ -44,8 +44,10 @@ const programCount = all.length;
 const years = yearsTrading();
 
 // compact big-number formatting for the stat band: 500000000 → "500M"
+// Millions and up abbreviate (250M); anything smaller prints in full (5,000),
+// which reads as a count rather than a rounded marketing figure.
 const fmtBig = (n) =>
-  n >= 1e9 ? `${+(n / 1e9).toFixed(1)}B` : n >= 1e6 ? `${Math.round(n / 1e6)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}k` : `${n}`;
+  n >= 1e9 ? `${+(n / 1e9).toFixed(1)}B` : n >= 1e6 ? `${Math.round(n / 1e6)}M` : n.toLocaleString("en-US");
 
 // headline stat band — the scale figures buyers compare vendors on. The two
 // client-supplied ones render only when live (or staged as placeholders); the
@@ -135,7 +137,7 @@ const specs = [
 </div>
 
 {bandStats.length > 0 && (
-  <div class="statband">
+  <div class={`statband${bandStats.length % 2 ? " sb-odd" : ""}`} style={`--sbn:${bandStats.length}`}>
     {bandStats.map((s) => {
       const Tag = s.href ? "a" : "div";
       return (

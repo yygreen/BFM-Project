@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/fetch-fx.mjs",
+    "prebuild": "node scripts/fetch-fx.mjs && node scripts/og-cards.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check:launch": "node scripts/launch-check.mjs",
@@ -17,5 +17,9 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.0.7"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.33.4"
   }
 }

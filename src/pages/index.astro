@@ -6,12 +6,14 @@ import Trustpilot from "../components/Trustpilot.astro";
 import Faq from "../components/Faq.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Emblem from "../components/Emblem.astro";
+import ProgramCard from "../components/ProgramCard.astro";
 import QuoteWidget from "../components/QuoteWidget.astro";
 import StepArt from "../components/StepArt.astro";
 import FlightSearch from "../components/FlightSearch.astro";
 import { getCollection } from "astro:content";
 import { site, live, realTestimonials, realReviews, flightSavings, flightSavingsHtml } from "../lib/site";
 import { rateFixed } from "../lib/money";
+import { deliveryHours } from "../lib/delivery";
 
 // alphabetical by carrier, matching the nav dropdown and the quote widget's
 // selector — the grid is a lookup wall, and one site shouldn't have two orders
@@ -19,16 +21,28 @@ const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
   .sort((a, b) => a.airline.localeCompare(b.airline));
 
+// The grid is two products, not one. Miles programs are the pricing wall — a
+// rate on every card, meant to be compared. Flights-only programs (the ones
+// whose miles we can't source safely) sell a booked seat and carry no rate,
+// so they get their own labeled band below rather than leaving gaps in the
+// price comparison. Both stay A-Z within their group.
+const milesPrograms = airlines.filter((a) => a.fulfilment !== "flights");
+const flightsPrograms = airlines.filter((a) => a.fulfilment === "flights");
+
 // Hero stats: only figures we can stand behind. Windows differ by program,
 // so the hero says "fast" and each program page states its own number;
 // rating/completion appear once the client verifies them.
 //
-// `fastest` is the shortest CONFIRMED window — sorted by hours, since the
-// roster is ordered alphabetically and first-in-list is not fastest.
+// `fastest` is the shortest CONFIRMED window among programs that can
+// actually be ordered — sorted by real duration, since the roster is ordered
+// alphabetically and the data mixes "24 hours" with "3 business days"
+// (parseInt would rank the days ahead of the hours). inStock matters: after
+// the Sep 2026 sheet the only hour-window programs are out of stock, and a
+// speed claim resting on a program nobody can order is not a claim we make.
 const fastest = airlines
-  .filter((a) => a.deliveryVerified)
-  .map((a) => a.delivery.replace("Within ", ""))
-  .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))[0];
+  .filter((a) => a.fulfilment !== "flights" && a.deliveryVerified && a.inStock)
+  .sort((a, b) => deliveryHours(a.delivery) - deliveryHours(b.delivery))
+  .map((a) => a.delivery.replace("Within ", ""))[0];
 
 const savings = flightSavings();
 const savingsHtml = flightSavingsHtml();
@@ -80,7 +94,10 @@ const jsonld = {
     <div class="container">
       <div class="hero-grid">
         <div>
-          <span class="kicker">Miles, delivered within hours</span>
+          {/* the kicker is a delivery claim like any other: it states the
+              fastest in-stock confirmed window instead of a hardcoded
+              "within hours" that the data may not back */}
+          <span class="kicker">{fastest ? `Miles, delivered within ${fastest.toLowerCase()}` : "Miles, delivered fast"}</span>
           <!-- The keyword leads and the hook follows: the h1 was carrying the
                promise but not the phrase people search, while the title tag
                carried the phrase. Now they agree. -->
@@ -91,7 +108,7 @@ const jsonld = {
             <a class="btn btn-secondary" href="#how">How it works</a>
           </div>
           {heroStats.length > 0 && (
-            <div class="spec">
+            <div class="spec spec-home">
               {heroStats.map((s, i) => (
                 <>
                   {i > 0 && <span class="dot"></span>}
@@ -111,7 +128,7 @@ const jsonld = {
                       {"★".repeat(stars)}<span class="spec-stars-dim">{"★".repeat(Math.max(0, starsOut - stars))}</span>
                     </span>
                     <b>{heroReview.rating}</b>
-                    <span class="spec-rev-plat">on {heroReview.platform}</span>
+                    <span class="spec-rev-plat"><span class="spec-on">on </span>{heroReview.platform}</span>
                   </a>
                 </span>
               )}
@@ -162,35 +179,10 @@ const jsonld = {
       <div class="section-head">
         <span class="kicker">Programs</span>
         <h2>Choose your program</h2>
-        <p>Live, transparent pricing across every program we cover. Each links to full details and delivery times.</p>
+        <p>Live, transparent pricing across every program we sell miles for. Each links to full details and delivery times.</p>
       </div>
-      <div class="grid">
-        {airlines.map((a) => (
-          <a class="gcard" href={`/buy/${a.slug}`}>
-            <div class="top">
-              <Emblem code={a.code} color={a.color} logo={a.logo} logoAlt={a.logoAlt} size={46} />
-              {a.inStock
-                ? <span class="badge badge-ok">In stock</span>
-                : <span class="badge badge-warn">Limited</span>}
-            </div>
-            <!-- airline leads: the grid sorts A-Z by carrier, and the headline
-                 must be the thing the sort is on or the order reads as random -->
-            <div class="pname">{a.airline}</div>
-            <div class="plabel">{a.program}</div>
-            <div class="price" style="margin-top:14px">{a.priceVerified ? "" : "~"}{rateFixed(a.pricePerMile)}¢ <small>/ mile</small></div>
-            <div class="meta"><span>{a.deliveryVerified ? a.delivery.replace("Within ", "") : "fast delivery"}</span><span>{a.alliance}</span></div>
-            {/* The whole tile is a link, but nothing said so — while the two
-                "ask" tiles in the same grid both carry a call to action, so
-                half the grid read as clickable and half didn't.
-
-                "Buy miles" is the site's own verb for this step — the nav says
-                Buy, the URL is /buy/, and the card on the program page says
-                the same. Earlier drafts said "see pricing", which promised the
-                rate already printed two lines above, then "price your amount",
-                which described the calculator rather than the errand. */}
-            <span class="gcta">Buy miles →</span>
-          </a>
-        ))}
+      <div class="grid prog-list">
+        {milesPrograms.map((a) => <ProgramCard a={a} />)}
         <!-- catch-all for programs we don't list — a request, not a promise:
              availability gets confirmed in the quote, never asserted here -->
         <a class="gcard gcard-ask" href="/request">
@@ -202,13 +194,47 @@ const jsonld = {
              only through the nav, which is the one place a visitor scanning
              prices isn't looking. Claims here are the ones /agents already
              makes; the volume threshold stays off it until confirmed. -->
-        <a class="gcard gcard-ask gcard-partner" href="/agents">
+        <a class="gcard gcard-ask gcard-partner gcard-wide" href="/agents">
           <span class="ask-tag">For agents &amp; brokers</span>
           <div class="pname">Booking for clients?</div>
           <p class="askp">Volume pricing on miles and on business or first class seats. Your client never sees us.</p>
           <span class="askcta">See partner access →</span>
         </a>
       </div>
+
+      {/* The programs we can't source miles for at a standard worth standing
+          behind. Split into their own band so the pricing wall above stays a
+          clean rate comparison, and so the honest "we book these as flights"
+          model reads as a deliberate second offering rather than cards with a
+          missing price. */}
+      {flightsPrograms.length > 0 && (
+        <div class="prog-split">
+          <div class="section-head">
+            <span class="kicker">Flights, not miles</span>
+            <h3>Some programs we book as flights</h3>
+            <p>These miles are hard to buy safely, so we don't. Tell us the trip and we book the award seat itself, ticketed in your own name.</p>
+          </div>
+          <div class="grid prog-list">
+            {flightsPrograms.map((a) => <ProgramCard a={a} />)}
+            {/* the overview: /flights books a seat on ANY program here, the
+                ones we sell miles for included, so it belongs at the end of
+                this band as the "or any of them" catch-all */}
+            <a class="gcard gcard-ask" href="/flights">
+              <div class="pname">Want the seat, not the miles?</div>
+              <p class="askp">We book business and first awards across every program on this page — the ones we sell miles for included. Give us the route and dates.</p>
+              <span class="askcta">See how it works →</span>
+            </a>
+            {/* the trade route for flights, spanning two tracks like the miles
+                band's partner card */}
+            <a class="gcard gcard-ask gcard-partner gcard-wide" href="/agents">
+              <span class="ask-tag">For agents &amp; brokers</span>
+              <div class="pname">Flight booking at volume</div>
+              <p class="askp">Premium award seats sourced and ticketed for your clients, at trade rates. Your client never sees us.</p>
+              <span class="askcta">See partner access →</span>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   </section>
 
@@ -271,7 +297,9 @@ const jsonld = {
       </div>
       <!-- the full set, and its FAQPage markup, live on /faq — the homepage
            shows the first few and sends the rest there -->
-      <Faq delivery="24 hours" limit={5} jsonld={false} />
+      {/* the fastest CONFIRMED window, not a hardcoded 24 hours — the answer
+          this feeds is a delivery claim, and it must follow the data */}
+      <Faq delivery={fastest ?? "a few business days"} limit={5} jsonld={false} />
       <p style="margin-top:22px">
         <a class="btn btn-secondary" href="/faq">Read all questions</a>
       </p>

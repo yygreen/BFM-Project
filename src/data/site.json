@@ -13,8 +13,8 @@
   "contact": {
     "orderEmail": "info@buyflightmiles.com",
     "agentEmail": "",
-    "web3formsKeyQuote": "",
-    "web3formsKeyAgents": "",
+    "web3formsKeyQuote": "0a0402c4-6b7d-479b-9820-6e3be51977e0",
+    "web3formsKeyAgents": "17c155b1-74e4-4603-81a8-db6463e0e203",
     "turnstileSiteKey": "",
     "whatsapp": "+1 908 718 1082",
     "telegram": "",
@@ -55,14 +55,14 @@
       "verified": false
     },
     "transfersCompleted": {
-      "value": 10000,
+      "value": 5000,
       "verified": true,
-      "placeholder": true
+      "placeholder": false
     },
     "milesDelivered": {
-      "value": 500000000,
+      "value": 250000000,
       "verified": true,
-      "placeholder": true
+      "placeholder": false
     },
     "completionRate": {
       "value": 99.9,
@@ -78,9 +78,9 @@
       "verified": false
     },
     "foundedYear": {
-      "value": 2016,
-      "verified": true,
-      "placeholder": true
+      "value": null,
+      "verified": false,
+      "placeholder": false
     }
   },
   "reviews": [
@@ -91,7 +91,7 @@
       "count": 49,
       "url": "https://www.trustpilot.com/review/buyflightmiles.com",
       "verified": true,
-      "placeholder": true
+      "placeholder": false
     },
     {
       "platform": "Google",
@@ -112,6 +112,10 @@
     "verified": false
   },
   "testimonials": [],
+  "analytics": {
+    "ga4Id": "G-PH6Y2KB7QV",
+    "hosts": ["www.buyflightmiles.com", "buyflightmiles.com"]
+  },
   "flights": {
     "savingsClaim": "Save up to 25% and more compared to the cash fare",
     "verified": true

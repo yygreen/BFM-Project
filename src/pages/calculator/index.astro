@@ -6,8 +6,12 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Emblem from "../../components/Emblem.astro";
 import { getCollection } from "astro:content";
 
+// Only programs with a calculator page: flights-only programs have none (their
+// /calculator URLs 301 to the booking page), so listing them here would link
+// through a redirect to a rate the site doesn't sell.
 const airlines = (await getCollection("airlines"))
   .map((e) => ({ slug: e.id, ...e.data }))
+  .filter((a) => a.fulfilment !== "flights")
   .sort((a, b) => a.airline.localeCompare(b.airline));
 ---
 <Base
@@ -22,7 +26,6 @@ const airlines = (await getCollection("airlines"))
         { label: "Calculators" },
       ]} />
       <div class="section-head">
-        <span class="kicker">Calculators</span>
         <h1>Airline miles calculators</h1>
         <p>
           One per program, all running the same two live calculations: what the miles cost

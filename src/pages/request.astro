@@ -9,6 +9,7 @@ import Base from "../layouts/Base.astro";
 import Turnstile from "../components/Turnstile.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ContactChannels from "../components/ContactChannels.astro";
+import Confirmation from "../components/Confirmation.astro";
 import EnquiryMail from "../components/EnquiryMail.astro";
 import { site, quoteFormReady, mailtoInbox } from "../lib/site";
 
@@ -33,7 +34,6 @@ const notWired = orderEmail
           other page; the old 640px centered column made this one read like a
           different site */}
       <div class="section-head" style="margin-bottom:24px">
-        <span class="kicker">Custom request</span>
         <h1>Tell us what you need</h1>
         <p>Program not on our list? Send the details and we'll check availability and price. You get a firm quote before anything is paid.</p>
       </div>
@@ -53,11 +53,21 @@ const notWired = orderEmail
         <button type="submit" class="btn btn-primary" id="request-submit" style="width:100%;margin-top:14px">Send request</button>
         <p class="form-msg" id="request-msg" hidden></p>
         <ContactChannels context="a program request" />
-        <p style="color:var(--text-3);font-size:12px;text-align:center;margin:12px 0 0">Nothing is charged on this site. We reply with availability and a firm rate first.</p>
-        <p style="color:var(--text-3);font-size:13px;text-align:center;margin:14px 0 0">
+        <p style="color:var(--text-3);font-size:var(--fs-sm);text-align:center;margin:12px 0 0">Nothing is charged on this site. We reply with availability and a firm rate first.</p>
+        <p style="color:var(--text-3);font-size:var(--fs-sm);text-align:center;margin:14px 0 0">
           Not about a specific program? <a href="/contact" style="color:var(--cobalt);font-weight:600">Contact us</a> instead.
         </p>
       </form>
+
+      <Confirmation
+        id="request-confirm"
+        checking="A person checks live availability for the program you named and prices your exact request. Unlisted doesn't mean unavailable."
+      >
+        <dl class="confirm-echo" slot="echo">
+          <div><dt>Program</dt><dd id="rc-program"></dd></div>
+          <div id="rc-miles-row" hidden><dt>Miles</dt><dd id="rc-miles"></dd></div>
+        </dl>
+      </Confirmation>
     </div>
   </section>
 
@@ -124,21 +134,44 @@ const notWired = orderEmail
         const label = btn.textContent;
         btn.disabled = true; btn.textContent = "Sending…"; msg.hidden = true;
         try {
+          // the inbox should read "60,000", not "60000": someone quotes from it
+          const payload = Object.fromEntries(new FormData(form));
+          // an optional field left blank is left out, not mailed as an empty label
+          for (const k in payload) if (payload[k] === "") delete payload[k];
+          if (Number(payload.miles)) payload.miles = Number(payload.miles).toLocaleString("en-US");
           const res = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            body: JSON.stringify(payload),
           });
           const data = await res.json();
           if (data.success) {
-            msg.textContent = "Request sent. We'll come back with availability and a firm rate.";
-            msg.className = "form-msg ok"; form.reset();
+            window.bfmTrack?.("generate_lead", { form: "request" });
+            // The form's work is done — swap it for the confirmation panel,
+            // echoing back what was asked so the record survives the send.
+            // Focus moves to the panel (tabindex="-1") so the change is
+            // announced rather than leaving focus on a vanished button.
+            const panel = document.getElementById("request-confirm");
+            const prog = document.getElementById("req-program").value.trim();
+            const miles = parseInt(document.getElementById("req-miles").value, 10);
+            document.getElementById("rc-program").textContent = prog || "—";
+            if (miles) {
+              document.getElementById("rc-miles").textContent = miles.toLocaleString("en-US");
+              document.getElementById("rc-miles-row").hidden = false;
+            }
+            form.hidden = true;
+            panel.hidden = false;
+            panel.focus({ preventScroll: false });
+            return;
           } else { throw new Error(data.message); }
         } catch {
           msg.textContent = "Something went wrong sending this — please try again.";
           msg.className = "form-msg err";
         } finally {
-          btn.disabled = false; btn.textContent = label; msg.hidden = false;
+          btn.disabled = false; btn.textContent = label;
+          // when the confirmation replaced the form there is no message to
+          // show — unhiding the empty element would paint a blank green box
+          if (!form.hidden) msg.hidden = false;
         }
       });
     })();

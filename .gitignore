@@ -25,6 +25,11 @@ yarn-error.log*
 # vercel
 .vercel/
 
+# OG share cards, regenerated from airlines.json + blog frontmatter by
+# scripts/og-cards.mjs on every prebuild — generated output, not source
+public/og/buy/
+public/og/blog/
+
 # Claude/agent skill tooling, installed per-machine via `npx skills add` — not site code
 .agents/
 .claude/

@@ -1,0 +1,71 @@
+---
+// The screen after someone sends an enquiry — the peak-anxiety moment on a
+// site that asks buyers to trust a stranger with a four-figure purchase. An
+// inline "Request sent." line answered the software's question (did the POST
+// work?) and none of the buyer's (who saw it? who replies? from where? what
+// am I committed to?). This panel answers those, and only with facts the
+// data files stand behind:
+//
+//   - the reply address renders only while contact.verified holds, through
+//     the same officialChannels() gate as the footer
+//   - no reply-time promise until supportHours is verified — the honest
+//     fallback is what happens, not when
+//   - the "nothing is paid" line is true by construction (payment is off
+//     this site by policy)
+//
+// Hidden until the page's submit handler swaps it in for the form. The
+// handler should call .focus() on it: the panel carries tabindex="-1" so the
+// swap is announced to a screen reader instead of leaving focus on a button
+// that no longer exists.
+import { site, live, officialChannels } from "../lib/site";
+import ConfirmRoute from "./ConfirmRoute.astro";
+
+interface Props {
+  /** DOM id the page's submit handler targets */
+  id: string;
+  title?: string;
+  /** step 1 — what we do with this specific form's submission */
+  checking: string;
+  /** step 3 — what the sender is (and isn't) committed to */
+  deciding?: string;
+  /** the call/WhatsApp line — off where the page already lists the channels */
+  fast?: boolean;
+}
+const {
+  id,
+  title = "Request received.",
+  checking,
+  deciding = "You decide. Nothing is paid until you approve the quote, and payment never happens on this website.",
+  fast = true,
+} = Astro.props;
+
+const channels = officialChannels();
+const email = channels.find((c) => c.kind === "email");
+const phone = channels.find((c) => c.kind === "phone");
+const wa = channels.find((c) => c.kind === "whatsapp");
+
+const replyLine = email
+  ? `A personal reply lands in your inbox, from ${email.value}. Quiet for a while? Check your spam folder. First replies sometimes land there.`
+  : "A personal reply lands in your inbox. Quiet for a while? Check your spam folder. First replies sometimes land there.";
+
+const hours = live(site.trust.supportHours) ? site.trust.supportHours.value : null;
+---
+<div class="confirm" id={id} hidden tabindex="-1">
+  <ConfirmRoute />
+  <h2 class="confirm-title">{title}</h2>
+  <slot name="echo" />
+  <p class="confirm-k">What happens now</p>
+  <ol class="confirm-steps">
+    <li>{checking}</li>
+    <li>{replyLine}</li>
+    <li>{deciding}</li>
+  </ol>
+  {fast && (phone || wa) && (
+    <p class="confirm-fast">
+      Rather talk it through{hours ? ` (${hours})` : ""}?{" "}
+      {phone && <a href={phone.href}>Call {phone.value}</a>}
+      {phone && wa && <span aria-hidden="true"> · </span>}
+      {wa && <a href={wa.href} target="_blank" rel="noopener">WhatsApp us</a>}
+    </p>
+  )}
+</div>
