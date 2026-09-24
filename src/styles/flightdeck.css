@@ -220,11 +220,17 @@ h1,h2,h3,h4 { font-family:var(--display); letter-spacing:-0.03em; margin:0; colo
    and must keep wrapping, or it widens the page past the screen.
    nowrap is safe here: measured to fit from 320px up. */
 @media (max-width:560px){
-  .hero .spec-home { flex-wrap:nowrap; white-space:nowrap; gap:0 14px; font-size:var(--fs-2xs); }
+  .hero .spec-home { flex-wrap:nowrap; white-space:nowrap; gap:0 14px; font-size:var(--fs-2xs); justify-content:center; }
   .hero .spec-home .spec-revwrap { gap:14px; }
   .hero .spec-home .spec-rev { gap:5px; }
   .hero .spec-home .spec-stars { font-size:var(--fs-2xs); letter-spacing:0; }
   .hero .spec-home .spec-on { display:none; }
+}
+/* centred and unable to wrap, the row needs side margin to read as centred:
+   below 380px five stars leave it touching the screen edges, so the rating
+   shows one star ("★ 4.8 Trustpilot"); the number carries the rating */
+@media (max-width:380px){
+  .hero .spec-home .spec-stars { display:inline-block; width:1em; overflow:hidden; vertical-align:bottom; }
 }
 @media (max-width:360px){
   .hero .spec-home, .hero .spec-home .spec-revwrap { gap:0 10px; font-size:var(--fs-2xs); }
